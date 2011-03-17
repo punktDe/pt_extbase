@@ -44,7 +44,7 @@
 abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extbase_MVC_Controller_ActionController {
 	
 	/**
-	 * @var Tx_PtExtlist_Domain_Lifecycle_LifecycleManager
+	 * @var Tx_PtExtlist_Domain_Lifecycle_Manager
 	 */
 	protected $lifecycleManager;
 
@@ -64,7 +64,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	 * Constructor for all plugin controllers
 	 */
 	public function __construct() {
-		$this->lifecycleManager = Tx_PtExtlist_Domain_Lifecycle_LifecycleManagerFactory::getInstance();
+		$this->lifecycleManager = Tx_PtExtlist_Domain_Lifecycle_ManagerFactory::getInstance();
 		$this->lifecycleManager->registerAndUpdateStateOnRegisteredObject(Tx_PtExtlist_Domain_StateAdapter_SessionPersistenceManagerFactory::getInstance());
 		
 		parent::__construct();
@@ -170,7 +170,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 		
 		if(TYPO3_MODE === 'BE') {
 			// if we are in BE mode, this ist the last line called
-			Tx_PtExtlist_Domain_Lifecycle_LifecycleManagerFactory::getInstance()->updateState(Tx_PtExtlist_Domain_Lifecycle_LifecycleManager::END);
+			Tx_PtExtlist_Domain_Lifecycle_ManagerFactory::getInstance()->updateState(Tx_PtExtlist_Domain_Lifecycle_Manager::END);
 		}
 	}
 	

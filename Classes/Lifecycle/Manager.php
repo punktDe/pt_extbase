@@ -31,7 +31,7 @@
  * @author Michael Knoll
  * @package Lifecycle 
  */
-class Tx_PtExtbase_Domain_Lifecycle_LifecycleManager {
+class Tx_PtExtbase_Lifecycle_Manager {
 
 	const UNDEFINED = 0;
 	const START = 1;
@@ -96,10 +96,10 @@ class Tx_PtExtbase_Domain_Lifecycle_LifecycleManager {
 	/**
 	 * Register a lifecycle observer.
 	 * 
-	 * @param Tx_PtExtlist_Domain_Lifecycle_LifecycleEventInterface $observer
+	 * @param Tx_PtExtlist_Domain_Lifecycle_EventInterface $observer
 	 * @param bool $static Override existing observer of same class.
 	 */
-	public function register(Tx_PtExtlist_Domain_Lifecycle_LifecycleEventInterface $observer, $static = TRUE) {
+	public function register(Tx_PtExtlist_Domain_Lifecycle_EventInterface $observer, $static = TRUE) {
 		if($static) {		
 			$this->observers[get_class($observer)] = $observer;
 		} else {
@@ -112,10 +112,10 @@ class Tx_PtExtbase_Domain_Lifecycle_LifecycleManager {
 	/**
 	 * Registers a lifecycle observer and updates state on registered object
 	 *
-	 * @param Tx_PtExtlist_Domain_Lifecycle_LifecycleEventInterface $observer
+	 * @param Tx_PtExtlist_Domain_Lifecycle_EventInterface $observer
      * @param bool $static Override existing observer of same class.
 	 */
-	public function registerAndUpdateStateOnRegisteredObject(Tx_PtExtlist_Domain_Lifecycle_LifecycleEventInterface $observer, $static = TRUE) {
+	public function registerAndUpdateStateOnRegisteredObject(Tx_PtExtlist_Domain_Lifecycle_EventInterface $observer, $static = TRUE) {
 		$this->register($observer, $static);
 		$observer->lifecycleUpdate($this->getState());
 	}
