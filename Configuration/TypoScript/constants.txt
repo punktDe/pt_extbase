@@ -1,0 +1,14 @@
+plugin.tx_ptextbase {
+	view {
+		# cat=plugin.tx_ptextbase/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:pt_extbase/Resources/Private/Templates/
+		# cat=plugin.tx_ptextbase/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:pt_extbase/Resources/Private/Partials/
+		# cat=plugin.tx_ptextbase/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:pt_extbase/Resources/Private/Layouts/
+	}
+	persistence {
+		# cat=plugin.tx_ptextbase//a; type=int+; label=Default storage PID
+		storagePid = 
+	}
+}
