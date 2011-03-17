@@ -65,9 +65,6 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	 */
 	public function __construct() {
 		$this->lifecycleManager = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
-		// TODO create method for adding observed objects to lifecycle manager
-		#$this->lifecycleManager->registerAndUpdateStateOnRegisteredObject(Tx_PtExtlist_Domain_StateAdapter_SessionPersistenceManagerFactory::getInstance());
-		
 		parent::__construct();
 	}
     
@@ -108,8 +105,19 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 		
 		else {
 			// TODO change this to Tx_PtExtbase_View_BaseView
-			return 'Tx_PtExtlist_View_BaseView';
+			return $this->getFallbackViewClassName();
 		}
+    }
+    
+    
+    
+    /**
+     * Template method for setting fallback view class in extending Contorllers
+     *
+     * @return string Class name of view, that should be taken by default
+     */
+    protected function getFallbackViewClassName() {
+    	return 'Tx_PtExtbase_View_BaseView';
     }
     
     
@@ -177,12 +185,13 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 		// We use template method here to enable adding further informations in extending controllers
 		$templatePathAndFilename = $this->getTsTemplatePathAndFilename();
 		
+		// We have no template path set by TS --> fallback
 		if(!$templatePathAndFilename) {
 			$templatePathAndFilename = $this->templatePathAndFileName;
 		}
 		
 		if (isset($templatePathAndFilename) && strlen($templatePathAndFilename) > 0) {
-			
+			// We enable FILE: and EXT: prefix for template path
 			if (file_exists(t3lib_div::getFileAbsFileName($templatePathAndFilename))) { 
                 $view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($templatePathAndFilename));
 			} else {

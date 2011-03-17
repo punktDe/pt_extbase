@@ -24,27 +24,21 @@
  ***************************************************************/
 
 /**
- * Class for hooking into TYPO3 page-request lifecycle
+ * Unit test for lifecycle hook manager
  * 
- * @package Lifecycle
- * @author Christoph Ehscheidt 
+ * @author Michael Knoll 
+ * @package Tests
+ * @subpackage Lifecycle
  */
-class tx_PtExtbase_Lifecycle_HookManager {
-	
-	/**
-	 * Sends END signal to lifecycle manager, when TYPO3 is going to shut down
-	 *
-	 * @param array $params
-	 * @param unknown_type $reference
-	 */
-	public function updateEnd(&$params, &$reference) {
-		
-		//If the class can not be resolved, we are not in an lifecycle-managed context. therefore exit here.
-		if(!class_exists('Tx_PtExtbase_Lifecycle_ManagerFactory')) return;
-		
-		$lifecycle = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
-		$lifecycle->updateState(Tx_PtExtbase_Lifecycle_Manager::END);
-		
+class Tx_PtExtbase_Tests_Lifecycle_HookManagerTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+
+	/** @test */
+	public function updateEndFiresUpdateOnSingletonLifecycleManager() {
+		$lifecycleManager = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
+		$lifecycleManager->updateState(-1000); // we set a state that makes no sense
+		$fakeArray = array(); // we need a variable for passing parameter by reference
+		tx_PtExtbase_Lifecycle_HookManager::updateEnd($fakeArray, $fakeArray);
+		$this->assertEquals($lifecycleManager->getState(), Tx_PtExtbase_Lifecycle_Manager::END);
 	}
 	
 }

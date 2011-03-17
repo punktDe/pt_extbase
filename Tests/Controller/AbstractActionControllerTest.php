@@ -28,15 +28,22 @@
  * 
  * @author Michael Knoll 
  * @package Tests
+ * @subpackage Controllers
  */
 class Tx_PtExtbase_Tests_Controller_AbstractActionControllerTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
 
-	/**
-	 * @test
-	 */
+	/** @test */
 	public function constructorReturnsControllerInstance() {
 		$ptExtbaseAbstractActionController = new Tx_PtExtbase_Tests_Controller_AbstractActionControllerTest_ControllerMock();
+		$this->assertTrue(is_a($ptExtbaseAbstractActionController, 'Tx_PtExtbase_Controller_AbstractActionController'));
 		
+	}
+	
+	
+	/** @test */
+	public function constructedControllerHoldsLifecycleManager() {
+		$ptExtbaseAbstractActionController = new Tx_PtExtbase_Tests_Controller_AbstractActionControllerTest_ControllerMock();
+		$this->assertTrue(is_a($ptExtbaseAbstractActionController->getLM(), 'Tx_PtExtbase_Lifecycle_Manager'));
 	}
 	
 }
@@ -45,7 +52,7 @@ require_once t3lib_extMgm::extPath('pt_extbase').'Classes/Controller/AbstractAct
 
 // Private class for testing abstract action controller
 class Tx_PtExtbase_Tests_Controller_AbstractActionControllerTest_ControllerMock extends Tx_PtExtbase_Controller_AbstractActionController {
-	
+	public function getLM() {return $this->lifecycleManager; }
 }
 
 ?>
