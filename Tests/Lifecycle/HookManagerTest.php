@@ -31,7 +31,7 @@
  * @subpackage Lifecycle
  */
 class Tx_PtExtbase_Tests_Lifecycle_HookManagerTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
-
+	
 	/** @test */
 	public function updateEndFiresUpdateOnSingletonLifecycleManager() {
 		$lifecycleManager = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
