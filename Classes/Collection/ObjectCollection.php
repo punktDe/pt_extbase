@@ -36,15 +36,14 @@
 abstract class Tx_PtExtbase_Collection_ObjectCollection extends Tx_PtExtbase_Collection_Collection  {
 
     /**
-     * @var     string  if set, added objects will be type checked against this classname - this property should be set by your inheriting class if want to check the object type when adding an item
+     * if set, added objects will be type checked against this classname - 
+     * this property should be set by your inheriting class if want to check the object type when adding an item
+     * 
+     * @var     string  
      */
     protected $restrictedClassName = NULL;
 
-
-
-    /***************************************************************************
-     *   GENERAL METHODS
-     **************************************************************************/
+    
 
     /**
      * Checks if the type of an item object matches the restrictedClassName 
@@ -67,6 +66,6 @@ abstract class Tx_PtExtbase_Collection_ObjectCollection extends Tx_PtExtbase_Col
         
     }
     
-} // end class
+}
 
 ?>

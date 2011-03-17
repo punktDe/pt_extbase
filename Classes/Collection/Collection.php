@@ -71,7 +71,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     public function getIterator() {
 
         $itemIterator = new ArrayIterator($this->itemsArr);
-        #trace($itemIterator, 0, '$itemIterator');
 
         return $itemIterator;
 
@@ -287,7 +286,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @param   mixed   item to add
      * @param   mixed   (optional) array key
      * @return  void
-     * @throws  tx_pttools_exceptionInternal   if item to add to collection is of wrong type
+     * @throws  Tx_PtExtbase_Exception_Internal   if item to add to collection is of wrong type
      */
     public function addItem($itemObj, $id=0) {
 
@@ -302,7 +301,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
          
         // throw exception if item type is not validated
         } else {
-            throw new tx_pttools_exceptionInternal('Item to add to collection is of wrong type');
+            throw new Tx_PtExtbase_Exception_Internal('Item to add to collection is of wrong type');
         }
 
     }
@@ -314,7 +313,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      *
      * @param   mixed   id of item to remove
      * @return  void
-     * @throws  tx_pttools_exceptionInternal    if trying to delete invalid id
+     * @throws  Tx_PtExtbase_Exception_Internal    if trying to delete invalid id
      */
     public function deleteItem($id) {
 
@@ -324,7 +323,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
         if ($this->hasItem($id)) {
             unset($this->itemsArr[$id]);
         } else {
-            throw new tx_pttools_exceptionInternal('Trying to delete invalid id');
+            throw new Tx_PtExtbase_Exception_Internal('Trying to delete invalid id');
         }
 
     }
@@ -365,14 +364,14 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      *
      * @param   integer     Id of Collection Item
      * @return  mixed       item that has been requested
-     * @throws  tx_pttools_exceptionInternal    if requesting an invalid id
+     * @throws  Tx_PtExtbase_Exception_Internal    if requesting an invalid id
      */
     public function &getItemById($id) {
 
         if ($this->hasItem($id)) {
             return $this->itemsArr[$id];
         } else {
-            throw new tx_pttools_exceptionInternal(sprintf('Trying to get an invalid id "%s"', $id));
+            throw new Tx_PtExtbase_Exception_Internal(sprintf('Trying to get an invalid id "%s"', $id));
         }
 
     }
@@ -385,14 +384,14 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @param   integer     index (position in array) of Collection Item
      * @return  mixed       item that has been requested
      * @remarks index starts with 0 for first element
-     * @throws  tx_pttools_exceptionInternal if idx is invalid
+     * @throws  Tx_PtExtbase_Exception_Internal if idx is invalid
      */
     public function &getItemByIndex($idx) {
 
         // check parameters
         $idx = intval($idx);
         if (($idx < 0) || ($idx >= $this->count())) {
-            throw new tx_pttools_exceptionInternal('Invalid index');
+            throw new Tx_PtExtbase_Exception_Internal('Invalid index');
         }
         $itemArr = array_values($this->itemsArr);
 
@@ -439,14 +438,14 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      *
      * @param   flexible
      * @return  void
-     * @throws  tx_pttools_exceptionInternal    when parameter is not a valid item id
+     * @throws  Tx_PtExtbase_Exception_Internal    when parameter is not a valid item id
      */
     public function set_selectedId($selectedId) {
 
         if ($this->hasItem($selectedId)) {
             $this->selectedId = $selectedId;
         } else {
-            throw new tx_pttools_exceptionInternal('Invalid id to set');
+            throw new Tx_PtExtbase_Exception_Internal('Invalid id to set');
         }
 
     }
@@ -465,6 +464,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
 
     }
     
-} // end class
+}
 
 ?>
