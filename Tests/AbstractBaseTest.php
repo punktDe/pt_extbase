@@ -24,20 +24,14 @@
  ***************************************************************/
 
 /**
- * Unit test for abstract action controller
- * 
- * @author Michael Knoll 
+ * Class implements a base testcase for pt_extbase testcases
+ *
  * @package Tests
+ * @author Michael Knoll 
  */
-class Tx_PtExtbase_Tests_Controller_AbstractActionControllerTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
-
-	/**
-	 * @test
-	 */
-	public function oneAndOneIsTwo() {
-		$this->assertEquals(1+1, 2);
-	}
+abstract class Tx_PtExtbase_Tests_AbstractBaseTestcase extends Tx_Extbase_Tests_Unit_BaseTestCase {
+	
+	
 	
 }
-
 ?>
