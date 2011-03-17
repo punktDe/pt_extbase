@@ -34,9 +34,17 @@ class Tx_PtExtbase_Tests_Controller_AbstractActionControllerTest extends Tx_PtEx
 	/**
 	 * @test
 	 */
-	public function oneAndOneIsTwo() {
-		$this->assertEquals(1+1, 2);
+	public function constructorReturnsControllerInstance() {
+		$ptExtbaseAbstractActionController = new Tx_PtExtbase_Tests_Controller_AbstractActionControllerTest_ControllerMock();
+		
 	}
+	
+}
+
+require_once t3lib_extMgm::extPath('pt_extbase').'Classes/Controller/AbstractActionController.php';
+
+// Private class for testing abstract action controller
+class Tx_PtExtbase_Tests_Controller_AbstractActionControllerTest_ControllerMock extends Tx_PtExtbase_Controller_AbstractActionController {
 	
 }
 

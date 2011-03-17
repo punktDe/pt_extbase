@@ -42,8 +42,8 @@ class tx_PtExtbase_Lifecycle_HookManager {
 		//If the class can not be resolved, we are not in an lifecycle-managed context. therefore exit here.
 		if(!class_exists('Tx_PtExtbase_Lifecycle_ManagerFactory')) return;
 		
-		$lifecycle = Tx_PtExtlist_Domain_Lifecycle_ManagerFactory::getInstance();
-		$lifecycle->updateState(Tx_PtExtlist_Domain_Lifecycle_Manager::END);
+		$lifecycle = Tx_PtExtbast_Domain_Lifecycle_ManagerFactory::getInstance();
+		$lifecycle->updateState(Tx_PtExtbase_Domain_Lifecycle_Manager::END);
 		
 	}
 	

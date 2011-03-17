@@ -31,7 +31,7 @@
  * @package Domain
  * @subpackage Lifecycle
  */
-class Tx_PtExtlist_Domain_Lifecycle_ManagerFactory {
+class Tx_PtExtbase_Lifecycle_ManagerFactory {
 
 	/**
 	 * Holds the singleton instance of a lifecycle manager.
@@ -46,12 +46,12 @@ class Tx_PtExtlist_Domain_Lifecycle_ManagerFactory {
 	 * Factory method for lifecycle manager instances. Returns singleton instance 
 	 * of lifecycle manager.
 	 *
-	 * @return Tx_PtExtlist_Domain_Lifecycle_Manager
+	 * @return Tx_PtExtbase_Lifecycle_Manager
 	 */
 	public static function getInstance() {
 		if(self::$instance === NULL) {
-			$lifecycleManager = new Tx_PtExtlist_Domain_Lifecycle_Manager();
-			$lifecycleManager->updateState(Tx_PtExtlist_Domain_Lifecycle_Manager::START);
+			$lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
+			$lifecycleManager->updateState(Tx_PtExtbase_Lifecycle_Manager::START);
 			self::$instance = $lifecycleManager;
 		}
 		

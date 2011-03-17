@@ -44,7 +44,7 @@
 abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extbase_MVC_Controller_ActionController {
 	
 	/**
-	 * @var Tx_PtExtlist_Domain_Lifecycle_Manager
+	 * @var Tx_PtExtbase_Lifecycle_Manager
 	 */
 	protected $lifecycleManager;
 
@@ -64,8 +64,9 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	 * Constructor for all plugin controllers
 	 */
 	public function __construct() {
-		$this->lifecycleManager = Tx_PtExtlist_Domain_Lifecycle_ManagerFactory::getInstance();
-		$this->lifecycleManager->registerAndUpdateStateOnRegisteredObject(Tx_PtExtlist_Domain_StateAdapter_SessionPersistenceManagerFactory::getInstance());
+		$this->lifecycleManager = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
+		// TODO create method for adding observed objects to lifecycle manager
+		#$this->lifecycleManager->registerAndUpdateStateOnRegisteredObject(Tx_PtExtlist_Domain_StateAdapter_SessionPersistenceManagerFactory::getInstance());
 		
 		parent::__construct();
 	}
@@ -106,6 +107,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 		}
 		
 		else {
+			// TODO change this to Tx_PtExtbase_View_BaseView
 			return 'Tx_PtExtlist_View_BaseView';
 		}
     }
@@ -158,21 +160,6 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
     protected function getTsViewClassName() {
     	return $this->settings['controller'][$this->request->getControllerName()][$this->request->getControllerActionName()]['view'];
     }
-
-	
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see Classes/MVC/Controller/Tx_Extbase_MVC_Controller_ActionController::processRequest()
-	 */
-	public function processRequest(Tx_Extbase_MVC_RequestInterface $request, Tx_Extbase_MVC_ResponseInterface $response) {
-		parent::processRequest($request, $response);
-		
-		if(TYPO3_MODE === 'BE') {
-			// if we are in BE mode, this ist the last line called
-			Tx_PtExtlist_Domain_Lifecycle_ManagerFactory::getInstance()->updateState(Tx_PtExtlist_Domain_Lifecycle_Manager::END);
-		}
-	}
 	
 	
 	
@@ -217,5 +204,23 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	protected function getTsTemplatePathAndFilename() {
 		return $this->settings['controller'][$this->request->getControllerName()][$this->request->getControllerActionName()]['template'];
 	}
+
+	
+	
+	/**
+	 * Fires end-of-lifecycle signal if processing backend request.
+	 * 
+	 * @see Classes/MVC/Controller/Tx_Extbase_MVC_Controller_ActionController::processRequest()
+	 */
+	public function processRequest(Tx_Extbase_MVC_RequestInterface $request, Tx_Extbase_MVC_ResponseInterface $response) {
+		parent::processRequest($request, $response);
+		
+		if(TYPO3_MODE === 'BE') {
+			// if we are in BE mode, this ist the last line called
+			Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance()->updateState(Tx_PtExtbase_Lifecycle_Manager::END);
+		}
+	}
+	
 }
+
 ?>
