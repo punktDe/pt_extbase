@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005-2010 Rainer Kuhn, Wolfgang Zenker, 
+*  (c) 2005-2011 Rainer Kuhn, Wolfgang Zenker, 
 *                Fabrizio Branca, Michael Knoll
 *  All rights reserved
 *
