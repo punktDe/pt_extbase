@@ -88,7 +88,7 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Ab
     /** @test */
     public function test_setNonExistingIdAsSelected() {
         $this->setExpectedException('Tx_PtExtbase_Exception_Exception');
-        $this->fixture->set_selectedId(5);
+        $this->fixture->setSelectedId(5);
     }
     
     
@@ -96,8 +96,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Ab
     /** @test */
     public function test_setExistingIdAsSelected() {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Collection_ObjectCollection_TestObjectMock(), 5);
-        $this->fixture->set_selectedId(5);
-        $this->assertTrue($this->fixture->get_selectedId() === 5);
+        $this->fixture->setSelectedId(5);
+        $this->assertTrue($this->fixture->getSelectedId() === 5);
     }
     
     
@@ -169,9 +169,9 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Ab
     /** @test */
     public function test_seletectedIdIsClearedWhenSelectedItemIsPopped() {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Collection_ObjectCollection_TestObjectMock(), 6);
-        $this->fixture->set_selectedId(6);
+        $this->fixture->setSelectedId(6);
         $this->fixture->pop();
-        $this->assertNull($this->fixture->get_selectedId());
+        $this->assertNull($this->fixture->getSelectedId());
     }
     
     
@@ -179,9 +179,9 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Ab
     /** @test */
     public function test_seletectedIdIsClearedWhenSelectedItemIsShifted() {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Collection_ObjectCollection_TestObjectMock(), 6);
-        $this->fixture->set_selectedId(6);
+        $this->fixture->setSelectedId(6);
         $this->fixture->shift();
-        $this->assertNull($this->fixture->get_selectedId());
+        $this->assertNull($this->fixture->getSelectedId());
     }
     
     

@@ -75,7 +75,7 @@ class Tx_PtExtbase_StorageAdapter_StorageAdapter implements Tx_PtExtbase_Storage
      */
     public final function __clone() {
 
-        trigger_error('Clone is not allowed for '.get_class($this).' (Singleton)', E_USER_ERROR);
+        throw new Exception('Clone is not allowed for '.get_class($this).' (Singleton)');
 
     }
 
@@ -87,7 +87,7 @@ class Tx_PtExtbase_StorageAdapter_StorageAdapter implements Tx_PtExtbase_Storage
      * @param   string $key name of session key to get the value of
      * @param   bool $allowUnserializing allow automatic unserializing of objects within this method
      * @return  mixed       associated value from session
-     * @throws  tx_pttools_exceptionAssertion   if no valid frontend user and no valid backend user found
+     * @throws  Exception   if no valid frontend user and no valid backend user found
      */
     public function read($key, $allowUnserializing=true) {
 
@@ -125,7 +125,7 @@ class Tx_PtExtbase_StorageAdapter_StorageAdapter implements Tx_PtExtbase_Storage
      * @param   string $val     value to be saved with session key
      * @param   bool $allowSerializing       (optional) allow automatic serializing of objects within this method
      * @param   string $foreignSessionId ID of foreign session (other than session currently used for request)
-     * @throws  tx_pttools_exceptionAssertion   if no valid frontend user and no valid backend user found
+     * @throws  Exception   if no valid frontend user and no valid backend user found
      */
     public function store($key, $val, $allowSerializing=true, $foreignSessionId=NULL) {
 
@@ -182,10 +182,11 @@ class Tx_PtExtbase_StorageAdapter_StorageAdapter implements Tx_PtExtbase_Storage
     
 
     /**
-     * Deletes a session value from TYPO3 FE _browser_ session or a BE user session *immediately* (does not wait for complete script execution)
+     * Deletes a session value from TYPO3 FE _browser_ session or a BE user session 
+     * *immediately* (does not wait for complete script execution)
      *
      * @param   string $key     name of session key to delete (array key)
-     * @throws  tx_pttools_exceptionAssertion   if no valid frontend user and no valid backend user found
+     * @throws  Exception   if no valid frontend user and no valid backend user found
      */
     public function delete($key) {
 

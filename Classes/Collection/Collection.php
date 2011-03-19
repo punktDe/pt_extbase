@@ -176,7 +176,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
         } else {
             $keys = array_keys($this->itemsArr);
             if ($this->selectedId == $keys[0]) {
-                $this->clear_selectedId();
+                $this->clearSelectedId();
             }
             return array_shift($this->itemsArr);
         }
@@ -198,7 +198,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
         } else {
             $keys = array_keys($this->itemsArr);
             if ($this->selectedId == $keys[count($this->itemsArr)-1]) {
-                $this->clear_selectedId();
+                $this->clearSelectedId();
             }
             return array_pop($this->itemsArr);
         }
@@ -318,7 +318,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     public function deleteItem($id) {
 
         if (isset($this->selectedId) && ($id == $this->selectedId)) {
-            $this->clear_selectedId();
+            $this->clearSelectedId();
         }
         if ($this->hasItem($id)) {
             unset($this->itemsArr[$id]);
@@ -338,7 +338,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      */
     public function clearItems() {
 
-        $this->clear_selectedId();
+        $this->clearSelectedId();
         $this->itemsArr = array();
 
     }
@@ -425,7 +425,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @param   void
      * @return  flexible        property value
      */
-    public function get_selectedId() {
+    public function getSelectedId() {
 
         return $this->selectedId;
 
@@ -440,7 +440,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  void
      * @throws  Tx_PtExtbase_Exception_Internal    when parameter is not a valid item id
      */
-    public function set_selectedId($selectedId) {
+    public function setSelectedId($selectedId) {
 
         if ($this->hasItem($selectedId)) {
             $this->selectedId = $selectedId;
@@ -458,7 +458,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @param   void
      * @return  void
      */
-    public function clear_selectedId() {
+    public function clearSelectedId() {
 
         unset($this->selectedId);
 
