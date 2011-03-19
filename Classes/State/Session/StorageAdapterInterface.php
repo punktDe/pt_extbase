@@ -24,13 +24,13 @@
 ***************************************************************/
 
 /**
- * Storage adapter interface
+ * Storage adapter interface for reading and writing data to session
  *
  * @author      Rainer Kuhn
  * @author      Michael Knoll
  * @package     StorageAdapter
  */
-interface Tx_PtExtbase_StorageAdapter_StorageAdapterInterface {
+interface Tx_PtExtbase_State_Session_StorageAdapterInterface {
 	
 	/**
      * Returns the value of a storage key

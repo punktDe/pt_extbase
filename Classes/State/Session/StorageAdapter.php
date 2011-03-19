@@ -30,7 +30,7 @@
  * @author      Michael Knoll
  * @package     StorageAdapter
  */
-class Tx_PtExtbase_StorageAdapter_StorageAdapter implements Tx_PtExtbase_StorageAdapter_StorageAdapterInterface {
+class Tx_PtExtbase_State_Session_StorageAdapter implements Tx_PtExtbase_State_Session_StorageAdapterInterface {
 
 	/**
 	 * Holds singleton instance of this class
