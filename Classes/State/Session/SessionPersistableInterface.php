@@ -26,8 +26,8 @@
 /**
  * Interface for objects to be persistable in sessions
  *
- * @package Domain
- * @subpackage StateAdapter
+ * @package State
+ * @subpackage Session
  * @author Michael Knoll 
  */
 interface Tx_PtExtbase_State_Session_SessionPersistableInterface extends Tx_PtExtbase_State_IdentifiableInterface {

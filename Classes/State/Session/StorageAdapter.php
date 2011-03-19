@@ -28,7 +28,8 @@
  *
  * @author      Rainer Kuhn
  * @author      Michael Knoll
- * @package     StorageAdapter
+ * @package     State
+ * @subpackage  Session
  */
 class Tx_PtExtbase_State_Session_StorageAdapter implements Tx_PtExtbase_State_Session_StorageAdapterInterface {
 

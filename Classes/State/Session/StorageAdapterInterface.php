@@ -28,7 +28,8 @@
  *
  * @author      Rainer Kuhn
  * @author      Michael Knoll
- * @package     StorageAdapter
+ * @package     State
+ * @subpackage  Session
  */
 interface Tx_PtExtbase_State_Session_StorageAdapterInterface {
 	
@@ -39,6 +40,8 @@ interface Tx_PtExtbase_State_Session_StorageAdapterInterface {
      */
     public function read($key);
     
+    
+    
     /**
      * Stores a value into a storage key
      * 
@@ -46,6 +49,8 @@ interface Tx_PtExtbase_State_Session_StorageAdapterInterface {
      * @param mixed $value Storage value
      */
     public function store($key, $value);
+    
+    
     
     /**
      * Deletes/unsets a storage key
