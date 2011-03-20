@@ -24,15 +24,37 @@
  ***************************************************************/
 
 /**
- * All Extbase-conform files are included automatically. 
- * So only files and classes from 'old' Extensions and files for Testing are 
- * listed here.
+ * Unit tests for session persistence manager factory
+ *
+ * @package Tests
+ * @subpackage State\Session
+ * @author Michael Knoll
  */
-$baseDir = t3lib_extMgm::extPath('pt_extbase');
-$testsDir = $baseDir . 'Tests/';
 
-return array(
-    'tx_ptextbase_tests_state_stubs_sessionadaptermock' => $testsDir . 'State/Stubs/SessionAdapterMock.php',
-    'tx_ptextbase_state_session_storageadapter' => $baseDir . 'Classes/State/Session/StorageAdapter.php' 
-);
+class Tx_PtExtbase_Tests_State_Session_SessionPersistenceManagerFactoryTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+	
+	/** @test */
+	public function classExists() {
+		$this->assertTrue(class_exists('Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory'));
+	}
+
+	
+	
+	/**  @test */
+	public function getInstanceReturnsSingletonInstance() {
+		$firstInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
+		$secondInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
+		$this->assertEquals($firstInstance, $secondInstance);
+	}
+	
+	
+	
+	/** @test */
+	public function getInstanceReturnsInstanceOfSessionPersistenceManager() {
+		$firstInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
+		$this->assertTrue(is_a($firstInstance, Tx_PtExtbase_State_Session_SessionPersistenceManager));
+	}
+	
+}
+
 ?>

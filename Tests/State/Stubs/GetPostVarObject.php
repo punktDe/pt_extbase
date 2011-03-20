@@ -6,6 +6,9 @@
  *  Authors: Daniel Lienert, Michael Knoll, Christoph Ehscheidt
  *  All rights reserved
  *
+ *  For further information: http://extlist.punkt.de <extlist@punkt.de>
+ *
+ *
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,15 +27,43 @@
  ***************************************************************/
 
 /**
- * All Extbase-conform files are included automatically. 
- * So only files and classes from 'old' Extensions and files for Testing are 
- * listed here.
- */
-$baseDir = t3lib_extMgm::extPath('pt_extbase');
-$testsDir = $baseDir . 'Tests/';
+ * Dummy class implementing gpvar injectable object.
+ *
+ * @package TYPO3
+ * @subpackage pt_extlist
+ */   
+class Tx_PtExtlist_Tests_Domain_StateAdapter_Stubs_GetPostVarObject implements Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface {
+	
+	protected $values;
+	protected $namespace;
+	
+	/**
+	 * Inject GP Vars
+	 *
+	 * @param array $GPVars
+	 */
+	public function injectGPVars($GPVars) {
+		$this->values = $GPVars;
+	}
+	
+	public function getValues() {
+		return $this->values;
+	}
+	
+	/**
+	 * Returns namespace of object to store data in session with
+	 *
+	 * @return String Namespace as key to store session data with
+	 */
+    public function getObjectNamespace() {
+    	return $this->namespace;
+    }
+    
+    public function setObjectNamespace($namespace) {
+    	$this->namespace = $namespace;
+    }
+	
+}
+	
 
-return array(
-    'tx_ptextbase_tests_state_stubs_sessionadaptermock' => $testsDir . 'State/Stubs/SessionAdapterMock.php',
-    'tx_ptextbase_state_session_storageadapter' => $baseDir . 'Classes/State/Session/StorageAdapter.php' 
-);
 ?>

@@ -24,15 +24,23 @@
  ***************************************************************/
 
 /**
- * All Extbase-conform files are included automatically. 
- * So only files and classes from 'old' Extensions and files for Testing are 
- * listed here.
+ * Dummy class implementing session adapter
+ *
+ * @package Tests
+ * @subpackage State\Stubs
+ * @author Michael Knoll 
  */
-$baseDir = t3lib_extMgm::extPath('pt_extbase');
-$testsDir = $baseDir . 'Tests/';
+class Tx_PtExtbase_Tests_State_Stubs_SessionAdapterMock extends Tx_PtExtbase_State_Session_StorageAdapter {
+    
+	public function __construct() {
+	}
+	
+	
+	
+	public function read($string) {
+	    return array('test1' => array('test2' => array('test3' => 'value')));
+	}
+	
+}
 
-return array(
-    'tx_ptextbase_tests_state_stubs_sessionadaptermock' => $testsDir . 'State/Stubs/SessionAdapterMock.php',
-    'tx_ptextbase_state_session_storageadapter' => $baseDir . 'Classes/State/Session/StorageAdapter.php' 
-);
 ?>

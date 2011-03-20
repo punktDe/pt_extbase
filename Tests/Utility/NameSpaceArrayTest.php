@@ -6,9 +6,6 @@
  *  Authors: Daniel Lienert, Michael Knoll, Christoph Ehscheidt
  *  All rights reserved
  *
- *  For further information: http://extlist.punkt.de <extlist@punkt.de>
- *
- *
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -62,7 +59,7 @@ class Tx_PtExtbase_Tests_Utility_NameSpaceArrayTest extends Tx_PtExtbase_Tests_A
 	
     /** @test */
 	public function extractingArrayContentByNamespaceReturnsCorrectValue() {
-		$extractedValue = Tx_PtExtlist_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->varArray,'key1.key2.key3.key4');
+		$extractedValue = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->varArray,'key1.key2.key3.key4');
 		$this->assertEquals($extractedValue, 'value1', 'The extracted Value should be Value 1');
 	}
 	
@@ -70,7 +67,7 @@ class Tx_PtExtbase_Tests_Utility_NameSpaceArrayTest extends Tx_PtExtbase_Tests_A
 	
     /** @test */
 	public function extractingNamespaceOnEmptyArrayReturnsEmptyArray() {
-		$extractedValue = Tx_PtExtlist_Utility_NameSpace::getArrayContentByArrayAndNamespace(array(),'key1.key2.key3.key4');
+		$extractedValue = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace(array(),'key1.key2.key3.key4');
 		$this->assertEquals($extractedValue, array(), 'The method should return an empty array');
 	}
 	
@@ -78,7 +75,7 @@ class Tx_PtExtbase_Tests_Utility_NameSpaceArrayTest extends Tx_PtExtbase_Tests_A
 	
     /** @test */
 	public function extractingNamespaceWithEmptyNamespaceReturnsWholeArray() {
-		$extractedValue = Tx_PtExtlist_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->varArray,'');
+		$extractedValue = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->varArray,'');
 		$this->assertEquals($extractedValue,$this->varArray, 'The method should return teh complete var array');
 	}
 	
@@ -89,7 +86,7 @@ class Tx_PtExtbase_Tests_Utility_NameSpaceArrayTest extends Tx_PtExtbase_Tests_A
 		$testArray['key1']['key2']['key3'] = 'test';
 		$testArray2['key1']['key2']['key4'] = 'test4';
 		
-		$testArray = Tx_PtExtlist_Utility_NameSpace::saveDataInNamespaceTree('key1.key2.key3', $testArray, 'test2');
+		$testArray = Tx_PtExtbase_Utility_NameSpace::saveDataInNamespaceTree('key1.key2.key3', $testArray, 'test2');
 		
 		$refArray['key1']['key2']['key3'] = 'test2';
 		$refArray2['key1']['key2']['key4'] = 'test4';
@@ -102,7 +99,7 @@ class Tx_PtExtbase_Tests_Utility_NameSpaceArrayTest extends Tx_PtExtbase_Tests_A
 	/** @test */
 	public function storingDataInEmptyArrayByNamespaceSetsData() {
 		$testArray = array();
-		$testArray = Tx_PtExtlist_Utility_NameSpace::saveDataInNamespaceTree('key1.key2.key3', $testArray, 'test2');
+		$testArray = Tx_PtExtbase_Utility_NameSpace::saveDataInNamespaceTree('key1.key2.key3', $testArray, 'test2');
 		
 		$refArray['key1']['key2']['key3'] = 'test2';
 		$this->assertEquals($testArray, $refArray);
