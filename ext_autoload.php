@@ -36,6 +36,7 @@ return array(
     'tx_ptextbase_state_session_storageadapter' => $baseDir . 'Classes/State/Session/StorageAdapter.php',
     'tx_ptextbase_tests_state_stubs_sessionadaptermock' => $testsDir . 'State/Stubs/SessionAdapterMock.php',
     'tx_ptextbase_tests_state_stubs_persistableobject' => $testsDir . 'State/Stubs/PersistableObject.php',
-    'tx_ptextbase_tests_state_stubs_getpostvarobject'  => $testsDir . 'State/Stubs/GetPostVarObject.php'
+    'tx_ptextbase_tests_state_stubs_getpostvarobject'  => $testsDir . 'State/Stubs/GetPostVarObject.php',
+    'tx_ptextbase_configuration_abstractconfigurationbuilder' => $baseDir . 'Classes/Configuration/AbstractConfigurationBuilder.php'
 );
 ?>
