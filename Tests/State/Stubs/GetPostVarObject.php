@@ -6,9 +6,6 @@
  *  Authors: Daniel Lienert, Michael Knoll, Christoph Ehscheidt
  *  All rights reserved
  *
- *  For further information: http://extlist.punkt.de <extlist@punkt.de>
- *
- *
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,13 +26,18 @@
 /**
  * Dummy class implementing gpvar injectable object.
  *
- * @package TYPO3
- * @subpackage pt_extlist
+ * @package Tests
+ * @subpackage State/Stubs
  */   
-class Tx_PtExtlist_Tests_Domain_StateAdapter_Stubs_GetPostVarObject implements Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface {
+class Tx_PtExtbase_Tests_State_Stubs_GetPostVarObject implements Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface {
 	
 	protected $values;
+	
+	
+	
 	protected $namespace;
+	
+	
 	
 	/**
 	 * Inject GP Vars
@@ -46,9 +48,13 @@ class Tx_PtExtlist_Tests_Domain_StateAdapter_Stubs_GetPostVarObject implements T
 		$this->values = $GPVars;
 	}
 	
+	
+	
 	public function getValues() {
 		return $this->values;
 	}
+	
+	
 	
 	/**
 	 * Returns namespace of object to store data in session with
@@ -58,6 +64,8 @@ class Tx_PtExtlist_Tests_Domain_StateAdapter_Stubs_GetPostVarObject implements T
     public function getObjectNamespace() {
     	return $this->namespace;
     }
+    
+    
     
     public function setObjectNamespace($namespace) {
     	$this->namespace = $namespace;

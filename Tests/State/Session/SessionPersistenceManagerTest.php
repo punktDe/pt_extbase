@@ -48,7 +48,7 @@ class Tx_PtExtbase_Tests_State_Session_SessionPersistenceManagerTest extends Tx_
 	
 	/** @test */
 	public function persistToSessionPersistsObjectToSession() {
-		$persistableObjectStub = new Tx_PtExtlist_Tests_Domain_StateAdapter_Stubs_PersistableObject();
+		$persistableObjectStub = new Tx_PtExtbase_Tests_State_Stubs_PersistableObject();
 		$sessionPersistenceManager = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
 		$sessionPersistenceManager->persistToSession($persistableObjectStub);
 	}
@@ -56,12 +56,12 @@ class Tx_PtExtbase_Tests_State_Session_SessionPersistenceManagerTest extends Tx_
 	
 	/** @test */
 	public function reloadFromSessionKeepsObjectValues() {
-		$persistableObjectStub = new Tx_PtExtlist_Tests_Domain_StateAdapter_Stubs_PersistableObject();
+		$persistableObjectStub = new Tx_PtExtbase_Tests_State_Stubs_PersistableObject();
         $sessionPersistenceManager = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
         $persistableObjectStub->initSomeData();
         $sessionPersistenceManager->persistToSession($persistableObjectStub);
         
-        $reloadedPersistableObject = new Tx_PtExtlist_Tests_Domain_StateAdapter_Stubs_PersistableObject();
+        $reloadedPersistableObject = new Tx_PtExtbase_Tests_State_Stubs_PersistableObject();
         $sessionPersistenceManager->loadFromSession($reloadedPersistableObject);
         $this->assertTrue($reloadedPersistableObject->dummyData['testkey1'] == 'testvalue1');
 	}

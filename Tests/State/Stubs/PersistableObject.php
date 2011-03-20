@@ -6,9 +6,6 @@
  *  Authors: Daniel Lienert, Michael Knoll, Christoph Ehscheidt
  *  All rights reserved
  *
- *  For further information: http://extlist.punkt.de <extlist@punkt.de>
- *
- *
  *  This script is part of the TYPO3 project. The TYPO3 project is
  *  free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,10 +26,10 @@
 /**
  * Dummy class implementing session persistable object interface.
  *
- * @package TYPO3
- * @subpackage pt_extlist
+ * @package Tests
+ * @subpackage State/Stubs
  */
-class Tx_PtExtlist_Tests_Domain_StateAdapter_Stubs_PersistableObject implements Tx_PtExtbase_State_Session_SessionPersistableInterface {
+class Tx_PtExtbase_Tests_State_Stubs_PersistableObject implements Tx_PtExtbase_State_Session_SessionPersistableInterface {
 	
 	/**
 	 * Some dummy data to be stored in session
