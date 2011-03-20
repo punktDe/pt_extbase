@@ -161,7 +161,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	 * @return array
 	 */
 	public function getGetVarsByNamespace($nameSpace) {
-		return Tx_PtExtlist_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getVars, $nameSpace);
+		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getVars, $nameSpace);
 	}
 	
 	
@@ -173,7 +173,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	 * @return array
 	 */
 	public function getPostVarsByNamespace($nameSpace) {
-		return Tx_PtExtlist_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->postVars, $nameSpace);
+		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->postVars, $nameSpace);
 	}
 	
 	
@@ -185,7 +185,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	 * @return array
 	 */
 	public function getFilesVarsByNamespace($nameSpace) {
-		return Tx_PtExtlist_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->filesVars, $nameSpace);
+		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->filesVars, $nameSpace);
 	}
 	
 	
@@ -197,7 +197,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	 * @return array Merged get and post vars for given namespace
 	 */
 	public function extractGpVarsByNamespace($namespace) {	
-		return Tx_PtExtlist_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getMergedGpVars(), $namespace); 
+		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getMergedGpVars(), $namespace); 
 	}
 
 	
@@ -209,7 +209,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
      * @return array Merged get and post vars for given namespace
 	 */
 	public function extractPgVarsByNamespace($namespace) {	
-		return Tx_PtExtlist_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getMergedPgVars(), $namespace); 	
+		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getMergedPgVars(), $namespace); 	
 	}
 	
 	
