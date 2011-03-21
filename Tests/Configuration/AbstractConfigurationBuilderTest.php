@@ -25,7 +25,7 @@
 
 require_once t3lib_extMgm::extPath('pt_extlist') . 'Classes/Domain/Configuration/ConfigurationBuilder.php';
 require_once t3lib_extMgm::extPath('pt_extbase') . 'Classes/Configuration/AbstractConfigurationBuilder.php';
-require_once t3lib_extMgm::extPath('pt_extlist') . 'Classes/Domain/Configuration/AbstractConfiguration.php';
+require_once t3lib_extMgm::extPath('pt_extbase') . 'Classes/Configuration/AbstractConfiguration.php';
 
 /**
  * Testcase for abstract configuration builder class
@@ -75,7 +75,7 @@ class Tx_PtExtbase_Tests_Configuration_AbstractConfigurationBuilderTest extends 
 /**
  * Stub implementation of configuration builder for testing
  */
-class Tx_PtExtbase_Tests_Configuration_AbstractConfigurationBuilder_Stub extends Tx_PtExtlist_Domain_Configuration_ConfigurationBuilder {
+class Tx_PtExtbase_Tests_Configuration_AbstractConfigurationBuilder_Stub extends Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	
 	/**
 	 * Set up configuration array for abstract configuration builder
@@ -93,8 +93,7 @@ class Tx_PtExtbase_Tests_Configuration_AbstractConfigurationBuilder_Stub extends
     /**
      * We overwrite constructor to prevent error for empty settings array
      */
-    public function __construct($configurationBuilder, $settings) {
-    	$this->configurationBuilder = $configurationBuilder;
+    public function __construct($settings) {
     }
 	
 }
@@ -104,7 +103,7 @@ class Tx_PtExtbase_Tests_Configuration_AbstractConfigurationBuilder_Stub extends
 /**
  * Stub implementation of a configuration object
  */
-class Tx_PtExtbase_Tests_Configuration_DummyConfigurationObject extends Tx_PtExtlist_Domain_Configuration_AbstractConfiguration  {
+class Tx_PtExtbase_Tests_Configuration_DummyConfigurationObject extends Tx_PtExtbase_Configuration_AbstractConfiguration {
 	
 }
 
