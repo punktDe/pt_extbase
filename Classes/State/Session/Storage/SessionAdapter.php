@@ -31,7 +31,7 @@
  * @package     State
  * @subpackage  Session
  */
-class Tx_PtExtbase_State_Session_StorageAdapter implements Tx_PtExtbase_State_Session_StorageAdapterInterface {
+class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_State_Session_Storage_AdapterInterface {
 
 	/**
 	 * Holds singleton instance of this class
