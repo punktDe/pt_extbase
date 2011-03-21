@@ -32,6 +32,7 @@
 
 class Tx_PtExtbase_Context implements t3lib_Singleton {
 
+		
 	/**
 	 * @var Tx_Extbase_MVC_Controller_ControllerContext
 	 */
@@ -41,7 +42,7 @@ class Tx_PtExtbase_Context implements t3lib_Singleton {
 	/**
 	 * @var bool;
 	 */
-	protected $inCachedMode;
+	protected $inCachedMode = false;
 	
 	
 	/**
@@ -56,21 +57,12 @@ class Tx_PtExtbase_Context implements t3lib_Singleton {
 	 * @var string
 	 */
 	protected $extensionNameSpace;
-	
-	
-	/**
-	 * Flexform selected ListIdentifier
-	 * @var string
-	 */
-	protected $currentListIdentifier;
-	
-	
+
+		
 	/**
 	 * @var Tx_Extbase_Configuration_ConfigurationManager
 	 */
 	protected $configurationManager;
-	
-	
 	
 	
 	
@@ -86,7 +78,6 @@ class Tx_PtExtbase_Context implements t3lib_Singleton {
 																						$frameWorkKonfiguration['pluginName']); 
 		
 		$this->inCachedMode = $frameWorkKonfiguration['pluginName'] == 'Cached' ? true : false;
-		$this->currentListIdentifier = $frameWorkKonfiguration['settings']['listIdentifier'];
 		
 		unset($frameWorkKonfiguration);
 	}
@@ -150,16 +141,7 @@ class Tx_PtExtbase_Context implements t3lib_Singleton {
 	public function getExtensionNamespace() {
 		return $this->extensionNameSpace;
 	}
-	
-	
-	
-	/**
-	 * @return string
-	 */
-	public function getCurrentListIdentifier() {
-		return $this->currentListIdentifier;
-	}
-	
+
 	
 	
 	/**
