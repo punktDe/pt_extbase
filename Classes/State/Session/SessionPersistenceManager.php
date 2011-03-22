@@ -35,12 +35,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	
 	
 	/**
-	 * 
-	 */
-	private $internalSessionState = Tx_PtExtbase_Lifecycle_Manager::UNDEFINED;
-	
-	
-	/**
 	 * Holds an instance for a session adapter to store data to session
 	 * 
 	 * @var Tx_PtExtbase_State_Session_StorageAdapter
@@ -165,10 +159,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 * @param int $state
 	 */
 	public function lifecycleUpdate($state) {
-		
-		if($state <= $this->internalSessionState) return;
-		$this->internalSessionState = $state;
-		
+
 		switch($state) {
 			case Tx_PtExtbase_Lifecycle_Manager::START:
 				$this->read();

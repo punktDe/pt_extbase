@@ -43,7 +43,7 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapter implements Tx_PtExtbase_State
 	
 	
 	/**
-	 * @var Tx_PtExtlist_Domain_SessionPersistence_SessionPersistenceManager
+	 * @var Tx_PtExtbase_State_Session_SessionPersistenceManager
 	 */
 	protected $sessionPersistanceManager;
 	
@@ -91,9 +91,9 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapter implements Tx_PtExtbase_State
 	/**
 	 * Inject the sessionPersistanceManager
 	 * 
-	 * @param Tx_PtExtlist_Domain_SessionPersistence_SessionPersistenceManager $sessionPersistanaceManager
+	 * @param Tx_PtExtbase_State_Session_SessionPersistenceManager $sessionPersistanaceManager
 	 */
-	public function injectSessionPersistanceManager(Tx_PtExtlist_Domain_SessionPersistence_SessionPersistenceManager $sessionPersistanaceManager) {
+	public function injectSessionPersistanceManager(Tx_PtExtbase_State_Session_SessionPersistenceManager $sessionPersistanaceManager) {
 		$this->sessionPersistanceManager = $sessionPersistanaceManager;
 	}
 	

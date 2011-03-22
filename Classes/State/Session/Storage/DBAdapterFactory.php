@@ -37,7 +37,7 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory {
 	
 	/**
 	 *
-	 * @var Tx_PtExtlist_Domain_StateAdapter_Storage_DBStorageAdapter
+	 * @var Tx_PtExtbase_State_Session_Storage_DBAdapter
 	 */
 	protected static $instance = NULL;
 	
@@ -50,10 +50,11 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory {
 	public static function getInstance() {
 		
 		if(self::$instance == NULL) {
-			self::$instance = new Tx_PtExtlist_Domain_StateAdapter_Storage_DBStorageAdapter();
+			self::$instance = new Tx_PtExtbase_State_Session_Storage_DBAdapter();
 
 			self::$instance->injectStateCache(self::buildStateCache());
-			self::$instance->setStateHash(self::getStateHash());
+			self::$instance->setStateHash(self::getStateHash());	
+			
 			self::$instance->init();
 		}
 		
@@ -64,6 +65,7 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory {
 	
 	/**
 	 * Build TYPO3 Caching Framework Cache
+	 * 
 	 * @return t3lib_cache_frontend_Cache
 	 */
 	protected function buildStateCache() {
@@ -71,10 +73,10 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory {
 			// Create the cache
 			try {
 				$GLOBALS['typo3CacheFactory']->create(
-					'tx_ptextlist',
+					'tx_ptextbase',
 					't3lib_cache_frontend_VariableFrontend',
-					$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextlist']['backend'],
-					$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextlist']['options']
+					$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['backend'],
+					$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['options']
 				);
 			} catch(t3lib_cache_exception_DuplicateIdentifier $e) {
 				// do nothing, the cache already exists
@@ -82,7 +84,7 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory {
 			
 			// Initialize the cache
 			try {
-				$cache = $GLOBALS['typo3CacheManager']->getCache('tx_ptextlist');
+				$cache = $GLOBALS['typo3CacheManager']->getCache('tx_ptextbase');
 			} catch(t3lib_cache_exception_NoSuchCache $e) {
 				throw new Exception('Unable to load Cache! 1299942198');
 			}
@@ -94,12 +96,12 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory {
 	
 	
 	/**
-	 * Get the statehash from GPVars
+	 * Get the stateHash.
 	 * 
 	 * @return string hash 
 	 */
 	protected static function getStateHash() {
-		$getPostVarAdapter = Tx_PtExtlist_Domain_StateAdapter_GetPostVarAdapterFactory::getInstance();
+		$getPostVarAdapter = Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory::getInstance($extensionNameSpace);
 		$stateHash = $getPostVarAdapter->getParametersByNamespace('state');
 		return $stateHash;	
 	}

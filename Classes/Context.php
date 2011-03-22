@@ -30,7 +30,7 @@
 * @author Daniel Lienert
 */
 
-class Tx_PtExtbase_Context implements t3lib_Singleton {
+class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 
 		
 	/**
@@ -125,7 +125,7 @@ class Tx_PtExtbase_Context implements t3lib_Singleton {
 	
 	/**
 	 * Set the cached mode for the complete extension.
-	 * This is autmatically set when extlsit is used as standalone extension
+	 * This is autmatically set when extlsit is used as standalone cached extension
 	 * 
 	 * @param bool $inCachedMode
 	 */
