@@ -30,9 +30,10 @@
 * @author Daniel Lienert
 */
 
-class Tx_PtExtbase_Tests_Utility_NameSpaceArrayTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Utility_DebugTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
 	
-	public function debugObjectTest() {
+	/** @test */
+	public function debugObject() {
 		$object = new debugTestClass();
 		$object->init();
 		
@@ -48,12 +49,13 @@ class debugTestClass {
 	
 	protected $protectedProperty = 'protectedVal';
 	
+	protected $circularDependency;
+	
 	private $privateProperty = 'privateVal';
 	
 	public function init() {
-		
+		$this->circularDependency = new self();
 	}
-
 }
 
 ?>

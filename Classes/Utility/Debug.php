@@ -32,22 +32,133 @@
 
 class Tx_PtExtbase_Utility_Debug {
 	
+	/**
+	 * Static debug class instance
+	 * 
+	 * @var Tx_PtExtbase_Utility_Debug
+	 */
+	protected static $debug = NULL;
 	
-	public static function debug($target) {
-		$debug = new self();
+	
+	
+	/**
+	 * Debug Data
+	 * 
+	 * @var array
+	 */
+	protected $debugData = array();
+	
+	
+	
+	public static function debug($target, $renderAs = 'html') {
+		
+		if(self::$debug === NULL) {
+			self::$debug = new self();	
+		}
 		
 		if(is_object($target)) {
-			$debug->debugObject($target);	
+			self::$debug->debugObject($target);	
 		}
 		
 	}
 	
-	
-	protected function debugObject($object) {
-		$debugData['className'] = get_class($object);
+
+	public function debugTarget($target) {
 		
-		print_r($debugData);
+		$this->debugData['debugTime'] = date('H:i:s');
+		$this->debugData['debugType'] = gettype($target); 
+		
+		switch (gettype($target)) {
+			case 'array':
+				break;
+			case 'object':
+				$this->debugObject($target);
+				break;
+			case 'resource':
+				break;
+			default:	
+		}
+		
+		echo $this->renderDebugData($debugData);
 	}
+	
+	
+	protected function debugObject($object, $lazy) {
+		
+		
+		$this->debugData['className'] = get_class($object);  
+		
+		//print_r($this->processRawObjectData($object));
+		
+
+	}
+	
+	
+	protected function debugArray($array) {
+		return nl2br(print_r($array,1),1);
+	}
+	
+	
+	protected function debugSingleValue($value) {
+		
+	}
+	
+	
+	/**
+	 * Render the debug data with fluid
+	 * 
+	 * @param unknown_type $debugData
+	 */
+	protected function renderDebugData($debugData) {
+		$templateFile = t3lib_div::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Templates/Debug/Debug.html');
+		$view = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
+		$view->setTemplatePathAndFilename($templateFile);
+		$view->assign('debugData', $this->debugData);
+		return $view->render();		
+	}
+
+	
+	
+	/**
+	 * Retrieve internal Object data and split the values in different access classes
+	 * 
+	 * @param object $object
+	 * @return array
+	 */
+	protected function processRawObjectData($object) {
+
+		$rawInternalData = (array) $object;
+		$classLen = strlen($class);
+		$className = get_class($object); 
+		
+		foreach($rawInternalData as $property => $value) {
+			if($property{0} == "\0") {
+				
+				if($property{1} == '*'){
+					$visibility = 'protected';
+					$property = substr($property, 3);
+				}
+				elseif(substr($property, 1, $classLen) == $className){
+					$visibility = 'private';
+					$property = substr($property, $classLen + 2);
+				}
+			}
+			
+			else {
+				$visibility = 'public';
+			}
+
+			switch (gettype($value)) {
+				case 
+			}
+			
+			$internalData[$visibility][$property] = $value;
+		}
+		
+		return $internalData;
+	}
+	
+	
 	
 }
 ?>
