@@ -3,6 +3,17 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+// Define state cache, if not already defined
+if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'])) {
+	$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'] = array(
+		'frontend' => 't3lib_cache_frontend_VariableFrontend',
+		'backend' => 't3lib_cache_backend_DbBackend',
+		'options' => array(
+			'cacheTable' => 'tx_ptextbase_cache_state',
+			'tagsTable'  => 'tx_ptextbase_cache_state_tags',
+		)
+	);
+}
 
 /**
  * Register LifeCycle Manager
