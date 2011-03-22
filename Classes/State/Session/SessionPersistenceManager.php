@@ -196,26 +196,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	
 	
 	/**
-	 * Overwrites session data by bookmark
-	 *
-	 * @param Tx_PtExtlist_Domain_Model_Bookmarks_Bookmark $bookmark
-	 */
-	public function processBookmark(Tx_PtExtlist_Domain_Model_Bookmarks_Bookmark $bookmark) {
-		/*
-		 * Bookmarks are currently not working! 
-		 * TODO: Fix them with new Session namespace
-		 * idea: Add method "merge data" here, that merges external arrays into session array BEFORE session array is processed
-		 * as bookmarks controller is the first controller to be run, this should not be a problem.
-		 * 
-		$bookmarkContentArray = unserialize($bookmark->getContent());
-		$namespace = 'tx_ptextlist_pi1.' . $bookmark->getListId() . '.filters';
-		$this->sessionData = Tx_PtExtbase_Utility_NameSpace::saveDataInNamespaceTree($namespace, $this->sessionData, $bookmarkContentArray['filters']);
-		*/
-	}
-	
-	
-	
-	/**
 	 * Return the hash of the currently set sessiondata
 	 * After this method is called, it is not allowed to manipulate the session data
 	 * 

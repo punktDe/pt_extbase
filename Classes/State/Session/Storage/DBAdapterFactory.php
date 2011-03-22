@@ -6,7 +6,6 @@
  *  Authors: Daniel Lienert, Michael Knoll, Christoph Ehscheidt
  *  All rights reserved
  *
- *  For further information: http://extlist.punkt.de <extlist@punkt.de>
  *
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -45,7 +44,7 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory {
 	/**
 	 * Create a single instance of the db storage adapter
 	 * 
-	 * @return Tx_PtExtlist_Domain_StateAdapter_Storage_DBStorageAdapter
+	 * @return Tx_PtExtbase_State_Session_Storage_DBAdapter
 	 */
 	public static function getInstance() {
 		

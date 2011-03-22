@@ -6,7 +6,6 @@
  *  Authors: Daniel Lienert, Michael Knoll, Christoph Ehscheidt
  *  All rights reserved
  *
- *  For further information: http://extlist.punkt.de <extlist@punkt.de>
  *
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -72,7 +71,7 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapter implements Tx_PtExtbase_State
 	 * 
 	 */
 	public function init() {
-		$this->cacheTag = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtlist_Extbase_ExtbaseContext')->getExtensionName();
+		$this->cacheTag = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_Context')->getExtensionName();
 	}
 	
 	
@@ -136,7 +135,7 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapter implements Tx_PtExtbase_State
 	 * @param string $value
 	 */
 	public function store($key, $value) {
-		/* TODO: the extlist save only one value to the session when the lifecycle ends (the internal session cache)
+		/* TODO: ptextbase save only one value to the session when the lifecycle ends (the internal session cache)
 		 * because of that, the session hash is used in links before the session is written to database. that means, in this
 		 * mode only one value can be written to the session (Daniel)
 		 */

@@ -6,7 +6,6 @@
  *  Authors: Daniel Lienert, Michael Knoll, Christoph Ehscheidt
  *  All rights reserved
  *
- *  For further information: http://extlist.punkt.de <extlist@punkt.de>
  *
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -86,23 +85,6 @@ class Tx_PtExtbase_Tests_State_Session_SessionPersistenceManagerTest extends Tx_
         $sessionPersistenceManager->read();
         
 		$this->assertEquals($sessionPersistenceManager->getSessionDataByNamespace('test1.test2.test3'), 'value');
-	}
-	
-	
-	
-	/** @test TODO remimplement this method */
-	public function testProcessBookmark() {
-		/*
-		 * Bookmarks are currently not working! 
-		 * TODO: Fix them with new Session namespace
-		 * 
-		$sessionPersistenceManager = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
-		$bookmark = new Tx_PtExtlist_Domain_Model_Bookmarks_Bookmark();
-		$bookmark->setContent(serialize(array('filters' => array('test' => 'value'))));
-		$bookmark->setListId('test');
-		$sessionPersistenceManager->processBookmark($bookmark);
-		$this->assertEquals($sessionPersistenceManager->getSessionDataByNamespace('test.filters.test'), 'value');
-		*/
 	}
 	
 	
