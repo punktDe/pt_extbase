@@ -144,7 +144,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 */
 	public function persist() {
 		$this->persistObjectsToSession();
-		$this->sessionAdapter->store('pt_extlist.cached.session', $this->sessionData);
+		$this->sessionAdapter->store('pt_extbase.cached.session', $this->sessionData);
 	}
 	
 	
@@ -154,7 +154,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 * 
 	 */
 	public function read() {
-		$this->sessionData = $this->sessionAdapter->read('pt_extlist.cached.session');
+		$this->sessionData = $this->sessionAdapter->read('pt_extbase.cached.session');
 	}
 	
 	
