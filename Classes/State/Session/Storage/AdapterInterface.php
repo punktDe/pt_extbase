@@ -31,34 +31,34 @@
  * @package     State
  * @subpackage  Session
  */
-interface Tx_PtExtbase_State_Session_StorageAdapterInterface {
-	
+interface Tx_PtExtbase_State_Session_Storage_AdapterInterface {
+
 	/**
-     * Returns the value of a storage key
-     * 
-     * @param mixed $key Storage key
-     */
-    public function read($key);
-    
-    
-    
-    /**
-     * Stores a value into a storage key
-     * 
-     * @param mixed $key Storage key
-     * @param mixed $value Storage value
-     */
-    public function store($key, $value);
-    
-    
-    
-    /**
-     * Deletes/unsets a storage key
-     * 
-     * @param mixed $key Storage key to delete/unset
-     */
-    public function delete($key);
-	
+	 * Returns the value of a storage key
+	 *
+	 * @param mixed $key Storage key
+	 */
+	public function read($key);
+
+
+
+	/**
+	 * Stores a value into a storage key
+	 *
+	 * @param mixed $key Storage key
+	 * @param mixed $value Storage value
+	 */
+	public function store($key, $value);
+
+
+
+	/**
+	 * Deletes/unsets a storage key
+	 *
+	 * @param mixed $key Storage key to delete/unset
+	 */
+	public function delete($key);
+
 }
 
 ?>

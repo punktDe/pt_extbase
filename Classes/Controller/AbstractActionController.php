@@ -68,7 +68,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 		parent::__construct();
 	}
     
-	
+        
 	
 	/**
 	 * @param Tx_Extbase_MVC_View_ViewInterface $view
@@ -86,7 +86,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
      * 
      * 1. TS-defined
      * 2. Determined by Controller/Action/Format
-     * 3. Extlist BaseView 
+     * 3. Extbase BaseView 
      * 
      * @throws Exception
      * @return string

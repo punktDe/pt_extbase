@@ -52,6 +52,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	private $internalSessionState = Tx_PtExtbase_Lifecycle_Manager::UNDEFINED;
 	
 	
+	
 	/**
 	 * Holds an instance for a session adapter to store data to session
 	 * 
@@ -76,6 +77,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 * @var string
 	 */
 	protected $sessionHash = NULL;
+	
 	
 	
 	/**
@@ -137,6 +139,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	}
 	
 	
+	
 	/**
 	 * Get the session data for object 
 	 * @param string $objectNameSpace
@@ -156,7 +159,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 */
 	public function persist() {
 		$this->persistObjectsToSession();
-		$this->sessionAdapter->store('pt_extlist.cached.session', $this->sessionData);
+		$this->sessionAdapter->store('pt_extbase.cached.session', $this->sessionData);
 	}
 	
 	
@@ -166,7 +169,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 * 
 	 */
 	public function read() {
-		$this->sessionData = $this->sessionAdapter->read('pt_extlist.cached.session');
+		$this->sessionData = $this->sessionAdapter->read('pt_extbase.cached.session');
 	}
 	
 	
@@ -177,10 +180,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 * @param int $state
 	 */
 	public function lifecycleUpdate($state) {
-		
-		if($state <= $this->internalSessionState) return;
-		$this->internalSessionState = $state;
-		
+
 		switch($state) {
 			case Tx_PtExtbase_Lifecycle_Manager::START:
 				$this->read();
@@ -212,26 +212,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 */
 	public function removeSessionDataByNamespace($objectNamespace) {
 		$this->sessionAdapter->delete($objectNamespace);
-	}
-	
-	
-	
-	/**
-	 * Overwrites session data by bookmark
-	 *
-	 * @param Tx_PtExtlist_Domain_Model_Bookmarks_Bookmark $bookmark
-	 */
-	public function processBookmark(Tx_PtExtlist_Domain_Model_Bookmarks_Bookmark $bookmark) {
-		/*
-		 * Bookmarks are currently not working! 
-		 * TODO: Fix them with new Session namespace
-		 * idea: Add method "merge data" here, that merges external arrays into session array BEFORE session array is processed
-		 * as bookmarks controller is the first controller to be run, this should not be a problem.
-		 * 
-		$bookmarkContentArray = unserialize($bookmark->getContent());
-		$namespace = 'tx_ptextlist_pi1.' . $bookmark->getListId() . '.filters';
-		$this->sessionData = Tx_PtExtbase_Utility_NameSpace::saveDataInNamespaceTree($namespace, $this->sessionData, $bookmarkContentArray['filters']);
-		*/
 	}
 	
 	

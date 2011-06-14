@@ -145,7 +145,7 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
      * 
      * We overwrite this method to make sure that we can use something like this in our partial:
      * 
-     * partialPath = EXT:pt_extlist/Resources/Private/Partials/Filter/StringFilter.html
+     * partialPath = EXT:pt_extbase/Resources/Private/Partials/Filter/StringFilter.html
      *
      * @param string $partialName The name of the partial
      * @return string the full path which should be used. The path definitely exists.
@@ -154,7 +154,7 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 	protected function resolvePartialPathAndFilename($partialName) {
 		if (file_exists($partialName)) { // partial is given as absolute path (rather unusual :-) )
 			return $partialName;
-		} elseif (file_exists(t3lib_div::getFileAbsFileName($partialName))) { // partial is given as EXT:pt_extlist/Resources/Private/Partials/Filter/StringFilter.html
+		} elseif (file_exists(t3lib_div::getFileAbsFileName($partialName))) { // partial is given as EXT:pt_extbase/Resources/Private/Partials/Filter/StringFilter.html
 			return t3lib_div::getFileAbsFileName($partialName);
 		} else {
 			return $partialName;

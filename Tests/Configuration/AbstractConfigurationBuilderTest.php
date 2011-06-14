@@ -48,7 +48,7 @@ class Tx_PtExtbase_Tests_Configuration_AbstractConfigurationBuilderTest extends 
 	/**
 	 * Holds a dummy implementation of abstract configuration builder for testing
 	 *
-	 * @var Tx_PtExtlist_Tests_Domain_Configuration_AbstractConfigurationBuilder_Stub
+	 * @var Tx_PtExtbase_Tests_Configuration_AbstractConfigurationBuilder_Stub
 	 */
 	protected $fixture;
 	
