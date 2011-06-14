@@ -36,6 +36,8 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	
 	/**
 	 * Definition of SessionStorageAdapter
+	 * 
+	 * TODO remove pt_extlist and pt_tools where they are no longer available!
 	 */
 	const STORAGE_ADAPTER_NULL = 'Tx_PtExtlist_Domain_StateAdapter_Storage_NullStorageAdapter';
 	const STORAGE_ADAPTER_DB = 'Tx_PtExtlist_Domain_StateAdapter_Storage_DBStorageAdapter';
@@ -115,7 +117,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
         	$this->sessionData = array();
         }
         
-        if ($objectData != null && count(array_filter($objectData))) {
+        if ($objectData != null) {
 			$this->sessionData = Tx_PtExtbase_Utility_NameSpace::saveDataInNamespaceTree($sessionNamespace, $this->sessionData, $objectData);
         }
 	}
@@ -154,7 +156,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 */
 	public function persist() {
 		$this->persistObjectsToSession();
-		var_dump($this->sessionData);
 		$this->sessionAdapter->store('pt_extlist.cached.session', $this->sessionData);
 	}
 	

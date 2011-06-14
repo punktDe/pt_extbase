@@ -25,6 +25,8 @@
 
 /**
  * Utility for namespace related static functions
+ * 
+ * TODO write UNIT Tests for this stuff!
  *
  * @package Utility
  * @author Daniel Lienert 
@@ -33,6 +35,7 @@
  */
 class Tx_PtExtbase_Utility_NameSpace {
 	
+
 	/**
 	 * Returns part of an array according to given namespace
 	 *
@@ -41,7 +44,6 @@ class Tx_PtExtbase_Utility_NameSpace {
 	 * @return array
 	 */
 	public static function getArrayContentByArrayAndNamespace($returnArray, $namespace) {
-		
 		if(!$namespace) return $returnArray;
 		if(!is_array($returnArray)) $returnArray = array();
 		
@@ -51,7 +53,7 @@ class Tx_PtExtbase_Utility_NameSpace {
 			if (array_key_exists($namespaceChunk, $returnArray)) {
 			    $returnArray = $returnArray[$namespaceChunk];
 			} else {
-				return array();
+			    return array();
 			}
 		}
 		
@@ -67,33 +69,63 @@ class Tx_PtExtbase_Utility_NameSpace {
 	 * @return array
 	 */
 	protected static function getNamespaceArrayByNamespaceString($namespaceString) {
-		return t3lib_div::trimExplode('.', $namespaceString);
+	    return t3lib_div::trimExplode('.', $namespaceString);
 	}
 	
 	
 	
 	/**
 	 * Save a value on an array position identfied by namespace
-	 * 
+	 *
 	 * @param string $nameSpace (Namespace identifier - dot separated)
 	 * @param array $array array to save the data
 	 * @param mixed $data
 	 * @return array
 	 */
 	public static function saveDataInNamespaceTree($nameSpace, array $array, $data) {
-		
-		$nameSpaceChunks =  t3lib_div::trimExplode('.', $nameSpace);		
-		
+	    $nameSpaceChunks = t3lib_div::trimExplode('.', $nameSpace);
+	
 		$key = array_pop($nameSpaceChunks);
 		$pointer = &$array;
 		
-		foreach($nameSpaceChunks as $chunk) {		
-			$pointer = &$pointer[$chunk];
+		foreach($nameSpaceChunks as $chunk) {
+		    $pointer = &$pointer[$chunk];
 		}
-
+		
 		$pointer[$key] = $data;
-		return array_filter($array);
+		
+		$returnArray = self::arrayFilterRecursive($array); 
+		return $returnArray;
 	}
 	
+	
+	
+	/**
+	* Recursively removes null-values from array
+	*
+	* @param array $input
+	* @return array
+	*/
+	protected static function arrayFilterRecursive($input) {
+		foreach ($input as &$value) {
+			if (is_array($value)) {
+			    $value = self::arrayFilterRecursive($value);
+			}
+		}
+		return array_filter($input, 'Tx_PtExtbase_Utility_NameSpace::valueIsGiven');
+    }
+	
+	    
+    
+    /**
+	 * Returns true in case the values is present or is the integer Value 0
+	 *
+	 * @param mixed $element
+	 */
+	protected static function valueIsGiven($element) {
+	    return (is_array($element) || !empty($element) || $element === 0 || $element === '');
+	}
+	 	
 }
+
 ?>
