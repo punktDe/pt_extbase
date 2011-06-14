@@ -35,6 +35,16 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	
 	
 	/**
+	 * Definition of SessionStorageAdapter
+	 */
+	const STORAGE_ADAPTER_NULL = 'Tx_PtExtlist_Domain_StateAdapter_Storage_NullStorageAdapter';
+	const STORAGE_ADAPTER_DB = 'Tx_PtExtlist_Domain_StateAdapter_Storage_DBStorageAdapter';
+	const STORAGE_ADAPTER_FEUSER_SESSION = 'tx_pttools_feUsersessionStorageAdapter';
+	const STORAGE_ADAPTER_BROWSER_SESSION = 'tx_pttools_sessionStorageAdapter';
+	
+	
+	
+	/**
 	 * 
 	 */
 	private $internalSessionState = Tx_PtExtbase_Lifecycle_Manager::UNDEFINED;
@@ -144,6 +154,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 */
 	public function persist() {
 		$this->persistObjectsToSession();
+		var_dump($this->sessionData);
 		$this->sessionAdapter->store('pt_extlist.cached.session', $this->sessionData);
 	}
 	
@@ -276,5 +287,26 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     		}   
        	}
     }
+    
+    
+    
+    /**
+     * Add arguments to url if the session is not usable
+     *
+     * @param array $argumentArray
+     */
+    public function addSessionRelatedArguments(&$argumentArray) {
+        if(!is_array($argumentArray)) $argumentArray = array();
+
+        if($this->sessionAdapaterClass == self::STORAGE_ADAPTER_DB) {
+            $argumentArray['state'] = $this->getSessionDataHash();
+
+        } elseif($this->sessionAdapaterClass == self::STORAGE_ADAPTER_NULL) {
+            $this->lifecycleUpdate(Tx_PtExtlist_Domain_Lifecycle_LifecycleManager::END);
+            $argumentArray = t3lib_div::array_merge_recursive_overrule($this->sessionData, $argumentArray);
+        }
+    }
+     
 }
+
 ?>
