@@ -148,10 +148,12 @@ class Tx_PtExtbase_Utility_Debug {
 				$visibility = 'public';
 			}
 
-			switch (gettype($value)) {
-				case 
-			}
-			
+			// TODO don't know, what you want to do here!
+//			
+//			switch (gettype($value)) {
+//				case 
+//			}
+//			
 			$internalData[$visibility][$property] = $value;
 		}
 		

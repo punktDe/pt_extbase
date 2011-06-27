@@ -94,7 +94,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 *
 	 * @param Tx_PtExtbase_State_Session_StorageAdapterInterface $sessionAdapter
 	 */
-	public function injectSessionAdapter(Tx_PtExtbase_State_Session_StorageAdapterInterface $sessionAdapter) {
+	public function injectSessionAdapter(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter) {
 		$this->sessionAdapter = $sessionAdapter;
 	}
 	
