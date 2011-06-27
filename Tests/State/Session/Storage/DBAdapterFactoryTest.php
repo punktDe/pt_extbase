@@ -24,13 +24,13 @@
 ***************************************************************/
 
 /**
- * Testcase for DB Adapter Factory
+ * Testcase for  DB Adapter
  *
  * @package Tests
  * @subpackage State\Session\Storage
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_State_Session_Storage_DBAdapterFactoryTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_State_Session_Storage_DBAdapterTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
      
 	/** @test */
 	public function notYetImplemented() {

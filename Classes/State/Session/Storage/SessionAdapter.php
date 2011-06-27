@@ -54,7 +54,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
      * Returns a unique instance (Singleton) of the object. Use this method instead of the private/protected class constructor.
      *
      * @param   void
-     * @return  tx_pttools_sessionStorageAdapter      unique instance of the object (Singleton)
+     * @return  Tx_PtExtbase_State_Session_Storage_SessionAdapter      unique instance of the object (Singleton)
      */
     public static function getInstance() {
 
@@ -109,7 +109,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
             Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], 't3lib_userAuth', array('message' => 'No valid backend user found!'));
 
             $val = $GLOBALS['BE_USER']->getSessionData($key);
-            if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Reading "%s" from BE user session in "$GLOBALS[\'BE_USER\']"', $key), 'pt_tools');
+            if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Reading "%s" from BE user session in "$GLOBALS[\'BE_USER\']"', $key), 'pt_extbase');
 
         }
 
@@ -141,7 +141,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
                 $GLOBALS['TSFE']->fe_user->setKey('ses', $key, $val);
                 $GLOBALS['TSFE']->fe_user->sesData_change = 1;
                 $GLOBALS['TSFE']->fe_user->storeSessionData();
-                if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Storing "%s" into FE browser session using "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_tools');
+                if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Storing "%s" into FE browser session using "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
             } else {
 
                 Tx_PtExtbase_Assertions_Assert::isString($foreignSessionId);
@@ -165,7 +165,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
                 );
                 $GLOBALS['TYPO3_DB']->exec_DELETEquery('fe_session_data', 'hash='.$GLOBALS['TYPO3_DB']->fullQuoteStr($foreignSessionId, 'fe_session_data'));
                 $GLOBALS['TYPO3_DB']->exec_INSERTquery('fe_session_data', $insertFields);
-                if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Storing "%s" into foreign FE browser session "%s"', $key, $foreignSessionId), 'pt_tools');
+                if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Storing "%s" into foreign FE browser session "%s"', $key, $foreignSessionId), 'pt_extbase');
             }
 
         // TYPO3 Backend mode
@@ -174,7 +174,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
             Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], 't3lib_userAuth', array('message' => 'No valid backend user found!'));
 
             $GLOBALS['BE_USER']->setAndSaveSessionData($key, $val);
-            if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Storing "%s" into BE user session using "$GLOBALS[\'BE_USER\']"', $key), 'pt_tools');
+            if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Storing "%s" into BE user session using "$GLOBALS[\'BE_USER\']"', $key), 'pt_extbase');
 
         }
 
@@ -198,7 +198,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
                 unset($GLOBALS['TSFE']->fe_user->sesData[$key]);
                 $GLOBALS['TSFE']->fe_user->sesData_change = 1;
                 $GLOBALS['TSFE']->fe_user->storeSessionData();
-                if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Deleting "%s" from FE browser session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_tools');
+                if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Deleting "%s" from FE browser session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
             }
 
         // TYPO3 Backend mode
@@ -216,7 +216,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
                                                        'ses_id='.$GLOBALS['TYPO3_DB']->fullQuoteStr($GLOBALS['BE_USER']->user['ses_id'], $GLOBALS['BE_USER']->session_table),
                                                        array('ses_data' => $GLOBALS['BE_USER']->user['ses_data'])
                                                       );
-                if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Deleting "%s" from BE user in "$GLOBALS[\'BE_USER\']"', $key), 'pt_tools');
+                if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Deleting "%s" from BE user in "$GLOBALS[\'BE_USER\']"', $key), 'pt_extbase');
             }
             
         }

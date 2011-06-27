@@ -154,7 +154,7 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
         if (TYPO3_DLOG) {
             t3lib_div::devLog(
                 $this->getMessage(), 
-                'pt_tools', 
+                'pt_extbase', 
                 1, // "notice"
                 array(
                     'exceptionClass' => get_class($this), 
@@ -216,7 +216,7 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
         if (TYPO3_DLOG) {
             t3lib_div::devLog(
                 $this->getMessage(), 
-                'pt_tools', 
+                'pt_extbase', 
                 3, // "error"
                 array(
                     'exceptionClass' => get_class($this), 
@@ -234,7 +234,7 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
         $debugMsg = $this->debugMsg ? ': '.$this->debugMsg : '';
         t3lib_div::sysLog(
             $this->getMessage().' ['.get_class($this) . $debugMsg.']', 
-            'pt_tools', 
+            'pt_extbase', 
             3 // "error"
         );
         

@@ -38,7 +38,7 @@ class Tx_PtExtbase_Assertions_Assert {
      * @param   mixed   second parameter
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @param   bool    (optional) if true (default), parameters are tested by identy and not only equality
-     * @param   int     (optional) tx_pttools_exception error code, default is 0
+     * @param   int     (optional) error code, default is 0
      * @throws  tx_pttools_exceptionAssertion   if assertion fails
      */
     public static function test($val, $expected, array $info = array(), $strict = true) {
@@ -455,7 +455,7 @@ class Tx_PtExtbase_Assertions_Assert {
      */
     public static function isAssociativeArray($val, array $info = array()) {
         
-        return self::test(tx_pttools_div::isAssociativeArray($val), true, $info);
+        return self::test(Tx_PtExtbase_Div::isAssociativeArray($val), true, $info);
         
     }
 
@@ -737,7 +737,7 @@ class Tx_PtExtbase_Assertions_Assert {
      */
     public static function isNotEmptyObjectCollection($object, array $info = array()) {
         
-        self::isInstanceOf($object, 'tx_pttools_objectCollection');
+        self::isInstanceOf($object, 'Tx_PtExtbase_Collection_ObjectCollection');
         
         return self::test(count($object) > 0, true, $info);
         
