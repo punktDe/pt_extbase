@@ -39,7 +39,7 @@ class Tx_PtExtbase_Assertions_Assert {
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @param   bool    (optional) if true (default), parameters are tested by identy and not only equality
      * @param   int     (optional) error code, default is 0
-     * @throws  tx_pttools_exceptionAssertion   if assertion fails
+     * @throws  Exception   if assertion fails
      */
     public static function test($val, $expected, array $info = array(), $strict = true) {
 
@@ -730,7 +730,7 @@ class Tx_PtExtbase_Assertions_Assert {
     
     
     /**
-     * Test if an object is a non-empty object collection of type tx_pttools_objectCollection
+     * Test if an object is a non-empty object collection of type objectCollection
      *
      * @param   mixed   object
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
