@@ -123,9 +123,6 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
      * @param   string    optional detailed debug message (not used for frontend display). For database errors (error code 1) the last TYPO3 DB SQL error is set to the debug message by default. To suppress this or to trace another DB object's SQL error use the third param to replace this default.
      */
     public function __construct($errMsg='', $errCode=0, $debugMsg='') {
-        
-        trace('***** Creating new '.__CLASS__.' object. *****');
-        
         $this->debugMsg = $debugMsg;
         
         // handle different error types ("old" switch structure remains for backwards compatibility)
@@ -162,7 +159,6 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
                     'file' => $this->getFile(), 
                     'line' => $this->getLine(), 
                     'code' => $this->getCode(),
-                    // 'trace' => tx_pttools_debug::cleanBacktrace($this->getTrace()),
                     'trace' => $this->getTraceAsString(),
                 )
             );
@@ -203,12 +199,6 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
             'Exception Class: '.get_class($this).chr(10).
             'Error Message  : '.$this->getMessage().chr(10).
             (!empty($this->debugMsg) ? 'Debug Message  : '.$this->debugMsg.chr(10) : '').
-            /*
-            'Code           : '.$this->getCode().chr(10).
-            'File           : '.$this->getFile().chr(10).
-            'Line           : '.$this->getLine().chr(10).
-            'getTrace(): '.trace($this->getTrace(), 1).chr(10).chr(10).
-            */
             'Stack Trace    : '.chr(10).$this->getTraceAsString().chr(10).chr(10)
             ;
         
@@ -224,7 +214,6 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
                     'file' => $this->getFile(), 
                     'line' => $this->getLine(), 
                     'code' => $this->getCode(),
-                    // 'trace' => tx_pttools_debug::cleanBacktrace($this->getTrace()),
                     'trace' => $this->getTraceAsString(),
                 )
             );
@@ -242,8 +231,6 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
         if ($GLOBALS['TT'] instanceof t3lib_timeTrack) {
             $GLOBALS['TT']->setTSlogMessage($this->getMessage() . '['.get_class($this).': '.$this->debugMsg.']', 3);
         }
-            
-        trace($traceString, 0, '############ '.get_class($this).' ############');
         
     }
     

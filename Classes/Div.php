@@ -85,7 +85,6 @@ class Tx_PtExtbase_Div  {
 
         // generate absolute URL from local path
         $targetUrl  = t3lib_div::locationHeaderUrl($localPath);
-        trace($targetUrl, 0, '$targetUrl');
 
         // log to devlog
         if (TYPO3_DLOG) t3lib_div::devLog('Redirecting from "'.t3lib_div::getIndpEnv('TYPO3_REQUEST_URL').'" to "'.$targetUrl.'"', 'pt_tools', 1);
@@ -120,7 +119,6 @@ class Tx_PtExtbase_Div  {
             $hookObj = t3lib_div::getUserObj($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extKey][$hookArrayKey][$functionName], '');
 
             if (method_exists($hookObj, $functionName)) {
-                trace('Hook method '.$functionName.' found, returning hook object');
                 if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Hook method found [%s][%s][%s], returning hook object (class: "%s")', $extKey, $hookArrayKey, $functionName, get_class($hookObj)), 'pt_tools', 1);
 
                 $hookObj->pObj = $this;
@@ -299,7 +297,6 @@ class Tx_PtExtbase_Div  {
                 throw new Tx_PtExtbase_Exception_Exception('PID "'.$pidOrAlias.'" not found');
             }
     
-            trace($a_row);
             $cache[$cacheKey] = $a_row['uid'];
         }
         
@@ -599,11 +596,6 @@ class Tx_PtExtbase_Div  {
      * @since   2008-11-05
     */
     public function getPeriodAsInt($period, $unit, $round = true) {
-
-        trace('[CMD] '.__METHOD__);
-        trace($period);
-        trace($unit);
-
         $result = 0;
 
         if ($period != '') {
@@ -1267,7 +1259,6 @@ class Tx_PtExtbase_Div  {
             }
         }
 
-        trace($a_csl, 0, ($arrayName ? '$'.$arrayName : '$a_csl'));
         return $a_csl;
 
     }
@@ -1644,14 +1635,12 @@ class Tx_PtExtbase_Div  {
             $a_tables[] = current($a_row);
         }
         $dbObj->sql_free_result($res);
-        trace($a_tables);
 
         // search specified table in array
         trace('searching for table "'.$table.'"...');
         if (in_array($table, $a_tables)) {
             $tableExists = true;
         }
-        trace($tableExists);
 
         return $tableExists;
 
@@ -1683,7 +1672,6 @@ class Tx_PtExtbase_Div  {
         }
         $a_row = $dbObj->sql_fetch_assoc($res);
         $dbObj->sql_free_result($res);
-        trace($a_row);
 
         // check number of table rows
         if ($a_row['Rows'] > 0) {
