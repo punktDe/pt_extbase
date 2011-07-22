@@ -208,7 +208,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
      * @param string $namespace
      * @return array Merged get and post vars for given namespace
 	 */
-	public function extractPgVarsByNamespace($namespace) {	
+	public function extractPgVarsByNamespace($namespace) {
 		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getMergedPgVars(), $namespace); 	
 	}
 	
@@ -259,5 +259,6 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	public function getExtensionNameSpace() {
 		return $this->extensionNameSpace;
 	}	
+	
 }
 ?>

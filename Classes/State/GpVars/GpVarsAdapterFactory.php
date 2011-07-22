@@ -44,6 +44,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory {
 	/**
 	 * Factory method for GET/POST Var Adapter.
 	 * 
+	 * @param string $extensionNameSpace 
 	 * @return Tx_PtExtbase_State_GpVars_GpVarsAdapter Singleton instance of GET/POST Var Adapter.
 	 */
 	public static function getInstance($extensionNameSpace) {
@@ -56,6 +57,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory {
 	
 		return self::$instances[$extensionNameSpace];
 	}
+	
 		
 	
 	/**
@@ -72,5 +74,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory {
 		
 		return $extractedVars;
 	}
+	
 }
+
 ?>
