@@ -78,34 +78,57 @@ class Tx_PtExtbase_Utility_NameSpace {
 	 * Save a value on an array position identfied by namespace
 	 *
 	 * @param string $nameSpace (Namespace identifier - dot separated)
-	 * @param array $array array to save the data
+	 * @param array $array array to save the data in
 	 * @param mixed $data
 	 * @return array
 	 */
-	public static function saveDataInNamespaceTree($nameSpace, array $array, $data) {
-	    $nameSpaceChunks = t3lib_div::trimExplode('.', $nameSpace);
-	
-		$key = array_pop($nameSpaceChunks);
-		$pointer = &$array;
-		
-		foreach($nameSpaceChunks as $chunk) {
-		    $pointer = &$pointer[$chunk];
-		}
-		
-		$pointer[$key] = $data;
-		
-		$returnArray = self::arrayFilterRecursive($array); 
-		return $returnArray;
-	}
+    public static function saveDataInNamespaceTree($namespaceString, array $array, $data) {
+        $nameSpaceChunks = self::getNamespaceArrayByNamespaceString($namespaceString);      
+        
+        $key = array_pop($nameSpaceChunks);
+        $pointer = &$array;
+        
+        foreach($nameSpaceChunks as $chunk) {       
+            $pointer = &$pointer[$chunk];
+        }
+
+        $pointer[$key] = $data;
+        
+        //return self::arrayFilterRecursive($array);
+        return $array;
+    }
+    
+    
+    
+    /**
+     * Remove a part from a data array described by namespace string
+     * 
+     * @param string $namespaceString namespace path to the key to remove
+     * @param aray $array data array
+     */
+    public static function removeDataFromNamespaceTree($namespaceString, &$array) {
+        $nameSpaceChunks =  self::getNamespaceArrayByNamespaceString($namespaceString);
+
+        $key = array_pop($nameSpaceChunks);
+        $pointer = &$array;
+        
+        foreach($nameSpaceChunks as $chunk) {       
+            $pointer = &$pointer[$chunk];
+        }
+
+        unset($pointer[$key]);
+
+        return $array;
+    }
 	
 	
 	
 	/**
-	* Recursively removes null-values from array
-	*
-	* @param array $input
-	* @return array
-	*/
+	 * Recursively removes null-values from array
+	 *
+	 * @param array $input
+	 * @return array
+	 */
 	protected static function arrayFilterRecursive($input) {
 		foreach ($input as &$value) {
 			if (is_array($value)) {
@@ -118,13 +141,13 @@ class Tx_PtExtbase_Utility_NameSpace {
 	    
     
     /**
-	 * Returns true in case the values is present or is the integer Value 0
-	 *
-	 * @param mixed $element
-	 */
-	protected static function valueIsGiven($element) {
-	    return (is_array($element) || !empty($element) || $element === 0 || $element === '');
-	}
+     * Returns true in case the values is present or is the integer Value 0
+     * 
+     * @param mixed $element
+     */
+    protected static function valueIsGiven($element) {
+        return (is_array($element) || (!empty($element) && $element !== 0 && $element !== ''));
+    }
 	 	
 }
 
