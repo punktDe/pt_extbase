@@ -53,27 +53,25 @@ class Tx_PtExtbase_Div  {
      * Redirects the user to a local page and optionally stores a value to pass to the redirected page into the TYPO3 session
      *
      * Notice: This method may also be used for reload of the current page after executing a database query (to prevent from double execution of database queries on user page reload).
-     * Alternatively check the token based class tx_pttools_formReloadHandler!
      *
      * @param   string      local page to redirect to: URL path exclusive domain and leading slash, but including all GET-params (Example: for redirection to http://mydomain.com/contact.html?myGetParam=1 just pass "contact.html?myGetParam=1"). This value may be created using the TYPO3 method pi_getPageLink.
-     * @param   mixed       (optional) arbitrary value to pass to the redirected page by storing it into the TYPO3 session (objects and arrays will be serialized, see tx_pttools_sessionStorageAdapter::store())
+     * @param   mixed       (optional) arbitrary value to pass to the redirected page by storing it into the TYPO3 session (objects and arrays will be serialized, see Tx_PtExtbase_State_Session_Storage_SessionAdapter::store())
      * @param   string      (optional) TYPO3 session key name to store $keepVal into (default = 'redirectionKeepVal'). This string may be prefixed with the prefixId of the calling FE plugin to prevent namespace conflicts between different extensions.
      * @return  void
      * @see     tslib_pibase::pi_getPageLink()
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2005-12-01
+     * @author  Rainer Kuhn 
      */
     public static function localRedirect($localPath, $keepVal=NULL, $keepValSessionKeyName='redirectionKeepVal') {
 
         // hook: allow things to be done before redirecting
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pt_tools']['tx_pttools_div']['localRedirect'])) {
+        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pt_extbase']['tx_ptextbase_div']['localRedirect'])) {
             $fakeThis = new stdClass();
             $params = array(
                 'localPath' => $localPath,
                 'keepVal' => $keepVal,
                 'keepValSessionKeyName' => $keepValSessionKeyName,
             );
-            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pt_tools']['tx_pttools_div']['localRedirect'] as $funcName) {
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pt_extbase']['tx_ptextbase_div']['localRedirect'] as $funcName) {
                 t3lib_div::callUserFunction($funcName, $params, $fakeThis);
             }
         }
@@ -87,7 +85,7 @@ class Tx_PtExtbase_Div  {
         $targetUrl  = t3lib_div::locationHeaderUrl($localPath);
 
         // log to devlog
-        if (TYPO3_DLOG) t3lib_div::devLog('Redirecting from "'.t3lib_div::getIndpEnv('TYPO3_REQUEST_URL').'" to "'.$targetUrl.'"', 'pt_tools', 1);
+        if (TYPO3_DLOG) t3lib_div::devLog('Redirecting from "'.t3lib_div::getIndpEnv('TYPO3_REQUEST_URL').'" to "'.$targetUrl.'"', 'pt_extbase', 1);
 
         // redirect by sending a "Location" header
         header('Location: '.$targetUrl);
@@ -106,8 +104,7 @@ class Tx_PtExtbase_Div  {
      * @global  array           $TYPO3_CONF_VARS
      * @return  object|bool     hook object or false if no hook was registered
      * @throws  Tx_PtExtbase_Exception_Exception    if hook method registered, but not found
-     * @author  Rainer Kuhn <kuhn@punkt.de>, based on tx_indexedsearch::hookRequest() by Kasper Sk�rh�j/Christian Jul Jensen
-     * @since   2006-04-06
+     * @author  Rainer Kuhn , based on tx_indexedsearch::hookRequest() by Kasper Sk�rh�j/Christian Jul Jensen
      */
     public static function hookRequest($extKey, $hookArrayKey, $functionName) {
 
@@ -119,7 +116,7 @@ class Tx_PtExtbase_Div  {
             $hookObj = t3lib_div::getUserObj($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extKey][$hookArrayKey][$functionName], '');
 
             if (method_exists($hookObj, $functionName)) {
-                if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Hook method found [%s][%s][%s], returning hook object (class: "%s")', $extKey, $hookArrayKey, $functionName, get_class($hookObj)), 'pt_tools', 1);
+                if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Hook method found [%s][%s][%s], returning hook object (class: "%s")', $extKey, $hookArrayKey, $functionName, get_class($hookObj)), 'pt_extbase', 1);
 
                 $hookObj->pObj = $this;
                 return $hookObj;
@@ -144,9 +141,8 @@ class Tx_PtExtbase_Div  {
      * @global  object      $GLOBALS['LANG']
      * @global  array       $GLOBALS['TYPO3_CONF_VARS']
      * @return  string      charset encoding currently used by TYPO3 (lowercase string)
-     * @author  Rainer Kuhn <kuhn@punkt.de>, based on a proposal by Martin Kutschker on http://lists.netfielders.de/pipermail/typo3-team-core/2006-May/004250.html
+     * @author  Rainer Kuhn , based on a proposal by Martin Kutschker on http://lists.netfielders.de/pipermail/typo3-team-core/2006-May/004250.html
      * @see     http://typo3.org/documentation/document-library/references/doc_core_tsref/current/view/7/3/
-     * @since   2006-10-10
      */
     public static function getSiteCharsetEncoding($defaultCharset='iso-8859-1') {
 
@@ -175,7 +171,6 @@ class Tx_PtExtbase_Div  {
      * @param   string      name of the file to include
      * @return  boolean     FALSE if file was not available/included, TRUE otherwise
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2007-05-03
      */
     public static function includeOnceIfExists($filename) {
 
@@ -195,10 +190,9 @@ class Tx_PtExtbase_Div  {
      *
      * @param       string      name of the file to look for
      * @return      mixed       (string) the full path if file exists, (boolean) FALSE if it does not
-     * @author      Aidan Lister <aidan@php.net>, added to pt_tools by Fabrizio Branca <mail@fabrizio-branca.de>
+     * @author      Aidan Lister <aidan@php.net>, added to pt_extbase by Fabrizio Branca <mail@fabrizio-branca.de>
      * @version     1.2.1
      * @link        http://aidanlister.com/repos/v/function.file_exists_incpath.php
-     * @since       2007-05-03
      */
     public static function fileExistsInIncpath($filename) {
 
@@ -225,8 +219,7 @@ class Tx_PtExtbase_Div  {
      *
      * @param   integer     required length of password (optional, default is 8)
      * @return  string      mnemonic password
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2007-10-02 (based on tx_ptlib_base::createPassword() from 2004-05)
+     * @author  Rainer Kuhn 
      */
     public static function createPassword($length=8) {
 
@@ -258,7 +251,6 @@ class Tx_PtExtbase_Div  {
      * @return  int     pid
      * @throws  Tx_PtExtbase_Exception_Exception     if pid or alias does not exist, if query fails or if pid == 0 and allowPidZero is false
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2008-06-03
      */
     public static function getPid($pidOrAlias, $allowZeroAsPid=false) {
         
@@ -286,7 +278,7 @@ class Tx_PtExtbase_Div  {
     
             // exec query using TYPO3 DB API
             $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $groupBy, $orderBy, $limit);
-            trace(tx_pttools_div::returnLastBuiltSelectQuery($GLOBALS['TYPO3_DB'], $select, $from, $where, $groupBy, $orderBy, $limit));
+            trace(tx_ptextbase_div::returnLastBuiltSelectQuery($GLOBALS['TYPO3_DB'], $select, $from, $where, $groupBy, $orderBy, $limit));
             if ($res == false) {
                 throw new Tx_PtExtbase_Exception_Exception('Query failed', 1, $GLOBALS['TYPO3_DB']->sql_error());
             }
@@ -315,7 +307,6 @@ class Tx_PtExtbase_Div  {
      * @param   string  (optional) name of the window
      * @return  bool    true if popup was rendered, otherwise false
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2008-06-12
      */
     public static function outputToPopup($htmlCode, $varName = '_popup', $windowParams = 'width=1280,height=600,resizable,scrollbars=yes', $windowUrl = '', $windowName = '') {
 
@@ -345,7 +336,6 @@ class Tx_PtExtbase_Div  {
      * @return  void
      * @throws  Tx_PtExtbase_Exception_Exception    if parameter is not valid
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2008-07-11
      * @see     t3lib_TCEmain::clear_cacheCmd
      */
     public static function clearCache($cacheCmd = 'all') {
@@ -364,24 +354,22 @@ class Tx_PtExtbase_Div  {
     
     
     /**
-     * Redirects to the Cookie Error Page if Cookie ist not set and Cookie Error Page is defined. Otherwise nothing is done
+     * Redirects to the Cookie Error Page if Cookie is not set and Cookie Error Page is defined. Otherwise nothing is done
      *
      * @param   object   tslib_pibase
      * @return  boolean  true if Cookies enabled, false if Cookies not disabled and no Error Page set or does not exist.
      * @author  Dorit Rottner <rottner@punkt.de>
-     * @since   2008-08-01
      */
      public static function checkCookies(tslib_pibase $pObj) {
 
         if (!$_COOKIE['fe_typo_user']) {
-            $redirect_url = $pObj->pi_linkTP_keepPIvars_url($overrulePIvars = array(), $cache = 1, $clearAnyway = 0, $GLOBALS['TSFE']->tmpl->setup['config.']['pt_tools.']['cookieErrorPage']);
-            #$redirect_url = t3lib_div::locationHeaderUrl($GLOBALS['TSFE']->tmpl->setup['config.']['pt_tools.']['cookieErrorPage']);
+            $redirect_url = $pObj->pi_linkTP_keepPIvars_url($overrulePIvars = array(), $cache = 1, $clearAnyway = 0, $GLOBALS['TSFE']->tmpl->setup['config.']['pt_extbase.']['cookieErrorPage']);
             if ($redirect_url) {
-                t3lib_div::devLog('Cookie not set redirect to '.$redirect_url, 'pt_tools', 1);
+                t3lib_div::devLog('Cookie not set redirect to '.$redirect_url, 'pt_extbase', 1);
                 header('Location: '.t3lib_div::locationHeaderUrl($redirect_url));
                 exit;
             } else {
-                t3lib_div::devLog('Cookie not set redirect url not specified. ', 'pt_tools', 1);
+                t3lib_div::devLog('Cookie not set redirect url not specified. ', 'pt_extbase', 1);
                 $return = false;
             }
         } else {
@@ -403,7 +391,6 @@ class Tx_PtExtbase_Div  {
      * @return  bool        true if at least one of the users group uids is in the access list or the access list is empty
      * @see     t3lib_pageSelect::getMultipleGroupsWhereClause()
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2009-01-19
      */
     public static function hasGroupAccess($groupList, $accessList) {
 
@@ -427,7 +414,7 @@ class Tx_PtExtbase_Div  {
      *
      * @example
      * <code>
-     * page.includeLibs.tx_pttools_div = EXT:pt_tools/res/staticlib/class.tx_pttools_div.php
+     * page.includeLibs.tx_ptextbase_div = EXT:pt_extbase/Classes/Div.php
      *
      * lib.searchByName = CONTENT
      * lib.searchByName {
@@ -438,7 +425,7 @@ class Tx_PtExtbase_Div  {
      *              cObject = TEXT
      *              cObject {
      *                  data = GPvar:tx_myext_searchword
-     *                  postUserFunc = tx_pttools_div->quoteStr
+     *                  postUserFunc = Tx_PtExtbase_Div->quoteStr
      *                  postUserFunc.table = pages
      *              }
      *              wrap = title LIKE "%|%"
@@ -451,7 +438,6 @@ class Tx_PtExtbase_Div  {
      * @param   array       (optional) configuration, do not use a type hint here
      * @return  string      quoted string
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2009-03-10
      */
     public static function quoteStr($content, $conf) {
 
@@ -472,7 +458,6 @@ class Tx_PtExtbase_Div  {
      * @return  boolean     true, if array is associative
      * @see     http://de.php.net/is_array
      * @author  Michael Knoll <knoll@punkt.de>
-     * @since   2009-03-15
      */
     public static function isAssociativeArray($array) {
 
@@ -496,7 +481,6 @@ class Tx_PtExtbase_Div  {
      * @param   mixed   value to check
      * @return  bool    true if integerish
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2009-09-15
      */
     public static function isIntegerish($val) {
         // or: is_int($val) || ctype_digit($val)
@@ -511,7 +495,6 @@ class Tx_PtExtbase_Div  {
      * @param   array   input array
      * @return  array   output array
      * @author  Fabrizio Branca <mail@fabrizio-branca.de> (taken from ext:tcaobjects)
-     * @since   2008-03-26
      */
     public static function stdWrapArray(array $data, tslib_cObj $cObj=NULL) {
 
@@ -549,8 +532,7 @@ class Tx_PtExtbase_Div  {
      * @param   string      date string to convert
      * @param   boolean     (optional) flag for conversion direction: 0 = converts DD.MM.YYYY/DD-MM-YYYY to YYYY-MM-DD (default), 1 = converts YYYY-MM-DD to DD.MM.YYYY
      * @return  string      converted date (YYYY-MM-DD by default, if 2. param is set to true DD.MM.YYYY)
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2007-10-02 (based on tx_ptlib_base::dateConv() from 2002-06)
+     * @author  Rainer Kuhn 
      */
     public static function convertDate($dateOrig, $reverse=0) {
 
@@ -572,8 +554,7 @@ class Tx_PtExtbase_Div  {
      *
      * @param   boolean     (optional) flag for date format: 0 = YYYY-MM-DD (default), 1 = DD.MM.YYYY
      * @return  string      current date (YYYY-MM-DD by default, if 2. param is set to true DD.MM.YYYY)
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2007-10-02 (based on tx_ptlib_base::dateToday() from 2002-10)
+     * @author  Rainer Kuhn 
      */
     public static function dateToday($euroFormat=0) {
 
@@ -593,7 +574,6 @@ class Tx_PtExtbase_Div  {
      * @param   boolean (optional) round to nearest value in unit calculation instead of cutting (default: true)
      * @return  integer numeric difference between now and given period in given unit
      * @author  Wolfgang Zenker <zenker@punkt.de>
-     * @since   2008-11-05
     */
     public function getPeriodAsInt($period, $unit, $round = true) {
         $result = 0;
@@ -656,8 +636,7 @@ class Tx_PtExtbase_Div  {
      * @param   tslib_pibase      object of type tslib_pibase: TYPO3 frontend plugin derived from tslib_pibase
      * @param   string      locallang array key (of the plugins locallang.php file)
      * @return  string      value of the passed locallang array key with all HTML entities replaced for display in browser
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2006-08-03 (based on PHP4 function tx_ptlayoutgen_pi1::displayLL() from 2004-12-16)
+     * @author  Rainer Kuhn 
      */
     public static function displayLL(tslib_pibase $callerObj, $LLkey) {
 
@@ -675,8 +654,7 @@ class Tx_PtExtbase_Div  {
      * @return  array       $LOCAL_LANG array found in the included file if that array is found, otherwise an empty array
      * @see     tslib_fe::readLLfile() = TYPO3 FE method
      * @see     language::readLLfile() = TYPO3 BE method
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2007-10-30
+     * @author  Rainer Kuhn 
      */
     public static function readLLfile($llFile) {
 
@@ -706,12 +684,11 @@ class Tx_PtExtbase_Div  {
      *
      *
      * @param   string      locallang key to retrieve it's label
-     * @param   array       $LOCAL_LANG array to use - this could be retrieved e.g. by tx_pttools_div::readLLfile()
+     * @param   array       $LOCAL_LANG array to use - this could be retrieved e.g. by Tx_PtExtbase_Div::readLLfile()
      * @return  string      locallang label for the specified key
      * @see     tslib_fe::getLLL() = TYPO3 FE method
      * @see     language::getLLL() = TYPO3 BE method
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2007-10-30
+     * @author  Rainer Kuhn 
      */
     public static function getLLL($llKey, $llArray) {
 
@@ -738,7 +715,6 @@ class Tx_PtExtbase_Div  {
      * @param   void
      * @return  language    Language object
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2009-09 21
      */
     public static function getLangObject() {
 
@@ -766,8 +742,7 @@ class Tx_PtExtbase_Div  {
      * @global  array       $TYPO3_CONF_VARS
      * @return  array       basic extension configuration data from localconf.php
      * @throws  Tx_PtExtbase_Exception_Exception   if no basic extension configuration is found in localconf.php or if extKey is empty
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2006-05-18
+     * @author  Rainer Kuhn 
      */
     public static function returnExtConfArray($extKey, $noExceptionIfNoConfigFound=false) {
 
@@ -797,17 +772,17 @@ class Tx_PtExtbase_Div  {
      *
      * When calling this method with 'plugin.my_ext.' the whole typoscript configuration under this path is stored into the registry.
      * But: When calling this method with 'plugin.my_ext.anotherkey.' the configuration is loaded again instead of looking for the key 'anotherkey.' in the previously loaded configuration.
-     * To improve performance always call the highest level and pick the keys after: $conf = tx_pttools_div::typoscriptRegistry('plugin.my_ext.'); $key = $conf['anotherkey.']
+     * To improve performance always call the highest level and pick the keys after: $conf = Tx_PtExtbase_Div::typoscriptRegistry('plugin.my_ext.'); $key = $conf['anotherkey.']
      *
      * @example
      *  If being only in frontend context:
-     *  - tx_pttools_div::typoscriptRegistry('plugin.my_ext.');
+     *  - Tx_PtExtbase_Div::typoscriptRegistry('plugin.my_ext.');
      *
      *  For all cases, when already having the page uid from where to load the typscript available (will only be used in non-frontend-context)
-     *  - tx_pttools_div::typoscriptRegistry('plugin.my_ext.', 1);
+     *  - Tx_PtExtbase_Div::typoscriptRegistry('plugin.my_ext.', 1);
      *
      *  For all cases, assuming the pageUid is configured in "tsConfigurationPid" of the extension manager configuration (will only be used in non-frontend-context)
-     *  - tx_pttools_div::typoscriptRegistry('plugin.my_ext.', NULL, 'my_ext', 'tsConfigurationPid');
+     *  - Tx_PtExtbase_Div::typoscriptRegistry('plugin.my_ext.', NULL, 'my_ext', 'tsConfigurationPid');
      *
      * @param     string    typoscript config key, e.g. "plugin.tx_myext."
      * @param     int       (optional) pageuid
@@ -815,15 +790,14 @@ class Tx_PtExtbase_Div  {
      * @param     string    (optional) extConfKey, e.g. "tsConfigurationPid"
      * @return    array     typoscript configuation array
      * @author    Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since     2008-10-15
      */
     public static function typoscriptRegistry($tsConfigKey, $pageUid = NULL, $extKey = '', $extConfKey = '') {
 
         Tx_PtExtbase_Assertions_Assert::isNotEmptyString($tsConfigKey, array('message' => 'No "tsConfigKey" defined!'));
 
-        require_once t3lib_extMgm::extPath('pt_tools').'res/objects/class.tx_pttools_registry.php';
+        require_once t3lib_extMgm::extPath('pt_extbase').'Classes/Registry/Registry.php';
 
-        $registry = tx_pttools_registry::getInstance();
+        $registry = Tx_PtExtbase_Registry_Registry::getInstance();
         $registryKey = 'ts_' . $tsConfigKey;
 
         if (!$registry->has($registryKey)) {
@@ -869,8 +843,7 @@ class Tx_PtExtbase_Div  {
      * @param   string      (optional) TS config key string to retrieve its value ('.' at each subkey's end means retrieve array, no '.' means retrieve single value, e.g. 'config.tx_ptgsashop.' for array or 'config.tx_ptgsashop.currencyCode' for single value
      * @return  mixed       array or single value - depending on 2nd param $tsConfigKey. If 2nd param is not set: multidimensional array of the given page's TS setup (this may be used read e.g. $returnArr['plugin.']['tx_EXTENSION_pi1.'])
      * @throws  Tx_PtExtbase_Exception_Exception   if no TS setup could be found/created
-     * @author  Rainer Kuhn <kuhn@punkt.de>, based on an idea of Fabian Koenig (http://lists.netfielders.de/pipermail/typo3-german/2007-May/032473.html)
-     * @since   2008-01-24
+     * @author  Rainer Kuhn , based on an idea of Fabian Koenig (http://lists.netfielders.de/pipermail/typo3-german/2007-May/032473.html)
      */
     public static function returnTyposcriptSetup($pageUid=1, $tsConfigKey='') {
 
@@ -921,16 +894,15 @@ class Tx_PtExtbase_Div  {
     /**
      * Get Typoscript from array
      *
-     * @example To get an array: tx_pttools_div::getTS('plugin.my_ext.');
-     * @example To get a single value: tx_pttools_div::getTS('plugin.my_ext.my_key');
+     * @example To get an array: Tx_PtExtbase_Div::getTS('plugin.my_ext.');
+     * @example To get a single value: Tx_PtExtbase_Div::getTS('plugin.my_ext.my_key');
      * @param   string      typoscript path
      * @param   array       (optional) typoscript array, if empty using $GLOBALS['TSFE']->tmpl->setup
      * @return  mixed       typoscript array or single value
      * @throws    Tx_PtExtbase_Exception_Assertion     if no tsArray is given and not being in a frontend context
      * @throws    Tx_PtExtbase_Exception_Assertion     if tsPath is not valid
      * @throws    Tx_PtExtbase_Exception_Exception            if subKey was not found
-     * @author  Rainer Kuhn <kuhn@punkt.de>, Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2008-06-24
+     * @author  Rainer Kuhn , Fabrizio Branca <mail@fabrizio-branca.de>
      */
     public static function getTS($tsPath, array $tsArray = array()) {
 
@@ -969,7 +941,6 @@ class Tx_PtExtbase_Div  {
      * @return  void
      * @throws  Tx_PtExtbase_Exception_Exception    if no flexform data was found
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2008-01-22
      */
     public static function mergeConfAndFlexform($pObj, $noExceptionIfNoFlexform = false) {
 
@@ -1013,15 +984,14 @@ class Tx_PtExtbase_Div  {
     /**
      * Filters a given scalar value for HTML output on web pages to prevent XSS attacks and similar hacks.
      * Should be used instead of htmlspecialchars() for any output value in FE plugins.
-     * Use tx_pttools_div::htmlOutputArray() for arrays or tx_pttools_div::htmlOutputArrayAccess() for ArrayAccess objects
+     * Use Tx_PtExtbase_Div::htmlOutputArray() for arrays or Tx_PtExtbase_Div::htmlOutputArrayAccess() for ArrayAccess objects
      *
      * @param   mixed           string or scalar value to be filtered (mixed type string/integer/float/boolean)
      * @return  string|NULL     filtered value string (empty string if input value was no scalar and not NULL) or NULL if input value was NULL
-     * @see     tx_pttools_div::htmlOutputArray()
-     * @see     tx_pttools_div::htmlOutputArrayAccess()
+     * @see     Tx_PtExtbase_Div::htmlOutputArray()
+     * @see     Tx_PtExtbase_Div::htmlOutputArrayAccess()
      * @see     http://www.cgisecurity.com/articles/xss-faq.shtml#vendor
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2006-05-16, re-written 2009-05-08
+     * @author  Rainer Kuhn 
      */
      public static function htmlOutput($value) {
 
@@ -1051,9 +1021,8 @@ class Tx_PtExtbase_Div  {
      * @param   array       array with values to be filtered for output
      * @param   boolean     (optional) flag whether the array keys should be filtered, too (default=1). This is useful if the array keys will be used for HTML output, e.g. in selectorboxes.
      * @return  array       array copy with filtered values (or empty array if given input param was no array)
-     * @see     tx_pttools_div::htmlOutput()
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2006-05-16, re-written 2009-05-08
+     * @see     Tx_PtExtbase_Div::htmlOutput()
+     * @author  Rainer Kuhn 
      */
      public static function htmlOutputArray($array, $filterKeys=1) {
 
@@ -1064,18 +1033,18 @@ class Tx_PtExtbase_Div  {
             foreach ($array as $key=>$value) {
 
             // array key conversion (if requested)
-                $newKey = ($filterKeys == 1 ? tx_pttools_div::htmlOutput($key) : $key);
+                $newKey = ($filterKeys == 1 ? Tx_PtExtbase_Div::htmlOutput($key) : $key);
 
             // array value conversion
                 // scalars: use default htmlOutput()
                 if (is_scalar($value)) {
-                    $filteredArray[$newKey] = tx_pttools_div::htmlOutput($value);
+                    $filteredArray[$newKey] = Tx_PtExtbase_Div::htmlOutput($value);
                 // nested arrays: recursive function call
                 } elseif (is_array($value)) {
-                    $filteredArray[$newKey] = tx_pttools_div::htmlOutputArray($value, $filterKeys);
+                    $filteredArray[$newKey] = Tx_PtExtbase_Div::htmlOutputArray($value, $filterKeys);
                 // objects implementing the ArrayAccess interface: use htmlOutputArrayAccess()
                 } elseif ($value instanceof ArrayAccess) {
-                    $filteredArray[$newKey] = tx_pttools_div::htmlOutputArrayAccess($value, $filterKeys);
+                    $filteredArray[$newKey] = Tx_PtExtbase_Div::htmlOutputArrayAccess($value, $filterKeys);
                 // NULL: keep NULL as filtered value
                 } elseif (is_null($value)) {
                     $filteredArray[$newKey] = NULL;
@@ -1101,7 +1070,7 @@ class Tx_PtExtbase_Div  {
      * Should be used instead of htmlspecialchars() for any ArrayAccess object intended for output in FE plugins.
      *
      * IMPORTANT: since the object will be cloned internally, this method does not work for non-clonable objects (e.g. Singletons).
-     * In this case you could implement the tx_pttools_iTemplateable interface to your object and sent the return of the getMarkerArray() method through tx_pttools_div::htmlOutputArray.
+     * In this case you could implement the tx_pttools_iTemplateable interface to your object and sent the return of the getMarkerArray() method through Tx_PtExtbase_Div::htmlOutputArray.
      *
      * IMPORTANT: since the object will be cloned internally, this method does not work if the reference to this object is important to you
      * or any persistance manager or other fancy stuff you might use.
@@ -1120,10 +1089,9 @@ class Tx_PtExtbase_Div  {
      * @param   ArrayAccess     object implementing the ArrayAccess interface containing property values to be filtered for output
      * @param   boolean         (optional) flag whether keys of eventually contained nested arrays should be filtered, too. See comment of $filterKeys in htmlOutputArray.
      * @return  ArrayAccess     cloned object (implementing the ArrayAccess interface) containing filtered property values
-     * @see     tx_pttools_div::htmlOutput()
-     * @see     tx_pttools_div::htmlOutputArray()
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2009-05-08
+     * @see     Tx_PtExtbase_Div::htmlOutput()
+     * @see     Tx_PtExtbase_Div::htmlOutputArray()
+     * @author  Rainer Kuhn 
      */
      public static function htmlOutputArrayAccess(ArrayAccess $arrayObject, $filterNestedArrayKeys=1) {
 
@@ -1140,7 +1108,7 @@ class Tx_PtExtbase_Div  {
 
             // scalars: use default htmlOutput()
             if (is_scalar($value)) {
-                $tmp = tx_pttools_div::htmlOutput($value);
+                $tmp = Tx_PtExtbase_Div::htmlOutput($value);
                 // Write only back to property if something has changed. Writing properties in the ArrayAccess interface can be much much than setting a value...
                 if (strcmp($tmp, $value) != 0) {
                     // unset the property first, because overwriting it can have side-effects on ArrayAccess objects (e.g. when checking if an item already exists in the collection)
@@ -1151,12 +1119,12 @@ class Tx_PtExtbase_Div  {
             } elseif (is_array($value)) {
                 // unset the property first, because overwriting it can have side-effects on ArrayAccess objects (e.g. when checking if an item already exists in the collection)
                 unset($filteredObject[$key]);
-                $filteredObject[$key] = tx_pttools_div::htmlOutputArray($value, $filterNestedArrayKeys);
+                $filteredObject[$key] = Tx_PtExtbase_Div::htmlOutputArray($value, $filterNestedArrayKeys);
             // objects implementing the ArrayAccess interface: recursive function call
             } elseif ($value instanceof ArrayAccess) {
                 // unset the property first, because overwriting it can have side-effects on ArrayAccess objects (e.g. when checking if an item already exists in the collection)
                 unset($filteredObject[$key]);
-                $filteredObject[$key] = tx_pttools_div::htmlOutputArrayAccess($value, $filterNestedArrayKeys);
+                $filteredObject[$key] = Tx_PtExtbase_Div::htmlOutputArrayAccess($value, $filterNestedArrayKeys);
             // NULL: keep NULL as filtered value
             } elseif (is_null($value)) {
                 // unset the property first, because overwriting it can have side-effects on ArrayAccess objects (e.g. when checking if an item already exists in the collection)
@@ -1183,8 +1151,7 @@ class Tx_PtExtbase_Div  {
      * @param   mixed       value to convert to an integer
      * @param   boolean     (optional) flag wether only positive integer should be returned (if set to 1, this method will return 1 for any negative numeric values)
      * @return  integer     integer converted from given value
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2005-10-13
+     * @author  Rainer Kuhn 
      */
      public static function returnIntegerValue($value, $returnOnlyPositive=0) {
 
@@ -1212,7 +1179,6 @@ class Tx_PtExtbase_Div  {
      * @param   string      comma-separated integer list
      * @return  string      sanitized list
      * @author  Wolfgang Zenker <zenker@punkt.de>
-     * @since   2008-08-23
      */
      public static function sanitizeIntList($list) {
 
@@ -1235,8 +1201,7 @@ class Tx_PtExtbase_Div  {
      * @param   string      comma seperated list (CSL) to purge and explode
      * @param   string      (optional) name of exploded array for debug trace output
      * @return  array       exploded elements of CSL
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2006-08-03 (based on PHP4 function tx_ptlayoutgen_pi1::purgeAndExplodeCSL() from 2004-12-08)
+     * @author  Rainer Kuhn 
      */
     public static function returnArrayFromCsl($csl, $arrayName='') {
 
@@ -1272,8 +1237,7 @@ class Tx_PtExtbase_Div  {
      * @param   string      (optional) separator of the key-value pairs within the list (default: ';')
      * @param   string      (optional) separator of key and value within a pair (default: '=')
      * @return  array       associative array of the given key-value list
-     * @author  Rainer Kuhn <kuhn@punkt.de>, Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2007-07-10
+     * @author  Rainer Kuhn , Fabrizio Branca <mail@fabrizio-branca.de>
      */
     public static function getArrayFromKeyValueList($keyValueList, $pairSeparator=';', $keyValueSeparator='=') {
 
@@ -1301,8 +1265,7 @@ class Tx_PtExtbase_Div  {
      * @param   string      (optional) no conversion handling type - possible values are '', '//TRANSLIT' or '//IGNORE' (default is '//TRANSLIT'). For description of these values see http://de.php.net/manual/en/function.iconv.php.
      * @return  mixed       converted array with all strings values converted to requested character encoding OR type and value of 1. param if this was not an array
      * @see     http://de.php.net/iconv
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2006-09-28
+     * @author  Rainer Kuhn 
      */
      public static function iconvArray($inputArray, $inputCharset='ISO-8859-1', $outputCharset='UTF-8', $exclusionArr=array(), $noConvHandling='//TRANSLIT') {
 
@@ -1336,7 +1299,6 @@ class Tx_PtExtbase_Div  {
      * @param   string      (optional) salt (default: generate random salt)
      * @return  string      encrypted password including salt
      * @author  Wolfgang Zenker <zenker@punkt.de>
-     * @since   2007-06-04
      */
     public static function cryptPw($cleartext, $salt='') {
 
@@ -1361,7 +1323,6 @@ class Tx_PtExtbase_Div  {
      * @return  string  json
      * @see     http://www.bin-co.com/php/scripts/array2json/
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-     * @since   2007-10-08
      */
     public static function array2json($arr) {
 
@@ -1430,8 +1391,7 @@ class Tx_PtExtbase_Div  {
      * @param   string      (optional) limit clause passed to last executed SQL query (see comment of t3lib_db::exec_SELECTquery())
      * @return  string      last built SQL query with tabs removed
      * @see                 class.t3lib_db.php, t3lib_db::exec_SELECTquery()
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2005-04-26
+     * @author  Rainer Kuhn 
      */
     public static function returnLastBuiltSelectQuery(t3lib_db $dbObject, $select_fields, $from_table, $where_clause, $groupBy='', $orderBy='', $limit='') {
 
@@ -1460,8 +1420,7 @@ class Tx_PtExtbase_Div  {
      * @param   string      where clause passed to last executed SQL query (see comment of t3lib_db::exec_DELETEquery())
      * @return  string      last built SQL query with tabs removed
      * @see                 class.t3lib_db.php, t3lib_db::exec_DELETEquery()
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2005-11-16
+     * @author  Rainer Kuhn 
      */
     public static function returnLastBuiltDeleteQuery(t3lib_db $dbObject, $from_table, $where_clause) {
 
@@ -1491,8 +1450,7 @@ class Tx_PtExtbase_Div  {
      * @param   array       array containing field/value-pairs passed to last executed SQL query (see comment of t3lib_db::exec_UPDATEquery())
      * @return  string      last built SQL query with tabs removed
      * @see                 class.t3lib_db.php, t3lib_db::exec_UPDATEquery()
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2005-11-17
+     * @author  Rainer Kuhn 
      */
     public static function returnLastBuiltUpdateQuery(t3lib_db $dbObject, $table, $where, $updateFieldsArr) {
 
@@ -1521,8 +1479,7 @@ class Tx_PtExtbase_Div  {
      * @param   array       array containing field/value-pairs passed to last executed SQL query (see comment of t3lib_db::exec_INSERTquery())
      * @return  string      last built SQL query with tabs removed
      * @see                 class.t3lib_db.php, t3lib_db::exec_INSERTquery()
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2005-11-17
+     * @author  Rainer Kuhn 
      */
     public static function returnLastBuiltInsertQuery(t3lib_db $dbObject, $table, $insertFieldsArr) {
 
@@ -1553,7 +1510,6 @@ class Tx_PtExtbase_Div  {
      * @return  array       expanded array for SQL INSERT or UPDATE statements
      * @see                 class.t3lib_db.php, t3lib_db::exec_INSERTquery(), t3lib_db::exec_UPDATEquery()
      * @author  Dorit Rottner <rottner@punkt.de>
-     * @since   2006-09-14
      */
     public static function expandFieldValuesForQuery($fieldValueArr, $isInsert=false, $pid=NULL, $cruser_id=NULL) {
 
@@ -1581,7 +1537,6 @@ class Tx_PtExtbase_Div  {
      * @param   string      (optional) table alias
      * @return  string      where-clause addition for this table
      * @author  Dorit Rottner <rottner@punkt.de>
-     * @since   2006-10-30
      */
     public static function enableFields($table, $alias = '') {
 
@@ -1614,8 +1569,7 @@ class Tx_PtExtbase_Div  {
      * @param   t3lib_db    database object of type t3lib_db to use (e.g. $GLOBALS['TYPO3_DB'] to use TYPO3 default database)
      * @return  boolean     TRUE if table exists in specified database, FALSE if not
      * @throws  Tx_PtExtbase_Exception_Exception   if the SHOW TABLES query fails/returns false
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2007-01-11
+     * @author  Rainer Kuhn 
      */
     public static function dbTableExists($table, t3lib_db $dbObj) {
 
@@ -1649,15 +1603,14 @@ class Tx_PtExtbase_Div  {
     
     
     /**
-     * Returns true if a specified database table contains record rows: the existence of a table ashould have been checked before using tx_pttools_div::dbTableExists()!
+     * Returns true if a specified database table contains record rows: the existence of a table ashould have been checked before using Tx_PtExtbase_Div::dbTableExists()!
      *
      * @param   string      database table name to check
      * @param   string      database name of the table to check
      * @param   t3lib_db    database object of type t3lib_db to use (e.g. $GLOBALS['TYPO3_DB'] to use TYPO3 default database)
      * @return  boolean     TRUE if specified table contains record rows, FALSE if not
      * @throws  Tx_PtExtbase_Exception_Exception   if the SHOW TABLE STATUS query fails/returns false
-     * @author  Rainer Kuhn <kuhn@punkt.de>
-     * @since   2007-03-26
+     * @author  Rainer Kuhn 
      */
     public static function dbTableHasRecords($table, $dbName, t3lib_db $dbObj) {
 
