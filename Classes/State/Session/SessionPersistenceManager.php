@@ -112,10 +112,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
             && $this->sessionHash != NULL && $this->sessionHash != md5(serialize($this->sessionData))) {
             throw new Exception('Session Hash already calculated and current sessiondata changed!! 1293004344'. $sessionNamespace . ': Calc:' . $this->sessionHash . ' NEW: ' . md5(serialize($this->sessionData)));
         }
-        		
-		#if($this->sessionHash != NULL &&  $this->sessionHash != md5(serialize($this->sessionData))) {
-		#	throw new Exception('Session Hash already calculated and current sessiondata changed!! 1293004344'. $sessionNamespace . ': Calc:' . $this->sessionHash . ' NEW: ' . md5(serialize($this->sessionData)));
-		#}
 		
 		Tx_PtExtbase_Assertions_Assert::isNotEmptyString($sessionNamespace, array('message' => 'Object namespace must not be empty! 1278436822'));
 		$objectData = $object->persistToSession();
