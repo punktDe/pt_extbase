@@ -47,12 +47,19 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory {
 	/**
 	 * Factory method for session persistence manager 
 	 * 
+	 * @param Tx_PtExtbase_State_Session_Storage_AdapterInterface $storageAdapter Storage adapter to be used for session persistence manager
 	 * @return Tx_PtExtbase_State_Session_SessionPersistenceManager Singleton instance of session persistence manager 
 	 */
-	public static function getInstance() {
+	public static function getInstance(Tx_PtExtbase_State_Session_Storage_AdapterInterface $storageAdapter = null) {
 		if (self::$instance == NULL) {
 			self::$instance = new Tx_PtExtbase_State_Session_SessionPersistenceManager();
-			self::$instance->injectSessionAdapter(self::getStorageAdapter());
+			
+			// TODO factory should decide, which storage adapter to use!
+			if ($storageAdapter === null) {
+			   self::$instance->injectSessionAdapter(self::getStorageAdapter());
+			} else {
+				self::$instance->injectSessionAdapter($storageAdapter);
+			}
 		}
 		return self::$instance;
 	}
@@ -62,7 +69,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory {
 	/**
 	 * Initialize the sessionAdapter
 	 *
-	 * @return Tx_PtExtbase_StorageAdapter_StorageAdapterInterface storageAdapter
+	 * @return Tx_PtExtbase_State_Session_Storage_AdapterInterface storageAdapter
 	 */
 	private static function getStorageAdapter() {
 		
@@ -72,5 +79,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory {
 			return Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance();	
 		}
 	}
+	
 }
+
 ?>

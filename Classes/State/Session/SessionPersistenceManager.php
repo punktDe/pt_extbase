@@ -86,6 +86,14 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 * @var array<Tx_PtExtbase_State_Session_SessionPersistableInterface>
 	 */
 	protected $objectsToPersist = array();
+    
+    
+    
+    /**
+     * Identifies the session storage adapter
+     * @var string
+     */
+    protected $sessionAdapaterClass;
 	
 	
 	
@@ -96,6 +104,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 */
 	public function injectSessionAdapter(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter) {
 		$this->sessionAdapter = $sessionAdapter;
+        $this->sessionAdapaterClass = get_class($sessionAdapter);
 	}
 	
 	
@@ -273,7 +282,10 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     
     
     /**
-     * Add arguments to url if the session is not usable
+     * Add arguments to url if we cannot use session.
+     * 
+     * This happens, if we want to use caching for example. All
+     * session persisted values are then transported via URL.
      *
      * @param array $argumentArray
      */
@@ -284,7 +296,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
             $argumentArray['state'] = $this->getSessionDataHash();
 
         } elseif($this->sessionAdapaterClass == self::STORAGE_ADAPTER_NULL) {
-            $this->lifecycleUpdate(Tx_PtExtlist_Domain_Lifecycle_LifecycleManager::END);
+            $this->lifecycleUpdate(Tx_PtExtbase_Lifecycle_Manager::END);
             $argumentArray = t3lib_div::array_merge_recursive_overrule($this->sessionData, $argumentArray);
         }
     }
