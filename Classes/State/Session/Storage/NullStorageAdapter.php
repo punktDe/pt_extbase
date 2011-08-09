@@ -37,6 +37,17 @@
 class Tx_PtExtbase_State_Session_Storage_NullStorageAdapter implements Tx_PtExtbase_State_Session_Storage_AdapterInterface  {
 
 	/**
+	 * Factory method to get an instance of this class
+	 *
+	 * @return Tx_PtExtbase_State_Session_Storage_NullStorageAdapter
+	 */
+	public static function getInstance() {
+		return new Tx_PtExtbase_State_Session_Storage_NullStorageAdapter();
+	}
+	
+	
+	
+	/**
 	 * Retrieve nothing
 	 * 
 	 * @param string $key

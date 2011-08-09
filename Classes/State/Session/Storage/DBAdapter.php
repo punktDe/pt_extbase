@@ -67,6 +67,20 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapter implements Tx_PtExtbase_State
 	
 	
 	/**
+	 * Factory method to get an instance of this class.
+	 * 
+	 * We use factory method of factory here to create the instance to preserve interface for 
+	 * creating storage adapters.
+	 *
+	 * @return Tx_PtExtbase_State_Session_Storage_DBAdapter
+	 */
+	public static function getInstance() {
+		return Tx_PtExtbase_State_Session_Storage_DBAdapterFactory::getInstance();
+	}
+	
+	
+	
+	/**
 	 * Init the cache storage adapter
 	 * 
 	 */

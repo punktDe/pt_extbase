@@ -60,7 +60,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 
         if (self::$uniqueInstance === NULL) {
             $className = __CLASS__;
-            self::$uniqueInstance = new $className;
+            self::$uniqueInstance = new $className();
         }
 
         return self::$uniqueInstance;

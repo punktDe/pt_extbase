@@ -45,7 +45,7 @@ class Tx_PtExtbase_Utility_NameSpace {
 	 */
 	public static function getArrayContentByArrayAndNamespace($returnArray, $namespace) {
 		if(!$namespace) return $returnArray;
-		if(!is_array($returnArray)) $returnArray = array();
+		if(!is_array($returnArray)) return array();
 		
 		$namespaceArray = self::getNamespaceArrayByNamespaceString($namespace);
 		
