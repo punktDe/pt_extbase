@@ -50,7 +50,7 @@ class Tx_PtExtbase_Utility_NameSpace {
 		$namespaceArray = self::getNamespaceArrayByNamespaceString($namespace);
 		
 		foreach($namespaceArray as $namespaceChunk) {
-			if (array_key_exists($namespaceChunk, $returnArray)) {
+			if (is_array($returnArray) && array_key_exists($namespaceChunk, $returnArray)) {
 			    $returnArray = $returnArray[$namespaceChunk];
 			} else {
 			    return array();
