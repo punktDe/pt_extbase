@@ -50,54 +50,59 @@ class Tx_PtExtbase_Utility_Debug {
 	
 	
 	
-	public static function debug($target, $renderAs = 'html') {
+	public static function debug($variable, $renderAs = 'html') {
 		
 		if(self::$debug === NULL) {
 			self::$debug = new self();	
 		}
 		
-		if(is_object($target)) {
-			self::$debug->debugObject($target);	
-		}
-		
+		echo self::$debug->debugVariable($variable,0);
 	}
 	
 
-	public function debugTarget($target) {
+	public function debugVariable($variable, $level) {
 		
-		$this->debugData['debugTime'] = date('H:i:s');
-		$this->debugData['debugType'] = gettype($target); 
-		
-		switch (gettype($target)) {
-			case 'array':
-				break;
-			case 'object':
-				$this->debugObject($target);
-				break;
-			case 'resource':
-				break;
-			default:	
+		//$this->debugData['debugTime'] = date('H:i:s');
+		//$this->debugData['debugType'] = gettype($target);
+
+		if ($level > 10) {
+			return 'RECURSION ... ' . chr(10);
 		}
-		
-		echo $this->renderDebugData($debugData);
-	}
-	
-	
-	protected function debugObject($object, $lazy) {
-		
-		
-		$this->debugData['className'] = get_class($object);  
-		
-		//print_r($this->processRawObjectData($object));
-		
+
+		if (is_string($target)) {
+			$output = $this->debugString($variable);
+		} elseif (is_numeric($variable)) {
+			$output = $this->debugNumeric($variable);
+		} elseif (is_array($variable)) {
+			$output = self::debugArray($variable, $level++);
+		} elseif (is_object($variable)) {
+			$output = self::debugObject($variable, $level++);
+		} elseif (is_bool($variable)) {
+			$output = $variable ? 'TRUE' : 'FALSE';
+		} elseif (is_null($variable) || is_resource($variable)) {
+			$output = gettype($variable);
+		}
+		return $output;
 
 	}
 	
-	
-	protected function debugArray($array) {
-		return nl2br(print_r($array,1),1);
+
+	protected function debugString($variable) {
+		return sprintf('\'<span class="debug-string">%s</span>\' (%s)', htmlspecialchars((strlen($variable) > 2000) ? substr($variable, 0, 2000) . '…' : $variable), strlen($variable));
 	}
-	
+
+	protected function debugNumeric($variable) {
+		return $variable;
+	}
+
+	public function debugArray($variable) {
+
+	}
+
+	public function debugObject($variable) {
+
+	}
+
 	
 	protected function debugSingleValue($value) {
 		
