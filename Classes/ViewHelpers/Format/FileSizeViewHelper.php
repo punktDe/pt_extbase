@@ -29,12 +29,12 @@
 class Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 	/**
-	 *
+	 * @param string $labels Labels in format  "B| KB| MB| GB"
 	 * @return string The formated filesize
 	 */
-	public function render() {
+	public function render($labels = '') {
 		$numberToFormat = (int) trim($this->renderChildren());
-		return t3lib_div::formatSize($numberToFormat);
+		return t3lib_div::formatSize($numberToFormat, $labels);
 	}
 }
 ?>
