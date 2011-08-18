@@ -33,7 +33,8 @@ class Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper extends Tx_Fluid_Core_V
 	 * @return string The formated filesize
 	 */
 	public function render() {
-		return t3lib_div::formatSize($this->renderChildren());
+		$numberToFormat = (int) trim($this->renderChildren());
+		return t3lib_div::formatSize($numberToFormat);
 	}
 }
 ?>
