@@ -109,6 +109,8 @@ class Tx_PtExtbase_Utility_NameSpace {
     public static function removeDataFromNamespaceTree($namespaceString, $array) {
         $nameSpaceChunks =  self::getNamespaceArrayByNamespaceString($namespaceString);
 
+		if(!is_array($nameSpaceChunks) || !is_array($array)) return;
+
         $key = array_pop($nameSpaceChunks);
         $pointer = &$array;
         

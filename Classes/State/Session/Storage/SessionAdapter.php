@@ -97,8 +97,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 
             $val = $GLOBALS['TSFE']->fe_user->getKey('ses', $key);
             if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Reading "%s" from FE browser session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
-
-            if (($allowUnserializing == true) && (is_string($val) && unserialize($val) != false)) {
+            if (($allowUnserializing == true) && (is_string($val) && unserialize($val) !== false)) {
                 $val = unserialize($val);
             }
 
