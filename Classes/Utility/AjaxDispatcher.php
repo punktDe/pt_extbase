@@ -178,5 +178,50 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
             if(t3lib_div::_GP($argument)) $this->requestArguments[$argument] = t3lib_div::_GP($argument);
         }
     }
+
+
+	
+	/**
+	 * @param $extensionName
+	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 */
+	public function setExtensionName($extensionName) {
+		$this->extensionName = $extensionName;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param $pluginName
+	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 */
+	public function setPluginName($pluginName) {
+		$this->pluginName = $pluginName;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param $controllerName
+	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 */
+	public function setControllerName($controllerName) {
+		$this->controllerName = $controllerName;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param $actionName
+	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 */
+	public function setActionName($actionName) {
+		$this->actionName = $actionName;
+		return $this;
+	}
+
 }
 ?>
