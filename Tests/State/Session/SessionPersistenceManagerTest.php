@@ -82,7 +82,7 @@ class Tx_PtExtbase_Tests_State_Session_SessionPersistenceManagerTest extends Tx_
 		
 		$sessionPersistenceManager = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
         $sessionPersistenceManager->injectSessionAdapter($sessionAdapterMock);
-        $sessionPersistenceManager->read();
+        $sessionPersistenceManager->init();
         
 		$this->assertEquals($sessionPersistenceManager->getSessionDataByNamespace('test1.test2.test3'), 'value');
 	}
