@@ -258,7 +258,28 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	 */
 	public function getExtensionNameSpace() {
 		return $this->extensionNameSpace;
-	}	
+	}
+
+
+
+    /**
+     * Returns true, if there are no submit values for current extension namespace for current request.
+     *
+     * If includingFileVars is set to true, return value will be 'false', if there are submitted values
+     * in $_FILES
+     *
+     * @param bool $includingFileVars If set to true, submitted values in $_FILES are also checked
+     * @return bool True, if there are no gpvars in current request.
+     */
+    public function isEmptySubmit($includingFileVars = false) {
+        if ($includingFileVars && count($this->filesVars) > 0) {
+            return false;
+        } elseif (count($this->getVars) == 0 && count($this->postVars) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 	
 }
 ?>

@@ -94,19 +94,42 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
      * @var string
      */
     protected $sessionAdapaterClass;
-	
+
+
+
+    /**
+     * Set to true, if session persistence manager had been initialized before
+     *
+     * @var bool
+     */
+    protected $isInitialized = false;
+
 	
 	
 	/**
 	 * Injector for session adapter
 	 *
-	 * @param Tx_PtExtbase_State_Session_StorageAdapterInterface $sessionAdapter
+	 * @param Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter
 	 */
 	public function injectSessionAdapter(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter) {
 		$this->sessionAdapter = $sessionAdapter;
         $this->sessionAdapaterClass = get_class($sessionAdapter);
 	}
-	
+
+
+
+    /**
+     * Initializes this object by reading session data
+     * 
+     * @return void
+     */
+    public function init() {
+        $this->readFromSession();
+
+        $this->isInitialized = true;
+    }
+
+
 	
 	
 	/**
@@ -132,6 +155,12 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
         if ($objectData != null) {
 			$this->sessionData = Tx_PtExtbase_Utility_NameSpace::saveDataInNamespaceTree($sessionNamespace, $this->sessionData, $objectData);
         }
+
+        // Remove session values, if object data is null or empty array
+        if ($objectData === null || count($objectData) == 0) {
+            $this->sessionData = Tx_PtExtbase_Utility_NameSpace::removeDataFromNamespaceTree($sessionNamespace, $this->sessionData);
+        }
+
 	}
 
 	
@@ -157,7 +186,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 */
 	public function getSessionDataForObjectNamespace($objectNamespace) {
 		Tx_PtExtbase_Assertions_Assert::isNotEmptyString($objectNamespace, array('message' => 'object namespace must not be empty! 1278436823'));
-
 		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->sessionData, $objectNamespace);
 	}
 	
@@ -176,9 +204,10 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	
 	/**
 	 * Read the session data into the cache.
-	 * 
+	 *
+     * TODO rename this to readFromSessionAdapter!
 	 */
-	public function read() {
+	protected function readFromSession() {
 		$this->sessionData = $this->sessionAdapter->read('pt_extbase.cached.session');
 	}
 	
@@ -190,10 +219,9 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 * @param int $state
 	 */
 	public function lifecycleUpdate($state) {
-
 		switch($state) {
 			case Tx_PtExtbase_Lifecycle_Manager::START:
-				$this->read();
+				if (!$this->isInitialized) $this->init();
 				break;
 			case Tx_PtExtbase_Lifecycle_Manager::END:
 				$this->persist();
@@ -298,6 +326,20 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
         } elseif($this->sessionAdapaterClass == self::STORAGE_ADAPTER_NULL) {
             $this->lifecycleUpdate(Tx_PtExtbase_Lifecycle_Manager::END);
             $argumentArray = t3lib_div::array_merge_recursive_overrule($this->sessionData, $argumentArray);
+        }
+    }
+
+
+
+    /**
+     * Resets session data, if given gpVarAdapter has empty submit values (no gpvars are given for current request)
+     * 
+     * @param Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager
+     * @return void
+     */
+    public function resetSessionDataOnEmptyGpVars(Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager) {
+        if ($gpVarManager->isEmptySubmit()) {
+            $this->sessionData = array();
         }
     }
      

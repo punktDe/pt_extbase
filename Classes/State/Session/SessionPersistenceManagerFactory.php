@@ -40,7 +40,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory {
 	 *
 	 * @var Tx_PtExtbase_State_Session_SessionPersistenceManager
 	 */
-	private static $instance;
+	private static $instance = NULL;
 	
 	
 	
