@@ -118,7 +118,7 @@ class Tx_PtExtbase_Div  {
             if (method_exists($hookObj, $functionName)) {
                 if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Hook method found [%s][%s][%s], returning hook object (class: "%s")', $extKey, $hookArrayKey, $functionName, get_class($hookObj)), 'pt_extbase', 1);
 
-                $hookObj->pObj = $this;
+                $hookObj->pObj = self;
                 return $hookObj;
 
             } else {

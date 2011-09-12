@@ -104,7 +104,6 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 		}
 		
 		else {
-			// TODO change this to Tx_PtExtbase_View_BaseView
 			return $this->getFallbackViewClassName();
 		}
     }

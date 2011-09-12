@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-*   2010 Daniel Lienert <daniel@lienert.cc>, Michael Knoll <mimi@kaktusteam.de>
+*   2011 Daniel Lienert <daniel@lienert.cc>, Michael Knoll <mimi@kaktusteam.de>
 * All rights reserved
 *
 *
@@ -23,39 +23,41 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+
 /**
 *
 * @package Tests
-* @subpackage Utility
+* @subpackage ViewHelpers/Format
 * @author Daniel Lienert
 */
 
-class Tx_PtExtbase_Tests_Utility_DebugTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
-	
-	/** @test */
-	public function debugObject() {
-		$object = new debugTestClass();
-		$object->init();
-		
-		Tx_PtExtbase_Utility_Debug::debug($object);
+class Tx_PtExtbase_Tests_ViewHelpers_Format_FileSizeViewHelperTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+
+
+	/**
+	 *
+	 * @returns array
+	 */
+	public static function fileSizeDataProvider() {
+		return array(
+			'Bytes ' => array('145', '145 '),
+			'KiloBytes ' => array('1450', '1.4 K'),
+			'MegaBytes' => array('2540000', '2.4 M'),
+			'Gigabytes' => array('1234567890', '1.1 G')
+		);
 	}
-	
-}
 
 
-class debugTestClass {
-	
-	public $publicProperty = 'publicVal';
-	
-	protected $protectedProperty = 'protectedVal';
-	
-	protected $circularDependency;
-	
-	private $privateProperty = 'privateVal';
-	
-	public function init() {
-		$this->circularDependency = new self();
+	/**
+	* @test
+	* @dataProvider fileSizeDataProvider
+	*/
+	public function render($input, $formatedOutput) {
+		$viewHelper = $this->getMock('Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper', array('renderChildren'));
+		$viewHelper->expects($this->once())->method('renderChildren')->will($this->returnValue($input));
+		$actualResult = $viewHelper->render();
+		$this->assertEquals($formatedOutput, $actualResult);
 	}
-}
 
+}
 ?>

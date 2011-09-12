@@ -83,7 +83,7 @@ class Tx_PtExtbase_Utility_NameSpace {
 	 * @return array
 	 */
     public static function saveDataInNamespaceTree($namespaceString, array $array, $data) {
-        $nameSpaceChunks = self::getNamespaceArrayByNamespaceString($namespaceString);      
+		 $nameSpaceChunks = self::getNamespaceArrayByNamespaceString($namespaceString);
         
         $key = array_pop($nameSpaceChunks);
         $pointer = &$array;
@@ -106,8 +106,10 @@ class Tx_PtExtbase_Utility_NameSpace {
      * @param string $namespaceString namespace path to the key to remove
      * @param aray $array data array
      */
-    public static function removeDataFromNamespaceTree($namespaceString, &$array) {
+    public static function removeDataFromNamespaceTree($namespaceString, $array) {
         $nameSpaceChunks =  self::getNamespaceArrayByNamespaceString($namespaceString);
+
+		if(!is_array($nameSpaceChunks) || !is_array($array)) return;
 
         $key = array_pop($nameSpaceChunks);
         $pointer = &$array;

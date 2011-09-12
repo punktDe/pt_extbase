@@ -113,7 +113,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 */
 	public function injectSessionAdapter(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter) {
 		$this->sessionAdapter = $sessionAdapter;
-        $this->sessionAdapaterClass = get_class($sessionAdapter);
+      $this->sessionAdapaterClass = get_class($sessionAdapter);
 	}
 
 
@@ -139,20 +139,21 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 */
 	public function persistToSession(Tx_PtExtbase_State_Session_SessionPersistableInterface $object) {
 		$sessionNamespace = $object->getObjectNamespace();
-		
-	    if($this->sessionAdapaterClass == self::STORAGE_ADAPTER_DB
-            && $this->sessionHash != NULL && $this->sessionHash != md5(serialize($this->sessionData))) {
-            throw new Exception('Session Hash already calculated and current sessiondata changed!! 1293004344'. $sessionNamespace . ': Calc:' . $this->sessionHash . ' NEW: ' . md5(serialize($this->sessionData)));
-        }
-		
+
+		if ($this->sessionAdapaterClass == self::STORAGE_ADAPTER_DB
+			 && $this->sessionHash != NULL && $this->sessionHash != md5(serialize($this->sessionData))
+		) {
+			throw new Exception('Session Hash already calculated and current sessiondata changed!! 1293004344' . $sessionNamespace . ': Calc:' . $this->sessionHash . ' NEW: ' . md5(serialize($this->sessionData)));
+		}
+
 		Tx_PtExtbase_Assertions_Assert::isNotEmptyString($sessionNamespace, array('message' => 'Object namespace must not be empty! 1278436822'));
 		$objectData = $object->persistToSession();
-	    
-        if ($this->sessionData == null) {
-        	$this->sessionData = array();
-        }
-        
-        if ($objectData != null) {
+
+		if ($this->sessionData == NULL) {
+			$this->sessionData = array();
+		}
+
+		if ($objectData) {
 			$this->sessionData = Tx_PtExtbase_Utility_NameSpace::saveDataInNamespaceTree($sessionNamespace, $this->sessionData, $objectData);
         }
 
@@ -299,13 +300,14 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
      * Persists all objects registered for session persistence
      * 
      */
-    protected function persistObjectsToSession() {
-    	foreach ($this->objectsToPersist as $objectToPersist) { /* @var $objectToPersist Tx_PtExtbase_State_Session_SessionPersistableInterface */
-    		if (!is_null($objectToPersist)) { // object reference could be null in the meantime
-                $this->persistToSession($objectToPersist);
-    		}   
-       	}
-    }
+	protected function persistObjectsToSession() {
+		foreach ($this->objectsToPersist as $objectToPersist) {
+			/* @var $objectToPersist Tx_PtExtbase_State_Session_SessionPersistableInterface */
+			if (!is_null($objectToPersist)) { // object reference could be null in the meantime
+				$this->persistToSession($objectToPersist);
+			}
+		}
+	}
     
     
     
