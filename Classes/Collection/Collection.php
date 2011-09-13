@@ -352,7 +352,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  boolean item with this key exists
      */
     public function hasItem($id) {
-
         return array_key_exists($id, $this->itemsArr);
 
     }
