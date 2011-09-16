@@ -144,10 +144,10 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
             $this->setRequestArgumentsFromGetPost();
         }
 
-        $this->extensionName     = $this->requestArguments['extensionName'];
-        $this->pluginName        = $this->requestArguments['pluginName'];
-        $this->controllerName    = $this->requestArguments['controllerName'];
-        $this->actionName        = $this->requestArguments['actionName'];
+        $this->extensionName     = $this->extensionName ? $this->extensionName : $this->requestArguments['extensionName'];
+        $this->pluginName        = $this->pluginName ? $this->pluginName : $this->requestArguments['pluginName'];
+        $this->controllerName    = $this->controllerName ? $this->controllerName : $this->requestArguments['controllerName'];
+        $this->actionName        = $this->actionName ? $this->actionName : $this->requestArguments['actionName'];
 
         $this->arguments         = $this->requestArguments['arguments'];
         if(!is_array($this->arguments)) $this->arguments = array();
