@@ -34,51 +34,55 @@
 class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 
-    /**
-     * Array of all request Arguments
-     *
-     * @var array
-     */
-    protected $requestArguments = array();
+	/**
+	 * Array of all request Arguments
+	 *
+	 * @var array
+	 */
+	protected $requestArguments = array();
 
 
-
-    /**
-     * Extbase Object Manager
-     * @var Tx_Extbase_Object_ObjectManager
-     */
-    protected $objectManager;
-
-
-    /**
-     * @var string
-     */
-    protected $extensionName;
+	/**
+	 * Extbase Object Manager
+	 * @var Tx_Extbase_Object_ObjectManager
+	 */
+	protected $objectManager;
 
 
-    /**
-     * @var string
-     */
-    protected $pluginName;
+	/**
+	 * @var string
+	 */
+	protected $extensionName;
 
 
-    /**
-     * @var string
-     */
-    protected $controllerName;
+	/**
+	 * @var string
+	 */
+	protected $pluginName;
 
 
-    /**
-     * @var string
-     */
-    protected $actionName;
+	/**
+	 * @var string
+	 */
+	protected $controllerName;
 
 
-    /**
-     * @var array
-     */
-    protected $arguments;
+	/**
+	 * @var string
+	 */
+	protected $actionName;
 
+
+	/**
+	 * @var array
+	 */
+	protected $arguments;
+
+
+	/**
+	 * @var integer
+	 */
+	protected $pageUid;
 
 
     /**
@@ -86,8 +90,6 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
      * Builds an extbase context and returns the response
      */
     public function dispatch() {
-        $this->prepareCallArguments();
-
         $configuration['extensionName'] = $this->extensionName;
         $configuration['pluginName'] = $this->pluginName;
 
@@ -108,9 +110,39 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 	
 	/**
-     * Shutdown extbase
-     */
-    public function cleanShutDown() {
+	 * @param null $pageUid
+	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 */
+	public function init($pageUid = NULL) {
+		#define('TYPO3_MODE','FE');
+
+		$this->pageUid = $pageUid;
+
+		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $TYPO3_CONF_VARS, $pageUid, '0', 1, '', '','','');
+		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+
+		return $this;
+	}
+
+
+
+	/**
+	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 */
+	public function initTypoScript() {
+		$GLOBALS['TSFE']->getPageAndRootline();
+		$GLOBALS['TSFE']->initTemplate();
+		$GLOBALS['TSFE']->getConfigArray();
+
+		return $this;
+	}
+
+
+
+	/**
+	 * @return void
+	 */
+    protected function cleanShutDown() {
         $this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
         $this->objectManager->get('Tx_Extbase_Reflection_Service')->shutdown();
     }
@@ -133,10 +165,11 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
     }
 
 
-    /**
-     * Prepare the call arguments
-     */
-    protected function prepareCallArguments() {
+	/**
+	 * Prepare the call arguments
+	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 */
+    public function initCallArguments() {
         $request = t3lib_div::_GP('request');
 
         if($request) {
@@ -145,13 +178,15 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
             $this->setRequestArgumentsFromGetPost();
         }
 
-        $this->extensionName     = $this->extensionName ? $this->extensionName : $this->requestArguments['extensionName'];
-        $this->pluginName        = $this->pluginName ? $this->pluginName : $this->requestArguments['pluginName'];
-        $this->controllerName    = $this->controllerName ? $this->controllerName : $this->requestArguments['controllerName'];
-        $this->actionName        = $this->actionName ? $this->actionName : $this->requestArguments['actionName'];
+        $this->extensionName     = $this->requestArguments['extensionName'];
+        $this->pluginName        = $this->requestArguments['pluginName'];
+        $this->controllerName    = $this->requestArguments['controllerName'];
+        $this->actionName        = $this->requestArguments['actionName'];
 
         $this->arguments         = $this->requestArguments['arguments'];
         if(!is_array($this->arguments)) $this->arguments = array();
+
+		 return $this;
     }
 
 
