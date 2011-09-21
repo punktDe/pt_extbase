@@ -103,13 +103,14 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
         $dispatcher->dispatch($request, $response);
 
         $response->sendHeaders();
-        echo $response->getContent();
-
-        $this->cleanShutDown();
+        return $response->getContent();
     }
 
-
-    protected function cleanShutDown() {
+	
+	/**
+     * Shutdown extbase
+     */
+    public function cleanShutDown() {
         $this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
         $this->objectManager->get('Tx_Extbase_Reflection_Service')->shutdown();
     }
