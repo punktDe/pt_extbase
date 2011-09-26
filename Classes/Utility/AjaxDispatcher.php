@@ -142,7 +142,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	/**
 	 * @return void
 	 */
-    protected function cleanShutDown() {
+    public function cleanShutDown() {
         $this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
         $this->objectManager->get('Tx_Extbase_Reflection_Service')->shutdown();
     }
