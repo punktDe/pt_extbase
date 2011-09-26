@@ -91,22 +91,15 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
      * @throws Exception
      * @return string
      */
-    protected function resolveViewObjectName() {
-   	
-    	$viewClassName = $this->resolveTsDefinedViewClassName();
-    	if($viewClassName) {
-    		return $viewClassName;
-		} 
-		
-		$viewClassName = parent::resolveViewObjectName();
-  		if($viewClassName) {
-			return $viewClassName;
-		}
-		
-		else {
-			return $this->getFallbackViewClassName();
-		}
-    }
+	protected function resolveViewObjectName() {
+
+		$viewClassName = $this->resolveTsDefinedViewClassName();
+
+		if (!$viewClassName) $viewClassName = parent::resolveViewObjectName();
+		if (!$viewClassName) $viewClassName = $this->getFallbackViewClassName();
+
+		return $viewClassName;
+	}
     
     
     
