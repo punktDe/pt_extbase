@@ -76,7 +76,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	/**
 	 * @var array
 	 */
-	protected $arguments;
+	protected $arguments = array();
 
 
 	/**

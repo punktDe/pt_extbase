@@ -3,7 +3,7 @@
  *  Copyright notice
  *
  *  (c) 2010-2011 punkt.de GmbH - Karlsruhe, Germany - http://www.punkt.de
- *  Authors: Daniel Lienert, Michael Knoll, Christoph Ehscheidt
+ *  Authors: Daniel Lienert, Michael Knoll
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -39,13 +39,12 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 */
 	protected $settings;
 
-	
 
 	/**
 	 * Holds definition of configuration object instances
 	 *
 	 * objectName
-	 * 	=> factory = Classname of the factory
+	 *  => factory = Classname of the factory
 	 *  => tsKey typoscript key if diferent from objectName
 	 *  => prototype = path to the prototype settings
 	 *
