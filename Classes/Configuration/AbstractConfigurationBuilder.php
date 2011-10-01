@@ -210,7 +210,6 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
                 return array();
             }
         }
-
     }
 
     

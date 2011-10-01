@@ -171,6 +171,7 @@ class Tx_PtExtbase_Div  {
      * @param   string      name of the file to include
      * @return  boolean     FALSE if file was not available/included, TRUE otherwise
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
+	  * @deprecated
      */
     public static function includeOnceIfExists($filename) {
 
@@ -1633,8 +1634,36 @@ class Tx_PtExtbase_Div  {
         trace($tableHasRecords);
 
         return $tableHasRecords;
-
     }
+
+
+	/**
+	 * @static
+	 * @throws Exception if file not found
+	 * @param $filePath string path to typoscript file
+	 * @return array ts-Config
+	 */
+	public static function loadTypoScriptFromFile($tsSetupFilePath) {
+
+		if(!file_exists($tsSetupFilePath)) Throw new Exception('No Typoscript file found at path ' . $tsSetupFilePath . ' 1316733309');
+
+		$rawTsConfig  = file_get_contents($tsSetupFilePath);
+		$tsParser  = t3lib_div::makeInstance('t3lib_TSparser'); /** @var $tsParser  t3lib_TSparser */
+
+		$tsLines = explode(LF, $rawTsConfig);
+
+		foreach ($tsLines as &$value) {
+			$includeData = t3lib_TSparser::checkIncludeLines($value, 1, TRUE);
+			$value = $includeData['typoscript'];
+		}
+
+		$rawTsConfig = implode(LF, $tsLines);
+
+		$tsParser->parse($rawTsConfig);
+		$tsArray = $tsParser->setup;
+
+		return $tsArray;
+	}
 
 }
 

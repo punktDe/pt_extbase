@@ -301,7 +301,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
          
         // throw exception if item type is not validated
         } else {
-            throw new Tx_PtExtbase_Exception_Internal('Item to add to collection is of wrong type');
+            throw new Tx_PtExtbase_Exception_Internal('Item to add to collection is of wrong type (' . get_class($itemObj) . '). 1316764449' );
         }
 
     }
