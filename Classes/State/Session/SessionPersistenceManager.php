@@ -152,16 +152,15 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 		if ($this->sessionData == NULL) {
 			$this->sessionData = array();
 		}
-
+		
 		if ($objectData) {
 			$this->sessionData = Tx_PtExtbase_Utility_NameSpace::saveDataInNamespaceTree($sessionNamespace, $this->sessionData, $objectData);
-        }
+		}
 
-        // Remove session values, if object data is null or empty array
-        if ($objectData === null || count($objectData) == 0) {
-            $this->sessionData = Tx_PtExtbase_Utility_NameSpace::removeDataFromNamespaceTree($sessionNamespace, $this->sessionData);
-        }
-
+		// Remove session values, if object data is null or empty array
+		if ($objectData === null || count($objectData) == 0) {
+			$this->sessionData = Tx_PtExtbase_Utility_NameSpace::removeDataFromNamespaceTree($sessionNamespace, $this->sessionData);
+		}
 	}
 
 	
@@ -308,41 +307,60 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 			}
 		}
 	}
-    
-    
-    
-    /**
-     * Add arguments to url if we cannot use session.
-     * 
-     * This happens, if we want to use caching for example. All
-     * session persisted values are then transported via URL.
-     *
-     * @param array $argumentArray
-     */
-    public function addSessionRelatedArguments(&$argumentArray) {
-        if(!is_array($argumentArray)) $argumentArray = array();
-
-        if($this->sessionAdapaterClass == self::STORAGE_ADAPTER_DB) {
-            $argumentArray['state'] = $this->getSessionDataHash();
-
-        } elseif($this->sessionAdapaterClass == self::STORAGE_ADAPTER_NULL) {
-            $this->lifecycleUpdate(Tx_PtExtbase_Lifecycle_Manager::END);
-            $argumentArray = t3lib_div::array_merge_recursive_overrule($this->sessionData, $argumentArray);
-        }
-    }
 
 
+	/**
+	 * Add arguments to url if we cannot use session.
+	 *
+	 * This happens, if we want to use caching for example. All
+	 * session persisted values are then transported via URL.
+	 *
+	 * @param array $argumentArray
+	 */
+	public function addSessionRelatedArguments(&$argumentArray) {
+		if (!is_array($argumentArray)) $argumentArray = array();
 
-    /**
-     * Resets session data, if given gpVarAdapter has empty submit values (no gpvars are given for current request)
-     * 
-     * @param Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager
-     * @return void
-     */
-    public function resetSessionDataOnEmptyGpVars(Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager) {
-        if ($gpVarManager->isEmptySubmit()) {
-            $this->sessionData = array();
-        }
+		if ($this->sessionAdapaterClass == self::STORAGE_ADAPTER_DB) {
+			$argumentArray['state'] = $this->getSessionDataHash();
+
+		} elseif ($this->sessionAdapaterClass == self::STORAGE_ADAPTER_NULL) {
+			$this->lifecycleUpdate(Tx_PtExtbase_Lifecycle_Manager::END);
+			$additionalArgumens = $this->array_filter_recursive($this->sessionData);
+			$argumentArray = t3lib_div::array_merge_recursive_overrule($additionalArgumens, $argumentArray);
+		}
+	}
+
+
+	/**
+	 *  This method recursively filters all entries that are NULL and removes
+	 *  empty arrays. This is needed to not add unneeded data to the session (or to the URL Parameter)
+	 *
+	 *
+	 * @param $array
+	 * @return array
+	 */
+	protected function array_filter_recursive($array) {
+		foreach ($array as &$value) {
+			if (is_array($value)) {
+				$value = $this->array_filter_recursive($value);
+			}
+		}
+
+		return array_filter($array);
+	}
+
+
+
+	/**
+	 * Resets session data, if given gpVarAdapter has empty submit values (no gpvars are given for current request)
+	 *
+	 * @param Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager
+	 * @return void
+	 */
+	public function resetSessionDataOnEmptyGpVars(Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager) {
+		if ($gpVarManager->isEmptySubmit()) {
+			$this->sessionData = array();
+		}
     }
      
 }
