@@ -104,24 +104,26 @@ class Tx_PtExtbase_Utility_NameSpace {
      * Remove a part from a data array described by namespace string
      * 
      * @param string $namespaceString namespace path to the key to remove
-     * @param aray $array data array
+     * @param array $array data array
      */
-    public static function removeDataFromNamespaceTree($namespaceString, $array) {
-        $nameSpaceChunks =  self::getNamespaceArrayByNamespaceString($namespaceString);
+	public static function removeDataFromNamespaceTree($namespaceString, $array) {
+		$nameSpaceChunks = self::getNamespaceArrayByNamespaceString($namespaceString);
 
-		if(!is_array($nameSpaceChunks) || !is_array($array)) return;
+		if (!is_array($nameSpaceChunks) || !is_array($array)) return;
 
-        $key = array_pop($nameSpaceChunks);
-        $pointer = &$array;
-        
-        foreach($nameSpaceChunks as $chunk) {       
-            $pointer = &$pointer[$chunk];
-        }
+		$key = array_pop($nameSpaceChunks);
+		$pointer = &$array;
 
-        unset($pointer[$key]);
+		foreach ($nameSpaceChunks as $chunk) {
+			if(array_key_exists($chunk, $pointer)) {
+				$pointer = &$pointer[$chunk];
+			}
+		}
 
-        return $array;
-    }
+		unset($pointer[$key]);
+
+		return $array;
+	}
 	
 	
 	
