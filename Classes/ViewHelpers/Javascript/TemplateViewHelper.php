@@ -200,11 +200,11 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	/**
 	 * Substitute Markers in Code
 	 *
-	 * @param string $jsCode
-	 * @param array $arguments
+	 * @param string $jsCode JavaScript code
+	 * @param array $arguments ViewHelper arguments
 	 * @return string
 	 */
-	protected function substituteMarkers(&$jsCode, $arguments) {
+	protected function substituteMarkers($jsCode, $arguments) {
 		$markers = $this->prepareMarkers($arguments);
 		$this->addTranslationMarkers($jsCode, $markers);
 		return str_replace(array_keys($markers), array_values($markers), $jsCode);
@@ -215,9 +215,10 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	/**
 	 * Find LLL markers in the jsCode and arguments for them
 	 *
-	 * @param string $jsCode
+	 * @param string $jsCode JavaScript code
+	 * @param array markers Markers
 	 */
-	protected function addTranslationMarkers(&$jsCode, &$markers) {
+	protected function addTranslationMarkers($jsCode, &$markers) {
 		$matches = array();
 		$pattern = '/\#\#\#LLL:.*\#\#\#/';
 		preg_match_all($pattern, $jsCode, $matches);
