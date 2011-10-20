@@ -57,8 +57,8 @@ class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends Tx_PtExtbase_
 			new Tx_PtExtbase_Collection_SortableObjectMock(5),
 			new Tx_PtExtbase_Collection_SortableObjectMock(4)
 		);
-		$this->assertEquals(-1, $this->sortableObjectCollectionProxyMock->compareItems($items[0], $items[1]));
-		$this->assertEquals(1, $this->sortableObjectCollectionProxyMock->compareItems($items[1], $items[0]));
+		$this->assertEquals(1, $this->sortableObjectCollectionProxyMock->compareItems($items[0], $items[1]));
+		$this->assertEquals(-1, $this->sortableObjectCollectionProxyMock->compareItems($items[1], $items[0]));
 		$this->assertEquals(0, $this->sortableObjectCollectionProxyMock->compareItems($items[1], $items[1]));
 	}
 
@@ -66,21 +66,21 @@ class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends Tx_PtExtbase_
 
 	public function testSort() {
 		$items = array(
-			new Tx_PtExtbase_Collection_SortableObjectMock(2),
-			new Tx_PtExtbase_Collection_SortableObjectMock(5),
 			new Tx_PtExtbase_Collection_SortableObjectMock(4),
+			new Tx_PtExtbase_Collection_SortableObjectMock(5),
+			new Tx_PtExtbase_Collection_SortableObjectMock(2),
 			new Tx_PtExtbase_Collection_SortableObjectMock(4),
 			new Tx_PtExtbase_Collection_SortableObjectMock(3)
 		);
-		$this->sortableObjectCollectionProxyMock->_set('items', $items);
+		$this->sortableObjectCollectionProxyMock->_set('itemsArr', $items);
 		$this->sortableObjectCollectionProxyMock->sort();
-		$actual = $this->sortableObjectCollectionProxyMock->_get('items');
+		$actual = $this->sortableObjectCollectionProxyMock->_get('itemsArr');
 
-		$this->assertEquals(5, $actual[0]->getSortingValue());
-		$this->assertEquals(4, $actual[1]->getSortingValue());
+		$this->assertEquals(2, $actual[0]->getSortingValue());
+		$this->assertEquals(3, $actual[1]->getSortingValue());
 		$this->assertEquals(4, $actual[2]->getSortingValue());
-		$this->assertEquals(3, $actual[3]->getSortingValue());
-		$this->assertEquals(2, $actual[4]->getSortingValue());
+		$this->assertEquals(4, $actual[3]->getSortingValue());
+		$this->assertEquals(5, $actual[4]->getSortingValue());
 	}
 
 }
