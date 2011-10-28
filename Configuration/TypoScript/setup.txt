@@ -10,21 +10,10 @@ plugin.tx_ptextbase {
 }
 
 plugin.tx_ptextbase._CSS_DEFAULT_STYLE (
-	input.f3-form-error {
-		background-color:#FF9F9F;
-		border: 1px #FF0000 solid;
-	}
 
-	.tx-ptextbase-pi1 table {
-		border-collapse:separate;
-		border-spacing:10px;
-	}
-
-	.tx-ptextbase-pi1 table th {
-		font-weight:bold;
-	}
-
-	.tx-ptextbase-pi1 table td {
-		vertical-align:top;
-	}
+	.tx-extbase-highlight {
+        font-weight:bold;
+        color: #003399;
+    }
+    
 )
