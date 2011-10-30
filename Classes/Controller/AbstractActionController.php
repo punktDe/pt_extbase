@@ -94,7 +94,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	protected function resolveViewObjectName() {
 
 		$viewClassName = $this->resolveTsDefinedViewClassName();
-
+Tx_ExtDebug::var_dump($viewClassName, '', '(Debug '. __CLASS__ .' :: '.__METHOD__.'<br/> in '. __FILE__.' :: '.__LINE__.' @ '.time().')');
 		if (!$viewClassName) $viewClassName = parent::resolveViewObjectName();
 		if (!$viewClassName) $viewClassName = $this->getFallbackViewClassName();
 
@@ -122,29 +122,30 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
      * 
      * @return string
      */
-    protected function resolveTsDefinedViewClassName() {
-    	
-    	$viewClassName = $this->getTsViewClassName();
+	protected function resolveTsDefinedViewClassName() {
 
-    	if($viewClassName != '') {
-    		if (!class_exists($viewClassName)) {
-		    	
-	    		// Use the viewClassName as redirect path to a typoscript value holding the viewClassName
-		    	$viewClassName .= '.viewClassName';
-		    	$tsRedirectPath = explode('.', $viewClassName);
-		    	$viewClassName = Tx_Extbase_Utility_Arrays::getValueByPath($this->settings, $tsRedirectPath);
-		    	
-    		}	
-    	}
-    	
-    	if($viewClassName && !class_exists($viewClassName)) {
-    		throw new Exception('View class does not exist: ' . $viewClassName . ' 1281369758');
-    	}
-    	
-    	// TODO make sure that given class implements a view
-    	
+		$viewClassName = $this->getTsViewClassName();
+		
+		if ($viewClassName != '') {
+			if (!class_exists($viewClassName)) {
+
+				// Use the viewClassName as redirect path to a typoscript value holding the viewClassName
+				$redirectedViewClassName = $viewClassName . '.viewClassName';
+				$tsRedirectPath = explode('.', $redirectedViewClassName);
+				$redirectedViewClassName = Tx_Extbase_Utility_Arrays::getValueByPath($this->settings, $tsRedirectPath);
+
+				if($redirectedViewClassName) $viewClassName = $redirectedViewClassName;
+			}
+		}
+
+		if ($viewClassName && !class_exists($viewClassName)) {
+			throw new Exception('View class does not exist: ' . $viewClassName . ' 1281369758');
+		}
+
+		// TODO make sure that given class implements a view
+
 		return $viewClassName;
-    }
+	}
     
     
     
