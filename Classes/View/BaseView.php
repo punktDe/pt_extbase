@@ -54,22 +54,22 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 	 */
 	public function initializeView() {
 	}
-	
-	
-	
+
+
+
 	/**
 	 * (non-PHPdoc)
 	 * @see Classes/View/Tx_Fluid_View_TemplateView::getPartialSource()
-	 * 
+	 *
 	 * @param string $partialName The name of the partial
 	 * @return string the full path which should be used. The path definitely exists.
 	 * @throws Tx_Fluid_View_Exception_InvalidTemplateResourceException
 	 */
 	protected function getPartialSource($partialName) {
 		$paths = $this->expandGenericPathPattern($this->partialPathAndFilenamePattern, TRUE, TRUE);
-	
-		$paths[] = $this->resolvePartialPathAndFilename($partialName);
-		
+
+		$paths[] = $this->getPartialPathAndFilename($partialName);
+
 		$found = FALSE;
 		foreach ($paths as &$partialPathAndFilename) {
 			$partialPathAndFilename = str_replace('@partial', $partialName, $partialPathAndFilename);
@@ -87,9 +87,9 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 		}
 		return $partialSource;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Resolve the template path and filename for the given action. If $actionName
 	 * is NULL, looks into the current request.
@@ -100,7 +100,7 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 	 * @author Sebastian Kurfürst <sebastian@typo3.org>
 	 */
 	protected function getTemplateSource($actionName = NULL) {
-		
+
 		if ($this->templatePathAndFilename !== NULL) {
 			$templatePathAndFilename = $this->templatePathAndFilename;
 		} else {
@@ -109,7 +109,7 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 
 			$paths = $this->expandGenericPathPattern($this->templatePathAndFilenamePattern, FALSE, FALSE);
 			$paths[] = $this->resolveTemplatePathAndFilename($actionName);
-			
+
 			$found = FALSE;
 			foreach ($paths as &$templatePathAndFilename) {
 				// These tokens are replaced by the Backporter for the graceful fallback in version 4.
@@ -136,9 +136,9 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 		}
 		return $templateSource;
 	}
-	
-	
-	
+
+
+
 	/**	  
 	 * 
      * Figures out which partial to use.
@@ -151,16 +151,15 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
      * @return string the full path which should be used. The path definitely exists.
      * @throws Tx_Fluid_View_Exception_InvalidTemplateResourceException
      */
-	protected function resolvePartialPathAndFilename($partialName) {
+	protected function getPartialPathAndFilename($partialName) {
 		if (file_exists($partialName)) { // partial is given as absolute path (rather unusual :-) )
 			return $partialName;
 		} elseif (file_exists(t3lib_div::getFileAbsFileName($partialName))) { // partial is given as EXT:pt_extbase/Resources/Private/Partials/Filter/StringFilter.html
 			return t3lib_div::getFileAbsFileName($partialName);
 		} else {
-			return $partialName;
+			return parent::getPartialPathAndFilename($partialName);
 		}
 	}
-	
 	
 	
 	/**
