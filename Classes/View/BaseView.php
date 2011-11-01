@@ -66,6 +66,13 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 	 * @throws Tx_Fluid_View_Exception_InvalidTemplateResourceException
 	 */
 	protected function getPartialSource($partialName) {
+
+		/**
+		 * As in 1.3.0 resolving was part of this method we had to overwrite the complete method
+		 * This is not longer necessary in Version 1.4.0
+		 */
+		if(substr(t3lib_extMgm::getExtensionVersion('fluid'),0,3) == '1.4') return parent::getTemplateSource($partialName);
+
 		$paths = $this->expandGenericPathPattern($this->partialPathAndFilenamePattern, TRUE, TRUE);
 
 		$paths[] = $this->getPartialPathAndFilename($partialName);
@@ -101,6 +108,12 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 	 */
 	protected function getTemplateSource($actionName = NULL) {
 
+		/**
+		 * As in 1.3.0 resolving was part of this method we had to overwrite the complete method
+		 * This is not longer necessary in Version 1.4.0
+		 */
+		if(substr(t3lib_extMgm::getExtensionVersion('fluid'),0,3) == '1.4') return parent::getTemplateSource($actionName);
+		
 		if ($this->templatePathAndFilename !== NULL) {
 			$templatePathAndFilename = $this->templatePathAndFilename;
 		} else {
