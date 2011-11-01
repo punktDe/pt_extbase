@@ -121,7 +121,7 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 			$actionName = ucfirst($actionName);
 
 			$paths = $this->expandGenericPathPattern($this->templatePathAndFilenamePattern, FALSE, FALSE);
-			$paths[] = $this->resolveTemplatePathAndFilename($actionName);
+			$paths[] = $this->getTemplatePathAndFilename($actionName);
 
 			$found = FALSE;
 			foreach ($paths as &$templatePathAndFilename) {
@@ -170,7 +170,11 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 		} elseif (file_exists(t3lib_div::getFileAbsFileName($partialName))) { // partial is given as EXT:pt_extbase/Resources/Private/Partials/Filter/StringFilter.html
 			return t3lib_div::getFileAbsFileName($partialName);
 		} else {
-			return parent::getPartialPathAndFilename($partialName);
+			if(method_exists('Tx_Fluid_View_TemplateView','getPartialPathAndFilename')) {
+				return parent::getPartialPathAndFilename($partialName); // this method only exists in 1.4.0
+			} else {
+				return $partialName;
+			}
 		}
 	}
 	
@@ -186,15 +190,24 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
      * @return string Full path to template
      * @throws Tx_Fluid_View_Exception_InvalidTemplateResourceException
      */
-	protected function resolveTemplatePathAndFilename($actionName = NULL) {
+	protected function getTemplatePathAndFilename($actionName = NULL) {
+
 		if ($this->templatePathAndFilename != '') {
+
 			if (file_exists($this->templatePathAndFilename)) {
-			    return $this->configurationBuilder->getSettings('__templatePathAndFileName');
-			} elseif (file_exists(t3lib_div::getFileAbsFileName($this->templatePathAndFilename))) { 
+			    return $this->templatePathAndFilename;
+			}
+
+			if (file_exists(t3lib_div::getFileAbsFileName($this->templatePathAndFilename))) {
 				return t3lib_div::getFileAbsFileName($this->templatePathAndFilename);
 			}
+
 		} else {
-			return $actionName;
+			if(method_exists('Tx_Fluid_View_TemplateView', 'getTemplatePathAndFilename')) {
+				return parent::getTemplatePathAndFilename($actionName); // this method only exists in 1.4.0
+			} else {
+				return $actionName;
+			}
 		}
 	}
 	
