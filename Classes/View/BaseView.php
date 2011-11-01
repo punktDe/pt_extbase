@@ -54,22 +54,29 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 	 */
 	public function initializeView() {
 	}
-	
-	
-	
+
+
+
 	/**
 	 * (non-PHPdoc)
 	 * @see Classes/View/Tx_Fluid_View_TemplateView::getPartialSource()
-	 * 
+	 *
 	 * @param string $partialName The name of the partial
 	 * @return string the full path which should be used. The path definitely exists.
 	 * @throws Tx_Fluid_View_Exception_InvalidTemplateResourceException
 	 */
 	protected function getPartialSource($partialName) {
+
+		/**
+		 * As in 1.3.0 resolving was part of this method we had to overwrite the complete method
+		 * This is not longer necessary in Version 1.4.0
+		 */
+		if(substr(t3lib_extMgm::getExtensionVersion('fluid'),0,3) == '1.4') return parent::getTemplateSource($partialName);
+
 		$paths = $this->expandGenericPathPattern($this->partialPathAndFilenamePattern, TRUE, TRUE);
-	
-		$paths[] = $this->resolvePartialPathAndFilename($partialName);
-		
+
+		$paths[] = $this->getPartialPathAndFilename($partialName);
+
 		$found = FALSE;
 		foreach ($paths as &$partialPathAndFilename) {
 			$partialPathAndFilename = str_replace('@partial', $partialName, $partialPathAndFilename);
@@ -87,9 +94,9 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 		}
 		return $partialSource;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Resolve the template path and filename for the given action. If $actionName
 	 * is NULL, looks into the current request.
@@ -100,6 +107,12 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 	 * @author Sebastian Kurfürst <sebastian@typo3.org>
 	 */
 	protected function getTemplateSource($actionName = NULL) {
+
+		/**
+		 * As in 1.3.0 resolving was part of this method we had to overwrite the complete method
+		 * This is not longer necessary in Version 1.4.0
+		 */
+		if(substr(t3lib_extMgm::getExtensionVersion('fluid'),0,3) == '1.4') return parent::getTemplateSource($actionName);
 		
 		if ($this->templatePathAndFilename !== NULL) {
 			$templatePathAndFilename = $this->templatePathAndFilename;
@@ -108,8 +121,8 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 			$actionName = ucfirst($actionName);
 
 			$paths = $this->expandGenericPathPattern($this->templatePathAndFilenamePattern, FALSE, FALSE);
-			$paths[] = $this->resolveTemplatePathAndFilename($actionName);
-			
+			$paths[] = $this->getTemplatePathAndFilename($actionName);
+
 			$found = FALSE;
 			foreach ($paths as &$templatePathAndFilename) {
 				// These tokens are replaced by the Backporter for the graceful fallback in version 4.
@@ -136,9 +149,9 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 		}
 		return $templateSource;
 	}
-	
-	
-	
+
+
+
 	/**	  
 	 * 
      * Figures out which partial to use.
@@ -151,16 +164,19 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
      * @return string the full path which should be used. The path definitely exists.
      * @throws Tx_Fluid_View_Exception_InvalidTemplateResourceException
      */
-	protected function resolvePartialPathAndFilename($partialName) {
+	protected function getPartialPathAndFilename($partialName) {
 		if (file_exists($partialName)) { // partial is given as absolute path (rather unusual :-) )
 			return $partialName;
 		} elseif (file_exists(t3lib_div::getFileAbsFileName($partialName))) { // partial is given as EXT:pt_extbase/Resources/Private/Partials/Filter/StringFilter.html
 			return t3lib_div::getFileAbsFileName($partialName);
 		} else {
-			return $partialName;
+			if(method_exists('Tx_Fluid_View_TemplateView','getPartialPathAndFilename')) {
+				return parent::getPartialPathAndFilename($partialName); // this method only exists in 1.4.0
+			} else {
+				return $partialName;
+			}
 		}
 	}
-	
 	
 	
 	/**
@@ -174,15 +190,24 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
      * @return string Full path to template
      * @throws Tx_Fluid_View_Exception_InvalidTemplateResourceException
      */
-	protected function resolveTemplatePathAndFilename($actionName = NULL) {
+	protected function getTemplatePathAndFilename($actionName = NULL) {
+
 		if ($this->templatePathAndFilename != '') {
+
 			if (file_exists($this->templatePathAndFilename)) {
-			    return $this->configurationBuilder->getSettings('__templatePathAndFileName');
-			} elseif (file_exists(t3lib_div::getFileAbsFileName($this->templatePathAndFilename))) { 
+			    return $this->templatePathAndFilename;
+			}
+
+			if (file_exists(t3lib_div::getFileAbsFileName($this->templatePathAndFilename))) {
 				return t3lib_div::getFileAbsFileName($this->templatePathAndFilename);
 			}
+
 		} else {
-			return $actionName;
+			if(method_exists('Tx_Fluid_View_TemplateView', 'getTemplatePathAndFilename')) {
+				return parent::getTemplatePathAndFilename($actionName); // this method only exists in 1.4.0
+			} else {
+				return $actionName;
+			}
 		}
 	}
 	
