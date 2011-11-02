@@ -94,7 +94,6 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	protected function resolveViewObjectName() {
 
 		$viewClassName = $this->resolveTsDefinedViewClassName();
-Tx_ExtDebug::var_dump($viewClassName, '', '(Debug '. __CLASS__ .' :: '.__METHOD__.'<br/> in '. __FILE__.' :: '.__LINE__.' @ '.time().')');
 		if (!$viewClassName) $viewClassName = parent::resolveViewObjectName();
 		if (!$viewClassName) $viewClassName = $this->getFallbackViewClassName();
 
