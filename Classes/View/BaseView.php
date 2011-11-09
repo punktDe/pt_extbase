@@ -71,7 +71,7 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 		 * As in 1.3.0 resolving was part of this method we had to overwrite the complete method
 		 * This is not longer necessary in Version 1.4.0
 		 */
-		if(substr(t3lib_extMgm::getExtensionVersion('fluid'),0,3) == '1.4') return parent::getPartialSource($partialName);
+		//if(substr(t3lib_extMgm::getExtensionVersion('fluid'),0,3) == '1.4') return parent::getPartialSource($partialName);
 
 		$paths = $this->expandGenericPathPattern($this->partialPathAndFilenamePattern, TRUE, TRUE);
 
@@ -112,7 +112,7 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 		 * As in 1.3.0 resolving was part of this method we had to overwrite the complete method
 		 * This is not longer necessary in Version 1.4.0
 		 */
-		if(substr(t3lib_extMgm::getExtensionVersion('fluid'),0,3) == '1.4') return parent::getTemplateSource($actionName);
+		//if(substr(t3lib_extMgm::getExtensionVersion('fluid'),0,3) == '1.4') return parent::getTemplateSource($actionName);
 		
 		if ($this->templatePathAndFilename !== NULL) {
 			$templatePathAndFilename = $this->templatePathAndFilename;
