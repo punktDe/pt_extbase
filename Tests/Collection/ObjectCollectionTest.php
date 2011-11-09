@@ -31,7 +31,7 @@
  * @package Tests
  * @subpackage Collection
  */
-class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 
     /**
      * @var tx_pttools_testCollection
