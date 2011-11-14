@@ -39,6 +39,7 @@ return array(
 	'tx_ptextbase_utility_debug' => $extensionClassesPath . 'Utility/Debug.php',
 	'tx_ptextbase_utility_namespace' => $extensionClassesPath . 'Utility/NameSpace.php',
 	'tx_ptextbase_view_baseview' => $extensionClassesPath . 'View/BaseView.php',
+	'tx_ptextbase_tests_abstractbasetestcase' => $extensionClassesPath . 'AbstractBaseTest.php',
 
     // Additionally added files
     'tx_ptextbase_tests_state_stubs_sessionadaptermock' => $testsDir . 'State/Stubs/SessionAdapterMock.php',
