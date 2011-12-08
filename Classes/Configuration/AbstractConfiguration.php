@@ -57,7 +57,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 	 * @param Tx_PtExtbase_Configuration_AbstractConfigurationBuilder $configurationBuilder
 	 * @param array $settings
 	 */
-	public function __construct(Tx_PtExtbase_Configuration_AbstractConfigurationBuilder $configurationBuilder, array $settings = array()) {
+	public function __construct(Tx_PtExtbase_Configuration_AbstractConfigurationBuilder $configurationBuilder = NULL, array $settings = array()) {
 		$this->configurationBuilder = $configurationBuilder;
 		$this->settings = $settings;
 		$this->init();
