@@ -9,11 +9,21 @@ plugin.tx_ptextbase {
 	}
 }
 
+
+// No recordType for the frontend user group needed
+config.tx_extbase.persistence.classes.Tx_Extbase_Domain_Model_FrontendUser.mapping.recordType >
+config.tx_extbase.persistence.classes.Tx_Extbase_Domain_Model_FrontendUserGroup.mapping.recordType >
+
 plugin.tx_ptextbase._CSS_DEFAULT_STYLE (
 
 	.tx-extbase-highlight {
         font-weight:bold;
         color: #003399;
+    }
+
+    .pt-extbase-groupselector {
+        border: 1px solid #7C7C7C;
+        padding:5px;
     }
     
 )
