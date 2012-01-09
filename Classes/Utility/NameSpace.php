@@ -39,7 +39,7 @@ class Tx_PtExtbase_Utility_NameSpace {
 	/**
 	 * Returns part of an array according to given namespace
 	 *
-	 * @param array $array
+	 * @param array $returnArray
 	 * @param string $namespace
 	 * @return array
 	 */
@@ -77,26 +77,26 @@ class Tx_PtExtbase_Utility_NameSpace {
 	/**
 	 * Save a value on an array position identfied by namespace
 	 *
-	 * @param string $nameSpace (Namespace identifier - dot separated)
+	 * @param string $namespaceString (Namespace identifier - dot separated)
 	 * @param array $array array to save the data in
 	 * @param mixed $data
 	 * @return array
 	 */
-    public static function saveDataInNamespaceTree($namespaceString, array $array, $data) {
-		 $nameSpaceChunks = self::getNamespaceArrayByNamespaceString($namespaceString);
-        
-        $key = array_pop($nameSpaceChunks);
-        $pointer = &$array;
-        
-        foreach($nameSpaceChunks as $chunk) {       
-            $pointer = &$pointer[$chunk];
-        }
+	public static function saveDataInNamespaceTree($namespaceString, array $array, $data) {
+		$nameSpaceChunks = self::getNamespaceArrayByNamespaceString($namespaceString);
 
-        $pointer[$key] = $data;
-        
-        //return self::arrayFilterRecursive($array);
-        return $array;
-    }
+		$key = array_pop($nameSpaceChunks);
+		$pointer = &$array;
+
+		foreach ($nameSpaceChunks as $chunk) {
+			$pointer = &$pointer[$chunk];
+		}
+
+		$pointer[$key] = $data;
+
+		//return self::arrayFilterRecursive($array);
+		return $array;
+	}
     
     
     
@@ -105,6 +105,7 @@ class Tx_PtExtbase_Utility_NameSpace {
      * 
      * @param string $namespaceString namespace path to the key to remove
      * @param array $array data array
+	  * @return array
      */
 	public static function removeDataFromNamespaceTree($namespaceString, $array) {
 		$nameSpaceChunks = self::getNamespaceArrayByNamespaceString($namespaceString);
@@ -148,6 +149,7 @@ class Tx_PtExtbase_Utility_NameSpace {
      * Returns true in case the values is present or is the integer Value 0
      * 
      * @param mixed $element
+	  * @return boolean
      */
     protected static function valueIsGiven($element) {
         return (is_array($element) || (!empty($element) && $element !== 0 && $element !== ''));
