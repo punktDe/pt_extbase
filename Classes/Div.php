@@ -761,7 +761,7 @@ class Tx_PtExtbase_Div  {
             }
         }
 
-        trace($baseConfArr, 0, '$baseConfArr');
+        //trace($baseConfArr, 0, '$baseConfArr');
         return $baseConfArr;
 
     }
