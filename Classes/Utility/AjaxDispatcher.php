@@ -122,7 +122,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
 		#$GLOBALS['TSFE']->initFeuser();
 		$GLOBALS['TSFE']->fe_user = tslib_eidtools::initFeUser();
-		
+
 		return $this;
 	}
 
@@ -188,7 +188,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
         $this->arguments         = $this->requestArguments['arguments'];
         if(!is_array($this->arguments)) $this->arguments = array();
 
-		 return $this;
+		return $this;
     }
 
 
