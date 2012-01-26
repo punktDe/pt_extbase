@@ -120,6 +120,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $TYPO3_CONF_VARS, $pageUid, '0', 1, '', '','','');
 		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+
 		#$GLOBALS['TSFE']->initFeuser();
 		$GLOBALS['TSFE']->fe_user = tslib_eidtools::initFeUser();
 
