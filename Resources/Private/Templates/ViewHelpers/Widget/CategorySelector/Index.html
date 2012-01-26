@@ -1,0 +1,29 @@
+{namespace ptx=Tx_PtExtbase_ViewHelpers}
+
+<extlist:comment>
+<!--  
+Template for rendering the category manager
+
+Here is a list of objects / variables that can be accessed in this template:
+
+
+@package YAG
+@author Michael Knoll <mimi@kaktusteam.de>
+@author Daniel Lienert <daniel@lienert.cc>
+-->
+</extlist:comment>
+
+Hier kommt er:
+
+<ptx:Javascript.Template templatePath="EXT:pt_extbase/Resources/Private/JSTemplates/CategorySelector.js" />
+<div id="categoryTreeDiv" style="height:200px; width:200px;"></div>
+
+<div id="categoryEditDiv" class="x-hidden">
+	<div class="x-window-header">Category</div>
+		<div id="hello-tabs"><!-- Auto create tab 1 -->
+		<div class="x-tab" title="Category edit">
+			<p><f:form.textField name="name" /> <f:form.textArea name="description" rows="3" cols="10" /></p>
+		</div>
+	</div>
+</div>
+

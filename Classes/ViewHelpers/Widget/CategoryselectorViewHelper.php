@@ -30,10 +30,31 @@
  * @author Daniel Lienert
  */
 
-class Tx_PtExtbase_ViewHelpers_Widget_CategorySelectorViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
+class Tx_PtExtbase_ViewHelpers_Widget_CategorySelectorViewHelper extends Tx_Fluid_Core_Widget_AbstractWidgetViewHelper {
 
+	/**
+	 * @var Tx_PtExtbase_ViewHelpers_Widget_Controller_CategorySelectorController
+	 */
+	protected $controller;
+
+
+	/**
+	 * @param Tx_PtExtbase_ViewHelpers_Widget_Controller_CategorySelectorController $controller
+	 * @return void
+	 */
+	public function injectController(Tx_PtExtbase_ViewHelpers_Widget_Controller_CategorySelectorController $controller) {
+		$this->controller = $controller;
+	}
+
+
+
+	/**
+	 * Render
+	 *
+	 * @return string
+	 */
 	public function render() {
-
+		return  $this->initiateSubRequest();
 	}
 
 }
