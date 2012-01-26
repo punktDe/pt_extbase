@@ -44,6 +44,6 @@ $GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $TYPO3_CONF_VARS, 0, 0, t
 $GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
 $GLOBALS['TSFE']->initFEuser();
 
-$dispatcher = t3lib_div::makeInstance('Tx_PtExtbase_Utility_AjaxDispatcher');
-echo $dispatcher->dispatch();
+$dispatcher = t3lib_div::makeInstance('Tx_PtExtbase_Utility_AjaxDispatcher'); /** @var $dispatcher Tx_PtExtbase_Utility_AjaxDispatcher */
+echo $dispatcher->initCallArguments()->dispatch();
 ?>

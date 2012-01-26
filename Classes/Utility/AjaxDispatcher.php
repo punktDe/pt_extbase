@@ -172,25 +172,25 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 * Prepare the call arguments
 	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
 	 */
-    public function initCallArguments() {
-        $request = t3lib_div::_GP('request');
+	public function initCallArguments() {
+		$request = t3lib_div::_GP('request');
 
-        if($request) {
-            $this->setRequestArgumentsFromJSON($request);
-        } else {
-            $this->setRequestArgumentsFromGetPost();
-        }
+		if ($request) {
+			$this->setRequestArgumentsFromJSON($request);
+		} else {
+			$this->setRequestArgumentsFromGetPost();
+		}
 
-        $this->extensionName     = $this->requestArguments['extensionName'];
-        $this->pluginName        = $this->requestArguments['pluginName'];
-        $this->controllerName    = $this->requestArguments['controllerName'];
-        $this->actionName        = $this->requestArguments['actionName'];
+		$this->setExtensionName($this->requestArguments['extensionName']);
+		$this->pluginName = $this->requestArguments['pluginName'];
+		$this->controllerName = $this->requestArguments['controllerName'];
+		$this->actionName = $this->requestArguments['actionName'];
 
-        $this->arguments         = $this->requestArguments['arguments'];
-        if(!is_array($this->arguments)) $this->arguments = array();
+		$this->arguments = $this->requestArguments['arguments'];
+		if (!is_array($this->arguments)) $this->arguments = array();
 
 		return $this;
-    }
+	}
 
 
 
@@ -225,6 +225,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
 	 */
 	public function setExtensionName($extensionName) {
+		if(!$extensionName) throw new Exception('No extension name set for extbase request.', 1327583056);
+
 		$this->extensionName = $extensionName;
 		return $this;
 	}
