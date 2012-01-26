@@ -6,10 +6,10 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_ptextbase_tree_node'] = array(
     'ctrl' => $TCA['tx_ptextbase_tree_node']['ctrl'],
     'interface' => array(
-        'showRecordFieldList'   => 'name,description',
+        'showRecordFieldList'   => 'label',
     ),
     'types' => array(
-        '1' => array('showitem' => 'name,description'),
+        '1' => array('showitem' => 'label'),
     ),
     'palettes' => array(
         '1' => array('showitem' => ''),
@@ -61,25 +61,16 @@ $TCA['tx_ptextbase_tree_node'] = array(
                 'type'  => 'check',
             )
         ),
-        'name' => array(
+        'label' => array(
             'exclude'   => 0,
-            'label'     => 'LLL:EXT:pt_extbase/Resources/Private/Language/locallang_db.xml:tx_ptextbase_tree_node.name',
+            'label'     => 'LLL:EXT:pt_extbase/Resources/Private/Language/locallang_db.xml:tx_ptextbase_tree_node.label',
             'config'    => array(
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim'
             ),
         ),
-        'description' => array(
-            'exclude'   => 0,
-            'label'     => 'LLL:EXT:pt_extbase/Resources/Private/Language/locallang_db.xml:tx_ptextbase_tree_node.description',
-            'config'    => array(
-                'type' => 'text',
-                'cols' => 40,
-                'rows' => 15,
-                'eval' => 'trim'
-            ),
-        ),
+
         'lft' => array(
             'exclude'   => 0,
             'label'     => 'left',

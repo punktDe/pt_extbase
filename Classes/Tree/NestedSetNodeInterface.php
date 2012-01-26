@@ -95,13 +95,5 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 	 */
 	public function setLft($lft);
 
-
-
-	/**
-	 * @abstract
-	 * @return array<Tx_PtExtbase_Tree_NestedSetNodeInterface>
-	 */
-	public function getChildren();
-
 }
 ?>
