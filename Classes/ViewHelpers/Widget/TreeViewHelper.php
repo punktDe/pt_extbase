@@ -30,19 +30,19 @@
  * @author Daniel Lienert
  */
 
-class Tx_PtExtbase_ViewHelpers_Widget_CategorySelectorViewHelper extends Tx_Fluid_Core_Widget_AbstractWidgetViewHelper {
+class Tx_PtExtbase_ViewHelpers_Widget_TreeViewHelper extends Tx_Fluid_Core_Widget_AbstractWidgetViewHelper {
 
 	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Widget_Controller_CategorySelectorController
+	 * @var Tx_PtExtbase_ViewHelpers_Widget_Controller_TreeController
 	 */
 	protected $controller;
 
 
 	/**
-	 * @param Tx_PtExtbase_ViewHelpers_Widget_Controller_CategorySelectorController $controller
+	 * @param Tx_PtExtbase_ViewHelpers_Widget_Controller_TreeController $controller
 	 * @return void
 	 */
-	public function injectController(Tx_PtExtbase_ViewHelpers_Widget_Controller_CategorySelectorController $controller) {
+	public function injectController(Tx_PtExtbase_ViewHelpers_Widget_Controller_TreeController $controller) {
 		$this->controller = $controller;
 	}
 
