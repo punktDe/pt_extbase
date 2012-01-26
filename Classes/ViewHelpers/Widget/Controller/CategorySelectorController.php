@@ -2,7 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2010-2011 punkt.de GmbH - Karlsruhe, Germany - http://www.punkt.de
+ *  (c) 2010-2012 punkt.de GmbH - Karlsruhe, Germany - http://www.punkt.de
  *  Authors: Daniel Lienert
  *  All rights reserved
  *
@@ -26,6 +26,10 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class CategorySelectorController {
+/**
+ * @author Daniel Lienert
+ */
+
+class Tx_PtExtbase_ViewHelpers_Widget_Controller_CategorySelectorController extends Tx_Fluid_Core_Widget_AbstractWidgetController {
 
 }

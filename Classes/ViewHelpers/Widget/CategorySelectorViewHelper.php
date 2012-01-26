@@ -26,6 +26,14 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class CategoryViewHelper {
+/**
+ * @author Daniel Lienert
+ */
+
+class Tx_PtExtbase_ViewHelpers_Widget_CategorySelectorViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
+
+	public function render() {
+		
+	}
 
 }
