@@ -33,7 +33,7 @@
 class Tx_PtExtbase_ViewHelpers_Widget_CategorySelectorViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
 
 	public function render() {
-		
+
 	}
 
 }
