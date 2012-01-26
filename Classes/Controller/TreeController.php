@@ -32,32 +32,11 @@
 
 class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_ActionController {
 
-	/**
-		 * @var Tx_Yag_Domain_Repository_CategoryRepository
-		 */
-		protected $categoryRepository;
-
-
 
 		/**
-		 * Holds an instance of category tree repository
-		 *
-		 * @var Tx_Yag_Domain_Repository_CategoryTreeRepository
+		 * @var Tx_PtExtbase_Tree_Tree
 		 */
-		protected $categoryTreeRepository;
-
-
-
-		/**
-		 * Holds an instance of persistence manager
-		 *
-		 * @var Tx_Extbase_Persistence_Manager
-		 */
-		protected $persistenceManager;
-
-
-
-
+		protected $tree;
 
 
 		/**
@@ -66,17 +45,30 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		 * @return void
 		 */
 		protected function postInitializeAction() {
-			$this->categoryRepository = t3lib_div::makeInstance('Tx_Yag_Domain_Repository_CategoryRepository');
-			$this->categoryTreeRepository = new Tx_Yag_Domain_Repository_CategoryTreeRepository();
-			$this->persistenceManager = t3lib_div::makeInstance('Tx_Extbase_Persistence_Manager');
+			$this->tree = t3lib_div::makeInstance('Tx_PtExtbase_Tree_Tree');
 		}
 
 
 
 		/**
 		 * Get subtree for node ID given by GP vars
+		 *
+		 * @param Integer $nodeId
 		 */
-		public function getSubTreeAction() {
+		public function getSubTreeAction($nodeId = 0) {
+
+			$subTreeRoot = $this->tree->getNodeByUid($nodeId); /** @var $subTreeRoot Tx_PtExtbase_Tree_Node */
+			$childNodeArray = array();
+
+			foreach($subTreeRoot->getChildren() as $childNode) { /** @var $childNode Tx_PtExtbase_Tree_Node */
+				$childCategoryArray[] = array(
+					'id' => $childNode->getUid(),
+					'label' => $childNode->getLabel();
+					'leaf' => $childNode->hasChildren() ? '': 'true'
+				);
+			}
+
+
 
 			$childCategoryArray[] = array(
 				'id' => 1,
@@ -92,6 +84,9 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 							'description' => 'Foo',
 							'leaf' => 'true'
 						);
+
+
+
 
 //			$categoryTree = $this->categoryTreeRepository->findByCategoryId(intval(t3lib_div::_GP('node')));
 //			$childCategoryArray = array();
