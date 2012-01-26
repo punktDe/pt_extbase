@@ -3,6 +3,21 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+/*
+ * Main plugin
+ */
+Tx_Extbase_Utility_Extension::configurePlugin(
+	$_EXTKEY,
+	'Ptx',
+	array(
+		'Tree' => 'test',
+	),
+	array(
+		'Tree' => 'test',
+	)
+);
+
+
 // Define state cache, if not already defined
 if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'])) {
 	$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'] = array(
@@ -23,5 +38,5 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['hook_eofe
 /**
  * Include the eId dispatcher
  */
-$TYPO3_CONF_VARS['FE']['eID_include']['ptxAjax'] = t3lib_extMgm::extPath('pt_extbase').'Classes/Utility/eIDDispatcher.php	';
+$TYPO3_CONF_VARS['FE']['eID_include']['ptxAjax'] = t3lib_extMgm::extPath('pt_extbase').'Classes/Utility/eIDDispatcher.php';
 ?>

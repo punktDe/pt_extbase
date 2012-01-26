@@ -30,7 +30,7 @@
  * @author Daniel Lienert
  */
 
-class Tx_PtExtbase_Controller_TreeController extends Tx_Fluid_Core_Widget_AbstractWidgetController {
+class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
 		 * @var Tx_Yag_Domain_Repository_CategoryRepository
@@ -57,6 +57,9 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Fluid_Core_Widget_Abstra
 
 
 
+
+
+
 		/**
 		 * Initializes the current action
 		 *
@@ -69,58 +72,38 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Fluid_Core_Widget_Abstra
 		}
 
 
-		/**
-		 *
-		 */
-		public function indexAction() {
-
-		}
-
-
-		/**
-		 * TODO test method
-		 */
-		public function showAction() {
-			/*
-			$rootCategory = $this->categoryRepository->findByUid(1);
-			echo $rootCategory->getName() . '<br>';
-			foreach($rootCategory->getChildren() as $child) {
-				echo "-" . $child->getName() . '<br>';
-				foreach($child->getChildren() as $subchild) {
-					echo "--" . $subchild->getName() . '<br>';
-				}
-			}
-			die();
-			*/
-		}
-
-
-
-		/**
-		 * TODO test method
-		 */
-		public function debugAction() {
-			$categoryTree = $this->categoryTreeRepository->findByRootId(1);
-			$this->view->assign('categoryList', $categoryTree->toString());
-		}
-
-
 
 		/**
 		 * Get subtree for node ID given by GP vars
 		 */
 		public function getSubTreeAction() {
-			$categoryTree = $this->categoryTreeRepository->findByCategoryId(intval(t3lib_div::_GP('node')));
-			$childCategoryArray = array();
-			foreach($categoryTree->getNodeByUid(intval(t3lib_div::_GP('node')))->getChildren() as $childCategory) { /* @var $childCategory Tx_Yag_Domain_Model_Category */
-				$childCategoryArray[] = array(
-					'id' => $childCategory->getUid(),
-					'text' => $childCategory->getName(),
-					'description' => $childCategory->getDescription(),
-					'leaf' => $childCategory->hasChildren() ? '': 'true'
-				);
 
-			}
+			$childCategoryArray[] = array(
+				'id' => 1,
+				'text' => 'Node 1',
+				'description' => 'Beschreibung',
+				'leaf' => 'true'
+			);
+
+
+			$childCategoryArray[] = array(
+							'id' => 2,
+							'text' => 'Node 2',
+							'description' => 'Foo',
+							'leaf' => 'true'
+						);
+
+//			$categoryTree = $this->categoryTreeRepository->findByCategoryId(intval(t3lib_div::_GP('node')));
+//			$childCategoryArray = array();
+//			foreach($categoryTree->getNodeByUid(intval(t3lib_div::_GP('node')))->getChildren() as $childCategory) { /* @var $childCategory Tx_Yag_Domain_Model_Category */
+//				$childCategoryArray[] = array(
+//					'id' => $childCategory->getUid(),
+//					'text' => $childCategory->getName(),
+//					'description' => $childCategory->getDescription(),
+//					'leaf' => $childCategory->hasChildren() ? '': 'true'
+//				);
+//
+//			}
 			return json_encode($childCategoryArray);
 		}
 

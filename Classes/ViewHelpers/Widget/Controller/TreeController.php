@@ -32,6 +32,11 @@
 
 class Tx_PtExtbase_ViewHelpers_Widget_Controller_TreeController extends Tx_Fluid_Core_Widget_AbstractWidgetController {
 
+
+	public function processRequest(Tx_Extbase_MVC_RequestInterface $request, Tx_Extbase_MVC_ResponseInterface $response) {
+		die('test');
+	}
+
 	/**
 	 *
 	 */
