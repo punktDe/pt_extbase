@@ -149,25 +149,33 @@ class Tx_PtExtbase_Tests_Tree_NodeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
     	$this->assertEquals($children[1], $child3);
     	$this->assertEquals($children[2], $child1);
     }
-    
-    
-    
-    /** @test */
-    public function addChildAfterAddChildAfterGivenChild() {
-    	$child1 = new Tx_PtExtbase_Tree_Node('1.1');
-        $child2 = new Tx_PtExtbase_Tree_Node('1.2');
-        $child3 = new Tx_PtExtbase_Tree_Node('1.3');
-        $parent = new Tx_PtExtbase_Tree_Node('1');
-        
-        $parent->addChild($child1);
-        $parent->addChildAfter($child2, $child1);
-        $parent->addChildAfter($child3, $child1);
-        
-        $children = $parent->getChildren()->toArray();
-        $this->assertEquals($children[0], $child1);
-        $this->assertEquals($children[1], $child3);
-        $this->assertEquals($children[2], $child2);
-    }
+
+
+	/** @test */
+	public function addChildAfterAddChildAfterGivenChild() {
+		$child1 = new Tx_PtExtbase_Tree_Node('1.1');
+		$child2 = new Tx_PtExtbase_Tree_Node('1.2');
+		$child3 = new Tx_PtExtbase_Tree_Node('1.3');
+		$parent = new Tx_PtExtbase_Tree_Node('1');
+
+		$parent->addChild($child1);
+		$parent->addChildAfter($child2, $child1);
+		$parent->addChildAfter($child3, $child1);
+
+		$children = $parent->getChildren()->toArray();
+		$this->assertEquals($children[0], $child1);
+		$this->assertEquals($children[1], $child3);
+		$this->assertEquals($children[2], $child2);
+	}
+
+
+	/**
+	 * @test
+	 */
+	public function constructorSetsChildLabel() {
+		$child = new Tx_PtExtbase_Tree_Node('test');
+		$this->assertEquals('test', $child->getLabel());
+	}
 	
 }
 ?>
