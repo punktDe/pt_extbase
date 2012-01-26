@@ -1,5 +1,4 @@
-{namespace yag=Tx_Yag_ViewHelpers}
-{namespace extlist=Tx_PtExtlist_ViewHelpers}
+{namespace ptx=Tx_PtExtbase_ViewHelpers}
 
 <extlist:comment>
 <!--  
@@ -16,8 +15,16 @@ Here is a list of objects / variables that can be accessed in this template:
 
 <f:layout name="Default" />
 <f:section name="main">
-	<f:render partial="Category/Selector" />
+	<ptx:Javascript.Template templatePath="EXT:pt_extbase/Resources/Private/JSTemplates/CategorySelector.js" />
+	<div id="categoryTreeDiv" style="height:200px; width:200px;"></div>
+
+	<div id="categoryEditDiv" class="x-hidden">
+		<div class="x-window-header">Category</div>
+			<div id="hello-tabs"><!-- Auto create tab 1 -->
+			<div class="x-tab" title="Category edit">
+				<p><f:form.textField name="name" /> <f:form.textArea name="description" rows="3" cols="10" /></p>
+			</div>
+		</div>
+	</div>
 </f:section>
 
-<f:section name="beButtonsLeft">
-</f:section>
