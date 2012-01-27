@@ -149,28 +149,7 @@ class Tx_PtExtbase_Tree_Node
     /*********************************************************************************************************
      * Default getters and setters used for persistence - return database values, no objects!
      *********************************************************************************************************/
-    
 
-    /**
-     * Setter for description
-     *
-     * @param string $description Description for category
-     * @return void
-     */
-    public function setDescription($description) {
-        $this->description = $description;
-    }
-    
-    
-
-    /**
-     * Getter for description
-     *
-     * @return string Description for category
-     */
-    public function getDescription() {
-        return $this->description;
-    }
     
     
     
@@ -267,21 +246,17 @@ class Tx_PtExtbase_Tree_Node
     public function getParent() {
     	return $this->parent;	
     }
-    
-    
-    
-    /**
-     * Getter for child categories
-     *
-     * @return Tx_Extbase_Persistence_ObjectStorage
-     */
-    public function getChildren() {
-    	return $this->children;
-    }
-    
-    
-    
-    /**
+
+
+	/**
+	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 */
+	public function getChildren() {
+		return $this->children;
+	}
+
+
+	/**
      * Get count of children recursively
      *
      * @return int
