@@ -28,8 +28,8 @@
  *
  * @package Domain
  * @subpackage Configuration
- * @author Michael Knoll 
- * @author Daniel Lienert 
+ * @author Michael Knoll
+ * @author Daniel Lienert
  */
 abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 
@@ -39,52 +39,52 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 	 * @var Tx_PtExtbase_Configuration_AbstractConfigurationBuilder
 	 */
 	protected $configurationBuilder;
-	
-	
-	
+
+
+
 	/**
 	 * Holds an array of settings for configuration object
 	 *
 	 * @var array
 	 */
 	protected $settings;
-	
-	
-	
+
+
+
 	/**
 	 * Constructor for configuration object
-	 * 
+	 *
 	 * @param Tx_PtExtbase_Configuration_AbstractConfigurationBuilder $configurationBuilder
 	 * @param array $settings
 	 */
-	public function __construct(Tx_PtExtbase_Configuration_AbstractConfigurationBuilder $configurationBuilder, array $settings = array()) {
+	public function __construct(Tx_PtExtbase_Configuration_AbstractConfigurationBuilder $configurationBuilder = NULL, array $settings = array()) {
 		$this->configurationBuilder = $configurationBuilder;
 		$this->settings = $settings;
 		$this->init();
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Template method for initializing configuration object.
-	 * 
+	 *
 	 * Overwrite this method for implementing your own initialization
 	 * functionality in concrete class.
 	 */
 	protected function init() { }
-	
-	
-	
+
+
+
 	/**
 	 * Returns sub array of settings for given array namespace
 	 * (e.g. key1.key2.key3 returns settings['key1']['key2']['key3'])
-	 * 
+	 *
 	 * If no key is given, whole settings array is returned.
-	 * 
+	 *
 	 * If key does not exist, empty array is returned.
      *
      * @param string $key Key of settings array to be returned
-     * @return array 
+     * @return array
      */
     public function getSettings($key = '') {
     	if ($key != '' ) {
@@ -93,23 +93,23 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
             return $this->settings;
     	}
     }
-	
-	
-	
+
+
+
 	/**
 	 * Returns a reference to the configurationbuilder
-	 * 
+	 *
 	 * @return Tx_PtExtbase_Configuration_AbstractConfigurationBuilder
 	 */
 	public function getConfigurationBuilder() {
 		return $this->configurationBuilder;
 	}
 
-	
-	
+
+
 	/**
 	 * Set the internal property from the given tsKey if the key exists
-	 * 
+	 *
 	 * @param string $tsKey with the value to copy to the internal property
 	 * @param string $internalPropertyName optional property name if it is deiferent from the tsKey
 	 */
@@ -117,14 +117,14 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 		if (array_key_exists($tsKey, $this->settings)) {
 			$property = $internalPropertyName ? $internalPropertyName : $tsKey;
 			$this->$property = $this->settings[$tsKey];
-		}	
+		}
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Set the internal property from the given tsKey if the key exists, and is not nothing
-	 * 
+	 *
 	 * @param string $tsKey with the value to copy to the internal property
 	 * @param string $internalPropertyName optional property name if it is deiferent from the tsKey
 	 */
@@ -134,27 +134,27 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 			$this->$property = $this->settings[$tsKey];
 		}
 	}
-	
-	
+
+
 
 	/**
 	 * Checks if config value exists and not nothing
-	 * 
+	 *
 	 * @param string $tsKey
 	 * @return bool True, if array key exists in settings and is not empty
 	 */
 	protected function configValueExiststAndNotNothing($tsKey) {
 		return array_key_exists($tsKey, $this->settings) && (is_array($this->settings[$tsKey]) || trim($this->settings[$tsKey]));
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Set the internal property from to a boolean value if given tsKey exists.
 	 * If the given tsKey does not exist, the internal property is not changed.
 	 * If the given tsKey exists, but is empty, the internal property is set to false
 	 * If the given tsKey exists and is set to '1', the internal propterty is set to true
-	 * 
+	 *
 	 * @param string $tsKey with the value to copy to the internal property
 	 * @param string $internalPropertyName optional property name if it is deiferent from the tsKey
 	 */
@@ -166,27 +166,29 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 			} else {
 				$this->$property = true;
 			}
-		}	
+		}
 	}
-	
-	
-	
+
+
+
 	/**
-	 * Checks ift the tsKey exists in the settings and throw an exception with the given method if not
-	 * 
+	 * Checks if the tsKey exists in the settings and throw an exception with the given method if not
+	 *
 	 * @param string $tsKey with the value to copy to the internal property
 	 * @param string_type $errorMessageIfNotExists
 	 * @param string $internalPropertyName optional property name if it is deiferent from the tsKey
 	 * @throws Exception
 	 */
 	protected function setRequiredValue($tsKey, $errorMessageIfNotExists, $internalPropertyName = NULL) {
-		if (!array_key_exists($tsKey, $this->settings) || (!trim($this->settings[$tsKey]) && !is_array($this->settings[$tsKey]))) {
+		if (!array_key_exists($tsKey, $this->settings)
+			|| (is_array($this->settings[$tsKey]) && empty($this->settings[$tsKey]))
+			|| (!is_array($this->settings[$tsKey]) && !trim($this->settings[$tsKey]))) {
 			Throw new Exception($errorMessageIfNotExists);
 		}
-		
+
 		$property = $internalPropertyName ? $internalPropertyName : $tsKey;
 		$this->$property = $this->settings[$tsKey];
 	}
-	
+
 }
 ?>

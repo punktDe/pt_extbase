@@ -104,7 +104,7 @@ class Tx_PtExtbase_Tests_Utility_NameSpaceArrayTest extends Tx_PtExtbase_Tests_A
 		$refArray['key1']['key2']['key3'] = 'test2';
 		$this->assertEquals($testArray, $refArray);
 	}
-	
+
 	
 	
     /** @test */
