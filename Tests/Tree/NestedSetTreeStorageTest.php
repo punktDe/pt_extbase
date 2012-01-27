@@ -52,21 +52,98 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
 
     /** @test */
     public function saveTreeCallsRemoveInRepositoryIfNodesShouldBeRemoved() {
-        $this->markTestIncomplete('TODO implement me!');
+
+        $rootNodeMock = $this->getMock('Tx_PtExtbase_Tree_Node', array('getSubCategories'), array(), '', FALSE);
+        $rootNodeMock->expects($this->any())->method('getSubCategories')->will($this->returnValue(array()));
+
+        $nodeMockUncloned = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,2,1,1);
+        $nodeMock = clone $nodeMockUncloned;
+
+        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getDeletedNodes', 'getRoot'), array(), '', FALSE);
+        $treeMock->expects($this->any())->method('getDeletedNodes')->will($this->returnValue(array($nodeMock)));
+        $treeMock->expects($this->any())->method('getRoot')->will($this->returnValue($rootNodeMock));
+
+        $nodeRepositoryMock = $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('remove', 'update'), array(), '', FALSE);
+        $nodeRepositoryMock->expects($this->once())->method('remove')->with($nodeMock);
+        $nodeRepositoryMock->expects($this->once())->method('update');
+
+        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage();
+        $nestedSetTreeStorage->injectNodeRepository($nodeRepositoryMock);
+
+        $nestedSetTreeStorage->saveTree($treeMock);
     }
 
 
 
     /** @test */
     public function saveTreeCallsAddInRepositoryIfNodesShouldBeAdded() {
-        $this->markTestIncomplete('TODO implement me!');
+
+        $rootNodeMock = $this->getMock('Tx_PtExtbase_Tree_Node', array('getSubCategories'), array(), '', FALSE);
+        $rootNodeMock->expects($this->any())->method('getSubCategories')->will($this->returnValue(array()));
+
+        $nodeMockUncloned = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,2,1,1);
+        $nodeMock = clone $nodeMockUncloned;
+
+        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getAddedNodes', 'getRoot'), array(), '', FALSE);
+        $treeMock->expects($this->any())->method('getAddedNodes')->will($this->returnValue(array($nodeMock)));
+        $treeMock->expects($this->any())->method('getRoot')->will($this->returnValue($rootNodeMock));
+
+        $nodeRepositoryMock = $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('add', 'update'), array(), '', FALSE);
+        $nodeRepositoryMock->expects($this->once())->method('add')->with($nodeMock);
+        $nodeRepositoryMock->expects($this->once())->method('update');
+
+        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage();
+        $nestedSetTreeStorage->injectNodeRepository($nodeRepositoryMock);
+
+        $nestedSetTreeStorage->saveTree($treeMock);
     }
 
 
 
     /** @test */
     public function saveTreeCallsUpdateForAllNonAddedNonDeletedNodes() {
-        $this->markTestIncomplete('TODO implement me!');
+
+        $unclonedRootNodeMock = $this->getMock('Tx_PtExtbase_Tree_Node', array('getSubCategories'), array(), '', FALSE);
+        $unclonedRootNodeMock->expects($this->any())->method('getSubCategories')->will($this->returnValue(array()));
+        $rootNodeMock = clone $unclonedRootNodeMock;
+
+        $nodeMockUncloned = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,2,1,1);
+        $nodeMock = clone $nodeMockUncloned;
+
+        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getRoot'), array(), '', FALSE);
+        $treeMock->expects($this->any())->method('getRoot')->will($this->returnValue($rootNodeMock));
+
+        // TODO this is not, what we actually want to test
+        $nodeRepositoryMock = $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('add', 'update'), array(), '', FALSE);
+        $nodeRepositoryMock->expects($this->any())->method('update');
+
+        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage();
+        $nestedSetTreeStorage->injectNodeRepository($nodeRepositoryMock);
+
+        $nestedSetTreeStorage->saveTree($treeMock);
+    }
+
+
+
+    /** @test */
+    public function saveTreeCallsUpdateForRootNode() {
+        $unclonedRootNodeMock = $this->getMock('Tx_PtExtbase_Tree_Node', array(), array(), '', FALSE);
+        $rootNodeMock = clone $unclonedRootNodeMock;
+
+        $nodeMockUncloned = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,2,1,1);
+        $nodeMock = clone $nodeMockUncloned;
+
+        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getRoot'), array(), '', FALSE);
+        $treeMock->expects($this->any())->method('getRoot')->will($this->returnValue($rootNodeMock));
+
+        // TODO this is not, what we actually want to test
+        $nodeRepositoryMock = $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('add', 'update'), array(), '', FALSE);
+        $nodeRepositoryMock->expects($this->once())->method('update')->with($rootNodeMock);
+
+        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage();
+        $nestedSetTreeStorage->injectNodeRepository($nodeRepositoryMock);
+
+        $nestedSetTreeStorage->saveTree($treeMock);
     }
 
 

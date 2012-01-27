@@ -93,6 +93,9 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
      * @param Tx_PtExtbase_Tree_TreeInterface $tree
      */
     public function saveTree(Tx_PtExtbase_Tree_TreeInterface $tree) {
+
+        var_dump(get_class($this->nodeRepository));
+
         // Due to PHP bug, we cannot use type hint here, but have to check this manually
         if (!is_a($tree, Tx_PtExtbase_Tree_NestedSetTreeInterface)) {
             throw new Exception('Tx_PtExtbase_Tree_NestedSetTreeStorage can only persist trees that implement Tx_PtExtbase_Tree_NestedSetTreeInterface! 1327695444');
