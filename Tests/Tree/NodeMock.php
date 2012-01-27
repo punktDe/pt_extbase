@@ -32,7 +32,7 @@
  * @subpackage Category
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tests_Category_NodeMock extends Tx_PtExtbase_Category_Node {
+class Tx_PtExtbase_Tests_Tree_NodeMock extends Tx_PtExtbase_Tree_Node {
 
     /**
      * Helper method to create a category object
@@ -42,10 +42,10 @@ class Tx_PtExtbase_Tests_Category_NodeMock extends Tx_PtExtbase_Category_Node {
      * @param int $root
      * @param string $name
      * @param string $description
-     * @return Tx_PtExtbase_Category_Node
+     * @return Tx_PtExtbase_Tree_Node
      */
     public static function createCategory($uid, $lft, $rgt, $root, $name = '', $description = '') {
-        $category = new Tx_PtExtbase_Tests_Category_NodeMock($uid, $name, $description);
+        $category = new Tx_PtExtbase_Tests_Tree_NodeMock($uid, $name, $description);
         $category->setLft($lft);
         $category->setRgt($rgt);
         $category->setRoot($root);

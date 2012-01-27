@@ -25,17 +25,17 @@
 ***************************************************************/
 
 /**
- * Testcase for category tree builder
+ * Testcase for tree builder
  *
  * @package Tests
- * @subpackage Domain\Model
+ * @subpackage Category
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Category_TreeBuilderTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
 
 	/** @test */
 	public function classExists() {
-		$this->assertTrue(class_exists(Tx_PtExtbase_Category_TreeBuilder));
+		$this->assertTrue(class_exists(Tx_PtExtbase_Tree_TreeBuilder));
 	}
 	
 	
@@ -48,10 +48,10 @@ class Tx_PtExtbase_Tests_Category_TreeBuilderTest extends Tx_PtExtbase_Tests_Abs
 		$repositoryMock->expects($this->once())
 		    ->method('findByRootUid')
 		    ->will($this->returnValue($categoriesObjectStorage));
-		$treeBuilder = new Tx_PtExtbase_Category_TreeBuilder($repositoryMock);
-		$tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(1,12,1));
+		$treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
+		$tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,12,1));
 		
-		$this->assertTrue(is_a($tree, Tx_PtExtbase_Category_Tree));
+		$this->assertTrue(is_a($tree, Tx_PtExtbase_Tree_Tree));
 
 		// Assertions, that build tree is correct
 		$this->assertEquals($tree->getRoot(), $categoriesArray[5], 'Root node of tree is not root of given set of nodes');
@@ -75,9 +75,9 @@ class Tx_PtExtbase_Tests_Category_TreeBuilderTest extends Tx_PtExtbase_Tests_Abs
         $repositoryMock->expects($this->once())
             ->method('findByRootUid')
             ->will($this->returnValue(self::buildWrongSortedSetOfCategories()));
-        $treeBuilder = new Tx_PtExtbase_Category_TreeBuilder($repositoryMock);
+        $treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
         try {
-            $tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(1,12,1));
+            $tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,12,1));
         } catch (Exception $e) {
         	return;
         }
@@ -93,12 +93,12 @@ class Tx_PtExtbase_Tests_Category_TreeBuilderTest extends Tx_PtExtbase_Tests_Abs
 	 */
 	protected static function buildSetOfCategories() {
 		$setOfCategories = new Tx_Extbase_Persistence_ObjectStorage();
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(6,9,10,1,'6'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(5,8,11,1,'5'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(4,5,6,1,'4'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(3,3,4,1,'3'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(2,2,7,1,'2'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(1,1,12,1,'1'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(6,9,10,1,'6'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(5,8,11,1,'5'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(4,5,6,1,'4'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(3,3,4,1,'3'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(2,2,7,1,'2'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,1,12,1,'1'));
 		return $setOfCategories;
 	}
 	
@@ -111,8 +111,8 @@ class Tx_PtExtbase_Tests_Category_TreeBuilderTest extends Tx_PtExtbase_Tests_Abs
 	 */
 	protected static function buildWrongSortedSetOfCategories() {
 		$setOfCategories = new Tx_Extbase_Persistence_ObjectStorage();
-        $setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(5,8,11,1,'5'));
-        $setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(6,9,10,1,'6'));
+        $setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(5,8,11,1,'5'));
+        $setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(6,9,10,1,'6'));
         return $setOfCategories;
 	}
 	
@@ -124,7 +124,7 @@ class Tx_PtExtbase_Tests_Category_TreeBuilderTest extends Tx_PtExtbase_Tests_Abs
 	 * @return Tx_Yag_Domain_Repository_CategoryRepository Mocked repository
 	 */
 	protected function buildRepositoryMock() {
-		return $this->getMock('Tx_PtExtbase_Category_NodeRepository', array('findByRootUid'), array(), '', FALSE);
+		return $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('findByRootUid'), array(), '', FALSE);
 	}
 	
 }

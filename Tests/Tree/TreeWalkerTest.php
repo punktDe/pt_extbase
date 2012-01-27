@@ -35,25 +35,25 @@ class Tx_Yag_Tests_Domain_Model_TreeWalkerTest extends Tx_PtExtbase_Tests_Abstra
 
 	/** @test */
 	public function classExists() {
-		$this->assertTrue(class_exists('Tx_PtExtbase_Category_TreeWalker'));
+		$this->assertTrue(class_exists('Tx_PtExtbase_Tree_TreeWalker'));
 	}
 	
 	
 	
 	/** @test */
 	public function constructorAcceptsVisitorsAsArguments() {
-		$firstVisitor = $this->getMock('Tx_PtExtbase_Category_NestedSetVisitor', array(), array(), '', FALSE);
-		$secondVisitor = $this->getMock('Tx_PtExtbase_Category_NestedSetVisitor', array(), array(), '', FALSE);
-		$treeWalker = new Tx_PtExtbase_Category_TreeWalker(array($firstVisitor, $secondVisitor));
+		$firstVisitor = $this->getMock('Tx_PtExtbase_Tree_NestedSetVisitor', array(), array(), '', FALSE);
+		$secondVisitor = $this->getMock('Tx_PtExtbase_Tree_NestedSetVisitor', array(), array(), '', FALSE);
+		$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($firstVisitor, $secondVisitor));
 	}
 	
 	
 	
 	/** @test */
 	public function constructorThrowsExceptionIfWrongClassGetsInjected() {
-		$wrongVisitor = $this->getMock('Tx_PtExtbase_Tests_Category_NodeMock', array(), array(), '', FALSE);
+		$wrongVisitor = $this->getMock('Tx_PtExtbase_Tests_Tree_NodeMock', array(), array(), '', FALSE);
 		try {
-			$treeWalker = new Tx_PtExtbase_Category_TreeWalker(array($wrongVisitor));
+			$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($wrongVisitor));
 		} catch (Exception $e) {
 			return;
 		}
@@ -64,12 +64,12 @@ class Tx_Yag_Tests_Domain_Model_TreeWalkerTest extends Tx_PtExtbase_Tests_Abstra
 	
 	/** @test */
 	public function visitorIsInvokedInCorrectOrder() {
-		$node1 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('1', 0, 0, 1, '1');
-		$node2 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('2', 0, 0, 1, '2');
-		$node3 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('3', 0, 0, 1, '3');
-		$node4 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('4', 0, 0, 1, '4');
-		$node5 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('5', 0, 0, 1, '5');
-		$node6 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('6', 0, 0, 1, '6');
+		$node1 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('1', 0, 0, 1, '1');
+		$node2 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('2', 0, 0, 1, '2');
+		$node3 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('3', 0, 0, 1, '3');
+		$node4 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('4', 0, 0, 1, '4');
+		$node5 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('5', 0, 0, 1, '5');
+		$node6 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('6', 0, 0, 1, '6');
 		
 		$node1->addChild($node2); $node2->setParent($node1);
 		$node1->addChild($node5); $node5->setParent($node1);
@@ -77,12 +77,12 @@ class Tx_Yag_Tests_Domain_Model_TreeWalkerTest extends Tx_PtExtbase_Tests_Abstra
 		$node2->addChild($node4); $node4->setParent($node2);
 		$node5->addChild($node6); $node6->setParent($node5);
 		
-		$tree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($node1);
+		$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($node1);
 		
 		echo "Testtree: " . $tree->toString();
 		
-		$visitorMock = $this->getMock(Tx_PtExtbase_Category_TreeWalkerVisitorInterface, array('doFirstVisit','doLastVisit'), array(), '', FALSE);
-		$treeWalker = new Tx_PtExtbase_Category_TreeWalker(array($visitorMock));
+		$visitorMock = $this->getMock(Tx_PtExtbase_Tree_TreeWalkerVisitorInterface, array('doFirstVisit','doLastVisit'), array(), '', FALSE);
+		$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
 		
         $visitorMock->expects($this->at(0))->method('doFirstVisit');#->with($node1, 1);
         $visitorMock->expects($this->at(1))->method('doFirstVisit');#->with($node2, 2);

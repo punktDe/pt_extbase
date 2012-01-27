@@ -29,12 +29,12 @@
  * @package Category
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Category_TreeWalker {
+class Tx_PtExtbase_Tree_TreeWalker {
 	
 	/**
 	 * Holds a set of strategies that are invoked, whenever a node is visited
 	 *
-	 * @var array<Tx_PtExtbase_Category_TreeWalkerVisitorInterface>
+	 * @var array<Tx_PtExtbase_Tree_TreeWalkerVisitorInterface>
 	 */
 	protected $visitors;
 	
@@ -47,10 +47,10 @@ class Tx_PtExtbase_Category_TreeWalker {
 	 */
 	public function __construct($visitors) {
 		foreach($visitors as $visitor) {
-			if (is_a($visitor, 'Tx_PtExtbase_Category_TreeWalkerVisitorInterface')) {
+			if (is_a($visitor, 'Tx_PtExtbase_Tree_TreeWalkerVisitorInterface')) {
 				$this->visitors[] = $visitor;
 			} else {
-				throw new Exception('Given visitor does not implement Tx_PtExtbase_Category_TreeWalkerVisitorInterface. 1307902730');
+				throw new Exception('Given visitor does not implement Tx_PtExtbase_Tree_TreeWalkerVisitorInterface. 1307902730');
 			}
 		}
 	}
@@ -60,9 +60,9 @@ class Tx_PtExtbase_Category_TreeWalker {
 	/**
 	 * Traverses a tree depth-first search. Applying registered visitors whenever a node is visited.
 	 *
-	 * @param Tx_PtExtbase_Category_TraversableInterface $tree
+	 * @param Tx_PtExtbase_Tree_TraversableInterface $tree
 	 */
-	public function traverseTreeDfs(Tx_PtExtbase_Category_TraversableInterface $tree) {
+	public function traverseTreeDfs(Tx_PtExtbase_Tree_TraversableInterface $tree) {
 		$index = 1;
 		$this->dfs($tree->getRoot(), $index);
 	}
@@ -72,13 +72,13 @@ class Tx_PtExtbase_Category_TreeWalker {
 	/**
 	 * Helper method for doing a depth-first search on a node
 	 *
-	 * @param Tx_PtExtbase_Category_NodeInterface $node
+	 * @param Tx_PtExtbase_Tree_NodeInterface $node
 	 * @param int &$index Referenced value of visitation index. Will be increased with every node visitation.
 	 */
-	protected function dfs(Tx_PtExtbase_Category_NodeInterface $node, &$index) {
+	protected function dfs(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
 		$this->doFirstVisit($node, $index);
 		$index = $index + 1;
-		foreach ($node->getChildren() as $child) { /* @var $child Tx_PtExtbase_Category_NodeInterface */
+		foreach ($node->getChildren() as $child) { /* @var $child Tx_PtExtbase_Tree_NodeInterface */
 			$this->dfs($child, $index);
 		}
 		$this->doLastVisit($node, $index);
@@ -87,7 +87,7 @@ class Tx_PtExtbase_Category_TreeWalker {
 	
 	
 	
-	protected function doFirstVisit(Tx_PtExtbase_Category_NodeInterface $node, &$index) {
+	protected function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
 		foreach ($this->visitors as $visitor) {
 			$visitor->doFirstVisit($node, $index);
 		}
@@ -95,7 +95,7 @@ class Tx_PtExtbase_Category_TreeWalker {
 	
 	
 	
-	protected function doLastVisit(Tx_PtExtbase_Category_NodeInterface $node, &$index) {
+	protected function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
 		foreach ($this->visitors as $visitor) {
 			$visitor->doLastVisit($node, $index);
 		}
@@ -106,9 +106,9 @@ class Tx_PtExtbase_Category_TreeWalker {
 	/**
 	 * Traverses a tree breadth-first search. Applying registered visitors whenever a node is visited
 	 *
-	 * @param Tx_PtExtbase_Category_TraversableInterface $tree
+	 * @param Tx_PtExtbase_Tree_TraversableInterface $tree
 	 */
-	public function traverseTreeBfs(Tx_PtExtbase_Category_TraversableInterface $tree) {
+	public function traverseTreeBfs(Tx_PtExtbase_Tree_TraversableInterface $tree) {
 		
 	}
 	

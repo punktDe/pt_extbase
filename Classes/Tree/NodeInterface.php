@@ -31,7 +31,7 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_PtExtbase_Category_NodeInterface {
+interface Tx_PtExtbase_Tree_NodeInterface {
 
     /*********************************************************************************************************
      * Getters and setters for advanced domain logic. NOT USED FOR PERSISTENCE!
@@ -40,16 +40,16 @@ interface Tx_PtExtbase_Category_NodeInterface {
     /**
      * Setter for parent node
      *
-     * @param Tx_PtExtbase_Category_NodeInterface $category
+     * @param Tx_PtExtbase_Tree_NodeInterface $category
      */
-    public function setParent(Tx_PtExtbase_Category_NodeInterface $category);
+    public function setParent(Tx_PtExtbase_Tree_NodeInterface $category);
     
     
     
     /**
      * Getter for parent node
      *
-     * @return Tx_PtExtbase_Category_NodeInterface
+     * @return Tx_PtExtbase_Tree_NodeInterface
      */
     public function getParent();
     
@@ -122,40 +122,40 @@ interface Tx_PtExtbase_Category_NodeInterface {
     /**
      * Adds a child category to children at end of children
      *
-     * @param Tx_PtExtbase_Category_NodeInterface $category
+     * @param Tx_PtExtbase_Tree_NodeInterface $category
      */
-    public function addChild(Tx_PtExtbase_Category_NodeInterface $category);
+    public function addChild(Tx_PtExtbase_Tree_NodeInterface $category);
     
     
     
     /**
      * Adds a new child node after a given child node
      *
-     * @param Tx_PtExtbase_Category_NodeInterface $newChildCategory
-     * @param Tx_PtExtbase_Category_NodeInterface $categoryToAddAfter
+     * @param Tx_PtExtbase_Tree_NodeInterface $newChildCategory
+     * @param Tx_PtExtbase_Tree_NodeInterface $categoryToAddAfter
      */
-    public function addChildAfter(Tx_PtExtbase_Category_NodeInterface $newChildNode, Tx_PtExtbase_Category_NodeInterface $nodeToAddAfter);
+    public function addChildAfter(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter);
     
     
     
     /**
      * Adds a new child category before a given child category
      *
-     * @param Tx_PtExtbase_Category_NodeInterface $newChildCategory
-     * @param Tx_PtExtbase_Category_NodeInterface $categoryToAddBefore
+     * @param Tx_PtExtbase_Tree_NodeInterface $newChildCategory
+     * @param Tx_PtExtbase_Tree_NodeInterface $categoryToAddBefore
      * @param bool $updateLeftRight
      */
-    public function addChildBefore(Tx_PtExtbase_Category_NodeInterface $newChildNode, Tx_PtExtbase_Category_NodeInterface $nodeToAddBefore);
+    public function addChildBefore(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore);
     
     
     
     /**
      * Removes given child category
      *
-     * @param Tx_PtExtbase_Category_NodeInterface $child
+     * @param Tx_PtExtbase_Tree_NodeInterface $child
      * @param bool $updateLeftRight
      */
-    public function removeChild(Tx_PtExtbase_Category_NodeInterface $child);
+    public function removeChild(Tx_PtExtbase_Tree_NodeInterface $child);
     
     
     

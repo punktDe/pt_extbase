@@ -31,12 +31,12 @@
  * @subpackage Domain\Model
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tests_Category_Domain_Model_NestedSetVisitorTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Tree_Domain_Model_NestedSetVisitorTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
 
 	/** @test */
 	public function visitorSetsLeftAndRightValuesCorrectly() {
-		$visitor = new Tx_PtExtbase_Category_NestedSetVisitor();
-		$node = new Tx_PtExtbase_Category_Node();
+		$visitor = new Tx_PtExtbase_Tree_NestedSetVisitor();
+		$node = new Tx_PtExtbase_Tree_Node();
 		$index = 1;
 		$visitor->doFirstVisit($node, $index);
 		$this->assertEquals($index, 1);
@@ -51,12 +51,12 @@ class Tx_PtExtbase_Tests_Category_Domain_Model_NestedSetVisitorTest extends Tx_P
 	
 	/** @test */
 	public function visitorCorrectlyCreatesLeftRightEnumerationOnTree() {
-		$node1 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('1', 0, 0, 1, '1');
-        $node2 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('2', 0, 0, 1, '2');
-        $node3 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('3', 0, 0, 1, '3');
-        $node4 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('4', 0, 0, 1, '4');
-        $node5 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('5', 0, 0, 1, '5');
-        $node6 = Tx_PtExtbase_Tests_Category_NodeMock::createCategory('6', 0, 0, 1, '6');
+		$node1 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('1', 0, 0, 1, '1');
+        $node2 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('2', 0, 0, 1, '2');
+        $node3 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('3', 0, 0, 1, '3');
+        $node4 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('4', 0, 0, 1, '4');
+        $node5 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('5', 0, 0, 1, '5');
+        $node6 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('6', 0, 0, 1, '6');
         
         $node1->addChild($node2); $node2->setParent($node1);
         $node1->addChild($node5); $node5->setParent($node1);
@@ -64,10 +64,10 @@ class Tx_PtExtbase_Tests_Category_Domain_Model_NestedSetVisitorTest extends Tx_P
         $node2->addChild($node4); $node4->setParent($node2);
         $node5->addChild($node6); $node6->setParent($node5);
         
-        $tree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($node1);
+        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($node1);
         
-        $visitor = new Tx_PtExtbase_Category_NestedSetVisitor();
-        $treeWalker = new Tx_PtExtbase_Category_TreeWalker(array($visitor));
+        $visitor = new Tx_PtExtbase_Tree_NestedSetVisitor();
+        $treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitor));
         $treeWalker->traverseTreeDfs($tree);
         
         echo $tree->toString();

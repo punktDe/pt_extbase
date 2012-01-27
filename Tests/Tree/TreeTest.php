@@ -31,20 +31,20 @@
  * @subpackage Category
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
      
 	/** @test */
 	public function categoryTreeClassExists() {
-		$this->assertTrue(class_exists(Tx_PtExtbase_Category_Tree));
+		$this->assertTrue(class_exists(Tx_PtExtbase_Tree_Tree));
 	}
 	
 	
 	
 	/** @test */
 	public function createInstanceByRootNodeReturnsNumberedTreeInstance() {
-		$rootNode = new Tx_PtExtbase_Category_Node('root', 'rootNode');
-		$tree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
-		$this->assertTrue(is_a($tree, Tx_PtExtbase_Category_Tree));
+		$rootNode = new Tx_PtExtbase_Tree_Node('root', 'rootNode');
+		$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+		$this->assertTrue(is_a($tree, Tx_PtExtbase_Tree_Tree));
 		$this->assertEquals($tree->getRoot()->getLft(), 1);
 		$this->assertEquals($tree->getRoot()->getRgt(), 2);
 	}
@@ -53,7 +53,7 @@ class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function createCategoryTreeReturnsEmptyTree() {
-		$emptyTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode(null);
+		$emptyTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode(null);
 		$this->assertEquals($emptyTree->getRoot(), null);
 	}
 	
@@ -61,8 +61,8 @@ class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function creatingNewCategoryTreeWithRootNodeSetsRootNode() {
-		$rootNode = new Tx_PtExtbase_Category_Node('root', 'rootNode');
-		$categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
+		$rootNode = new Tx_PtExtbase_Tree_Node('root', 'rootNode');
+		$categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
 		$this->assertEquals($categoryTree->getRoot(), $rootNode);
 	}
 	
@@ -70,9 +70,9 @@ class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function creatingNewCategoryTreeWithRootNodeAddsRootNodeToNodeMap() {
-	    $nodeMock = new Tx_PtExtbase_Tests_Category_NodeMock();
+	    $nodeMock = new Tx_PtExtbase_Tests_Tree_NodeMock();
 	    $nodeMock->setUid(1234);
-		$categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($nodeMock);
+		$categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($nodeMock);
 		$this->assertEquals($categoryTree->getNodeByUid(1234), $nodeMock);
 	}
 	
@@ -80,16 +80,16 @@ class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function addingArbitraryCategoryStructureInitializesNodeMapCorrectly() {
-		$rootNode = new Tx_PtExtbase_Tests_Category_NodeMock(1);
-		$firstChild = new Tx_PtExtbase_Tests_Category_NodeMock(2);
-		$secondChild = new Tx_PtExtbase_Tests_Category_NodeMock(3);
-		$thirdChild = new Tx_PtExtbase_Tests_Category_NodeMock(4);
+		$rootNode = new Tx_PtExtbase_Tests_Tree_NodeMock(1);
+		$firstChild = new Tx_PtExtbase_Tests_Tree_NodeMock(2);
+		$secondChild = new Tx_PtExtbase_Tests_Tree_NodeMock(3);
+		$thirdChild = new Tx_PtExtbase_Tests_Tree_NodeMock(4);
 		
 		$firstChild->addChild($secondChild);
 		$firstChild->addChild($thirdChild);
 		$rootNode->addChild($firstChild);
 		
-		$categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
+		$categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
 		$this->assertEquals($categoryTree->getRoot(), $rootNode);
 		$this->assertEquals($categoryTree->getNodeByUid(1), $rootNode);
 		$this->assertEquals($categoryTree->getNodeByUid(2), $firstChild);
@@ -101,16 +101,16 @@ class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function deletingNodeRemovesNodeFromTreeAndMap() {
-		$rootNode = new Tx_PtExtbase_Tests_Category_NodeMock(1);
-        $firstChild = new Tx_PtExtbase_Tests_Category_NodeMock(2);
-        $secondChild = new Tx_PtExtbase_Tests_Category_NodeMock(3);
-        $thirdChild = new Tx_PtExtbase_Tests_Category_NodeMock(4);
+		$rootNode = new Tx_PtExtbase_Tests_Tree_NodeMock(1);
+        $firstChild = new Tx_PtExtbase_Tests_Tree_NodeMock(2);
+        $secondChild = new Tx_PtExtbase_Tests_Tree_NodeMock(3);
+        $thirdChild = new Tx_PtExtbase_Tests_Tree_NodeMock(4);
         
         $firstChild->addChild($secondChild);
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
         $categoryTree->deleteNode($firstChild);
         
@@ -129,16 +129,16 @@ class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function moveNodeRemovesNodeAsChildOfOldParentAndAddsNewParent() {
-		$rootNode = new Tx_PtExtbase_Tests_Category_NodeMock(1);
-        $firstChild = new Tx_PtExtbase_Tests_Category_NodeMock(2);
-        $secondChild = new Tx_PtExtbase_Tests_Category_NodeMock(3);
-        $thirdChild = new Tx_PtExtbase_Tests_Category_NodeMock(4);
+		$rootNode = new Tx_PtExtbase_Tests_Tree_NodeMock(1);
+        $firstChild = new Tx_PtExtbase_Tests_Tree_NodeMock(2);
+        $secondChild = new Tx_PtExtbase_Tests_Tree_NodeMock(3);
+        $thirdChild = new Tx_PtExtbase_Tests_Tree_NodeMock(4);
         
         $firstChild->addChild($secondChild);
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
         var_dump('Before move: ' . $categoryTree->toString());
         
@@ -155,18 +155,18 @@ class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function moveNodeBeforeNodeCorrectlyMovesNode() {
-		$rootNode = new Tx_PtExtbase_Tests_Category_NodeMock(1);
-        $firstChild = new Tx_PtExtbase_Tests_Category_NodeMock(2);
-        $secondChild = new Tx_PtExtbase_Tests_Category_NodeMock(3);
-        $thirdChild = new Tx_PtExtbase_Tests_Category_NodeMock(4);
-        $fourthChild = new Tx_PtExtbase_Tests_Category_NodeMock(5);
+		$rootNode = new Tx_PtExtbase_Tests_Tree_NodeMock(1);
+        $firstChild = new Tx_PtExtbase_Tests_Tree_NodeMock(2);
+        $secondChild = new Tx_PtExtbase_Tests_Tree_NodeMock(3);
+        $thirdChild = new Tx_PtExtbase_Tests_Tree_NodeMock(4);
+        $fourthChild = new Tx_PtExtbase_Tests_Tree_NodeMock(5);
         
         $thirdChild->addChild($fourthChild);
         $firstChild->addChild($secondChild);
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
                 
-        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
         var_dump('Before move: ' . $categoryTree->toString());
         
@@ -185,18 +185,18 @@ class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function moveNodeAfterNodeCorrectlyMovesNode() {
-		$rootNode = new Tx_PtExtbase_Tests_Category_NodeMock(1);
-        $firstChild = new Tx_PtExtbase_Tests_Category_NodeMock(2);
-        $secondChild = new Tx_PtExtbase_Tests_Category_NodeMock(3);
-        $thirdChild = new Tx_PtExtbase_Tests_Category_NodeMock(4);
-        $fourthChild = new Tx_PtExtbase_Tests_Category_NodeMock(5);
+		$rootNode = new Tx_PtExtbase_Tests_Tree_NodeMock(1);
+        $firstChild = new Tx_PtExtbase_Tests_Tree_NodeMock(2);
+        $secondChild = new Tx_PtExtbase_Tests_Tree_NodeMock(3);
+        $thirdChild = new Tx_PtExtbase_Tests_Tree_NodeMock(4);
+        $fourthChild = new Tx_PtExtbase_Tests_Tree_NodeMock(5);
         
         $thirdChild->addChild($fourthChild);
         $firstChild->addChild($secondChild);
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
         var_dump('Before move: ' . $categoryTree->toString());
         
@@ -215,20 +215,20 @@ class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function insertNodeInsertsNodeInGivenParentNode() {
-		$rootNode = new Tx_PtExtbase_Tests_Category_NodeMock(1);
-        $firstChild = new Tx_PtExtbase_Tests_Category_NodeMock(2);
-        $secondChild = new Tx_PtExtbase_Tests_Category_NodeMock(3);
-        $thirdChild = new Tx_PtExtbase_Tests_Category_NodeMock(4);
-        $fourthChild = new Tx_PtExtbase_Tests_Category_NodeMock(5);
+		$rootNode = new Tx_PtExtbase_Tests_Tree_NodeMock(1);
+        $firstChild = new Tx_PtExtbase_Tests_Tree_NodeMock(2);
+        $secondChild = new Tx_PtExtbase_Tests_Tree_NodeMock(3);
+        $thirdChild = new Tx_PtExtbase_Tests_Tree_NodeMock(4);
+        $fourthChild = new Tx_PtExtbase_Tests_Tree_NodeMock(5);
         
         $thirdChild->addChild($fourthChild);
         $firstChild->addChild($secondChild);
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-		$newNode = new Tx_PtExtbase_Category_Node('test', 'test');
+		$newNode = new Tx_PtExtbase_Tree_Node('test', 'test');
 		
 		$categoryTree->insertNode($newNode, $rootNode);
 		
@@ -240,9 +240,9 @@ class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function insertingNodeAddsInsertedNodeToListOfAddedNodes() {
-		$rootNode = new Tx_PtExtbase_Tests_Category_NodeMock(1);
-		$nodeToBeAdded = new Tx_PtExtbase_Tests_Category_NodeMock(2);
-		$categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
+		$rootNode = new Tx_PtExtbase_Tests_Tree_NodeMock(1);
+		$nodeToBeAdded = new Tx_PtExtbase_Tests_Tree_NodeMock(2);
+		$categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
 		$categoryTree->insertNode($nodeToBeAdded, $rootNode);
 		
 		$this->assertTrue(in_array($nodeToBeAdded, $categoryTree->getAddedNodes()));
@@ -252,18 +252,18 @@ class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function deletingNodeFromTreeAddsDeletedNodesToListOfDeletedNodes() {
-		$rootNode = new Tx_PtExtbase_Tests_Category_NodeMock(1);
-        $firstChild = new Tx_PtExtbase_Tests_Category_NodeMock(2);
-        $secondChild = new Tx_PtExtbase_Tests_Category_NodeMock(3);
-        $thirdChild = new Tx_PtExtbase_Tests_Category_NodeMock(4);
-        $fourthChild = new Tx_PtExtbase_Tests_Category_NodeMock(5);
+		$rootNode = new Tx_PtExtbase_Tests_Tree_NodeMock(1);
+        $firstChild = new Tx_PtExtbase_Tests_Tree_NodeMock(2);
+        $secondChild = new Tx_PtExtbase_Tests_Tree_NodeMock(3);
+        $thirdChild = new Tx_PtExtbase_Tests_Tree_NodeMock(4);
+        $fourthChild = new Tx_PtExtbase_Tests_Tree_NodeMock(5);
         
         $thirdChild->addChild($fourthChild);
         $firstChild->addChild($secondChild);
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
         $categoryTree->deleteNode($thirdChild);
         

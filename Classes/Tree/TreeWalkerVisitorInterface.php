@@ -30,25 +30,25 @@
  * @subpackage Model
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-interface Tx_PtExtbase_Category_TreeWalkerVisitorInterface {
+interface Tx_PtExtbase_Tree_TreeWalkerVisitorInterface {
 
 	/**
 	 * Run whenever a node is visited for the first time
 	 *
-	 * @param Tx_PtExtbase_Category_NodeInterface $node
+	 * @param Tx_PtExtbase_Tree_NodeInterface $node
 	 * @param int &$index Holds the visitation index of treewalker
 	 */
-	public function doFirstVisit(Tx_PtExtbase_Category_NodeInterface $node, &$index);
+	public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index);
 	
 	
 	
 	/**
 	 * Run whenever a node is visited for the last time 
 	 *
-	 * @param Tx_PtExtbase_Category_NodeInterface $node
+	 * @param Tx_PtExtbase_Tree_NodeInterface $node
 	 * @param int &$index Holds the visitation index of treewalker
 	 */
-	public function doLastVisit(Tx_PtExtbase_Category_NodeInterface $node, &$index);
+	public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index);
 	
 }
 ?>

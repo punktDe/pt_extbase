@@ -57,9 +57,9 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Category_Node
+class Tx_PtExtbase_Tree_Node
     extends Tx_Extbase_DomainObject_AbstractEntity
-    implements Tx_PtExtbase_Category_NestedSetNodeInterface {
+    implements Tx_PtExtbase_Tree_NestedSetNodeInterface {
 	
 	/**
      * Name for category
@@ -109,7 +109,7 @@ class Tx_PtExtbase_Category_Node
     /**
      * Holds refernce to parent category (null, if root)
      *
-     * @var Tx_PtExtbase_Category_Node
+     * @var Tx_PtExtbase_Tree_Node
      */
     protected $parent;
     
@@ -118,7 +118,7 @@ class Tx_PtExtbase_Category_Node
     /**
      * Holds references to child categories
      *
-     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Category_Node>
+     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
      */
     protected $children;
     
@@ -285,9 +285,9 @@ class Tx_PtExtbase_Category_Node
     /**
      * Setter for parent category
      *
-     * @param Tx_PtExtbase_Category_NodeInterface $category
+     * @param Tx_PtExtbase_Tree_NodeInterface $category
      */
-    public function setParent(Tx_PtExtbase_Category_NodeInterface $category) {
+    public function setParent(Tx_PtExtbase_Tree_NodeInterface $category) {
     	$this->parent = $category;
     	if ($category->children == null)
     	   $category->children = new Tx_Extbase_Persistence_ObjectStorage();
@@ -299,7 +299,7 @@ class Tx_PtExtbase_Category_Node
     /**
      * Getter for parent category
      *
-     * @return Tx_PtExtbase_Category_Node
+     * @return Tx_PtExtbase_Tree_Node
      */
     public function getParent() {
     	return $this->parent;	
@@ -395,9 +395,9 @@ class Tx_PtExtbase_Category_Node
     /**
      * Adds a child category to children at end of children
      *
-     * @param Tx_PtExtbase_Category_NodeInterface $category
+     * @param Tx_PtExtbase_Tree_NodeInterface $category
      */
-    public function addChild(Tx_PtExtbase_Category_NodeInterface $category) {
+    public function addChild(Tx_PtExtbase_Tree_NodeInterface $category) {
     	// TODO this should not be necessary. Seems like this method is not invoked, if object is loaded from database
     	if (is_null($this->children)) {
     		$this->children = new Tx_Extbase_Persistence_ObjectStorage();
@@ -412,10 +412,10 @@ class Tx_PtExtbase_Category_Node
     /**
      * Adds a new child category after a given child category
      *
-     * @param Tx_PtExtbase_Category_NodeInterface $newChildCategory
-     * @param Tx_PtExtbase_Category_NodeInterface $categoryToAddAfter
+     * @param Tx_PtExtbase_Tree_NodeInterface $newChildCategory
+     * @param Tx_PtExtbase_Tree_NodeInterface $categoryToAddAfter
      */
-    public function addChildAfter(Tx_PtExtbase_Category_NodeInterface $newChildCategory, Tx_PtExtbase_Category_NodeInterface $categoryToAddAfter) {
+    public function addChildAfter(Tx_PtExtbase_Tree_NodeInterface $newChildCategory, Tx_PtExtbase_Tree_NodeInterface $categoryToAddAfter) {
     	$newChildren = new Tx_Extbase_Persistence_ObjectStorage();
     	foreach ($this->children as $child) {
     		$newChildren->attach($child);
@@ -431,11 +431,11 @@ class Tx_PtExtbase_Category_Node
     /**
      * Adds a new child category before a given child category
      *
-     * @param Tx_PtExtbase_Category_NodeInterface $newChildCategory
-     * @param Tx_PtExtbase_Category_NodeInterface $categoryToAddBefore
+     * @param Tx_PtExtbase_Tree_NodeInterface $newChildCategory
+     * @param Tx_PtExtbase_Tree_NodeInterface $categoryToAddBefore
      * @param bool $updateLeftRight
      */
-    public function addChildBefore(Tx_PtExtbase_Category_NodeInterface $newChildCategory, Tx_PtExtbase_Category_NodeInterface $categoryToAddBefore) {
+    public function addChildBefore(Tx_PtExtbase_Tree_NodeInterface $newChildCategory, Tx_PtExtbase_Tree_NodeInterface $categoryToAddBefore) {
     	$newChildren = new Tx_Extbase_Persistence_ObjectStorage();
     	foreach($this->children as $child) {
     		if ($child == $categoryToAddBefore) {
@@ -451,9 +451,9 @@ class Tx_PtExtbase_Category_Node
     /**
      * Removes given child category
      *
-     * @param Tx_PtExtbase_Category_NodeInterface $child
+     * @param Tx_PtExtbase_Tree_NodeInterface $child
      */
-    public function removeChild(Tx_PtExtbase_Category_NodeInterface $child) {
+    public function removeChild(Tx_PtExtbase_Tree_NodeInterface $child) {
     	$this->children->detach($child);
     }
     

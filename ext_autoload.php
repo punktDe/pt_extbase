@@ -45,6 +45,6 @@ return array(
     'tx_ptextbase_tests_state_stubs_persistableobject' => $testsDir . 'State/Stubs/PersistableObject.php',
     'tx_ptextbase_tests_state_stubs_getpostvarobject'  => $testsDir . 'State/Stubs/GetPostVarObject.php',
 	'tx_ptextbase_tests_abstractbasetestcase' => $testsDir . 'AbstractBaseTest.php',
-    'tx_ptextbase_tests_category_nodemock' => $testsDir . 'Category/NodeMock.php'
+    'tx_ptextbase_tests_tree_nodemock' => $testsDir . 'Tree/NodeMock.php'
 );
 ?>

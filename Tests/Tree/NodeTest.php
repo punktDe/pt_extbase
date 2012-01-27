@@ -31,11 +31,11 @@
  * @subpackage Category
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Category_NodeTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Tree_NodeTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
      
 	/** @test */
 	public function constructReturnsInitializedCategory() {
-		$category = new Tx_PtExtbase_Category_Node();
+		$category = new Tx_PtExtbase_Tree_Node();
 		$this->assertEquals($category->getLft(), 1);
 		$this->assertEquals($category->getRgt(), 2);
 	}
@@ -44,8 +44,8 @@ class Tx_PtExtbase_Tests_Category_NodeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function getChildCountReturnsOneForOneAddedChild() {
-		$parentCategory = new Tx_PtExtbase_Category_Node();
-        $childCategory1 = new Tx_PtExtbase_Category_Node();
+		$parentCategory = new Tx_PtExtbase_Tree_Node();
+        $childCategory1 = new Tx_PtExtbase_Tree_Node();
         $parentCategory->addChild($childCategory1);
         $this->assertEquals(1, $parentCategory->getChildrenCount());
 	}
@@ -54,9 +54,9 @@ class Tx_PtExtbase_Tests_Category_NodeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function getChildCountReturnsOneForAddedChildOfChild() {
-	    $parentCategory = new Tx_PtExtbase_Category_Node();
-        $childCategory1 = new Tx_PtExtbase_Category_Node();
-        $childCategory2 = new Tx_PtExtbase_Category_Node();
+	    $parentCategory = new Tx_PtExtbase_Tree_Node();
+        $childCategory1 = new Tx_PtExtbase_Tree_Node();
+        $childCategory2 = new Tx_PtExtbase_Tree_Node();
         
         $childCategory1->addChild($childCategory2);
         $parentCategory->addChild($childCategory1);
@@ -68,7 +68,7 @@ class Tx_PtExtbase_Tests_Category_NodeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function getChildCountReturnsZeroIfThereAreNoChildren() {
-		$parentCategory = new Tx_PtExtbase_Category_Node();
+		$parentCategory = new Tx_PtExtbase_Tree_Node();
 		$this->assertEquals(0, $parentCategory->getChildrenCount());
 	}
 	
@@ -76,8 +76,8 @@ class Tx_PtExtbase_Tests_Category_NodeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function hasChildrenReturnsTrueIfCategoryHasChildren() {
-		$parentCategory = new Tx_PtExtbase_Category_Node();
-		$childCategory1 = new Tx_PtExtbase_Category_Node();
+		$parentCategory = new Tx_PtExtbase_Tree_Node();
+		$childCategory1 = new Tx_PtExtbase_Tree_Node();
 		$parentCategory->addChild($childCategory1);
 		$this->assertEquals(true, $parentCategory->hasChildren());
 	}
@@ -86,7 +86,7 @@ class Tx_PtExtbase_Tests_Category_NodeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
 	/** @test */
 	public function hasChildrenReturnsFalseIfCategoryHasNoChildren() {
-		$parentCategory = new Tx_PtExtbase_Category_Node();
+		$parentCategory = new Tx_PtExtbase_Tree_Node();
 		$this->assertEquals(false, $parentCategory->hasChildren());
 	}
 	
@@ -94,9 +94,9 @@ class Tx_PtExtbase_Tests_Category_NodeTest extends Tx_PtExtbase_Tests_AbstractBa
 	
     /** @test */
     public function getLevelReturnsTwoIfChildOfChild() {
-        $parentCategory = new Tx_PtExtbase_Category_Node();
-        $childCategory1 = new Tx_PtExtbase_Category_Node();
-        $childCategory2 = new Tx_PtExtbase_Category_Node();
+        $parentCategory = new Tx_PtExtbase_Tree_Node();
+        $childCategory1 = new Tx_PtExtbase_Tree_Node();
+        $childCategory2 = new Tx_PtExtbase_Tree_Node();
         
         $childCategory1->addChild($childCategory2);
         $parentCategory->addChild($childCategory1);
@@ -108,12 +108,12 @@ class Tx_PtExtbase_Tests_Category_NodeTest extends Tx_PtExtbase_Tests_AbstractBa
     
     /** @test */
     public function getSubCategoriesReturnsSubCategoriesInCorrectOrder() {
-    	$parentCategory = new Tx_PtExtbase_Category_Node('1');
-        $childCategory1 = new Tx_PtExtbase_Category_Node('1.1');
-        $childCategory2 = new Tx_PtExtbase_Category_Node('1.1.1');
-        $childCategory3 = new Tx_PtExtbase_Category_Node('1.2');
-        $childCategory4 = new Tx_PtExtbase_Category_Node('1.2.1');
-        $childCategory5 = new Tx_PtExtbase_Category_Node('1.2.2');
+    	$parentCategory = new Tx_PtExtbase_Tree_Node('1');
+        $childCategory1 = new Tx_PtExtbase_Tree_Node('1.1');
+        $childCategory2 = new Tx_PtExtbase_Tree_Node('1.1.1');
+        $childCategory3 = new Tx_PtExtbase_Tree_Node('1.2');
+        $childCategory4 = new Tx_PtExtbase_Tree_Node('1.2.1');
+        $childCategory5 = new Tx_PtExtbase_Tree_Node('1.2.2');
         
         $childCategory3->addChild($childCategory4);
         $childCategory3->addChild($childCategory5);
@@ -135,10 +135,10 @@ class Tx_PtExtbase_Tests_Category_NodeTest extends Tx_PtExtbase_Tests_AbstractBa
     
     /** @test */
     public function addChildBeforeAddsChildBeforeGivenChild() {
-    	$child1 = new Tx_PtExtbase_Category_Node('1.1');
-    	$child2 = new Tx_PtExtbase_Category_Node('1.2');
-    	$child3 = new Tx_PtExtbase_Category_Node('1.3');
-    	$parent = new Tx_PtExtbase_Category_Node('1');
+    	$child1 = new Tx_PtExtbase_Tree_Node('1.1');
+    	$child2 = new Tx_PtExtbase_Tree_Node('1.2');
+    	$child3 = new Tx_PtExtbase_Tree_Node('1.3');
+    	$parent = new Tx_PtExtbase_Tree_Node('1');
     	
     	$parent->addChild($child1);
     	$parent->addChildBefore($child2, $child1);
@@ -154,10 +154,10 @@ class Tx_PtExtbase_Tests_Category_NodeTest extends Tx_PtExtbase_Tests_AbstractBa
     
     /** @test */
     public function addChildAfterAddChildAfterGivenChild() {
-    	$child1 = new Tx_PtExtbase_Category_Node('1.1');
-        $child2 = new Tx_PtExtbase_Category_Node('1.2');
-        $child3 = new Tx_PtExtbase_Category_Node('1.3');
-        $parent = new Tx_PtExtbase_Category_Node('1');
+    	$child1 = new Tx_PtExtbase_Tree_Node('1.1');
+        $child2 = new Tx_PtExtbase_Tree_Node('1.2');
+        $child3 = new Tx_PtExtbase_Tree_Node('1.3');
+        $parent = new Tx_PtExtbase_Tree_Node('1');
         
         $parent->addChild($child1);
         $parent->addChildAfter($child2, $child1);

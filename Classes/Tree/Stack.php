@@ -36,7 +36,7 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Category_Stack {
+class Tx_PtExtbase_Tree_Stack {
 
 	/**
 	 * Holds an elements array for stack
@@ -83,7 +83,7 @@ class Tx_PtExtbase_Category_Stack {
 	/**
 	 * Pops element from stack and returns popped stack
 	 *
-	 * @return Tx_PtExtbase_Category_Stack
+	 * @return Tx_PtExtbase_Tree_Stack
 	 */
 	public function pop() {
 		if ($this->isEmpty())

@@ -24,14 +24,14 @@
 ***************************************************************/
 
 /**
- * Repository for Tx_PtExtbase_Category_Node
+ * Repository for Tx_PtExtbase_Tree_Node
  *
  * @package Category
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Category_NodeRepository
+class Tx_PtExtbase_Tree_NodeRepository
     extends Tx_Extbase_Persistence_Repository
-    implements Tx_PtExtbase_Category_NodeRepositoryInterface {
+    implements Tx_PtExtbase_Tree_NodeRepositoryInterface {
 	
 	
 	
@@ -40,10 +40,10 @@ class Tx_PtExtbase_Category_NodeRepository
 	 *
      * TODO rename: we do not find by nodeUid but by node object
      *
-	 * @param Tx_PtExtbase_Category_NodeInterface $category
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Category_Node>
+	 * @param Tx_PtExtbase_Tree_NodeInterface $category
+	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
 	 */
-	public function findByRootOfGivenNodeUid(Tx_PtExtbase_Category_NodeInterface $category) {
+	public function findByRootOfGivenNodeUid(Tx_PtExtbase_Tree_NodeInterface $category) {
 		$rootUid = $category->getRoot();
 		return $this->findByRootUid($rootUid);
 	}
@@ -54,7 +54,7 @@ class Tx_PtExtbase_Category_NodeRepository
 	 * Returns a set of categories determined by uid of root node
 	 *
 	 * @param int $rootUid
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Category_Node>
+	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
 	 */
 	public function findByRootUid($rootUid) {
 		$query = $this->createQuery();
@@ -68,7 +68,7 @@ class Tx_PtExtbase_Category_NodeRepository
 	/**
 	 * Removes a category and its subcategories
 	 *
-	 * @param Tx_PtExtbase_Category_Node $category Category to be removed
+	 * @param Tx_PtExtbase_Tree_Node $category Category to be removed
 	 */
 	public function remove($category) {
 		
@@ -126,9 +126,9 @@ class Tx_PtExtbase_Category_NodeRepository
 	 * Hard-deletes a category and its subcategories from database.
 	 * No deleted=1 is set, categories are really deleted!
 	 *
-	 * @param Tx_PtExtbase_Category_Node $category
+	 * @param Tx_PtExtbase_Tree_Node $category
 	 */
-	protected function deleteCategory(Tx_PtExtbase_Category_Node $category) {
+	protected function deleteCategory(Tx_PtExtbase_Tree_Node $category) {
         $left = $category->getLft();
         $right = $category->getRgt();
         

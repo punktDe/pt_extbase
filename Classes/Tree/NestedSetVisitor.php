@@ -24,22 +24,35 @@
 ***************************************************************/
 
 /**
- * Interface for traversable objects.
- *
- * TODO I think, there is a method "getChildren" missing!
+ * Class implements a visitor for doing nested set enumeration on a tree.
  *
  * @package Category
  * @subpackage Model
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-interface Tx_PtExtbase_Category_TraversableInterface {
+class Tx_PtExtbase_Tree_NestedSetVisitor implements Tx_PtExtbase_Tree_TreeWalkerVisitorInterface {
 	
 	/**
-	 * Returns root node of traversable object
-	 * 
-	 * @return Tx_PtExtbase_Category_NodeInterface
+	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
+	 *
+	 * @param Tx_PtExtbase_Tree_NodeInterface $node
+	 * @param int &$index Visitation index of treewalker
 	 */
-	public function getRoot();
+	public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
+		$node->setLft($index);
+	}
+
+
+	
+	/**
+	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doLastVisit()
+	 *
+	 * @param Tx_PtExtbase_Tree_NodeInterface $node
+	 * @param int &$index Visitation index of treewalker
+	 */
+	public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
+		$node->setRgt($index);
+	}
 	
 }
 ?>

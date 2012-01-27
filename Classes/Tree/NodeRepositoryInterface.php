@@ -25,65 +25,23 @@
 ***************************************************************/
 
 /**
- * Interface for nodes in a nested set tree
+ * Interface for repositories that handle nodes in a nested set tree
  *
  * @package Category
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_PtExtbase_Category_NestedSetNodeInterface extends Tx_PtExtbase_Category_NodeInterface {
-    
-    /**
-     * Getter for root node id
-     *
-     * @return int
-     */
-    public function getRoot();
-    
-    
-    
-    /**
-     * Setter for root category id
-     *
-     * @param int $root
-     */
-    public function setRoot($root);
-    
-    
-    
-    /**
-     * Getter for second visit in category tree
-     *
-     * @return int
-     */
-    public function getRgt();
-    
-    
-    
-    /**
-     * Setter for second visit in category tree
-     *
-     * @param int $rgt
-     */
-    public function setRgt($rgt);
-    
-    
-    
-    /**
-     * Getter for first visit in category tree
-     *
-     * @return int
-     */
-    public function getLft();
-    
-    
-    
-    /**
-     * Setter for first visit in category tree
-     *
-     * @param int $lft
-     */
-    public function setLft($lft);
+interface Tx_PtExtbase_Tree_NodeRepositoryInterface {
 
+	/**
+	 * Returns ancestors of the root node of given node.
+	 * 
+	 * Nodes are ordered by left-value 
+	 *
+	 * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_NodeInterface>
+	 */
+	public function findByRootOfGivenNodeUid(Tx_PtExtbase_Tree_NodeInterface $node);
+	
 }
 ?>
