@@ -149,7 +149,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	 * @return array
 	 */
 	public function getParametersByNamespace($namespace) {
-		return $this->extractPgVarsByNamespace($namespace);	
+		return $this->extractPgVarsByNamespace($namespace);
 	}
 	
 	

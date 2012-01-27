@@ -30,7 +30,6 @@
 * @author Daniel Lienert
 * @author Michael Knoll
 */
-
 abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements t3lib_Singleton {
 
     /**
@@ -83,20 +82,34 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements t3lib_Sing
      * 
      */
     public function initializeObject() {
+
         $frameWorkKonfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-        
+
         $this->extensionName = $frameWorkKonfiguration['extensionName'];
-        $this->extensionNameSpace = Tx_Extbase_Utility_Extension::getPluginNamespace($frameWorkKonfiguration['extensionName'], 
+        $this->extensionNameSpace = Tx_Extbase_Utility_Extension::getPluginNamespace($frameWorkKonfiguration['extensionName'],
                                                                                         $frameWorkKonfiguration['pluginName']);
-        
+
         $this->isInCachedMode = $frameWorkKonfiguration['pluginName'] == 'Cached' ? true : false;
         
         $this->currentListIdentifier = $frameWorkKonfiguration['settings']['listIdentifier'];
         
         unset($frameWorkKonfiguration);
     }
-    
-    
+
+
+
+	/**
+	 * Allows manual overwriting of extension name and plugin name AFTER initialization
+	 *
+	 * @param $extensionName
+	 * @param $pluginName
+	 */
+	public function setExtensionNamespace($extensionName, $pluginName) {
+		$this->extensionName = $extensionName;
+		$this->extensionNameSpace = Tx_Extbase_Utility_Extension::getPluginNamespace($extensionName, $pluginName);
+	}
+
+
     
     /**
      * @param Tx_Extbase_Configuration_ConfigurationManager $configurationManager

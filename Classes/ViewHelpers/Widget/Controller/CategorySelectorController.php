@@ -32,4 +32,8 @@
 
 class Tx_PtExtbase_ViewHelpers_Widget_Controller_CategorySelectorController extends Tx_Fluid_Core_Widget_AbstractWidgetController {
 
+	public function indexAction() {
+
+	}
+
 }
