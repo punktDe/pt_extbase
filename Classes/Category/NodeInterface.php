@@ -27,8 +27,6 @@
 /**
  * Interface for nodes in a nested set tree
  *
- * TODO split this interface into nested-set related functionality and category-related functionality
- *
  * @package Category
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
@@ -38,7 +36,7 @@ interface Tx_PtExtbase_Category_NodeInterface {
     /*********************************************************************************************************
      * Getters and setters for advanced domain logic. NOT USED FOR PERSISTENCE!
      *********************************************************************************************************/
-    
+
     /**
      * Setter for parent node
      *
