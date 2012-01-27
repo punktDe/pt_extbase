@@ -31,7 +31,7 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Category_CategoryTree implements Tx_PtExtbase_Category_TreeInterface {
+class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface {
 
 	/**
 	 * Holds reference of root node for this tree
@@ -91,10 +91,10 @@ class Tx_PtExtbase_Category_CategoryTree implements Tx_PtExtbase_Category_TreeIn
 	 * Factory method for instantiating a tree for a given root node
 	 *
 	 * @param Tx_PtExtbase_Category_Category $rootNode
-	 * @return Tx_PtExtbase_Category_CategoryTree
+	 * @return Tx_PtExtbase_Category_Tree
 	 */
 	public static function getInstanceByRootNode(Tx_PtExtbase_Category_Category $rootNode = null) {
-		$tree = new Tx_PtExtbase_Category_CategoryTree($rootNode);
+		$tree = new Tx_PtExtbase_Category_Tree($rootNode);
 		$nsTreeWalker = new Tx_PtExtbase_Category_TreeWalker(array(new Tx_PtExtbase_Category_NestedSetVisitor()));
 		$tree->injectNsUpdateTreeWalker($nsTreeWalker);
 		$tree->updateCategoryTree();

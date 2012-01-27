@@ -31,11 +31,11 @@
  * @subpackage Category
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Category_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
      
 	/** @test */
 	public function categoryTreeClassExists() {
-		$this->assertTrue(class_exists(Tx_PtExtbase_Category_CategoryTree));
+		$this->assertTrue(class_exists(Tx_PtExtbase_Category_Tree));
 	}
 	
 	
@@ -43,8 +43,8 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
 	/** @test */
 	public function createInstanceByRootNodeReturnsNumberedTreeInstance() {
 		$rootNode = new Tx_PtExtbase_Category_Category('root', 'rootNode');
-		$tree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($rootNode);
-		$this->assertTrue(is_a($tree, Tx_PtExtbase_Category_CategoryTree));
+		$tree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
+		$this->assertTrue(is_a($tree, Tx_PtExtbase_Category_Tree));
 		$this->assertEquals($tree->getRoot()->getLft(), 1);
 		$this->assertEquals($tree->getRoot()->getRgt(), 2);
 	}
@@ -53,7 +53,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
 	
 	/** @test */
 	public function createCategoryTreeReturnsEmptyTree() {
-		$emptyTree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode(null);
+		$emptyTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode(null);
 		$this->assertEquals($emptyTree->getRoot(), null);
 	}
 	
@@ -62,7 +62,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
 	/** @test */
 	public function creatingNewCategoryTreeWithRootNodeSetsRootNode() {
 		$rootNode = new Tx_PtExtbase_Category_Category('root', 'rootNode');
-		$categoryTree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($rootNode);
+		$categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
 		$this->assertEquals($categoryTree->getRoot(), $rootNode);
 	}
 	
@@ -72,7 +72,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
 	public function creatingNewCategoryTreeWithRootNodeAddsRootNodeToNodeMap() {
 	    $nodeMock = new Tx_PtExtbase_Tests_Category_CategoryMock();
 	    $nodeMock->setUid(1234);
-		$categoryTree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($nodeMock);
+		$categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($nodeMock);
 		$this->assertEquals($categoryTree->getNodeByUid(1234), $nodeMock);
 	}
 	
@@ -89,7 +89,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
 		$firstChild->addChild($thirdChild);
 		$rootNode->addChild($firstChild);
 		
-		$categoryTree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($rootNode);
+		$categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
 		$this->assertEquals($categoryTree->getRoot(), $rootNode);
 		$this->assertEquals($categoryTree->getNodeByUid(1), $rootNode);
 		$this->assertEquals($categoryTree->getNodeByUid(2), $firstChild);
@@ -110,7 +110,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
         
         $categoryTree->deleteNode($firstChild);
         
@@ -138,7 +138,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
         
         var_dump('Before move: ' . $categoryTree->toString());
         
@@ -166,7 +166,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
                 
-        $categoryTree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
         
         var_dump('Before move: ' . $categoryTree->toString());
         
@@ -196,7 +196,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
         
         var_dump('Before move: ' . $categoryTree->toString());
         
@@ -226,7 +226,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
         
 		$newNode = new Tx_PtExtbase_Category_Category('test', 'test');
 		
@@ -242,7 +242,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
 	public function insertingNodeAddsInsertedNodeToListOfAddedNodes() {
 		$rootNode = new Tx_PtExtbase_Tests_Category_CategoryMock(1);
 		$nodeToBeAdded = new Tx_PtExtbase_Tests_Category_CategoryMock(2);
-		$categoryTree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($rootNode);
+		$categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
 		$categoryTree->insertNode($nodeToBeAdded, $rootNode);
 		
 		$this->assertTrue(in_array($nodeToBeAdded, $categoryTree->getAddedNodes()));
@@ -263,7 +263,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeTest extends Tx_PtExtbase_Tests_Ab
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($rootNode);
+        $categoryTree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($rootNode);
         
         $categoryTree->deleteNode($thirdChild);
         

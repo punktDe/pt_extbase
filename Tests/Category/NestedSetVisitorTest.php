@@ -64,7 +64,7 @@ class Tx_PtExtbase_Tests_Category_Domain_Model_NestedSetVisitorTest extends Tx_P
         $node2->addChild($node4); $node4->setParent($node2);
         $node5->addChild($node6); $node6->setParent($node5);
         
-        $tree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($node1);
+        $tree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($node1);
         
         $visitor = new Tx_PtExtbase_Category_NestedSetVisitor();
         $treeWalker = new Tx_PtExtbase_Category_TreeWalker(array($visitor));

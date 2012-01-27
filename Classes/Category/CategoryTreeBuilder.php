@@ -58,7 +58,7 @@ class Tx_PtExtbase_Category_CategoryTreeBuilder {
 	 * Builds a tree for a given category. The tree is build up from the root of given category
 	 *
 	 * @param Tx_PtExtbase_Category_Category $category
-	 * @return Tx_PtExtbase_Category_CategoryTree
+	 * @return Tx_PtExtbase_Category_Tree
 	 */
 	public function buildTreeForCategory(Tx_PtExtbase_Category_Category $category) {
 		/**
@@ -92,7 +92,7 @@ class Tx_PtExtbase_Category_CategoryTreeBuilder {
 				#echo "After pushing after while: <ul>" . $stack->toString() . "</ul>";
 			}
 		}
-		$tree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($stack->top());
+		$tree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($stack->top());
 		#echo "Finished tree: " . $tree->toString();
 		return $tree;
 	}

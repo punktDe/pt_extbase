@@ -51,7 +51,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeBuilderTest extends Tx_PtExtbase_T
 		$treeBuilder = new Tx_PtExtbase_Category_CategoryTreeBuilder($repositoryMock);
 		$tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Category_CategoryMock::createCategory(1,12,1));
 		
-		$this->assertTrue(is_a($tree, Tx_PtExtbase_Category_CategoryTree));
+		$this->assertTrue(is_a($tree, Tx_PtExtbase_Category_Tree));
 
 		// Assertions, that build tree is correct
 		$this->assertEquals($tree->getRoot(), $categoriesArray[5], 'Root node of tree is not root of given set of nodes');

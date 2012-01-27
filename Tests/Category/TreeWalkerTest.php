@@ -77,7 +77,7 @@ class Tx_Yag_Tests_Domain_Model_TreeWalkerTest extends Tx_PtExtbase_Tests_Abstra
 		$node2->addChild($node4); $node4->setParent($node2);
 		$node5->addChild($node6); $node6->setParent($node5);
 		
-		$tree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($node1);
+		$tree = Tx_PtExtbase_Category_Tree::getInstanceByRootNode($node1);
 		
 		echo "Testtree: " . $tree->toString();
 		
