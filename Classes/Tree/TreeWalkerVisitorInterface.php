@@ -26,7 +26,7 @@
 /**
  * Interface for treewalker visitor strategies
  *
- * @package Category
+ * @package Tree
  * @subpackage Model
  * @author Michael Knoll <mimi@kaktusteam.de>
  */

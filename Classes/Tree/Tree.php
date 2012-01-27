@@ -27,7 +27,7 @@
 /**
  * Class implements Category Tree domain object
  *
- * @package Category
+ * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */

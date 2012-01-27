@@ -26,7 +26,7 @@
 /**
  * Generic algorithm for traversing trees
  *
- * @package Category
+ * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
 class Tx_PtExtbase_Tree_TreeWalker {

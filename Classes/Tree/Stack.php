@@ -32,7 +32,7 @@
  * top() will return top element of stack without popping it
  * isEmpty() returns true, if stack is empty
  *
- * @package Category
+ * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */

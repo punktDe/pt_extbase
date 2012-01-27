@@ -25,65 +25,19 @@
 ***************************************************************/
 
 /**
- * Interface for nodes in a nested set tree
+ * Interface for classes that implement a generic tree
  *
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_NodeInterface {
-    
+interface Tx_PtExtbase_Tree_NestedSetTreeInterface extends Tx_PtExtbase_Tree_TreeInterface {
+
     /**
-     * Getter for root node id
-     *
-     * @return int
+     * @abstract
+     * @return
      */
-    public function getRoot();
-    
-    
-    
-    /**
-     * Setter for root category id
-     *
-     * @param int $root
-     */
-    public function setRoot($root);
-    
-    
-    
-    /**
-     * Getter for second visit in category tree
-     *
-     * @return int
-     */
-    public function getRgt();
-    
-    
-    
-    /**
-     * Setter for second visit in category tree
-     *
-     * @param int $rgt
-     */
-    public function setRgt($rgt);
-    
-    
-    
-    /**
-     * Getter for first visit in category tree
-     *
-     * @return int
-     */
-    public function getLft();
-    
-    
-    
-    /**
-     * Setter for first visit in category tree
-     *
-     * @param int $lft
-     */
-    public function setLft($lft);
+    public function getAddedNodes();
 
 }
 ?>

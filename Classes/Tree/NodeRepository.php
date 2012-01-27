@@ -26,7 +26,7 @@
 /**
  * Repository for Tx_PtExtbase_Tree_Node
  *
- * @package Category
+ * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
 class Tx_PtExtbase_Tree_NodeRepository
