@@ -31,7 +31,7 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Category_CategoryTree implements Tx_PtExtbase_Category_TraversableInterface {
+class Tx_PtExtbase_Category_CategoryTree implements Tx_PtExtbase_Category_TreeInterface {
 
 	/**
 	 * Holds reference of root node for this tree
