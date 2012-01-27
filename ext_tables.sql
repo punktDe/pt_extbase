@@ -25,8 +25,7 @@ CREATE TABLE tx_ptextbase_tree_node (
     uid int(11) NOT NULL auto_increment,
     pid int(11) DEFAULT '0' NOT NULL,
 
-    name  tinytext,
-    description text,
+    label  tinytext,
     lft   int(11) DEFAULT '0' NOT NULL,
     rgt   int(11) DEFAULT '0' NOT NULL,
     root  int(11) DEFAULT '0' NOT NULL,

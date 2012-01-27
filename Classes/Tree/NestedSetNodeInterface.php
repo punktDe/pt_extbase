@@ -32,58 +32,68 @@
  * @author Daniel Lienert <daniel@lienert.cc>
  */
 interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_NodeInterface {
-    
-    /**
-     * Getter for root node id
-     *
-     * @return int
-     */
-    public function getRoot();
-    
-    
-    
-    /**
-     * Setter for root category id
-     *
-     * @param int $root
-     */
-    public function setRoot($root);
-    
-    
-    
-    /**
-     * Getter for second visit in category tree
-     *
-     * @return int
-     */
-    public function getRgt();
-    
-    
-    
-    /**
-     * Setter for second visit in category tree
-     *
-     * @param int $rgt
-     */
-    public function setRgt($rgt);
-    
-    
-    
-    /**
-     * Getter for first visit in category tree
-     *
-     * @return int
-     */
-    public function getLft();
-    
-    
-    
-    /**
-     * Setter for first visit in category tree
-     *
-     * @param int $lft
-     */
-    public function setLft($lft);
+
+	/**
+	 * Getter for root node id
+	 *
+	 * @return int
+	 */
+	public function getRoot();
+
+
+	/**
+	 * Setter for root category id
+	 *
+	 * @param int $root
+	 */
+	public function setRoot($root);
+
+
+	/**
+	 * @abstract
+	 *
+	 * @return string Label
+	 */
+	public function getLabel();
+
+
+	/**
+	 * @abstract
+	 * @param string $label
+	 */
+	public function setLabel($label);
+
+
+	/**
+	 * Getter for second visit in category tree
+	 *
+	 * @return int
+	 */
+	public function getRgt();
+
+
+	/**
+	 * Setter for second visit in category tree
+	 *
+	 * @param int $rgt
+	 */
+	public function setRgt($rgt);
+
+
+	/**
+	 * Getter for first visit in category tree
+	 *
+	 * @return int
+	 */
+	public function getLft();
+
+
+	/**
+	 * Setter for first visit in category tree
+	 *
+	 * @param int $lft
+	 */
+	public function setLft($lft);
 
 }
 ?>

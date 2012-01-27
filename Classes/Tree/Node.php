@@ -62,21 +62,12 @@ class Tx_PtExtbase_Tree_Node
     implements Tx_PtExtbase_Tree_NestedSetNodeInterface {
 	
 	/**
-     * Name for category
+     * Label for category
      *
-     * @var string $name
+     * @var string $label
      */
-    protected $name;
-    
-    
+    protected $label;
 
-    /**
-     * Description for category
-     *
-     * @var string $description
-     */
-    protected $description;
-    
     
 
     /**
@@ -121,32 +112,26 @@ class Tx_PtExtbase_Tree_Node
      * @var Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
      */
     protected $children;
-    
-    
-    
-    /**
-     * The constructor.
-     *
-     * @param string $name Name of category
-     * @param string $description Description of category
-     * @return void
-     */
-    public function __construct($name = '', $description = '') {
-        //Do not remove the next line: It would break the functionality
-        $this->initStorageObjects();
-        
-    	if ($name != '') {
-    		$this->name = $name;
-    	}
-    	
-    	if ($description != '') {
-    		$this->description = $description;
-    	}
-    	
-        // We initialize lft and rgt as those values will be overwritten later, if this is not the root node
-        $this->lft = 1;
-        $this->rgt = 2;
-    }
+
+
+	/**
+	 * The constructor.
+	 *
+	 * @param string $label Label of category
+	 * @return void
+	 */
+	public function __construct($label = '') {
+		//Do not remove the next line: It would break the functionality
+		$this->initStorageObjects();
+
+		if ($label != '') {
+			$this->label = $label;
+		}
+
+		// We initialize lft and rgt as those values will be overwritten later, if this is not the root node
+		$this->lft = 1;
+		$this->rgt = 2;
+	}
 
     
     
@@ -164,50 +149,7 @@ class Tx_PtExtbase_Tree_Node
     /*********************************************************************************************************
      * Default getters and setters used for persistence - return database values, no objects!
      *********************************************************************************************************/
-    
-    /**
-     * Setter for name
-     *
-     * @param string $name Name for category
-     * @return void
-     */
-    public function setName($name) {
-        $this->name = $name;
-    }
-    
-    
 
-    /**
-     * Getter for name
-     *
-     * @return string Name for category
-     */
-    public function getName() {
-        return $this->name;
-    }
-
-
-    
-    /**
-     * Setter for description
-     *
-     * @param string $description Description for category
-     * @return void
-     */
-    public function setDescription($description) {
-        $this->description = $description;
-    }
-    
-    
-
-    /**
-     * Getter for description
-     *
-     * @return string Description for category
-     */
-    public function getDescription() {
-        return $this->description;
-    }
     
     
     
@@ -304,21 +246,17 @@ class Tx_PtExtbase_Tree_Node
     public function getParent() {
     	return $this->parent;	
     }
-    
-    
-    
-    /**
-     * Getter for child categories
-     *
-     * @return Tx_Extbase_Persistence_ObjectStorage
-     */
-    public function getChildren() {
-    	return $this->children;
-    }
-    
-    
-    
-    /**
+
+
+	/**
+	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 */
+	public function getChildren() {
+		return $this->children;
+	}
+
+
+	/**
      * Get count of children recursively
      *
      * @return int
@@ -498,7 +436,7 @@ class Tx_PtExtbase_Tree_Node
      * @return string
      */
     public function toString() {
-    	$categoryString = '<li>(' . $this->uid . ') ' . $this->name . '[left: ' . $this->lft . '  right:' . $this->rgt . ']';
+    	$categoryString = '<li>(' . $this->uid . ') ' . $this->label . '[left: ' . $this->lft . '  right:' . $this->rgt . ']';
     	if ($this->hasChildren()) {
     		$categoryString .= '<ul>';
 	    	foreach ($this->children as $child) {
@@ -520,6 +458,20 @@ class Tx_PtExtbase_Tree_Node
     public function getSubNodes() {
     	return $this->getSubCategories();
     }
-    
+
+	/**
+	 * @param string $label
+	 */
+	public function setLabel($label) {
+		$this->label = $label;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLabel() {
+		return $this->label;
+	}
+
 }
 ?>
