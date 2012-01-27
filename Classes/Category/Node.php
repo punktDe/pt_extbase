@@ -59,7 +59,7 @@
  */
 class Tx_PtExtbase_Category_Node
     extends Tx_Extbase_DomainObject_AbstractEntity
-    implements Tx_PtExtbase_Category_NodeInterface {
+    implements Tx_PtExtbase_Category_NestedSetNodeInterface {
 	
 	/**
      * Name for category
