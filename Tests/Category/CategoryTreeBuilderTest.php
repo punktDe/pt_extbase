@@ -31,11 +31,11 @@
  * @subpackage Domain\Model
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Category_CategoryTreeBuilderTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Category_TreeBuilderTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
 
 	/** @test */
 	public function classExists() {
-		$this->assertTrue(class_exists(Tx_PtExtbase_Category_CategoryTreeBuilder));
+		$this->assertTrue(class_exists(Tx_PtExtbase_Category_TreeBuilder));
 	}
 	
 	
@@ -48,7 +48,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeBuilderTest extends Tx_PtExtbase_T
 		$repositoryMock->expects($this->once())
 		    ->method('findByRootUid')
 		    ->will($this->returnValue($categoriesObjectStorage));
-		$treeBuilder = new Tx_PtExtbase_Category_CategoryTreeBuilder($repositoryMock);
+		$treeBuilder = new Tx_PtExtbase_Category_TreeBuilder($repositoryMock);
 		$tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(1,12,1));
 		
 		$this->assertTrue(is_a($tree, Tx_PtExtbase_Category_Tree));
@@ -75,7 +75,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeBuilderTest extends Tx_PtExtbase_T
         $repositoryMock->expects($this->once())
             ->method('findByRootUid')
             ->will($this->returnValue(self::buildWrongSortedSetOfCategories()));
-        $treeBuilder = new Tx_PtExtbase_Category_CategoryTreeBuilder($repositoryMock);
+        $treeBuilder = new Tx_PtExtbase_Category_TreeBuilder($repositoryMock);
         try {
             $tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(1,12,1));
         } catch (Exception $e) {

@@ -32,7 +32,7 @@
  * @author Daniel Lienert <daniel@lienert.cc>
  * @author Joachim Mathes <joachim_mathes@web.de>
  */
-class Tx_PtExtbase_Category_CategoryTreeBuilder {
+class Tx_PtExtbase_Category_TreeBuilder {
 
 	/**
 	 * Holds an instance of node repository
