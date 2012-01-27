@@ -27,22 +27,21 @@
 /**
  * Interface for repositories that handle nodes in a nested set tree
  *
- * @package Domain
- * @subpackage Model
+ * @package Category
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_Yag_Domain_Model_NodeRepositoryInterface {
+interface Tx_PtExtbase_Category_NodeRepositoryInterface {
 
 	/**
 	 * Returns ancestors of the root node of given node.
 	 * 
 	 * Nodes are ordered by left-value 
 	 *
-	 * @param Tx_Yag_Domain_Model_NodeInterface $node
+	 * @param Tx_PtExtbase_Category_NodeInterface $node
+     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Category_NodeInterface>
 	 */
-	public function findByRootOfGivenNodeUid(Tx_Yag_Domain_Model_NodeInterface $node);
+	public function findByRootOfGivenNodeUid(Tx_PtExtbase_Category_NodeInterface $node);
 	
 }
-
 ?>

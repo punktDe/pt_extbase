@@ -57,9 +57,9 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_Yag_Domain_Model_Category
+class Tx_PtExtbase_Category_Category
     extends Tx_Extbase_DomainObject_AbstractEntity
-    implements Tx_Yag_Domain_Model_NodeInterface {
+    implements Tx_PtExtbase_Category_NodeInterface {
 	
 	/**
      * Name for category
@@ -109,7 +109,7 @@ class Tx_Yag_Domain_Model_Category
     /**
      * Holds refernce to parent category (null, if root)
      *
-     * @var Tx_Yag_Domain_Model_Category
+     * @var Tx_PtExtbase_Category_Category
      */
     protected $parent;
     
@@ -118,7 +118,7 @@ class Tx_Yag_Domain_Model_Category
     /**
      * Holds references to child categories
      *
-     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_Yag_Domain_Model_Category>
+     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Category_Category>
      */
     protected $children;
     
@@ -285,9 +285,9 @@ class Tx_Yag_Domain_Model_Category
     /**
      * Setter for parent category
      *
-     * @param Tx_Yag_Domain_Model_NodeInterface $category
+     * @param Tx_PtExtbase_Category_NodeInterface $category
      */
-    public function setParent(Tx_Yag_Domain_Model_NodeInterface $category) {
+    public function setParent(Tx_PtExtbase_Category_NodeInterface $category) {
     	$this->parent = $category;
     	if ($category->children == null)
     	   $category->children = new Tx_Extbase_Persistence_ObjectStorage();
@@ -299,7 +299,7 @@ class Tx_Yag_Domain_Model_Category
     /**
      * Getter for parent category
      *
-     * @return Tx_Yag_Domain_Model_Category
+     * @return Tx_PtExtbase_Category_Category
      */
     public function getParent() {
     	return $this->parent;	
@@ -395,9 +395,9 @@ class Tx_Yag_Domain_Model_Category
     /**
      * Adds a child category to children at end of children
      *
-     * @param Tx_Yag_Domain_Model_NodeInterface $category
+     * @param Tx_PtExtbase_Category_NodeInterface $category
      */
-    public function addChild(Tx_Yag_Domain_Model_NodeInterface $category) {
+    public function addChild(Tx_PtExtbase_Category_NodeInterface $category) {
     	// TODO this should not be necessary. Seems like this method is not invoked, if object is loaded from database
     	if (is_null($this->children)) {
     		$this->children = new Tx_Extbase_Persistence_ObjectStorage();
@@ -412,10 +412,10 @@ class Tx_Yag_Domain_Model_Category
     /**
      * Adds a new child category after a given child category
      *
-     * @param Tx_Yag_Domain_Model_NodeInterface $newChildCategory
-     * @param Tx_Yag_Domain_Model_NodeInterface $categoryToAddAfter
+     * @param Tx_PtExtbase_Category_NodeInterface $newChildCategory
+     * @param Tx_PtExtbase_Category_NodeInterface $categoryToAddAfter
      */
-    public function addChildAfter(Tx_Yag_Domain_Model_NodeInterface $newChildCategory, Tx_Yag_Domain_Model_NodeInterface $categoryToAddAfter) {
+    public function addChildAfter(Tx_PtExtbase_Category_NodeInterface $newChildCategory, Tx_PtExtbase_Category_NodeInterface $categoryToAddAfter) {
     	$newChildren = new Tx_Extbase_Persistence_ObjectStorage();
     	foreach ($this->children as $child) {
     		$newChildren->attach($child);
@@ -431,11 +431,11 @@ class Tx_Yag_Domain_Model_Category
     /**
      * Adds a new child category before a given child category
      *
-     * @param Tx_Yag_Domain_Model_NodeInterface $newChildCategory
-     * @param Tx_Yag_Domain_Model_NodeInterface $categoryToAddBefore
+     * @param Tx_PtExtbase_Category_NodeInterface $newChildCategory
+     * @param Tx_PtExtbase_Category_NodeInterface $categoryToAddBefore
      * @param bool $updateLeftRight
      */
-    public function addChildBefore(Tx_Yag_Domain_Model_NodeInterface $newChildCategory, Tx_Yag_Domain_Model_NodeInterface $categoryToAddBefore) {
+    public function addChildBefore(Tx_PtExtbase_Category_NodeInterface $newChildCategory, Tx_PtExtbase_Category_NodeInterface $categoryToAddBefore) {
     	$newChildren = new Tx_Extbase_Persistence_ObjectStorage();
     	foreach($this->children as $child) {
     		if ($child == $categoryToAddBefore) {
@@ -451,9 +451,9 @@ class Tx_Yag_Domain_Model_Category
     /**
      * Removes given child category
      *
-     * @param Tx_Yag_Domain_Model_NodeInterface $child
+     * @param Tx_PtExtbase_Category_NodeInterface $child
      */
-    public function removeChild(Tx_Yag_Domain_Model_NodeInterface $child) {
+    public function removeChild(Tx_PtExtbase_Category_NodeInterface $child) {
     	$this->children->detach($child);
     }
     
@@ -522,5 +522,4 @@ class Tx_Yag_Domain_Model_Category
     }
     
 }
-
 ?>

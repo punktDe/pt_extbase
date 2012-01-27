@@ -27,12 +27,13 @@
 /**
  * Interface for nodes in a nested set tree
  *
- * @package Domain
- * @subpackage Model
+ * TODO split this interface into nested-set related functionality and category-related functionality
+ *
+ * @package Category
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_Yag_Domain_Model_NodeInterface {
+interface Tx_PtExtbase_Category_NodeInterface {
     
     /**
      * Getter for root node id
@@ -96,16 +97,16 @@ interface Tx_Yag_Domain_Model_NodeInterface {
     /**
      * Setter for parent node
      *
-     * @param Tx_Yag_Domain_Model_Category $category
+     * @param Tx_PtExtbase_Category_NodeInterface $category
      */
-    public function setParent(Tx_Yag_Domain_Model_NodeInterface $category);
+    public function setParent(Tx_PtExtbase_Category_NodeInterface $category);
     
     
     
     /**
      * Getter for parent node
      *
-     * @return Tx_Yag_Domain_Model_NodeInterface
+     * @return Tx_PtExtbase_Category_NodeInterface
      */
     public function getParent();
     
@@ -178,40 +179,40 @@ interface Tx_Yag_Domain_Model_NodeInterface {
     /**
      * Adds a child category to children at end of children
      *
-     * @param Tx_Yag_Domain_Model_NodeInterface $category
+     * @param Tx_PtExtbase_Category_NodeInterface $category
      */
-    public function addChild(Tx_Yag_Domain_Model_NodeInterface $category);
+    public function addChild(Tx_PtExtbase_Category_NodeInterface $category);
     
     
     
     /**
      * Adds a new child node after a given child node
      *
-     * @param Tx_Yag_Domain_Model_Category $newChildCategory
-     * @param Tx_Yag_Domain_Model_Category $categoryToAddAfter
+     * @param Tx_PtExtbase_Category_NodeInterface $newChildCategory
+     * @param Tx_PtExtbase_Category_NodeInterface $categoryToAddAfter
      */
-    public function addChildAfter(Tx_Yag_Domain_Model_NodeInterface $newChildNode, Tx_Yag_Domain_Model_NodeInterface $nodeToAddAfter);
+    public function addChildAfter(Tx_PtExtbase_Category_NodeInterface $newChildNode, Tx_PtExtbase_Category_NodeInterface $nodeToAddAfter);
     
     
     
     /**
      * Adds a new child category before a given child category
      *
-     * @param Tx_Yag_Domain_Model_Category $newChildCategory
-     * @param Tx_Yag_Domain_Model_Category $categoryToAddBefore
+     * @param Tx_PtExtbase_Category_NodeInterface $newChildCategory
+     * @param Tx_PtExtbase_Category_NodeInterface $categoryToAddBefore
      * @param bool $updateLeftRight
      */
-    public function addChildBefore(Tx_Yag_Domain_Model_NodeInterface $newChildNode, Tx_Yag_Domain_Model_NodeInterface $nodeToAddBefore);
+    public function addChildBefore(Tx_PtExtbase_Category_NodeInterface $newChildNode, Tx_PtExtbase_Category_NodeInterface $nodeToAddBefore);
     
     
     
     /**
      * Removes given child category
      *
-     * @param Tx_Yag_Domain_Model_Category $child
+     * @param Tx_PtExtbase_Category_NodeInterface $child
      * @param bool $updateLeftRight
      */
-    public function removeChild(Tx_Yag_Domain_Model_NodeInterface $child);
+    public function removeChild(Tx_PtExtbase_Category_NodeInterface $child);
     
     
     
@@ -241,5 +242,4 @@ interface Tx_Yag_Domain_Model_NodeInterface {
     public function isRoot();
     
 }
-
 ?>

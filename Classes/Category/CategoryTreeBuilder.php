@@ -27,18 +27,17 @@
 /**
  * Class implements Category Tree Builder domain object
  *
- * @package Domain
- * @subpackage Model
+ * @package Category
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  * @author Joachim Mathes <joachim_mathes@web.de>
  */
-class Tx_Yag_Domain_Model_CategoryTreeBuilder {
+class Tx_PtExtbase_Category_CategoryTreeBuilder {
 
 	/**
 	 * Holds an instance of node repository
 	 *
-	 * @var Tx_Yag_Domain_Model_NodeRepositoryInterface
+	 * @var Tx_PtExtbase_Category_NodeRepositoryInterface
 	 */
 	protected $categoryRepository;
 	
@@ -47,9 +46,9 @@ class Tx_Yag_Domain_Model_CategoryTreeBuilder {
 	/**
 	 * Constructor for treebuilder. Requires category repository as parameter.
 	 *
-	 * @param Tx_Yag_Domain_Repository_CategoryRepository $categoryRepository
+	 * @param Tx_PtExtbase_Category_NodeRepositoryInterface $categoryRepository
 	 */
-	public function __construct(Tx_Yag_Domain_Model_NodeRepositoryInterface $categoryRepository) {
+	public function __construct(Tx_PtExtbase_Category_NodeRepositoryInterface $categoryRepository) {
 		$this->categoryRepository = $categoryRepository;
 	}
 	
@@ -58,10 +57,10 @@ class Tx_Yag_Domain_Model_CategoryTreeBuilder {
 	/**
 	 * Builds a tree for a given category. The tree is build up from the root of given category
 	 *
-	 * @param Tx_Yag_Domain_Model_Category $category
-	 * @return Tx_Yag_Domain_Model_CategoryTree
+	 * @param Tx_PtExtbase_Category_Category $category
+	 * @return Tx_PtExtbase_Category_CategoryTree
 	 */
-	public function buildTreeForCategory(Tx_Yag_Domain_Model_Category $category) {
+	public function buildTreeForCategory(Tx_PtExtbase_Category_Category $category) {
 		/**
 		 * Explanation: We build the tree bottom-up and therefore use a stack.
 		 * Each node is added to a child to topStack, if topStack's right-value is smaller
@@ -69,9 +68,9 @@ class Tx_Yag_Domain_Model_CategoryTreeBuilder {
 		 */
 		
 		$nodes = $this->categoryRepository->findByRootUid($category->getRoot())->toArray();
-		$stack = new Tx_Yag_Domain_Model_Stack();
+		$stack = new Tx_PtExtbase_Category_Stack();
 		$prevLft = PHP_INT_MAX;
-		foreach($nodes as $node) { /* @var $node Tx_Yag_Domain_Model_Category */
+		foreach($nodes as $node) { /* @var $node Tx_PtExtbase_Category_Category */
 			/* Assertion: Nodes must be given in descending left-value order. */ 
 			if ($node->getLft() > $prevLft)
 			    throw new Exception("Nodes must be given in descending left-value order. 1307861852");
@@ -93,11 +92,10 @@ class Tx_Yag_Domain_Model_CategoryTreeBuilder {
 				#echo "After pushing after while: <ul>" . $stack->toString() . "</ul>";
 			}
 		}
-		$tree = Tx_Yag_Domain_Model_CategoryTree::getInstanceByRootNode($stack->top());
+		$tree = Tx_PtExtbase_Category_CategoryTree::getInstanceByRootNode($stack->top());
 		#echo "Finished tree: " . $tree->toString();
 		return $tree;
 	}
 	
 }
-
 ?>

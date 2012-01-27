@@ -26,32 +26,33 @@
 /**
  * Class implements a visitor for doing nested set enumeration on a tree.
  *
- * @package Domain
+ * @package Category
  * @subpackage Model
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_Yag_Domain_Model_NestedSetVisitor implements Tx_Yag_Domain_Model_TreeWalkerVisitorInterface {
+class Tx_PtExtbase_Category_NestedSetVisitor implements Tx_PtExtbase_Category_TreeWalkerVisitorInterface {
 	
 	/**
-	 * @see Tx_Yag_Domain_Model_TreeWalkerVisitorInterface::doFirstVisit()
+	 * @see Tx_PtExtbase_Category_TreeWalkerVisitorInterface::doFirstVisit()
 	 *
-	 * @param Tx_Yag_Domain_Model_NodeInterface $node
+	 * @param Tx_PtExtbase_Category_NodeInterface $node
 	 * @param int &$index Visitation index of treewalker
 	 */
-	public function doFirstVisit(Tx_Yag_Domain_Model_NodeInterface $node, &$index) {
+	public function doFirstVisit(Tx_PtExtbase_Category_NodeInterface $node, &$index) {
 		$node->setLft($index);
 	}
+
+
 	
 	/**
-	 * @see Tx_Yag_Domain_Model_TreeWalkerVisitorInterface::doLastVisit()
+	 * @see Tx_PtExtbase_Category_TreeWalkerVisitorInterface::doLastVisit()
 	 *
-	 * @param Tx_Yag_Domain_Model_NodeInterface $node
+	 * @param Tx_PtExtbase_Category_NodeInterface $node
 	 * @param int &$index Visitation index of treewalker
 	 */
-	public function doLastVisit(Tx_Yag_Domain_Model_NodeInterface $node, &$index) {
+	public function doLastVisit(Tx_PtExtbase_Category_NodeInterface $node, &$index) {
 		$node->setRgt($index);
 	}
 	
 }
- 
 ?>
