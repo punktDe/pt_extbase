@@ -25,14 +25,14 @@
 ***************************************************************/
 
 /**
- * Category mock. Helps us setting an arbitrary UID which is not easy to do since
+ * Node mock. Helps us setting an arbitrary UID which is not easy to do since
  * the UID is stuff is final in domain objects.
  *
  * @package Tests
  * @subpackage Category
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tests_Category_CategoryMock extends Tx_PtExtbase_Category_Category {
+class Tx_PtExtbase_Tests_Category_NodeMock extends Tx_PtExtbase_Category_Node {
 
     /**
      * Helper method to create a category object
@@ -42,10 +42,10 @@ class Tx_PtExtbase_Tests_Category_CategoryMock extends Tx_PtExtbase_Category_Cat
      * @param int $root
      * @param string $name
      * @param string $description
-     * @return Tx_PtExtbase_Category_Category
+     * @return Tx_PtExtbase_Category_Node
      */
     public static function createCategory($uid, $lft, $rgt, $root, $name = '', $description = '') {
-        $category = new Tx_PtExtbase_Tests_Category_CategoryMock($uid, $name, $description);
+        $category = new Tx_PtExtbase_Tests_Category_NodeMock($uid, $name, $description);
         $category->setLft($lft);
         $category->setRgt($rgt);
         $category->setRoot($root);

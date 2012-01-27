@@ -36,7 +36,7 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Holds reference of root node for this tree
 	 *
-	 * @var Tx_PtExtbase_Category_Category
+	 * @var Tx_PtExtbase_Category_Node
 	 */
 	protected $rootNode = null;
 	
@@ -90,10 +90,10 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Factory method for instantiating a tree for a given root node
 	 *
-	 * @param Tx_PtExtbase_Category_Category $rootNode
+	 * @param Tx_PtExtbase_Category_Node $rootNode
 	 * @return Tx_PtExtbase_Category_Tree
 	 */
-	public static function getInstanceByRootNode(Tx_PtExtbase_Category_Category $rootNode = null) {
+	public static function getInstanceByRootNode(Tx_PtExtbase_Category_Node $rootNode = null) {
 		$tree = new Tx_PtExtbase_Category_Tree($rootNode);
 		$nsTreeWalker = new Tx_PtExtbase_Category_TreeWalker(array(new Tx_PtExtbase_Category_NestedSetVisitor()));
 		$tree->injectNsUpdateTreeWalker($nsTreeWalker);
@@ -106,9 +106,9 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Constructor for Category Tree
 	 *
-	 * @param Tx_PtExtbase_Category_Category $rootNode Root node for category tree
+	 * @param Tx_PtExtbase_Category_Node $rootNode Root node for category tree
 	 */
-	private function __construct(Tx_PtExtbase_Category_Category $rootNode = null){
+	private function __construct(Tx_PtExtbase_Category_Node $rootNode = null){
 		$this->rootNode = $rootNode;
 		$this->initTreeMap();
 	}
@@ -129,7 +129,7 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Returns root node of this category tree
 	 *
-	 * @return Tx_PtExtbase_Category_Category
+	 * @return Tx_PtExtbase_Category_Node
 	 */
 	public function getRoot() {
 		return $this->rootNode;
@@ -141,7 +141,7 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	 * Returns node for a given uid
 	 *
 	 * @param int $uid Uid of node
-	 * @return Tx_PtExtbase_Category_Category
+	 * @return Tx_PtExtbase_Category_Node
 	 */
 	public function getNodeByUid($uid) {
 		if (array_key_exists($uid, $this->treeMap)) {
@@ -178,9 +178,9 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Removes a node from the tree
 	 *
-	 * @param Tx_PtExtbase_Category_Category $node
+	 * @param Tx_PtExtbase_Category_Node $node
 	 */
-	public function deleteNode(Tx_PtExtbase_Category_Category $node) {
+	public function deleteNode(Tx_PtExtbase_Category_Node $node) {
 		$subNodes = $node->getSubCategories();
 		foreach($subNodes as $subnode) {
 			$this->removeNodeFromTreeMap($subnode);
@@ -197,10 +197,10 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Moves a node given as first parameter into a node given as second parameter
 	 *
-	 * @param Tx_PtExtbase_Category_Category $nodeToBeMoved Node to be moved
-	 * @param Tx_PtExtbase_Category_Category $targetNode Node to move moved node into
+	 * @param Tx_PtExtbase_Category_Node $nodeToBeMoved Node to be moved
+	 * @param Tx_PtExtbase_Category_Node $targetNode Node to move moved node into
 	 */
-	public function moveNode(Tx_PtExtbase_Category_Category $nodeToBeMoved, Tx_PtExtbase_Category_Category $targetNode) {
+	public function moveNode(Tx_PtExtbase_Category_Node $nodeToBeMoved, Tx_PtExtbase_Category_Node $targetNode) {
 		$this->checkForNodeBeingInTree($targetNode);
 		$this->checkForNodeBeingInTree($nodeToBeMoved);
 		
@@ -223,10 +223,10 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Moves a node given as a first parameter in front of a node given as a second parameter 
 	 *
-	 * @param Tx_PtExtbase_Category_Category $nodeToBeMoved
-	 * @param Tx_PtExtbase_Category_Category $nodeToMoveBefore
+	 * @param Tx_PtExtbase_Category_Node $nodeToBeMoved
+	 * @param Tx_PtExtbase_Category_Node $nodeToMoveBefore
 	 */
-	public function moveNodeBeforeNode(Tx_PtExtbase_Category_Category $nodeToBeMoved, Tx_PtExtbase_Category_Category $nodeToMoveBefore) {
+	public function moveNodeBeforeNode(Tx_PtExtbase_Category_Node $nodeToBeMoved, Tx_PtExtbase_Category_Node $nodeToMoveBefore) {
 		$this->checkForNodeBeingInTree($nodeToBeMoved);
 		$this->checkForNodeBeingInTree($nodeToMoveBefore);
 		
@@ -251,10 +251,10 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Moves a node given as first parameter after a node given as second parameter
 	 *
-	 * @param Tx_PtExtbase_Category_Category $nodeToBeMoved
-	 * @param Tx_PtExtbase_Category_Category $nodeToMoveAfter
+	 * @param Tx_PtExtbase_Category_Node $nodeToBeMoved
+	 * @param Tx_PtExtbase_Category_Node $nodeToMoveAfter
 	 */
-	public function moveNodeAfterNode(Tx_PtExtbase_Category_Category $nodeToBeMoved, Tx_PtExtbase_Category_Category $nodeToMoveAfter) {
+	public function moveNodeAfterNode(Tx_PtExtbase_Category_Node $nodeToBeMoved, Tx_PtExtbase_Category_Node $nodeToMoveAfter) {
 	    $this->checkForNodeBeingInTree($nodeToBeMoved);
         $this->checkForNodeBeingInTree($nodeToMoveAfter);
         
@@ -279,10 +279,10 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Adds a given node into a given parent node
 	 *
-	 * @param Tx_PtExtbase_Category_Category $newNode Node to be added to tree
-	 * @param Tx_PtExtbase_Category_Category $parentNode Node to add new node into
+	 * @param Tx_PtExtbase_Category_Node $newNode Node to be added to tree
+	 * @param Tx_PtExtbase_Category_Node $parentNode Node to add new node into
 	 */
-	public function insertNode(Tx_PtExtbase_Category_Category $newNode, Tx_PtExtbase_Category_Category $parentNode) {
+	public function insertNode(Tx_PtExtbase_Category_Node $newNode, Tx_PtExtbase_Category_Node $parentNode) {
 		$parentNode = $this->getNodeByUid($parentNode->getUid());
 		$parentNode->addChild($newNode);
 		$newNode->setParent($parentNode);
@@ -311,9 +311,9 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Adds a node to tree map for this tree
 	 *
-	 * @param Tx_PtExtbase_Category_Category $node Node to be added to tree map
+	 * @param Tx_PtExtbase_Category_Node $node Node to be added to tree map
 	 */
-	protected function addNodeToTreeMap(Tx_PtExtbase_Category_Category $node) {
+	protected function addNodeToTreeMap(Tx_PtExtbase_Category_Node $node) {
 		$this->treeMap[$node->getUid()] = $node;
 	}
 	
@@ -322,9 +322,9 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Removes a node from the tree map
 	 *
-	 * @param Tx_PtExtbase_Category_Category $node Node to be removed from tree map
+	 * @param Tx_PtExtbase_Category_Node $node Node to be removed from tree map
 	 */
-	protected function removeNodeFromTreeMap(Tx_PtExtbase_Category_Category $node) {
+	protected function removeNodeFromTreeMap(Tx_PtExtbase_Category_Node $node) {
 		if (array_key_exists($node->getUid(), $this->treeMap)) {
 			unset($this->treeMap[$node->getUid()]);
 		}
@@ -336,9 +336,9 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Adds a node to list of deleted nodes
 	 *
-	 * @param Tx_PtExtbase_Category_Category $node Node to be deleted
+	 * @param Tx_PtExtbase_Category_Node $node Node to be deleted
 	 */
-	protected function addNodeToDeletedNodes(Tx_PtExtbase_Category_Category $node) {
+	protected function addNodeToDeletedNodes(Tx_PtExtbase_Category_Node $node) {
 		$this->deletedNodes[] = $node;
 	}
 	
@@ -347,9 +347,9 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Adds a node to list of added nodes
 	 *
-	 * @param Tx_PtExtbase_Category_Category $node Node to be added to list of added nodes
+	 * @param Tx_PtExtbase_Category_Node $node Node to be added to list of added nodes
 	 */
-	protected function addNodeToAddedNodes(Tx_PtExtbase_Category_Category $node) {
+	protected function addNodeToAddedNodes(Tx_PtExtbase_Category_Node $node) {
 	     $this->addedNodes[] = $node;	
 	}
 	
@@ -358,10 +358,10 @@ class Tx_PtExtbase_Category_Tree implements Tx_PtExtbase_Category_TreeInterface 
 	/**
 	 * Checks whether given node is in tree
 	 *
-	 * @param Tx_PtExtbase_Category_Category $node Node to check for whether it's in the tree
+	 * @param Tx_PtExtbase_Category_Node $node Node to check for whether it's in the tree
 	 * @param string $errMessage An error message to be displayed, if node is not in tree
 	 */
-	protected function checkForNodeBeingInTree(Tx_PtExtbase_Category_Category $node, $errMessage = 'Node is not found in current tree! 1307646533 ') {
+	protected function checkForNodeBeingInTree(Tx_PtExtbase_Category_Node $node, $errMessage = 'Node is not found in current tree! 1307646533 ') {
 	    if (!array_key_exists($node->getUid(), $this->treeMap)) {
             throw new Exception($errMessage . ' node UID: ' . $node->getUid() . print_r(array_keys($this->treeMap),true));
         }

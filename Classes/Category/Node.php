@@ -57,7 +57,7 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Category_Category
+class Tx_PtExtbase_Category_Node
     extends Tx_Extbase_DomainObject_AbstractEntity
     implements Tx_PtExtbase_Category_NodeInterface {
 	
@@ -109,7 +109,7 @@ class Tx_PtExtbase_Category_Category
     /**
      * Holds refernce to parent category (null, if root)
      *
-     * @var Tx_PtExtbase_Category_Category
+     * @var Tx_PtExtbase_Category_Node
      */
     protected $parent;
     
@@ -118,7 +118,7 @@ class Tx_PtExtbase_Category_Category
     /**
      * Holds references to child categories
      *
-     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Category_Category>
+     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Category_Node>
      */
     protected $children;
     
@@ -299,7 +299,7 @@ class Tx_PtExtbase_Category_Category
     /**
      * Getter for parent category
      *
-     * @return Tx_PtExtbase_Category_Category
+     * @return Tx_PtExtbase_Category_Node
      */
     public function getParent() {
     	return $this->parent;	

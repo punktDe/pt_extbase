@@ -24,7 +24,7 @@
 ***************************************************************/
 
 /**
- * Repository for Tx_PtExtbase_Category_Category
+ * Repository for Tx_PtExtbase_Category_Node
  *
  * @package Category
  * @author Michael Knoll <mimi@kaktusteam.de>
@@ -41,7 +41,7 @@ class Tx_PtExtbase_Category_CategoryRepository
      * TODO rename: we do not find by nodeUid but by node object
      *
 	 * @param Tx_PtExtbase_Category_NodeInterface $category
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Category_Category>
+	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Category_Node>
 	 */
 	public function findByRootOfGivenNodeUid(Tx_PtExtbase_Category_NodeInterface $category) {
 		$rootUid = $category->getRoot();
@@ -54,7 +54,7 @@ class Tx_PtExtbase_Category_CategoryRepository
 	 * Returns a set of categories determined by uid of root node
 	 *
 	 * @param int $rootUid
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Category_Category>
+	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Category_Node>
 	 */
 	public function findByRootUid($rootUid) {
 		$query = $this->createQuery();
@@ -68,7 +68,7 @@ class Tx_PtExtbase_Category_CategoryRepository
 	/**
 	 * Removes a category and its subcategories
 	 *
-	 * @param Tx_PtExtbase_Category_Category $category Category to be removed
+	 * @param Tx_PtExtbase_Category_Node $category Category to be removed
 	 */
 	public function remove($category) {
 		
@@ -126,9 +126,9 @@ class Tx_PtExtbase_Category_CategoryRepository
 	 * Hard-deletes a category and its subcategories from database.
 	 * No deleted=1 is set, categories are really deleted!
 	 *
-	 * @param Tx_PtExtbase_Category_Category $category
+	 * @param Tx_PtExtbase_Category_Node $category
 	 */
-	protected function deleteCategory(Tx_PtExtbase_Category_Category $category) {
+	protected function deleteCategory(Tx_PtExtbase_Category_Node $category) {
         $left = $category->getLft();
         $right = $category->getRgt();
         

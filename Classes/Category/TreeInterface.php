@@ -37,7 +37,7 @@ interface Tx_PtExtbase_Category_TreeInterface extends Tx_PtExtbase_Category_Trav
 	 * Returns node for a given uid
 	 *
 	 * @param int $uid Uid of node
-	 * @return Tx_PtExtbase_Category_Category
+	 * @return Tx_PtExtbase_Category_Node
 	 */
 	public function getNodeByUid($uid);
 	
@@ -46,54 +46,54 @@ interface Tx_PtExtbase_Category_TreeInterface extends Tx_PtExtbase_Category_Trav
 	/**
 	 * Removes a node from the tree
 	 *
-	 * @param Tx_PtExtbase_Category_Category $node
+	 * @param Tx_PtExtbase_Category_Node $node
      * @return Tx_PtExtbase_Category_TreeInterface
 	 */
-	public function deleteNode(Tx_PtExtbase_Category_Category $node);
+	public function deleteNode(Tx_PtExtbase_Category_Node $node);
 
 
 
 	/**
 	 * Moves a node given as first parameter into a node given as second parameter
 	 *
-	 * @param Tx_PtExtbase_Category_Category $nodeToBeMoved Node to be moved
-	 * @param Tx_PtExtbase_Category_Category $targetNode Node to move moved node into
+	 * @param Tx_PtExtbase_Category_Node $nodeToBeMoved Node to be moved
+	 * @param Tx_PtExtbase_Category_Node $targetNode Node to move moved node into
      * @return Tx_PtExtbase_Category_TreeInterface
 	 */
-	public function moveNode(Tx_PtExtbase_Category_Category $nodeToBeMoved, Tx_PtExtbase_Category_Category $targetNode);
+	public function moveNode(Tx_PtExtbase_Category_Node $nodeToBeMoved, Tx_PtExtbase_Category_Node $targetNode);
 	
 	
 	
 	/**
 	 * Moves a node given as a first parameter in front of a node given as a second parameter 
 	 *
-	 * @param Tx_PtExtbase_Category_Category $nodeToBeMoved
-	 * @param Tx_PtExtbase_Category_Category $nodeToMoveBefore
+	 * @param Tx_PtExtbase_Category_Node $nodeToBeMoved
+	 * @param Tx_PtExtbase_Category_Node $nodeToMoveBefore
      * @return Tx_PtExtbase_Category_TreeInterface
 	 */
-	public function moveNodeBeforeNode(Tx_PtExtbase_Category_Category $nodeToBeMoved, Tx_PtExtbase_Category_Category $nodeToMoveBefore);
+	public function moveNodeBeforeNode(Tx_PtExtbase_Category_Node $nodeToBeMoved, Tx_PtExtbase_Category_Node $nodeToMoveBefore);
 	
 	
 	
 	/**
 	 * Moves a node given as first parameter after a node given as second parameter
 	 *
-	 * @param Tx_PtExtbase_Category_Category $nodeToBeMoved
-	 * @param Tx_PtExtbase_Category_Category $nodeToMoveAfter
+	 * @param Tx_PtExtbase_Category_Node $nodeToBeMoved
+	 * @param Tx_PtExtbase_Category_Node $nodeToMoveAfter
      * @return Tx_PtExtbase_Category_TreeInterface
 	 */
-	public function moveNodeAfterNode(Tx_PtExtbase_Category_Category $nodeToBeMoved, Tx_PtExtbase_Category_Category $nodeToMoveAfter);
+	public function moveNodeAfterNode(Tx_PtExtbase_Category_Node $nodeToBeMoved, Tx_PtExtbase_Category_Node $nodeToMoveAfter);
 	
 	
 	
 	/**
 	 * Adds a given node into a given parent node
 	 *
-	 * @param Tx_PtExtbase_Category_Category $newNode Node to be added to tree
-	 * @param Tx_PtExtbase_Category_Category $parentNode Node to add new node into
+	 * @param Tx_PtExtbase_Category_Node $newNode Node to be added to tree
+	 * @param Tx_PtExtbase_Category_Node $parentNode Node to add new node into
      * @return Tx_PtExtbase_Category_TreeInterface
 	 */
-	public function insertNode(Tx_PtExtbase_Category_Category $newNode, Tx_PtExtbase_Category_Category $parentNode);
+	public function insertNode(Tx_PtExtbase_Category_Node $newNode, Tx_PtExtbase_Category_Node $parentNode);
 
 }
 ?>

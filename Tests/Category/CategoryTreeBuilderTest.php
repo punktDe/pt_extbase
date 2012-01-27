@@ -49,7 +49,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeBuilderTest extends Tx_PtExtbase_T
 		    ->method('findByRootUid')
 		    ->will($this->returnValue($categoriesObjectStorage));
 		$treeBuilder = new Tx_PtExtbase_Category_CategoryTreeBuilder($repositoryMock);
-		$tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Category_CategoryMock::createCategory(1,12,1));
+		$tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(1,12,1));
 		
 		$this->assertTrue(is_a($tree, Tx_PtExtbase_Category_Tree));
 
@@ -77,7 +77,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeBuilderTest extends Tx_PtExtbase_T
             ->will($this->returnValue(self::buildWrongSortedSetOfCategories()));
         $treeBuilder = new Tx_PtExtbase_Category_CategoryTreeBuilder($repositoryMock);
         try {
-            $tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Category_CategoryMock::createCategory(1,12,1));
+            $tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(1,12,1));
         } catch (Exception $e) {
         	return;
         }
@@ -93,12 +93,12 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeBuilderTest extends Tx_PtExtbase_T
 	 */
 	protected static function buildSetOfCategories() {
 		$setOfCategories = new Tx_Extbase_Persistence_ObjectStorage();
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_CategoryMock::createCategory(6,9,10,1,'6'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_CategoryMock::createCategory(5,8,11,1,'5'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_CategoryMock::createCategory(4,5,6,1,'4'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_CategoryMock::createCategory(3,3,4,1,'3'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_CategoryMock::createCategory(2,2,7,1,'2'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_CategoryMock::createCategory(1,1,12,1,'1'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(6,9,10,1,'6'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(5,8,11,1,'5'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(4,5,6,1,'4'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(3,3,4,1,'3'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(2,2,7,1,'2'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(1,1,12,1,'1'));
 		return $setOfCategories;
 	}
 	
@@ -111,8 +111,8 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeBuilderTest extends Tx_PtExtbase_T
 	 */
 	protected static function buildWrongSortedSetOfCategories() {
 		$setOfCategories = new Tx_Extbase_Persistence_ObjectStorage();
-        $setOfCategories->attach(Tx_PtExtbase_Tests_Category_CategoryMock::createCategory(5,8,11,1,'5'));
-        $setOfCategories->attach(Tx_PtExtbase_Tests_Category_CategoryMock::createCategory(6,9,10,1,'6'));
+        $setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(5,8,11,1,'5'));
+        $setOfCategories->attach(Tx_PtExtbase_Tests_Category_NodeMock::createCategory(6,9,10,1,'6'));
         return $setOfCategories;
 	}
 	

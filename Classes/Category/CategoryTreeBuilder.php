@@ -57,10 +57,10 @@ class Tx_PtExtbase_Category_CategoryTreeBuilder {
 	/**
 	 * Builds a tree for a given category. The tree is build up from the root of given category
 	 *
-	 * @param Tx_PtExtbase_Category_Category $category
+	 * @param Tx_PtExtbase_Category_Node $category
 	 * @return Tx_PtExtbase_Category_Tree
 	 */
-	public function buildTreeForCategory(Tx_PtExtbase_Category_Category $category) {
+	public function buildTreeForCategory(Tx_PtExtbase_Category_Node $category) {
 		/**
 		 * Explanation: We build the tree bottom-up and therefore use a stack.
 		 * Each node is added to a child to topStack, if topStack's right-value is smaller
@@ -70,7 +70,7 @@ class Tx_PtExtbase_Category_CategoryTreeBuilder {
 		$nodes = $this->categoryRepository->findByRootUid($category->getRoot())->toArray();
 		$stack = new Tx_PtExtbase_Category_Stack();
 		$prevLft = PHP_INT_MAX;
-		foreach($nodes as $node) { /* @var $node Tx_PtExtbase_Category_Category */
+		foreach($nodes as $node) { /* @var $node Tx_PtExtbase_Category_Node */
 			/* Assertion: Nodes must be given in descending left-value order. */ 
 			if ($node->getLft() > $prevLft)
 			    throw new Exception("Nodes must be given in descending left-value order. 1307861852");
