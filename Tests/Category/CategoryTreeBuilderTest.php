@@ -124,7 +124,7 @@ class Tx_PtExtbase_Tests_Category_CategoryTreeBuilderTest extends Tx_PtExtbase_T
 	 * @return Tx_Yag_Domain_Repository_CategoryRepository Mocked repository
 	 */
 	protected function buildRepositoryMock() {
-		return $this->getMock('Tx_PtExtbase_Category_CategoryRepository', array('findByRootUid'), array(), '', FALSE);
+		return $this->getMock('Tx_PtExtbase_Category_NodeRepository', array('findByRootUid'), array(), '', FALSE);
 	}
 	
 }

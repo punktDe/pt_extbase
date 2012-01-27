@@ -29,7 +29,7 @@
  * @package Category
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Category_CategoryRepository
+class Tx_PtExtbase_Category_NodeRepository
     extends Tx_Extbase_Persistence_Repository
     implements Tx_PtExtbase_Category_NodeRepositoryInterface {
 	
