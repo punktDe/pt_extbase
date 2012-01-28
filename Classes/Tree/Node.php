@@ -508,6 +508,6 @@ class Tx_PtExtbase_Tree_Node
     public function getNamespace() {
         return $this->namespace;
     }
-    
+
 }
 ?>

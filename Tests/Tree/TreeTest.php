@@ -270,6 +270,15 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
         $this->assertTrue(in_array($thirdChild, $categoryTree->getDeletedNodes()));
         $this->assertTrue(in_array($fourthChild, $categoryTree->getDeletedNodes()));
 	}
-	
+
+
+
+    /** @test */
+    public function setAndGetNamespaceReturnsSetNamespace() {
+        $tree = new Tx_PtExtbase_Tree_Tree();
+        $tree->setNamespace('myTestNamespace');
+        $this->assertEquals('myTestNamespace', $tree->getNamespace());
+    }
+
 }
 ?>

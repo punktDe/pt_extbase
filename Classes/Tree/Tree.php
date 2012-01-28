@@ -84,6 +84,15 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	 * @var array
 	 */
 	protected $addedNodes = array();
+
+
+
+    /**
+     * Holds namespace of tree
+     *
+     * @var string
+     */
+    protected $namespace;
 	
 	
 	
@@ -388,6 +397,27 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	public function toString() {
 		return '<ul>' . $this->rootNode->toString() . '</ul>';
 	}
-	
+
+
+
+    /**
+     * Returns namespace of tree
+     *
+     * @return string namespace
+     */
+    public function getNamespace() {
+        return $this->namespace;
+    }
+
+
+
+    /**
+     * Sets namespace of tree
+     *
+     * @param string $namespace
+     */
+    public function setNamespace($namespace) {
+        $this->namespace = $namespace;
+    }
 }
 ?>

@@ -34,10 +34,38 @@
 interface Tx_PtExtbase_Tree_NestedSetTreeInterface extends Tx_PtExtbase_Tree_TreeInterface {
 
     /**
-     * @abstract
-     * @return
+     * Returns added nodes of a tree
+     *
+     * @return array<Tx_PtExtbase_Tree_NodeInterface>
      */
     public function getAddedNodes();
+
+
+
+    /**
+     * Returns deleted nodes of a tree
+     *
+     * @return array<Tx_PtExtbase_Tree_NodeInterface>
+     */
+    public function getDeletedNodes();
+
+
+
+    /**
+     * Returns namespace of tree
+     *
+     * @return string namespace
+     */
+    public function getNamespace();
+
+
+
+    /**
+     * Sets namespace of tree
+     *
+     * @param string $namespace
+     */
+    public function setNamespace($namespace);
 
 }
 ?>
