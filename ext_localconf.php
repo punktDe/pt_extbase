@@ -3,21 +3,6 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-/*
- * Main plugin
- */
-Tx_Extbase_Utility_Extension::configurePlugin(
-	$_EXTKEY,
-	'Ptx',
-	array(
-		'Tree' => 'test',
-	),
-	array(
-		'Tree' => 'test',
-	)
-);
-
-
 // Define state cache, if not already defined
 if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'])) {
 	$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'] = array(
