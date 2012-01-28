@@ -9,12 +9,16 @@
             <label index="tx_ptextbase_tree_node">Node</label>
             <label index="tx_ptextbase_tree_node.name">Name</label>
             <label index="tx_ptextbase_tree_node.description">Description</label>
+            <label index="tx_ptextbase_tree_node.label">Label</label>
+            <label index="tx_ptextbase_tree_node.namespace">Namespace</label>
 		</languageKey>
 
         <languageKey index="de" type="array">
             <label index="tx_ptextbase_tree_node">Knoten</label>
             <label index="tx_ptextbase_tree_node.name">Name</label>
             <label index="tx_ptextbase_tree_node.description">Beschreibung</label>
+            <label index="tx_ptextbase_tree_node.label">Beschriftung</label>
+            <label index="tx_ptextbase_tree_node.namespace">Namensraum</label>
         </languageKey>
 	</data>
 </T3locallang>

@@ -62,7 +62,7 @@ class Tx_PtExtbase_Tree_TreeBuilder {
      */
     public function getEmptyTree($rootLabel = '') {
         $rootNode = new Tx_PtExtbase_Tree_Node($rootLabel);
-        $tree = new Tx_PtExtbase_Tree_Tree($rootNode);
+        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         return $tree;
     }
 	

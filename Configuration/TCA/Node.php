@@ -70,7 +70,15 @@ $TCA['tx_ptextbase_tree_node'] = array(
                 'eval' => 'trim'
             ),
         ),
-
+        'namespace' => array(
+            'exclude'   => 0,
+            'label'     => 'LLL:EXT:pt_extbase/Resources/Private/Language/locallang_db.xml:tx_ptextbase_tree_node.namespace',
+            'config'    => array(
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim'
+            ),
+        ),
         'lft' => array(
             'exclude'   => 0,
             'label'     => 'left',

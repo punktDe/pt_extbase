@@ -26,6 +26,7 @@ CREATE TABLE tx_ptextbase_tree_node (
     pid int(11) DEFAULT '0' NOT NULL,
 
     label  tinytext,
+    namespace  tinytext,
     lft   int(11) DEFAULT '0' NOT NULL,
     rgt   int(11) DEFAULT '0' NOT NULL,
     root  int(11) DEFAULT '0' NOT NULL,
@@ -53,5 +54,6 @@ CREATE TABLE tx_ptextbase_tree_node (
     KEY parent (pid),
     KEY lft (lft),
     KEY rgt (rgt),
-    KEY root (root)
+    KEY root (root),
+    KEY namespace (namespace)
 );
