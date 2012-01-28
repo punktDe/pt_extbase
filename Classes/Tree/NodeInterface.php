@@ -183,6 +183,24 @@ interface Tx_PtExtbase_Tree_NodeInterface {
      * @return boolean True, if node is root
      */
     public function isRoot();
+
+
+
+    /**
+     * Sets namespace of node
+     *
+     * @param $namespace
+     */
+    public function setNamespace($namespace);
+
+
+
+    /**
+     * Returns namespace of node
+     *
+     * @return string Namespace of node
+     */
+    public function getNamespace();
     
 }
 ?>

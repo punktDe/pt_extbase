@@ -176,6 +176,15 @@ class Tx_PtExtbase_Tests_Tree_NodeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
 		$child = new Tx_PtExtbase_Tree_Node('test');
 		$this->assertEquals('test', $child->getLabel());
 	}
+
+
+
+    /** @test */
+    public function setAndGetNamespaceReturnsSetNamespace() {
+        $node = new Tx_PtExtbase_Tree_Node();
+        $node->setNamespace('testingNamespace');
+        $this->assertEquals($node->getNamespace(), 'testingNamespace');
+    }
 	
 }
 ?>

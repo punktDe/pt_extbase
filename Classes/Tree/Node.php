@@ -114,6 +114,16 @@ class Tx_PtExtbase_Tree_Node
     protected $children;
 
 
+
+    /**
+     * Holds namespace of node
+     *
+     * @var string
+     */
+    protected $namespace;
+
+
+
 	/**
 	 * The constructor.
 	 *
@@ -459,12 +469,16 @@ class Tx_PtExtbase_Tree_Node
     	return $this->getSubCategories();
     }
 
+
+
 	/**
 	 * @param string $label
 	 */
 	public function setLabel($label) {
 		$this->label = $label;
 	}
+
+
 
 	/**
 	 * @return string
@@ -473,5 +487,27 @@ class Tx_PtExtbase_Tree_Node
 		return $this->label;
 	}
 
+
+
+    /**
+     * Sets namespace of node
+     *
+     * @param $namespace
+     */
+    public function setNamespace($namespace) {
+        $this->namespace = $namespace;
+    }
+
+
+
+    /**
+     * Returns namespace of node
+     *
+     * @return string Namespace of node
+     */
+    public function getNamespace() {
+        return $this->namespace;
+    }
+    
 }
 ?>
