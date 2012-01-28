@@ -29,7 +29,7 @@
  * the UID is stuff is final in domain objects.
  *
  * @package Tests
- * @subpackage Category
+ * @subpackage Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
 class Tx_PtExtbase_Tests_Tree_NodeMock extends Tx_PtExtbase_Tree_Node {

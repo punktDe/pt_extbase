@@ -28,7 +28,7 @@
  *
  * TODO I think, there is a method "getChildren" missing!
  *
- * @package Category
+ * @package Tree
  * @subpackage Model
  * @author Michael Knoll <mimi@kaktusteam.de>
  */

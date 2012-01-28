@@ -27,7 +27,7 @@
 /**
  * Interface for repositories that handle nodes in a nested set tree
  *
- * @package Category
+ * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */

@@ -27,7 +27,7 @@
 /**
  * Class implements Category Tree Builder domain object
  *
- * @package Category
+ * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  * @author Joachim Mathes <joachim_mathes@web.de>

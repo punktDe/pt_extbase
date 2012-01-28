@@ -27,7 +27,7 @@
 /**
  * Interface for classes that implement a generic tree
  *
- * @package Category
+ * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */

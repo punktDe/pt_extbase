@@ -26,7 +26,7 @@
 /**
  * Class implements a visitor for doing nested set enumeration on a tree.
  *
- * @package Category
+ * @package Tree
  * @subpackage Model
  * @author Michael Knoll <mimi@kaktusteam.de>
  */

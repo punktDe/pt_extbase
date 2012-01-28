@@ -27,11 +27,11 @@
 /**
  * Class implements Category Tree domain object
  *
- * @package Category
+ * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_TreeInterface {
+class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface {
 
 	/**
 	 * Holds reference of root node for this tree

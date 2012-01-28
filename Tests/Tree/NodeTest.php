@@ -28,7 +28,7 @@
  * Testcase for pt_extbase category
  *
  * @package Tests
- * @subpackage Category
+ * @subpackage Tree
  * @author Michael Knoll <knoll@punkt.de>
  */
 class Tx_PtExtbase_Tests_Tree_NodeTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {

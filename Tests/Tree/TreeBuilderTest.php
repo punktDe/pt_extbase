@@ -28,7 +28,7 @@
  * Testcase for tree builder
  *
  * @package Tests
- * @subpackage Category
+ * @subpackage Tree
  * @author Michael Knoll <knoll@punkt.de>
  */
 class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
@@ -38,8 +38,8 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 		$this->assertTrue(class_exists(Tx_PtExtbase_Tree_TreeBuilder));
 	}
 	
-	
-	
+
+
 	/** @test */
 	public function buildTreeReturnsCategoryTreeForGivenId() {
 		$categoriesObjectStorage = self::buildSetOfCategories();
@@ -50,7 +50,7 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 		    ->will($this->returnValue($categoriesObjectStorage));
 		$treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
 		$tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,12,1));
-		
+
 		$this->assertTrue(is_a($tree, Tx_PtExtbase_Tree_Tree));
 
 		// Assertions, that build tree is correct
@@ -66,9 +66,9 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 		$this->assertTrue($tree->getNodeByUid(5)->getChildren()->contains($tree->getNodeByUid(6)), 'Node 5 does not have node 6 set as child');
 		$this->assertEquals($tree->getNodeByUid(6)->getParent(), $tree->getNodeByUid(5), 'Node 6 does not have node 6 set as its parent');
 	}
-	
-	
-	
+
+
+
 	/** @test */
 	public function buildTreeThrowsExceptionIfNodesAreNotGivenInDescendingLeftValueOrder() {
         $repositoryMock = $this->buildRepositoryMock();
@@ -83,9 +83,9 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
         }
         $this->fail('Tree Builder threw no Exception if categories are given in wrong order!');
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Returns an ordered set of categories
 	 *
@@ -101,8 +101,8 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,1,12,1,'1'));
 		return $setOfCategories;
 	}
-	
-	
+
+
 
 	/**
 	 * Helper method to return a wrong sorted set of categories
@@ -115,9 +115,9 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
         $setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(6,9,10,1,'6'));
         return $setOfCategories;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Helper method to create a category object
 	 *
