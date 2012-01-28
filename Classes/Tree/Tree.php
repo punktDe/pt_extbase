@@ -107,7 +107,9 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 		$nsTreeWalker = new Tx_PtExtbase_Tree_TreeWalker(array(new Tx_PtExtbase_Tree_NestedSetVisitor()));
 		$tree->injectNsUpdateTreeWalker($nsTreeWalker);
 		$tree->updateCategoryTree();
-        $tree->setNamespace($rootNode->getNamespace());
+        if ($rootNode !== null) {
+            $tree->setNamespace($rootNode->getNamespace());
+        }
 		return $tree;
 	}
 	

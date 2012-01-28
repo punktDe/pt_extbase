@@ -40,12 +40,12 @@ class Tx_PtExtbase_Tests_Tree_NodeMock extends Tx_PtExtbase_Tree_Node {
      * @param int $lft
      * @param int $rgt
      * @param int $root
-     * @param string $name
-     * @param string $description
+     * @param string $label
+     * @param string $namespace
      * @return Tx_PtExtbase_Tree_Node
      */
-    public static function createCategory($uid, $lft, $rgt, $root, $name = '', $description = '') {
-        $category = new Tx_PtExtbase_Tests_Tree_NodeMock($uid, $name, $description);
+    public static function createCategory($uid, $lft, $rgt, $root, $label = '', $namespace = '') {
+        $category = new Tx_PtExtbase_Tests_Tree_NodeMock($uid, $label, $namespace);
         $category->setLft($lft);
         $category->setRgt($rgt);
         $category->setRoot($root);
@@ -54,9 +54,10 @@ class Tx_PtExtbase_Tests_Tree_NodeMock extends Tx_PtExtbase_Tree_Node {
 
 
 
-	public function __construct($uid = null, $name = null, $description = null) {
+	public function __construct($uid = null, $label = null, $namespace = null) {
 		$this->uid = $uid;
-		parent::__construct($name, $description);
+		parent::__construct($label);
+        $this->setNamespace($namespace);
 	}
 
 

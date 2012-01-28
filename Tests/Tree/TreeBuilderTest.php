@@ -104,12 +104,12 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 	 */
 	protected static function buildSetOfCategories() {
 		$setOfCategories = new Tx_Extbase_Persistence_ObjectStorage();
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(6,9,10,1,'6'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(5,8,11,1,'5'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(4,5,6,1,'4'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(3,3,4,1,'3'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(2,2,7,1,'2'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,1,12,1,'1'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(6,9,10,1,'6','testnamespace'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(5,8,11,1,'5','testnamespace'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(4,5,6,1,'4','testnamespace'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(3,3,4,1,'3','testnamespace'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(2,2,7,1,'2','testnamespace'));
+		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,1,12,1,'1','testnamespace'));
 		return $setOfCategories;
 	}
 
