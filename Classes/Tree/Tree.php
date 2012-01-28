@@ -300,6 +300,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 		$newNode->setParent($parentNode);
 		$newNode->setRoot($parentNode->getRoot());
 		$this->addNodeToAddedNodes($newNode);
+        $this->addNodeToTreeMap($newNode);
 		$this->updateCategoryTree();
 	}
 	
