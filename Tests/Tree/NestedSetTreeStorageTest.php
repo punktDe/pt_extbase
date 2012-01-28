@@ -42,7 +42,8 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
 
     /** @test */
     public function saveTreeThrowsExceptionWhenTryingToSaveTreeThatDoesNotImplementInterface() {
-        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage();
+        $nodeRepositoryMock = $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('remove', 'update', 'updateOrAdd'), array(), '', FALSE);
+        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage($nodeRepositoryMock);
         $wrongTree = $this->getMock('Tx_PtExtbase_Tree_TreeInterface', array(), array(), '', FALSE);
         $this->setExpectedException('Exception');
         $nestedSetTreeStorage->saveTree($wrongTree);
@@ -67,8 +68,7 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
         $nodeRepositoryMock->expects($this->once())->method('remove')->with($nodeMock);
         $nodeRepositoryMock->expects($this->once())->method('updateOrAdd');
 
-        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage();
-        $nestedSetTreeStorage->injectNodeRepository($nodeRepositoryMock);
+        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage($nodeRepositoryMock);
 
         $nestedSetTreeStorage->saveTree($treeMock);
     }
@@ -92,8 +92,7 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
         $nodeRepositoryMock->expects($this->once())->method('add')->with($nodeMock);
         $nodeRepositoryMock->expects($this->once())->method('updateOrAdd');
 
-        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage();
-        $nestedSetTreeStorage->injectNodeRepository($nodeRepositoryMock);
+        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage($nodeRepositoryMock);
 
         $nestedSetTreeStorage->saveTree($treeMock);
     }
@@ -117,8 +116,7 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
         $nodeRepositoryMock = $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('add', 'update'), array(), '', FALSE);
         $nodeRepositoryMock->expects($this->any())->method('update');
 
-        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage();
-        $nestedSetTreeStorage->injectNodeRepository($nodeRepositoryMock);
+        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage($nodeRepositoryMock);
 
         $nestedSetTreeStorage->saveTree($treeMock);
     }
@@ -140,8 +138,7 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
         $nodeRepositoryMock = $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('add', 'update', 'updateOrAdd'), array(), '', FALSE);
         $nodeRepositoryMock->expects($this->once())->method('updateOrAdd')->with($rootNodeMock);
 
-        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage();
-        $nestedSetTreeStorage->injectNodeRepository($nodeRepositoryMock);
+        $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage($nodeRepositoryMock);
 
         $nestedSetTreeStorage->saveTree($treeMock);
     }

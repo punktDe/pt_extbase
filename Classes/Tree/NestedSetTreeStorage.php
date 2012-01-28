@@ -42,25 +42,15 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
 	
 	/**
 	 * Constructor for nested set tree storage
+     *
+     * @param Tx_PtExtbase_Tree_NodeRepository $nodeRepository Node repository to store nodes in
 	 */
-	public function __construct() {
-        // TODO we should rather inject this to be testable!
-		#$this->nodeRepository = t3lib_div::makeInstance('Tx_PtExtbase_Tree_NodeRepository');
+	public function __construct(Tx_PtExtbase_Tree_NodeRepository $nodeRepository) {
+        $this->nodeRepository = $nodeRepository;
 	}
 
 
 
-    /**
-     * Injects node repository
-     *
-     * @param Tx_PtExtbase_Tree_NodeRepository $nodeRepository
-     */
-    public function injectNodeRepository(Tx_PtExtbase_Tree_NodeRepository $nodeRepository) {
-        $this->nodeRepository = $nodeRepository;
-    }
-	
-	
-	
 	/**
 	 * Removes deleted nodes of a given tree from node repository
 	 *
