@@ -109,7 +109,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	 * @param Tx_PtExtbase_Tree_Node $rootNode Root node for category tree
 	 */
 	public function __construct(Tx_PtExtbase_Tree_Node $rootNode = null){
-		$this->rootNode = $rootNode;
+        $this->rootNode = $rootNode;
 		$this->initTreeMap();
 	}
 	

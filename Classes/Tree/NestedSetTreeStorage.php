@@ -94,22 +94,22 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
      */
     public function saveTree(Tx_PtExtbase_Tree_TreeInterface $tree) {
 
-        var_dump(get_class($this->nodeRepository));
-
-        // Due to PHP bug, we cannot use type hint here, but have to check this manually
         if (!is_a($tree, Tx_PtExtbase_Tree_NestedSetTreeInterface)) {
             throw new Exception('Tx_PtExtbase_Tree_NestedSetTreeStorage can only persist trees that implement Tx_PtExtbase_Tree_NestedSetTreeInterface! 1327695444');
         }
+
         $this->removeDeletedNodesOfGivenTree($tree);
         $this->addAddedNodesOfGivenTree($tree);
         $nodes = $tree->getRoot()->getSubCategories();
         foreach ($nodes as $node) { /* @var $node Tx_PtExtbase_Tree_NodeInterface */
             if ($node->getUid() > 0) {
-                // we only update categories, that have NOT yet been persisted!
+                // we only update categories, that have been persisted!
                 $this->nodeRepository->update($node);
             }
         }
-        $this->nodeRepository->update($tree->getRoot());
+
+        $this->nodeRepository->updateOrAdd($tree->getRoot());
+
     }
 
 }

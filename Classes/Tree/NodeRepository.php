@@ -33,8 +33,6 @@ class Tx_PtExtbase_Tree_NodeRepository
     extends Tx_Extbase_Persistence_Repository
     implements Tx_PtExtbase_Tree_NodeRepositoryInterface {
 	
-	
-	
 	/**
 	 * Returns a set of categories determined by the root of the given node.
 	 *
@@ -47,7 +45,22 @@ class Tx_PtExtbase_Tree_NodeRepository
 		$rootUid = $category->getRoot();
 		return $this->findByRootUid($rootUid);
 	}
-	
+
+
+
+    /**
+     * Updates a given node if it has already been added to repository or adds it.
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     */
+    public function updateOrAdd(Tx_PtExtbase_Tree_NodeInterface $node) {
+        if ($node->getUid() === null || $node->getUid() == 0) {
+            $this->add($node);
+        } else {
+            $this->update($node);
+        }
+    }
+
 	
 	
 	/**
