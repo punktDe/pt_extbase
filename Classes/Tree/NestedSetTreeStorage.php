@@ -71,6 +71,7 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
 	 */
 	protected function addAddedNodesOfGivenTree(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree) {
 		foreach ($tree->getAddedNodes() as $addedNode) {
+            $this->setTreeNamespaceOnNode($tree, $addedNode);
 			$this->nodeRepository->add($addedNode);
 		}
 	}
@@ -94,12 +95,32 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
         foreach ($nodes as $node) { /* @var $node Tx_PtExtbase_Tree_NodeInterface */
             if ($node->getUid() > 0) {
                 // we only update categories, that have been persisted!
+                $this->setTreeNamespaceOnNode($tree, $node);
                 $this->nodeRepository->update($node);
             }
         }
 
+        $this->setTreeNamespaceOnNode($tree, $tree->getRoot());
         $this->nodeRepository->updateOrAdd($tree->getRoot());
 
+    }
+
+
+
+    /**
+     * Sets namespace of given tree on given node
+     *
+     * @param Tx_PtExtbase_Tree_NestedSetTreeInterface $tree
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @throws Exception
+     */
+    protected function setTreeNamespaceOnNode(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree, Tx_PtExtbase_Tree_NodeInterface $node) {
+        $namespace = $tree->getNamespace();
+        if ($namespace !== null && $namespace !== '') {
+            $node->setNamespace($namespace);
+        } else {
+            throw new Exception('Trying to store a node of a tree that has no namespace set! Namespace is required on a tree to be stored! 1327756309');
+        }
     }
 
 }

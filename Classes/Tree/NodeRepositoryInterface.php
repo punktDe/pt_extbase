@@ -34,14 +34,14 @@
 interface Tx_PtExtbase_Tree_NodeRepositoryInterface {
 
 	/**
-	 * Returns ancestors of the root node of given node.
+	 * Returns nodes for a given namespace
 	 * 
 	 * Nodes are ordered by left-value 
 	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $node
+	 * @param string $namespace
      * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_NodeInterface>
 	 */
-	public function findByRootOfGivenNodeUid(Tx_PtExtbase_Tree_NodeInterface $node);
+	public function findByNamespace($namespace);
 	
 }
 ?>

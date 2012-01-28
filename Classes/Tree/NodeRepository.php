@@ -75,6 +75,21 @@ class Tx_PtExtbase_Tree_NodeRepository
             ->setOrderings(array('lft' => Tx_Extbase_Persistence_Query::ORDER_DESCENDING));
         return $query->execute();
 	}
+
+
+
+    /**
+     * Returns set of nodes for given namespace.
+     *
+     * @param $namespace
+     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
+     */
+    public function findByNamespace($namespace) {
+        $query = $this->createQuery();
+        $query->matching($query->equals('namespace', $namespace))
+            ->setOrderings(array('lft' => Tx_Extbase_Persistence_Query::ORDER_DESCENDING));
+        return $query->execute();
+    }
 	
 	
 	

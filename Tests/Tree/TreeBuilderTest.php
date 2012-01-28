@@ -44,24 +44,25 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
     public function getEmptyTreeReturnsEmptyTree() {
         $repositoryMock = $this->buildRepositoryMock();
         $treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
-        $tree = $treeBuilder->getEmptyTree('ourRootLabel');
+        $tree = $treeBuilder->getEmptyTree('namespace', 'ourRootLabel');
 
         $this->assertTrue(is_a($tree->getRoot(), Tx_PtExtbase_Tree_NodeInterface));
+        $this->assertEquals($tree->getNamespace(), 'namespace');
         $this->assertEquals($tree->getRoot()->getLabel(), 'ourRootLabel');
     }
 	
 
 
 	/** @test */
-	public function buildTreeReturnsCategoryTreeForGivenId() {
+	public function buildTreeForNamespaceReturnsCategoryTreeForNamespace() {
 		$categoriesObjectStorage = self::buildSetOfCategories();
 		$categoriesArray = $categoriesObjectStorage->toArray();
 		$repositoryMock = $this->buildRepositoryMock();
 		$repositoryMock->expects($this->once())
-		    ->method('findByRootUid')
+		    ->method('findByNamespace')
 		    ->will($this->returnValue($categoriesObjectStorage));
 		$treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
-		$tree = $treeBuilder->buildTreeForNode(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,12,1));
+		$tree = $treeBuilder->buildTreeForNamespace('no_matter_what_namespace');
 
 		$this->assertTrue(is_a($tree, Tx_PtExtbase_Tree_Tree));
 
@@ -82,18 +83,16 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 
 
 	/** @test */
-	public function buildTreeThrowsExceptionIfNodesAreNotGivenInDescendingLeftValueOrder() {
+	public function buildTreeForNamespaceThrowsExceptionIfNodesAreNotGivenInDescendingLeftValueOrder() {
         $repositoryMock = $this->buildRepositoryMock();
         $repositoryMock->expects($this->once())
-            ->method('findByRootUid')
+            ->method('findByNamespace')
             ->will($this->returnValue(self::buildWrongSortedSetOfCategories()));
         $treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
-        try {
-            $tree = $treeBuilder->buildTreeForNode(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,12,1));
-        } catch (Exception $e) {
-        	return;
-        }
-        $this->fail('Tree Builder threw no Exception if categories are given in wrong order!');
+
+        $this->setExpectedException('Exception');
+
+        $treeBuilder->buildTreeForNamespace('no_matter_what_namespace');
 	}
 
 
@@ -136,7 +135,7 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 	 * @return Tx_Yag_Domain_Repository_CategoryRepository Mocked repository
 	 */
 	protected function buildRepositoryMock() {
-		return $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('findByRootUid'), array(), '', FALSE);
+		return $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('findByNamespace'), array(), '', FALSE);
 	}
 	
 }

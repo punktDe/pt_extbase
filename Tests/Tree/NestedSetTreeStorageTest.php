@@ -60,7 +60,8 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
         $nodeMockUncloned = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,2,1,1);
         $nodeMock = clone $nodeMockUncloned;
 
-        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getDeletedNodes', 'getRoot'), array(), '', FALSE);
+        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getDeletedNodes', 'getRoot', 'getNamespace'), array(), '', FALSE);
+        $treeMock->expects($this->any())->method('getNamespace')->will($this->returnValue('namespace'));
         $treeMock->expects($this->any())->method('getDeletedNodes')->will($this->returnValue(array($nodeMock)));
         $treeMock->expects($this->any())->method('getRoot')->will($this->returnValue($rootNodeMock));
 
@@ -84,7 +85,8 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
         $nodeMockUncloned = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,2,1,1);
         $nodeMock = clone $nodeMockUncloned;
 
-        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getAddedNodes', 'getRoot'), array(), '', FALSE);
+        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getAddedNodes', 'getRoot', 'getNamespace'), array(), '', FALSE);
+        $treeMock->expects($this->any())->method('getNamespace')->will($this->returnValue('namespace'));
         $treeMock->expects($this->any())->method('getAddedNodes')->will($this->returnValue(array($nodeMock)));
         $treeMock->expects($this->any())->method('getRoot')->will($this->returnValue($rootNodeMock));
 
@@ -106,10 +108,8 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
         $unclonedRootNodeMock->expects($this->any())->method('getSubCategories')->will($this->returnValue(array()));
         $rootNodeMock = clone $unclonedRootNodeMock;
 
-        $nodeMockUncloned = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,2,1,1);
-        $nodeMock = clone $nodeMockUncloned;
-
-        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getRoot'), array(), '', FALSE);
+        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getRoot', 'getNamespace'), array(), '', FALSE);
+        $treeMock->expects($this->any())->method('getNamespace')->will($this->returnValue('namespace'));
         $treeMock->expects($this->any())->method('getRoot')->will($this->returnValue($rootNodeMock));
 
         // TODO this is not, what we actually want to test
@@ -128,7 +128,8 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
         $unclonedRootNodeMock = $this->getMock('Tx_PtExtbase_Tree_Node', array(), array(), '', FALSE);
         $rootNodeMock = clone $unclonedRootNodeMock;
 
-        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getRoot'), array(), '', FALSE);
+        $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getRoot', 'getNamespace'), array(), '', FALSE);
+        $treeMock->expects($this->any())->method('getNamespace')->will($this->returnValue('namespace'));
         $treeMock->expects($this->any())->method('getRoot')->will($this->returnValue($rootNodeMock));
 
         // TODO this is not, what we actually want to test

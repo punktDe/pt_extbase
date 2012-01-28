@@ -57,31 +57,33 @@ class Tx_PtExtbase_Tree_TreeBuilder {
     /**
      * Returns an empty tree with root node labeled by given label
      *
+     * @param string $namespace Namespace for tree
      * @param string $rootLabel Label for root node
      * @return Tx_PtExtbase_Tree_Tree Empty tree object.
      */
-    public function getEmptyTree($rootLabel = '') {
+    public function getEmptyTree($namespace, $rootLabel = '') {
         $rootNode = new Tx_PtExtbase_Tree_Node($rootLabel);
         $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+        $tree->setNamespace($namespace);
         return $tree;
     }
 	
 	
 	
 	/**
-	 * Builds a tree for a given category. The tree is build up from the root of given node
+	 * Builds a tree for given namespace.
 	 *
-	 * @param Tx_PtExtbase_Tree_Node $node
+	 * @param string $node Namespace to build tree for
 	 * @return Tx_PtExtbase_Tree_Tree
 	 */
-	public function buildTreeForNode(Tx_PtExtbase_Tree_Node $node) {
+	public function buildTreeForNamespace($namespace) {
 		/**
 		 * Explanation: We build the tree bottom-up and therefore use a stack.
 		 * Each node is added to a child to topStack, if topStack's right-value is smaller
 		 * than current node's right-value.
 		 */
 		
-		$nodes = $this->nodeRepository->findByRootUid($node->getRoot())->toArray();
+		$nodes = $this->nodeRepository->findByNamespace($namespace);
 		$stack = new Tx_PtExtbase_Tree_Stack();
 		$prevLft = PHP_INT_MAX;
 		foreach($nodes as $node) { /* @var $node Tx_PtExtbase_Tree_Node */
