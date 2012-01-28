@@ -126,7 +126,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 			$difference = intval($right - $left + 1);
 			
 			// We update case 1. from above
-			$query1 = "UPDATE tx_yag_domain_model_category " . 
+			$query1 = "UPDATE tx_ptextbase_tree_node " .
 			          "SET lft = lft - " . $difference . ", rgt = rgt - " . $difference . " " . 
 			          "WHERE root = " . $category->getRoot() . " " .
 			          "AND lft > " . $category->getLft();
@@ -136,7 +136,7 @@ class Tx_PtExtbase_Tree_NodeRepository
             $extQuery1->statement($query1)->execute();
             
 			// We update case 2. from above
-			$query2 = "UPDATE tx_yag_domain_model_category " . 
+			$query2 = "UPDATE tx_ptextbase_tree_node " .
 			          "SET rgt = rgt - " . $difference . " " .
 			          "WHERE root = " . $category->getRoot() . " " .
 			          "AND lft < " . $category->getLft() . " " .
@@ -160,7 +160,7 @@ class Tx_PtExtbase_Tree_NodeRepository
         $left = $category->getLft();
         $right = $category->getRgt();
         
-        $query = "DELETE FROM tx_yag_domain_model_category WHERE lft >= " . $left . " AND rgt <= " . $right;
+        $query = "DELETE FROM tx_ptextbase_tree_node WHERE lft >= " . $left . " AND rgt <= " . $right;
         #echo "DELTE query: " . $query;
         $extQuery = $this->createQuery();
         $extQuery->getQuerySettings()->setReturnRawQueryResult(true); // Extbase WTF
