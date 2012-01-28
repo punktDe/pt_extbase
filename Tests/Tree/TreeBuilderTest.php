@@ -49,7 +49,7 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 		    ->method('findByRootUid')
 		    ->will($this->returnValue($categoriesObjectStorage));
 		$treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
-		$tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,12,1));
+		$tree = $treeBuilder->buildTreeForNode(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,12,1));
 
 		$this->assertTrue(is_a($tree, Tx_PtExtbase_Tree_Tree));
 
@@ -77,7 +77,7 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
             ->will($this->returnValue(self::buildWrongSortedSetOfCategories()));
         $treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
         try {
-            $tree = $treeBuilder->buildTreeForCategory(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,12,1));
+            $tree = $treeBuilder->buildTreeForNode(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,12,1));
         } catch (Exception $e) {
         	return;
         }

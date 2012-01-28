@@ -39,35 +39,35 @@ class Tx_PtExtbase_Tree_TreeBuilder {
 	 *
 	 * @var Tx_PtExtbase_Tree_NodeRepositoryInterface
 	 */
-	protected $categoryRepository;
+	protected $nodeRepository;
 	
 	
 	
 	/**
-	 * Constructor for treebuilder. Requires category repository as parameter.
+	 * Constructor for treebuilder. Requires node repository as parameter.
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeRepositoryInterface $categoryRepository
 	 */
-	public function __construct(Tx_PtExtbase_Tree_NodeRepositoryInterface $categoryRepository) {
-		$this->categoryRepository = $categoryRepository;
+	public function __construct(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository) {
+		$this->nodeRepository = $nodeRepository;
 	}
 	
 	
 	
 	/**
-	 * Builds a tree for a given category. The tree is build up from the root of given category
+	 * Builds a tree for a given category. The tree is build up from the root of given node
 	 *
-	 * @param Tx_PtExtbase_Tree_Node $category
+	 * @param Tx_PtExtbase_Tree_Node $node
 	 * @return Tx_PtExtbase_Tree_Tree
 	 */
-	public function buildTreeForCategory(Tx_PtExtbase_Tree_Node $category) {
+	public function buildTreeForNode(Tx_PtExtbase_Tree_Node $node) {
 		/**
 		 * Explanation: We build the tree bottom-up and therefore use a stack.
 		 * Each node is added to a child to topStack, if topStack's right-value is smaller
 		 * than current node's right-value.
 		 */
 		
-		$nodes = $this->categoryRepository->findByRootUid($category->getRoot())->toArray();
+		$nodes = $this->nodeRepository->findByRootUid($node->getRoot())->toArray();
 		$stack = new Tx_PtExtbase_Tree_Stack();
 		$prevLft = PHP_INT_MAX;
 		foreach($nodes as $node) { /* @var $node Tx_PtExtbase_Tree_Node */
