@@ -37,6 +37,18 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 	public function classExists() {
 		$this->assertTrue(class_exists(Tx_PtExtbase_Tree_TreeBuilder));
 	}
+
+
+
+    /** @test */
+    public function getEmptyTreeReturnsEmptyTree() {
+        $repositoryMock = $this->buildRepositoryMock();
+        $treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
+        $tree = $treeBuilder->getEmptyTree('ourRootLabel');
+
+        $this->assertTrue(is_a($tree->getRoot(), Tx_PtExtbase_Tree_NodeInterface));
+        $this->assertEquals($tree->getRoot()->getLabel(), 'ourRootLabel');
+    }
 	
 
 

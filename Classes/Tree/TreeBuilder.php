@@ -40,8 +40,8 @@ class Tx_PtExtbase_Tree_TreeBuilder {
 	 * @var Tx_PtExtbase_Tree_NodeRepositoryInterface
 	 */
 	protected $nodeRepository;
-	
-	
+
+
 	
 	/**
 	 * Constructor for treebuilder. Requires node repository as parameter.
@@ -51,6 +51,20 @@ class Tx_PtExtbase_Tree_TreeBuilder {
 	public function __construct(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository) {
 		$this->nodeRepository = $nodeRepository;
 	}
+
+
+
+    /**
+     * Returns an empty tree with root node labeled by given label
+     *
+     * @param string $rootLabel Label for root node
+     * @return Tx_PtExtbase_Tree_Tree Empty tree object.
+     */
+    public function getEmptyTree($rootLabel = '') {
+        $rootNode = new Tx_PtExtbase_Tree_Node($rootLabel);
+        $tree = new Tx_PtExtbase_Tree_Tree($rootNode);
+        return $tree;
+    }
 	
 	
 	
