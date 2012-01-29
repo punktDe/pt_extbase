@@ -54,9 +54,11 @@ class Tx_PtExtbase_Tree_NodeRepository
      * @param Tx_PtExtbase_Tree_NodeInterface $node
      */
     public function updateOrAdd(Tx_PtExtbase_Tree_NodeInterface $node) {
-        if ($node->getUid() === null || $node->getUid() == 0) {
+        if ($node->getUid() === null || $node->getUid() < 0) {
+            // UID of node < 0 means, node has not yet been persisted!
             $this->add($node);
         } else {
+            // UID of node > 0 means, node has been persisted before!
             $this->update($node);
         }
     }

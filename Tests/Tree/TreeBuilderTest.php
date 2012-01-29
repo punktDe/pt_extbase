@@ -66,6 +66,8 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 
 		$this->assertTrue(is_a($tree, Tx_PtExtbase_Tree_Tree));
 
+        echo $tree->toString();
+
 		// Assertions, that build tree is correct
 		$this->assertEquals($tree->getRoot(), $categoriesArray[5], 'Root node of tree is not root of given set of nodes');
 		$this->assertTrue($tree->getRoot()->getChildren()->contains($tree->getNodeByUid(2)), 'Root node of tree does not contain child of given set of nodes');

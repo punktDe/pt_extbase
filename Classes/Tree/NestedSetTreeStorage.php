@@ -37,6 +37,15 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
 	 * @var Tx_PtExtbase_Tree_NodeRepository
 	 */
 	protected $nodeRepository;
+
+
+
+    /**
+     * Holds instance of nested sets tree walker
+     *
+     * @var Tx_PtExtbase_Tree_NestedSetTreeWalker
+     */
+    protected $nestedSetTreeWalker;
 	
 	
 	
@@ -47,6 +56,8 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
 	 */
 	public function __construct(Tx_PtExtbase_Tree_NodeRepository $nodeRepository) {
         $this->nodeRepository = $nodeRepository;
+        // TODO put this into creation method
+        $this->nestedSetTreeWalker = Tx_PtExtbase_Tree_NestedSetTreeWalker::getInstance();
 	}
 
 
@@ -90,14 +101,12 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
         }
 
         $this->removeDeletedNodesOfGivenTree($tree);
-        $this->addAddedNodesOfGivenTree($tree);
-        $nodes = $tree->getRoot()->getSubCategories();
+        #$this->addAddedNodesOfGivenTree($tree);
+        $nodes = $this->nestedSetTreeWalker->traverseTreeAndGetNodes($tree);
+
         foreach ($nodes as $node) { /* @var $node Tx_PtExtbase_Tree_NodeInterface */
-            if ($node->getUid() > 0) {
-                // we only update categories, that have been persisted!
-                $this->setTreeNamespaceOnNode($tree, $node);
-                $this->nodeRepository->update($node);
-            }
+            $this->setTreeNamespaceOnNode($tree, $node);
+            $this->nodeRepository->updateOrAdd($node);
         }
 
         $this->setTreeNamespaceOnNode($tree, $tree->getRoot());

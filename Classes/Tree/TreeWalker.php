@@ -78,15 +78,23 @@ class Tx_PtExtbase_Tree_TreeWalker {
 	protected function dfs(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
 		$this->doFirstVisit($node, $index);
 		$index = $index + 1;
-		foreach ($node->getChildren() as $child) { /* @var $child Tx_PtExtbase_Tree_NodeInterface */
-			$this->dfs($child, $index);
-		}
+        if ($node->getChildrenCount() > 0) {
+            foreach ($node->getChildren() as $child) { /* @var $child Tx_PtExtbase_Tree_NodeInterface */
+                $this->dfs($child, $index);
+            }
+        }
 		$this->doLastVisit($node, $index);
 		$index = $index + 1;
 	}
 	
 	
-	
+
+    /**
+     * Calls registered visitors whenever a node is visited for the first time
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param $index
+     */
 	protected function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
 		foreach ($this->visitors as $visitor) {
 			$visitor->doFirstVisit($node, $index);
@@ -94,7 +102,13 @@ class Tx_PtExtbase_Tree_TreeWalker {
 	}
 	
 	
-	
+
+    /**
+     * Calls registered visitors whenever a node is visited for the last time
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param $index
+     */
 	protected function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
 		foreach ($this->visitors as $visitor) {
 			$visitor->doLastVisit($node, $index);
@@ -109,7 +123,8 @@ class Tx_PtExtbase_Tree_TreeWalker {
 	 * @param Tx_PtExtbase_Tree_TraversableInterface $tree
 	 */
 	public function traverseTreeBfs(Tx_PtExtbase_Tree_TraversableInterface $tree) {
-		
+		// TODO implement me!
+        throw new Exception('Traversing tree BFS is not yet implemented!');
 	}
 	
 }

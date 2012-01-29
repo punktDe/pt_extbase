@@ -140,11 +140,11 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
         
         $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-        var_dump('Before move: ' . $categoryTree->toString());
+        echo 'Before move: ' . $categoryTree->toString();
         
         $categoryTree->moveNode($thirdChild, $rootNode); // We want to move 3rdChild into root node
         
-        var_dump('After move: ' . $categoryTree->toString());
+        echo 'After move: ' . $categoryTree->toString();
         
         $this->assertFalse($firstChild->getChildren()->contains($thirdChild));
         $this->assertTrue($rootNode->getChildren()->contains($thirdChild));
@@ -168,11 +168,11 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
                 
         $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-        var_dump('Before move: ' . $categoryTree->toString());
+        echo 'Before move: ' . $categoryTree->toString();
         
         $categoryTree->moveNodeBeforeNode($fourthChild, $firstChild); // We want to move 4th child before 1st child
         
-        var_dump('After move: ' . $categoryTree->toString());
+        echo 'After move: ' . $categoryTree->toString();
         
         $this->assertEquals($fourthChild->getParent(), $rootNode);
         $rootsChildren = $rootNode->getChildren()->toArray();
@@ -198,11 +198,11 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
         
         $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-        var_dump('Before move: ' . $categoryTree->toString());
+        echo 'Before move: ' . $categoryTree->toString();
         
         $categoryTree->moveNodeAfterNode($fourthChild, $firstChild); // We want to move 4th child before 1st child
         
-        var_dump('After move: ' . $categoryTree->toString());
+        echo 'After move: ' . $categoryTree->toString();
         
         $this->assertEquals($fourthChild->getParent(), $rootNode);
         $rootsChildren = $rootNode->getChildren()->toArray();

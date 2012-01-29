@@ -48,25 +48,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	 * @var array
 	 */
 	protected $treeMap = array();
-	
-	
-	
-	/**
-	 * Holds a reference to a treewalker that updates nested set orderings
-	 *
-	 * @var Tx_PtExtbase_Tree_TreeWalker
-	 */
-	protected $nsTreeWalker;
-	
-	
-	
-	/**
-	 * Holds a reference to a treewalker that updates treemap
-	 *
-	 * @var Tx_PtExtbase_Tree_TreeWalker
-	 */
-	protected $treeMapTreeWalker;
-	
+
 	
 	
 	/**
@@ -104,9 +86,6 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	 */
 	public static function getInstanceByRootNode(Tx_PtExtbase_Tree_Node $rootNode = null) {
 		$tree = new Tx_PtExtbase_Tree_Tree($rootNode);
-		$nsTreeWalker = new Tx_PtExtbase_Tree_TreeWalker(array(new Tx_PtExtbase_Tree_NestedSetVisitor()));
-		$tree->injectNsUpdateTreeWalker($nsTreeWalker);
-		$tree->updateCategoryTree();
         if ($rootNode !== null) {
             $tree->setNamespace($rootNode->getNamespace());
         }
@@ -123,17 +102,6 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	public function __construct(Tx_PtExtbase_Tree_Node $rootNode = null){
         $this->rootNode = $rootNode;
 		$this->initTreeMap();
-	}
-	
-	
-	
-	/**
-	 * Injects a treewalker for updating nested set numbering
-	 *
-	 * @param Tx_PtExtbase_Tree_TreeWalker $treeWalker
-	 */
-	public function injectNsUpdateTreeWalker(Tx_PtExtbase_Tree_TreeWalker $treeWalker) {
-		$this->nsTreeWalker = $treeWalker;
 	}
 	
 	
@@ -200,8 +168,6 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 		$this->removeNodeFromTreeMap($node);
 		
 		$node->getParent()->removeChild($node);
-		
-		$this->updateCategoryTree();
 	}
 	
 	
@@ -226,8 +192,6 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 		
 		// We set parent of moved node to target node
 		$nodeToBeMoved->setParent($targetNode);
-		
-		$this->updateCategoryTree();
 	}
 	
 	
@@ -255,7 +219,6 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 		} else {
 			throw new Exception("Trying to move a node in front of a node that doesn't have a parent node! 1307646534");
 		}
-		$this->updateCategoryTree();
 	}
 	
 	
@@ -283,7 +246,6 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
         } else {
             throw new Exception("Trying to move a node after a node that doesn't have a parent node! 1307646535");
         }
-        $this->updateCategoryTree();
 	}
 	
 	
@@ -301,7 +263,6 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 		$newNode->setRoot($parentNode->getRoot());
 		$this->addNodeToAddedNodes($newNode);
         $this->addNodeToTreeMap($newNode);
-		$this->updateCategoryTree();
 	}
 	
 	
@@ -381,18 +342,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	}
 	
 	
-	
-	/**
-	 * Updates tree after any changes took place
-	 */
-	protected function updateCategoryTree() {
-		if ($this->rootNode !== null) {
-		    $this->nsTreeWalker->traverseTreeDfs($this);
-		}
-	}
-	
-	
-	
+
 	/**
 	 * Renders a category tree to a ul html element (For debugging)
 	 *
@@ -423,5 +373,6 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     public function setNamespace($namespace) {
         $this->namespace = $namespace;
     }
+
 }
 ?>

@@ -28,10 +28,10 @@
  * Testcase for nested set visitor for treewalker.
  *
  * @package Tests
- * @subpackage Domain\Model
+ * @subpackage Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tests_Tree_Domain_Model_NestedSetVisitorTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Tree_NestedSetVisitorTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
 
 	/** @test */
 	public function visitorSetsLeftAndRightValuesCorrectly() {

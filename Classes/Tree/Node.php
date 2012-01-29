@@ -40,17 +40,6 @@
  *    ... COUNT(*) ... WHERE --> see above
  * 
  * For a detailed explanation of what's possible with nested sets see http://www.klempert.de/nested_sets/
- * 
- * 
- * The tricky part here is covering this functionality with standard Extbase persistence stuff. Therefore
- * we have kind of an advanced repository which handles setting up nested category object-structure from
- * flat SQL table response.
- * 
- * 
- * Some conventions:
- * 
- * 1. Root: Every category has a root. If root == UID, then category is root.
- * 
  *
  * @package Domain
  * @subpackage Model
@@ -60,6 +49,27 @@
 class Tx_PtExtbase_Tree_Node
     extends Tx_Extbase_DomainObject_AbstractEntity
     implements Tx_PtExtbase_Tree_NestedSetNodeInterface {
+
+    /**
+     * Holds a unique temporaray UID which is decreased every time, a temp uid is requested.
+     *
+     * @var int
+     */
+    protected static $tmpUidIndex = -1;
+
+
+
+    /**
+     * Returns a unique temporary UID for node
+     *
+     * @static
+     * @return int
+     */
+    protected static function getNewTemporaryUid() {
+        return self::$tmpUidIndex--;
+    }
+
+
 	
 	/**
      * Label for category
@@ -141,6 +151,16 @@ class Tx_PtExtbase_Tree_Node
 		// We initialize lft and rgt as those values will be overwritten later, if this is not the root node
 		$this->lft = 1;
 		$this->rgt = 2;
+
+        /**
+         * What happens here?
+         *
+         * UIDs are used throughout our tree implementation to identify nodes. As we do not have a UID
+         * whenever a node is created as an object and not yet added to repository, we do not have a UID
+         * after creation of object. So we set a unique negative UID here which will be overwritten, when
+         * node has been stored to database and restored afterwards.
+         */
+        $this->uid = self::getNewTemporaryUid();
 	}
 
     
@@ -262,6 +282,9 @@ class Tx_PtExtbase_Tree_Node
 	 * @return Tx_Extbase_Persistence_ObjectStorage
 	 */
 	public function getChildren() {
+        if (is_null($this->children)) {
+            $this->children = new Tx_Extbase_Persistence_ObjectStorage();
+        }
 		return $this->children;
 	}
 
