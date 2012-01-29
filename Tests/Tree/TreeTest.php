@@ -239,18 +239,6 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
 	
 	
 	/** @test */
-	public function insertingNodeAddsInsertedNodeToListOfAddedNodes() {
-		$rootNode = new Tx_PtExtbase_Tests_Tree_NodeMock(1);
-		$nodeToBeAdded = new Tx_PtExtbase_Tests_Tree_NodeMock(2);
-		$categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
-		$categoryTree->insertNode($nodeToBeAdded, $rootNode);
-		
-		$this->assertTrue(in_array($nodeToBeAdded, $categoryTree->getAddedNodes()));
-	}
-	
-	
-	
-	/** @test */
 	public function deletingNodeFromTreeAddsDeletedNodesToListOfDeletedNodes() {
 		$rootNode = new Tx_PtExtbase_Tests_Tree_NodeMock(1);
         $firstChild = new Tx_PtExtbase_Tests_Tree_NodeMock(2);

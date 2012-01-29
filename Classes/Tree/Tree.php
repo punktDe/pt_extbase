@@ -57,15 +57,6 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	 * @var array
 	 */
 	protected $deletedNodes = array();
-	
-	
-	
-	/**
-	 * Holds a list of added nodes
-	 *
-	 * @var array
-	 */
-	protected $addedNodes = array();
 
 
 
@@ -140,17 +131,6 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	 */
 	public function getDeletedNodes() {
 		return $this->deletedNodes;
-	}
-	
-	
-	
-	/**
-	 * Returns a list of added nodes
-	 *
-	 * @return array
-	 */
-	public function getAddedNodes() {
-		return $this->addedNodes;
 	}
 	
 	
@@ -261,7 +241,6 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 		$parentNode->addChild($newNode);
 		$newNode->setParent($parentNode);
 		$newNode->setRoot($parentNode->getRoot());
-		$this->addNodeToAddedNodes($newNode);
         $this->addNodeToTreeMap($newNode);
 	}
 	
@@ -314,19 +293,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	 */
 	protected function addNodeToDeletedNodes(Tx_PtExtbase_Tree_Node $node) {
 		$this->deletedNodes[] = $node;
-	}
-	
-	
-	
-	/**
-	 * Adds a node to list of added nodes
-	 *
-	 * @param Tx_PtExtbase_Tree_Node $node Node to be added to list of added nodes
-	 */
-	protected function addNodeToAddedNodes(Tx_PtExtbase_Tree_Node $node) {
-	     $this->addedNodes[] = $node;	
-	}
-	
+    }
 	
 	
 	/**

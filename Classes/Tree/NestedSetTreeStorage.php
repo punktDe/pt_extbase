@@ -62,33 +62,6 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
 
 
 
-	/**
-	 * Removes deleted nodes of a given tree from node repository
-	 *
-	 * @param Tx_PtExtbase_Tree_NestedSetTreeInterface $tree Tree whose deleted nodes should be removed from repository
-	 */
-	protected function removeDeletedNodesOfGivenTree(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree) {
-		foreach ($tree->getDeletedNodes() as $deletedNode) {
-			$this->nodeRepository->remove($deletedNode);
-		}
-	}
-	
-	
-	
-	/**
-	 * Adds added nodes of a given tree to node repository
-	 *
-	 * @param Tx_PtExtbase_Tree_NestedSetTreeInterface $tree
-	 */
-	protected function addAddedNodesOfGivenTree(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree) {
-		foreach ($tree->getAddedNodes() as $addedNode) {
-            $this->setTreeNamespaceOnNode($tree, $addedNode);
-			$this->nodeRepository->add($addedNode);
-		}
-	}
-
-
-
     /**
      * Saves a tree to storage
      *
@@ -101,7 +74,7 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
         }
 
         $this->removeDeletedNodesOfGivenTree($tree);
-        #$this->addAddedNodesOfGivenTree($tree);
+
         $nodes = $this->nestedSetTreeWalker->traverseTreeAndGetNodes($tree);
 
         foreach ($nodes as $node) { /* @var $node Tx_PtExtbase_Tree_NodeInterface */
@@ -112,6 +85,19 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
         $this->setTreeNamespaceOnNode($tree, $tree->getRoot());
         $this->nodeRepository->updateOrAdd($tree->getRoot());
 
+    }
+
+
+
+    /**
+     * Removes deleted nodes of a given tree from node repository
+     *
+     * @param Tx_PtExtbase_Tree_NestedSetTreeInterface $tree Tree whose deleted nodes should be removed from repository
+     */
+    protected function removeDeletedNodesOfGivenTree(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree) {
+        foreach ($tree->getDeletedNodes() as $deletedNode) {
+            $this->nodeRepository->remove($deletedNode);
+        }
     }
 
 
