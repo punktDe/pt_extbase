@@ -31,7 +31,7 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_PtExtbase_Tree_NodeInterface {
+interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_DomainObjectInterface {
 
     /*********************************************************************************************************
      * Getters and setters for advanced domain logic. NOT USED FOR PERSISTENCE!

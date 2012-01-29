@@ -27,7 +27,6 @@
  * Class implements a visitor for doing nested set enumeration on a tree.
  *
  * @package Tree
- * @subpackage Model
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
 class Tx_PtExtbase_Tree_NestedSetVisitor implements Tx_PtExtbase_Tree_TreeWalkerVisitorInterface {
