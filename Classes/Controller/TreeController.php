@@ -128,8 +128,17 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 
 
+	/**
+	 * @param Tx_PtExtbase_Tree_Node $node
+	 */
+	public function removeNodeAction(Tx_PtExtbase_Tree_Node $node) {
+		$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
+		$tree->deleteNode($node);
+		$this->nestedSetTreeStorage->saveTree($tree);
 
-
+		$this->persistenceManager->persistAll();
+		exit();
+	}
 
 
 
@@ -152,58 +161,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	}
 
 
-	/**
-	 * Adds a new node to the tree
-	 *
-	 * @param int $parentNodeId
-	 * @param string $nodeTitle
-	 * @param string $nodeDescription
-	 * @dontvalidate
-	 */
-	public function addNewCategoryAction($parentNodeId, $nodeTitle) {
-		$parentNode = $this->categoryRepository->findByUid($parentNodeId);
-		$newNode = new Tx_Yag_Domain_Model_Category($nodeTitle, $nodeDescription);
-		$categoryTree = $this->categoryTreeRepository->findByRootId($parentNode->getRoot());
-		$categoryTree->insertNode($newNode, $parentNode);
-		$this->categoryTreeRepository->update($categoryTree);
-		$this->persistenceManager->persistAll();
 
-		$this->forward('debug');
-	}
-
-
-	/**
-	 * Add a new category to the tree
-	 *
-	 * @param int $parentNodeId
-	 * @param string $nodeTitle
-	 * @param string $nodeDescription
-	 * @return string Rendered HTML
-	 * @dontvalidate
-	 */
-	public function addCategoryAction($parentNodeId, $nodeTitle = '', $nodeDescription = '') {
-
-
-		// this is currently not working, use addNewCategoryAction or fix this (action is not called from debug form - dunno why)
-
-		// TODO replace whole code here by functionality of "addNewCategoryAction"!
-
-		$parentCategory = $this->categoryRepository->findByUid($parentNodeId);
-		if ($parentCategory !== NULL) {
-			$newCategory = new Tx_Yag_Domain_Model_Category();
-			$newCategory->setRoot($parentCategory);
-			$newCategory->setName($nodeTitle);
-			$newCategory->setDescription($nodeDescription);
-
-			$this->categoryRepository->add($newCategory);
-			$newCategory->setParent($parentCategory);
-			//$parentCategory->addChild($newCategory); // Warum das nicht ??
-
-			$this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
-			return $newCategory->getUid();
-		}
-		// TODO add error-handling, if parentCategory = null or an error occured
-	}
 
 
 	/**
