@@ -35,7 +35,7 @@
 class Tx_PtExtbase_Tests_Tree_NodeMock extends Tx_PtExtbase_Tree_Node {
 
     /**
-     * Helper method to create a category object
+     * Helper method to create a node mock object
      *
      * @param int $lft
      * @param int $rgt
@@ -44,7 +44,7 @@ class Tx_PtExtbase_Tests_Tree_NodeMock extends Tx_PtExtbase_Tree_Node {
      * @param string $namespace
      * @return Tx_PtExtbase_Tree_Node
      */
-    public static function createCategory($uid, $lft, $rgt, $root, $label = '', $namespace = '') {
+    public static function createNode($uid, $lft, $rgt, $root, $label = '', $namespace = '') {
         $node = new Tx_PtExtbase_Tests_Tree_NodeMock($uid, $label, $namespace);
         $node->setLft($lft);
         $node->setRgt($rgt);

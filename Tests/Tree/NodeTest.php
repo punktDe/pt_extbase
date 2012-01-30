@@ -25,7 +25,7 @@
 ***************************************************************/
 
 /**
- * Testcase for pt_extbase category
+ * Testcase for nested sets node object
  *
  * @package Tests
  * @subpackage Tree
@@ -34,101 +34,101 @@
 class Tx_PtExtbase_Tests_Tree_NodeTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
      
 	/** @test */
-	public function constructReturnsInitializedCategory() {
-		$category = new Tx_PtExtbase_Tree_Node();
-		$this->assertEquals($category->getLft(), 1);
-		$this->assertEquals($category->getRgt(), 2);
+	public function constructReturnsInitializedNode() {
+		$node = new Tx_PtExtbase_Tree_Node();
+		$this->assertEquals($node->getLft(), 1);
+		$this->assertEquals($node->getRgt(), 2);
 	}
 	
 	
 	
 	/** @test */
 	public function getChildCountReturnsOneForOneAddedChild() {
-		$parentCategory = new Tx_PtExtbase_Tree_Node();
-        $childCategory1 = new Tx_PtExtbase_Tree_Node();
-        $parentCategory->addChild($childCategory1);
-        $this->assertEquals(1, $parentCategory->getChildrenCount());
+		$parentNode = new Tx_PtExtbase_Tree_Node();
+        $childNode1 = new Tx_PtExtbase_Tree_Node();
+        $parentNode->addChild($childNode1);
+        $this->assertEquals(1, $parentNode->getChildrenCount());
 	}
 	
 	
 	
 	/** @test */
 	public function getChildCountReturnsOneForAddedChildOfChild() {
-	    $parentCategory = new Tx_PtExtbase_Tree_Node();
-        $childCategory1 = new Tx_PtExtbase_Tree_Node();
-        $childCategory2 = new Tx_PtExtbase_Tree_Node();
+	    $parentNode = new Tx_PtExtbase_Tree_Node();
+        $childNode1 = new Tx_PtExtbase_Tree_Node();
+        $childNode2 = new Tx_PtExtbase_Tree_Node();
         
-        $childCategory1->addChild($childCategory2);
-        $parentCategory->addChild($childCategory1);
+        $childNode1->addChild($childNode2);
+        $parentNode->addChild($childNode1);
         
-        $this->assertEquals(1, $parentCategory->getChildrenCount());
+        $this->assertEquals(1, $parentNode->getChildrenCount());
 	}
 	
 	
 	
 	/** @test */
 	public function getChildCountReturnsZeroIfThereAreNoChildren() {
-		$parentCategory = new Tx_PtExtbase_Tree_Node();
-		$this->assertEquals(0, $parentCategory->getChildrenCount());
+		$parentNode = new Tx_PtExtbase_Tree_Node();
+		$this->assertEquals(0, $parentNode->getChildrenCount());
 	}
 	
 	
 	
 	/** @test */
-	public function hasChildrenReturnsTrueIfCategoryHasChildren() {
-		$parentCategory = new Tx_PtExtbase_Tree_Node();
-		$childCategory1 = new Tx_PtExtbase_Tree_Node();
-		$parentCategory->addChild($childCategory1);
-		$this->assertEquals(true, $parentCategory->hasChildren());
+	public function hasChildrenReturnsTrueIfNodeHasChildren() {
+		$parentNode = new Tx_PtExtbase_Tree_Node();
+		$childNode1 = new Tx_PtExtbase_Tree_Node();
+		$parentNode->addChild($childNode1);
+		$this->assertEquals(true, $parentNode->hasChildren());
 	}
 	
 	
 	
 	/** @test */
-	public function hasChildrenReturnsFalseIfCategoryHasNoChildren() {
-		$parentCategory = new Tx_PtExtbase_Tree_Node();
-		$this->assertEquals(false, $parentCategory->hasChildren());
+	public function hasChildrenReturnsFalseIfNodeHasNoChildren() {
+		$parentNode = new Tx_PtExtbase_Tree_Node();
+		$this->assertEquals(false, $parentNode->hasChildren());
 	}
 	
 	
 	
     /** @test */
     public function getLevelReturnsTwoIfChildOfChild() {
-        $parentCategory = new Tx_PtExtbase_Tree_Node();
-        $childCategory1 = new Tx_PtExtbase_Tree_Node();
-        $childCategory2 = new Tx_PtExtbase_Tree_Node();
+        $parentNode = new Tx_PtExtbase_Tree_Node();
+        $childNode1 = new Tx_PtExtbase_Tree_Node();
+        $childNode2 = new Tx_PtExtbase_Tree_Node();
         
-        $childCategory1->addChild($childCategory2);
-        $parentCategory->addChild($childCategory1);
+        $childNode1->addChild($childNode2);
+        $parentNode->addChild($childNode1);
         
-        $this->assertEquals(2, $childCategory2->getLevel());
+        $this->assertEquals(2, $childNode2->getLevel());
     }
     
     
     
     /** @test */
     public function getSubCategoriesReturnsSubCategoriesInCorrectOrder() {
-    	$parentCategory = new Tx_PtExtbase_Tree_Node('1');
-        $childCategory1 = new Tx_PtExtbase_Tree_Node('1.1');
-        $childCategory2 = new Tx_PtExtbase_Tree_Node('1.1.1');
-        $childCategory3 = new Tx_PtExtbase_Tree_Node('1.2');
-        $childCategory4 = new Tx_PtExtbase_Tree_Node('1.2.1');
-        $childCategory5 = new Tx_PtExtbase_Tree_Node('1.2.2');
+    	$parentNode = new Tx_PtExtbase_Tree_Node('1');
+        $childNode1 = new Tx_PtExtbase_Tree_Node('1.1');
+        $childNode2 = new Tx_PtExtbase_Tree_Node('1.1.1');
+        $childNode3 = new Tx_PtExtbase_Tree_Node('1.2');
+        $childNode4 = new Tx_PtExtbase_Tree_Node('1.2.1');
+        $childNode5 = new Tx_PtExtbase_Tree_Node('1.2.2');
         
-        $childCategory3->addChild($childCategory4);
-        $childCategory3->addChild($childCategory5);
+        $childNode3->addChild($childNode4);
+        $childNode3->addChild($childNode5);
         
-        $childCategory1->addChild($childCategory2);
+        $childNode1->addChild($childNode2);
         
-        $parentCategory->addChild($childCategory1);
-        $parentCategory->addChild($childCategory3);
+        $parentNode->addChild($childNode1);
+        $parentNode->addChild($childNode3);
         
-        $subCategories = $parentCategory->getSubCategories()->toArray();
-        $this->assertEquals($subCategories[0], $childCategory1);
-        $this->assertEquals($subCategories[1], $childCategory2);
-        $this->assertEquals($subCategories[2], $childCategory3);
-        $this->assertEquals($subCategories[3], $childCategory4);
-        $this->assertEquals($subCategories[4], $childCategory5);
+        $subNodes = $parentNode->getSubNodes()->toArray();
+        $this->assertEquals($subNodes[0], $childNode1);
+        $this->assertEquals($subNodes[1], $childNode2);
+        $this->assertEquals($subNodes[2], $childNode3);
+        $this->assertEquals($subNodes[3], $childNode4);
+        $this->assertEquals($subNodes[4], $childNode5);
     }
     
     

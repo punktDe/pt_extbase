@@ -40,9 +40,9 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
     /**
      * Setter for parent node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $category
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
      */
-    public function setParent(Tx_PtExtbase_Tree_NodeInterface $category);
+    public function setParent(Tx_PtExtbase_Tree_NodeInterface $node);
     
     
     
@@ -76,10 +76,10 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
     
     
     /**
-     * Returns level of category (0 if category is root). 
+     * Returns level of node (0 if node is root).
      * 
      * Level is equal to depth
-     * of category in tree where root has depth 0.
+     * of node in tree where root has depth 0.
      *
      * @return int
      */
@@ -120,29 +120,29 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
      *********************************************************************************************************/
     
     /**
-     * Adds a child category to children at end of children
+     * Adds a child node to children at end of children
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $category
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
      */
-    public function addChild(Tx_PtExtbase_Tree_NodeInterface $category);
+    public function addChild(Tx_PtExtbase_Tree_NodeInterface $node);
     
     
     
     /**
      * Adds a new child node after a given child node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $newChildCategory
-     * @param Tx_PtExtbase_Tree_NodeInterface $categoryToAddAfter
+     * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
+     * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter
      */
     public function addChildAfter(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter);
     
     
     
     /**
-     * Adds a new child category before a given child category
+     * Adds a new child node before a given child node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $newChildCategory
-     * @param Tx_PtExtbase_Tree_NodeInterface $categoryToAddBefore
+     * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
+     * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore
      * @param bool $updateLeftRight
      */
     public function addChildBefore(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore);
@@ -150,17 +150,17 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
     
     
     /**
-     * Removes given child category
+     * Removes given child node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $child
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
      * @param bool $updateLeftRight
      */
-    public function removeChild(Tx_PtExtbase_Tree_NodeInterface $child);
+    public function removeChild(Tx_PtExtbase_Tree_NodeInterface $node);
     
     
     
     /**
-     * Returns true, if category has children
+     * Returns true, if node has children
      *
      * @return bool
      */
@@ -169,9 +169,9 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
     
     
     /**
-     * Returns true, if category has a parent
+     * Returns true, if node has a parent
      *
-     * @return bool True, if category has parent category
+     * @return bool True, if node has parent node
      */
     public function hasParent();
     

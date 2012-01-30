@@ -51,12 +51,12 @@ class Tx_PtExtbase_Tests_Tree_NestedSetVisitorTest extends Tx_PtExtbase_Tests_Ab
 	
 	/** @test */
 	public function visitorCorrectlyCreatesLeftRightEnumerationOnTree() {
-		$node1 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('1', 0, 0, 1, '1');
-        $node2 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('2', 0, 0, 1, '2');
-        $node3 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('3', 0, 0, 1, '3');
-        $node4 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('4', 0, 0, 1, '4');
-        $node5 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('5', 0, 0, 1, '5');
-        $node6 = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory('6', 0, 0, 1, '6');
+		$node1 = Tx_PtExtbase_Tests_Tree_NodeMock::createNode('1', 0, 0, 1, '1');
+        $node2 = Tx_PtExtbase_Tests_Tree_NodeMock::createNode('2', 0, 0, 1, '2');
+        $node3 = Tx_PtExtbase_Tests_Tree_NodeMock::createNode('3', 0, 0, 1, '3');
+        $node4 = Tx_PtExtbase_Tests_Tree_NodeMock::createNode('4', 0, 0, 1, '4');
+        $node5 = Tx_PtExtbase_Tests_Tree_NodeMock::createNode('5', 0, 0, 1, '5');
+        $node6 = Tx_PtExtbase_Tests_Tree_NodeMock::createNode('6', 0, 0, 1, '6');
         
         $node1->addChild($node2); $node2->setParent($node1);
         $node1->addChild($node5); $node5->setParent($node1);

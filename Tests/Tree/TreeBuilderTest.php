@@ -54,13 +54,13 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 
 
 	/** @test */
-	public function buildTreeForNamespaceReturnsCategoryTreeForNamespace() {
-		$categoriesObjectStorage = self::buildSetOfCategories();
-		$categoriesArray = $categoriesObjectStorage->toArray();
+	public function buildTreeForNamespaceReturnsNodeTreeForNamespace() {
+		$nodesObjectStorage = self::buildSetOfNodes();
+		$nodesArray = $nodesObjectStorage->toArray();
 		$repositoryMock = $this->buildRepositoryMock();
 		$repositoryMock->expects($this->once())
 		    ->method('findByNamespace')
-		    ->will($this->returnValue($categoriesObjectStorage));
+		    ->will($this->returnValue($nodesObjectStorage));
 		$treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
 		$tree = $treeBuilder->buildTreeForNamespace('no_matter_what_namespace');
 
@@ -69,11 +69,11 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
         echo $tree->toString();
 
 		// Assertions, that build tree is correct
-		$this->assertEquals($tree->getRoot(), $categoriesArray[5], 'Root node of tree is not root of given set of nodes');
+		$this->assertEquals($tree->getRoot(), $nodesArray[5], 'Root node of tree is not root of given set of nodes');
 		$this->assertTrue($tree->getRoot()->getChildren()->contains($tree->getNodeByUid(2)), 'Root node of tree does not contain child of given set of nodes');
 		$this->assertTrue($tree->getRoot()->getChildren()->contains($tree->getNodeByUid(5)), 'Root node of tree does not contain child of given set of nodes');
-		$this->assertEquals($tree->getNodeByUid(2)->getParent(), $categoriesArray[5], 'Child of root does not have root set as its parent');
-		$this->assertEquals($tree->getNodeByUid(5)->getParent(), $categoriesArray[5], 'Child of root does not have root set as its parent');
+		$this->assertEquals($tree->getNodeByUid(2)->getParent(), $nodesArray[5], 'Child of root does not have root set as its parent');
+		$this->assertEquals($tree->getNodeByUid(5)->getParent(), $nodesArray[5], 'Child of root does not have root set as its parent');
 		$this->assertTrue($tree->getNodeByUid(2)->getChildren()->contains($tree->getNodeByUid(3)), 'Node 2 does not contain node 3 as its child');
 		$this->assertTrue($tree->getNodeByUid(2)->getChildren()->contains($tree->getNodeByUid(4)), 'Node 2 does not contain node 4 as its child');
 		$this->assertEquals($tree->getNodeByUid(3)->getParent(), $tree->getNodeByUid(2), 'Node 3 does not have node 2 set as its parent');
@@ -89,7 +89,7 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
         $repositoryMock = $this->buildRepositoryMock();
         $repositoryMock->expects($this->once())
             ->method('findByNamespace')
-            ->will($this->returnValue(self::buildWrongSortedSetOfCategories()));
+            ->will($this->returnValue(self::buildWrongSortedSetOfNodes()));
         $treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
 
         $this->setExpectedException('Exception');
@@ -100,41 +100,41 @@ class Tx_PtExtbase_Tests_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Abstrac
 
 
 	/**
-	 * Returns an ordered set of categories
+	 * Returns an ordered set of nodes
 	 *
 	 * @return Tx_Extbase_Persistence_ObjectStorage
 	 */
-	protected static function buildSetOfCategories() {
-		$setOfCategories = new Tx_Extbase_Persistence_ObjectStorage();
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(6,9,10,1,'6','testnamespace'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(5,8,11,1,'5','testnamespace'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(4,5,6,1,'4','testnamespace'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(3,3,4,1,'3','testnamespace'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(2,2,7,1,'2','testnamespace'));
-		$setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,1,12,1,'1','testnamespace'));
-		return $setOfCategories;
+	protected static function buildSetOfNodes() {
+		$setOfNodes = new Tx_Extbase_Persistence_ObjectStorage();
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createNode(6,9,10,1,'6','testnamespace'));
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createNode(5,8,11,1,'5','testnamespace'));
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createNode(4,5,6,1,'4','testnamespace'));
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createNode(3,3,4,1,'3','testnamespace'));
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createNode(2,2,7,1,'2','testnamespace'));
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createNode(1,1,12,1,'1','testnamespace'));
+		return $setOfNodes;
 	}
 
 
 
 	/**
-	 * Helper method to return a wrong sorted set of categories
+	 * Helper method to return a wrong sorted set of nodes
 	 *
 	 * @return Tx_Extbase_Persistence_ObjectStorage
 	 */
-	protected static function buildWrongSortedSetOfCategories() {
-		$setOfCategories = new Tx_Extbase_Persistence_ObjectStorage();
-        $setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(5,8,11,1,'5'));
-        $setOfCategories->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(6,9,10,1,'6'));
-        return $setOfCategories;
+	protected static function buildWrongSortedSetOfNodes() {
+		$setOfNodes = new Tx_Extbase_Persistence_ObjectStorage();
+        $setOfNodes->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createNode(5,8,11,1,'5'));
+        $setOfNodes->attach(Tx_PtExtbase_Tests_Tree_NodeMock::createNode(6,9,10,1,'6'));
+        return $setOfNodes;
 	}
 
 
 
 	/**
-	 * Helper method to create a category object
+	 * Helper method to create a Node object
 	 *
-	 * @return Tx_Yag_Domain_Repository_CategoryRepository Mocked repository
+	 * @return Tx_Yag_Domain_Repository_NodeRepository Mocked repository
 	 */
 	protected function buildRepositoryMock() {
 		return $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('findByNamespace'), array(), '', FALSE);

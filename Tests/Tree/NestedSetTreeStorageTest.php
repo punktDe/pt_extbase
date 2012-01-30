@@ -57,7 +57,7 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
         $rootNodeMock = $this->getMock('Tx_PtExtbase_Tree_Node', array('getSubCategories'), array(), '', FALSE);
         $rootNodeMock->expects($this->any())->method('getSubCategories')->will($this->returnValue(array()));
 
-        $nodeMockUncloned = Tx_PtExtbase_Tests_Tree_NodeMock::createCategory(1,2,1,1);
+        $nodeMockUncloned = Tx_PtExtbase_Tests_Tree_NodeMock::createNode(1,2,1,1);
         $nodeMock = clone $nodeMockUncloned;
 
         $treeMock = $this->getMock('Tx_PtExtbase_Tree_Tree', array('getDeletedNodes', 'getRoot', 'getNamespace'), array(), '', FALSE);
@@ -119,9 +119,9 @@ class Tx_PtExtbase_Tests_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase_Test
 
 
 	/**
-	 * Helper method to create a category object
+	 * Helper method to create a node repository mock object
 	 *
-	 * @return Tx_Yag_Domain_Repository_CategoryRepository Mocked repository
+	 * @return Tx_PtExtbase_Tree_NodeRepository Mocked node repository
 	 */
 	protected function buildRepositoryMock() {
 		return $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('findByRootUid'), array(), '', FALSE);

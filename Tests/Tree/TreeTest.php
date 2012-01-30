@@ -25,7 +25,7 @@
 ***************************************************************/
 
 /**
- * Testcase for category tree
+ * Testcase for tree
  *
  * @package Tests
  * @subpackage Tree
@@ -34,7 +34,7 @@
 class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTestcase {
      
 	/** @test */
-	public function categoryTreeClassExists() {
+	public function treeClassExists() {
 		$this->assertTrue(class_exists(Tx_PtExtbase_Tree_Tree));
 	}
 	
@@ -52,7 +52,7 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
 	
 	
 	/** @test */
-	public function createCategoryTreeReturnsEmptyTree() {
+	public function createNodeTreeReturnsEmptyTree() {
 		$emptyTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode(null);
 		$this->assertEquals($emptyTree->getRoot(), null);
 	}
@@ -60,26 +60,26 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
 	
 	
 	/** @test */
-	public function creatingNewCategoryTreeWithRootNodeSetsRootNode() {
+	public function creatingNewNodeTreeWithRootNodeSetsRootNode() {
 		$rootNode = new Tx_PtExtbase_Tree_Node('root', 'rootNode');
-		$categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
-		$this->assertEquals($categoryTree->getRoot(), $rootNode);
+		$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+		$this->assertEquals($tree->getRoot(), $rootNode);
 	}
 	
 	
 	
 	/** @test */
-	public function creatingNewCategoryTreeWithRootNodeAddsRootNodeToNodeMap() {
+	public function creatingNewNodeTreeWithRootNodeAddsRootNodeToNodeMap() {
 	    $nodeMock = new Tx_PtExtbase_Tests_Tree_NodeMock();
 	    $nodeMock->setUid(1234);
-		$categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($nodeMock);
-		$this->assertEquals($categoryTree->getNodeByUid(1234), $nodeMock);
+		$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($nodeMock);
+		$this->assertEquals($tree->getNodeByUid(1234), $nodeMock);
 	}
 	
 	
 	
 	/** @test */
-	public function addingArbitraryCategoryStructureInitializesNodeMapCorrectly() {
+	public function addingArbitraryNodeStructureInitializesNodeMapCorrectly() {
 		$rootNode = new Tx_PtExtbase_Tests_Tree_NodeMock(1);
 		$firstChild = new Tx_PtExtbase_Tests_Tree_NodeMock(2);
 		$secondChild = new Tx_PtExtbase_Tests_Tree_NodeMock(3);
@@ -89,12 +89,12 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
 		$firstChild->addChild($thirdChild);
 		$rootNode->addChild($firstChild);
 		
-		$categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
-		$this->assertEquals($categoryTree->getRoot(), $rootNode);
-		$this->assertEquals($categoryTree->getNodeByUid(1), $rootNode);
-		$this->assertEquals($categoryTree->getNodeByUid(2), $firstChild);
-		$this->assertEquals($categoryTree->getNodeByUid(3), $secondChild);
-		$this->assertEquals($categoryTree->getNodeByUid(4), $thirdChild);
+		$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+		$this->assertEquals($tree->getRoot(), $rootNode);
+		$this->assertEquals($tree->getNodeByUid(1), $rootNode);
+		$this->assertEquals($tree->getNodeByUid(2), $firstChild);
+		$this->assertEquals($tree->getNodeByUid(3), $secondChild);
+		$this->assertEquals($tree->getNodeByUid(4), $thirdChild);
 	}
 	
 	
@@ -110,16 +110,16 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-        $categoryTree->deleteNode($firstChild);
+        $tree->deleteNode($firstChild);
         
         /* We assert that treemap is updated */
-        $this->assertEquals($categoryTree->getNodeByUid(1), $rootNode);
-        $this->assertEquals($categoryTree->getNodeByUid(2), null);
-        $this->assertEquals($categoryTree->getNodeByUid(3), null);
-        $this->assertEquals($categoryTree->getNodeByUid(4), null);
-        $this->assertEquals($categoryTree->getNodeByUid(5), null);
+        $this->assertEquals($tree->getNodeByUid(1), $rootNode);
+        $this->assertEquals($tree->getNodeByUid(2), null);
+        $this->assertEquals($tree->getNodeByUid(3), null);
+        $this->assertEquals($tree->getNodeByUid(4), null);
+        $this->assertEquals($tree->getNodeByUid(5), null);
         
         /* We assert that parent of deleted node no longer has deleted node as a child */
         $this->assertFalse($firstChild->getParent()->getChildren()->contains($firstChild));
@@ -138,13 +138,13 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-        echo 'Before move: ' . $categoryTree->toString();
+        echo 'Before move: ' . $tree->toString();
         
-        $categoryTree->moveNode($thirdChild, $rootNode); // We want to move 3rdChild into root node
+        $tree->moveNode($thirdChild, $rootNode); // We want to move 3rdChild into root node
         
-        echo 'After move: ' . $categoryTree->toString();
+        echo 'After move: ' . $tree->toString();
         
         $this->assertFalse($firstChild->getChildren()->contains($thirdChild));
         $this->assertTrue($rootNode->getChildren()->contains($thirdChild));
@@ -166,13 +166,13 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
                 
-        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-        echo 'Before move: ' . $categoryTree->toString();
+        echo 'Before move: ' . $tree->toString();
         
-        $categoryTree->moveNodeBeforeNode($fourthChild, $firstChild); // We want to move 4th child before 1st child
+        $tree->moveNodeBeforeNode($fourthChild, $firstChild); // We want to move 4th child before 1st child
         
-        echo 'After move: ' . $categoryTree->toString();
+        echo 'After move: ' . $tree->toString();
         
         $this->assertEquals($fourthChild->getParent(), $rootNode);
         $rootsChildren = $rootNode->getChildren()->toArray();
@@ -196,13 +196,13 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-        echo 'Before move: ' . $categoryTree->toString();
+        echo 'Before move: ' . $tree->toString();
         
-        $categoryTree->moveNodeAfterNode($fourthChild, $firstChild); // We want to move 4th child before 1st child
+        $tree->moveNodeAfterNode($fourthChild, $firstChild); // We want to move 4th child before 1st child
         
-        echo 'After move: ' . $categoryTree->toString();
+        echo 'After move: ' . $tree->toString();
         
         $this->assertEquals($fourthChild->getParent(), $rootNode);
         $rootsChildren = $rootNode->getChildren()->toArray();
@@ -226,11 +226,11 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
 		$newNode = new Tx_PtExtbase_Tree_Node('test', 'test');
 		
-		$categoryTree->insertNode($newNode, $rootNode);
+		$tree->insertNode($newNode, $rootNode);
 		
 		$this->assertEquals($newNode->getParent(), $rootNode);
 		$this->assertTrue($rootNode->getChildren()->contains($newNode));
@@ -251,12 +251,12 @@ class Tx_PtExtbase_Tests_Tree_TreeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
         $firstChild->addChild($thirdChild);
         $rootNode->addChild($firstChild);
         
-        $categoryTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-        $categoryTree->deleteNode($thirdChild);
+        $tree->deleteNode($thirdChild);
         
-        $this->assertTrue(in_array($thirdChild, $categoryTree->getDeletedNodes()));
-        $this->assertTrue(in_array($fourthChild, $categoryTree->getDeletedNodes()));
+        $this->assertTrue(in_array($thirdChild, $tree->getDeletedNodes()));
+        $this->assertTrue(in_array($fourthChild, $tree->getDeletedNodes()));
 	}
 
 

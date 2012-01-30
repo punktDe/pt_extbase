@@ -25,7 +25,7 @@
 ***************************************************************/
 
 /**
- * Class implements Category Tree domain object
+ * Class implements a nested sets tree
  *
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
@@ -86,9 +86,9 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	
 	
 	/**
-	 * Constructor for Category Tree
+	 * Constructor for tree
 	 *
-	 * @param Tx_PtExtbase_Tree_Node $rootNode Root node for category tree
+	 * @param Tx_PtExtbase_Tree_Node $rootNode Root node for tree
 	 */
 	public function __construct(Tx_PtExtbase_Tree_Node $rootNode = null){
       $this->rootNode = $rootNode;
@@ -98,7 +98,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	
 	
 	/**
-	 * Returns root node of this category tree
+	 * Returns root node of this tree
 	 *
 	 * @return Tx_PtExtbase_Tree_Node
 	 */
@@ -311,7 +311,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	
 
 	/**
-	 * Renders a category tree to a ul html element (For debugging)
+	 * Renders a tree to a ul html element (For debugging)
 	 *
 	 * @return string
 	 */
