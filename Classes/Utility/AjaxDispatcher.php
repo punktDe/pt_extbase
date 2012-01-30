@@ -181,7 +181,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 			$this->setRequestArgumentsFromGetPost();
 		}
 
-		$this->setExtensionName($this->requestArguments['extensionName']);
+		$this->extensionName  = $this->requestArguments['extensionName'];
 		$this->pluginName = $this->requestArguments['pluginName'];
 		$this->controllerName = $this->requestArguments['controllerName'];
 		$this->actionName = $this->requestArguments['actionName'];
