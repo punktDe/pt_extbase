@@ -142,11 +142,56 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 
 
+	/**
+	 * Moves node into node
+	 *
+	 * This action can be used for a drag'n'drop of a node "onto" another node.
+	 *
+	 * @param Tx_PtExtbase_Tree_Node $node Node to be moved
+	 * @param Tx_PtExtbase_Tree_Node $targetNode Node where moved node should be put into
+	 */
+	public function moveNodeIntoAction(Tx_PtExtbase_Tree_Node $node, Tx_PtExtbase_Tree_Node $targetNode) {
+		$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
+		$tree->moveNode($node, $targetNode);
+		$this->nestedSetTreeStorage->saveTree($tree);
+
+		$this->persistenceManager->persistAll();
+		exit();
+	}
 
 
 
+	/**
+	 * Moves node given by ID after node given by ID as child of the very same node
+	 *
+	 * @param Tx_PtExtbase_Tree_Node $node Node that has to be moved
+	 * @param Tx_PtExtbase_Tree_Node $targetNode Node where moved node should be put before
+	 */
+	public function moveNodeAfterAction(Tx_PtExtbase_Tree_Node $node, Tx_PtExtbase_Tree_Node $targetNode) {
+		$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
+		$tree->moveNodeAfterNode($node, $targetNode);
+		$this->nestedSetTreeStorage->saveTree($tree);
+
+		$this->persistenceManager->persistAll();
+		exit();
+	}
 
 
+
+	/**
+	 * Moves node before targetNode as child of the very same node.
+	 *
+	 * @param Tx_PtExtbase_Tree_Node $node ID of node that was moved
+	 * @param Tx_PtExtbase_Tree_Node $targetNode ID of category where moved category should be put after
+	 */
+	public function moveNodeBeforeAction(Tx_PtExtbase_Tree_Node $node, Tx_PtExtbase_Tree_Node $targetNode) {
+		$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
+		$tree->moveNodeBeforeNode($node, $targetNode);
+		$this->nestedSetTreeStorage->saveTree($tree);
+
+		$this->persistenceManager->persistAll();
+		exit();
+	}
 
 
 
@@ -157,86 +202,8 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	public function saveNodeAction(Tx_PtExtbase_Tree_Node $node, $label = '') {
 		$node->setLabel($label);
 		$this->nodeRepository->update($node);
+
 		$this->persistenceManager->persistAll();
+		exit();
 	}
-
-
-
-
-
-	/**
-	 * Remove Node and subnodes from tree
-	 *
-	 * @param int $nodeId
-	 * @return string Rendered response
-	 */
-	public function removeCategoryAction($nodeId) {
-		$nodeToBeRemoved = $this->categoryRepository->findByUid($nodeId);
-		$categoryTree = $this->categoryTreeRepository->findByRootId($nodeToBeRemoved->getRoot());
-		$categoryTree->deleteNode($nodeToBeRemoved);
-		$this->categoryTreeRepository->update($categoryTree);
-		$this->persistenceManager->persistAll();
-
-		$this->forward('debug');
-	}
-
-
-	/**
-	 * Moves category given by ID into category given by ID
-	 *
-	 * This action can be used for a drag'n'drop of a category "onto" another category.
-	 *
-	 * @param int $movedNodeId ID of node that is moved
-	 * @param int $targetNodeId ID of category where moved node should be put into
-	 * @return string Rendered response
-	 */
-	public function moveCategoryIntoAction($movedNodeId, $targetNodeId) {
-		$categoryToBeMoved = $this->categoryRepository->findByUid($movedNodeId);
-		$targetNode = $this->categoryRepository->findByUid($targetNodeId);
-		$categoryTree = $this->categoryTreeRepository->findByRootId($categoryToBeMoved->getRoot());
-		$categoryTree->moveNode($categoryToBeMoved, $targetNode);
-		$this->categoryTreeRepository->update($categoryTree);
-		$this->persistenceManager->persistAll();
-
-		$this->forward('debug');
-	}
-
-
-	/**
-	 * Moves category given by ID after category given by ID as subcategory of the very same category
-	 *
-	 * @param int $movedNodeId ID of the category that was moved
-	 * @param int $targetNodeId ID of the category where moved category should be put before
-	 * @return string Rendered response
-	 */
-	public function moveCategoryAfterAction($movedNodeId, $targetNodeId) {
-		$categoryToBeMoved = $this->categoryRepository->findByUid($movedNodeId);
-		$targetNode = $this->categoryRepository->findByUid($targetNodeId);
-		$categoryTree = $this->categoryTreeRepository->findByRootId($categoryToBeMoved->getRoot());
-		$categoryTree->moveNodeAfterNode($categoryToBeMoved, $targetNode);
-		$this->categoryTreeRepository->update($categoryTree);
-		$this->persistenceManager->persistAll();
-
-		$this->forward('debug');
-	}
-
-
-	/**
-	 * Moves category given by ID before category given by ID as subcategory of the very same category.
-	 *
-	 * @param int $movedNodeId ID of node that was moved
-	 * @param int $targetNodeId ID of category where moved category should be put after
-	 * @return string Rendered response
-	 */
-	public function moveCategoryBeforeAction($movedNodeId, $targetNodeId) {
-		$categoryToBeMoved = $this->categoryRepository->findByUid($movedNodeId);
-		$targetNode = $this->categoryRepository->findByUid($targetNodeId);
-		$categoryTree = $this->categoryTreeRepository->findByRootId($categoryToBeMoved->getRoot());
-		$categoryTree->moveNodeBeforeNode($categoryToBeMoved, $targetNode);
-		$this->categoryTreeRepository->update($categoryTree);
-		$this->persistenceManager->persistAll();
-
-		$this->forward('debug');
-	}
-
 }
