@@ -93,7 +93,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param Integer $nodeId
 	 */
 	public function getTreeAction($nodeId = 0) {
-Tx_ExtDebug::var_dump($_GET, '', '(Debug '. __CLASS__ .' :: '.__METHOD__.'<br/> in '. __FILE__.' :: '.__LINE__.' @ '.time().')');
+		
 		if($nodeId) {
 			$subTreeRootNode = $this->nodeRepository->findByUid($nodeId);
 			$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($subTreeRootNode);
