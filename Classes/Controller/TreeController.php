@@ -80,10 +80,11 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 	public function initializeSettings() {
 		/**
-		 * @todo The tree namespace should be set by teh viewHelper
+		 * @todo The tree namespace should be set by the viewHelper
 		 */
 		$this->treeNameSpace = 'tx_ptextbase_tests_testNamespace';
 	}
+
 
 
 	/**
@@ -92,11 +93,10 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @dontvalidate
 	 * @param Tx_PtExtbase_Tree_Node $node
 	 */
-	public function getTreeAction($node = NULL) {
+	public function getTreeAction(Tx_PtExtbase_Tree_Node $node = NULL) {
 
 		if($node) {
-			$subTreeRootNode = $this->nodeRepository->findByUid($node->getUid());
-			$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($subTreeRootNode);
+			$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($node);
 		} else {
 			$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
 		}
@@ -108,14 +108,25 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 
 	/**
-	 * @param $parentNodeId
-	 * @param $label
+	 * @param Tx_PtExtbase_Tree_Node $parent
+	 * @param string $label
 	 *
 	 * @return integer id of new node or 0 if error
 	 */
-	public function addNodeAction($parentNodeId, $label) {
+	public function addNodeAction(Tx_PtExtbase_Tree_Node $parent, $label) {
+		
+		$newNode = new Tx_PtExtbase_Tree_Node($label);
+		$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
+		$tree->insertNode($newNode, $parent);
+		$this->nestedSetTreeStorage->saveTree($tree);
 
+		$this->persistenceManager->persistAll();
+
+		echo $newNode->getUid() > 0 ? $newNode->getUid() : 0;
+		exit();
 	}
+
+
 
 
 
