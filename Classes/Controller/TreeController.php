@@ -87,15 +87,15 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 
 	/**
-	 * Get subtree for node ID given by GP vars
+	 * Get tree or subtree when node is given
 	 *
 	 * @dontvalidate
-	 * @param Integer $nodeId
+	 * @param Tx_PtExtbase_Tree_Node $node
 	 */
-	public function getTreeAction($nodeId = 0) {
-		
-		if($nodeId) {
-			$subTreeRootNode = $this->nodeRepository->findByUid($nodeId);
+	public function getTreeAction($node = NULL) {
+
+		if($node) {
+			$subTreeRootNode = $this->nodeRepository->findByUid($node->getUid());
 			$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($subTreeRootNode);
 		} else {
 			$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
@@ -104,6 +104,30 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		echo Tx_PtExtbase_Tree_JsonTreeWriter::getInstance()->writeTree($tree);
 		exit;
 	}
+
+
+
+	/**
+	 * @param $parentNodeId
+	 * @param $label
+	 *
+	 * @return integer id of new node or 0 if error
+	 */
+	public function addNodeAction($parentNodeId, $label) {
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	/**
