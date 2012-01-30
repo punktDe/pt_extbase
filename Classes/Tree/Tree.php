@@ -91,7 +91,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	 * @param Tx_PtExtbase_Tree_Node $rootNode Root node for category tree
 	 */
 	public function __construct(Tx_PtExtbase_Tree_Node $rootNode = null){
-        $this->rootNode = $rootNode;
+      $this->rootNode = $rootNode;
 		$this->initTreeMap();
 	}
 	
@@ -241,7 +241,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 		$parentNode->addChild($newNode);
 		$newNode->setParent($parentNode);
 		$newNode->setRoot($parentNode->getRoot());
-        $this->addNodeToTreeMap($newNode);
+		$this->addNodeToTreeMap($newNode);
 	}
 	
 	
@@ -304,7 +304,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	 */
 	protected function checkForNodeBeingInTree(Tx_PtExtbase_Tree_Node $node, $errMessage = 'Node is not found in current tree! 1307646533 ') {
 	    if (!array_key_exists($node->getUid(), $this->treeMap)) {
-            throw new Exception($errMessage . ' node UID: ' . $node->getUid() . print_r(array_keys($this->treeMap),true));
+            throw new Exception($errMessage . ' node UID: ' . $node->getUid() . implode(':',array_keys($this->treeMap)));
         }
 	}
 	

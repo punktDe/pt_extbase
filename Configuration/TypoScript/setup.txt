@@ -4,6 +4,7 @@ plugin.tx_ptextbase {
 		partialRootPath = {$plugin.tx_ptextbase.view.partialRootPath}
 		layoutRootPath = {$plugin.tx_ptextbase.view.layoutRootPath}
 	}
+
 	persistence {
 		storagePid = {$plugin.tx_ptextbase.persistence.storagePid}
 	}
@@ -13,6 +14,8 @@ plugin.tx_ptextbase {
 // No recordType for the frontend user group needed
 config.tx_extbase.persistence.classes.Tx_Extbase_Domain_Model_FrontendUser.mapping.recordType >
 config.tx_extbase.persistence.classes.Tx_Extbase_Domain_Model_FrontendUserGroup.mapping.recordType >
+
+
 
 plugin.tx_ptextbase._CSS_DEFAULT_STYLE (
 

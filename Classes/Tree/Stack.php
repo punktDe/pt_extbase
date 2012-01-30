@@ -63,7 +63,7 @@ class Tx_PtExtbase_Tree_Stack {
 	 */
 	public function top() {
 		if ($this->isEmpty()) 
-		    throw new Exception('Trying to get top element of empty stack! 1307861850');
+		    throw new Exception('Trying to get top element of empty stack!', 1307861850);
 		return end($this->elements);
 	}
 	
@@ -87,7 +87,7 @@ class Tx_PtExtbase_Tree_Stack {
 	 */
 	public function pop() {
 		if ($this->isEmpty())
-		    throw new Exception('Trying to pop an empty stack! 1307861851');
+		    throw new Exception('Trying to pop an empty stack!', 1307861851);
 		array_pop($this->elements);
 		return $this;
 	}

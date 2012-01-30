@@ -32,12 +32,14 @@
 class Tx_PtExtbase_Tree_NodeRepository
     extends Tx_Extbase_Persistence_Repository
     implements Tx_PtExtbase_Tree_NodeRepositoryInterface {
-	
+
+
+
 	/**
 	 * Returns a set of categories determined by the root of the given node.
 	 *
-     * TODO rename: we do not find by nodeUid but by node object
-     *
+	 * TODO rename: we do not find by nodeUid but by node object
+	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $category
 	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
 	 */
@@ -165,7 +167,6 @@ class Tx_PtExtbase_Tree_NodeRepository
         $right = $category->getRgt();
         
         $query = "DELETE FROM tx_ptextbase_tree_node WHERE lft >= " . $left . " AND rgt <= " . $right;
-        #echo "DELTE query: " . $query;
         $extQuery = $this->createQuery();
         $extQuery->getQuerySettings()->setReturnRawQueryResult(true); // Extbase WTF
         $extQuery->statement($query)->execute();

@@ -26,8 +26,6 @@
 /**
  * Writer outputs JSON notation of a tree
  *
- * TODO refactor this class. Actually it does not extend treewalker but rather uses it for traversal. This makes API clearer.
- *
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
