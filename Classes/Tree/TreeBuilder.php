@@ -86,12 +86,14 @@ class Tx_PtExtbase_Tree_TreeBuilder {
 		$nodes = $this->nodeRepository->findByNamespace($namespace);
 		$stack = new Tx_PtExtbase_Tree_Stack();
 		$prevLft = PHP_INT_MAX;
+
 		foreach($nodes as $node) { /* @var $node Tx_PtExtbase_Tree_Node */
 			/* Assertion: Nodes must be given in descending left-value order. */ 
-			if ($node->getLft() > $prevLft)
-			    throw new Exception("Nodes must be given in descending left-value order. 1307861852");
+			if ($node->getLft() > $prevLft) throw new Exception('Nodes must be given in descending left-value order', 1307861852);
+
 			$prevLft = $node->getLft(); 
 			#echo "<br><br>Knoten: " . $node->toString();
+
 			if ($stack->isEmpty() || $stack->top()->getRgt() > $node->getRgt()) {
 				$stack->push($node);
 				#echo "Pushed on stack:" . $stack->toString();
