@@ -97,25 +97,27 @@ class Tx_PtExtbase_Tree_NodeRepository
 	
 	/**
 	 * Removes a category and its subcategories
+     *
+     * TODO as long as we only operate on trees, we don't need this. This is only required if we remove a single node out of tree-scope
 	 *
 	 * @param Tx_PtExtbase_Tree_Node $category Category to be removed
 	 */
 	public function remove($category) {
-		
+
 		/*
-		 * WARNING Whenever this goes productive, we have to make sure, 
+		 * WARNING Whenever this goes productive, we have to make sure,
 		 * that the category table is write locked, while we
 		 * do the following three queries!
 		 */
-		
+
 		// We delete all database records that are no longer required
 		$this->deleteCategory($category);
-		
+
 		// We update object structure
 		if (!$category->isRoot()) {
 			/**
 			 * What happens here:
-			 * 
+			 *
 			 * If we delete a node from the tree, there will be a "gap" in the lft - rgt numbers. We "fill" this gap by
 			 * subtracting the difference (rgt - lft + 1)
 			 * 1. from nodes rgt & lft number if node has a bigger lft number than deleted node
@@ -126,21 +128,21 @@ class Tx_PtExtbase_Tree_NodeRepository
 			$left = $category->getLft();
 			$right = $category->getRgt();
 			$difference = intval($right - $left + 1);
-			
+
 			// We update case 1. from above
 			$query1 = "UPDATE tx_ptextbase_tree_node " .
-			          "SET lft = lft - " . $difference . ", rgt = rgt - " . $difference . " " . 
-			          "WHERE root = " . $category->getRoot() . " " .
+			          "SET lft = lft - " . $difference . ", rgt = rgt - " . $difference . " " .
+                      "WHERE namespace = \"" . $category->getNamespace() . "\" " .
 			          "AND lft > " . $category->getLft();
 			#echo "Update 1: " . $query1;
             $extQuery1 = $this->createQuery();
             $extQuery1->getQuerySettings()->setReturnRawQueryResult(true); // Extbase WTF
             $extQuery1->statement($query1)->execute();
-            
+
 			// We update case 2. from above
 			$query2 = "UPDATE tx_ptextbase_tree_node " .
 			          "SET rgt = rgt - " . $difference . " " .
-			          "WHERE root = " . $category->getRoot() . " " .
+			          "WHERE namespace = \"" . $category->getNamespace() . "\" " .
 			          "AND lft < " . $category->getLft() . " " .
 			          "AND rgt > " . $category->getRgt();
 			#echo "Update 2: " . $query2;

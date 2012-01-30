@@ -42,6 +42,16 @@ interface Tx_PtExtbase_Tree_NodeRepositoryInterface {
      * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_NodeInterface>
 	 */
 	public function findByNamespace($namespace);
-	
+
+
+
+    /**
+     * Updates a given node if it has already been added to repository or adds it.
+     *
+     * @abstract
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     */
+    public function updateOrAdd(Tx_PtExtbase_Tree_NodeInterface $node);
+
 }
 ?>
