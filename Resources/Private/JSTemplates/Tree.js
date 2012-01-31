@@ -72,13 +72,6 @@ Ext.onReady(function(){
         },{
         	xtype: 'textfield',
             name: 'name'
-        },{
-        	xtype: 'label',
-        	text: 'Description:'
-        },{
-            xtype: 'textarea',
-            name: 'description',
-            flex: 1  // Take up all *remaining* vertical space
         }]
     });
 
@@ -114,11 +107,10 @@ Ext.onReady(function(){
                             }),
 					        success:function(response, request) {
 								selectedItem.remove();
-                                alert(response.responseText);
+                                if(response.responseText) alert(response.responseText);
 					        },
 					        failure:function(response) {
-                                alert(response.responseText);
-					            //alert("Error while deleting the Category.");
+					            alert("Error while deleting the Category.");
 					        }
 					    });
 					}
@@ -166,7 +158,7 @@ Ext.onReady(function(){
 			                buttons: [{
 			                    text: 'Save',
 			                    handler: function(){
-			                    	handleSave(createEditForm.getForm().findField('name').getValue(), createEditForm.getForm().findField('description').getValue());
+			                    	handleSave(createEditForm.getForm().findField('name').getValue());
 			                    	editWindow.hide();
 	                    		}
 			                },{
@@ -178,7 +170,6 @@ Ext.onReady(function(){
 			            });
 			            
 			        	createEditForm.getForm().findField('name').setValue('');
-			        	createEditForm.getForm().findField('description').setValue('');
 			        	editWindow.show(this);
 			        	
 					} else {
@@ -194,43 +185,32 @@ Ext.onReady(function(){
 						selectedItem = yagCategoryTree.getRootNode();
 					}
 		
-					handleCreate = function(text, description){
+					handleCreate = function(text){
 						if(text){
+                            Ext.Ajax.request({
+                                url:baseURL,
+                                params:buildRequestParams('addNode', {
+                                    parent:selectedItem.id,
+                                    label:text
+                                }),
+                                success:function (response, request) {
 
-							var newNode = new Ext.tree.TreeNode ({
-								id : 'new',
-								text : text,
-								description: description
-							});
-							
-							if(selectedItem.isLeaf()) {
-								selectedItem.parentNode.insertBefore(newNode, selectedItem.nextSibling);
-							} else {
-								selectedItem.insertBefore(newNode, selectedItem.firstChild);
-								selectedItem.expand();
-							}
+                                    var newNode = new Ext.tree.TreeNode ({
+                                        id : response.responseText,
+                                        text : text
+                                    });
 
-							Ext.Ajax.request({
-						        url:'ajax.php',
-						        params: {
-									id: Ext.getUrlParam('id'),
-									ajaxID: 'yagAjaxDispatcher',
-						        	request: Ext.encode(
-								        	buildRequest('addCategory',{
-								        		parentNodeId: selectedItem.id,
-									        	nodeTitle: text,
-									        	nodeDescription: description
-									        }))
-								},
-						        success:function(response, request) {
-							        alert(response.responseText);
-						        },
-						        failure:function() {
-						            alert("Error while saving the new node.");
-						            newNode.delete();
-						        }
-						    
-						    });
+                                    if(selectedItem.isLeaf()) {
+                                        selectedItem.parentNode.insertBefore(newNode, selectedItem.nextSibling);
+                                    } else {
+                                        selectedItem.insertBefore(newNode, selectedItem.firstChild);
+                                        selectedItem.expand();
+                                    }
+                                },
+                                failure:function () {
+                                    alert("Error while saving the new node.");
+                                }
+                            });
 						}
 					}
 						
@@ -238,12 +218,12 @@ Ext.onReady(function(){
 					if(!createNewWindow){
 			            createNewWindow = new Ext.Window({
 			                title: 'Add new Category',
-			                width: 300, height: 200, layout: 'fit', plain: true, bodyStyle: 'padding:5px;', buttonAlign: 'center',
+			                width: 300, height: 120, layout: 'fit', plain: true, bodyStyle: 'padding:5px;', buttonAlign: 'center',
 			                items: createEditForm,
 			                buttons: [{
 			                    text: 'Save',
 			                    handler: function(){
-			                    	handleCreate(createEditForm.getForm().findField('name').getValue(), createEditForm.getForm().findField('description').getValue());
+			                    	handleCreate(createEditForm.getForm().findField('name').getValue());
 			                    	createNewWindow.hide();
 	                    		}
 			                },{
@@ -256,8 +236,7 @@ Ext.onReady(function(){
 			        };
 			        
 			        createEditForm.getForm().findField('name').setValue('');
-		        	createEditForm.getForm().findField('description').setValue('');
-					createNewWindow.show(this);		
+					createNewWindow.show(this);
 			}
 		}],
 	});
@@ -270,6 +249,6 @@ Ext.onReady(function(){
     yagCategoryTree.setRootNode(root);
     yagCategoryTree.render('categoryTreeDiv');
     root.expand();
-    yagCategoryTree.getSelectionModel().select(yagCategoryTree.getNodeById("2"));
+   // yagCategoryTree.getSelectionModel().select(yagCategoryTree.getNodeById("2"));
 
 });
