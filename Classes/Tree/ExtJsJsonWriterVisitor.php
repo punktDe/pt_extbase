@@ -63,7 +63,8 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 		$arrayForNode = array(
             'id' => $node->getUid(),
             'text' => $node->getLabel(),
-            'children' => array()
+            'children' => array(),
+            'leaf' => !$node->hasChildren()
         );
 
         $this->nodeStack->push($arrayForNode);
@@ -77,18 +78,17 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	 * @param int &$index Visitation index of treewalker
 	 */
 	public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
-		$currentNode = $this->nodeStack->top();
+		$currentNode = &$this->nodeStack->top();
 		$this->nodeStack->pop();
 
 		if (!$this->nodeStack->isEmpty()) {
-			$parentNode = $this->nodeStack->top();
-			$this->nodeStack->pop();
+			$parentNode = &$this->nodeStack->top();
+			#$this->nodeStack->pop();
 			$parentNode['children'][] = $currentNode;
 			$currentNode['leaf'] = 'false';
-			$this->nodeStack->push($parentNode);
+			#$this->nodeStack->push($parentNode);
 		} else {
 			$this->nodeArray = $currentNode;
-			$currentNode['leaf'] = 'true';
 		}
 	}
 
