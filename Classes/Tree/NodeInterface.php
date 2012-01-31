@@ -56,7 +56,7 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
     
     
     /**
-     * Getter for child categories
+     * Getter for child nodes
      *
      * @return Tx_Extbase_Persistence_ObjectStorage
      */

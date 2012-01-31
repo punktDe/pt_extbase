@@ -141,7 +141,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	 * @param Tx_PtExtbase_Tree_Node $node
 	 */
 	public function deleteNode(Tx_PtExtbase_Tree_Node $node) {
-		$subNodes = $node->getSubCategories();
+		$subNodes = $node->getSubNodes();
 		foreach($subNodes as $subnode) {
 			$this->removeNodeFromTreeMap($subnode);
 		}
@@ -253,7 +253,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 		$this->treeMap = array();
 		if ($this->rootNode !== null) {
 			$this->addNodeToTreeMap($this->rootNode);
-			foreach ($this->rootNode->getSubCategories() as $node) {
+			foreach ($this->rootNode->getSubNodes() as $node) {
 				$this->addNodeToTreeMap($node);
 			}
 		}

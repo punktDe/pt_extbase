@@ -34,7 +34,7 @@ class Tx_PtExtbase_Tree_NodeRepository
     implements Tx_PtExtbase_Tree_NodeRepositoryInterface {
 
 	/**
-	 * Returns a set of categories determined by the root of the given node.
+	 * Returns a set of nodes determined by the root of the given node.
 	 *
 	 * TODO rename: we do not find by nodeUid but by node object
 	 *
@@ -96,7 +96,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 	
 	
 	/**
-	 * Removes a node and its subcategories
+	 * Removes a node and its child nodes
      *
      * TODO as long as we only operate on trees, we don't need this. This is only required if we remove a single node out of tree-scope
 	 *
@@ -155,8 +155,9 @@ class Tx_PtExtbase_Tree_NodeRepository
 	
 	
 	/**
-	 * Hard-deletes a node and its subcategories from database.
-	 * No deleted=1 is set, categories are really deleted!
+	 * Hard-deletes a node and its child nodes from database.
+	 *
+     * Warning: No deleted=1 is set in node record, nodes are really deleted!
 	 *
 	 * @param Tx_PtExtbase_Tree_Node $node
 	 */

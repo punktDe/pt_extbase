@@ -320,7 +320,7 @@ class Tx_PtExtbase_Tree_Node
 
 
 	/**
-	 * Returns sub-categories in a flat list. The result is ordered
+	 * Returns sub-nodes in a flat list. The result is ordered
 	 * in such a way that it reflects the structure of the tree:
 	 *
 	 * cat 1
@@ -343,15 +343,15 @@ class Tx_PtExtbase_Tree_Node
 	 *
 	 * @return Tx_Extbase_Persistence_ObjectStorage
 	 */
-	public function getSubCategories() {
-		$subCategories = new Tx_Extbase_Persistence_ObjectStorage();
+	public function getSubNodes() {
+		$subNodes = new Tx_Extbase_Persistence_ObjectStorage();
 		if ($this->children !== null && $this->children->count() > 0) {
 			foreach ($this->children as $child) {
-				$subCategories->attach($child);
-				$subCategories->addAll($child->getSubCategories());
+				$subNodes->attach($child);
+				$subNodes->addAll($child->getSubNodes());
 			}
 		}
-		return $subCategories;
+		return $subNodes;
 	}
 
 
@@ -465,7 +465,7 @@ class Tx_PtExtbase_Tree_Node
 	 * @return string
 	 */
 	public function toString() {
-		$nodeString = '<li>' . $this->label . ' [uid: ' . $this->uid . ' left: ' . $this->lft . '  right:' . $this->rgt . ']';
+		$nodeString = '<li id=tx_ptextbase_tree_node_' . $this->uid . '>' . $this->label . ' [uid: ' . $this->uid . ' left: ' . $this->lft . '  right:' . $this->rgt . ']';
 
 		if ($this->hasChildren()) {
 			$nodeString .= '<ul>';
@@ -480,19 +480,6 @@ class Tx_PtExtbase_Tree_Node
 		$nodeString .= '</li>';
 
 		return $nodeString;
-	}
-
-
-
-	/**
-	 * Returns sub nodes of this node
-     *
-     * TODO we should actually remove this later, becaus it's here due to downwards compatibility
-	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage
-	 */
-	public function getSubNodes() {
-		return $this->getSubCategories();
 	}
 
 

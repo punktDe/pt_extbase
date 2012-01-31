@@ -107,7 +107,7 @@ class Tx_PtExtbase_Tests_Tree_NodeTest extends Tx_PtExtbase_Tests_AbstractBaseTe
     
     
     /** @test */
-    public function getSubCategoriesReturnsSubCategoriesInCorrectOrder() {
+    public function getSubNodesReturnsSubNodesInCorrectOrder() {
     	$parentNode = new Tx_PtExtbase_Tree_Node('1');
         $childNode1 = new Tx_PtExtbase_Tree_Node('1.1');
         $childNode2 = new Tx_PtExtbase_Tree_Node('1.1.1');
