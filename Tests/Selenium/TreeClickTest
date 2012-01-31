@@ -18,7 +18,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Create Sample Data</td>
+	<td>link=Clear table and create sample data.</td>
 	<td></td>
 </tr>
 <tr>
@@ -28,7 +28,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Debug</td>
+	<td>link=Testpage for test controller.</td>
 	<td></td>
 </tr>
 <tr>
