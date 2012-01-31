@@ -32,7 +32,7 @@
 class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeStorageInterface {
 
 	/**
-	 * Holds an instance of category repository
+	 * Holds an instance of node repository
 	 *
 	 * @var Tx_PtExtbase_Tree_NodeRepository
 	 */

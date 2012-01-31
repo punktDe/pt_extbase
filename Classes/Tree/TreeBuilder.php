@@ -25,7 +25,11 @@
 ***************************************************************/
 
 /**
- * Class implements Category Tree Builder domain object
+ * Class implements Tree Builder
+ *
+ * As creation of trees from nested sets nodes is a
+ * complicated task, we separate creation logic from tree logic
+ * within this class.
  *
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
@@ -46,7 +50,7 @@ class Tx_PtExtbase_Tree_TreeBuilder {
 	/**
 	 * Constructor for treebuilder. Requires node repository as parameter.
 	 *
-	 * @param Tx_PtExtbase_Tree_NodeRepositoryInterface $categoryRepository
+	 * @param Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository
 	 */
 	public function __construct(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository) {
 		$this->nodeRepository = $nodeRepository;

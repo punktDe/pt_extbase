@@ -33,18 +33,16 @@ class Tx_PtExtbase_Tree_NodeRepository
     extends Tx_Extbase_Persistence_Repository
     implements Tx_PtExtbase_Tree_NodeRepositoryInterface {
 
-
-
 	/**
-	 * Returns a set of categories determined by the root of the given node.
+	 * Returns a set of nodes determined by the root of the given node.
 	 *
 	 * TODO rename: we do not find by nodeUid but by node object
 	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $category
+	 * @param Tx_PtExtbase_Tree_NodeInterface $node
 	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
 	 */
-	public function findByRootOfGivenNodeUid(Tx_PtExtbase_Tree_NodeInterface $category) {
-		$rootUid = $category->getRoot();
+	public function findByRootOfGivenNodeUid(Tx_PtExtbase_Tree_NodeInterface $node) {
+		$rootUid = $node->getRoot();
 		return $this->findByRootUid($rootUid);
 	}
 
@@ -68,7 +66,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 	
 	
 	/**
-	 * Returns a set of categories determined by uid of root node
+	 * Returns a set of nodes determined by uid of root node
 	 *
 	 * @param int $rootUid
 	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
@@ -98,26 +96,28 @@ class Tx_PtExtbase_Tree_NodeRepository
 	
 	
 	/**
-	 * Removes a category and its subcategories
+	 * Removes a node and its child nodes
+     *
+     * TODO as long as we only operate on trees, we don't need this. This is only required if we remove a single node out of tree-scope
 	 *
-	 * @param Tx_PtExtbase_Tree_Node $category Category to be removed
+	 * @param Tx_PtExtbase_Tree_Node $node Node to be removed
 	 */
-	public function remove($category) {
-		
+	public function remove($node) {
+
 		/*
-		 * WARNING Whenever this goes productive, we have to make sure, 
-		 * that the category table is write locked, while we
+		 * WARNING Whenever this goes productive, we have to make sure,
+		 * that the node table is write locked, while we
 		 * do the following three queries!
 		 */
-		
+
 		// We delete all database records that are no longer required
-		$this->deleteCategory($category);
-		
+		$this->deleteNode($node);
+
 		// We update object structure
-		if (!$category->isRoot()) {
+		if (!$node->isRoot()) {
 			/**
 			 * What happens here:
-			 * 
+			 *
 			 * If we delete a node from the tree, there will be a "gap" in the lft - rgt numbers. We "fill" this gap by
 			 * subtracting the difference (rgt - lft + 1)
 			 * 1. from nodes rgt & lft number if node has a bigger lft number than deleted node
@@ -125,26 +125,26 @@ class Tx_PtExtbase_Tree_NodeRepository
 			 * then the node we want to delete.
 			 * Afterwards, everything is fine again.
 			 */
-			$left = $category->getLft();
-			$right = $category->getRgt();
+			$left = $node->getLft();
+			$right = $node->getRgt();
 			$difference = intval($right - $left + 1);
-			
+
 			// We update case 1. from above
 			$query1 = "UPDATE tx_ptextbase_tree_node " .
-			          "SET lft = lft - " . $difference . ", rgt = rgt - " . $difference . " " . 
-			          "WHERE root = " . $category->getRoot() . " " .
-			          "AND lft > " . $category->getLft();
+			          "SET lft = lft - " . $difference . ", rgt = rgt - " . $difference . " " .
+                      "WHERE namespace = \"" . $node->getNamespace() . "\" " .
+			          "AND lft > " . $node->getLft();
 			#echo "Update 1: " . $query1;
             $extQuery1 = $this->createQuery();
             $extQuery1->getQuerySettings()->setReturnRawQueryResult(true); // Extbase WTF
             $extQuery1->statement($query1)->execute();
-            
+
 			// We update case 2. from above
 			$query2 = "UPDATE tx_ptextbase_tree_node " .
 			          "SET rgt = rgt - " . $difference . " " .
-			          "WHERE root = " . $category->getRoot() . " " .
-			          "AND lft < " . $category->getLft() . " " .
-			          "AND rgt > " . $category->getRgt();
+			          "WHERE namespace = \"" . $node->getNamespace() . "\" " .
+			          "AND lft < " . $node->getLft() . " " .
+			          "AND rgt > " . $node->getRgt();
 			#echo "Update 2: " . $query2;
             $extQuery2 = $this->createQuery();
             $extQuery2->getQuerySettings()->setReturnRawQueryResult(true); // Extbase WTF
@@ -155,14 +155,15 @@ class Tx_PtExtbase_Tree_NodeRepository
 	
 	
 	/**
-	 * Hard-deletes a category and its subcategories from database.
-	 * No deleted=1 is set, categories are really deleted!
+	 * Hard-deletes a node and its child nodes from database.
 	 *
-	 * @param Tx_PtExtbase_Tree_Node $category
+     * Warning: No deleted=1 is set in node record, nodes are really deleted!
+	 *
+	 * @param Tx_PtExtbase_Tree_Node $node
 	 */
-	protected function deleteCategory(Tx_PtExtbase_Tree_Node $category) {
-        $left = $category->getLft();
-        $right = $category->getRgt();
+	protected function deleteNode(Tx_PtExtbase_Tree_Node $node) {
+        $left = $node->getLft();
+        $right = $node->getRgt();
         
         $query = "DELETE FROM tx_ptextbase_tree_node WHERE lft >= " . $left . " AND rgt <= " . $right;
         $extQuery = $this->createQuery();

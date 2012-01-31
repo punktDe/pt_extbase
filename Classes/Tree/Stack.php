@@ -34,6 +34,7 @@
  *
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
+ * @author Joachim Mathes <mathes@punkt.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
 class Tx_PtExtbase_Tree_Stack {

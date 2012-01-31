@@ -32,11 +32,11 @@
 
 class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_ActionController {
 
-
 	/**
 	 * @var Tx_PtExtbase_Tree_TreeBuilder
 	 */
 	protected $treeBuilder;
+
 
 
 	/**
@@ -45,10 +45,12 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	protected $nestedSetTreeStorage;
 
 
+
 	/**
 	 * @var Tx_Extbase_Persistence_Manager
 	 */
 	protected $persistenceManager;
+
 
 
 	/**
@@ -57,10 +59,12 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	protected $nodeRepository;
 
 
+
 	/**
 	 * @var string tree namespace
 	 */
 	protected $treeNameSpace;
+
 
 
 	/**
@@ -78,6 +82,10 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	}
 
 
+
+    /**
+     * Initializes settings for this controller
+     */
 	public function initializeSettings() {
 		/**
 		 * @todo The tree namespace should be set by the viewHelper
@@ -96,18 +104,20 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	public function getTreeAction(Tx_PtExtbase_Tree_Node $node = NULL) {
 
 		if($node) {
+            // TODO Warning! This is not tested yet!
 			$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($node);
 		} else {
 			$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
 		}
 
 		echo Tx_PtExtbase_Tree_ExtJsJsonTreeWriter::getInstance()->writeTree($tree);
-		exit;
 	}
 
 
 
 	/**
+     * Adds new node into given parent node with given label
+     *
 	 * @param Tx_PtExtbase_Tree_Node $parent
 	 * @param string $label
 	 *
@@ -129,6 +139,8 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 
 	/**
+     * Removes given node from tree
+     *
 	 * @param Tx_PtExtbase_Tree_Node $node
 	 */
 	public function removeNodeAction(Tx_PtExtbase_Tree_Node $node) {
@@ -182,7 +194,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * Moves node before targetNode as child of the very same node.
 	 *
 	 * @param Tx_PtExtbase_Tree_Node $node ID of node that was moved
-	 * @param Tx_PtExtbase_Tree_Node $targetNode ID of category where moved category should be put after
+	 * @param Tx_PtExtbase_Tree_Node $targetNode ID of node where moved node should be put after
 	 */
 	public function moveNodeBeforeAction(Tx_PtExtbase_Tree_Node $node, Tx_PtExtbase_Tree_Node $targetNode) {
 		$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
@@ -196,6 +208,10 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 
 	/**
+     * Saves given node object with given label
+     *
+     * TODO Warning: As we do not check any properties set on the node here, user could manipulate lft and rgt values and hence crash the tree!
+     *
 	 * @param Tx_PtExtbase_Tree_Node $node
 	 * @param string $label
 	 */
@@ -206,4 +222,5 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$this->persistenceManager->persistAll();
 		exit();
 	}
+
 }

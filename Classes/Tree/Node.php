@@ -25,18 +25,18 @@
  ***************************************************************/
 
 /**
- * Class implements Category domain object
+ * Class implements node domain object
  *
- * Categories are implemented as nested sets. Each category has a left and a right number, given
- * by a depth-first treewalk through the category tree. Left is the number of first visit when traversing the tree,
+ * Nodes are implemented as nested sets. Each node has a left and a right number, given
+ * by a depth-first treewalk through the tree. Left is the number of first visit when traversing the tree,
  * right is the number of last visit when traversing the tree.
  *
- * You can now do some simple selects, when processing queries on category tree:
+ * You can now do some simple selects, when processing queries on tree:
  *
- * 1. Select all subcategories from category with left = LEFT and right = RIGHT:
- *	 ... WHERE subcategories.left > category.left AND subcategories.right < category.RIGHT
+ * 1. Select all child-nodes from node with left = LEFT and right = RIGHT:
+ *	 ... WHERE child-nodes.left > nodes.left AND child-nodes.right < node.RIGHT
  *
- * 2. Number of subcategories
+ * 2. Number of child-nodes
  *	 ... COUNT(*) ... WHERE --> see above
  *
  * For a detailed explanation of what's possible with nested sets see http://www.klempert.de/nested_sets/
@@ -58,6 +58,7 @@ class Tx_PtExtbase_Tree_Node
 	protected static $tmpUidIndex = -1;
 
 
+
 	/**
 	 * Returns a unique temporary UID for node
 	 *
@@ -69,52 +70,59 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
-	 * Label for category
+	 * Label for node
 	 *
 	 * @var string $label
 	 */
 	protected $label;
 
 
+
 	/**
-	 * Number of first visit of node in category tree
+	 * Nested sets left number of node
 	 *
 	 * @var int $lft
 	 */
 	protected $lft;
 
 
+
 	/**
-	 * Number of second visit of node in category tree
+	 * Nested sets right number of node
 	 *
 	 * @var int $rgt
 	 */
 	protected $rgt;
 
 
+
 	/**
-	 * ID of root node in category tree
+	 * Uid of root node in tree
 	 *
 	 * @var int $root
 	 */
 	protected $root;
 
 
+
 	/**
-	 * Holds refernce to parent category (null, if root)
+	 * Holds refernce to parent node (null, if root)
 	 *
 	 * @var Tx_PtExtbase_Tree_Node
 	 */
 	protected $parent;
 
 
+
 	/**
-	 * Holds references to child categories
+	 * Holds references to child-nodes
 	 *
 	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
 	 */
 	protected $children;
+
 
 
 	/**
@@ -125,10 +133,11 @@ class Tx_PtExtbase_Tree_Node
 	protected $namespace;
 
 
+
 	/**
 	 * The constructor.
 	 *
-	 * @param string $label Label of category
+	 * @param string $label Label of node
 	 */
 	public function __construct($label = '') {
 		//Do not remove the next line: It would break the functionality
@@ -154,6 +163,7 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
 	 * Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
 	 *
@@ -164,13 +174,13 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/*********************************************************************************************************
 	 * Default getters and setters used for persistence - return database values, no objects!
 	 *********************************************************************************************************/
 
-
 	/**
-	 * Getter for root category id
+	 * Getter for root node uid
 	 *
 	 * @return int
 	 */
@@ -179,8 +189,9 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
-	 * Setter for root category id
+	 * Setter for root node uid
 	 *
 	 * @param int $root
 	 */
@@ -189,8 +200,9 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
-	 * Getter for second visit in category tree
+	 * Getter nested sets right number
 	 *
 	 * @return int
 	 */
@@ -199,8 +211,9 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
-	 * Setter for second visit in category tree
+	 * Setter nested sets right number
 	 *
 	 * @param int $rgt
 	 */
@@ -209,8 +222,9 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
-	 * Getter for first visit in category tree
+	 * Getter nested sets left number
 	 *
 	 * @return int
 	 */
@@ -219,8 +233,9 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
-	 * Setter for first visit in category tree
+	 * Setter nested sets left number
 	 *
 	 * @param int $lft
 	 */
@@ -229,32 +244,34 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/*********************************************************************************************************
 	 * Getters and setters for advanced domain logic. NOT USED FOR PERSISTENCE!
 	 *********************************************************************************************************/
 
-
 	/**
-	 * Setter for parent category
+	 * Setter for parent node
 	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $category
+	 * @param Tx_PtExtbase_Tree_NodeInterface $node
 	 */
-	public function setParent(Tx_PtExtbase_Tree_NodeInterface $category) {
-		$this->parent = $category;
-		if ($category->children == null)
-			$category->children = new Tx_Extbase_Persistence_ObjectStorage();
-		$category->children->attach($this);
+	public function setParent(Tx_PtExtbase_Tree_NodeInterface $node) {
+		$this->parent = $node;
+		if ($node->children == null)
+			$node->children = new Tx_Extbase_Persistence_ObjectStorage();
+		$node->children->attach($this);
 	}
 
 
+
 	/**
-	 * Getter for parent category
+	 * Getter for parent node
 	 *
 	 * @return Tx_PtExtbase_Tree_Node
 	 */
 	public function getParent() {
 		return $this->parent;
 	}
+
 
 
 	/**
@@ -266,6 +283,7 @@ class Tx_PtExtbase_Tree_Node
 		}
 		return $this->children;
 	}
+
 
 
 	/**
@@ -282,11 +300,12 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
-	 * Returns level of category (0 if category is root).
+	 * Returns level of node (0 if node is root).
 	 *
 	 * Level is equal to depth
-	 * of category in tree where root has depth 0.
+	 * of node in tree where root has depth 0.
 	 *
 	 * @return int
 	 */
@@ -299,8 +318,9 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
-	 * Returns sub-categories in a flat list. The result is ordered
+	 * Returns sub-nodes in a flat list. The result is ordered
 	 * in such a way that it reflects the structure of the tree:
 	 *
 	 * cat 1
@@ -323,16 +343,17 @@ class Tx_PtExtbase_Tree_Node
 	 *
 	 * @return Tx_Extbase_Persistence_ObjectStorage
 	 */
-	public function getSubCategories() {
-		$subCategories = new Tx_Extbase_Persistence_ObjectStorage();
+	public function getSubNodes() {
+		$subNodes = new Tx_Extbase_Persistence_ObjectStorage();
 		if ($this->children !== null && $this->children->count() > 0) {
 			foreach ($this->children as $child) {
-				$subCategories->attach($child);
-				$subCategories->addAll($child->getSubCategories());
+				$subNodes->attach($child);
+				$subNodes->addAll($child->getSubNodes());
 			}
 		}
-		return $subCategories;
+		return $subNodes;
 	}
+
 
 
 	/*********************************************************************************************************
@@ -340,50 +361,52 @@ class Tx_PtExtbase_Tree_Node
 	 *********************************************************************************************************/
 
 	/**
-	 * Adds a child category to children at end of children
+	 * Adds a child node to children at end of children
 	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $category
+	 * @param Tx_PtExtbase_Tree_NodeInterface $node
 	 */
-	public function addChild(Tx_PtExtbase_Tree_NodeInterface $category) {
+	public function addChild(Tx_PtExtbase_Tree_NodeInterface $node) {
 		// TODO this should not be necessary. Seems like this method is not invoked, if object is loaded from database
 		if (is_null($this->children)) {
 			$this->children = new Tx_Extbase_Persistence_ObjectStorage();
 		}
 
-		$this->children->attach($category);
-		$category->parent = $this;
+		$this->children->attach($node);
+		$node->parent = $this;
 	}
 
 
+
 	/**
-	 * Adds a new child category after a given child category
+	 * Adds a new child node after a given child node
 	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $newChildCategory
-	 * @param Tx_PtExtbase_Tree_NodeInterface $categoryToAddAfter
+	 * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
+	 * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter
 	 */
-	public function addChildAfter(Tx_PtExtbase_Tree_NodeInterface $newChildCategory, Tx_PtExtbase_Tree_NodeInterface $categoryToAddAfter) {
+	public function addChildAfter(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter) {
 		$newChildren = new Tx_Extbase_Persistence_ObjectStorage();
 		foreach ($this->children as $child) {
 			$newChildren->attach($child);
-			if ($child == $categoryToAddAfter) {
-				$newChildren->attach($newChildCategory);
+			if ($child == $nodeToAddAfter) {
+				$newChildren->attach($newChildNode);
 			}
 		}
 		$this->children = $newChildren;
 	}
 
 
+
 	/**
-	 * Adds a new child category before a given child category
+	 * Adds a new child node before a given child node
 	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $newChildCategory
-	 * @param Tx_PtExtbase_Tree_NodeInterface $categoryToAddBefore
+	 * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
+	 * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore
 	 */
-	public function addChildBefore(Tx_PtExtbase_Tree_NodeInterface $newChildCategory, Tx_PtExtbase_Tree_NodeInterface $categoryToAddBefore) {
+	public function addChildBefore(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore) {
 		$newChildren = new Tx_Extbase_Persistence_ObjectStorage();
 		foreach ($this->children as $child) {
-			if ($child == $categoryToAddBefore) {
-				$newChildren->attach($newChildCategory);
+			if ($child == $nodeToAddBefore) {
+				$newChildren->attach($newChildNode);
 			}
 			$newChildren->attach($child);
 		}
@@ -391,44 +414,49 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
-	 * Removes given child category
+	 * Removes given child node
 	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $child
+	 * @param Tx_PtExtbase_Tree_NodeInterface $node
 	 */
-	public function removeChild(Tx_PtExtbase_Tree_NodeInterface $child) {
-		$this->children->detach($child);
+	public function removeChild(Tx_PtExtbase_Tree_NodeInterface $node) {
+		$this->children->detach($node);
 	}
 
 
+
 	/**
-	 * Returns true, if category has children
+	 * Returns true, if node has children
 	 *
-	 * @return bool
+	 * @return bool Tru, if node has children
 	 */
 	public function hasChildren() {
 		return ($this->children != null && $this->children->count() > 0);
 	}
 
 
+
 	/**
-	 * Returns true, if category has a parent
+	 * Returns true, if node has a parent
 	 *
-	 * @return bool True, if category has parent category
+	 * @return bool True, if node has parent node
 	 */
 	public function hasParent() {
 		return !($this->parent === null);
 	}
 
 
+
 	/**
-	 * Returns true, if category is root
+	 * Returns true, if node is root
 	 *
-	 * @return boolean True, if category is root
+	 * @return boolean True, if node is root
 	 */
 	public function isRoot() {
 		return $this->uid == $this->root;
 	}
+
 
 
 	/**
@@ -437,32 +465,23 @@ class Tx_PtExtbase_Tree_Node
 	 * @return string
 	 */
 	public function toString() {
-		$categoryString = '<li>' . $this->label . ' [uid: ' . $this->uid . ' left: ' . $this->lft . '  right:' . $this->rgt . ']';
+		$nodeString = '<li id=tx_ptextbase_tree_node_' . $this->uid . '>' . $this->label . ' [uid: ' . $this->uid . ' left: ' . $this->lft . '  right:' . $this->rgt . ']';
 
 		if ($this->hasChildren()) {
-			$categoryString .= '<ul>';
+			$nodeString .= '<ul>';
 
 			foreach ($this->children as $child) {
-				$categoryString .= $child->toString();
+				$nodeString .= $child->toString();
 			}
 
-			$categoryString .= '</ul>';
+			$nodeString .= '</ul>';
 		}
 
-		$categoryString .= '</li>';
+		$nodeString .= '</li>';
 
-		return $categoryString;
+		return $nodeString;
 	}
 
-
-	/**
-	 * Returns sub nodes of this node
-	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage
-	 */
-	public function getSubNodes() {
-		return $this->getSubCategories();
-	}
 
 
 	/**
@@ -473,12 +492,14 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
 	 * @return string
 	 */
 	public function getLabel() {
 		return $this->label;
 	}
+
 
 
 	/**
@@ -491,6 +512,7 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 
+
 	/**
 	 * Returns namespace of node
 	 *
@@ -501,5 +523,4 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 }
-
 ?>

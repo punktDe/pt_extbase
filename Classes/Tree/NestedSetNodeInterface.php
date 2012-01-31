@@ -34,7 +34,7 @@
 interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_NodeInterface {
 
 	/**
-	 * Getter for root node id
+	 * Getter for root node uid
 	 *
 	 * @return int
 	 */
@@ -42,7 +42,7 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 
 
 	/**
-	 * Setter for root category id
+	 * Setter for root node uid
 	 *
 	 * @param int $root
 	 */
@@ -65,7 +65,7 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 
 
 	/**
-	 * Getter for second visit in category tree
+	 * Getter for nested sets right number in tree
 	 *
 	 * @return int
 	 */
@@ -73,7 +73,7 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 
 
 	/**
-	 * Setter for second visit in category tree
+	 * Setter for nested sets right number in tree
 	 *
 	 * @param int $rgt
 	 */
@@ -81,7 +81,7 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 
 
 	/**
-	 * Getter for first visit in category tree
+	 * Getter for nested sets left number tree
 	 *
 	 * @return int
 	 */
@@ -89,7 +89,7 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 
 
 	/**
-	 * Setter for first visit in category tree
+	 * Setter for nested sets right number in tree
 	 *
 	 * @param int $lft
 	 */

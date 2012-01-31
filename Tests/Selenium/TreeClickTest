@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://pt_list_dev.centos.localhost/index.php?id=45" />
+<title>TreeClickTest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">TreeClickTest</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/index.php?id=45</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Clear table and create sample data.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Back to index</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Testpage for test controller.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>root [uid: 4 left: 1&nbsp;&nbsp;right:8]</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=tx_ptextbasetests_category[parentNode]</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=tx_ptextbasetests_category[nodeLabel]</td>
+	<td>first added</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>first added [uid: 5 left: 7 right:8]</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=tx_ptextbasetests_category[nodeToBeRelabeled]</td>
+	<td>5</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=tx_ptextbasetests_category[label]</td>
+	<td>first added and renamed</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=form[name=&quot;relabelNode&quot;] &gt; input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>first added and renamed [uid: 5 left: 7 right:8]</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=tx_ptextbasetests_category[nodeToInsertBefore]</td>
+	<td>5</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=form[name=&quot;addNodeBefore&quot;] &gt; input[name=&quot;tx_ptextbasetests_category[nodeLabel]&quot;]</td>
+	<td>node added before</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=form[name=&quot;addNodeBefore&quot;] &gt; input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>node added before [uid: 6 left: 7 right:8]</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=tx_ptextbasetests_category[nodeToInsertAfter]</td>
+	<td>6</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=form[name=&quot;addNodeAfter&quot;] &gt; input[name=&quot;tx_ptextbasetests_category[nodeLabel]&quot;]</td>
+	<td>node added after</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=form[name=&quot;addNodeAfter&quot;] &gt; input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>node added after [uid: 7 left: 9 right:10]</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=tx_ptextbasetests_category[nodeToBeRemoved]</td>
+	<td>7</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=form[name=&quot;removeNode&quot;] &gt; input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>node added before [uid: 6 left: 7 right:8]</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=tx_ptextbasetests_category[nodeToBeMoved]</td>
+	<td>6</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=tx_ptextbasetests_category[targetNode]</td>
+	<td>5</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=form[name=&quot;moveNodeInto&quot;] &gt; input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>first added and renamed [uid: 5 left: 8 right:11]</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=form[name=&quot;moveNodeAfter&quot;] &gt; input[name=&quot;tx_ptextbasetests_category[nodeToBeMoved]&quot;]</td>
+	<td>5</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=form[name=&quot;moveNodeAfter&quot;] &gt; input[name=&quot;tx_ptextbasetests_category[targetNode]&quot;]</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=form[name=&quot;moveNodeAfter&quot;] &gt; input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>first added and renamed [uid: 5 left: 8 right:11]</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=form[name=&quot;moveNodeBefore&quot;] &gt; input[name=&quot;tx_ptextbasetests_category[nodeToBeMoved]&quot;]</td>
+	<td>5</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=form[name=&quot;moveNodeBefore&quot;] &gt; input[name=&quot;tx_ptextbasetests_category[targetNode]&quot;]</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=form[name=&quot;moveNodeBefore&quot;] &gt; input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>second child [uid: 3 left: 10 right:11]</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
