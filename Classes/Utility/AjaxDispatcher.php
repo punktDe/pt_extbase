@@ -33,13 +33,13 @@
 
 class Tx_PtExtbase_Utility_AjaxDispatcher {
 
-
 	/**
 	 * Array of all request Arguments
 	 *
 	 * @var array
 	 */
 	protected $requestArguments = array();
+
 
 
 	/**
@@ -49,10 +49,12 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected $objectManager;
 
 
+
 	/**
 	 * @var string
 	 */
 	protected $extensionName;
+
 
 
 	/**
@@ -61,10 +63,12 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected $pluginName;
 
 
+
 	/**
 	 * @var string
 	 */
 	protected $controllerName;
+
 
 
 	/**
@@ -73,10 +77,12 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected $actionName;
 
 
+
 	/**
 	 * @var array
 	 */
 	protected $arguments = array();
+
 
 
 	/**
@@ -85,9 +91,23 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected $pageUid;
 
 
+
+    /**
+     * Initializes and dispatches actions
+     *
+     * Call this function if you want to use this dispatcher "standalone"
+     */
+    public function initAndDispatch() {
+        $this->initCallArguments()->dispatch();
+    }
+
+
+
     /**
      * Called by ajax.php / eID.php
      * Builds an extbase context and returns the response
+     *
+     * ATTENTION: You should not call this method without initializing the dispatcher. Use initAndDispatch() instead!
      */
     public function dispatch() {
         $configuration['extensionName'] = $this->extensionName;
@@ -107,6 +127,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
         $response->sendHeaders();
         return $response->getContent();
     }
+
 
 	
 	/**
@@ -151,6 +172,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
     }
 
 
+
     /**
      * Build a request object
      *
@@ -166,6 +188,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
         return $request;
     }
+
 
 
 	/**

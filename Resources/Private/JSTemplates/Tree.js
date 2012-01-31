@@ -1,7 +1,8 @@
 Ext.onReady(function(){
     var Tree = Ext.tree;
 
-    var baseURL = 'index.php?eID=ptxAjax';
+    // base URL is set depending on FE or BE environment in widget controller for tree
+    var baseURL = '###baseUrl###';
     var baseRequest = {
         extensionName:'ptExtbase',
         pluginName:'ptx',
@@ -43,9 +44,8 @@ Ext.onReady(function(){
      * Tree node loader
      */
 	var Tree_Category_Loader = new Tree.TreeLoader({
-        dataUrl:"index.php",
+        dataUrl:baseURL,
         baseParams: {
-        	eID: 'ptxAjax',
 			extensionName: 'ptExtbase',
 			pluginName: 'ptx',
 			controllerName: 'Tree',
