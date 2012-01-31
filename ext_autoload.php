@@ -3,7 +3,7 @@
 // This file was generated on 2011-07-24 23:37
 
 $extensionClassesPath = t3lib_extMgm::extPath('pt_extbase') . 'Classes/';
-$testsDir = t3lib_extMgm::extPath('pt_extbase') . 'Tests/';
+$unitTestsDir = t3lib_extMgm::extPath('pt_extbase') . 'Tests/Unit/';
 return array(
 	'tx_ptextbase_context' => $extensionClassesPath . 'Context.php',
 	'tx_ptextbase_contextinterface' => $extensionClassesPath . 'ContextInterface.php',
@@ -41,10 +41,10 @@ return array(
 	'tx_ptextbase_view_baseview' => $extensionClassesPath . 'View/BaseView.php',
 
     // Additionally added files
-    'tx_ptextbase_tests_state_stubs_sessionadaptermock' => $testsDir . 'State/Stubs/SessionAdapterMock.php',
-    'tx_ptextbase_tests_state_stubs_persistableobject' => $testsDir . 'State/Stubs/PersistableObject.php',
-    'tx_ptextbase_tests_state_stubs_getpostvarobject'  => $testsDir . 'State/Stubs/GetPostVarObject.php',
-	'tx_ptextbase_tests_abstractbasetestcase' => $testsDir . 'AbstractBaseTest.php',
-    'tx_ptextbase_tests_tree_nodemock' => $testsDir . 'Tree/NodeMock.php'
+    'tx_ptextbase_tests_unit_state_stubs_sessionadaptermock' => $unitTestsDir . 'State/Stubs/SessionAdapterMock.php',
+    'tx_ptextbase_tests_unit_state_stubs_persistableobject' => $unitTestsDir . 'State/Stubs/PersistableObject.php',
+    'tx_ptextbase_tests_unit_state_stubs_getpostvarobject'  => $unitTestsDir . 'State/Stubs/GetPostVarObject.php',
+	'tx_ptextbase_tests_unit_abstractbasetestcase' => $unitTestsDir . 'AbstractBaseTest.php',
+    'tx_ptextbase_tests_unit_tree_nodemock' => $unitTestsDir . 'Tree/NodeMock.php'
 );
 ?>
