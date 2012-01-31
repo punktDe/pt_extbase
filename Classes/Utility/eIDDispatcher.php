@@ -39,6 +39,7 @@ require_once t3lib_extMgm::extPath('pt_extbase') . 'Classes/Utility/AjaxDispatch
 //Connect to database
 tslib_eidtools::connectDB();
 
+
 // Init TSFE for database access
 $GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $TYPO3_CONF_VARS, 0, 0, true);
 $GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');

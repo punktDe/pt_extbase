@@ -187,6 +187,10 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 		$this->actionName = $this->requestArguments['actionName'];
 
 		$this->arguments = $this->requestArguments['arguments'];
+
+		error_log(print_r($_POST,1));
+		error_log(print_r($this->requestArguments,1));
+
 		if (!is_array($this->arguments)) $this->arguments = array();
 
 		return $this;

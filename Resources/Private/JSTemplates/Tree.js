@@ -1,28 +1,48 @@
 Ext.onReady(function(){
-        
-    var baseRequest = {extensionName:'yag',pluginName:'pi1',controllerName:'Category'};
+    var Tree = Ext.tree;
+
+    var baseURL = 'index.php?eID=ptxAjax';
+    var baseRequest = {
+        extensionName:'ptExtbase',
+        pluginName:'ptx',
+        controllerName:'Tree'
+    };
+
 
     Ext.getUrlParam = function(param) {
 	   var params = Ext.urlDecode(location.search.substring(1));
 	   return param ? params[param] : params;
 	};
-    
-	function buildRequest(action, arguments) {
+
+
+
+    /**
+     * @param action
+     * @param arguments
+     */
+	function buildRequestParams(action, arguments) {
 		var actionRequest = baseRequest;
-		actionRequest.actionName = action;
+
+        actionRequest.actionName = action;
 
 		if(arguments) {
 			actionRequest.arguments = arguments;
 		}
 
-		return actionRequest;
+        var param = {
+            request: Ext.encode(actionRequest)
+        };
+
+		return param;
 	}
     
-    var Tree = Ext.tree;
 
-	// Define the tree Category Loader
+
+
+    /**
+     * Tree node loader
+     */
 	var Tree_Category_Loader = new Tree.TreeLoader({
-        preloadChildren:true,
         dataUrl:"index.php",
         baseParams: {
         	eID: 'ptxAjax',
@@ -88,20 +108,17 @@ Ext.onReady(function(){
 					if(selectedItem){
 						
 						Ext.Ajax.request({
-					        url:'ajax.php',
-					        params: {
-								id: Ext.getUrlParam('id'),
-								ajaxID: 'yagAjaxDispatcher',
-					        	request: Ext.encode(
-							        	buildRequest('removeCategory',{
-							        		nodeId: selectedItem.id,
-								        }))
-							},
+					        url:baseURL,
+                            params: buildRequestParams('removeNode',{
+                                node: selectedItem.id
+                            }),
 					        success:function(response, request) {
 								selectedItem.remove();
+                                alert(response.responseText);
 					        },
-					        failure:function() {
-					            alert("Error while deleting the Category.");
+					        failure:function(response) {
+                                alert(response.responseText);
+					            //alert("Error while deleting the Category.");
 					        }
 					    });
 					}
