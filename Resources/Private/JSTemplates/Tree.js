@@ -116,44 +116,36 @@ Ext.onReady(function(){
 					}
 		    	}
 	    	},{
-		    	xtype : 'button' , text : 'Edit', 
-				handler : function(){ 
-			    	var selectedItem = yagCategoryTree.getSelectionModel().getSelectedNode();
-					
-					if(selectedItem){
-						createEditForm.getForm().findField('name').setValue(selectedItem.text);
-			        	createEditForm.getForm().findField('description').setValue(selectedItem.attributes.description);
+                xtype:'button', text:'Edit',
+                handler:function () {
+                    var selectedItem = yagCategoryTree.getSelectionModel().getSelectedNode();
 
-			        	handleSave = function(text, description){
-							if(text){
+                    if (selectedItem) {
+                        createEditForm.getForm().findField('name').setValue(selectedItem.text);
 
-								Ext.Ajax.request({
-							        url:'ajax.php',
-							        params: {
-										id: Ext.getUrlParam('id'),
-										ajaxID: 'yagAjaxDispatcher',
-							        	request: Ext.encode(
-									        	buildRequest('saveCategory',{
-									        		category: selectedItem.id,
-										        	categoryTitle: text,
-										        	categoryDescription: description
-										        }))
-									},
-							        success:function(response, request) {
-								        selectedItem.setText(text);
-								        selectedItem.description = description;
-							        },
-							        failure:function() {
-							            alert("Error while saving the category.");
-							        }
-							    
-							    });
-							}
-						}
+                        handleSave = function (text) {
+                            if (text) {
+
+                                Ext.Ajax.request({
+                                    url:baseURL,
+                                    params:buildRequestParams('saveNode', {
+                                        node:selectedItem.id,
+                                        label:text
+                                    }),
+                                    success:function (response, request) {
+                                        selectedItem.setText(text);
+                                    },
+                                    failure:function () {
+                                        alert("Error while saving the category.");
+                                    }
+
+                                });
+                            }
+                        }
 						
 			        	editWindow = new Ext.Window({
 			                title: 'Edit Category',
-			                width: 300, height: 200, layout: 'fit', plain: true, bodyStyle: 'padding:5px;', buttonAlign: 'center',
+			                width: 300, height: 150, layout: 'fit', plain: true, bodyStyle: 'padding:5px;', buttonAlign: 'center',
 			                items: createEditForm,
 			                buttons: [{
 			                    text: 'Save',
@@ -238,7 +230,7 @@ Ext.onReady(function(){
 			        createEditForm.getForm().findField('name').setValue('');
 					createNewWindow.show(this);
 			}
-		}],
+		}]
 	});
     
     var root = new Tree.AsyncTreeNode({
