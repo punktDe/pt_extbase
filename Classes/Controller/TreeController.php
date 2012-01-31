@@ -94,6 +94,27 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param Tx_PtExtbase_Tree_Node $node
 	 */
 	public function getTreeAction(Tx_PtExtbase_Tree_Node $node = NULL) {
+/*
+		$childCategoryArray[] = array(
+						'id' => 1,
+						'text' => 'test',
+						'leaf' => 'true'
+					);
+		$childCategoryArray[] = array(
+								'id' => 2,
+								'text' => 'Zweiter Knoten',
+								'leaf' => 'false',
+								'children' => array(
+						array(
+							'id' => 3,
+													'text' => 'test3',
+													'leaf' => 'true'
+						)
+
+		)
+							);
+		return json_encode($childCategoryArray);
+*/
 
 		if($node) {
 			$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($node);
@@ -101,7 +122,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 			$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
 		}
 
-		echo Tx_PtExtbase_Tree_JsonTreeWriter::getInstance()->writeTree($tree);
+		echo Tx_PtExtbase_Tree_ExtJsJsonTreeWriter::getInstance()->writeTree($tree);
 		exit;
 	}
 

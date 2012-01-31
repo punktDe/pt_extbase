@@ -52,7 +52,7 @@ class Tx_PtExtbase_Tree_JsonTreeWriter extends Tx_PtExtbase_Tree_ArrayTreeWriter
      * @param array $visitors
      * @param Tx_PtExtbase_Tree_ArrayWriterVisitor $arrayWriterVisitor
      */
-    public function __construct(array $visitors, Tx_PtExtbase_Tree_ArrayWriterVisitor $arrayWriterVisitor) {
+    public function __construct(array $visitors, Tx_PtExtbase_Tree_TreeWalkerVisitorInterface $arrayWriterVisitor) {
         parent::__construct($visitors, $arrayWriterVisitor);
     }
 
@@ -66,7 +66,8 @@ class Tx_PtExtbase_Tree_JsonTreeWriter extends Tx_PtExtbase_Tree_ArrayTreeWriter
      */
     public function writeTree(Tx_PtExtbase_Tree_TreeInterface $tree) {
         $nodeArray = parent::writeTree($tree);
-        return json_encode($nodeArray);
+
+        return '['.json_encode($nodeArray) .']';
     }
 
 }

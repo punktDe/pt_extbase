@@ -21,15 +21,15 @@ Ext.onReady(function(){
     var Tree = Ext.tree;
 
 	// Define the tree Category Loader
-	// eID=ptxAjax&extensionName=ptExtbase&pluginName=ptx&controllerName=Tree&actionName=getSubTree
 	var Tree_Category_Loader = new Tree.TreeLoader({
+        preloadChildren:true,
         dataUrl:"index.php",
         baseParams: {
         	eID: 'ptxAjax',
 			extensionName: 'ptExtbase',
 			pluginName: 'ptx',
 			controllerName: 'Tree',
-			actionName: 'getSubTree',
+			actionName: 'getTree'
         }
     });
 
