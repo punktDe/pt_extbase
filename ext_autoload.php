@@ -38,6 +38,7 @@ return array(
 	'tx_ptextbase_state_session_storage_sessionadapter' => $extensionClassesPath . 'State/Session/Storage/SessionAdapter.php',
 	'tx_ptextbase_utility_debug' => $extensionClassesPath . 'Utility/Debug.php',
 	'tx_ptextbase_utility_namespace' => $extensionClassesPath . 'Utility/NameSpace.php',
+    'tx_ptextbase_utility_abstracttcawidget' => $extensionClassesPath . 'Utility/AbstractTcaWidget.php',
 	'tx_ptextbase_view_baseview' => $extensionClassesPath . 'View/BaseView.php',
     'tx_ptextbase_viewhelpers_widget_treeviewhelper' => $extensionClassesPath . 'ViewHelpers/Widget/TreeViewHelper.php',
     'tx_ptextbase_viewhelpers_javascript_templateviewhelper' => $extensionClassesPath . 'ViewHelpers/Javascript/TemplateViewHelper.php',
