@@ -2,3 +2,19 @@
 Mind that data you set here is actually not stored in the record ATM. You can manipulate the tree but you can not save any data in the record you are editing here!
 
 <ptx:widget.tree />
+
+<br>
+<!--<input type="text" name="{formFieldName}" />-->
+
+Selected Values (For visualization only!)<br>
+<select id="do_something_useful_here" size="1" class="formField3 tceforms-multiselect" multiple="multiple" name="{formFieldName}[]" style="width:200px;">
+    <f:for each="{selectedValues}" as="selectedValue" key="key">
+        <option value="{key}">{selectedValue}</option>
+    </f:for>
+</select>
+<br>
+Field that holds selected node uids (comma separated)<br>
+<input type="text" name="{formFieldName}" value="{selectedValuesCommaSeparated}"/> (content of this field is saved in record!)
+<br>
+<br>
+<!--{debug}-->

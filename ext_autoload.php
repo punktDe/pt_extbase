@@ -42,6 +42,7 @@ return array(
     'tx_ptextbase_viewhelpers_widget_treeviewhelper' => $extensionClassesPath . 'ViewHelpers/Widget/TreeViewHelper.php',
     'tx_ptextbase_viewhelpers_javascript_templateviewhelper' => $extensionClassesPath . 'ViewHelpers/Javascript/TemplateViewHelper.php',
     'tx_ptextbase_viewhelpers_widget_controller_treecontroller' => $extensionClassesPath . 'ViewHelpers/Widget/Controller/TreeController.php',
+    'tx_ptextbase_tree_treerepositorybuilder'  => $extensionClassesPath . 'Tree/TreeRepositoryBuilder.php',
 
     // Additionally added files
     'tx_ptextbase_tests_unit_state_stubs_sessionadaptermock' => $unitTestsDir . 'State/Stubs/SessionAdapterMock.php',

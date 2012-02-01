@@ -77,7 +77,57 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget {
      * Holds template path for fluid tca widget template
      * @var string
      */
-    protected $templatePath;
+    protected $templatePath = 'EXT:pt_extbase/Resources/Private/Templates/Tree/Tca.html';
+
+
+
+    /**
+     * Holds class name for node repository
+     *
+     * null means, we use default node repository set in tree repository builder
+     *
+     * @var string
+     */
+    protected $nodeRepositoryClassName = null;
+
+
+
+    /**
+     * Holds current record (record that is displayed in form where tree widget is rendered)
+     * @var array
+     */
+    protected $row;
+
+
+
+    /**
+     * Holds instance of t3lib_TCEforms object passed to this widget.
+     * @var t3lib_TCEforms
+     */
+    protected $tceForms;
+
+
+
+    /**
+     * Field name of tce-forms-persisted field in rendered form
+     *
+     * When form in which this widget is rendered is saved,
+     * the value of this field will be persisted by tce_forms engine.
+     *
+     * @var string
+     */
+    protected $formFieldName;
+
+
+
+    /**
+     * Holds form field value (itemFormElValue in $PA array)
+     *
+     * Syntax is UID1|Description1,UID2|Description2, ...
+     *
+     * @var string
+     */
+    protected $formFieldValue;
 
 
 
@@ -89,9 +139,10 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget {
      */
     public function renderTcaTreeSelectorWidget(array $parameters=array(), $fObj=null) {
         $this->tcaParameters = $parameters;
-        #echo "Parameters: <pre>" . print_r($this->tcaParameters, true) . "</pre>";
+        $this->tceForms = $fObj;
         $this->init();
         $this->addJsAndCssIncludes();
+
         return $this->fluidRenderer->render();
     }
 
@@ -108,6 +159,8 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget {
         $this->initObjectManager();
         $this->initFluidRenderer();
         $this->initTemplate();
+        $this->initTreeRepositoryBuilder();
+        $this->assignVariablesToView();
     }
 
 
@@ -121,7 +174,21 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget {
         $this->extensionName = $fieldConfigParameters['extensionName'];
         $this->pluginName = $fieldConfigParameters['pluginName'];
         $this->treeNamespace = $fieldConfigParameters['treeNamespace'];
-        $this->templatePath = $fieldConfigParameters['templatePath'];
+
+        if (array_key_exists('templatePath', $fieldConfigParameters) && $fieldConfigParameters['templatePath'] != '') {
+            $this->templatePath = $fieldConfigParameters['templatePath'];
+        }
+
+        if (array_key_exists('nodeRepositoryClassName', $fieldConfigParameters) && $fieldConfigParameters['nodeRepositoryClassName'] != '') {
+            $this->nodeRepositoryClassName = $fieldConfigParameters['nodeRepositoryClassName'];
+        }
+
+        $this->formFieldName = $this->tcaParameters['itemFormElName'];
+        $this->formFieldValue = $this->tcaParameters['itemFormElValue'];
+
+        $this->table = $this->tcaParameters['table'];
+        $this->field = $this->tcaParameters['field'];
+        $this->row = $this->tcaParameters['row'];
     }
 
 
@@ -136,13 +203,11 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget {
 
 
     /**
-     * Build A Fluid Renderer
+     * Initialize Fluid Renderer (which is a Fluid view)
      */
     protected function initFluidRenderer() {
         if(!$this->fluidRenderer) {
-
-            /* @var $request Tx_Extbase_MVC_Request */
-            $request = $this->objectManager->get('Tx_Extbase_MVC_Request');
+            $request = $this->objectManager->get('Tx_Extbase_MVC_Request'); /* @var $request Tx_Extbase_MVC_Request */
             $request->setControllerExtensionName($this->extensionName);
             $request->setPluginName($this->pluginName);
 
@@ -150,9 +215,41 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget {
             $controllerContext = $this->objectManager->get('Tx_Extbase_MVC_Controller_ControllerContext');
             $controllerContext->setRequest($request);
             $this->fluidRenderer->setControllerContext($controllerContext);
-
-            $this->fluidRenderer->assign('treeNamespace', $this->treeNamespace);
         }
+    }
+
+
+
+    /**
+     * Sets variables in fluid template
+     */
+    protected function assignVariablesToView() {
+        $this->fluidRenderer->assign('treeNamespace', $this->treeNamespace);
+        $this->fluidRenderer->assign('formFieldName', $this->formFieldName);
+        $this->fluidRenderer->assign('selectedValues', $this->getSelectedValues());
+        $this->fluidRenderer->assign('selectedValuesCommaSeparated', implode(',', array_keys($this->getSelectedValues())));
+        $this->fluidRenderer->assign('debug', "Parameters: <pre>" . print_r($this->tcaParameters, true) . "</pre>");
+    }
+
+
+
+    /**
+     * Returns array of form
+     *
+     * array ( $uid => $label )
+     *
+     * of selected values. Uid is node uid, label is node label.
+     *
+     * @return array
+     */
+    protected function getSelectedValues() {
+        $listOfValues = explode(',', $this->formFieldValue);
+        $selectedValuesArray = array();
+        foreach ($listOfValues as $singleValue) {
+            list($uid, $label) = explode('|', $singleValue);
+            $selectedValuesArray[$uid] = urldecode($label);
+        }
+        return $selectedValuesArray;
     }
 
 
@@ -168,6 +265,18 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget {
 
 
     /**
+     * Initializes tree repository builder
+     */
+    protected function initTreeRepositoryBuilder() {
+        if ($this->nodeRepositoryClassName !== null && $this->nodeRepositoryClassName != '') {
+            $treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
+            $treeRepositoryBuilder->setNodeRepositoryClassName($this->nodeRepositoryClassName);
+        }
+    }
+
+
+
+    /**
      * Sets includes for CSS and JS
      */
     protected function addJsAndCssIncludes() {
@@ -177,7 +286,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget {
 
         $compress = TRUE;
 
-        // ExtJs
+        // ExtJs (if we are in Backend, we must not load ExtJs twice!)
         #$pageRenderer->addJsFile('typo3/contrib/extjs/adapter/ext/ext-base.js', 'text/javascript', $compress);
         #$pageRenderer->addJsFile('fileadmin/ext-3.4.0/ext-all-debug-w-comments.js', 'text/javascript', $compress);
 

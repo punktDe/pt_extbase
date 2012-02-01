@@ -36,7 +36,7 @@
  * @author Daniel Lienert <daniel@lienert.cc>
  * @author Joachim Mathes <joachim_mathes@web.de>
  */
-class Tx_PtExtbase_Tree_TreeBuilder {
+class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInterface {
 
 	/**
 	 * Holds an instance of node repository
@@ -71,7 +71,7 @@ class Tx_PtExtbase_Tree_TreeBuilder {
         $tree->setNamespace($namespace);
         return $tree;
     }
-	
+
 	
 	
 	/**
@@ -88,6 +88,7 @@ class Tx_PtExtbase_Tree_TreeBuilder {
 		 */
 		
 		$nodes = $this->nodeRepository->findByNamespace($namespace);
+
 		$stack = new Tx_PtExtbase_Tree_Stack();
 		$prevLft = PHP_INT_MAX;
 

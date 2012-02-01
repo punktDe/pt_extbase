@@ -33,20 +33,6 @@
 class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
-	 * @var Tx_PtExtbase_Tree_TreeBuilder
-	 */
-	protected $treeBuilder;
-
-
-
-	/**
-	 * @var Tx_PtExtbase_Tree_NestedSetTreeStorage
-	 */
-	protected $nestedSetTreeStorage;
-
-
-
-	/**
 	 * @var Tx_Extbase_Persistence_Manager
 	 */
 	protected $persistenceManager;
@@ -67,6 +53,13 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 
 
+    /**
+     * @var Tx_PtExtbase_Tree_TreeRepository
+     */
+    protected $treeRepository;
+
+
+
 	/**
 	 * Initializes the current action
 	 *
@@ -76,8 +69,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$this->initializeSettings();
 
 		$this->nodeRepository = t3lib_div::makeInstance('Tx_PtExtbase_Tree_NodeRepository');
-		$this->treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($this->nodeRepository);
-		$this->nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage($this->nodeRepository);
+        $this->treeRepository = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance()->buildTreeRepository();
 		$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 	}
 
@@ -107,7 +99,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
             // TODO Warning! This is not tested yet!
 			$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($node);
 		} else {
-			$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
+			$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 		}
 
 		echo Tx_PtExtbase_Tree_ExtJsJsonTreeWriter::getInstance()->writeTree($tree);
@@ -127,9 +119,9 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	public function addNodeAction(Tx_PtExtbase_Tree_Node $parent, $label) {
 		
 		$newNode = new Tx_PtExtbase_Tree_Node($label);
-		$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
+		$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 		$tree->insertNode($newNode, $parent);
-		$this->nestedSetTreeStorage->saveTree($tree);
+        $this->treeRepository->update($tree);
 
 		$this->persistenceManager->persistAll();
 
@@ -145,9 +137,9 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param Tx_PtExtbase_Tree_Node $node
 	 */
 	public function removeNodeAction(Tx_PtExtbase_Tree_Node $node) {
-		$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 		$tree->deleteNode($node);
-		$this->nestedSetTreeStorage->saveTree($tree);
+        $this->treeRepository->update($tree);
 
 		$this->persistenceManager->persistAll();
 		exit();
@@ -164,9 +156,9 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param Tx_PtExtbase_Tree_Node $targetNode Node where moved node should be put into
 	 */
 	public function moveNodeIntoAction(Tx_PtExtbase_Tree_Node $node, Tx_PtExtbase_Tree_Node $targetNode) {
-		$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 		$tree->moveNode($node, $targetNode);
-		$this->nestedSetTreeStorage->saveTree($tree);
+        $this->treeRepository->update($tree);
 
 		$this->persistenceManager->persistAll();
 		exit();
@@ -181,9 +173,9 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param Tx_PtExtbase_Tree_Node $targetNode Node where moved node should be put before
 	 */
 	public function moveNodeAfterAction(Tx_PtExtbase_Tree_Node $node, Tx_PtExtbase_Tree_Node $targetNode) {
-		$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 		$tree->moveNodeAfterNode($node, $targetNode);
-		$this->nestedSetTreeStorage->saveTree($tree);
+        $this->treeRepository->update($tree);
 
 		$this->persistenceManager->persistAll();
 		exit();
@@ -198,9 +190,9 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param Tx_PtExtbase_Tree_Node $targetNode ID of node where moved node should be put after
 	 */
 	public function moveNodeBeforeAction(Tx_PtExtbase_Tree_Node $node, Tx_PtExtbase_Tree_Node $targetNode) {
-		$tree = $this->treeBuilder->buildTreeForNamespace($this->treeNameSpace);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 		$tree->moveNodeBeforeNode($node, $targetNode);
-		$this->nestedSetTreeStorage->saveTree($tree);
+		$this->treeRepository->update($tree);
 
 		$this->persistenceManager->persistAll();
 		exit();
