@@ -66,6 +66,22 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
      * @var string
      */
     protected $namespace;
+
+
+
+    /**
+     * Creates a new, empty tree with given namespace and a single root node labeled by given label.
+     *
+     * @param $namespace Namespace for tree
+     * @param string $rootLabel Label for root node
+     * @return Tx_PtExtbase_Tree_Tree
+     */
+    public static function getEmptyTree($namespace, $rootLabel = 'root') {
+        $rootNode = new Tx_PtExtbase_Tree_Node($rootLabel);
+        $rootNode->setNamespace($namespace);
+        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+        return $tree;
+    }
 	
 	
 	

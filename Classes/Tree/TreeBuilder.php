@@ -66,16 +66,15 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
      * @return Tx_PtExtbase_Tree_Tree Empty tree object.
      */
     public function getEmptyTree($namespace, $rootLabel = '') {
-        $rootNode = new Tx_PtExtbase_Tree_Node($rootLabel);
-        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
-        $tree->setNamespace($namespace);
-        return $tree;
+        return Tx_PtExtbase_Tree_Tree::getEmptyTree($namespace, $rootLabel);
     }
 
 	
 	
 	/**
 	 * Builds a tree for given namespace.
+     *
+     * If there are no nodes for given namespace, a new, empty tree with a single root node will be returned.
 	 *
 	 * @param string $node Namespace to build tree for
 	 * @return Tx_PtExtbase_Tree_Tree
@@ -88,6 +87,11 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
 		 */
 		
 		$nodes = $this->nodeRepository->findByNamespace($namespace);
+
+        // We have no nodes for given namespace, so we return empty tree with single root node
+        if ($nodes->count() == 0) {
+            return $this->getEmptyTree($namespace);
+        }
 
 		$stack = new Tx_PtExtbase_Tree_Stack();
 		$prevLft = PHP_INT_MAX;
