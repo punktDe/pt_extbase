@@ -79,7 +79,7 @@ class Tx_PtExtbase_Tests_Configuration_AbstractConfigurationTest extends Tx_PtEx
 	 * Sets up testcase
 	 */
 	public function setup() {
-		$this->configurationBuilderStub = new Tx_PtExtabse_Configuration_AbstractConfigurationBuilder_Stub($this->settings);
+		$this->configurationBuilderStub = new Tx_PtExtbase_Configuration_AbstractConfigurationBuilder_Stub($this->settings);
 		$this->concreteConfiguration = new Tx_PtExtbase_Tests_Configuration_AbstractConfiguration_Stub($this->configurationBuilderStub, $this->settings);
 	}
 	
@@ -276,7 +276,7 @@ class Tx_PtExtbase_Tests_Configuration_AbstractConfiguration_Stub extends Tx_PtE
 
 
 
-class Tx_PtExtabse_Configuration_AbstractConfigurationBuilder_Stub extends Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
+class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder_Stub extends Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	
 }
 
