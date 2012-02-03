@@ -211,27 +211,6 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
         }
     }
 
-    
-
-	/**
-	 * Merges configuration of settings in namespace of list identifiert
-	 * with settings from plugin.
-	 *
-	 * @param void
-	 * @return void
-	 */
-	protected function mergeAndSetGlobalAndLocalConf() {
-		$settingsToBeMerged = $this->origSettings;
-		unset($settingsToBeMerged['listConfig']);
-		if (is_array($this->origSettings['listConfig'][$this->listIdentifier])) {
-			$mergedSettings = t3lib_div::array_merge_recursive_overrule(
-	            $settingsToBeMerged,
-	            $this->origSettings['listConfig'][$this->listIdentifier]
-	        );
-	        $this->settings = $mergedSettings;
-		}
-	}
-	
 }
 
 ?>

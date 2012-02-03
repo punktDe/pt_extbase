@@ -52,7 +52,8 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends Tx
 	   'key4' => 'value4',
 	   'key6' => '',
 	   'key7' => '1',
-	   'key8' => 'value8'
+	   'key8' => 'value8',
+		'key9' => '0'
 	);
 	
 	
@@ -193,8 +194,20 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends Tx
 		}
 		$this->fail('No Exception is thrown, if required property is not available!');
 	}
-	
-	
+
+
+
+	/** @test */
+	public function setRequiredPropertyThrowsNoExceptionIfPropertyIsTheIntegerZero() {
+		try {
+			$this->concreteConfiguration->shouldNotThrowException();
+		} catch(Exception $e) {
+			$this->fail("No Exception should be thrown, if required property is string '0'!");
+			return;
+		}
+	}
+
+
 	
 	/** @test */
 	public function setRequiredPropertySetsPropertyIfNoPropertyNameIsGiven() {
@@ -245,7 +258,10 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfiguration_Stub extends T
 	
 	
 	public $key8;
-	
+
+
+	public $key9;
+
 	
 	
 	public $initIsCalled = false;
@@ -271,12 +287,17 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfiguration_Stub extends T
     public function shouldThrowException() {
         $this->setRequiredValue('key5', 'fehler');
     }
-	
+
+
+
+	public function shouldNotThrowException() {
+		$this->setRequiredValue('key9', 'error');
+	}
 }
 
 
 
-class Tx_PtExtabse_Configuration_AbstractConfigurationBuilder_Stub extends Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
+class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder_Stub extends Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	
 }
 
