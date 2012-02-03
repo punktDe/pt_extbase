@@ -1,3 +1,9 @@
+/**
+ * ExtJs Tree
+ *
+ * @author Daniel Lienert <daniel@lienert.cc>
+ */
+
 Ext.onReady(function(){
     var Tree = Ext.tree;
 
@@ -14,7 +20,6 @@ Ext.onReady(function(){
 	   var params = Ext.urlDecode(location.search.substring(1));
 	   return param ? params[param] : params;
 	};
-
 
 
     /**
@@ -36,8 +41,6 @@ Ext.onReady(function(){
 
 		return param;
 	}
-    
-
 
 
     /**
@@ -45,12 +48,7 @@ Ext.onReady(function(){
      */
 	var Tree_Category_Loader = new Tree.TreeLoader({
         dataUrl:baseURL,
-        baseParams: {
-			extensionName: 'ptExtbase',
-			pluginName: 'ptx',
-			controllerName: 'Tree',
-			actionName: 'getTree'
-        }
+        baseParams: buildRequestParams('getTree', {})
     });
 
 
@@ -65,7 +63,6 @@ Ext.onReady(function(){
         defaults: {
             xtype: 'textfield'
         },
-
         items: [{
         	xtype: 'label',
         	text: 'Name:'
@@ -79,20 +76,55 @@ Ext.onReady(function(){
 	var createNewWindow;
 	var editWindow;
     var button = Ext.get('show-btn');
-    
+
+    var selectedNode = null;
+    var oldPosition = null;
+    var oldNextSibling = null;
+
+
 	var yagCategoryTree = new Tree.TreePanel({
 	    autoScroll:true,
 	    animate:true,
 	    enableDD:true,
 	    containerScroll: true,
-	    rootVisible: true,
+        root:new Ext.tree.AsyncTreeNode({text:'Tree'}),
+	    rootVisible: false,
 	    loader: Tree_Category_Loader,
 	    listeners: {
 	        click: 	function (node,event){
 				Ext.get("selectedCategory").set({value: node.id});
-			}
+                selectedNode = node;
+			},
+            startDrag: function (panel, node, event){
+                selectedNode = node;
+                oldPosition = node.parentNode.indexOf(node);
+                oldNextSibling = node.nextSibling;
+            },
+            movenode: function(tree, node, oldParent, newParent, index ) {
+
+            },
+            nodedrop: function(dropEvent) {
+
+                alert('Hier Drag:' + dropEvent.dropNode.id + ' Drop: ' + dropEvent.target.id + ' Node orig parent: ' + dropEvent.dropNode.parent.id + ' Targets parent: '  + dropEvent.target.parent.id);
+                /*
+                Ext.Ajax.request({
+                    url:baseURL,
+                    params: buildRequestParams('moveNodeInto',{
+                        node: dropEvent.dropNode.id,
+                        targetNode: dropEvent.target.id
+                    }),
+                    failure:function(response) {
+                        alert("Error while moving the node.");
+                    }
+                });
+                */
+            }
 		},
 
+
+        /**
+         * The Toolbar
+         */
 	    tbar : [{
 		    	xtype : 'button' , text : 'Delete', 
 				handler : function(){ 
@@ -116,44 +148,36 @@ Ext.onReady(function(){
 					}
 		    	}
 	    	},{
-		    	xtype : 'button' , text : 'Edit', 
-				handler : function(){ 
-			    	var selectedItem = yagCategoryTree.getSelectionModel().getSelectedNode();
-					
-					if(selectedItem){
-						createEditForm.getForm().findField('name').setValue(selectedItem.text);
-			        	createEditForm.getForm().findField('description').setValue(selectedItem.attributes.description);
+                xtype:'button', text:'Edit',
+                handler:function () {
+                    var selectedItem = yagCategoryTree.getSelectionModel().getSelectedNode();
 
-			        	handleSave = function(text, description){
-							if(text){
+                    if (selectedItem) {
+                        createEditForm.getForm().findField('name').setValue(selectedItem.text);
 
-								Ext.Ajax.request({
-							        url:'ajax.php',
-							        params: {
-										id: Ext.getUrlParam('id'),
-										ajaxID: 'yagAjaxDispatcher',
-							        	request: Ext.encode(
-									        	buildRequest('saveCategory',{
-									        		category: selectedItem.id,
-										        	categoryTitle: text,
-										        	categoryDescription: description
-										        }))
-									},
-							        success:function(response, request) {
-								        selectedItem.setText(text);
-								        selectedItem.description = description;
-							        },
-							        failure:function() {
-							            alert("Error while saving the category.");
-							        }
-							    
-							    });
-							}
-						}
+                        handleSave = function (text) {
+                            if (text) {
+
+                                Ext.Ajax.request({
+                                    url:baseURL,
+                                    params:buildRequestParams('saveNode', {
+                                        node:selectedItem.id,
+                                        label:text
+                                    }),
+                                    success:function (response, request) {
+                                        selectedItem.setText(text);
+                                    },
+                                    failure:function () {
+                                        alert("Error while saving the category.");
+                                    }
+
+                                });
+                            }
+                        }
 						
 			        	editWindow = new Ext.Window({
 			                title: 'Edit Category',
-			                width: 300, height: 200, layout: 'fit', plain: true, bodyStyle: 'padding:5px;', buttonAlign: 'center',
+			                width: 300, height: 150, layout: 'fit', plain: true, bodyStyle: 'padding:5px;', buttonAlign: 'center',
 			                items: createEditForm,
 			                buttons: [{
 			                    text: 'Save',
@@ -238,17 +262,18 @@ Ext.onReady(function(){
 			        createEditForm.getForm().findField('name').setValue('');
 					createNewWindow.show(this);
 			}
-		}],
+		}]
 	});
-    
+ /*
     var root = new Tree.AsyncTreeNode({
         text:'Categories',
         draggable:false,
         id:1
     });
     yagCategoryTree.setRootNode(root);
+    */
     yagCategoryTree.render('categoryTreeDiv');
-    root.expand();
+    //root.expand();
    // yagCategoryTree.getSelectionModel().select(yagCategoryTree.getNodeById("2"));
 
 });
