@@ -39,6 +39,17 @@ class Tx_PtExtbase_ViewHelpers_Widget_TreeViewHelper extends Tx_Fluid_Core_Widge
 
 
 	/**
+	 * Initialize arguments.
+	 *
+	 * @return void
+	 */
+	public function initializeArguments() {
+		$this->registerArgument('repository', 'string', 'Specifies the tree repository', false);
+		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
+	}
+
+
+	/**
 	 * @param Tx_PtExtbase_ViewHelpers_Widget_Controller_TreeController $controller
 	 * @return void
 	 */
@@ -49,12 +60,25 @@ class Tx_PtExtbase_ViewHelpers_Widget_TreeViewHelper extends Tx_Fluid_Core_Widge
 
 
 	/**
-	 * Render
-	 *
-	 * @return string
+	 * @return Tx_Extbase_MVC_Response
 	 */
 	public function render() {
+		$this->saveTreeSettingsToSession();
 		return  $this->initiateSubRequest();
+	}
+
+
+	/**
+	 * @param $treeRepository
+	 */
+	protected function saveTreeSettingsToSession() {
+
+		$treeSettings = array(
+			'repository' => $this->arguments['repository'],
+			'namespace' => $this->arguments['namespace'],
+		);
+
+		Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->store('Tx_PtExtbase_Tree_Configuration', $treeSettings);
 	}
 
 }

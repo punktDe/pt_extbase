@@ -78,15 +78,17 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	public function initialize() {
 
 		$this->extKey = $this->controllerContext->getRequest()->getControllerExtensionKey();
+		$this->extKey = 'pt_extbase';
+
 		$this->extPath = t3lib_extMgm::extPath($this->extKey);
 		$this->relExtPath = t3lib_extMgm::siteRelPath($this->extKey);
 
 
 		if (TYPO3_MODE === 'BE') {
-         	$this->initializeBackend();
-         } else {
-         	$this->initializeFrontend();
-         }
+			$this->initializeBackend();
+		} else {
+			$this->initializeFrontend();
+		}
 
 	}
 

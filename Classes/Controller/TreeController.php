@@ -45,12 +45,16 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	protected $nodeRepository;
 
 
-
 	/**
 	 * @var string tree namespace
 	 */
-	protected $treeNameSpace;
+	protected $treeNameSpace = 'tx_ptextbase_tree_default';
 
+
+	/**
+	 * @var string
+	 */
+	protected $nodeRepositoryClassName = 'Tx_PtExtbase_Tree_NodeRepository';
 
 
     /**
@@ -66,13 +70,40 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @return void
 	 */
 	protected function initializeAction() {
-		$this->initializeSettings();
 
-		$this->nodeRepository = t3lib_div::makeInstance('Tx_PtExtbase_Tree_NodeRepository');
-        $this->treeRepository = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance()->buildTreeRepository();
+		$this->restoreTreeSettingsFromSession();
+
+		$treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
+		$treeRepositoryBuilder->setNodeRepositoryClassName($this->nodeRepositoryClassName);
+		$this->treeRepository = $treeRepositoryBuilder->buildTreeRepository();
+
+		$this->nodeRepository = t3lib_div::makeInstance($this->nodeRepositoryClassName);
+
 		$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 	}
 
+
+
+	/**
+	 * @todo If several tree widgets are needed on the same page, provide an identifier and select the right repo from session
+	 *
+	 * Restore the repository settings from namespace
+	 */
+	public function restoreTreeSettingsFromSession() {
+
+		$settings = Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->read('Tx_PtExtbase_Tree_Configuration');
+
+		if(array_key_exists('repository', $settings)) {
+			$nodeRepositoryClassName = $settings['repository'];
+			if($nodeRepositoryClassName && class_exists($nodeRepositoryClassName)) {
+				$this->nodeRepositoryClassName = $nodeRepositoryClassName;
+			}
+		}
+
+		if(array_key_exists('namespace', $settings)) {
+			$this->treeNameSpace = $settings['namespace'];
+		}
+	}
 
 
     /**
