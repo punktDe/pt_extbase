@@ -103,19 +103,20 @@ Ext.onReady(function(){
 
             },
             nodedrop: function(dropEvent) {
+
+                alert('Hier Drag:' + dropEvent.dropNode.id + ' Drop: ' + dropEvent.target.id + ' Node orig parent: ' + dropEvent.dropNode.parent.id + ' Targets parent: '  + dropEvent.target.parent.id);
+                /*
                 Ext.Ajax.request({
                     url:baseURL,
                     params: buildRequestParams('moveNodeInto',{
                         node: dropEvent.dropNode.id,
                         targetNode: dropEvent.target.id
                     }),
-                    success:function(response, request) {
-                        if(response.responseText) alert(response.responseText);
-                    },
                     failure:function(response) {
                         alert("Error while moving the node.");
                     }
                 });
+                */
             }
 		},
 
