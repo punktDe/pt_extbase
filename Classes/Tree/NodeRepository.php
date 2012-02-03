@@ -88,6 +88,7 @@ class Tx_PtExtbase_Tree_NodeRepository
      */
     public function findByNamespace($namespace) {
         $query = $this->createQuery();
+        $query->getQuerySettings()->setRespectStoragePage(false);
         $query->matching($query->equals('namespace', $namespace))
             ->setOrderings(array('lft' => Tx_Extbase_Persistence_Query::ORDER_DESCENDING));
         return $query->execute();

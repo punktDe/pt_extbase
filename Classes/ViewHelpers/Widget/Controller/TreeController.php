@@ -27,19 +27,32 @@
  ***************************************************************/
 
 /**
+ * Controller handles tree widget
+ *
+ * We only use this for templating issues. No tree-manipulation is implemented here!
+ *
  * @author Daniel Lienert
+ * @author Michael Knoll
  */
-
 class Tx_PtExtbase_ViewHelpers_Widget_Controller_TreeController extends Tx_Fluid_Core_Widget_AbstractWidgetController {
 
-
 	/**
-	 *
+	 * Renders index action of tree widget
+     *
+     * @return string Rendered widget
 	 */
 	public function indexAction() {
 
+        // We have to set base base URL in FE and BE
+        if (TYPO3_MODE == 'BE') {
+            $baseUrl = 'ajax.php?ajaxID=ptxAjax';
+        } elseif (TYPO3_MODE == 'FE') {
+            $baseUrl = 'index.php?eID=ptxAjax';
+        }
+
+        $this->view->assign('baseUrl', $baseUrl);
+
 	}
 
-
-
 }
+?>
