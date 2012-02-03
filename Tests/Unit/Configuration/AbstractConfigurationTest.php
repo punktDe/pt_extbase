@@ -80,7 +80,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends Tx
 	 * Sets up testcase
 	 */
 	public function setup() {
-		$this->configurationBuilderStub = new Tx_PtExtabse_Configuration_AbstractConfigurationBuilder_Stub($this->settings);
+		$this->configurationBuilderStub = new Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfiguration_Stub($this->settings);
 		$this->concreteConfiguration = new Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfiguration_Stub($this->configurationBuilderStub, $this->settings);
 	}
 	
@@ -278,7 +278,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfiguration_Stub extends T
     	$this->setBooleanIfExistsAndNotNothing('key5');
     	$this->setBooleanIfExistsAndNotNothing('key6');
     	$this->setBooleanIfExistsAndNotNothing('key7');
-    	$this->setRequiredValue('key8');
+    	$this->setRequiredValue('key8', '');
     	$this->setRequiredValue('key8', '', 'value3');
     }
     
