@@ -156,10 +156,13 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 		$this->arguments['veriCode'] = $this->generateVeriCode();
 		$this->arguments['extPath'] = $this->relExtPath;
 		$this->arguments['extKey'] = $this->extKey;
-		$this->arguments['pluginNamespace'] = Tx_Extbase_Utility_Extension::getPluginNamespace(
-			$this->controllerContext->getRequest()->getControllerExtensionName(),
-			$this->controllerContext->getRequest()->getPluginName()
-		);
+
+		if(is_object($this->controllerContext)) {
+			$this->arguments['pluginNamespace'] = Tx_Extbase_Utility_Extension::getPluginNamespace(
+				$this->controllerContext->getRequest()->getControllerExtensionName(),
+				$this->controllerContext->getRequest()->getPluginName()
+			);
+		}
 	}
 
 

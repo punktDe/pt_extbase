@@ -146,12 +146,17 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
      * @throws Exception
      */
     protected function buildNodeRepository() {
-        $nodeRepository = t3lib_div::makeInstance($this->nodeRepositoryClassName);
-        if (!is_a($nodeRepository, 'Tx_PtExtbase_Tree_NodeRepositoryInterface')) {
-            throw new Exception ('Given class name ' . $this->nodeRepositoryClassName . ' must implement Tx_PtExtbase_Tree_NodeRepositoryInterface! 1328201591');
-        }
-        return $nodeRepository;
-    }
+		 if (!class_exists($this->nodeRepositoryClassName)) {
+			throw new Exception('The given class ' . $this->nodeRepositoryClassName . ' does not exist!', 1328287190);
+		 }
+
+		 $nodeRepository = t3lib_div::makeInstance($this->nodeRepositoryClassName);
+
+		 if (!is_a($nodeRepository, 'Tx_PtExtbase_Tree_NodeRepositoryInterface')) {
+			 throw new Exception ('Given class name ' . $this->nodeRepositoryClassName . ' must implement Tx_PtExtbase_Tree_NodeRepositoryInterface! 1328201591');
+		 }
+		 return $nodeRepository;
+	 }
 
 
 

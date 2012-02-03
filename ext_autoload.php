@@ -41,6 +41,7 @@ return array(
     'tx_ptextbase_utility_abstracttcawidget' => $extensionClassesPath . 'Utility/AbstractTcaWidget.php',
 	'tx_ptextbase_view_baseview' => $extensionClassesPath . 'View/BaseView.php',
     'tx_ptextbase_viewhelpers_widget_treeviewhelper' => $extensionClassesPath . 'ViewHelpers/Widget/TreeViewHelper.php',
+    'tx_ptextbase_viewhelpers_treeselectorviewhelper' => $extensionClassesPath . 'ViewHelpers/TreeSelectorViewHelper.php',
     'tx_ptextbase_viewhelpers_javascript_templateviewhelper' => $extensionClassesPath . 'ViewHelpers/Javascript/TemplateViewHelper.php',
     'tx_ptextbase_viewhelpers_widget_controller_treecontroller' => $extensionClassesPath . 'ViewHelpers/Widget/Controller/TreeController.php',
     'tx_ptextbase_tree_treerepositorybuilder'  => $extensionClassesPath . 'Tree/TreeRepositoryBuilder.php',
