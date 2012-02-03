@@ -98,6 +98,22 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
 
 
     /**
+     * If set to true, corresponding configuration in TCA is many-to-many field (M:N)
+     * @var boolean
+     */
+    protected $isManyToManyField;
+
+
+
+    /**
+     * If set to true, corresponding configuration in TCA is one-to-many field (1:N)
+     * @var boolean
+     */
+    protected $is1ToManyField;
+
+
+
+    /**
      * Field name of tce-forms-persisted field in rendered form
      *
      * When form in which this widget is rendered is saved,
@@ -142,7 +158,8 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      * Initializes properties from params array
      */
     protected function initPropertiesFromParamsArray() {
-        // Make sure, parameters exist and throw Exceptions, if not
+        $this->throwExceptionIfFiedConfigParametersAreNotSet();
+
         $fieldConfigParameters = $this->tcaParameters['fieldConf']['config']['parameters'];
         $this->extensionName = $fieldConfigParameters['extensionName'];
         $this->pluginName = $fieldConfigParameters['pluginName'];
@@ -152,12 +169,43 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
             $this->templatePath = $fieldConfigParameters['templatePath'];
         }
 
+        if (array_key_exists('MM', $this->tcaParameters['fieldConf']['config']) && $this->tcaParameters['fieldConf']['config']['MM'] !== '') {
+            // we have M:N field
+            $this->isManyToManyField = true;
+            $this->is1ToManyField = false;
+        } else {
+            // we have 1:M field
+            $this->is1ToManyField = true;
+            $this->isManyToManyField = false;
+        }
+
         $this->formFieldName = $this->tcaParameters['itemFormElName'];
         $this->formFieldValue = $this->tcaParameters['itemFormElValue'];
 
         $this->table = $this->tcaParameters['table'];
         $this->field = $this->tcaParameters['field'];
         $this->row = $this->tcaParameters['row'];
+    }
+
+
+
+    /**
+     * Throws exception, if requested TCA configuration parameters [fieldConfig][config][parameters] is not set in TCA configuration for field.
+     *
+     * @throws Exception
+     */
+    protected function throwExceptionIfFiedConfigParametersAreNotSet() {
+        if (!array_key_exists('fieldConf', $this->tcaParameters)) {
+            throw new Exception('Cannot use ' . get_class($this) . ' without having fieldConfig set in corresponding TCA configuration! 1328299642');
+        }
+
+        if (!array_key_exists('config', $this->tcaParameters['fieldConf'])) {
+            throw new Exception('Cannot use ' . get_class($this) . ' without having fieldConfig[config] set in corresponding TCA configuration! 1328299643');
+        }
+
+        if (!array_key_exists('parameters', $this->tcaParameters['fieldConf']['config'])) {
+            throw new Exception('Cannot use ' . get_class($this) . ' without having fieldConfig[config][parameters] set in corresponding TCA configuration! 1328299644');
+        }
     }
 
 
