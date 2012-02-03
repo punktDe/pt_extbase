@@ -37,7 +37,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      * Holds template path for fluid tca widget template
      * @var string
      */
-    protected $templatePath = 'EXT:pt_extbase/Resources/Private/Templates/Tree/Tca.html';
+    protected $templatePath = 'EXT:pt_extbase/Resources/Private/Templates/Tca/Tree.html';
 
 
 
@@ -59,10 +59,15 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      * @param null $fObj
      */
     public function renderTcaTreeSelectorWidget(array $parameters=array(), $fObj=null) {
-        $this->init($parameters, $fObj);
-        $this->addJsAndCssIncludes();
+        // Backend form should be rendered no matter what happens here, so we catch exception
+        try {
+            $this->init($parameters, $fObj);
+            $this->addJsAndCssIncludes();
 
-        return $this->fluidRenderer->render();
+            return $this->fluidRenderer->render();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 
 
