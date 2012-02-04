@@ -85,22 +85,23 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
 		 * Each node is added to a child to topStack, if topStack's right-value is smaller
 		 * than current node's right-value.
 		 */
-		
+
 		$nodes = $this->nodeRepository->findByNamespace($namespace);
 
-        // We have no nodes for given namespace, so we return empty tree with single root node
-        if ($nodes->count() == 0) {
-            return $this->getEmptyTree($namespace);
-        }
+		// We have no nodes for given namespace, so we return empty tree with single root node
+		if ($nodes->count() == 0) {
+			return $this->getEmptyTree($namespace);
+		}
 
 		$stack = new Tx_PtExtbase_Tree_Stack();
 		$prevLft = PHP_INT_MAX;
 
-		foreach($nodes as $node) { /* @var $node Tx_PtExtbase_Tree_Node */
-			/* Assertion: Nodes must be given in descending left-value order. */ 
+		foreach ($nodes as $node) {
+			/* @var $node Tx_PtExtbase_Tree_Node */
+			/* Assertion: Nodes must be given in descending left-value order. */
 			if ($node->getLft() > $prevLft) throw new Exception('Nodes must be given in descending left-value order', 1307861852);
 
-			$prevLft = $node->getLft(); 
+			$prevLft = $node->getLft();
 			#echo "<br><br>Knoten: " . $node->toString();
 
 			if ($stack->isEmpty() || $stack->top()->getRgt() > $node->getRgt()) {
@@ -108,10 +109,10 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
 				#echo "Pushed on stack:" . $stack->toString();
 			} else {
 				#echo "Adding children:";
-				while(!$stack->isEmpty() && $stack->top()->getRgt() < $node->getRgt()) {
+				while (!$stack->isEmpty() && $stack->top()->getRgt() < $node->getRgt()) {
 					#echo "In while - current node " . $node->toString() . " current topStack: " . $stack->top()->toString();
 					$stack->top()->setParent($node, false);
-					$node->addChild($stack->top(),false);
+					$node->addChild($stack->top(), false);
 					$stack->pop();
 					#echo "After while-iteration: ". $stack->toString();
 				}

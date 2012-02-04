@@ -56,11 +56,25 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	protected $multipleSelect;
 
 
+
+	/**
+	 * @var int
+	 */
+	protected $maxLevel = PHP_INT_MAX;
+
+
+	/**
+	 * @var Tx_Extbase_SignalSlot_Dispatcher
+	 */
+	protected $signalSlotDispatcher;
+
+
 	/**
 	 * Constructor for visitor
 	 */
 	public function __construct() {
 		$this->nodeStack = new Tx_PtExtbase_Tree_Stack();
+		$this->signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_Object_Manager')->get('Tx_PtExtbase_SignalSlot_Dispatcher');
 	}
 
 
@@ -80,9 +94,11 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 		);
 
 		$this->setSelectionOnNodeArray($node, $arrayForNode);
+		$this->signalSlotDispatcher->dispatch(__CLASS__, 'doFirstVisit', array($node, $arrayForNode));
 
 		$this->nodeStack->push($arrayForNode);
 	}
+
 
 
 	/**
@@ -153,6 +169,13 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	 */
 	public function setSelection($selection) {
 		$this->selection = $selection;
+	}
+
+	/**
+	 * @param int $maxLevel
+	 */
+	public function setMaxLevel($maxLevel) {
+		$this->maxLevel = $maxLevel;
 	}
 }
 ?>
