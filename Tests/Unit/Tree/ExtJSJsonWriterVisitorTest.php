@@ -75,9 +75,9 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends Tx_PtExtba
 		return array(
 			'singleNotSelected' => array('multiple' => false, 'selection' => null, 'expected' => array()),
 			'singleSelected' => array('multiple' => false, 'selection' => 1, 'expected' => array('cls' => 'selectedNode')),
-			'multipleButNotChecked' => array('multiple' => true, 'selection' => array(), 'expected' => array('checked' => 'false')),
-			'multipleAndChecked' => array('multiple' => true, 'selection' => array(1), 'expected' => array('checked' => 'true')),
-			'multipleButNotChecked' => array('multiple' => true, 'selection' => array(), 'expected' => array('checked' => 'false')),
+			'multipleButNotChecked' => array('multiple' => true, 'selection' => array(), 'expected' => array('checked' => false)),
+			'multipleAndChecked' => array('multiple' => true, 'selection' => array(1), 'expected' => array('checked' => true)),
+			'multipleButNotChecked' => array('multiple' => true, 'selection' => array(), 'expected' => array('checked' => false)),
 		);
 	}
 
@@ -112,8 +112,8 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends Tx_PtExtba
 
 		$tree = $arrayTreeWriter->writeTree($this->getTestTree());
 
-		$this->assertEquals('false',$tree['checked']);
-		$this->assertEquals('false',$tree['children'][0]['checked']);
+		$this->assertEquals(false,$tree['checked']);
+		$this->assertEquals(false,$tree['children'][0]['checked']);
 	}
 
 
@@ -128,9 +128,9 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends Tx_PtExtba
 
 		$tree = $arrayTreeWriter->writeTree($this->getTestTree());
 		
-		$this->assertEquals('true',$tree['checked']);
-		$this->assertEquals('false',$tree['children'][0]['checked']);
-		$this->assertEquals('true',$tree['children'][1]['checked']);
+		$this->assertEquals(true,$tree['checked']);
+		$this->assertEquals(false,$tree['children'][0]['checked']);
+		$this->assertEquals(true,$tree['children'][1]['checked']);
 	}
 
 

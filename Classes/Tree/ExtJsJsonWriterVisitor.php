@@ -92,9 +92,9 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	protected function setSelectionOnNodeArray($node, &$arrayForNode) {
 		if($this->multipleSelect) {
 			if(is_array($this->selection) && in_array($node->getUid(), $this->selection)) {
-				$arrayForNode['checked'] = 'true';
+				$arrayForNode['checked'] = true;
 			} else {
-				$arrayForNode['checked'] = 'false';
+				$arrayForNode['checked'] = false;
 			}
 		} else {
 			if($node->getUid() == (int) $this->selection) {

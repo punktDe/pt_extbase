@@ -59,6 +59,8 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 
 	public function initialize() {
+		parent::initialize();
+
 		$treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
 		$treeRepositoryBuilder->setNodeRepositoryClassName($this->arguments['repository']);
 
@@ -87,22 +89,17 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	}
 
 
+
 	protected function getTreeNodes() {
 		$tree = $this->treeRepository->loadTreeByNamespace($this->arguments['namespace']);
-
 
 		$arrayWriterVisitor = new Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor();
 		$arrayWriterVisitor->setMultipleSelect($this->arguments['multiple']);
 		$arrayWriterVisitor->setSelection($this->getSelection());
 
-		$visitors[] = $arrayWriterVisitor;
-		$jsonTreeWriter = new Tx_PtExtbase_Tree_JsonTreeWriter($visitors, $arrayWriterVisitor);
-		return $jsonTreeWriter;
+		$jsonTreeWriter = new Tx_PtExtbase_Tree_JsonTreeWriter(array($arrayWriterVisitor), $arrayWriterVisitor);
 
-
-		$nodeJSON = Tx_PtExtbase_Tree_ExtJsJsonTreeWriter::getInstance()->writeTree($tree);
-		echo $nodeJSON;
-		die();
+		return $jsonTreeWriter->writeTree($tree);
 	}
 
 
@@ -128,7 +125,10 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 		//return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
 		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/MultiSelectTree.js',
-			array('baseUrl' => $this->getBaseURL()),FALSE, FALSE
+			array(
+				'nodeJSON' => $this->getTreeNodes(),
+			)
+			,FALSE, FALSE
 		);
 	}
 
@@ -138,21 +138,5 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	 */
 	protected function getTreeDiv() {
 		return '<div id="ptExtbaseTreeDiv"></div>';
-	}
-
-
-
-	/**
-	 * Determine the baseURl by context
-	 * @return string
-	 */
-	protected function getBaseURL() {
-		if (TYPO3_MODE == 'BE') {
-			$baseUrl = 'ajax.php?ajaxID=ptxAjax';
-		} elseif (TYPO3_MODE == 'FE') {
-			$baseUrl = 'index.php?eID=ptxAjax';
-		}
-
-		return $baseUrl;
 	}
 }
