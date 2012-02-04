@@ -92,6 +92,10 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	public function restoreTreeSettingsFromSession() {
 
 		$settings = Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->read('Tx_PtExtbase_Tree_Configuration');
+		$settings = array(
+			'repository' => 'Tx_PtCertification_Domain_Repository_CategoryRepository',
+			'namespace' => 'tx_ptcertification_domain_model_category'
+		);
 
 		if(array_key_exists('repository', $settings)) {
 			$nodeRepositoryClassName = $settings['repository'];

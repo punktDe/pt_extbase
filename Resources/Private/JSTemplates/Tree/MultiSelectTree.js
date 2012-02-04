@@ -48,36 +48,52 @@ Ext.onReady(function(){
      */
 	var Tree_Category_Loader = new Tree.TreeLoader({
         dataUrl:baseURL,
-        baseParams: buildRequestParams('getTree', {})
+        baseParams: buildRequestParams('getTree', {}),
+        baseAttrs: {
+            checked:false
+        }
     });
 
-
-
-	var yagCategoryTree = new Tree.TreePanel({
+	var ptExtbaseTree = new Tree.TreePanel({
 	    autoScroll:true,
 	    animate:true,
-	    enableDD:true,
+	    enableDD:false,
 	    containerScroll: true,
+        useArrows:true,
         root:new Ext.tree.AsyncTreeNode({text:'Tree'}),
 	    rootVisible: false,
+        frame: true,
 	    loader: Tree_Category_Loader,
 	    listeners: {
-	        click: 	function (node,event){
-				Ext.get("selectedCategory").set({value: node.id});
-                selectedNode = node;
-			}
+/*            'load': function(node) {
+                var selectedValues = Ext.get("selectedCategory").getValue().split(',');
+
+                if(selectedValues.indexOf(node.id.toString()) > 0) {
+                    node.getUI().toggleCheck(true);
+                }
+
+                node.eachChild(function(n) {
+                    if(selectedValues.indexOf(n.id.toString()) > 0) {
+                        n.getUI().toggleCheck(true);
+                    }
+                });
+
+            },
+*/
+            'checkchange': function(node, checked){
+                var ids = '', selNodes = ptExtbaseTree.getChecked();
+
+                Ext.each(selNodes, function(node){
+                    if(ids.length > 0){
+                        ids += ', ';
+                    }
+                    ids += node.id;
+                });
+
+                Ext.get("selectedCategory").set({value: ids});
+            }
 		}
     })
- /*
-    var root = new Tree.AsyncTreeNode({
-        text:'Categories',
-        draggable:false,
-        id:1
-    });
-    yagCategoryTree.setRootNode(root);
-    */
-    yagCategoryTree.render('categoryTreeDiv');
-    //root.expand();
-   // yagCategoryTree.getSelectionModel().select(yagCategoryTree.getNodeById("2"));
-
+    ptExtbaseTree.render('ptExtbaseTreeDiv');
+    ptExtbaseTree.expandAll();
 });

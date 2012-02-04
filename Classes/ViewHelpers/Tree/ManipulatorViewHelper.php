@@ -30,7 +30,7 @@
  * @author Daniel Lienert
  */
 
-class Tx_PtExtbase_ViewHelpers_TreeSelectorViewHelper extends Tx_Fluid_ViewHelpers_Form_TextfieldViewHelper {
+class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelpers_Form_TextfieldViewHelper {
 
 
 
@@ -44,6 +44,7 @@ class Tx_PtExtbase_ViewHelpers_TreeSelectorViewHelper extends Tx_Fluid_ViewHelpe
 		parent::initializeArguments();
 		$this->registerArgument('repository', 'string', 'Specifies the tree repository', false);
 		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
+		$this->registerArgument('type', 'string', 'Specifies the tree type', false);
 	}
 
 
@@ -70,7 +71,8 @@ class Tx_PtExtbase_ViewHelpers_TreeSelectorViewHelper extends Tx_Fluid_ViewHelpe
 		$treeViewHelper = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
 		$treeViewHelper->setControllerContext($this->controllerContext);
 
-		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/SelectTree.js',
+		//return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
+		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/MultiSelectTree.js',
 			array('baseUrl' => $this->getBaseURL()),FALSE, FALSE
 		);
 	}
@@ -80,7 +82,7 @@ class Tx_PtExtbase_ViewHelpers_TreeSelectorViewHelper extends Tx_Fluid_ViewHelpe
 	 * @return string
 	 */
 	protected function getTreeDiv() {
-		return '<div id="categoryTreeDiv"></div>';
+		return '<div id="ptExtbaseTreeDiv"></div>';
 	}
 
 

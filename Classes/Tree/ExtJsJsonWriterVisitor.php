@@ -45,6 +45,18 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 
 
 	/**
+	 * @var array
+	 */
+	protected $selection;
+
+
+	/**
+	 * @var boolean
+	 */
+	protected $multipleSelect;
+
+
+	/**
 	 * Constructor for visitor
 	 */
 	public function __construct() {
@@ -61,14 +73,36 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	 */
 	public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
 		$arrayForNode = array(
-            'id' => $node->getUid(),
-            'text' => $node->getLabel(),
-            'children' => array(),
-            'leaf' => !$node->hasChildren()
-        );
+			'id' => $node->getUid(),
+			'text' => $node->getLabel(),
+			'children' => array(),
+			'leaf' => !$node->hasChildren(),
+		);
 
-        $this->nodeStack->push($arrayForNode);
+		$this->setSelectionOnNodeArray($node, $arrayForNode);
+
+		$this->nodeStack->push($arrayForNode);
 	}
+
+
+	/**
+	 * @param $node
+	 * @param $arrayForNode
+	 */
+	protected function setSelectionOnNodeArray($node, &$arrayForNode) {
+		if($this->multipleSelect) {
+			if(is_array($this->selection) && in_array($node->getUid(), $this->selection)) {
+				$arrayForNode['checked'] = 'true';
+			} else {
+				$arrayForNode['checked'] = 'false';
+			}
+		} else {
+			if($node->getUid() == (int) $this->selection) {
+				$arrayForNode['cls'] = 'selectedNode';
+			}
+		}
+	}
+
 
 
 	/**
@@ -93,6 +127,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	}
 
 
+
 	/**
 	 * Returns array structure for visited nodes
 	 *
@@ -102,5 +137,22 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 		return $this->nodeArray;
 	}
 
+
+
+	/**
+	 * @param boolean $multipleSelect
+	 */
+	public function setMultipleSelect($multipleSelect) {
+		$this->multipleSelect = $multipleSelect;
+	}
+
+
+
+	/**
+	 * @param $selection
+	 */
+	public function setSelection($selection) {
+		$this->selection = $selection;
+	}
 }
 ?>

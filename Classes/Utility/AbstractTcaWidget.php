@@ -130,7 +130,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
         $this->tcaParameters = $params;
         $this->tceForms = $fobj;
         $this->initPropertiesFromParamsArray();
-        $this->initObjectManager();
+        $this->initFrameWork();
         $this->initFluidRenderer();
         $this->initTemplate();
         $this->assignVariablesToView();
@@ -165,10 +165,11 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
     /**
      * Initializes Extbase object manager
      */
-    protected function initObjectManager() {
-        $this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+    protected function initFrameWork() {
+		 $this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+		 $bootstrap = $this->objectManager->get('Tx_Extbase_Core_Bootstrap');
+		 $bootstrap->initialize(array('extensionName' => $this->extensionName, 'pluginName' => $this->pluginName));
     }
-
 
 
     /**
