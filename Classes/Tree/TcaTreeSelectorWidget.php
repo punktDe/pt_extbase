@@ -53,6 +53,17 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
 
 
     /**
+     * Holds depth of tree
+     *
+     * -1 means all levels of the tree are rendered.
+     *
+     * @var -1
+     */
+    protected $restrictedDepth = null;
+
+
+
+    /**
      * User function to render TCA selector
      *
      * @param array $parameters
@@ -94,6 +105,9 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
         if (array_key_exists('nodeRepositoryClassName', $fieldConfigParameters) && $fieldConfigParameters['nodeRepositoryClassName'] != '') {
             $this->nodeRepositoryClassName = $fieldConfigParameters['nodeRepositoryClassName'];
         }
+        if (array_key_exists('restrictedDepth', $fieldConfigParameters && $fieldConfigParameters['restrictedDepth'] !== '')) {
+            $this->restrictedDepth = $fieldConfigParameters['restrictedDepth'];
+        }
     }
 
 
@@ -120,6 +134,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
         if ($this->nodeRepositoryClassName !== null && $this->nodeRepositoryClassName != '') {
             $treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
             $treeRepositoryBuilder->setNodeRepositoryClassName($this->nodeRepositoryClassName);
+            $treeRepositoryBuilder->setRestrictedDepth($this->restrictedDepth);
         }
     }
 

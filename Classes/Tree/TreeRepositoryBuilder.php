@@ -70,6 +70,15 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
 
 
     /**
+     * Holds restricted depth of tree to be build
+     *
+     * @var int
+     */
+    protected $restrictedDepth = -1;
+
+
+
+    /**
      * Returns singleton instance of this class
      *
      * @return Tx_PtExtbase_Tree_TreeRepositoryBuilder
@@ -100,6 +109,7 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
     public function buildTreeRepository() {
         $nodeRepository = $this->buildNodeRepository();
         $treeBuilder = $this->buildTreeBuilder($nodeRepository);
+        $treeBuilder->setRestrictedDepth($this->restrictedDepth);
         $treeStorage = $this->buildTreeStorage($nodeRepository);
         return new Tx_PtExtbase_Tree_TreeRepository($nodeRepository, $treeBuilder, $treeStorage);
     }
@@ -140,6 +150,17 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
 
 
     /**
+     * Setter for restricted depth
+     *
+     * @param $restrictedDepth
+     */
+    public function setRestrictedDepth($restrictedDepth) {
+        $this->restrictedDepth = $restrictedDepth;
+    }
+
+
+
+    /**
      * Returns instance of node repository for class name set in builder
      *
      * @return Tx_PtExtbase_Tree_NodeRepositoryInterface Instance of node repository
@@ -165,7 +186,9 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
         $treeBuilder = new $this->treeBuilderClassName($nodeRepository);
         if (!is_a($treeBuilder, 'Tx_PtExtbase_Tree_TreeBuilderInterface')) {
             throw new Exception ('Given class name ' . $this->treeBuilderClassName . ' must implement Tx_PtExtbase_Tree_TreeBuilderInterface! 1328201592');
-        }
+        } /* @var $treeBuilder Tx_PtExtbase_Tree_TreeBuilderInterface */
+        $treeBuilder->setRespectRestrictedDepth(TRUE);
+        $treeBuilder->setRestrictedDepth($this->restrictedDepth);
         return $treeBuilder;
     }
 

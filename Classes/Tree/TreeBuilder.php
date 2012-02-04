@@ -46,6 +46,29 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
 	protected $nodeRepository;
 
 
+
+    /**
+     * If set to true, restricted depth will be respected when building the tree
+     *
+     * @var bool
+     */
+    protected $respectRestrictedDepth;
+
+
+
+    /**
+     * If set to a value > 0, tree will only be build up to given level.
+     *
+     * Level -1 = all levels are build
+     * Level 1 = means, only root node will be build
+     * Level 2 = root node and its children are build
+     * ...
+     *
+     * @var int
+     */
+    protected $restrictedDepth;
+
+
 	
 	/**
 	 * Constructor for treebuilder. Requires node repository as parameter.
@@ -120,9 +143,39 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
 			}
 		}
 		$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($stack->top());
+
+        $tree->setRestrictedDepth($this->restrictedDepth);
+        $tree->setRespectRestrictedDepth($this->respectRestrictedDepth);
+
 		#echo "Finished tree: " . $tree->toString();
 		return $tree;
 	}
-	
+
+
+
+    /**
+     * Setter for restricted depth.
+     *
+     * If depth is restricted, tree is build only to given level by tree builder.
+     *
+     * @param int $restrictedDepth
+     */
+    public function setRestrictedDepth($restrictedDepth) {
+        $this->restrictedDepth = $restrictedDepth;
+    }
+
+
+
+    /**
+     * Sets respect restricted depth to given value.
+     *
+     * If set to true, tree builder will respect restricted depth, when building tree.
+     *
+     * @param bool $respectRestrictedDepth
+     */
+    public function setRespectRestrictedDepth($respectRestrictedDepth=TRUE) {
+        $this->respectRestrictedDepth = $respectRestrictedDepth;
+    }
+
 }
 ?>

@@ -57,9 +57,10 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 * @param int &$index Visitation index of treewalker
-	 */
-	public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
+     * @param int &$index Holds the visitation index of treewalker
+     * @param int &$level Holds level of visitation in tree, starting at 1
+     */
+    public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
 		$arrayForNode = array(
             'id' => $node->getUid(),
             'text' => $node->getLabel(),
@@ -75,9 +76,10 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doLastVisit()
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 * @param int &$index Visitation index of treewalker
-	 */
-	public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
+     * @param int &$index Holds the visitation index of treewalker
+     * @param int &$level Holds level of visitation in tree, starting at 1
+     */
+    public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
 		$currentNode = $this->nodeStack->top();
 		$this->nodeStack->pop();
 
