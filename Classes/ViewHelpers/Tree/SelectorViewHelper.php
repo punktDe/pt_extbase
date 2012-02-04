@@ -58,6 +58,9 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 
 
+	/**
+	 * Initialize the viewHelper
+	 */
 	public function initialize() {
 		parent::initialize();
 
@@ -79,7 +82,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	 * @api
 	 */
 	public function render($required = NULL) {
-		$formField = parent::render($required, 'text', NULL);
+		$formField = parent::render($required, 'hidden', NULL);
 		$treeDiv = $this->getTreeDiv();
 		$treeJS = $this->getTreeJS();
 
@@ -116,17 +119,22 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	}
 
 
-
+	/**
+	 * Build and return the javascript via the javascript viewHelper
+	 * @todo refactor JSViewHelper and move the marker code to a separate utility, call the utility here
+	 *
+	 * @return string
+	 */
 	protected function getTreeJS() {
 
 		/** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
 		$treeViewHelper = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
 		$treeViewHelper->setControllerContext($this->controllerContext);
 
-		//return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
-		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/MultiSelectTree.js',
+		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
 			array(
 				'nodeJSON' => $this->getTreeNodes(),
+				'multiple' => $this->multiple ? 'true': 'false',
 			)
 			,FALSE, FALSE
 		);
