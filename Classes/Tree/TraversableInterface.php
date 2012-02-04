@@ -40,6 +40,24 @@ interface Tx_PtExtbase_Tree_TraversableInterface {
 	 * @return Tx_PtExtbase_Tree_NodeInterface
 	 */
 	public function getRoot();
+
+
+
+    /**
+     * Returns true, if restricted depth of tree should be respected
+     *
+     * @return bool True, if restricted depth should be respected
+     */
+    public function getRespectRestrictedDepth();
+
+
+
+    /**
+     * Getter for restricted depth
+     *
+     * @return int Restricted depth
+     */
+    public function getRestrictedDepth();
 	
 }
 ?>

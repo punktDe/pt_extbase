@@ -50,6 +50,30 @@ interface Tx_PtExtbase_Tree_TreeBuilderInterface {
 	 * @return Tx_PtExtbase_Tree_Tree
 	 */
 	public function buildTreeForNamespace($namespace);
+
+
+
+    /**
+     * Setter for restricted depth.
+     *
+     * If depth is restricted, tree is build only to given level by tree builder.
+     *
+     * @abstract
+     * @param int $restrictedDepth
+     */
+    public function setRestrictedDepth($restrictedDepth);
+
+
+
+    /**
+     * Sets respect restricted depth to given value.
+     *
+     * If set to true, tree builder will respect restricted depth, when building tree.
+     *
+     * @abstract
+     * @param bool $respectRestrictedDepth
+     */
+    public function setRespectRestrictedDepth($respectRestrictedDepth);
 	
 }
 ?>

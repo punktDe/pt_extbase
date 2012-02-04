@@ -66,7 +66,7 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
 
 
     /**
-     * Constructor for visitor
+     * Constructor for visitore
      */
     public function __construct() {
         $this->nodeStack = new Tx_PtExtbase_Tree_Stack();
@@ -78,9 +78,10 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
 	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 * @param int &$index Visitation index of treewalker
-	 */
-	public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
+     * @param int &$index Holds the visitation index of treewalker
+     * @param int &$level Holds level of visitation in tree, starting at 1
+     */
+    public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
 		$arrayForNode = array(
             'uid' => $node->getUid(),
             'label' => $node->getLabel(),
@@ -96,9 +97,10 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
 	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doLastVisit()
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 * @param int &$index Visitation index of treewalker
-	 */
-	public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
+     * @param int &$index Holds the visitation index of treewalker
+     * @param int &$level Holds level of visitation in tree, starting at 1
+     */
+    public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
         $currentNode = $this->nodeStack->top();
         $this->nodeStack->pop();
         if (!$this->nodeStack->isEmpty()) {

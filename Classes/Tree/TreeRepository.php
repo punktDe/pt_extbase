@@ -108,6 +108,19 @@ class Tx_PtExtbase_Tree_TreeRepository {
     public function getEmptyTree($namespace, $rootLabel = 'root') {
         return $this->treeBuilder->getEmptyTree($namespace, $rootLabel);
     }
+
+
+
+    /**
+     * Setter for respectRestrictedDepth.
+     *
+     * If set to true, respect restricted depth is set to true in trees returned by this repository
+     *
+     * @param bool $respectRestrictedDepth
+     */
+    public function setRespectRestrictedDepth($respectRestrictedDepth = TRUE) {
+        $this->treeBuilder->setRespectRestrictedDepth($respectRestrictedDepth);
+    }
 	
 }
 ?>
