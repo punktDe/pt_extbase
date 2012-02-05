@@ -32,10 +32,12 @@
 
 class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelpers_Form_TextfieldViewHelper {
 
+
 	/**
-	 * @var Tx_PtExtbase_Tree_TreeRepository
+	 * @var string
 	 */
-	protected $treeRepository;
+	protected $nodes;
+
 
 	/**
 	 * @var boolean
@@ -51,6 +53,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	public function initializeArguments() {
 		parent::initializeArguments();
 
+		$this->registerArgument('nodes', 'string', 'The tree nodes as JSON Array', false);
 		$this->registerArgument('repository', 'string', 'Specifies the tree repository', true);
 		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', true);
 		$this->registerArgument('multiple', 'boolean', 'Specifies if the tree is a multiple or single select tree', false, false);
@@ -64,12 +67,9 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	public function initialize() {
 		parent::initialize();
 
-		$treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
-		$treeRepositoryBuilder->setNodeRepositoryClassName($this->arguments['repository']);
-
-		$this->treeRepository = $treeRepositoryBuilder->buildTreeRepository();
-
 		$this->multiple = $this->arguments['multiple'];
+		$this->nodes = trim($this->arguments['nodes']);
+
 	}
 
 
@@ -83,18 +83,32 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	 */
 	public function render($required = NULL) {
 		$formField = parent::render($required, 'hidden', NULL);
-		$treeDiv = $this->getTreeDiv();
-		$treeJS = $this->getTreeJS();
 
-		$this->getTreeNodes();
+		if(!$this->nodes) {
+			$this->nodes = $this->getTreeNodes();
+		}
+
+		$treeDiv = $this->getTreeDiv();
+		$treeJS = $this->getTreeJS($this->nodes);
 
 		return $formField . $treeDiv . $treeJS;
 	}
 
 
 
+	/**
+	 * Get Tree nodes as JSON array
+	 *
+	 * @return string JSON array
+	 */
 	protected function getTreeNodes() {
-		$tree = $this->treeRepository->loadTreeByNamespace($this->arguments['namespace']);
+
+		$treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
+		$treeRepositoryBuilder->setNodeRepositoryClassName($this->arguments['repository']);
+
+		$treeRepository = $treeRepositoryBuilder->buildTreeRepository();
+
+		$tree = $treeRepository->loadTreeByNamespace($this->arguments['namespace']);
 
 		$arrayWriterVisitor = new Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor();
 		$arrayWriterVisitor->setMultipleSelect($this->arguments['multiple']);
@@ -123,9 +137,10 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	 * Build and return the javascript via the javascript viewHelper
 	 * @todo refactor JSViewHelper and move the marker code to a separate utility, call the utility here
 	 *
+	 * @param $treeNodes string treeNode JSON
 	 * @return string
 	 */
-	protected function getTreeJS() {
+	protected function getTreeJS($treeNodes) {
 
 		/** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
 		$treeViewHelper = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
@@ -133,7 +148,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
 			array(
-				'nodeJSON' => $this->getTreeNodes(),
+				'nodeJSON' => $treeNodes,
 				'multiple' => $this->multiple ? 'true': 'false',
 			)
 			,FALSE, FALSE

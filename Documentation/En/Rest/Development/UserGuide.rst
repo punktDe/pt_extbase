@@ -11,11 +11,17 @@ AbstractActionController
 Utility
 =======
 
+
+
 AjaxDispatcher
 --------------
 
+
+
 eIDDispatcher
 -------------
+
+
 
 FakeFrontendFactory
 -------------------
@@ -23,11 +29,16 @@ FakeFrontendFactory enables the use of frontend functionality like cObj-Renderin
 
 t3lib_div::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory')->createFakeFrontend();
 
+
 HeaderInclusion
 ---------------
 
+
+
 NameSpace
 ---------
+
+
 
 Tca
 ---

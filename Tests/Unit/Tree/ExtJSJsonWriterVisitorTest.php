@@ -152,6 +152,75 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends Tx_PtExtba
 	}
 
 
+	public function callBackSetterDataProvider() {
+		return array(
+			'noObject' => array('target' => '', 'method' => 'callBackSetterDataProvider', 'throwsException' => true),
+			'noMethod' => array('target' => $this, 'method' => '', 'throwsException' => true),
+			'correctObjectAndMethod' => array('target' => $this, 'method' => 'callBackSetterDataProvider', 'throwsException' => false),
+			'correctObjectIncorrectMethod' => array('target' => $this, 'method' => 'notAvailable', 'throwsException' => true),
+			'correctClassName' => array('target' => 'Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest', 'method' => 'callBackSetterDataProvider', 'throwsException' => false),
+			'inCorrectClassName' => array('target' => 'foo', 'method' => 'foo', 'throwsException' => true),
+		);
+	}
+
+
+	/**
+	 * @param $target
+	 * @param $method
+	 * @param $throwsException
+	 * @return mixed
+	 * @test
+	 * @dataProvider callBackSetterDataProvider
+	 */
+	public function registerFirstVisitCallback($target, $method, $throwsException) {
+		try {
+			$this->accessibleProxy->registerFirstVisitCallback($target, $method);
+		} catch (Exception $e) {
+			if($throwsException) {
+				return;
+			} else {
+				$this->fail('An Exception was thrown but should not ... ');
+			}
+		}
+
+		if($throwsException) {
+			$this->fail('No Exception was thrown but should ... ');
+		}
+
+		$fvcArray = $this->accessibleProxy->_get('firstVisitCallback');
+		$this->assertSame($target, $fvcArray['target']);
+		$this->assertSame($method, $fvcArray['method']);
+	}
+
+
+	/**
+	 * @param $target
+	 * @param $method
+	 * @param $throwsException
+	 * @return mixed
+	 * @test
+	 * @dataProvider callBackSetterDataProvider
+	 */
+	public function registerLastVisitCallback($target, $method, $throwsException) {
+		try {
+			$this->accessibleProxy->registerLastVisitCallback($target, $method);
+		} catch (Exception $e) {
+			if($throwsException) {
+				return;
+			} else {
+				$this->fail('An Exception was thrown but should not ... ');
+			}
+		}
+
+		if($throwsException) {
+			$this->fail('No Exception was thrown but should ... ');
+		}
+
+		$fvcArray = $this->accessibleProxy->_get('lastVisitCallback');
+		$this->assertSame($target, $fvcArray['target']);
+		$this->assertSame($method, $fvcArray['method']);
+	}
+
 
 	/**
 	 * @return Tx_PtExtbase_Tree_Tree

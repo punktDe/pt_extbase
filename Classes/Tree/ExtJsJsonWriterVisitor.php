@@ -56,11 +56,26 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	protected $multipleSelect;
 
 
+	/**
+	 * A callback function to call via call_user_func in doFirstVisit
+	 *
+	 * @var array(target => className|object, method => method)
+	 */
+	protected $firstVisitCallback;
+
+
+	/**
+	 * A callback function to call via call_user_func in doFirstVisit
+	 *
+	 * @var array(target => className|object, method => method)
+	 */
+	protected $lastVisitCallBack;
+
 
 	/**
 	 * @var int
 	 */
-	protected $maxLevel = PHP_INT_MAX;
+	protected $maxDepth = PHP_INT_MAX;
 
 
 	/**
@@ -172,10 +187,61 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	}
 
 	/**
-	 * @param int $maxLevel
+	 * @param int $maxDepth
 	 */
-	public function setMaxLevel($maxLevel) {
-		$this->maxLevel = $maxLevel;
+	public function setMaxDepth($maxDepth) {
+		$this->maxDepth = $maxDepth;
 	}
+
+
+
+	/**
+	 * @param $target object or className
+	 * @param $method
+	 */
+	public function registerFirstVisitCallback($target, $method) {
+		$this->checkCallBack('firstVisitCallBack', $target, $method);
+
+		$this->firstVisitCallback = array(
+			'target' => $target,
+			'method' => $method
+		);
+	}
+
+
+	/**
+	 * @param $target object or className
+	 * @param $method
+	 */
+	public function registerLastVisitCallBack($target, $method) {
+		$this->checkCallBack('lastVisitCallBack', $target, $method);
+
+		$this->lastVisitCallback = array(
+			'target' => $target,
+			'method' => $method
+		);
+	}
+
+
+	/**
+	 * @param $type
+	 * @param $target
+	 * @param $method
+	 */
+	protected function checkCallBack($type, $target, $method) {
+		if(is_object($target)) {
+			if (!method_exists($target, $method)) {
+				throw new Exception('The method ' . $method . ' is not accessible on object of type ' . get_class($target) . ' for use as ' . $type, 1328462239);
+			}
+		} else {
+			if(!class_exists($target)) {
+				throw new Exception('The class ' . $target . ' could not be found for use as ' . $type, 1328462359);
+			}
+			if (!method_exists($target, $method)) {
+				throw new Exception('The method ' . $method . ' is not accessible in class ' . $target . ' for use as ' . $type, 1328462244);
+			}
+		}
+	}
+
 }
 ?>
