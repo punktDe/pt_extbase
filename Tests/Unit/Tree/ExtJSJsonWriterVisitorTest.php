@@ -193,6 +193,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends Tx_PtExtba
 	}
 
 
+
 	/**
 	 * @param $target
 	 * @param $method
@@ -223,6 +224,46 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends Tx_PtExtba
 
 
 	/**
+	 * @test
+	 */
+	public function registeredCallbackIsCalledOnFirstVisit() {
+
+		$node = new Tx_PtExtbase_Tree_Node('test');
+
+		$callBackObject = $this->getMockBuilder('Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest_CallBackObject')
+						->setMethods(array('callBackMethod'))
+						->getMock();
+		$callBackObject->expects($this->once())->method('callBackMethod');
+
+		$this->accessibleProxy->registerFirstVisitCallback($callBackObject, 'callBackMethod');
+		$index = 1;
+		$this->accessibleProxy->doFirstVisit($node, $index);
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function registeredCallbackIsCalledOnLastVisit() {
+
+		$node = new Tx_PtExtbase_Tree_Node('test');
+
+		$callBackObject = $this->getMockBuilder('Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest_CallBackObject')
+						->setMethods(array('callBackMethod'))
+						->getMock();
+		$callBackObject->expects($this->once())->method('callBackMethod');
+
+		$this->accessibleProxy->registerLastVisitCallback($callBackObject, 'callBackMethod');
+		$index = 1;
+
+		$this->accessibleProxy->doFirstVisit($node, $index);
+		$this->accessibleProxy->doLastVisit($node, $index);
+	}
+
+
+
+	/**
 	 * @return Tx_PtExtbase_Tree_Tree
 	 */
 	protected function getTestTree() {
@@ -244,4 +285,12 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends Tx_PtExtba
 	}
 	
 }
+
+class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest_CallBackObject {
+	public function callBackMethod($node, $nodeArray) {
+
+	}
+}
+
 ?>
+

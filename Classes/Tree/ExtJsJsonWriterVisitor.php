@@ -61,7 +61,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	 *
 	 * @var array(target => className|object, method => method)
 	 */
-	protected $firstVisitCallback;
+	protected $firstVisitCallback = NULL;
 
 
 	/**
@@ -69,7 +69,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	 *
 	 * @var array(target => className|object, method => method)
 	 */
-	protected $lastVisitCallBack;
+	protected $lastVisitCallback = NULL;
 
 
 	/**
@@ -109,7 +109,9 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 		);
 
 		$this->setSelectionOnNodeArray($node, $arrayForNode);
-		$this->signalSlotDispatcher->dispatch(__CLASS__, 'doFirstVisit', array($node, $arrayForNode));
+		if($this->firstVisitCallback) {
+			call_user_func(array($this->firstVisitCallback['target'], $this->firstVisitCallback['method']), $node, $arrayForNode);
+		}
 
 		$this->nodeStack->push($arrayForNode);
 	}
@@ -145,6 +147,10 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
 		$currentNode = $this->nodeStack->top();
 		$this->nodeStack->pop();
+
+		if($this->lastVisitCallback) {
+			call_user_func(array($this->lastVisitCallback['target'], $this->lastVisitCallback['method']), $node, $currentNode);
+		}
 
 		if (!$this->nodeStack->isEmpty()) {
 			$parentNode = $this->nodeStack->top();
@@ -215,7 +221,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	 */
 	public function registerLastVisitCallBack($target, $method) {
 		$this->checkCallBack('lastVisitCallBack', $target, $method);
-
+		
 		$this->lastVisitCallback = array(
 			'target' => $target,
 			'method' => $method
