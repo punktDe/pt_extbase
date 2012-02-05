@@ -30,7 +30,7 @@
  * @subpackage Tests\ViewHelpers\Javascript
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_SelectorViewhelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_SelectorViewhelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 	/**
 	 * @var Tx_PtExtbase_ViewHelpers_Javascript_SelectorViewHelper
@@ -44,7 +44,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_SelectorViewhelperTest exte
 
 
 	public function setUp() {
-		$this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Javascript_SelectorViewHelper');
+		$this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper');
 		$this->accessibleProxy = new $this->accessibleProxyClass();
 	}
 
@@ -52,7 +52,12 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_SelectorViewhelperTest exte
 		unset($this->accessibleProxy);
 	}
 
-
+	/**
+	 * @test
+	 */
+	public function classExists() {
+		$this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper'));
+	}
 
 }
 
