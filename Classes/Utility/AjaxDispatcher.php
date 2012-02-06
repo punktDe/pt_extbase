@@ -33,13 +33,13 @@
 
 class Tx_PtExtbase_Utility_AjaxDispatcher {
 
-
 	/**
 	 * Array of all request Arguments
 	 *
 	 * @var array
 	 */
 	protected $requestArguments = array();
+
 
 
 	/**
@@ -49,10 +49,12 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected $objectManager;
 
 
+
 	/**
 	 * @var string
 	 */
 	protected $extensionName;
+
 
 
 	/**
@@ -61,10 +63,12 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected $pluginName;
 
 
+
 	/**
 	 * @var string
 	 */
 	protected $controllerName;
+
 
 
 	/**
@@ -73,10 +77,12 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected $actionName;
 
 
+
 	/**
 	 * @var array
 	 */
 	protected $arguments = array();
+
 
 
 	/**
@@ -85,9 +91,23 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected $pageUid;
 
 
+
+    /**
+     * Initializes and dispatches actions
+     *
+     * Call this function if you want to use this dispatcher "standalone"
+     */
+    public function initAndDispatch() {
+        $this->initCallArguments()->dispatch();
+    }
+
+
+
     /**
      * Called by ajax.php / eID.php
      * Builds an extbase context and returns the response
+     *
+     * ATTENTION: You should not call this method without initializing the dispatcher. Use initAndDispatch() instead!
      */
     public function dispatch() {
         $configuration['extensionName'] = $this->extensionName;
@@ -108,6 +128,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
         return $response->getContent();
     }
 
+
 	
 	/**
 	 * @param null $pageUid
@@ -120,8 +141,10 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $TYPO3_CONF_VARS, $pageUid, '0', 1, '', '','','');
 		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-		//$GLOBALS['TSFE']->initFeuser();
-		
+
+		#$GLOBALS['TSFE']->initFeuser();
+		$GLOBALS['TSFE']->fe_user = tslib_eidtools::initFeUser();
+
 		return $this;
 	}
 
@@ -149,6 +172,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
     }
 
 
+
     /**
      * Build a request object
      *
@@ -166,29 +190,33 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
     }
 
 
+
 	/**
 	 * Prepare the call arguments
 	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
 	 */
-    public function initCallArguments() {
-        $request = t3lib_div::_GP('request');
+	public function initCallArguments() {
+		$request = t3lib_div::_GP('request');
 
-        if($request) {
-            $this->setRequestArgumentsFromJSON($request);
-        } else {
-            $this->setRequestArgumentsFromGetPost();
-        }
+		if ($request) {
+			$this->setRequestArgumentsFromJSON($request);
+		} else {
+			$this->setRequestArgumentsFromGetPost();
+		}
 
-        $this->extensionName     = $this->requestArguments['extensionName'];
-        $this->pluginName        = $this->requestArguments['pluginName'];
-        $this->controllerName    = $this->requestArguments['controllerName'];
-        $this->actionName        = $this->requestArguments['actionName'];
+		$this->extensionName  = $this->requestArguments['extensionName'];
+		$this->pluginName = $this->requestArguments['pluginName'];
+		$this->controllerName = $this->requestArguments['controllerName'];
+		$this->actionName = $this->requestArguments['actionName'];
 
-        $this->arguments         = $this->requestArguments['arguments'];
-        if(!is_array($this->arguments)) $this->arguments = array();
+		$this->arguments = $this->requestArguments['arguments'];
 
-		 return $this;
-    }
+		error_log(print_r($this->requestArguments,1));
+
+		if (!is_array($this->arguments)) $this->arguments = array();
+
+		return $this;
+	}
 
 
 
@@ -223,6 +251,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
 	 */
 	public function setExtensionName($extensionName) {
+		if(!$extensionName) throw new Exception('No extension name set for extbase request.', 1327583056);
+
 		$this->extensionName = $extensionName;
 		return $this;
 	}

@@ -3,7 +3,7 @@
 // This file was generated on 2011-07-24 23:37
 
 $extensionClassesPath = t3lib_extMgm::extPath('pt_extbase') . 'Classes/';
-$testsDir = t3lib_extMgm::extPath('pt_extbase') . 'Tests/';
+$unitTestsDir = t3lib_extMgm::extPath('pt_extbase') . 'Tests/Unit/';
 return array(
 	'tx_ptextbase_context' => $extensionClassesPath . 'Context.php',
 	'tx_ptextbase_contextinterface' => $extensionClassesPath . 'ContextInterface.php',
@@ -38,12 +38,24 @@ return array(
 	'tx_ptextbase_state_session_storage_sessionadapter' => $extensionClassesPath . 'State/Session/Storage/SessionAdapter.php',
 	'tx_ptextbase_utility_debug' => $extensionClassesPath . 'Utility/Debug.php',
 	'tx_ptextbase_utility_namespace' => $extensionClassesPath . 'Utility/NameSpace.php',
+    'tx_ptextbase_utility_abstracttcawidget' => $extensionClassesPath . 'Utility/AbstractTcaWidget.php',
 	'tx_ptextbase_view_baseview' => $extensionClassesPath . 'View/BaseView.php',
+    'tx_ptextbase_viewhelpers_widget_treeviewhelper' => $extensionClassesPath . 'ViewHelpers/Widget/TreeViewHelper.php',
+    'tx_ptextbase_viewhelpers_treeselectorviewhelper' => $extensionClassesPath . 'ViewHelpers/TreeSelectorViewHelper.php',
+    'tx_ptextbase_viewhelpers_javascript_templateviewhelper' => $extensionClassesPath . 'ViewHelpers/Javascript/TemplateViewHelper.php',
+    'tx_ptextbase_viewhelpers_widget_controller_treecontroller' => $extensionClassesPath . 'ViewHelpers/Widget/Controller/TreeController.php',
+    'tx_ptextbase_tree_treerepositorybuilder'  => $extensionClassesPath . 'Tree/TreeRepositoryBuilder.php',
 
     // Additionally added files
-    'tx_ptextbase_tests_state_stubs_sessionadaptermock' => $testsDir . 'State/Stubs/SessionAdapterMock.php',
-    'tx_ptextbase_tests_state_stubs_persistableobject' => $testsDir . 'State/Stubs/PersistableObject.php',
-    'tx_ptextbase_tests_state_stubs_getpostvarobject'  => $testsDir . 'State/Stubs/GetPostVarObject.php',
-	 'tx_ptextbase_tests_abstractbasetestcase' => $testsDir . 'AbstractBaseTest.php',
+    'tx_ptextbase_tests_unit_state_stubs_sessionadaptermock' => $unitTestsDir . 'State/Stubs/SessionAdapterMock.php',
+    'tx_ptextbase_tests_unit_state_stubs_persistableobject' => $unitTestsDir . 'State/Stubs/PersistableObject.php',
+    'tx_ptextbase_tests_unit_state_stubs_getpostvarobject'  => $unitTestsDir . 'State/Stubs/GetPostVarObject.php',
+	'tx_ptextbase_tests_unit_abstractbasetestcase' => $unitTestsDir . 'AbstractBaseTest.php',
+    'tx_ptextbase_tests_unit_tree_nodemock' => $unitTestsDir . 'Tree/NodeMock.php',
+
+
+    // External files which are not auto-loaded by their respective extension
+    'tx_fluid_core_widget_abstractwidgetviewhelper' => t3lib_extMgm::extPath('fluid') . 'Classes/Core/Widget/AbstractWidgetViewHelper.php',
 );
+
 ?>
