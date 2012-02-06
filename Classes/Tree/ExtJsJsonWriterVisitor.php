@@ -32,7 +32,9 @@
 class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_TreeWalkerVisitorInterface {
 
 
-
+	/**
+	 * @var array
+	 */
 	protected $nodeArray = array();
 
 
@@ -78,11 +80,6 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	protected $maxDepth = PHP_INT_MAX;
 
 
-	/**
-	 * @var Tx_Extbase_SignalSlot_Dispatcher
-	 */
-	protected $signalSlotDispatcher;
-
 
 	/**
 	 * Constructor for visitor
@@ -109,8 +106,14 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 		);
 
 		$this->setSelectionOnNodeArray($node, $arrayForNode);
+
 		if($this->firstVisitCallback) {
-			call_user_func(array($this->firstVisitCallback['target'], $this->firstVisitCallback['method']), $node, $arrayForNode);
+			$return = call_user_func(array($this->firstVisitCallback['target'], $this->firstVisitCallback['method']), $node, $arrayForNode);
+			if($return === FALSE) {
+				throw new Exception('It was not possible to call '.  get_class($this->firstVisitCallback['target']) . '::' . $this->firstVisitCallback['method'], 1328468070);
+			} else {
+				$arrayForNode = $return;
+			}
 		}
 
 		$this->nodeStack->push($arrayForNode);
@@ -221,7 +224,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	 */
 	public function registerLastVisitCallBack($target, $method) {
 		$this->checkCallBack('lastVisitCallBack', $target, $method);
-		
+
 		$this->lastVisitCallback = array(
 			'target' => $target,
 			'method' => $method
@@ -236,7 +239,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	 */
 	protected function checkCallBack($type, $target, $method) {
 		if(is_object($target)) {
-			if (!method_exists($target, $method)) {
+			if (!method_exists($target, $method) || !is_callable(array($target, $method))) {
 				throw new Exception('The method ' . $method . ' is not accessible on object of type ' . get_class($target) . ' for use as ' . $type, 1328462239);
 			}
 		} else {

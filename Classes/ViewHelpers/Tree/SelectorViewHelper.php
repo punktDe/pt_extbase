@@ -54,9 +54,10 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 		parent::initializeArguments();
 
 		$this->registerArgument('nodes', 'string', 'The tree nodes as JSON Array', false);
-		$this->registerArgument('repository', 'string', 'Specifies the tree repository', true);
-		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', true);
+		$this->registerArgument('repository', 'string', 'Specifies the tree repository', false);
+		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
 		$this->registerArgument('multiple', 'boolean', 'Specifies if the tree is a multiple or single select tree', false, false);
+		$this->overrideArgument('id', 'string', 'Specifies the field and div ID', true, 'ptExtbaseTreeSelector');
 	}
 
 
@@ -150,6 +151,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 			array(
 				'nodeJSON' => $treeNodes,
 				'multiple' => $this->multiple ? 'true': 'false',
+				'fieldId' => $this->arguments['id']
 			)
 			,FALSE, FALSE
 		);
@@ -160,6 +162,6 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	 * @return string
 	 */
 	protected function getTreeDiv() {
-		return '<div id="ptExtbaseTreeDiv"></div>';
+		return '<div id="'.$this->arguments['id'].'Div"></div>';
 	}
 }

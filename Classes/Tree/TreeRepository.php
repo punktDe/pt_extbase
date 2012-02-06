@@ -78,7 +78,7 @@ class Tx_PtExtbase_Tree_TreeRepository {
     /**
      * Loads tree for a given namespace
      *
-     * @param $namespace Namespace to build tree for
+     * @param $namespace string Namespace to build tree for
      * @return Tx_PtExtbase_Tree_Tree Tree build for given namespace
      */
     public function loadTreeByNamespace($namespace) {

@@ -25,7 +25,7 @@ Ext.onReady(function(){
 	    listeners: {
             'click': function(node, event){
                 if(!multiple) {
-                    Ext.get("selectedCategory").set({value: node.uid});
+                    Ext.get("###fieldId###").set({value: node.id});
                 }
             },
             'checkchange': function(node, checked){
@@ -39,11 +39,11 @@ Ext.onReady(function(){
                         ids += node.id;
                     });
 
-                    Ext.get("selectedCategory").set({value: ids});
+                    Ext.get("###fieldId###").set({value: ids});
                 }
             }
 		}
     })
-    ptExtbaseTree.render('ptExtbaseTreeDiv');
+    ptExtbaseTree.render('###fieldId###Div');
     ptExtbaseTree.expandAll();
 });

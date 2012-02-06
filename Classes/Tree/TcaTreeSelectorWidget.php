@@ -97,6 +97,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      * Sets variables in fluid template
      */
     protected function assignVariablesToView() {
+        $this->fluidRenderer->assign('nodeRepositoryClassName', $this->nodeRepositoryClassName);
         $this->fluidRenderer->assign('treeNamespace', $this->treeNamespace);
         $this->fluidRenderer->assign('formFieldName', $this->formFieldName);
         $this->fluidRenderer->assign('selectedValues', $this->getSelectedValues());
