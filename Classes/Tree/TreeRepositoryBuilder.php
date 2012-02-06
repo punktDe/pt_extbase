@@ -169,7 +169,7 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
     protected function buildTreeBuilder(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository) {
         $treeBuilder = new $this->treeBuilderClassName($nodeRepository);
         if (!is_a($treeBuilder, 'Tx_PtExtbase_Tree_TreeBuilderInterface')) {
-            throw new Exception ('Given class name ' . $this->treeBuilderClassName . ' must implement Tx_PtExtbase_Tree_TreeBuilderInterface! 1328201592');
+            throw new Exception ('Given class name ' . $this->treeBuilderClassName . ' must implement Tx_PtExtbase_Tree_TreeBuilderInterface!', 1328201592);
         }
         return $treeBuilder;
     }
@@ -185,7 +185,7 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
     protected function buildTreeStorage(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository) {
         $treeStorage = new $this->treeStorageClassName($nodeRepository);
         if (!is_a($treeStorage, 'Tx_PtExtbase_Tree_TreeStorageInterface')) {
-            throw new Exception('Given class name ' . $this->treeStorageClassName . ' does not implement Tx_PtExtbase_Tree_TreeStorageInterface! 1328201593');
+            throw new Exception('Given class name ' . $this->treeStorageClassName . ' does not implement Tx_PtExtbase_Tree_TreeStorageInterface!', 1328201593);
         }
         return $treeStorage;
     }

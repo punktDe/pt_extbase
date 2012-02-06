@@ -71,6 +71,9 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 		$this->multiple = $this->arguments['multiple'];
 		$this->nodes = trim($this->arguments['nodes']);
 
+		if(!$this->nodes) {
+			if(!$this->arguments['repository']) throw new Exception('Either treeNodes or a treeNodeRepository has to be given to use the viewHelper.', 1328536673);
+		}
 	}
 
 
