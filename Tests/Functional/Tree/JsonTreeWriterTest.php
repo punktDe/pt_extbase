@@ -31,20 +31,41 @@
  * @subpackage Functional\Tree
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Functional_Tree_TreeWalkerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
     /** @test */
     public function jsonTreeWriterWritesExpectedJsonForGivenTree() {
         $jsonTreeWriter = Tx_PtExtbase_Tree_JsonTreeWriter::getInstance();
-        $jsonString = $jsonTreeWriter->writeTree($this->createTestTree());
-        $this->assertEquals('[{"uid":-1,"label":"root","children":[{"uid":-2,"label":"firstNode","children":[]},{"uid":-3,"label":"secondNode","children":[{"uid":-4,"label":"firstChildOfSecondNode","children":[]}]}]}]', $jsonString);
+
+        $tree = Tx_PtExtbase_Tree_Tree::getEmptyTree('root');
+        $rootNode = $tree->getRoot();
+        $firstNode = new Tx_PtExtbase_Tree_Node('firstNode');
+        $secondNode = new Tx_PtExtbase_Tree_Node('secondNode');
+        $firstChildOfSecondNode = new Tx_PtExtbase_Tree_Node('firstChildOfSecondNode');
+
+        $secondNode->addChild($firstChildOfSecondNode);
+        $rootNode->addChild($firstNode);
+        $rootNode->addChild($secondNode);
+
+        $jsonString = $jsonTreeWriter->writeTree($tree);
+        $this->assertEquals('[{"uid":' . $rootNode->getUid() . ',"label":"root","children":[{"uid":' . $firstNode->getUid() . ',"label":"firstNode","children":[]},{"uid":' . $secondNode->getUid() . ',"label":"secondNode","children":[{"uid":'.$firstChildOfSecondNode->getUid().',"label":"firstChildOfSecondNode","children":[]}]}]}]', $jsonString);
     }
 
 
 
     /** @test */
     public function jsonTreeWriterRespectsRestrictedLevelsInWrittenTrees() {
-        $tree = $this->createTestTree();
+        $tree = Tx_PtExtbase_Tree_Tree::getEmptyTree('root');
+
+        $rootNode = $tree->getRoot();
+        $firstNode = new Tx_PtExtbase_Tree_Node('firstNode');
+        $secondNode = new Tx_PtExtbase_Tree_Node('secondNode');
+        $firstChildOfSecondNode = new Tx_PtExtbase_Tree_Node('firstChildOfSecondNode');
+
+        $secondNode->addChild($firstChildOfSecondNode);
+        $rootNode->addChild($firstNode);
+        $rootNode->addChild($secondNode);
+
         $tree->setRespectRestrictedDepth(TRUE);
 
         $jsonTreeWriter = Tx_PtExtbase_Tree_JsonTreeWriter::getInstance();
@@ -52,12 +73,12 @@ class Tx_PtExtbase_Tests_Functional_Tree_TreeWalkerTest extends Tx_PtExtbase_Tes
         // Restricting level to 2 (two children should be rendered)
         $tree->setRestrictedDepth(2);
         $jsonStringForDepth2 = $jsonTreeWriter->writeTree($tree);
-        $this->assertEquals('[{"uid":-5,"label":"root","children":[{"uid":-6,"label":"firstNode","children":[]},{"uid":-7,"label":"secondNode","children":[]}]}]', $jsonStringForDepth2);
+        $this->assertEquals('[{"uid":' . $rootNode->getUid() . ',"label":"root","children":[{"uid":' . $firstNode->getUid() . ',"label":"firstNode","children":[]},{"uid":' . $secondNode->getUid() . ',"label":"secondNode","children":[]}]}]', $jsonStringForDepth2);
 
         // Restricting level to 1 (only root should be rendered)
         $tree->setRestrictedDepth(1);
         $jsonStringForDepth1 = $jsonTreeWriter->writeTree($tree);
-        $this->assertEquals('[{"uid":-5,"label":"root","children":[]}]',$jsonStringForDepth1);
+        $this->assertEquals('[{"uid":' . $rootNode->getUid() . ',"label":"root","children":[]}]',$jsonStringForDepth1);
     }
 
 
