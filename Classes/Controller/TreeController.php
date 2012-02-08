@@ -135,7 +135,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
             $tree = $this->treeRepository->getEmptyTree($this->treeNameSpace);
 		} else {
 			$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
-            $tree->setRestrictedDepth(3);
+            $tree->setRestrictedDepth(2);
             $tree->setRespectRestrictedDepth(TRUE);
 		}
 

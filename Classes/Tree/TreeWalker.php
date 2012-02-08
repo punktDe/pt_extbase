@@ -84,7 +84,7 @@ class Tx_PtExtbase_Tree_TreeWalker {
         }
 
         $level = 1;
-        if ($this->restrictedDepth === -1 || $level < $this->restrictedDepth) {
+        if ($this->restrictedDepth === -1 || $level <= $this->restrictedDepth) {
 		    $this->dfs($tree->getRoot(), $index, $level);
         }
 	}
@@ -103,7 +103,7 @@ class Tx_PtExtbase_Tree_TreeWalker {
         $index = $index + 1;
         if ($node->getChildrenCount() > 0) {
             $level = $level + 1;
-            if ($this->restrictedDepth === -1 || $level < $this->restrictedDepth) {
+            if ($this->restrictedDepth === -1 || $level <= $this->restrictedDepth) {
                 foreach ($node->getChildren() as $child) { /* @var $child Tx_PtExtbase_Tree_NodeInterface */
                     $this->dfs($child, $index, $level);
                 }

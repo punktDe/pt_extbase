@@ -27,11 +27,33 @@
  ***************************************************************/
 
 /**
+ * Class implements a viewhelper that renders a tree selector widget.
+ *
+ * @example Usage:<code>
+ *
+ * <ptx:tree.selector repository="{nodeRepositoryClassName}"
+ *				 namespace="{treeNamespace}"
+ *				 name="{formFieldName}"
+ *				 id="{formFieldName}"
+ *				 value="{selectedValuesCommaSeparated}"
+ *				 multiple="1"
+ *               restrictedDepth="{restrictedDepth}"
+ * />
+ *
+ * Following parameters are available:
+ *
+ * repository       Repository class name to be used as node repository (not as tree repository!)
+ * namespace        Namespace for which to create tree
+ * name             Name of the form field (see input.text viewhelper!)
+ * value            Uid of selected node (if in 1:N mode) or comma separated list of UIDs (if in M:N mode)
+ * multiple         If set to 1, multiple nodes can be selected in widget
+ * restrictedDepth  If a value is given, tree is only rendered to given depth (1 = only root node is rendered)
+ *
+ * </code>
+ *
  * @author Daniel Lienert
  */
-
 class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelpers_Form_TextfieldViewHelper {
-
 
 	/**
 	 * @var string
@@ -39,10 +61,12 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	protected $nodes;
 
 
+
 	/**
 	 * @var boolean
 	 */
 	protected $multiple;
+
 
 
 	/**
@@ -54,10 +78,11 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 		parent::initializeArguments();
 
 		$this->registerArgument('nodes', 'string', 'The tree nodes as JSON Array', false);
-		$this->registerArgument('repository', 'string', 'Specifies the tree repository', false);
+		$this->registerArgument('repository', 'string', 'Specifies the node repository', false);
 		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
 		$this->registerArgument('multiple', 'boolean', 'Specifies if the tree is a multiple or single select tree', false, false);
 		$this->overrideArgument('id', 'string', 'Specifies the field and div ID', true, 'ptExtbaseTreeSelector');
+        $this->registerArgument('restrictedDepth', 'int', 'Depth of tree to be rendered', false);
 	}
 
 
@@ -114,6 +139,11 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 		$tree = $treeRepository->loadTreeByNamespace($this->arguments['namespace']);
 
+        if (isset($this->arguments['restrictedDepth'])) {
+            $tree->setRestrictedDepth($this->arguments['restrictedDepth']);
+            $tree->setRespectRestrictedDepth(TRUE);
+        }
+
 		$arrayWriterVisitor = new Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor();
 		$arrayWriterVisitor->setMultipleSelect($this->arguments['multiple']);
 		$arrayWriterVisitor->setSelection($this->getSelection());
@@ -135,6 +165,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 			return (int) trim($this->arguments['value']);
 		}
 	}
+
 
 
 	/**
@@ -161,10 +192,13 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	}
 
 
+
 	/**
 	 * @return string
 	 */
 	protected function getTreeDiv() {
 		return '<div id="'.$this->arguments['id'].'Div"></div>';
 	}
+
 }
+?>

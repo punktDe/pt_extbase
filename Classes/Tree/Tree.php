@@ -401,7 +401,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
      * @return int Restricted depth
      */
     public function getRestrictedDepth() {
-        return $this->getRestrictedDepth;
+        return $this->restrictedDepth;
     }
 
 

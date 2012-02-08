@@ -28,10 +28,10 @@
  * Testcase for treewalker
  *
  * @package Tests
- * @subpackage Domain\Model
+ * @subpackage Unit\Tree
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Unit_Domain_Model_TreeWalkerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 	/** @test */
 	public function classExists() {
@@ -64,24 +64,11 @@ class Tx_PtExtbase_Tests_Unit_Domain_Model_TreeWalkerTest extends Tx_PtExtbase_T
 	
 	/** @test */
 	public function visitorIsInvokedInCorrectOrder() {
-		$node1 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('1', 0, 0, 1, '1');
-		$node2 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('2', 0, 0, 1, '2');
-		$node3 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('3', 0, 0, 1, '3');
-		$node4 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('4', 0, 0, 1, '4');
-		$node5 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('5', 0, 0, 1, '5');
-		$node6 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('6', 0, 0, 1, '6');
+		$tree = $this->createDemoTree();
 		
-		$node1->addChild($node2); $node2->setParent($node1);
-		$node1->addChild($node5); $node5->setParent($node1);
-		$node2->addChild($node3); $node3->setParent($node2);
-		$node2->addChild($node4); $node4->setParent($node2);
-		$node5->addChild($node6); $node6->setParent($node5);
+		# echo "Testtree: " . $tree->toString();
 		
-		$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($node1);
-		
-		echo "Testtree: " . $tree->toString();
-		
-		$visitorMock = $this->getMock(Tx_PtExtbase_Tree_TreeWalkerVisitorInterface, array('doFirstVisit','doLastVisit'), array(), '', FALSE);
+		$visitorMock = $this->createVisitorMock();
 		$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
 		
         $visitorMock->expects($this->at(0))->method('doFirstVisit');#->with($node1, 1);
@@ -99,6 +86,69 @@ class Tx_PtExtbase_Tests_Unit_Domain_Model_TreeWalkerTest extends Tx_PtExtbase_T
         
         $treeWalker->traverseTreeDfs($tree);
 	}
+
+
+
+    /** @test */
+    public function treeWalkerDoesNotRespectDepthIfRespectRestrictedDepthIsNotSetOnTree() {
+        $tree = $this->createDemoTree();
+        $tree->setRestrictedDepth(1);
+        $tree->setRespectRestrictedDepth(FALSE);
+
+        $visitorMock = $this->createVisitorMock();
+        $visitorMock->expects($this->exactly(6))->method('doFirstVisit');
+        $visitorMock->expects($this->exactly(6))->method('doLastVisit');
+
+        $treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+        $treeWalker->traverseTreeDfs($tree);
+    }
+
+
+
+    /** @test */
+    public function treeWalkerRespectsRestrictedDepthIfSetOnTree() {
+        $tree = $this->createDemoTree();
+        $tree->setRestrictedDepth(2);
+        $tree->setRespectRestrictedDepth(TRUE);
+
+        $visitorMock = $this->createVisitorMock();
+        $visitorMock->expects($this->exactly(3))->method('doFirstVisit');
+        $visitorMock->expects($this->exactly(3))->method('doLastVisit');
+
+        $treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+        $treeWalker->traverseTreeDfs($tree);
+    }
+
+
+
+    /**
+     * @return Tx_PtExtbase_Tree_Tree
+     */
+    protected function createDemoTree() {
+        $node1 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('1', 0, 0, 1, '1');
+        $node2 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('2', 0, 0, 1, '2');
+        $node3 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('3', 0, 0, 1, '3');
+        $node4 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('4', 0, 0, 1, '4');
+        $node5 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('5', 0, 0, 1, '5');
+        $node6 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('6', 0, 0, 1, '6');
+
+        $node1->addChild($node2); $node2->setParent($node1);
+        $node1->addChild($node5); $node5->setParent($node1);
+        $node2->addChild($node3); $node3->setParent($node2);
+        $node2->addChild($node4); $node4->setParent($node2);
+        $node5->addChild($node6); $node6->setParent($node5);
+
+        return Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($node1);
+    }
+
+
+
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function createVisitorMock() {
+        return $this->getMock(Tx_PtExtbase_Tree_TreeWalkerVisitorInterface, array('doFirstVisit','doLastVisit'), array(), '', FALSE);
+    }
 	
 }
 ?>

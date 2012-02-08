@@ -57,9 +57,9 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      *
      * -1 means all levels of the tree are rendered.
      *
-     * @var -1
+     * @var int
      */
-    protected $restrictedDepth = null;
+    protected $restrictedDepth = -1;
 
 
 
@@ -105,7 +105,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
         if (array_key_exists('nodeRepositoryClassName', $fieldConfigParameters) && $fieldConfigParameters['nodeRepositoryClassName'] != '') {
             $this->nodeRepositoryClassName = $fieldConfigParameters['nodeRepositoryClassName'];
         }
-        if (array_key_exists('restrictedDepth', $fieldConfigParameters && $fieldConfigParameters['restrictedDepth'] !== '')) {
+        if (array_key_exists('restrictedDepth', $fieldConfigParameters) && $fieldConfigParameters['restrictedDepth'] !== '') {
             $this->restrictedDepth = $fieldConfigParameters['restrictedDepth'];
         }
     }
@@ -124,6 +124,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
        // $this->fluidRenderer->assign('debug', "Parameters: <pre>" . print_r($this->tcaParameters, true) . "</pre>");
         $this->fluidRenderer->assign('isManyToManyField', $this->isManyToManyField);
         $this->fluidRenderer->assign('is1ToManyField', $this->is1ToManyField);
+        $this->fluidRenderer->assign('restrictedDepth', $this->restrictedDepth);
     }
 
 
