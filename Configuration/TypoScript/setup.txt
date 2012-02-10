@@ -11,10 +11,34 @@ plugin.tx_ptextbase {
 }
 
 
-// No recordType for the frontend user group needed
-config.tx_extbase.persistence.classes.Tx_Extbase_Domain_Model_FrontendUser.mapping.recordType >
-config.tx_extbase.persistence.classes.Tx_Extbase_Domain_Model_FrontendUserGroup.mapping.recordType >
+config.tx_extbase {
+    persistence{
+        enableAutomaticCacheClearing = 1
+        updateReferenceIndex = 0
+        classes {
+			Tx_PtExtbase_Domain_Model_TTContent {
+                mapping {
+                    tableName = tt_content
+                    columns {
+                        lockToDomain.mapOnProperty = lockToDomain
+                    }
+                }
+            }
 
+            Tx_PtExtbase_Domain_Model_Pages {
+				mapping {
+					tableName = pages
+					columns {
+						lockToDomain.mapOnProperty = lockToDomain
+					}
+				}
+			}
+
+            Tx_Extbase_Domain_Model_FrontendUser.mapping.recordType >
+            Tx_Extbase_Domain_Model_FrontendUserGroup.mapping.recordType >
+        }
+    }
+}
 
 
 plugin.tx_ptextbase._CSS_DEFAULT_STYLE (
