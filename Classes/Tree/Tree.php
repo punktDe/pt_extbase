@@ -70,6 +70,29 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 
 
     /**
+     * If set to true, restricted depth will be respected when building the tree
+     *
+     * @var bool
+     */
+    protected $respectRestrictedDepth;
+
+
+
+    /**
+     * If set to a value > 0, tree will only be build up to given level.
+     *
+     * Level -1 = all levels are build
+     * Level 1 = means, only root node will be build
+     * Level 2 = root node and its children are build
+     * ...
+     *
+     * @var int
+     */
+    protected $restrictedDepth;
+
+
+
+    /**
      * Creates a new, empty tree with given namespace and a single root node labeled by given label.
      *
      * @param $namespace Namespace for tree
@@ -355,6 +378,54 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
      */
     public function setNamespace($namespace) {
         $this->namespace = $namespace;
+    }
+
+
+
+    /**
+     * Setter for restricted depth.
+     *
+     * If depth is restricted, tree is build only to given level by tree builder.
+     *
+     * @param int $restrictedDepth
+     */
+    public function setRestrictedDepth($restrictedDepth) {
+        $this->restrictedDepth = $restrictedDepth;
+    }
+
+
+
+    /**
+     * Getter for restricted depth
+     *
+     * @return int Restricted depth
+     */
+    public function getRestrictedDepth() {
+        return $this->restrictedDepth;
+    }
+
+
+
+    /**
+     * Sets respect restricted depth to given value.
+     *
+     * If set to true, tree builder will respect restricted depth, when building tree.
+     *
+     * @param bool $respectRestrictedDepth
+     */
+    public function setRespectRestrictedDepth($respectRestrictedDepth=TRUE) {
+        $this->respectRestrictedDepth = $respectRestrictedDepth;
+    }
+
+
+
+    /**
+     * Returns true if restricted depth should be respected
+     *
+     * @return bool
+     */
+    public function getRespectRestrictedDepth() {
+        return $this->respectRestrictedDepth;
     }
 
 }

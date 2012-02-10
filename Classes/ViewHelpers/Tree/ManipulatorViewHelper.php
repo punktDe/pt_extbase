@@ -27,13 +27,11 @@
  ***************************************************************/
 
 /**
+ * Class implements a widget viewhelper for rendering trees that can be manipulated using ajax requests
+ *
  * @author Daniel Lienert
  */
-
-class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelpers_Form_TextfieldViewHelper {
-
-
-
+class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends Tx_Fluid_ViewHelpers_Form_TextfieldViewHelper {
 
 	/**
 	 * Initialize arguments.
@@ -46,6 +44,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
 		$this->registerArgument('type', 'string', 'Specifies the tree type', false);
 	}
+
 
 
 	/**
@@ -72,10 +71,11 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 		$treeViewHelper->setControllerContext($this->controllerContext);
 
 		//return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
-		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/MultiSelectTree.js',
+		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
 			array('baseUrl' => $this->getBaseURL()),FALSE, FALSE
 		);
 	}
+
 
 
 	/**
@@ -101,6 +101,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	}
 
 
+
 	/**
 	 * Determine the baseURl by context
 	 * @return string
@@ -114,4 +115,6 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 		return $baseUrl;
 	}
+
 }
+?>

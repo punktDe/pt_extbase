@@ -26,6 +26,10 @@
 /**
  * Generic algorithm for traversing trees
  *
+ * TreeWalker itself is doing nothing but traversing a tree in given order (depth-first or breadth-first).
+ * You have to register one ore more visitors which are called whenever a node is visited for the first or last
+ * time, all node-manipulation logic is implemented within those visitors.
+ *
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
@@ -37,6 +41,15 @@ class Tx_PtExtbase_Tree_TreeWalker {
 	 * @var array<Tx_PtExtbase_Tree_TreeWalkerVisitorInterface>
 	 */
 	protected $visitors;
+
+
+
+    /**
+     * If set to a value different to -1, we stop traversing tree, if we pass given depth
+     *
+     * @var int
+     */
+    protected $restrictedDepth = -1;
 	
 	
 	
@@ -64,7 +77,16 @@ class Tx_PtExtbase_Tree_TreeWalker {
 	 */
 	public function traverseTreeDfs(Tx_PtExtbase_Tree_TraversableInterface $tree) {
 		$index = 1;
-		$this->dfs($tree->getRoot(), $index);
+
+        // If we should respect depth-restriction for tree traversal, we set property
+        if ($tree->getRespectRestrictedDepth()) {
+            $this->restrictedDepth = $tree->getRestrictedDepth();
+        }
+
+        $level = 1;
+        if ($this->restrictedDepth === -1 || $level <= $this->restrictedDepth) {
+		    $this->dfs($tree->getRoot(), $index, $level);
+        }
 	}
 	
 	
@@ -74,18 +96,42 @@ class Tx_PtExtbase_Tree_TreeWalker {
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $node
 	 * @param int &$index Referenced value of visitation index. Will be increased with every node visitation.
+     * @param int &$level Current level of visit in the tree starting at 1
 	 */
-	protected function dfs(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
-		$this->doFirstVisit($node, $index);
-		$index = $index + 1;
+	protected function dfs(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level = 1) {
+        $this->doFirstVisit($node, $index, $level);
+        $index = $index + 1;
         if ($node->getChildrenCount() > 0) {
-            foreach ($node->getChildren() as $child) { /* @var $child Tx_PtExtbase_Tree_NodeInterface */
-                $this->dfs($child, $index);
+            $level = $level + 1;
+            if ($this->restrictedDepth === -1 || $level <= $this->restrictedDepth) {
+                foreach ($node->getChildren() as $child) { /* @var $child Tx_PtExtbase_Tree_NodeInterface */
+                    $this->dfs($child, $index, $level);
+                }
             }
+            $level = $level - 1;
         }
-		$this->doLastVisit($node, $index);
-		$index = $index + 1;
+        $this->doLastVisit($node, $index, $level);
+        $index = $index + 1;
 	}
+
+
+
+    /**
+     * Returns true, if given level is NOT deeper than restricted depth set in treewalker.
+     *
+     * @param $level Level to be compared with restricted depth
+     * @return bool True, if level is not deeper than restricted depth
+     */
+    protected function levelIsBiggerThanRestrictedDepth($level) {
+        error_log( "level: " . $level . " restricted depth: " . $this->restrictedDepth );
+        if ($this->restrictedDepth === -1) {
+            return false;
+        } elseif ($level > $this->restrictedDepth) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 	
 	
 

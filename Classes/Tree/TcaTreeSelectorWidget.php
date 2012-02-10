@@ -37,7 +37,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      * Holds template path for fluid tca widget template
      * @var string
      */
-    protected $templatePath = 'EXT:pt_extbase/Resources/Private/Templates/Tree/Tca.html';
+    protected $templatePath = 'EXT:pt_extbase/Resources/Private/Templates/Tca/Tree.html';
 
 
 
@@ -53,16 +53,32 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
 
 
     /**
+     * Holds depth of tree
+     *
+     * -1 means all levels of the tree are rendered.
+     *
+     * @var int
+     */
+    protected $restrictedDepth = -1;
+
+
+
+    /**
      * User function to render TCA selector
      *
      * @param array $parameters
      * @param null $fObj
      */
     public function renderTcaTreeSelectorWidget(array $parameters=array(), $fObj=null) {
-        $this->init($parameters, $fObj);
-        $this->addJsAndCssIncludes();
+        // Backend form should be rendered no matter what happens here, so we catch exception
+        try {
+            $this->init($parameters, $fObj);
+            $this->addJsAndCssIncludes();
 
-        return $this->fluidRenderer->render();
+            return $this->fluidRenderer->render();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 
 
@@ -89,6 +105,9 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
         if (array_key_exists('nodeRepositoryClassName', $fieldConfigParameters) && $fieldConfigParameters['nodeRepositoryClassName'] != '') {
             $this->nodeRepositoryClassName = $fieldConfigParameters['nodeRepositoryClassName'];
         }
+        if (array_key_exists('restrictedDepth', $fieldConfigParameters) && $fieldConfigParameters['restrictedDepth'] !== '') {
+            $this->restrictedDepth = $fieldConfigParameters['restrictedDepth'];
+        }
     }
 
 
@@ -103,6 +122,9 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
         $this->fluidRenderer->assign('selectedValues', $this->getSelectedValues());
         $this->fluidRenderer->assign('selectedValuesCommaSeparated', implode(',', array_keys($this->getSelectedValues())));
        // $this->fluidRenderer->assign('debug', "Parameters: <pre>" . print_r($this->tcaParameters, true) . "</pre>");
+        $this->fluidRenderer->assign('isManyToManyField', $this->isManyToManyField);
+        $this->fluidRenderer->assign('is1ToManyField', $this->is1ToManyField);
+        $this->fluidRenderer->assign('restrictedDepth', $this->restrictedDepth);
     }
 
 
@@ -114,6 +136,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
         if ($this->nodeRepositoryClassName !== null && $this->nodeRepositoryClassName != '') {
             $treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
             $treeRepositoryBuilder->setNodeRepositoryClassName($this->nodeRepositoryClassName);
+            $treeRepositoryBuilder->setRestrictedDepth($this->restrictedDepth);
         }
     }
 

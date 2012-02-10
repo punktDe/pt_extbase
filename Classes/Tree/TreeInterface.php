@@ -95,5 +95,25 @@ interface Tx_PtExtbase_Tree_TreeInterface extends Tx_PtExtbase_Tree_TraversableI
 	 */
 	public function insertNode(Tx_PtExtbase_Tree_Node $newNode, Tx_PtExtbase_Tree_Node $parentNode);
 
+
+
+    /**
+     * Sets restricted depth of tree
+     *
+     * @param $restrictedDepth
+     */
+    public function setRestrictedDepth($restrictedDepth);
+
+
+
+    /**
+     * Sets respect restricted depth to given value.
+     *
+     * If set to true, tree builder will respect restricted depth, when building tree.
+     *
+     * @param bool $respectRestrictedDepth
+     */
+    public function setRespectRestrictedDepth($respectRestrictedDepth);
+
 }
 ?>

@@ -27,9 +27,11 @@
  ***************************************************************/
 
 /**
+ * Class implements actions for tree manipulation with ajax calls
+ *
  * @author Daniel Lienert
+ * @author Michael Knoll
  */
-
 class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
@@ -129,12 +131,12 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param Tx_PtExtbase_Tree_Node $node
 	 */
 	public function getTreeAction(Tx_PtExtbase_Tree_Node $node = NULL) {
-
 		if($node) {
-            // TODO Warning! This is not tested yet!
-			$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($node);
+            $tree = $this->treeRepository->getEmptyTree($this->treeNameSpace);
 		} else {
 			$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+            $tree->setRestrictedDepth(2);
+            $tree->setRespectRestrictedDepth(TRUE);
 		}
 
 		echo Tx_PtExtbase_Tree_ExtJsJsonTreeWriter::getInstance()->writeTree($tree);
@@ -152,7 +154,6 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @return integer id of new node or 0 if error
 	 */
 	public function addNodeAction(Tx_PtExtbase_Tree_Node $parent, $label) {
-		
 		$newNode = new Tx_PtExtbase_Tree_Node($label);
 		$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 		$tree->insertNode($newNode, $parent);
@@ -252,3 +253,4 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	}
 
 }
+?>
