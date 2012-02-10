@@ -29,7 +29,9 @@
  * @subpackage Repository
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Domain_Repository_PagesRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persistence_Repository {
+
+
 		/**
 		 * Constructor of the repository.
 		 * Sets the respect storage page to false.

@@ -24,13 +24,13 @@
 ***************************************************************/
 
 /**
- * Class implements read only access to tt_content table
+ * Class implements read only access to tt_pages table
  *
  * @package Domain
  * @subpackage Model
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Domain_Model_Pages extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEntity {
 
 
 }
