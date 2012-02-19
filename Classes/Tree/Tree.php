@@ -276,10 +276,15 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	 * @param Tx_PtExtbase_Tree_Node $parentNode Node to add new node into
 	 */
 	public function insertNode(Tx_PtExtbase_Tree_Node $newNode, Tx_PtExtbase_Tree_Node $parentNode) {
-		$parentNode = $this->getNodeByUid($parentNode->getUid());
+		$internalParentNode = $this->getNodeByUid($parentNode->getUid());
+
+		if(!$internalParentNode) {
+			throw new Exception('The node with uid ' . $parentNode->getUid() . ' could not be found in the internal node map.', 1329643885);
+		}
+
 		$parentNode->addChild($newNode);
-		$newNode->setParent($parentNode);
-		$newNode->setRoot($parentNode->getRoot());
+		$newNode->setParent($internalParentNode);
+		$newNode->setRoot($internalParentNode->getRoot());
 		$this->addNodeToTreeMap($newNode);
 	}
 	
