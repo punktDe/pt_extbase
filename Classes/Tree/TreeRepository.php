@@ -90,7 +90,7 @@ class Tx_PtExtbase_Tree_TreeRepository {
     /**
      * Updates given tree
      *
-     * @param $tree Tree to be updated
+     * @param $tree Tx_PtExtbase_Tree_Tree Tree to be updated
      */
     public function update($tree) {
         $this->treeStorage->saveTree($tree);

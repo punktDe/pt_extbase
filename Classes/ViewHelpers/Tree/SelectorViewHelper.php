@@ -82,7 +82,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
 		$this->registerArgument('multiple', 'boolean', 'Specifies if the tree is a multiple or single select tree', false, false);
 		$this->overrideArgument('id', 'string', 'Specifies the field and div ID', true, 'ptExtbaseTreeSelector');
-        $this->registerArgument('restrictedDepth', 'int', 'Depth of tree to be rendered', false);
+      $this->registerArgument('restrictedDepth', 'int', 'Depth of tree to be rendered', false);
 	}
 
 
@@ -139,10 +139,10 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 		$tree = $treeRepository->loadTreeByNamespace($this->arguments['namespace']);
 
-        if (isset($this->arguments['restrictedDepth'])) {
-            $tree->setRestrictedDepth($this->arguments['restrictedDepth']);
-            $tree->setRespectRestrictedDepth(TRUE);
-        }
+		if (isset($this->arguments['restrictedDepth'])) {
+			$tree->setRestrictedDepth($this->arguments['restrictedDepth']);
+			$tree->setRespectRestrictedDepth(TRUE);
+		}
 
 		$arrayWriterVisitor = new Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor();
 		$arrayWriterVisitor->setMultipleSelect($this->arguments['multiple']);

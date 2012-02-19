@@ -44,6 +44,9 @@ Ext.onReady(function(){
             }
 		}
     })
+
     ptExtbaseTree.render('###fieldId###Div');
-    ptExtbaseTree.expandAll();
+    Ext.each(ptExtbaseTree.getRootNode().childNodes, function(node){
+        node.expand();
+    });
 });
