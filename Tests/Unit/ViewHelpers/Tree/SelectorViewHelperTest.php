@@ -24,10 +24,10 @@
 ***************************************************************/
 
 /**
- * Testcase for JavaScript TemplateViewHelper
+ * Testcase for Tree SelectorViewHelper
  *
  * @package pt_extbase
- * @subpackage Tests\ViewHelpers\Javascript
+ * @subpackage Tests\ViewHelpers\Tree
  * @author Daniel Lienert <daniel@lienert.cc>
  */
 class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_SelectorViewhelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {

@@ -55,8 +55,8 @@ class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends Tx_Fluid_Core_ViewHel
 	 * @return string The output
 	 */
 	public function render() {
-
-		$nodes = $this->getPathFromRootToNode();
+		$tree = $this->getTree();
+		$nodes = $this->getPathFromRootToNode($tree);
 		$firstNode = TRUE;
 
 		if(!$nodes) {
@@ -84,11 +84,10 @@ class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends Tx_Fluid_Core_ViewHel
 
 
 	/**
+	 * @param $tree Tx_PtExtbase_Tree_Tree
 	 * @return array nodes in the path from root to node
 	 */
-	protected function getPathFromRootToNode() {
-		$tree = $this->getTree();
-
+	protected function getPathFromRootToNode(Tx_PtExtbase_Tree_Tree $tree) {
 		$pathFromNodeToRoot = array();
 		$node = $tree->getNodeByUid($this->arguments['node']);
 
