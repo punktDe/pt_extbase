@@ -6,13 +6,13 @@ CommentViewHelper
 
 Just removes everything between the tags.
 
-Example:
+Example::
 
-<ptx:comment>
-<!--
- Here comes the comment which is never rendered.
--->
-</ptx:comment>
+	<ptx:comment>
+	<!--
+	 Here comes the comment which is never rendered.
+	-->
+	</ptx:comment>
 
 
 
@@ -53,15 +53,15 @@ Arguments:
 
 :``skipRoot``: Skip the root node
 
-Example
+Example::
 
-<f:for each="{ptx:explode(delimiter: ',', string:listRow.categoryUid.value.categoryUid)}" as="categoryUid">
-  <div>
-   <ptx:tree.path node="{categoryUid}" skipRoot="1" namespace="tx_ptcertification_domain_model_category" repository="Tx_PtCertification_Domain_Repository_CategoryRepository" >
-   <f:if condition="{firstNode}">
-     <f:then>{node.label}</f:then>
-     <f:else>&raquo; {node.label}</f:else>
-   </f:if>
-  </ptx:tree.path>
-  </div>
-</f:for>
+	<f:for each="{ptx:explode(delimiter: ',', string:listRow.categoryUid.value.categoryUid)}" as="categoryUid">
+	  <div>
+	   <ptx:tree.path node="{categoryUid}" skipRoot="1" namespace="tx_ptcertification_domain_model_category" repository="Tx_PtCertification_Domain_Repository_CategoryRepository" >
+	   <f:if condition="{firstNode}">
+		 <f:then>{node.label}</f:then>
+		 <f:else>&raquo; {node.label}</f:else>
+	   </f:if>
+	  </ptx:tree.path>
+	  </div>
+	</f:for>
