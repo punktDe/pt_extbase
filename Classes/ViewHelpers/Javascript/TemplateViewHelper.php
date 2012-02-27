@@ -78,15 +78,17 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	public function initialize() {
 
 		$this->extKey = $this->controllerContext->getRequest()->getControllerExtensionKey();
+		$this->extKey = 'pt_extbase';
+
 		$this->extPath = t3lib_extMgm::extPath($this->extKey);
 		$this->relExtPath = t3lib_extMgm::siteRelPath($this->extKey);
 
 
 		if (TYPO3_MODE === 'BE') {
-         	$this->initializeBackend();
-         } else {
-         	$this->initializeFrontend();
-         }
+			$this->initializeBackend();
+		} else {
+			$this->initializeFrontend();
+		}
 
 	}
 
@@ -119,9 +121,10 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	 * @param string $templatePath Template path
 	 * @param array $arguments Arguments
 	 * @param boolean $addToHead Add to head section or return it a the place the viewhelper is
+	 * @param boolean $compress
 	 * @return string
 	 */
-	public function render($templatePath, $arguments = '', $addToHead = true) {
+	public function render($templatePath, $arguments = '', $addToHead = true, $compress = true) {
 		$this->arguments = $arguments;
 		$this->addGenericArguments();
 
@@ -131,7 +134,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 		if($addToHead) {
 			t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')
 				->get('Tx_PtExtbase_Utility_HeaderInclusion')
-				->addJsInlineCode($templatePath, $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments));
+				->addJsInlineCode($templatePath, $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments), $compress);
 		} else {
 			$jsOutput = "<script type=\"text/javascript\">\n";
 			$jsOutput .= $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments);
@@ -153,10 +156,13 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 		$this->arguments['veriCode'] = $this->generateVeriCode();
 		$this->arguments['extPath'] = $this->relExtPath;
 		$this->arguments['extKey'] = $this->extKey;
-		$this->arguments['pluginNamespace'] = Tx_Extbase_Utility_Extension::getPluginNamespace(
-			$this->controllerContext->getRequest()->getControllerExtensionName(),
-			$this->controllerContext->getRequest()->getPluginName()
-		);
+
+		if(is_object($this->controllerContext)) {
+			$this->arguments['pluginNamespace'] = Tx_Extbase_Utility_Extension::getPluginNamespace(
+				$this->controllerContext->getRequest()->getControllerExtensionName(),
+				$this->controllerContext->getRequest()->getPluginName()
+			);
+		}
 	}
 
 

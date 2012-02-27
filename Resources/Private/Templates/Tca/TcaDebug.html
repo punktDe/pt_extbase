@@ -1,0 +1,26 @@
+{namespace ptx=Tx_PtExtbase_ViewHelpers}
+
+<ptx:tree.manipulator repository="Tx_PtCertification_Domain_Repository_CategoryRepository"
+				      namespace="tx_ptcertification_domain_model_category"/>
+<f:form.textField name="{formFieldName}" id="selectedCategory" value="{selectedValuesCommaSeparated}" />
+
+<br>
+
+Selected Values (For debugging only!)<br>
+<select id="do_something_useful_here" size="1" class="formField3 tceforms-multiselect" multiple="multiple" name="does_not_matter" style="width:200px;">
+    <f:for each="{selectedValues}" as="selectedValue" key="key">
+        <option value="{key}">{selectedValue}</option>
+    </f:for>
+</select>
+<br>
+Field that holds selected node uids (comma separated)<br>
+<input type="text" name="{formFieldName}" value="{selectedValuesCommaSeparated}"/> (content of this field is saved in record!)
+<br>
+<br>
+
+<!-- you can check, whether we are in 1:N or M:N mode here
+M:N {isManyToManyField}<br>
+1:N {is1ToManyField}<br>
+-->
+
+<!--{debug}-->

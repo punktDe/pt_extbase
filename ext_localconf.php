@@ -19,4 +19,17 @@ if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptex
  * Register LifeCycle Manager
  */
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['hook_eofe'][] = 'EXT:pt_extbase/Classes/Lifecycle/HookManager.php:tx_PtExtbase_Lifecycle_HookManager->updateEnd';
+
+/**
+ * Include the eId dispatcher in Frontend environment
+ * TODO Mind, that there is no access controll ATM!!!!
+ */
+$TYPO3_CONF_VARS['FE']['eID_include']['ptxAjax'] = t3lib_extMgm::extPath('pt_extbase').'Classes/Utility/eIDDispatcher.php';
+
+/**
+ * Include the ajax dispatcher in Backend environment
+ * TODO Mind, that there is no access controll ATM!!!
+ */
+$TYPO3_CONF_VARS['BE']['AJAX']['ptxAjax'] = t3lib_extMgm::extPath('pt_extbase').'Classes/Utility/AjaxDispatcher.php:Tx_PtExtbase_Utility_AjaxDispatcher->initAndDispatch';
+
 ?>

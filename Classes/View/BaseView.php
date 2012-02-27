@@ -85,9 +85,11 @@ class Tx_PtExtbase_View_BaseView extends Tx_Fluid_View_TemplateView {
 				break;
 			}
 		}
+
 		if (!$found) {
 			throw new Tx_Fluid_View_Exception_InvalidTemplateResourceException('The template files "' . implode('", "', $paths) . '" could not be loaded.', 1225709595);
 		}
+
 		$partialSource = file_get_contents($partialPathAndFilename);
 		if ($partialSource === FALSE) {
 			throw new Tx_Fluid_View_Exception_InvalidTemplateResourceException('"' . $partialPathAndFilename . '" is not a valid template resource URI.', 1257246929);

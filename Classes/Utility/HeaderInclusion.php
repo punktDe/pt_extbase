@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-*   2010 Daniel Lienert <daniel@lienert.cc>, Michael Knoll <mimi@kaktusteam.de>
+*   2012 Daniel Lienert <daniel@lienert.cc>
 * All rights reserved
 *
 *
@@ -94,6 +94,49 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements t3lib_Singleton {
 	public function addJSInlineCode($name, $block, $compress = TRUE, $forceOnTop = FALSE) {
 		$this->pageRenderer->addJsInlineCode($name, $block, $compress, $forceOnTop);
 	}
+
+
+
+	/**
+	 * Add a CSS file
+	 *
+	 * @param $file
+	 * @param string $rel
+	 * @param string $media
+	 * @param string $title
+	 * @param bool $compress
+	 * @param bool $forceOnTop
+	 * @param string $allWrap
+	 */
+	public function addCSSFile($file, $rel = 'stylesheet', $media = 'all', $title = '', $compress = FALSE, $forceOnTop = FALSE, $allWrap = '') {
+		$this->pageRenderer->addCSSFile($this->getFileRelFileName($file), $rel, $media, $title, $compress, $forceOnTop , $allWrap);
+	}
+
+
+
+	/**
+	 * Expand the EXT to a relative path
+	 *
+	 * @param string $filename
+	 * @return relative filename
+	 */
+	public function getFileRelFileName($filename) {
+
+		if (substr($filename, 0, 4) == 'EXT:') { // extension
+			list($extKey, $local) = explode('/', substr($filename, 4), 2);
+			$filename = '';
+			if (strcmp($extKey, '') && t3lib_extMgm::isLoaded($extKey) && strcmp($local, '')) {
+				if(TYPO3_MODE === 'FE') {
+					$filename = t3lib_extMgm::siteRelPath($extKey) . $local;
+				} else {
+					$filename = t3lib_extMgm::extRelPath($extKey) . $local;
+				}
+			}
+		}
+
+		return $filename;
+	}
+
 
 }
 ?>
