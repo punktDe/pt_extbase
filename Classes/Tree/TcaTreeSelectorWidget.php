@@ -27,6 +27,38 @@
 /**
  * Class implements TCA tree selector widget that can be rendered within a TCE form
  *
+ * Use the following lines of code for inserting tree widget in your TCA configuration
+ *
+ * $tempColumns = Array (
+ *     'tx_ptextbasetests_domain_model_categorytest_categoryuid' => Array (
+ *         'exclude' => 1,
+ *         'label' => 'Category',
+ *         'config' => Array (
+ *             'type' => 'select',
+ *             'form_type' => 'user',
+ *             'userFunc' => 'EXT:pt_extbase/Classes/Tree/TcaTreeSelectorWidget.php:Tx_PtExtbase_Tree_TcaTreeSelectorWidget->renderTcaTreeSelectorWidget',
+ *             'foreign_table' => 'tx_ptextbase_tree_node',
+ *             'minitems' => 0,
+ *             'maxitems' => 500,
+ *             'MM' => 'tx_ptextbasetests_categorytest_mm',
+ *             'parameters' => array(
+ *                'extensionName' => 'Pt_Extbase',                                                     // ATM this is not really required. It would be required, if we use TCA template in a more advanced way and want to render links with FLUID
+ *                 'pluginName' => 'web_PtExtbaseTxPtExtbaseM1',                                        // ATM this is not really required. It would be required, if we use TCA template in a more advanced way and want to render links with FLUID
+ *                 'treeNamespace' => 'tx_ptcertification_domain_model_category',                       // Set tree namespace to the name you want to store your nodes with. ATM this can only be an existing namespace. We have to find a way to create trees initially in the backend.
+ *                 //'templatePath' => 'EXT:pt_extbase/Resources/Private/Templates/Tca/Tree.html',        // This is the path to the template we use for rendering the tree. Should be made default setting and be overwritable here. ATM it does not work if you don't set it
+ *                 //'nodeRepositoryClassName' => 'Tx_PtExtbase_Tree_NodeRepository',                     // Class name of repository that should be used for node storage (if left empty, Tx_PtExtbase_Tree_NodeRepository is taken)
+ *                //'restrictedDepth' => 3                                                               // Determines how many levels of the tree should be rendered. 1 = only root node is rendered, 2 = root node and its children are rendered, ...
+ *             )
+ *         )
+ *     )
+ * );
+ *
+ * // Add field to categoryTest TCA
+ * t3lib_div::loadTCA("tx_ptextbasetests_domain_model_categorytest");
+ * t3lib_extMgm::addTCAcolumns("tx_ptextbasetests_domain_model_categorytest",$tempColumns,1);
+ * t3lib_extMgm::addToAllTCAtypes("tx_ptextbasetests_domain_model_categorytest","tx_ptextbasetests_domain_model_categorytest_categoryuid,TEST02;;;;1-1-1", '', 'after:name');
+ *
+ *
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
@@ -44,11 +76,9 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
     /**
      * Holds class name for node repository
      *
-     * null means, we use default node repository set in tree repository builder
-     *
      * @var string
      */
-    protected $nodeRepositoryClassName = null;
+    protected $nodeRepositoryClassName = 'Tx_PtExtbase_Tree_NodeRepository';
 
 
 
@@ -124,6 +154,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
        // $this->fluidRenderer->assign('debug', "Parameters: <pre>" . print_r($this->tcaParameters, true) . "</pre>");
         $this->fluidRenderer->assign('isManyToManyField', $this->isManyToManyField);
         $this->fluidRenderer->assign('is1ToManyField', $this->is1ToManyField);
+        $this->fluidRenderer->assign('multiple', $this->isManyToManyField);
         $this->fluidRenderer->assign('restrictedDepth', $this->restrictedDepth);
     }
 
