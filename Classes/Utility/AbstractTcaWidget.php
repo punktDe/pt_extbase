@@ -169,7 +169,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
             $this->templatePath = $fieldConfigParameters['templatePath'];
         }
 
-        if (array_key_exists('MM', $this->tcaParameters['fieldConf']['config']) && $this->tcaParameters['fieldConf']['config']['MM'] !== '') {
+        if (array_key_exists('maxitems', $this->tcaParameters['fieldConf']['config']) && $this->tcaParameters['fieldConf']['config']['maxitems'] > 0) {
             // we have M:N field
             $this->isManyToManyField = true;
             $this->is1ToManyField = false;
