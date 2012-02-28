@@ -72,13 +72,12 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 		$this->settings = $settings;
 	}
 
-
-
 	/**
 	 * Magic functions
 	 *
-	 * @param string $name Name of method called
+	 * @param string $functionName Name of method called
 	 * @param array $arguments Arguments passed to called method
+	 * @return mixed
 	 */
 	public function __call($functionName, $arguments) {
 		#$functionName = strtolower($functionName);
@@ -95,7 +94,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 			}
 			return $this->buildConfigurationGeneric($matches[2]);
 		}
-		Throw new Exception('The method configurationBuilder::' . $functionName . ' could not be found or handled by magic function. 1289407912');
+		throw new Exception('The method configurationBuilder::' . $functionName . ' could not be found or handled by magic function. 1289407912');
 	}
 
 
@@ -117,7 +116,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 			$factoryClass = $this->configurationObjectSettings[$configurationName]['factory'];
 
 			if(!class_exists($factoryClass)) {
-				Throw new Exception('Factory class for configuration ' . $configurationName . ': ' . $factoryClass .  'not found! 1293416866');
+				throw new Exception('Factory class for configuration ' . $configurationName . ': ' . $factoryClass .  'not found! 1293416866');
 			}
 			
 			//$this->configurationObjectInstances[$configurationName] = $factoryClass::getInstance($this); // PHP 5.3 only ;)
@@ -133,6 +132,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 *
 	 *
 	 * @param string $configurationName
+	 * @return array
 	 */
 	public function getSettingsForConfigObject($configurationName) {
 		if(!array_key_exists($configurationName, $this->configurationObjectSettings)) {
@@ -159,12 +159,12 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 * Return the list specific settings merged with prototype settings
 	 *
 	 * @param array $listSepcificConfig
-	 * @param string $objectName
+	 * @param string $objectPath
 	 * @return array
 	 */
 	public function getMergedSettingsWithPrototype($listSepcificConfig, $objectPath) {
 		// TODO cache this!
-		if(!is_array($listSepcificConfig)) $listSepcificConfig = array();
+		if (!is_array($listSepcificConfig)) $listSepcificConfig = array();
 			$mergedSettings = t3lib_div::array_merge_recursive_overrule(
             $this->getPrototypeSettingsForObject($objectPath),
 			$listSepcificConfig
@@ -192,13 +192,12 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
     	return $protoTypeSettings;
     }
 
-    
-
-    /**
-     * Returns array of settings for current list configuration
-     *
-     * @return array
-     */
+	/**
+	 * Returns array of settings for current list configuration
+	 *
+	 * @param string $key
+	 * @return array
+	 */
     public function getSettings($key = NULL) {
     	if(!$key) {
         	return $this->settings;
