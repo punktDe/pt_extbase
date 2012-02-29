@@ -83,7 +83,7 @@ Example::
 
 
 Be / FormTokenViewHelper
--------------------
+------------------------
 
 Just returns a formToken to be used in backend form links
 
