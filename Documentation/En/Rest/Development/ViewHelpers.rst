@@ -16,6 +16,21 @@ Example::
 
 
 
+RemoveLineBreaksViewHelper
+--------------------------
+
+Remove line breaks from the string.
+
+Arguments:
+
+:``string``: The string to remove the linebreaks from.
+
+Example
+
+``{ptx:format.removeLineBreaks(string:'bla')}``
+
+
+
 ExplodeViewHelper
 -----------------
 
