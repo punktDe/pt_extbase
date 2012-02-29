@@ -28,21 +28,21 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Be_FormTokenViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_RemoveLineBreaksViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper
+	 * @var Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper
 	 */
 	protected $accessibleProxyClass;
 
 	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper
+	 * @var Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper
 	 */
 	protected $accessibleProxy;
 
 
 	public function setUp() {
-		$this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper');
+		$this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper');
 		$this->accessibleProxy = new $this->accessibleProxyClass();
 	}
 
@@ -54,18 +54,37 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Be_FormTokenViewHelperTest extends Tx_
 	 * @test
 	 */
 	public function classExists() {
-		$this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper'));
+		$this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper'));
 	}
 
 
 	/**
-	 * @test
+	 * @return array
 	 */
-	public function formTokenViewHelperReturnsFormTokenString() {
-		$formToken = $this->accessibleProxy->render();
-		$secondFormToken = t3lib_BEfunc::getUrlToken('tceAction');
+	public function stringDataProvider() {
 
-		$this->assertEquals($formToken, $secondFormToken);
+		return array(
+			'\n\r' => array('input' => "Hier mal ein \n\rUmbruch", 'expected' => 'Hier mal ein Umbruch'),
+			'\r\n' => array('input' => "Hier mal ein \r\nUmbruch", 'expected' => 'Hier mal ein Umbruch'),
+			'\n' => array('input' => "Hier mal ein \nUmbruch", 'expected' => 'Hier mal ein Umbruch'),
+			'\r' => array('input' => "Hier mal ein \rUmbruch", 'expected' => 'Hier mal ein Umbruch')
+		);
 	}
-	
+
+
+	/**
+	 * @param $input
+	 * @param $expected
+	 *
+	 * @test
+	 * @dataProvider stringDataProvider
+	 */
+	public function renderTest($input, $expected) {
+
+		$this->accessibleProxy->_set('arguments', array('string' => $input));
+		$result = $this->accessibleProxy->render();
+
+		$this->assertEquals($expected, $result);
+	}
+
 }

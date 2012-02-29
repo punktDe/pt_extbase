@@ -51,7 +51,6 @@ class Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper extends Tx_Flui
 		}
 		if (is_string($input)) {
 			$result = preg_replace("/\n\r|\r\n|\n|\r/", "", $input);
-			$result = preg_replace("/\t/", "", $result);
 		}
 
 		return $result;
