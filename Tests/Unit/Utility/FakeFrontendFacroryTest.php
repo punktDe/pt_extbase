@@ -55,7 +55,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends Tx_PtExtba
 
 		/** @var $fakeFrontend Tx_PtExtbase_Utility_FakeFrontendFactory */
 		$fakeFrontend = t3lib_div::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
-		$fakeFrontend->createFakeFrontEnd(0);
+		$fakeFrontend->createFakeFrontEnd(1);
 
 		$this->assertInstanceOf('tslib_fe', $GLOBALS['TSFE']);
 	}
@@ -69,7 +69,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends Tx_PtExtba
 
 		/** @var $fakeFrontend Tx_PtExtbase_Utility_FakeFrontendFactory */
 		$fakeFrontend = t3lib_div::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
-		$fakeFrontend->createFakeFrontEnd(0);
+		$fakeFrontend->createFakeFrontEnd(1);
 
 		$this->assertNotNull($GLOBALS['TSFE']->cObj, 'No Cobject in faked frontend.');
 		$this->assertInstanceOf('tslib_cObj', $GLOBALS['TSFE']->cObj);
