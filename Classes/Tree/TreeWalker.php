@@ -99,19 +99,24 @@ class Tx_PtExtbase_Tree_TreeWalker {
      * @param int &$level Current level of visit in the tree starting at 1
 	 */
 	protected function dfs(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level = 1) {
-        $this->doFirstVisit($node, $index, $level);
-        $index = $index + 1;
-        if ($node->getChildrenCount() > 0) {
-            $level = $level + 1;
-            if ($this->restrictedDepth === -1 || $level <= $this->restrictedDepth) {
-                foreach ($node->getChildren() as $child) { /* @var $child Tx_PtExtbase_Tree_NodeInterface */
-                    $this->dfs($child, $index, $level);
-                }
-            }
-            $level = $level - 1;
-        }
-        $this->doLastVisit($node, $index, $level);
-        $index = $index + 1;
+      if($node->isAccessible()) {
+			$this->doFirstVisit($node, $index, $level);
+			$index = $index + 1;
+
+			if ($node->getChildrenCount() > 0) {
+				$level = $level + 1;
+				if ($this->restrictedDepth === -1 || $level <= $this->restrictedDepth) {
+					foreach ($node->getChildren() as $child) {
+						/* @var $child Tx_PtExtbase_Tree_NodeInterface */
+						$this->dfs($child, $index, $level);
+					}
+				}
+				$level = $level - 1;
+			}
+
+			$this->doLastVisit($node, $index, $level);
+			$index = $index + 1;
+		}
 	}
 
 

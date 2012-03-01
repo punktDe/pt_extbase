@@ -133,6 +133,11 @@ class Tx_PtExtbase_Tree_Node
 	protected $namespace;
 
 
+	/**
+	 * @var boolean
+	 */
+	protected $accessible = TRUE;
+
 
 	/**
 	 * The constructor.
@@ -520,6 +525,22 @@ class Tx_PtExtbase_Tree_Node
 	 */
 	public function getNamespace() {
 		return $this->namespace;
+	}
+
+
+	/**
+	 * @param boolean $accessible
+	 */
+	public function setAccessible($accessible) {
+		$this->accessible = $accessible;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isAccessible() {
+		return $this->accessible;
 	}
 
 }

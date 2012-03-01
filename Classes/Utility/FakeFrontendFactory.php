@@ -56,8 +56,6 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements t3lib_Singleton {
 			throw new InvalidArgumentException('$pageUid must be >= 0.');
 		}
 
-
-
 		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_TimeTrackNull');
 
 		/** @var $frontEnd tslib_fe */
