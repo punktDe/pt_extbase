@@ -44,6 +44,10 @@ tslib_eidtools::connectDB();
 $GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $TYPO3_CONF_VARS, 0, 0, true);
 $GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
 $GLOBALS['TSFE']->initFEuser();
+$GLOBALS['TSFE']->determineId();
+$GLOBALS['TSFE']->getCompressedTCarray();
+$GLOBALS['TSFE']->initTemplate();
+$GLOBALS['TSFE']->getConfigArray();
 $dispatcher = t3lib_div::makeInstance('Tx_PtExtbase_Utility_AjaxDispatcher'); /** @var $dispatcher Tx_PtExtbase_Utility_AjaxDispatcher */
 
 // ATTENTION! Dispatcher first needs to be initialized here!!!
