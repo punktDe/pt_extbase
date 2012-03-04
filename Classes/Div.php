@@ -25,7 +25,6 @@
 /**
  * General library class with static helper methods
  * 
- * TODO how to include trace function ot pt_tools_debug again?
  *
  * @author      Rainer Kuhn
  * @package     Div
@@ -110,8 +109,6 @@ class Tx_PtExtbase_Div  {
 
         // check if there are any hook relevant userfunctions implemented
         if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extKey][$hookArrayKey][$functionName]) {
-
-            trace('HOOK entry found for ['.$extKey.']['.$hookArrayKey.']['.$functionName.']');
 
             $hookObj = t3lib_div::getUserObj($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extKey][$hookArrayKey][$functionName], '');
 
@@ -279,7 +276,6 @@ class Tx_PtExtbase_Div  {
     
             // exec query using TYPO3 DB API
             $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $groupBy, $orderBy, $limit);
-            trace(tx_ptextbase_div::returnLastBuiltSelectQuery($GLOBALS['TYPO3_DB'], $select, $from, $where, $groupBy, $orderBy, $limit));
             if ($res == false) {
                 throw new Tx_PtExtbase_Exception_Exception('Query failed', 1, $GLOBALS['TYPO3_DB']->sql_error());
             }
@@ -620,9 +616,7 @@ class Tx_PtExtbase_Div  {
             }
         }
 
-        trace($result);
         return $result;
-
     }
 
 
@@ -761,7 +755,6 @@ class Tx_PtExtbase_Div  {
             }
         }
 
-        //trace($baseConfArr, 0, '$baseConfArr');
         return $baseConfArr;
 
     }
@@ -1579,7 +1572,6 @@ class Tx_PtExtbase_Div  {
 
         // exec query using TYPO3 DB API
         $res = $dbObj->sql_query($query);
-        trace($query);
         if ($res == false) {
             throw new Tx_PtExtbase_Exception_Exception('Query failed', 1, $dbObj->sql_error());
         }
@@ -1592,7 +1584,6 @@ class Tx_PtExtbase_Div  {
         $dbObj->sql_free_result($res);
 
         // search specified table in array
-        trace('searching for table "'.$table.'"...');
         if (in_array($table, $a_tables)) {
             $tableExists = true;
         }
@@ -1620,7 +1611,6 @@ class Tx_PtExtbase_Div  {
 
         // exec query using TYPO3 DB API
         $res = $dbObj->sql_query($query);
-        trace($query);
         if ($res == false) {
             throw new Tx_PtExtbase_Exception_Exception('Query failed', 1, $dbObj->sql_error());
         }
@@ -1631,7 +1621,6 @@ class Tx_PtExtbase_Div  {
         if ($a_row['Rows'] > 0) {
             $tableHasRecords = true;
         }
-        trace($tableHasRecords);
 
         return $tableHasRecords;
     }
