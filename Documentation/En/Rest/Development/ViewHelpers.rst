@@ -16,6 +16,21 @@ Example::
 
 
 
+RemoveLineBreaksViewHelper
+--------------------------
+
+Remove line breaks from the string.
+
+Arguments:
+
+:``string``: The string to remove the linebreaks from.
+
+Example
+
+``{ptx:format.removeLineBreaks(string:'bla')}``
+
+
+
 ExplodeViewHelper
 -----------------
 
@@ -65,3 +80,19 @@ Example::
 	  </ptx:tree.path>
 	  </div>
 	</f:for>
+
+
+Be / FormTokenViewHelper
+------------------------
+
+Just returns a formToken to be used in backend form links
+
+Arguments:
+
+Example:
+
+``{ptx:be.formToken()}``
+
+Returns:
+
+&formToken=<formTokenHash>
