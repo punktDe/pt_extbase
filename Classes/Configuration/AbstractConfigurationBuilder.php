@@ -41,6 +41,14 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 
 
 	/**
+	 * Prototype settings for ts-configurable objects
+	 * @var array
+	 */
+	protected $prototypeSettings;
+
+
+
+	/**
 	 * Holds definition of configuration object instances
 	 *
 	 * objectName
@@ -156,18 +164,18 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 
 
 	/**
-	 * Return the list specific settings merged with prototype settings
+	 * Return the specific settings merged with prototype settings
 	 *
-	 * @param array $listSepcificConfig
+	 * @param array $overwriteSettings
 	 * @param string $objectPath
 	 * @return array
 	 */
-	public function getMergedSettingsWithPrototype($listSepcificConfig, $objectPath) {
+	public function getMergedSettingsWithPrototype($overwriteSettings, $objectPath) {
 		// TODO cache this!
-		if (!is_array($listSepcificConfig)) $listSepcificConfig = array();
+		if (!is_array($overwriteSettings)) $overwriteSettings = array();
 			$mergedSettings = t3lib_div::array_merge_recursive_overrule(
             $this->getPrototypeSettingsForObject($objectPath),
-			$listSepcificConfig
+				$overwriteSettings
         );
 
         return $mergedSettings;
@@ -183,14 +191,16 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
      */
     public function getPrototypeSettingsForObject($objectPath) {
 
-    	$protoTypeSettings = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->protoTypeSettings, $objectPath);
+    	$prototypeSettings = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->prototypeSettings, $objectPath);
 
-    	if(!is_array($protoTypeSettings)) {
-    		$protoTypeSettings = array();
+    	if(!is_array($prototypeSettings)) {
+			 $prototypeSettings = array();
     	}
 
-    	return $protoTypeSettings;
+    	return $prototypeSettings;
     }
+
+
 
 	/**
 	 * Returns array of settings for current list configuration
