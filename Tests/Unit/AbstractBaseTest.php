@@ -32,6 +32,13 @@
 abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends Tx_Extbase_Tests_Unit_BaseTestCase {
 
 	/**
+	 * Holds the (accessible proxy-) object, which will be tested.
+	 *
+	 * @var mixed
+	 */
+	protected $proxy;
+
+	/**
 	 * @var array
 	 */
 	protected $settableAttributes = array();
@@ -79,8 +86,8 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends Tx_Extbase_T
 	 * @dataProvider getterSetterTestDataProvider
 	 */
 	public function getterSetterTest($setterName, $getterName, $testValue) {
-		$this->assertTrue(method_exists($this->proxy,$getterName), 'No getter named ' . $getterName . ' accessible.');
-		$this->assertTrue(method_exists($this->proxy,$setterName), 'No setter named ' . $setterName . ' accessible.');
+		$this->assertTrue(method_exists($this->proxy, $getterName), 'No getter named ' . $getterName . ' accessible.');
+		$this->assertTrue(method_exists($this->proxy, $setterName), 'No setter named ' . $setterName . ' accessible.');
 
 		$this->proxy->$setterName($testValue);
 
