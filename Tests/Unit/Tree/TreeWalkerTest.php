@@ -104,25 +104,84 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends Tx_PtExtbase_Tests_Uni
     }
 
 
+	/** @test */
+	public function treeWalkerRespectsRestrictedDepthIfSetOnTree() {
+		$tree = $this->createDemoTree();
+		$tree->setRestrictedDepth(2);
+		$tree->setRespectRestrictedDepth(TRUE);
 
-    /** @test */
-    public function treeWalkerRespectsRestrictedDepthIfSetOnTree() {
-        $tree = $this->createDemoTree();
-        $tree->setRestrictedDepth(2);
-        $tree->setRespectRestrictedDepth(TRUE);
+		$visitorMock = $this->createVisitorMock();
+		$visitorMock->expects($this->exactly(3))->method('doFirstVisit');
+		$visitorMock->expects($this->exactly(3))->method('doLastVisit');
 
-        $visitorMock = $this->createVisitorMock();
-        $visitorMock->expects($this->exactly(3))->method('doFirstVisit');
-        $visitorMock->expects($this->exactly(3))->method('doLastVisit');
+		$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+		$treeWalker->traverseTreeDfs($tree);
+	}
 
-        $treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
-        $treeWalker->traverseTreeDfs($tree);
-    }
+
+	/**
+	 * @test
+	 */
+	public function treeWalkerRespectsNodeAccessibilityOnALeaf() {
+		$tree = $this->createDemoTree();
+		$tree->getNodeByUid(3)->setAccessible(false);
+
+		$visitorMock = $this->createVisitorMock();
+		$visitorMock->expects($this->exactly(5))->method('doFirstVisit');
+		$visitorMock->expects($this->exactly(5))->method('doLastVisit');
+		// $visitorMock->expects($this->never())->method('doFirstVisit')->with($tree->getNodeByUid(3), 3);
+
+		$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+		$treeWalker->traverseTreeDfs($tree);
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function treeWalkerRespectsNodeAccessibilityOnSubtree() {
+		$tree = $this->createDemoTree();
+		$tree->getNodeByUid(2)->setAccessible(false);
+
+		$visitorMock = $this->createVisitorMock();
+		$visitorMock->expects($this->exactly(3))->method('doFirstVisit');
+		$visitorMock->expects($this->exactly(3))->method('doLastVisit');
+		// $visitorMock->expects($this->never())->method('doFirstVisit')->with($tree->getNodeByUid(3), 3);
+
+		$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+		$treeWalker->traverseTreeDfs($tree);
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function treeWalkerRespectsNodeAccessibilityOnRoot() {
+		$tree = $this->createDemoTree();
+		$tree->getNodeByUid(1)->setAccessible(false);
+
+		$visitorMock = $this->createVisitorMock();
+		$visitorMock->expects($this->never())->method('doFirstVisit');
+		$visitorMock->expects($this->never())->method('doLastVisit');
+
+		$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+		$treeWalker->traverseTreeDfs($tree);
+	}
 
 
 
     /**
      * @return Tx_PtExtbase_Tree_Tree
+	  *
+	  * A tree like
+	  * . node1
+	  * .. node2
+	  * ... node3
+	  * ... node4
+	  * .. node5
+	  * ... node6
      */
     protected function createDemoTree() {
         $node1 = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('1', 0, 0, 1, '1');

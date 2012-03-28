@@ -54,6 +54,5 @@ CREATE TABLE tx_ptextbase_tree_node (
     KEY parent (pid),
     KEY lft (lft),
     KEY rgt (rgt),
-    KEY root (root),
-    KEY namespace (namespace)
+    KEY root (root)
 );

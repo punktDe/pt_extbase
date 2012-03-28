@@ -53,6 +53,14 @@
 class Tx_PtExtbase_ViewHelpers_Be_Buttons_IconViewHelper extends Tx_Fluid_ViewHelpers_Be_AbstractBackendViewHelper {
 
 	/**
+	 * Register arguments.
+	 */
+	public function initializeArguments() {
+		$this->registerArgument('onclick', 'string', 'The onclick action', FALSE);
+	}
+
+
+	/**
 	 * Renders an icon link as known from the TYPO3 backend
 	 *
 	 * @param string $uri the target URI for the link. If you want to execute JavaScript here, prefix the URI with "javascript:"
@@ -61,7 +69,13 @@ class Tx_PtExtbase_ViewHelpers_Be_Buttons_IconViewHelper extends Tx_Fluid_ViewHe
 	 * @return string the rendered icon link
 	 */
 	public function render($uri, $icon = 'actions-document-close', $title = '') {
-		return '<a href="' . $uri . '">' . t3lib_iconWorks::getSpriteIcon($icon, array('title' => $title)) . '</a>';
+
+		if($this->arguments['onclick']) {
+			$onclick = ' onclick="'.$this->arguments['onclick'].'" ';
+		}
+
+		$ret = '<a href="' . $uri . '"' . $onclick . '>' . t3lib_iconWorks::getSpriteIcon($icon, array('title' => $title)) . '</a>';
+		return $ret;
 	}
 }
 ?>

@@ -33,6 +33,7 @@ class Tx_PtExtbase_Tree_NodeRepository
     extends Tx_Extbase_Persistence_Repository
     implements Tx_PtExtbase_Tree_NodeRepositoryInterface {
 
+
 	/**
 	 * Returns a set of nodes determined by the root of the given node.
 	 *
@@ -82,24 +83,70 @@ class Tx_PtExtbase_Tree_NodeRepository
 
     /**
      * Returns set of nodes for given namespace.
+	  * We return every node - if accessible or not, but mark an accessible on the node.
+	  * The flag is than later respected when the rendering is done.
      *
      * @param $namespace
      * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
      */
-    public function findByNamespace($namespace) {
-        $query = $this->createQuery();
-        $query->getQuerySettings()->setRespectStoragePage(false);
-        $query->matching($query->equals('namespace', $namespace))
-            ->setOrderings(array('lft' => Tx_Extbase_Persistence_Query::ORDER_DESCENDING));
-        return $query->execute();
-    }
-	
-	
-	
+	public function findByNamespace($namespace) {
+
+		$nodes = $this->retrieveByNamespace($namespace, FALSE);
+		$accessibleNodes = $this->retrieveByNamespace($namespace, TRUE);
+		$this->markNodesAccessible($nodes, $accessibleNodes);
+
+		return $nodes;
+	}
+
+
+
+	/**
+	 * @param $nodes
+	 * @param $accessibleNodes
+	 */
+	protected function markNodesAccessible(&$nodes, $accessibleNodes) {
+
+		$accessibleNodeUidArray = array();
+		foreach ($accessibleNodes as $accessibleNode) {
+			$accessibleNodeUidArray[$accessibleNode->getUid()] = $accessibleNode->getUid();
+		}
+
+		foreach ($nodes as $node) { /** @var $node Tx_PtExtbase_Tree_Node */
+			if (in_array($node->getUid(), $accessibleNodeUidArray)) {
+				$node->setAccessible(TRUE);
+			} else {
+				$node->setAccessible(FALSE);
+			}
+		}
+	}
+
+
+
+	/**
+	 * @param $namespace
+	 * @param bool $respectEnableFields
+	 * @return array|Tx_Extbase_Persistence_QueryResultInterface
+	 */
+	protected function retrieveByNamespace($namespace, $respectEnableFields = TRUE) {
+		$query = $this->createQuery();
+		$query->getQuerySettings()
+				  ->setRespectStoragePage(FALSE)
+				  ->setRespectSysLanguage(FALSE)
+				  ->setRespectEnableFields($respectEnableFields);
+
+		$query->matching($query->equals('namespace', $namespace))
+				  ->setOrderings(array('lft' => Tx_Extbase_Persistence_Query::ORDER_DESCENDING));
+
+
+		return $query->execute();
+	}
+
+
+
 	/**
 	 * Removes a node and its child nodes
-     *
-     * TODO as long as we only operate on trees, we don't need this. This is only required if we remove a single node out of tree-scope
+	 *
+	 * TODO as long as we only operate on trees, we don't need this. This is only required if we remove a single node out of tree-scope
 	 *
 	 * @param Tx_PtExtbase_Tree_Node $node Node to be removed
 	 */
