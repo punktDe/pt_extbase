@@ -223,5 +223,4 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	}
 	
 }
-
 ?>

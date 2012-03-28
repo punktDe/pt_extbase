@@ -164,8 +164,11 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 */
 	public function getMergedSettingsWithPrototype($listSepcificConfig, $objectPath) {
 		// TODO cache this!
-		if(!is_array($listSepcificConfig)) $listSepcificConfig = array();
-			$mergedSettings = t3lib_div::array_merge_recursive_overrule(
+		if(!is_array($listSepcificConfig)) {
+			$listSepcificConfig = array();
+		}
+
+		$mergedSettings = t3lib_div::array_merge_recursive_overrule(
             $this->getPrototypeSettingsForObject($objectPath),
 			$listSepcificConfig
         );
