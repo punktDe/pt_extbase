@@ -193,7 +193,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
      * return a slice from the prototype arrray for the given objectPath
      *
      * @param string $objectPath
-     * @return array prototypesettings
+     * @return array prototype settings for given object path
      */
     public function getPrototypeSettingsForObject($objectPath) {
 
