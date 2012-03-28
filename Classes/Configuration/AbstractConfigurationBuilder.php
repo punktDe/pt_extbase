@@ -45,7 +45,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 * Prototype settings for ts-configurable objects
 	 * @var array
 	 */
-	protected $prototypeSettings;
+	protected $prototypeSettings = array();
 
 
 
@@ -66,7 +66,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	/**
 	 * Chache for all configuration Objects
 	 *
-	 * @var unknown_type TODO: define a interface
+	 * @var array TODO: define a interface
 	 */
 	protected $configurationObjectInstances = array();
 
