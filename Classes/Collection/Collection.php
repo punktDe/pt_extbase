@@ -69,11 +69,8 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  ArrayIterator     object of type ArrayIterator: Iterator for items within this collection
      */
     public function getIterator() {
-
         $itemIterator = new ArrayIterator($this->itemsArr);
-
         return $itemIterator;
-
     }
 
 
@@ -89,9 +86,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  integer     number of items in the items array
      */
     public function count() {
-
         return count($this->itemsArr);
-
     }
 
 
@@ -107,9 +102,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  bool
      */
     public function offsetExists($offset) {
-
         return $this->hasItem($offset);
-
     }
 
     /**
@@ -119,9 +112,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  mixed   element of the collection
      */
     public function offsetGet($offset) {
-
         return $this->getItemById($offset);
-
     }
     
     /**
@@ -131,9 +122,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @param   mixed   value
      */
     public function offsetSet($offset, $value) {
-
         $this->addItem($value, $offset);
-
     }
     
     /**
@@ -142,9 +131,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @param   mixed   offset
      */
     public function offsetUnset($offset) {
-
         $this->deleteItem($offset);
-
     }
     
     
@@ -158,14 +145,13 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * Here are the equivalent methods:
      */
 
-    /**
-     * Shift an element off the beginning of the collection
-     *
-     * @param   bool    (optional) if true key won't be modified, else numerical keys will be renumbered, default if false
-     * @return  mixed   item or NULL if collection is empty
-     */
+	/**
+	 * Shift an element off the beginning of the collection
+	 *
+	 * @param   bool	$doNotModifyKeys (optional) if true key won't be modified, else numerical keys will be renumbered, default if false
+	 * @return  mixed   item or NULL if collection is empty
+	 */
     public function shift($doNotModifyKeys = false) {
-
         if (empty($this->itemsArr)) {
             return NULL;
         } elseif ($doNotModifyKeys == true) {
@@ -180,7 +166,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
             }
             return array_shift($this->itemsArr);
         }
-
     }
 
     
@@ -192,7 +177,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  mixed   item or NULL if collection is empty
      */
     public function pop() {
-
         if (empty($this->itemsArr)) {
             return NULL;
         } else {
@@ -202,21 +186,18 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
             }
             return array_pop($this->itemsArr);
         }
-
     }
-    
-    
 
-    /**
-     * Prepend one element to the beginning of the collection
-     * Multiple elements (like in array_unshift) are not supported!
-     *
-     * @param   mixed   element to prepend
-     * @param   bool    (optional) if true key won't be modified, else numerical keys will be renumbered, default if false
-     * @return  int     (optional) Returns the new number of elements in the collection
-     */
+	/**
+	 * Prepend one element to the beginning of the collection
+	 * Multiple elements (like in array_unshift) are not supported!
+	 *
+	 * @param   mixed   $element element to prepend
+	 * @param   bool	$doNotModifyKeys (optional) if true key won't be modified, else numerical keys will be renumbered, default if false
+	 * @param   mixed   $useKey
+	 * @return  int	 (optional) Returns the new number of elements in the collection
+	 */
     public function unshift($element, $doNotModifyKeys = false, $useKey = NULL) {
-    
         $this->checkItemType($element);
     
         if ($doNotModifyKeys == true) {
@@ -232,7 +213,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
             array_unshift($this->itemsArr, $element);
         }
         return $this->count();
-    
     }
     
     
@@ -245,12 +225,10 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  int     Returns the new number of elements in the collection
      */
     public function push($element) {
-
         $this->checkItemType($element);
         
         array_push($this->itemsArr, $element);
         return $this->count();
-    
     }
     
     
@@ -258,20 +236,17 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     /**
      * Return all the ids of this collection
      *
-     * @param   mixed   (optional) if specified, then only keys containing these values are returned.
-     * @param   bool    (optional) determines if strict comparision (===) should be used during the search.
+     * @param   mixed   $search_value (optional) if specified, then only keys containing these values are returned.
+     * @param   bool    $strict (optional) determines if strict comparision (===) should be used during the search.
      * @return  array   Returns an array of all the keys
      */
     public function keys($search_value = '', $strict = false) {
-        
         if ($search_value != '') {
             $result = array_keys($this->itemsArr, $search_value, $strict);
         } else {
             $result = array_keys($this->itemsArr);
         }
-        
         return $result;
-        
     }
 
 
@@ -283,27 +258,23 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     /**
      * Adds one item to the collection
      *
-     * @param   mixed   item to add
-     * @param   mixed   (optional) array key
+     * @param   mixed   $itemObj item to add
+     * @param   mixed   $id (optional) array key
      * @return  void
      * @throws  Tx_PtExtbase_Exception_Internal   if item to add to collection is of wrong type
      */
-    public function addItem($itemObj, $id=0) {
-
+    public function addItem($itemObj, $id = 0) {
         // add item if item type is validated
         if ($this->checkItemType($itemObj) == true) {
-            
             if ($id === 0) {
                 $this->itemsArr[] = $itemObj;
             } else {
                 $this->itemsArr[$id] = $itemObj;
             }
-         
-        // throw exception if item type is not validated
         } else {
-            throw new Tx_PtExtbase_Exception_Internal('Item to add to collection is of wrong type (' . get_class($itemObj) . '). 1316764449' );
+			// throw exception if item type is not validated
+			throw new Tx_PtExtbase_Exception_Internal('Item to add to collection is of wrong type (' . get_class($itemObj) . '). 1316764449' );
         }
-
     }
     
     
@@ -311,12 +282,11 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     /**
      * Deletes one item from the collection
      *
-     * @param   mixed   id of item to remove
+     * @param   mixed   $id of item to remove
      * @return  void
      * @throws  Tx_PtExtbase_Exception_Internal    if trying to delete invalid id
      */
     public function deleteItem($id) {
-
         if (isset($this->selectedId) && ($id == $this->selectedId)) {
             $this->clearSelectedId();
         }
@@ -325,7 +295,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
         } else {
             throw new Tx_PtExtbase_Exception_Internal('Trying to delete invalid id');
         }
-
     }
     
     
@@ -337,10 +306,8 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  void
      */
     public function clearItems() {
-
         $this->clearSelectedId();
         $this->itemsArr = array();
-
     }
     
     
@@ -348,12 +315,11 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     /**
      * Checks if item exists in collection
      *
-     * @param   mixed   key of item to check for existance
+     * @param   mixed   $id key of item to check for existance
      * @return  boolean item with this key exists
      */
     public function hasItem($id) {
         return array_key_exists($id, $this->itemsArr);
-
     }
     
     
@@ -361,18 +327,16 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     /**
      * Get item from collection by Id
      *
-     * @param   integer     Id of Collection Item
+     * @param   integer     $id of Collection Item
      * @return  mixed       item that has been requested
      * @throws  Tx_PtExtbase_Exception_Internal    if requesting an invalid id
      */
     public function &getItemById($id) {
-
         if ($this->hasItem($id)) {
             return $this->itemsArr[$id];
         } else {
             throw new Tx_PtExtbase_Exception_Internal(sprintf('Trying to get an invalid id "%s"', $id));
         }
-
     }
     
     
@@ -380,13 +344,12 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     /**
      * Get item from collection by Index
      *
-     * @param   integer     index (position in array) of Collection Item
+     * @param   integer     $idx index (position in array) of Collection Item
      * @return  mixed       item that has been requested
      * @remarks index starts with 0 for first element
      * @throws  Tx_PtExtbase_Exception_Internal if idx is invalid
      */
     public function &getItemByIndex($idx) {
-
         // check parameters
         $idx = intval($idx);
         if (($idx < 0) || ($idx >= $this->count())) {
@@ -395,7 +358,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
         $itemArr = array_values($this->itemsArr);
 
         return $itemArr[$idx];
-
     }
     
     
@@ -407,9 +369,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  boolean     true by default in this parent class - individual implementations of this method (in inheriting classes) should return the item validation result as true or false
      */
     protected function checkItemType($itemObj) {
-        
         return true;
-        
     }
     
     
@@ -425,9 +385,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  flexible        property value
      */
     public function getSelectedId() {
-
         return $this->selectedId;
-
     }
     
     
@@ -435,18 +393,16 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     /**
      * Sets the property value
      *
-     * @param   flexible
+     * @param   int		$selectedId
      * @return  void
      * @throws  Tx_PtExtbase_Exception_Internal    when parameter is not a valid item id
      */
     public function setSelectedId($selectedId) {
-
         if ($this->hasItem($selectedId)) {
             $this->selectedId = $selectedId;
         } else {
             throw new Tx_PtExtbase_Exception_Internal('Invalid id to set');
         }
-
     }
     
     
@@ -458,9 +414,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @return  void
      */
     public function clearSelectedId() {
-
         unset($this->selectedId);
-
     }
     
 }
