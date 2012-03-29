@@ -30,6 +30,6 @@
  * @author Michael Knoll 
  */
 abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends Tx_Extbase_Tests_Unit_BaseTestCase {
-	
+
 }
 ?>
