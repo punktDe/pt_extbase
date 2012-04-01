@@ -57,15 +57,11 @@ abstract class Tx_PtExtbase_Collection_ObjectCollection extends Tx_PtExtbase_Col
      * @return  boolean     true if object validation suceeded, false otherwise
      */
     final protected function checkItemType($itemObj) {
-        
         if (!is_null($this->restrictedClassName) && !($itemObj instanceof $this->restrictedClassName)) {
             return false;
         }
-        
         return true;
-        
     }
-    
 }
 
 ?>
