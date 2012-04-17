@@ -49,7 +49,13 @@ class Tx_PtExtbase_ViewHelpers_Form_SelectViewHelper extends Tx_Fluid_ViewHelper
 	protected function getOptions() {
 		$options = parent::getOptions();
 		if ($this->arguments['emptyOption']) {
-			array_unshift($options, $this->arguments['emptyOption']);
+			#var_dump($options);
+			$newOptions = array();
+			$newOptions[0] = $this->arguments['emptyOption'];
+			foreach($options as $key => $value) {
+				$newOptions[$key] = $value;
+			}
+			$options = $newOptions;
 		}
 		return $options;
 	}
