@@ -26,20 +26,27 @@
 
 
 /**
- * Interface for RBAC access control services
+ * Class implements rbac service that allows all requested access
+ *
+ * This service can be used as a default service when "disabling" rbac in your extension.
  */
-interface Tx_PtExtbase_Rbac_RbacServiceInterface extends t3lib_Singleton {
+class Tx_PtExtbase_Rbac_AllowAllService implements Tx_PtExtbase_Rbac_RbacServiceInterface {
 
 	/**
 	 * Returns TRUE, if currently logged in user (frontend or backend) has
 	 * access for given object and action.
+	 *
+	 * Within this implementation of rbac service, we always return TRUE
+	 * for "disabling" rbac.
 	 *
 	 * @param string $extension Name of extension to grant access
 	 * @param string $object Object to grant access to
 	 * @param string $action Action to grant access to
 	 * @return bool TRUE, if access is granted
 	 */
-	public function loggedInUserHasAccess($extension, $object, $action);
+	public function loggedInUserHasAccess($extension, $object, $action) {
+		return TRUE;
+	}
 
 }
 ?>
