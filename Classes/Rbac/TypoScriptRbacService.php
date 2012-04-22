@@ -195,6 +195,15 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 
 
 	/**
+	 * Holds user detector
+	 *
+	 * @var Tx_PtExtbase_Utility_UserDetector
+	 */
+	protected $userDetector;
+
+
+
+	/**
 	 * Holds an array, that represents rbac privileges for each group.
 	 *
 	 * Array has the form
@@ -265,6 +274,17 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 
 
 	/**
+	 * Injects user detector
+	 *
+	 * @param Tx_PtExtbase_Utility_UserDetector $userDetector
+	 */
+	public function injectUserDetector(Tx_PtExtbase_Utility_UserDetector $userDetector) {
+		$this->userDetector = $userDetector;
+	}
+
+
+
+	/**
 	 * Initializes TS rbac service (invoked from objectManager)
 	 */
 	public function initializeObject() {
@@ -284,12 +304,19 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	 * @param string $action Action to grant access to
 	 */
 	public function loggedInUserHasAccess($extension, $object, $action) {
+		$userHasPrivileges = FALSE;
 		// Check, whether we grant all privileges for this extension
 		if (in_array($extension, $this->extensionsToGrantAllPrivileges)) {
-			return TRUE;
+			$userHasPrivileges = TRUE;
 		} else {
-
+			$userGroups = $this->userDetector->getUserGroupUids();
+			foreach ($userGroups as $userGroup) {
+				if (in_array($action, $this->groupsToObjectAndActionsArray[$extension][$userGroup][$object])) {
+					$userHasPrivileges = TRUE;
+				}
+			}
 		}
+		return $userHasPrivileges;
 	}
 
 
@@ -341,13 +368,18 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 				/**
 				 *
 				 * $objectActionPrivileges = array(
-				 * 		$object1 => array($action1, $action2, ... $actionxy),
+				 * 		$object1 => array(
+				 * 			10 => $action1,
+				 * 			20 => $action2,
+				 * 			...
+				 * 			$actionxy
+				 * 		),
 				 * 		...
 				 * )
 				 *
 				 */
 				foreach ($objectActionPrivileges as $object => $actions) {
-					foreach ($actions as $action) {
+					foreach ($actions as $key => $action) {
 						$this->addObjectActionPrivilegeForCurrentGroupAndCurrentExtension($object, $action);
 					}
 				}
@@ -377,11 +409,15 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 
 
 	protected function getObjectActionPrivilegesByPrivilegeIdentifier($privilegeIdentifier, $rbacSettings) {
-		list($object, $action) = explode('.', $privilegeIdentifier);
-		if ($action == '*') {
-			return $this->getAllActionsForObject($object, $rbacSettings);
+		if (array_key_exists('objects', $rbacSettings)) {
+			list($object, $action) = explode('.', $privilegeIdentifier);
+			if ($action == '*') {
+				return array($object => $this->getAllActionsForObject($object, $rbacSettings));
+			} else {
+				return array($object => $this->getActionForObject($action, $object, $rbacSettings));
+			}
 		} else {
-			return $this->getActionForObject($action, $object, $rbacSettings);
+			throw new Exception('You have no section "objects" within rbac settings for extension ' . $this->_currentExtensionName . ' 1334831366');
 		}
 	}
 
@@ -389,19 +425,33 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 
 	protected function getAllActionsForObject($object, $rbacSettings) {
 		$actions = array();
-		if (array_key_exists($object, $rbacSettings['objects'])) {
-			$objectsSettings = $rbacSettings['objects'];
-			if (array_key_exists($object, $objectsSettings)) {
-				foreach($objectsSettings[$object] as $key => $action) {
-					$actions[] = $action;
-				}
-			} else {
-				throw new Exception('You have no settings for object ' . $object . ' within your rbac settings ' . ' 1334831367');
+		$objectsSettings = $rbacSettings['objects'];
+
+		if (array_key_exists($object, $objectsSettings)) {
+			foreach($objectsSettings[$object]['actions'] as $key => $action) {
+				$actions[] = $action;
 			}
 		} else {
-			throw new Exception('You have no section "objects" within rbac settings for extension ' . $this->_currentExtensionName . ' 1334831366');
+			throw new Exception('You have no settings for object ' . $object . ' within your rbac settings ' . ' 1334831367');
 		}
+
 		return $actions;
+	}
+
+
+
+	protected function getActionForObject($action, $object, $rbacSettings) {
+		if (array_key_exists($object, $rbacSettings['objects'])) {
+			foreach ($rbacSettings['objects'][$object]['actions'] as $key => $configuredAction) {
+				if ($configuredAction == $action) {
+					return array($action);
+				}
+			}
+			// If we get here, we have a action set up in a privilege rule which is not configured within object section --> Exception
+			throw new Exception('You have used an action ' . $action . ' within your privileges on object ' . $object . ' for which you do not have set up an action in your objects configuration! 1334831369');
+		} else {
+			throw new Exception('You have no object configuration for object ' . $object . ' within objects section of your rbac configuration! 1334831368');
+		}
 	}
 
 
