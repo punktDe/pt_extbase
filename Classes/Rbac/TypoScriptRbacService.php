@@ -188,7 +188,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	/**
 	 * Holds FE / BE mode detector
 	 *
-	 * @var Tx_PtExtbase_Rbac_FeBeModeDetector
+	 * @var Tx_PtExtbase_Utility_FeBeModeDetector
 	 */
 	protected $feBeModeDetector;
 
@@ -265,9 +265,9 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	/**
 	 * Injects fe/be mode detector
 	 *
-	 * @param Tx_PtExtbase_Rbac_FeBeModeDetector $feBeModeDetector
+	 * @param Tx_PtExtbase_Utility_FeBeModeDetector $feBeModeDetector
 	 */
-	public function injectFeBeModeDetector(Tx_PtExtbase_Rbac_FeBeModeDetector $feBeModeDetector) {
+	public function injectFeBeModeDetector(Tx_PtExtbase_Utility_FeBeModeDetector $feBeModeDetector) {
 		$this->feBeModeDetector = $feBeModeDetector;
 	}
 

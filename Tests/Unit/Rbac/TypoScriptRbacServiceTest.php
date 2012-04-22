@@ -455,7 +455,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 	 * @return PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getFeBeModeDetectorMockReturningGivenMode($mode) {
-		$feBeModeDetectorMock = $this->getMock('Tx_PtExtbase_Rbac_FeBeModeDetector', array('getMode'), array(), '', FALSE);
+		$feBeModeDetectorMock = $this->getMock('Tx_PtExtbase_Utility_FeBeModeDetector', array('getMode'), array(), '', FALSE);
 		$feBeModeDetectorMock->expects($this->any())->method('getMode')->will($this->returnValue($mode));
 		return $feBeModeDetectorMock;
 	}

@@ -34,7 +34,7 @@
  * @author Michael Knoll <knoll@punkt.de>
  * @package rbac
  */
-class Tx_PtExtbase_Rbac_FeBeModeDetector {
+class Tx_PtExtbase_Utility_FeBeModeDetector {
 
 	/**
 	 * Returns mode, TYPO3 is currently run in.
@@ -47,6 +47,28 @@ class Tx_PtExtbase_Rbac_FeBeModeDetector {
 		} else {
 			return 'FE';
 		}
+	}
+
+
+
+	/**
+	 * Returns TRUE, if we are in BE mode
+	 *
+	 * @return bool
+	 */
+	public function inBackendMode() {
+		return ($this->getMode() == 'BE');
+	}
+
+
+
+	/**
+	 * Returns TRUE, if we are in FE mode
+	 *
+	 * @return bool
+	 */
+	public function inFrontendMode() {
+		return ($this->getMode() == 'FE');
 	}
 
 }

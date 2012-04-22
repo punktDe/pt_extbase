@@ -50,7 +50,7 @@ class Tx_PtExtbase_Utility_UserDetector implements t3lib_Singleton {
 	/**
 	 * Holds instance of fe / be mode detector
 	 *
-	 * @var Tx_PtExtbase_Rbac_FeBeModeDetector
+	 * @var Tx_PtExtbase_Utility_FeBeModeDetector
 	 */
 	protected $feBeModeDetector;
 
@@ -59,9 +59,9 @@ class Tx_PtExtbase_Utility_UserDetector implements t3lib_Singleton {
 	/**
 	 * Injects fe/be mode detector
 	 *
-	 * @param Tx_PtExtbase_Rbac_FeBeModeDetector $feBeModeDetector
+	 * @param Tx_PtExtbase_Utility_FeBeModeDetector $feBeModeDetector
 	 */
-	public function injectFeBeModeDetector(Tx_PtExtbase_Rbac_FeBeModeDetector $feBeModeDetector) {
+	public function injectFeBeModeDetector(Tx_PtExtbase_Utility_FeBeModeDetector $feBeModeDetector) {
 		$this->feBeModeDetector = $feBeModeDetector;
 	}
 
