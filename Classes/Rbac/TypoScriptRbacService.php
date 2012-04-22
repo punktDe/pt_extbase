@@ -34,7 +34,7 @@
  *
  * See following example:
  *
-tx_ptextbase.settings.rbac {
+plugin.tx_ptextbase.settings.rbac {
 
  	## We should be able to set up rbac privileges for
  	## multiple extensions, hence we need namespace for each extension here
@@ -132,7 +132,7 @@ tx_ptextbase.settings.rbac {
 
  			## RBAC service can be used in frontend and in backend environment,
  			## but we have different UIDs for user groups so we need to define
- 			## privileges for frontend and backend seperatly
+ 			## privileges for frontend and backend separately
  			feGroups {
 
  				1 {
@@ -186,6 +186,15 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 
 
 	/**
+	 * Holds FE / BE mode detector
+	 *
+	 * @var Tx_PtExtbase_Rbac_FeBeModeDetector
+	 */
+	protected $feBeModeDetector;
+
+
+
+	/**
 	 * Holds an array, that represents rbac privileges for each group.
 	 *
 	 * Array has the form
@@ -234,6 +243,28 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 
 
 	/**
+	 * Injects configuration manager from which we get TS configuration
+	 *
+	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
+	 */
+	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
+		$this->configurationManager = $configurationManager;
+	}
+
+
+
+	/**
+	 * Injects fe/be mode detector
+	 *
+	 * @param Tx_PtExtbase_Rbac_FeBeModeDetector $feBeModeDetector
+	 */
+	public function injectFeBeModeDetector(Tx_PtExtbase_Rbac_FeBeModeDetector $feBeModeDetector) {
+		$this->feBeModeDetector = $feBeModeDetector;
+	}
+
+
+
+	/**
 	 * Initializes TS rbac service (invoked from objectManager)
 	 */
 	public function initializeObject() {
@@ -276,7 +307,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 
 
 	protected function initRbacSettingsForGivenExtensionSettings($extensionRbacSettings) {
-		if (TYPO3_MODE === 'BE') {
+		if ($this->feBeModeDetector->getMode() == 'BE') {
 			// we are in backend mode, so we use beGroups settings
 			$this->initRolePrivilegesForGivenRolesAndRbacSettings($extensionRbacSettings['beGroups'], $extensionRbacSettings);
 		} else {
@@ -288,7 +319,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 
 
 	protected function initRolePrivilegesForGivenRolesAndRbacSettings($groupUids, $rbacSettings) {
-		if ($rbacSettings['__grantAllPrivileges'] == 1) {
+		if ($groupUids['__grantAllPrivileges'] == 1) {
 			// we have __grantAllPrivileges = 1 set in TypoScript - so nothing to do here anymore
 			$this->extensionsToGrantAllPrivileges[] = $this->_currentExtensionName;
 		} else {
