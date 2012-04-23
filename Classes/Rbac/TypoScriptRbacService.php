@@ -163,7 +163,7 @@ plugin.tx_ptextbase.settings.rbac {
  	}
 
 }
- *
+
  */
 class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacServiceInterface {
 
@@ -288,7 +288,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	 * Initializes TS rbac service (invoked from objectManager)
 	 */
 	public function initializeObject() {
-		$fullTypoScript = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+		$fullTypoScript = Tx_Extbase_Utility_TypoScript::convertTypoScriptArrayToPlainArray($this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT));
 		$this->typoScriptRbacSettings = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($fullTypoScript, 'plugin.tx_ptextbase.settings.rbac');
 		$this->initGroupsToObjectAndActionsArray();
 	}
@@ -311,7 +311,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 		} else {
 			$userGroups = $this->userDetector->getUserGroupUids();
 			foreach ($userGroups as $userGroup) {
-				if (in_array($action, $this->groupsToObjectAndActionsArray[$extension][$userGroup][$object])) {
+				if (in_array($action, $this->groupsToObjectAndActionsArray[strtolower($extension)][$userGroup][$object])) {
 					$userHasPrivileges = TRUE;
 				}
 			}
@@ -326,7 +326,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	 */
 	protected function initGroupsToObjectAndActionsArray() {
 		foreach($this->typoScriptRbacSettings['extensions'] as $extensionName => $extensionRbacSettings) {
-			$this->_currentExtensionName = $extensionName;
+			$this->_currentExtensionName = strtolower($extensionName);
 			$this->initRbacSettingsForGivenExtensionSettings($extensionRbacSettings);
 		}
 	}
