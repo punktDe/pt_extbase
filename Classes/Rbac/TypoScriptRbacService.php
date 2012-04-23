@@ -302,8 +302,10 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	 * @param string $extension Extension to grant access to
 	 * @param string $object Object to grant access to
 	 * @param string $action Action to grant access to
+	 * @return bool
 	 */
 	public function loggedInUserHasAccess($extension, $object, $action) {
+
 		$userHasPrivileges = FALSE;
 		// Check, whether we grant all privileges for this extension
 		if (in_array($extension, $this->extensionsToGrantAllPrivileges)) {
