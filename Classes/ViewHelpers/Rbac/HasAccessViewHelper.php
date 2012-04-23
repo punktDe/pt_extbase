@@ -62,7 +62,7 @@
  * @package ViewHelpers
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_Rbac_ViewHelpers_HasAccessViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractConditionViewHelper {
+class Tx_PtExtbase_ViewHelpers_Rbac_HasAccessViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractConditionViewHelper {
 
 	/**
 	 * Holds instance of rbac service
