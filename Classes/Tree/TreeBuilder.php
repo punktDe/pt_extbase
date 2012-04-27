@@ -93,14 +93,15 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
     }
 
 	
-	
+
 	/**
 	 * Builds a tree for given namespace.
-     *
-     * If there are no nodes for given namespace, a new, empty tree with a single root node will be returned.
 	 *
-	 * @param string $node Namespace to build tree for
+	 * If there are no nodes for given namespace, a new, empty tree with a single root node will be returned.
+	 *
+	 * @param $namespace
 	 * @return Tx_PtExtbase_Tree_Tree
+	 * @throws Exception
 	 */
 	public function buildTreeForNamespace($namespace) {
 		/**
@@ -143,10 +144,11 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
 				#echo "After pushing after while: <ul>" . $stack->toString() . "</ul>";
 			}
 		}
+
 		$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($stack->top());
 
-        $tree->setRestrictedDepth($this->restrictedDepth);
-        $tree->setRespectRestrictedDepth($this->respectRestrictedDepth);
+		$tree->setRestrictedDepth($this->restrictedDepth);
+		$tree->setRespectRestrictedDepth($this->respectRestrictedDepth);
 
 		#echo "Finished tree: " . $tree->toString();
 		return $tree;

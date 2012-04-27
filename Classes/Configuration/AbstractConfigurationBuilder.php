@@ -40,11 +40,12 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	protected $settings;
 
 
+
 	/**
 	 * Prototype settings for ts-configurable objects
 	 * @var array
 	 */
-	protected $prototypeSettings;
+	protected $prototypeSettings = array();
 
 
 
@@ -65,7 +66,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	/**
 	 * Chache for all configuration Objects
 	 *
-	 * @var unknown_type TODO: define a interface
+	 * @var array TODO: define a interface
 	 */
 	protected $configurationObjectInstances = array();
 
@@ -79,6 +80,8 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	public function __construct(array $settings = array()) {
 		$this->settings = $settings;
 	}
+
+
 
 	/**
 	 * Magic functions
@@ -172,11 +175,14 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 */
 	public function getMergedSettingsWithPrototype($overwriteSettings, $objectPath) {
 		// TODO cache this!
-		if (!is_array($overwriteSettings)) $overwriteSettings = array();
-			$mergedSettings = t3lib_div::array_merge_recursive_overrule(
+		if(!is_array($overwriteSettings)) {
+			$overwriteSettings = array();
+		}
+
+		$mergedSettings = t3lib_div::array_merge_recursive_overrule(
             $this->getPrototypeSettingsForObject($objectPath),
-				$overwriteSettings
-        );
+			$overwriteSettings
+		);
 
         return $mergedSettings;
 	}
@@ -187,7 +193,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
      * return a slice from the prototype arrray for the given objectPath
      *
      * @param string $objectPath
-     * @return array prototypesettings
+     * @return array prototype settings for given object path
      */
     public function getPrototypeSettingsForObject($objectPath) {
 
@@ -221,5 +227,4 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
     }
 
 }
-
 ?>
