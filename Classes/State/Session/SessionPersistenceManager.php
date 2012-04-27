@@ -32,8 +32,7 @@
  * @author Michael Knoll 
  */
 class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtbase_Lifecycle_EventInterface {
-	
-	
+
 	/**
 	 * Definition of SessionStorageAdapter
 	 * 
@@ -364,5 +363,4 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     }
      
 }
-
 ?>
