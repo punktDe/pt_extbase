@@ -60,7 +60,8 @@ class Tx_PtExtbase_Tests_DebugCodeTest extends Tx_Extbase_Tests_Unit_BaseTestCas
 		//$this->markTestSkipped('Test skipped, since grep finds the provided strings in this class.');
 		$searchPath = t3lib_extMgm::extPath($this->extensionName);
 
-		$result = `fgrep -i -r "$debugCommand" "$searchPath" | grep ".php"`;
+		$command = 'fgrep -i -r ' . escapeshellarg($debugCommand) . ' ' . escapeshellarg($searchPath) . '| grep ".php"';
+		$result = `$command`;
 		$lines = explode("\n", trim($result));
 
 		foreach($lines as $line) {
