@@ -313,7 +313,8 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 		} else {
 			$userGroups = $this->userDetector->getUserGroupUids();
 			foreach ($userGroups as $userGroup) {
-				if (in_array($action, $this->groupsToObjectAndActionsArray[strtolower($extension)][$userGroup][$object])) {
+				if (is_array($this->groupsToObjectAndActionsArray[strtolower($extension)][$userGroup][$object]) && 
+					in_array($action, $this->groupsToObjectAndActionsArray[strtolower($extension)][$userGroup][$object])) {
 					$userHasPrivileges = TRUE;
 				}
 			}
