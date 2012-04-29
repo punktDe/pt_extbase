@@ -2,8 +2,9 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2010-2011 punkt.de GmbH - Karlsruhe, Germany - http://www.punkt.de
- *  Authors: Daniel Lienert, Michael Knoll
+ *  (c) 2012 Michael Knoll <knoll@punkt.de>, punkt.de GmbH
+ *
+ *
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,13 +24,19 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+
 /**
- * Class implements a base testcase for pt_extbase testcases
- *
- * @package Tests
- * @author Michael Knoll 
+ * Class implements testcase for rbac allowAllService
  */
-abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_PtExtbase_Tests_Unit_Rbac_AllowAllServiceTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+
+	/** @test */
+	public function loggedInUserHasAccessReturnsTrueOnArbitraryRequests() {
+		$allowAllService = new Tx_PtExtbase_Rbac_AllowAllService();
+		$this->assertTrue($allowAllService->loggedInUserHasAccess('pt_extbase', 'test', 'test'));
+		$this->assertTrue($allowAllService->loggedInUserHasAccess('yag', 'test', 'test'));
+		$this->assertTrue($allowAllService->loggedInUserHasAccess('yag', 'album', 'delete'));
+	}
 
 }
 ?>
