@@ -43,5 +43,14 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persisten
 			 $this->defaultQuerySettings->setRespectStoragePage(FALSE);
 			 $this->defaultQuerySettings->setRespectSysLanguage(FALSE);
 		}
+
+	public function findPagesInPid($pid) {
+		$query = $this->createQuery();
+		$pages = $query->matching(
+			$query->equals('pid', $pid)
+		)
+		->execute();
+		return $pages;
+	}
 }
 ?>
