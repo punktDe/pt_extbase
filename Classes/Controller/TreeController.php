@@ -135,11 +135,11 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
             $tree = $this->treeRepository->getEmptyTree($this->treeNameSpace);
 		} else {
 			$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
-            $tree->setRestrictedDepth(2);
-            $tree->setRespectRestrictedDepth(TRUE);
+            // $tree->setRestrictedDepth(2);
+            // $tree->setRespectRestrictedDepth(TRUE);
 		}
 
-		echo Tx_PtExtbase_Tree_ExtJsJsonTreeWriter::getInstance()->writeTree($tree);
+		echo Tx_PtExtbase_Tree_JSTreeJsonTreeWriter::getInstance()->writeTree($tree);
 		exit();
 	}
 
