@@ -41,7 +41,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	const STORAGE_ADAPTER_NULL = 'Tx_PtExtbase_State_Session_Storage_NullStorageAdapter';
 	const STORAGE_ADAPTER_DB = 'Tx_PtExtbase_State_Session_Storage_DBAdapter';
 	const STORAGE_ADAPTER_FEUSER_SESSION = 'Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter';
-	const STORAGE_ADAPTER_BROWSER_SESSION = 'tx_pttools_sessionStorageAdapter';
+	const STORAGE_ADAPTER_BROWSER_SESSION = 'Tx_PtExtbase_State_Session_Storage_SessionAdapter';
 	
 	
 	
