@@ -3,7 +3,7 @@ if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
 
 
-t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Tools for Extbase development');
+t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', '[pt_extbase] Tools for Extbase development');
 
 
 t3lib_extMgm::allowTableOnStandardPages('tx_ptextbase_tree_node');
