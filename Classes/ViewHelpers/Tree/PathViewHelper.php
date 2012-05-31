@@ -32,10 +32,19 @@
  */
 class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
+
 	/**
-	 * @var <array>Tx_PtExtbase_Tree_Tree array of treeInstances by namespace
+	 * @var Tx_PtExtbase_Tree_NodePathBuilder
 	 */
-	protected static $categoryTreeInstances = array();
+	protected $nodePathBuilder;
+
+
+	/**
+	 * @param Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder
+	 */
+	public function injectNodePathBuilder(Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder) {
+		$this->nodePathBuilder = $nodePathBuilder;
+	}
 
 
 	/**
@@ -46,6 +55,8 @@ class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends Tx_Fluid_Core_ViewHel
 		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', TRUE);
 		$this->registerArgument('node', 'integer', 'The node uid', TRUE);
 		$this->registerArgument('skipRoot', 'boolean', 'Skip the root node', FALSE, FALSE);
+		$this->registerArgument('startIndex', 'integer', 'Start at Node', FALSE, 0);
+		$this->registerArgument('length', 'integer', 'Length of path', FALSE, 1000);
 	}
 
 
@@ -55,8 +66,12 @@ class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends Tx_Fluid_Core_ViewHel
 	 * @return string The output
 	 */
 	public function render() {
-		$tree = $this->getTree();
-		$nodes = $this->getPathFromRootToNode($tree);
+
+		$this->nodePathBuilder = Tx_PtExtbase_Tree_NodePathBuilder::getInstanceByRepositoryAndNamespace(
+			$this->arguments['repository'], $this->arguments['namespace']
+		);
+
+		$nodes = $this->getPathFromRootToNode();
 		$firstNode = TRUE;
 
 		if(!$nodes) {
@@ -84,54 +99,23 @@ class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends Tx_Fluid_Core_ViewHel
 
 
 	/**
-	 * @param $tree Tx_PtExtbase_Tree_Tree
 	 * @return array nodes in the path from root to node
 	 */
-	protected function getPathFromRootToNode(Tx_PtExtbase_Tree_Tree $tree) {
-		$pathFromNodeToRoot = array();
-		$node = $tree->getNodeByUid($this->arguments['node']);
+	protected function getPathFromRootToNode() {
 
-		if($node instanceof Tx_PtExtbase_Tree_Node) {
+		$node = $this->arguments['node'];
+		$length = $this->arguments['length'];
 
-			$pathFromNodeToRoot[] = $node;
-
-			while($node != $tree->getRoot()) {
-				$node = $node->getParent();
-				$pathFromNodeToRoot[] = $node;
-			}
-
-			if($this->arguments['skipRoot'] == TRUE) {
-				array_pop($pathFromNodeToRoot);
-			}
-
-			return array_reverse($pathFromNodeToRoot);
-
+		if($this->arguments['skipRoot']) {
+			$startIndex = 1;
 		} else {
-			return null;
-		}
-	}
-
-
-	/**
-	 * @return Tx_PtExtbase_Tree_Tree
-	 */
-	protected function getTree() {
-
-		$nameSpace = $this->arguments['namespace'];
-		$repository = $this->arguments['repository'];
-
-		if(!self::$categoryTreeInstances[$repository.$nameSpace]) {
-
-			$treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
-			$treeRepositoryBuilder->setNodeRepositoryClassName($repository);
-			$treeRepository = $treeRepositoryBuilder->buildTreeRepository();
-
-			$tree = $treeRepository->loadTreeByNamespace($nameSpace);
-
-			self::$categoryTreeInstances[$repository.$nameSpace] = $tree;
+			$startIndex = $this->arguments['startIndex'];
 		}
 
-		return self::$categoryTreeInstances[$repository.$nameSpace];
+
+		$nodes = $this->nodePathBuilder->getPathFromRootToNode($node, $startIndex, $length);
+
+		return $nodes;
 	}
 
 }
