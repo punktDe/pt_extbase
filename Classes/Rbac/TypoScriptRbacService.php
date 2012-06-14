@@ -147,6 +147,11 @@ plugin.tx_ptextbase.settings.rbac {
  					10 = albumManager
  				}
 
+ 				## Any logged in user has this role
+ 				any {
+					10 = editor
+ 				} 
+
  			}
 
 
@@ -312,6 +317,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 			$userHasPrivileges = TRUE;
 		} else {
 			$userGroups = $this->userDetector->getUserGroupUids();
+			$userGroups[] = 'any';
 			foreach ($userGroups as $userGroup) {
 				if (is_array($this->groupsToObjectAndActionsArray[strtolower($extension)][$userGroup][$object]) && 
 					in_array($action, $this->groupsToObjectAndActionsArray[strtolower($extension)][$userGroup][$object])) {
