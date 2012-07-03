@@ -48,6 +48,7 @@
  *                 //'templatePath' => 'EXT:pt_extbase/Resources/Private/Templates/Tca/Tree.html',        // This is the path to the template we use for rendering the tree. Should be made default setting and be overwritable here. ATM it does not work if you don't set it
  *                 //'nodeRepositoryClassName' => 'Tx_PtExtbase_Tree_NodeRepository',                     // Class name of repository that should be used for node storage (if left empty, Tx_PtExtbase_Tree_NodeRepository is taken)
  *                //'restrictedDepth' => 3                                                               // Determines how many levels of the tree should be rendered. 1 = only root node is rendered, 2 = root node and its children are rendered, ...
+ *                //'expand' => 'root"                                                               // Expand the tree, posible are "all", "root" or none
  *             )
  *         )
  *     )
@@ -92,6 +93,12 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
     protected $restrictedDepth = -1;
 
 
+	/**
+	 * How to expand the tree: all, root, none
+	 * @var string
+	 */
+	protected $expand = 'root';
+
 
     /**
      * User function to render TCA selector
@@ -132,12 +139,18 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
     protected function initPropertiesFromParamsArray() {
         parent::initPropertiesFromParamsArray();
         $fieldConfigParameters = $this->tcaParameters['fieldConf']['config']['parameters'];
-        if (array_key_exists('nodeRepositoryClassName', $fieldConfigParameters) && $fieldConfigParameters['nodeRepositoryClassName'] != '') {
+
+		if (array_key_exists('nodeRepositoryClassName', $fieldConfigParameters) && $fieldConfigParameters['nodeRepositoryClassName'] != '') {
             $this->nodeRepositoryClassName = $fieldConfigParameters['nodeRepositoryClassName'];
         }
+
         if (array_key_exists('restrictedDepth', $fieldConfigParameters) && $fieldConfigParameters['restrictedDepth'] !== '') {
             $this->restrictedDepth = $fieldConfigParameters['restrictedDepth'];
         }
+
+		if (array_key_exists('expand', $fieldConfigParameters) && $fieldConfigParameters['expand'] !== '') {
+			$this->expand = $fieldConfigParameters['expand'];
+		}
     }
 
 
@@ -156,6 +169,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
         $this->fluidRenderer->assign('is1ToManyField', $this->is1ToManyField);
         $this->fluidRenderer->assign('multiple', $this->isManyToManyField);
         $this->fluidRenderer->assign('restrictedDepth', $this->restrictedDepth);
+        $this->fluidRenderer->assign('expand', $this->expand);
     }
 
 
