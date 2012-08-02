@@ -43,6 +43,13 @@ class Tx_PtExtbase_Tree_JSTreeJsonWriterVisitor extends Tx_PtExtbase_Tree_ArrayW
         $nodeUid = $node->getUid();
         $metadata = '';
 
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/pt_extbase']['jSTreeJsonWriterVisitorDoFirstVisit'])) {
+			foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/pt_extbase']['jSTreeJsonWriterVisitorDoFirstVisit'] as $_ref) {
+				$params = array('nodeUid' => $nodeUid);
+				$metadata = ' ' . t3lib_div::callUserFunction($_ref, $params, $this);
+			}
+		}
+
 		$arrayForNode = array(
             'data' => $node->getLabel(),
             'attr' => array(
