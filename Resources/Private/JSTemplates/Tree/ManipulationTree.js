@@ -56,9 +56,11 @@
 				'rename': {
 					'label': 'Umbenennen'
 				},
+				'remove': false,
+				/*
 				'remove': {
 					'label': 'Loeschen'
-				},
+				},*/
 				'editNode': {
 					'label': 'Bearbeiten',
 					'action': editNode

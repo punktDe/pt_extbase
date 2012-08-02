@@ -39,10 +39,15 @@ class Tx_PtExtbase_Tree_JSTreeJsonWriterVisitor extends Tx_PtExtbase_Tree_ArrayW
      * @param int &$level Holds level of visitation in tree, starting at 1
      */
     public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
+
+        $nodeUid = $node->getUid();
+        $metadata = '';
+
 		$arrayForNode = array(
             'data' => $node->getLabel(),
             'attr' => array(
-                'id' => $node->getUid()
+                'id' => $node->getUid(),
+                'data-meta' => $metadata
             ),
             'children' => array()
         );
