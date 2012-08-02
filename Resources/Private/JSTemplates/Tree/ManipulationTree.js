@@ -52,18 +52,28 @@
 				'create': {
 					'label': 'Neue Unterkategorie'
 				},
+				'edit': {
+					'label': 'Bearbeiten'
+				}
 				'rename': {
 					'label': 'Umbenennen'
 				},
+				/*
 				'ccp': {
 					'label': 'Bearbeiten'
-				},
+				},*/
 				'remove': {
 					'label': 'Loeschen'
 				}
 			}
 		}
 	};
+
+	function editRecords(table, idList, addParams, CBflag) {    
+		var editurl = "alt_doc.php?returnUrl=%2Ftypo3%2Fmod.php%3F%26M%3Dweb_list%26id%3D0%26table%3Dbe_users&edit["+table+"]["+idList+"]=edit"+addParams;
+
+		window.open(editurl, 'Edit record');
+	}
 
 	function moveNode(e, data) {
 		data.rslt.o.each(function(i) {
