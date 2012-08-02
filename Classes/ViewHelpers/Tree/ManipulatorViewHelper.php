@@ -68,10 +68,10 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends Tx_Fluid_ViewH
 
 		/** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
 		$treeViewHelper = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
-		$treeViewHelper->setControllerContext($this->controllerContext);
+		//$treeViewHelper->setControllerContext($this->controllerContext);
 
 		//return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
-		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
+		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/ManipulationTree.js',
 			array('baseUrl' => $this->getBaseURL()),FALSE, FALSE
 		);
 	}

@@ -54,7 +54,7 @@
 				},
 				'edit': {
 					'label': 'Bearbeiten'
-				}
+				},
 				'rename': {
 					'label': 'Umbenennen'
 				},
