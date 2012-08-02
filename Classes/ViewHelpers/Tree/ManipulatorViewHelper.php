@@ -72,7 +72,10 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends Tx_Fluid_ViewH
 
 		//return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
 		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/ManipulationTree.js',
-			array('baseUrl' => $this->getBaseURL()),FALSE, FALSE
+			array(
+				'baseUrl' => $this->getBaseURL(),
+				'dbNodeTable' => 'tx_ptcertification_domain_model_category'
+			), FALSE, FALSE
 		);
 	}
 

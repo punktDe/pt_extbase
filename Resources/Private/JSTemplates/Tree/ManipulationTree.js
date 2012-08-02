@@ -7,6 +7,7 @@
 (function($) {
 
 	var baseURL = '###baseUrl###',
+		dbNodeTable = '###dbNodeTable###',
 		treeDiv = '#ptExtbaseTreeDiv',
 		debug = true,
 		jsTreeInstance = undefined,
@@ -52,27 +53,36 @@
 				'create': {
 					'label': 'Neue Unterkategorie'
 				},
-				'edit': {
-					'label': 'Bearbeiten'
-				},
 				'rename': {
 					'label': 'Umbenennen'
 				},
-				/*
-				'ccp': {
-					'label': 'Bearbeiten'
-				},*/
 				'remove': {
 					'label': 'Loeschen'
-				}
+				},
+				'editNode': {
+					'label': 'Bearbeiten',
+					'action': editNode
+				},
+				'ccp': false
 			}
 		}
 	};
 
-	function editRecords(table, idList, addParams, CBflag) {    
-		var editurl = "alt_doc.php?returnUrl=%2Ftypo3%2Fmod.php%3F%26M%3Dweb_list%26id%3D0%26table%3Dbe_users&edit["+table+"]["+idList+"]=edit"+addParams;
+	/**
+	 * Opens a new window to edit the record
+	 */
+	function editRecord(table, id) {    
+		var editurl = "alt_doc.php?edit["+table+"]["+id+"]=edit";
 
 		window.open(editurl, 'Edit record');
+	}
+
+	function editNode(node) {
+		var nodeId = node.attr('id');
+
+		log('Edit node with id ' + nodeId);
+
+		editRecord(dbNodeTable, nodeId);
 	}
 
 	function moveNode(e, data) {
@@ -188,6 +198,7 @@
 			.bind("move_node.jstree", moveNode)
 			.bind("create.jstree", createNode)
 			.bind("remove.jstree", removeNode)
-			.bind("rename.jstree", renameNode);
+			.bind("rename.jstree", renameNode)
+			.bind("editNode.jstree", editNode);
 	});
 })(jQuery);
