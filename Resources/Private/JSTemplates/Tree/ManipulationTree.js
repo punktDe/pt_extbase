@@ -200,7 +200,6 @@
 			.bind("move_node.jstree", moveNode)
 			.bind("create.jstree", createNode)
 			.bind("remove.jstree", removeNode)
-			.bind("rename.jstree", renameNode)
-			.bind("editNode.jstree", editNode);
+			.bind("rename.jstree", renameNode);
 	});
 })(jQuery);
