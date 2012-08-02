@@ -89,6 +89,24 @@
 		editRecord(dbNodeTable, nodeId);
 	}
 
+	function treeLoaded() {
+		var treeObj = $(treeDiv);
+
+		var nodes = treeObj.find('li');
+
+		log('There are ' + nodes.length + ' nodes');
+
+		$.each(nodes, function() {
+			var node = $(this),
+				id = node.attr('id'),
+				metadata = node.attr('data-meta');
+
+			// Add metadata to node html when an id and metadata is set
+			if (id && metadata !== undefined)
+				node.children('a:first').after('<span>(' + metadata + ')</span>');
+		});
+	}
+
 	function moveNode(e, data) {
 		data.rslt.o.each(function(i) {
 			var node = $(this),
@@ -202,6 +220,7 @@
 			.bind("move_node.jstree", moveNode)
 			.bind("create.jstree", createNode)
 			.bind("remove.jstree", removeNode)
-			.bind("rename.jstree", renameNode);
+			.bind("rename.jstree", renameNode)
+			.bind("loaded.jstree", treeLoaded);
 	});
 })(jQuery);
