@@ -112,7 +112,7 @@ class Tx_PtExtbase_ViewHelpers_Rbac_HasAccessViewHelper extends Tx_Fluid_Core_Vi
 
 
         if(is_array($this->arguments['hasAll'])) {
-            $access = $this->checkOnAny($this->arguments['hasAll']);
+            $access = $this->checkOnAll($this->arguments['hasAll']);
         }
 
 
@@ -133,7 +133,8 @@ class Tx_PtExtbase_ViewHelpers_Rbac_HasAccessViewHelper extends Tx_Fluid_Core_Vi
      * @return bool
      */
     protected function checkOnAll($objectActionArray) {
-        foreach($objectActionArray as $object => $action) {
+        foreach($objectActionArray as $key => $objectActionPair) {
+			list($object, $action) = implode('.', $objectActionPair);
             if(!$this->hasAccess($object, $action)) return FALSE;
         }
 
@@ -147,7 +148,8 @@ class Tx_PtExtbase_ViewHelpers_Rbac_HasAccessViewHelper extends Tx_Fluid_Core_Vi
      */
     protected function checkOnAny($objectActionArray) {
 
-        foreach($objectActionArray as $object => $action) {
+        foreach($objectActionArray as $key => $objectActionPair) {
+			list($object, $action) = explode('.', $objectActionPair);
             if($this->hasAccess($object, $action)) return TRUE;
         }
 

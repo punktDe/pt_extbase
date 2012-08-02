@@ -60,7 +60,7 @@ class Tx_PtExtbase_Tree_NodePathBuilder  {
 
 
 
-	protected function __construct(){}
+	public function __construct(){}
 
 
 
