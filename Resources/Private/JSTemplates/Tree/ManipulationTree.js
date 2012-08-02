@@ -9,7 +9,7 @@
 	var baseURL = '###baseUrl###',
 		dbNodeTable = '###dbNodeTable###',
 		treeDiv = '#ptExtbaseTreeDiv',
-		debug = true,
+		debug = false,
 		jsTreeInstance = undefined,
 		baseRequest = {
 			extensionName: 'ptExtbase',
