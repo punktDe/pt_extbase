@@ -72,9 +72,11 @@
 	 * Opens a new window to edit the record
 	 */
 	function editRecord(table, id) {    
-		var editurl = "alt_doc.php?edit["+table+"]["+id+"]=edit";
+		var returnUrl = escape('mod.php?M=txdpppeditor_PtCertificationQuestioncategory'),
+			editurl = "alt_doc.php?edit["+table+"]["+id+"]=edit&returnUrl=" + returnUrl;
 
-		window.open(editurl, 'Edit record');
+		// window.open(editurl, 'Edit record');
+		self.location.href = editurl;
 	}
 
 	function editNode(node) {
