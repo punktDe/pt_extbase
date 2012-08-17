@@ -90,6 +90,90 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 
 
 	/** @test */
+	public function hasAccessReturnsTrueIfAnyUserIsLoggedIn() {
+		$typoScriptConfiguration = '
+			plugin.tx_ptextbase.settings.rbac {
+				extensions {
+					yag {
+						objects {
+							album {
+								actions {
+									10 = create
+									20 = delete
+									30 = edit
+								}
+							}
+							gallery {
+								actions {
+									10 = create
+									20 = delete
+									30 = edit
+								}
+							}
+						}
+						roles {
+
+							admin {
+								privileges {
+									10 = album.*
+									20 = gallery.*
+								}
+							}
+							editor {
+								privileges {
+									10 = album.create
+									11 = album.edit
+
+									20 = gallery.create
+									21 = gallery.edit
+								}
+							}
+						}
+						beGroups {
+							1 {
+								10 = admin
+							}
+
+							any {
+								10 = editor
+							}
+						}
+					}
+				}
+			}
+		';
+		$typoScriptArray = $this->getTypoScriptArrayForGivenTypoScriptString($typoScriptConfiguration);
+
+		$typoScriptRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
+		$typoScriptRbacService->injectConfigurationManager($this->getConfigurationManagerMockReturningGivenTypoScriptConfiguration($typoScriptArray));
+		$typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
+
+		// Set up rbac service for admin user
+		$typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(1)));
+		$typoScriptRbacService->initializeObject();
+
+		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
+		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
+		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
+		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
+		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
+		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
+
+		// Set up rbac service for editor user
+		$typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(2)));
+		$typoScriptRbacService->initializeObject();
+
+		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
+		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
+		$this->assertFalse($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
+		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
+		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
+		$this->assertFalse($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
+	}
+
+
+
+	/** @test */
 	public function hasAccessReturnsExpectedResultsForGivenRbacSettingsInBeMode() {
 		$typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
