@@ -24,12 +24,36 @@
 ***************************************************************/
 
 /**
-* Utility to include defined frontend libraries as jQuery and related CSS
-*
-*
-* @package Utility
-* @author Daniel Lienert <daniel@lienert.cc>
-*/
+ * Utility to include defined frontend libraries as jQuery and related CSS
+ *
+ *
+ * FE Usage (eID):
+ * ===============
+ *
+ * If you want to use this dispatcher in FE, add following lines to ext_localconf:
+ * $TYPO3_CONF_VARS['FE']['eID_include']['ptxAjax'] = t3lib_extMgm::extPath('pt_extbase').'Classes/Utility/eIDDispatcher.php';
+ *
+ * Use following URL for calling eid script:
+ * http://pt_list_dev.centos.localhost/?eID=ptxAjax&extensionName=TnTests&pluginName=pi1&controllerName=Ajax&actionName=test
+ *
+ * ATTENTION: You cannot use this dispatcher directly in FE, as you need to initalize some objects first (Database, TSFE, fe_user...)
+ * TODO we should have a builder class for generating a dispatcher object with the required functionality (compare to PicoBuilder->with(...))
+ *
+ *
+ * BE Usage (ajax):
+ * ================
+ *
+ * If you want to use this dispatcher in BE, add following lines to ext_localconf:
+ * $TYPO3_CONF_VARS['BE']['AJAX']['ptxAjax'] = t3lib_extMgm::extPath('pt_extbase').'Classes/Utility/AjaxDispatcher.php:Tx_PtExtbase_Utility_AjaxDispatcher->initAndEchoDispatch';
+ *
+ * Use following URL for your ajax calls from backend:
+ * http://pt_list_dev.centos.localhost/typo3/ajax.php?ajaxID=ptxAjax&extensionName=TnTests&pluginName=pi1&controllerName=Ajax&actionName=test
+ *
+ *
+ * @package Utility
+ * @author Daniel Lienert <daniel@lienert.cc>
+ * @author Michael Knoll <mimi@kaktusteam.de>
+ */
 
 class Tx_PtExtbase_Utility_AjaxDispatcher {
 
@@ -92,13 +116,25 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 
 
+	/**
+	 * Initializes dispatcher, dispatches request and echos it
+	 */
+	public function initAndEchoDispatch() {
+		// TODO perhaps we should send some headers here?
+		echo $this->initAndDispatch();
+	}
+
+
+
     /**
      * Initializes and dispatches actions
      *
      * Call this function if you want to use this dispatcher "standalone"
      */
     public function initAndDispatch() {
-        $this->initCallArguments()->dispatch();
+		$this->initCallArguments();
+		$content = $this->dispatch();
+        return $content;
     }
 
 
@@ -125,7 +161,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
         $dispatcher->dispatch($request, $response);
 
         $response->sendHeaders();
-        return $response->getContent();
+		$content = $response->getContent();
+        return $content;
     }
 
 
