@@ -41,9 +41,22 @@ class Tx_PtExtbase_SqlRunner_Typo3SqlRunner implements Tx_PtExtbase_SqlRunner_Sq
 	protected $connection;
 
 	/**
-	 * @var string
+	 * @var Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser
 	 */
-	protected $fileName;
+	protected $multipleQueriesFileParser;
+
+	/**
+	 * @var array
+	 */
+	protected $queries;
+
+	/**
+	 * @param Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser $multipleQueriesFileParser
+	 * @return void
+	 */
+	public function injectMultipleQueriesFileParser(Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser $multipleQueriesFileParser) {
+		$this->multipleQueriesFileParser = $multipleQueriesFileParser;
+	}
 
 	/**
 	 * @return void
@@ -57,18 +70,18 @@ class Tx_PtExtbase_SqlRunner_Typo3SqlRunner implements Tx_PtExtbase_SqlRunner_Sq
 	 * @return void
 	 */
 	public function runSqlFile($fileName) {
-		$result = $this->connection->sql_query($this->loadSql());
-		$this->connection->sql_free_result($result);
+		$this->queries = $this->multipleQueriesFileParser->parse($fileName);
+		$this->runQueries();
 	}
 
 	/**
-	 * @return string
+	 * @return void
 	 */
-	protected function loadSql() {
-		if (is_file($this->fileName)) {
-			return file_get_contents($this->fileName);
+	protected function runQueries() {
+		foreach ($this->queries as $query) {
+			$result = $this->connection->sql_query($query);
+			$this->connection->sql_free_result($result);
 		}
-		return '';
 	}
 
 }
