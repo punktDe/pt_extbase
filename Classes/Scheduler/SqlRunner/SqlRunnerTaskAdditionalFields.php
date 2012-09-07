@@ -94,28 +94,9 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 		$extensions = $this->getLoadedExtensions();
 		$sqlFilePaths = array();
 		foreach ($extensions as $extension) {
-			$path = t3lib_extMgm::extPath($extension, 'Resources/Private/Sql/MaterializedViews/');
-			if (file_exists($path)) {
-				foreach (new RecursiveIteratorIterator(
-					         new RecursiveDirectoryIterator($path)
-				         ) as $filename) { /** @var SplFileInfo $filename */
-					if ($filename->isFile()) {
-						$pathNameShortCut = $this->buildPathNameShortcut($extension, $filename->getPathname());
-						$sqlFilePaths[$pathNameShortCut] = $pathNameShortCut;
-					}
-				}
-			}
+			$sqlFilePaths = array_merge($sqlFilePaths, $this->getSqlFilePathsOfExtension($extension));
 		}
 		return $sqlFilePaths;
-	}
-
-	/**
-	 * @param $extension
-	 * @param $pathName
-	 * @return string
-	 */
-	protected function buildPathNameShortcut($extension, $pathName) {
-		return 'EXT:' . $extension . '/' . substr($pathName, strlen(t3lib_extMgm::extPath($extension)), strlen($pathName));
 	}
 
 	/**
@@ -130,6 +111,35 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 			}
 		}
 		return $loadedExtensions;
+	}
+
+	/**
+	 * @param string $extension
+	 * @return array
+	 */
+	protected function getSqlFilePathsOfExtension($extension) {
+		$sqlFilePaths = array();
+		$path = t3lib_extMgm::extPath($extension, 'Resources/Private/Sql/MaterializedViews/');
+		if (file_exists($path)) {
+			foreach (new RecursiveIteratorIterator(
+				         new RecursiveDirectoryIterator($path)
+			         ) as $filename) { /** @var SplFileInfo $filename */
+				if ($filename->isFile()) {
+					$pathNameShortCut = $this->buildPathNameShortcut($extension, $filename->getPathname());
+					$sqlFilePaths[$pathNameShortCut] = $pathNameShortCut;
+				}
+			}
+		}
+		return $sqlFilePaths;
+	}
+
+	/**
+	 * @param $extension
+	 * @param $pathName
+	 * @return string
+	 */
+	protected function buildPathNameShortcut($extension, $pathName) {
+		return 'EXT:' . $extension . '/' . substr($pathName, strlen(t3lib_extMgm::extPath($extension)), strlen($pathName));
 	}
 
 	/**
