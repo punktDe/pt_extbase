@@ -41,9 +41,9 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	protected $objectManager;
 
 	/**
-	 * @var Tx_PtExtbase_Scheduler_SqlRunner
+	 * @var Tx_PtExtbase_SqlRunner_SqlRunnerInterface
 	 */
-	protected $tablePreprocessor;
+	protected $sqlRunner;
 
 	/**
 	 * @return boolean Returns TRUE on successful execution, FALSE on error
@@ -51,7 +51,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	public function execute() {
 		$this->initializeExtbase();
 		$this->initializeObject();
-		// TODO: implement $this->sqlRunner->execute($this->tx_ptdpppbase_sqlfile);
+		$this->sqlRunner->runSqlFile(t3lib_div::getFileAbsFileName($this->tx_ptextbase_sqlfile));
 		return TRUE;
 	}
 
@@ -72,7 +72,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	 */
 	public function initializeObject() {
 		$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
-		$this->tablePreprocessor = $this->objectManager->get('Tx_PtExtlistSpecial_Domain_TablePreprocessor_MySqlTablePreprocessor');
+		$this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
 	}
 
 	/**
