@@ -169,12 +169,13 @@
 			});
 
 		log(requestData);
-
 		$.getJSON(baseURL, requestData, function (r) {
 			log('CreateNode Success: ' + r.status);
 
-			if(r.status)
+			if(r.status) {
 				$(data.rslt.obj).attr("id", r.id);
+				data.inst.refresh();
+			}
 			else
 				$.jstree.rollback(data.rlbk);
 		});
@@ -221,6 +222,6 @@
 			.bind("create.jstree", createNode)
 			.bind("remove.jstree", removeNode)
 			.bind("rename.jstree", renameNode)
-			.bind("loaded.jstree", treeLoaded);
+			.bind("reopen.jstree", treeLoaded);
 	});
 })(jQuery);
