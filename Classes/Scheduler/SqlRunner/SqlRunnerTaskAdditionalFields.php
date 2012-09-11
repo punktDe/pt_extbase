@@ -119,7 +119,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	 */
 	protected function getSqlFilePathsOfExtension($extension) {
 		$sqlFilePaths = array();
-		$path = t3lib_extMgm::extPath($extension, 'Resources/Private/Sql/MaterializedViews/');
+		$path = t3lib_extMgm::extPath($extension, 'Resources/Private/Sql/');
 		if (file_exists($path)) {
 			foreach (new RecursiveIteratorIterator(
 				         new RecursiveDirectoryIterator($path)
