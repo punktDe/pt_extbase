@@ -70,8 +70,7 @@ class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerTest extend
 	/** @test */
 	public function injectSessionAdapterAcceptsSessionAdapter() {
 		$sessionAdapter = Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance();
-		$sessionPersistenceManager = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
-		$sessionPersistenceManager->injectSessionAdapter($sessionAdapter);
+		$sessionPersistenceManager = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance($sessionAdapter);
 	}
 	
 	
@@ -80,8 +79,7 @@ class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerTest extend
 	public function getSessionDataByNamespaceReturnsCorrectValue() {
 		$sessionAdapterMock = new Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock();
 		
-		$sessionPersistenceManager = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
-        $sessionPersistenceManager->injectSessionAdapter($sessionAdapterMock);
+		$sessionPersistenceManager = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance($sessionAdapterMock);
         $sessionPersistenceManager->init();
         
 		$this->assertEquals($sessionPersistenceManager->getSessionDataByNamespace('test1.test2.test3'), 'value');

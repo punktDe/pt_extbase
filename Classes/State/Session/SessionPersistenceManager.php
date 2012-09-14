@@ -115,20 +115,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 		$this->sessionAdapaterClass = get_class($sessionAdapter);
 	}
 
-	
-	
-	/**
-	 * Injector for session adapter
-	 *
-	 * @deprecated Use __construct instead!
-	 *
-	 * @param Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter
-	 */
-	public function injectSessionAdapter(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter) {
-		$this->sessionAdapter = $sessionAdapter;
-		$this->sessionAdapaterClass = get_class($sessionAdapter);
-	}
-
 
 
     /**
