@@ -103,16 +103,30 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
      */
     protected $isInitialized = false;
 
+
+
+	/**
+	 * Constructor takes required adapter interface to be used for session storage
+	 *
+	 * @param Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter
+	 */
+	public function __construct(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter) {
+		$this->sessionAdapter = $sessionAdapter;
+		$this->sessionAdapaterClass = get_class($sessionAdapter);
+	}
+
 	
 	
 	/**
 	 * Injector for session adapter
 	 *
+	 * @deprecated Use __construct instead!
+	 *
 	 * @param Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter
 	 */
 	public function injectSessionAdapter(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter) {
 		$this->sessionAdapter = $sessionAdapter;
-      $this->sessionAdapaterClass = get_class($sessionAdapter);
+		$this->sessionAdapaterClass = get_class($sessionAdapter);
 	}
 
 

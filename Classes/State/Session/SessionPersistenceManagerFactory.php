@@ -52,13 +52,11 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory {
 	 */
 	public static function getInstance(Tx_PtExtbase_State_Session_Storage_AdapterInterface $storageAdapter = null) {
 		if (self::$instance == NULL) {
-			self::$instance = new Tx_PtExtbase_State_Session_SessionPersistenceManager();
-			
 			// TODO factory should decide, which storage adapter to use!
 			if ($storageAdapter === null) {
-			   self::$instance->injectSessionAdapter(self::getStorageAdapter());
+				self::$instance = new Tx_PtExtbase_State_Session_SessionPersistenceManager(self::getStorageAdapter());
 			} else {
-				self::$instance->injectSessionAdapter($storageAdapter);
+				self::$instance = new Tx_PtExtbase_State_Session_SessionPersistenceManager($storageAdapter);
 			}
 		}
 		return self::$instance;
@@ -81,5 +79,4 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory {
 	}
 	
 }
-
 ?>
