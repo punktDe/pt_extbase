@@ -76,5 +76,4 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory {
 	}
 	
 }
-
 ?>

@@ -48,6 +48,15 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements t3l
 
 
 	/**
+	 * Holds singleton instance of session persistence manager once it's been instantiated
+	 *
+	 * @var Tx_PtExtbase_State_Session_SessionPersistenceManager
+	 */
+	protected $sessionPersistenceManagerInstance;
+
+
+
+	/**
 	 * @var Tx_Extbase_Object_ObjectManagerInterface
 	 */
 	protected $objectManager;
@@ -75,11 +84,26 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements t3l
 	 * @return Tx_PtExtbase_State_Session_SessionPersistenceManager
 	 */
 	public function getInstance(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionStorageAdapter = NULL) {
+		if ($this->sessionPersistenceManagerInstance === NULL) {
+			$this->createInstance($sessionStorageAdapter);
+		}
+
+		return $this->sessionPersistenceManagerInstance;
+	}
+
+
+
+	/**
+	 * Creates local instance of session persistence manager
+	 *
+	 * @param $sessionStorageAdapter
+	 */
+	protected function createInstance($sessionStorageAdapter) {
 		if ($sessionStorageAdapter === NULL) {
+			$exception = new Exception();
 			$sessionStorageAdapter = $this->determineSessionStorageAdapterForGivenContext();
 		}
-		$sessionPersistenceManager = $this->objectManager->get('Tx_PtExtbase_State_Session_SessionPersistenceManager', $sessionStorageAdapter);
-		return $sessionPersistenceManager;
+		$this->sessionPersistenceManagerInstance = $this->objectManager->get('Tx_PtExtbase_State_Session_SessionPersistenceManager', $sessionStorageAdapter);
 	}
 
 
