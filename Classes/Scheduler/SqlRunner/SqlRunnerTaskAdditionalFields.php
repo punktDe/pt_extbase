@@ -44,6 +44,11 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	);
 
 	/**
+	 * @var string
+	 */
+	protected $fileExtensionList = 'sql,php';
+
+	/**
 	 * Gets additional fields to render in the form to add/edit a task
 	 *
 	 * @param array $taskInfo Values of the fields from the add/edit task form
@@ -66,8 +71,6 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 		$view->assign('id', $configuration['id']);
 		$view->assign('value', $taskInfo[$configuration['id']]);
 		$view->assign('sqlFilePaths', $this->getSqlFilePaths());
-		$fieldCode = '<input type="text" name="tx_scheduler[' . $configuration['id'] . ']" id="' . $configuration['id'] . '" value="' . $taskInfo[$configuration['id']] . '" size="50" maxlength="100" />';
-
 
 		$additionalFields[$configuration['id']] = array(
 			'code'     => $view->render(),
@@ -118,19 +121,24 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	 * @return array
 	 */
 	protected function getSqlFilePathsOfExtension($extension) {
-		$sqlFilePaths = array();
-		$path = t3lib_extMgm::extPath($extension, 'Resources/Private/Sql/');
-		if (file_exists($path)) {
-			foreach (new RecursiveIteratorIterator(
-				         new RecursiveDirectoryIterator($path)
-			         ) as $filename) { /** @var SplFileInfo $filename */
-				if ($filename->isFile()) {
-					$pathNameShortCut = $this->buildPathNameShortcut($extension, $filename->getPathname());
-					$sqlFilePaths[$pathNameShortCut] = $pathNameShortCut;
-				}
-			}
+		$pathNameShortCuts = array();
+		$filePaths = $this->getFilePathsOfPath($extension, 'Resources/Private/Sql/');
+		$filePaths = array_merge($filePaths, $this->getFilePathsOfPath($extension, 'Classes/Domain/SqlGenerator/'));
+		foreach ($filePaths as $filePath) {
+			$pathNameShortCut = $this->buildPathNameShortcut($extension, $filePath);
+			$pathNameShortCuts[$pathNameShortCut] = $pathNameShortCut;
 		}
-		return $sqlFilePaths;
+		return $pathNameShortCuts;
+	}
+
+	/**
+	 * @param string $extension
+	 * @param string $path
+	 * @return array
+	 */
+	protected function getFilePathsOfPath($extension, $path) {
+		$path = t3lib_extMgm::extPath($extension, $path);
+		return t3lib_div::getAllFilesAndFoldersInPath(array(), $path, $this->fileExtensionList);
 	}
 
 	/**
