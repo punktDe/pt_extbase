@@ -41,22 +41,9 @@ class Tx_PtExtbase_SqlRunner_Typo3SqlRunner implements Tx_PtExtbase_SqlRunner_Sq
 	protected $connection;
 
 	/**
-	 * @var Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser
-	 */
-	protected $multipleQueriesFileParser;
-
-	/**
 	 * @var array
 	 */
 	protected $queries;
-
-	/**
-	 * @param Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser $multipleQueriesFileParser
-	 * @return void
-	 */
-	public function injectMultipleQueriesFileParser(Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser $multipleQueriesFileParser) {
-		$this->multipleQueriesFileParser = $multipleQueriesFileParser;
-	}
 
 	/**
 	 * @return void
@@ -66,11 +53,11 @@ class Tx_PtExtbase_SqlRunner_Typo3SqlRunner implements Tx_PtExtbase_SqlRunner_Sq
 	}
 
 	/**
-	 * @param string $fileName
+	 * @param array $sqls
 	 * @return void
 	 */
-	public function runSqlFile($fileName) {
-		$this->queries = $this->multipleQueriesFileParser->parse($fileName);
+	public function runSqls($sqls) {
+		$this->queries = $sqls;
 		$this->runQueries();
 	}
 

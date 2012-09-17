@@ -37,10 +37,10 @@ interface Tx_PtExtbase_SqlRunner_SqlRunnerInterface {
 
 	/**
 	 * @abstract
-	 * @param string $fileName
+	 * @param array $sqls
 	 * @return void
 	 */
-	public function runSqlFile($fileName);
+	public function runSqls($sqls);
 
 }
 ?>

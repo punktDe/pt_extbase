@@ -41,6 +41,11 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	protected $objectManager;
 
 	/**
+	 * @var Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface
+	 */
+	protected $sqlGenerator;
+
+	/**
 	 * @var Tx_PtExtbase_SqlRunner_SqlRunnerInterface
 	 */
 	protected $sqlRunner;
@@ -51,7 +56,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	public function execute() {
 		$this->initializeExtbase();
 		$this->initializeObject();
-		$this->sqlRunner->runSqlFile(t3lib_div::getFileAbsFileName($this->tx_ptextbase_sqlfile));
+		$sqls = $this->sqlGenerator->generate(t3lib_div::getFileAbsFileName($this->tx_ptextbase_sqlfile));
+		$this->sqlRunner->runSqls($sqls);
 		return TRUE;
 	}
 
