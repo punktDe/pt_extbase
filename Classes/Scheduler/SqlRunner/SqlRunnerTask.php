@@ -41,7 +41,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	protected $objectManager;
 
 	/**
-	 * @var Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface
+	 * @var Tx_PtExtbase_SqlGenerator_SqlGenerator
 	 */
 	protected $sqlGenerator;
 
@@ -78,6 +78,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	 */
 	public function initializeObject() {
 		$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+		$this->sqlGenerator = $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlGenerator');
 		$this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
 	}
 
