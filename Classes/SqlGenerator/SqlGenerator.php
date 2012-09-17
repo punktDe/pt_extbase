@@ -68,11 +68,24 @@ class Tx_PtExtbase_SqlGenerator_SqlGenerator implements Tx_PtExtbase_SqlGenerato
 	 * @return string
 	 * @throws Exception
 	 */
-	public function generate($filePath) {
-		if (is_file($filePath)) {
-			return $this->sqlGenerators[pathinfo($filePath, PATHINFO_EXTENSION)]->generate();
+	public function generate($filePath = NULL) {
+		$extension = pathinfo($filePath, PATHINFO_EXTENSION);
+		$this->checkFilePath($filePath);
+		if (in_array($extension, array_keys($this->sqlGenerators))) {
+			return $this->sqlGenerators[$extension]->generate();
 		}
-		throw new Exception('Not a valid file: ' . $filePath . '! 1347035058');
+		throw new Exception('Not a valid file extension: ' . $filePath . '! 1347035058');
 	}
+
+	/**
+	 * @param $filePath
+	 * @throws Exception
+	 */
+	protected function checkFilePath($filePath) {
+		if (!is_file($filePath)) {
+			throw new Exception('Not a valid file: ' . $filePath . '! 1347035058');
+		}
+	}
+
 }
 ?>
