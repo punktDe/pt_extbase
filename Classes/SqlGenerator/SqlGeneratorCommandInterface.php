@@ -40,7 +40,7 @@ interface Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface {
 	 * @param string $filePath
 	 * @return array of single SQL commands
 	 */
-	public function generate($filePath = NULL);
+	public function generate($filePath);
 
 }
 ?>

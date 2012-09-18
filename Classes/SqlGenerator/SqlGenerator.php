@@ -68,7 +68,7 @@ class Tx_PtExtbase_SqlGenerator_SqlGenerator implements Tx_PtExtbase_SqlGenerato
 	 * @return string
 	 * @throws Exception
 	 */
-	public function generate($filePath = NULL) {
+	public function generate($filePath) {
 		$extension = pathinfo($filePath, PATHINFO_EXTENSION);
 		$this->checkFilePath($filePath);
 		if (in_array($extension, array_keys($this->sqlGenerators))) {

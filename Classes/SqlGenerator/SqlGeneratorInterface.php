@@ -28,33 +28,18 @@
  ***************************************************************/
 
 /**
- * SQL-File SQL Generator
+ * SQL Generator Command Interface
  *
  * @package pt_extbase
  * @subpackage SqlGenerator
  */
-class Tx_PtExtbase_SqlGenerator_SqlFileSqlGenerator implements Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface {
+interface Tx_PtExtbase_SqlGenerator_SqlGeneratorInterface {
 
 	/**
-	 * @var Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser
+	 * @abstract
+	 * @return array of single SQL commands
 	 */
-	protected $multipleQueriesFileParser;
-
-	/**
-	 * @param Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser $multipleQueriesFileParser
-	 * @return void
-	 */
-	public function injectMultipleQueriesFileParser(Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser $multipleQueriesFileParser) {
-		$this->multipleQueriesFileParser = $multipleQueriesFileParser;
-	}
-
-	/**
-	 * @param string $filePath
-	 * @return array
-	 */
-	public function generate($filePath) {
-		return $this->multipleQueriesFileParser->parse($filePath);
-	}
+	public function generate();
 
 }
 ?>

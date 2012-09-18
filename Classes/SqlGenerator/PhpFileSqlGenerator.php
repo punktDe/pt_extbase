@@ -57,7 +57,7 @@ class Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator implements Tx_PtExtbase_SqlG
 	 * @param string $filePath
 	 * @return array
 	 */
-	public function generate($filePath = NULL) {
+	public function generate($filePath) {
 		$this->getClassNames($filePath);
 		return $this->generateSqls();
 	}
