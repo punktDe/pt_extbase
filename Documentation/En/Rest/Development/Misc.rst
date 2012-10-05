@@ -1,7 +1,4 @@
 
-.. include:: ViewHelpers.rst
-.. include:: Utility.rst
-
 Controller
 ==========
 
