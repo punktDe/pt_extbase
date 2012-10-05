@@ -32,6 +32,24 @@
  */
 class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEntity {
 
+	/**
+	 * @var string the module key
+	 */
+	protected $module;
 
+
+	/**
+	 * @param string $module
+	 */
+	public function setModule($module) {
+		$this->module = $module;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getModule() {
+		return $this->module;
+	}
 }
 ?>
