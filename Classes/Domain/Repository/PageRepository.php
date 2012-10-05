@@ -32,16 +32,30 @@
 class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persistence_Repository {
 
 
-		/**
-		 * Constructor of the repository.
-		 * Sets the respect storage page to false.
-		 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
-		 */
-		public function __construct(Tx_Extbase_Object_ObjectManagerInterface $objectManager = NULL) {
-			 parent::__construct($objectManager);
-			 $this->defaultQuerySettings = new Tx_Extbase_Persistence_Typo3QuerySettings();
-			 $this->defaultQuerySettings->setRespectStoragePage(FALSE);
-			 $this->defaultQuerySettings->setRespectSysLanguage(FALSE);
-		}
+	/**
+	 * Constructor of the repository.
+	 * Sets the respect storage page to false.
+	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+	 */
+	public function __construct(Tx_Extbase_Object_ObjectManagerInterface $objectManager = NULL) {
+		 parent::__construct($objectManager);
+		 $this->defaultQuerySettings = new Tx_Extbase_Persistence_Typo3QuerySettings();
+		 $this->defaultQuerySettings->setRespectStoragePage(FALSE);
+		 $this->defaultQuerySettings->setRespectSysLanguage(FALSE);
+	}
+
+
+	/**
+	 * @param $pid
+	 * @return array|Tx_Extbase_Persistence_QueryResultInterface
+	 */
+	public function findPagesInPid($pid) {
+		$query = $this->createQuery();
+		$pages = $query->matching(
+			$query->equals('pid', $pid)
+		)
+		->execute();
+		return $pages;
+	}
 }
 ?>
