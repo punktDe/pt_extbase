@@ -8,4 +8,8 @@ pt_extbase
 
 .. contents:: Content
 
-.. include:: Development/UserGuide.rst
+.. include:: Development/Misc.rst
+
+.. include:: Development/Utility.rst
+
+.. include:: Development/ViewHelpers.rst
