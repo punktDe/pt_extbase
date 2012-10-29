@@ -92,9 +92,13 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Un
             ->will($this->returnValue(self::buildWrongSortedSetOfNodes()));
         $treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
 
-        $this->setExpectedException('Exception');
-
-        $treeBuilder->buildTreeForNamespace('no_matter_what_namespace');
+		try {
+			$treeBuilder->buildTreeForNamespace('no_matter_what_namespace');
+		} catch(Exception $e) {
+			$this->assertTrue(TRUE);
+			return;
+		}
+		$this->fail('No Exception was thrown.');
 	}
 
 
