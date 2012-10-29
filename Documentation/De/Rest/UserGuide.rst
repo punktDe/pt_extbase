@@ -8,4 +8,4 @@ pt_extbase
 
 .. contents:: Content
 
-.. include:: ../../En/Rest/Development/UserGuide.rst
+.. include:: ../../En/Rest/UserGuide.rst
