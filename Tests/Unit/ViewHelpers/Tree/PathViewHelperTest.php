@@ -33,12 +33,12 @@
 class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Javascript_SelectorViewHelper
+	 * @var string
 	 */
 	protected $accessibleProxyClass;
 
 	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper
+	 * @var Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper
 	 */
 	protected $accessibleProxy;
 
@@ -72,7 +72,13 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends Tx_PtE
 		);
 		
 		$tree = $this->getTreeMock();
-		
+
+		$accessibleNodePathBuilderClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tree_NodePathBuilder');
+		$accessibleNodePathBuilder = new $accessibleNodePathBuilderClass();
+		$accessibleNodePathBuilder->_set('tree', $tree);
+
+		$this->accessibleProxy->injectNodePathBuilder($accessibleNodePathBuilder);
+
 		$this->accessibleProxy->_set('arguments', $arguments);
 		$result = $this->accessibleProxy->_call('getPathFromRootToNode', $tree);
 
@@ -94,6 +100,12 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends Tx_PtE
 		);
 
 		$tree = $this->getTreeMock();
+
+		$accessibleNodePathBuilderClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tree_NodePathBuilder');
+		$accessibleNodePathBuilder = new $accessibleNodePathBuilderClass();
+		$accessibleNodePathBuilder->_set('tree', $tree);
+
+		$this->accessibleProxy->injectNodePathBuilder($accessibleNodePathBuilder);
 
 		$this->accessibleProxy->_set('arguments', $arguments);
 		$result = $this->accessibleProxy->_call('getPathFromRootToNode', $tree);
