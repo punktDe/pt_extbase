@@ -95,26 +95,6 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
     }
 
 
-
-	/**
-	 * @param $key
-	 * @return string
-	 */
-	public function getCObjSetting($key) {
-		if(array_key_exists($key, $this->settings)) {
-
-			$settings = $this->settings[$key];
-			if(is_array($this->settings[$key])) {
-				$cObj = Tx_PtExtbase_Div::getCobj();
-				return $cObj->cObjGetSingle($settings['_typoScriptNodeValue'], $settings);
-			} else {
-				return $settings;
-			}
-		}
-	}
-
-
-
 	/**
 	 * Returns a reference to the configurationbuilder
 	 *

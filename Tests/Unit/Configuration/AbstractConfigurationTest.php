@@ -225,15 +225,6 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends Tx
 	public function setRequiredPropertySetsPropertyIfPropertyNameIsGiven() {
 		$this->assertEquals($this->concreteConfiguration->value3, $this->settings['key8']);
 	}
-
-
-	/**
-	 * @test
-	 */
-	public function getCObjSetting() {
-		$this->assertEquals('xTESTx', $this->concreteConfiguration->getCObjSetting('cobjSetting'));
-	}
-	
 }
 
 
