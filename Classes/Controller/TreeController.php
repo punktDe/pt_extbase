@@ -161,7 +161,6 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		//$newNode = new Tx_PtExtbase_Tree_Node($label);
 		// TODO: get correct class name from tree namespace
 		$newNode = new Tx_PtCertification_Domain_Model_Category($label);
-		$newNode->setLabel($label);
 
 		$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
@@ -175,7 +174,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$newNodeUid = $newNode->getUid() > 0 ? $newNode->getUid() : 0;
 
 		// Create json response
-		$response = '{ status: ' . ($newNodeUid > 0 ? 'true' : 'false') . ', id: ' . $newNodeUid . ' }';
+		$response = '{ "status": ' . ($newNodeUid > 0 ? 'true' : 'false') . ', "id": ' . $newNodeUid . ' }';
 
 		echo $response;
 		exit();
@@ -198,7 +197,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 		$this->persistenceManager->persistAll();
 
-		echo '{ status: true }';
+		echo '{ "status": true }';
 		exit();
 	}
 
@@ -223,7 +222,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 		$this->persistenceManager->persistAll();
 
-		echo '{ status: true }';
+		echo '{ "status": true }';
 		exit();
 	}
 
@@ -246,7 +245,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 		$this->persistenceManager->persistAll();
 
-		echo '{ status: true }';
+		echo '{ "status": true }';
 		exit();
 	}
 
@@ -269,7 +268,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 		$this->persistenceManager->persistAll();
 
-		echo '{ status: true }';
+		echo '{ "status": true }';
 		exit();
 	}
 
@@ -293,7 +292,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 		$this->persistenceManager->persistAll();
 
-		echo '{ status: true }';
+		echo '{ "status": true }';
 		exit();
 	}
 

@@ -7,8 +7,9 @@
 (function($) {
 
 	var baseURL = '###baseUrl###',
+		dbNodeTable = '###dbNodeTable###',
 		treeDiv = '#ptExtbaseTreeDiv',
-		debug = true,
+		debug = false,
 		jsTreeInstance = undefined,
 		baseRequest = {
 			extensionName: 'ptExtbase',
@@ -55,15 +56,56 @@
 				'rename': {
 					'label': 'Umbenennen'
 				},
-				'ccp': {
-					'label': 'Bearbeiten'
-				},
+				'remove': false,
+				/*
 				'remove': {
 					'label': 'Loeschen'
-				}
+				},*/
+				'editNode': {
+					'label': 'Bearbeiten',
+					'action': editNode
+				},
+				'ccp': false
 			}
 		}
 	};
+
+	/**
+	 * Opens a new window to edit the record
+	 */
+	function editRecord(table, id) {    
+		var returnUrl = escape('mod.php?M=txdpppeditor_PtCertificationQuestioncategory'),
+			editurl = "alt_doc.php?edit["+table+"]["+id+"]=edit&returnUrl=" + returnUrl;
+
+		// window.open(editurl, 'Edit record');
+		self.location.href = editurl;
+	}
+
+	function editNode(node) {
+		var nodeId = node.attr('id');
+
+		log('Edit node with id ' + nodeId);
+
+		editRecord(dbNodeTable, nodeId);
+	}
+
+	function treeLoaded() {
+		var treeObj = $(treeDiv);
+
+		var nodes = treeObj.find('li');
+
+		log('There are ' + nodes.length + ' nodes');
+
+		$.each(nodes, function() {
+			var node = $(this),
+				id = node.attr('id'),
+				metadata = node.attr('data-meta');
+
+			// Add metadata to node html when an id and metadata is set
+			if (id && metadata !== undefined)
+				node.children('a:first').after('<span>(' + metadata + ')</span>');
+		});
+	}
 
 	function moveNode(e, data) {
 		data.rslt.o.each(function(i) {
@@ -127,12 +169,13 @@
 			});
 
 		log(requestData);
-
 		$.getJSON(baseURL, requestData, function (r) {
 			log('CreateNode Success: ' + r.status);
 
-			if(r.status)
+			if(r.status) {
 				$(data.rslt.obj).attr("id", r.id);
+				data.inst.refresh();
+			}
 			else
 				$.jstree.rollback(data.rlbk);
 		});
@@ -178,6 +221,7 @@
 			.bind("move_node.jstree", moveNode)
 			.bind("create.jstree", createNode)
 			.bind("remove.jstree", removeNode)
-			.bind("rename.jstree", renameNode);
+			.bind("rename.jstree", renameNode)
+			.bind("reopen.jstree", treeLoaded);
 	});
 })(jQuery);
