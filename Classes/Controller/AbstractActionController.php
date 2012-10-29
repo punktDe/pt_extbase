@@ -65,10 +65,19 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	 */
 	public function __construct() {
 		$this->lifecycleManager = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
+		if (TYPO3_MODE == 'FE' && !$GLOBALS['TSFE']->beUserLogin) {
+			$this->errorMethodName = 'productionErrorAction';
+		}
 		parent::__construct();
 	}
-    
-        
+
+	protected function productionErrorAction() {
+		$parentMessage = parent::errorAction();
+		if (strlen($parentMessage)!= 0) {
+			return 'Invalid action or parameter';
+		}
+	}
+
 	
 	/**
 	 * @param Tx_Extbase_MVC_View_ViewInterface $view

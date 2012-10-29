@@ -84,7 +84,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 	 * If key does not exist, empty array is returned.
      *
      * @param string $key Key of settings array to be returned
-     * @return array
+     * @return mixed
      */
     public function getSettings($key = '') {
     	if ($key != '' ) {

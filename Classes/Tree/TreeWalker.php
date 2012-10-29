@@ -99,7 +99,8 @@ class Tx_PtExtbase_Tree_TreeWalker {
      * @param int &$level Current level of visit in the tree starting at 1
 	 */
 	protected function dfs(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level = 1) {
-      if($node->isAccessible()) {
+
+		if($node->isAccessible()) {
 			$this->doFirstVisit($node, $index, $level);
 			$index = $index + 1;
 

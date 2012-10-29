@@ -86,7 +86,6 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 	 */
 	public function __construct() {
 		$this->nodeStack = new Tx_PtExtbase_Tree_Stack();
-		$this->signalSlotDispatcher = t3lib_div::makeInstance('Tx_Extbase_Object_Manager')->get('Tx_PtExtbase_SignalSlot_Dispatcher');
 	}
 
 
