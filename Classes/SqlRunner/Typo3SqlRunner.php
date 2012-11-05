@@ -62,12 +62,16 @@ class Tx_PtExtbase_SqlRunner_Typo3SqlRunner implements Tx_PtExtbase_SqlRunner_Sq
 	}
 
 	/**
+	 * Run queries
+	 *
+	 * Since this method is mainly used without SQL SELECTs, there is no PHP resource available
+	 * and thus no mysql_free_result() is necessary.
+	 *
 	 * @return void
 	 */
 	protected function runQueries() {
 		foreach ($this->queries as $query) {
-			$result = $this->connection->sql_query($query);
-			$this->connection->sql_free_result($result);
+			$this->connection->sql_query($query);
 		}
 	}
 
