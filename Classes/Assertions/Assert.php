@@ -614,8 +614,10 @@ class Tx_PtExtbase_Assertions_Assert {
         if (!empty($dbObj->debug_lastBuiltQuery)) {
             $info['debug_lastBuiltQuery'] = $dbObj->debug_lastBuiltQuery; 
         }
-        
-        return self::test($dbObj->debug_check_recordset($res), true, $info);
+
+		if($res === TRUE || self::test($dbObj->debug_check_recordset($res), true, $info)) {
+			return TRUE;
+		}
     }
     
     
