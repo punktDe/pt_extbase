@@ -334,9 +334,11 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	 * Initializes local privileges array from TypoScript settings
 	 */
 	protected function initGroupsToObjectAndActionsArray() {
-		foreach($this->typoScriptRbacSettings['extensions'] as $extensionName => $extensionRbacSettings) {
-			$this->_currentExtensionName = strtolower($extensionName);
-			$this->initRbacSettingsForGivenExtensionSettings($extensionRbacSettings);
+		if(is_array($this->typoScriptRbacSettings['extensions'])) {
+			foreach($this->typoScriptRbacSettings['extensions'] as $extensionName => $extensionRbacSettings) {
+				$this->_currentExtensionName = strtolower($extensionName);
+				$this->initRbacSettingsForGivenExtensionSettings($extensionRbacSettings);
+			}
 		}
 	}
 
