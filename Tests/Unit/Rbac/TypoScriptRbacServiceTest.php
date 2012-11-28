@@ -522,7 +522,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 	protected function getTypoScriptArrayForGivenTypoScriptString($typoScriptString) {
 		$typoScriptParser = t3lib_div::makeInstance('t3lib_TSparser'); /* @var $typoScriptParser t3lib_TSparser */
 		$typoScriptParser->parse($typoScriptString);
-		return Tx_Extbase_Utility_TypoScript::convertTypoScriptArrayToPlainArray($typoScriptParser->setup);
+		return Tx_PtExtbase_Compatibility_Typoscript::convertTypoScriptArrayToPlainArray($typoScriptParser->setup);
 	}
 
 
