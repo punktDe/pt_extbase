@@ -31,7 +31,13 @@
  */
 class Tx_PtExtbase_Div  {
 
-    /**
+	/**
+	 * @var tslib_cObj
+	 */
+	protected static $cObj;
+
+
+	/**
      * Class constants: period specifiers for getPeriodAsInt()
     */
     const PERIOD_SECS = 0;      // period as seconds
@@ -725,6 +731,28 @@ class Tx_PtExtbase_Div  {
 
 
 
+	/**
+	 * return the cObj object
+	 *
+	 * @return tslib_cObj;
+	 */
+	public static function getCobj() {
+		if(!self::$cObj) {
+			if(TYPO3_MODE == 'FE') {
+				if(!is_a($GLOBALS['TSFE']->cObj,'tslib_cObj')) {
+					$GLOBALS['TSFE']->newCObj();
+				}
+			} else {
+				t3lib_div::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory')->createFakeFrontend();
+			}
+		}
+
+		self::$cObj = $GLOBALS['TSFE']->cObj;
+		return self::$cObj;
+	}
+
+
+
     /***************************************************************************
      *   SECTION: EXTENSION CONFIGURATION RETRIEVAL METHODS
      **************************************************************************/
@@ -1317,6 +1345,7 @@ class Tx_PtExtbase_Div  {
      * @return  string  json
      * @see     http://www.bin-co.com/php/scripts/array2json/
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
+	 * @deprecated Use PHP internal function
      */
     public static function array2json($arr) {
 

@@ -259,11 +259,6 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 
 	/** @test */
 	public function initializeObjectThrowsExceptionIfRoleHasNoPrivilegesSet() {
-		$this->setExpectedException(
-			'Exception',
-			'1334831365'
-		);
-
 		$typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
@@ -285,18 +280,19 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		try {
+			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		} catch(Exception $e) {
+			$this->assertTrue(TRUE);
+			return;
+		}
+		$this->fail('No Exception was thrown.');
 	}
 
 
 
 	/** @test */
 	public function initializeObjectThrowsExceptionIfRoleAssignedToGroupIsNotSetUp() {
-		$this->setExpectedException(
-			'Exception',
-			'1334831364'
-		);
-
 		$typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
@@ -320,18 +316,19 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		try {
+			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		} catch(Exception $e) {
+			$this->assertTrue(TRUE);
+			return;
+		}
+		$this->fail('No Exception was thrown.');
 	}
 
 
 
 	/** @test */
 	public function initializeObjectThrowsExceptionIfPrivilegeUsesObjectThatIsNotConfigured() {
-		$this->setExpectedException(
-			'Exception',
-			'1334831367'
-		);
-
 		$typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
@@ -363,17 +360,19 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		try {
+			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		} catch(Exception $e) {
+			$this->assertTrue(TRUE);
+			return;
+		}
+		$this->fail('No Exception was thrown.');
 	}
 
 
 
 	/** @test */
 	public function initializeObjectThrowsExceptionIfNoSectionObjectsIsSetInTsConfiguration() {
-		$this->setExpectedException(
-			'Exception',
-			'1334831366'
-		);
 
 		$typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
@@ -400,17 +399,19 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		try {
+			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		} catch(Exception $e) {
+			$this->assertTrue(TRUE);
+			return;
+		}
+		$this->fail('No Exception was thrown.');
 	}
 
 
 
 	/** @test */
 	public function initializeObjectThrowsExceptionIfAnActionIsUsedInPrivilegeThatIsNotSetUpInObjects() {
-		$this->setExpectedException(
-			'Exception',
-			'1334831369'
-		);
 
 		$typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
@@ -441,17 +442,19 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		try {
+			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		} catch(Exception $e) {
+			$this->assertTrue(TRUE);
+			return;
+		}
+		$this->fail('No Exception was thrown.');
 	}
 
 
 
 	/** @test */
 	public function initializeObjectThrowsExceptionIfWeUseObjectInPrivilegeThatIsNotConfiguredInObjectsSection() {
-		$this->setExpectedException(
-			'Exception',
-			'1334831368'
-		);
 
 		$typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
@@ -482,7 +485,13 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		try {
+			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+		} catch(Exception $e) {
+			$this->assertTrue(TRUE);
+			return;
+		}
+		$this->fail('No Exception was thrown.');
 	}
 
 

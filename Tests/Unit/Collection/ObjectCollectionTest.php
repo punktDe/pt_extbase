@@ -63,7 +63,7 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit
     public function addingAnObjectOfTheCorrectType() {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock, 1);
         $this->assertTrue($this->fixture->count() === 1, 'Collection does not contain 1 item!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(1), 'Object has not the right type!');
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(1), 'Object has not the right type!');
     }
     
     
@@ -80,7 +80,7 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit
     public function test_appendingAnObjectWithArrayAccess() {
         $this->fixture[1] = new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock();
         $this->assertTrue($this->fixture->count() === 1, 'Collection does not contain 1 item!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(1), 'Object has not the right type!');
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(1), 'Object has not the right type!');
     }
     
     
@@ -106,7 +106,7 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit
     public function test_pushAndPopAnObject() {
         $this->fixture->push(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock());
         $this->assertTrue($this->fixture->count() === 1, 'Collection does not contain 1 item!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->pop(), 'Object has not the right type!');
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->pop(), 'Object has not the right type!');
     }
     
     
@@ -115,7 +115,7 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit
     public function test_unshiftAndShiftAnObject() {
         $this->fixture->unshift(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock());
         $this->assertTrue($this->fixture->count() === 1, 'Collection does not contain 1 item!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->shift(), 'Object has not the right type!');
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->shift(), 'Object has not the right type!');
     }
     
     
@@ -125,9 +125,9 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 5);
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->shift(), 'Object has not the right type!');
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->shift(), 'Object has not the right type!');
         $this->assertTrue($this->fixture->count() === 1, 'Collection does not contain 1 item!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(0));
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(0));
     }
     
     
@@ -137,9 +137,9 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 5);
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->pop(), 'Object has not the right type!');
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->pop(), 'Object has not the right type!');
         $this->assertTrue($this->fixture->count() === 1, 'Collection does not contain 1 item!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(5));
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(5));
     }
     
     
@@ -149,8 +149,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->fixture->unshift(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock());
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(0));
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(1));
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(0));
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(1));
     }
     
     
@@ -160,8 +160,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->fixture->push(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock());
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(6));
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(7));
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(6));
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(7));
     }
     
     
@@ -191,9 +191,9 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 5);
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->shift(true), 'Object has not the right type!');
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->shift(true), 'Object has not the right type!');
         $this->assertTrue($this->fixture->count() === 1, 'Collection does not contain 1 item!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(6));
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(6));
     }
     
     
@@ -203,8 +203,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->fixture->unshift(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), true);
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(6));
-        $this->assertType('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(0));
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(6));
+        $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(0));
     }
 }
 

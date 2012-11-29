@@ -89,6 +89,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 * @param string $functionName Name of method called
 	 * @param array $arguments Arguments passed to called method
 	 * @return mixed
+	 * @throws Exception
 	 */
 	public function __call($functionName, $arguments) {
 		#$functionName = strtolower($functionName);
@@ -115,6 +116,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 *
 	 * @param string $configurationName
 	 * @return mixed
+	 * @throws Exception
 	 */
 	protected function buildConfigurationGeneric($configurationName) {
 
@@ -144,6 +146,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 *
 	 * @param string $configurationName
 	 * @return array
+	 * @throws Exception
 	 */
 	public function getSettingsForConfigObject($configurationName) {
 		if(!array_key_exists($configurationName, $this->configurationObjectSettings)) {
@@ -214,17 +217,12 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 * @param string $key
 	 * @return array
 	 */
-    public function getSettings($key = NULL) {
-    	if(!$key) {
-        	return $this->settings;
-        } else {
-        	if(array_key_exists($key, $this->settings)) {
-        		return $this->settings[$key];
-            } else {
-                return array();
-            }
-        }
-    }
-
+	public function getSettings($key = '') {
+		if ($key != '' ) {
+			return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->settings, $key);
+		} else {
+			return $this->settings;
+		}
+	}
 }
 ?>

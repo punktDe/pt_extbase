@@ -82,7 +82,8 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
 		$this->registerArgument('multiple', 'boolean', 'Specifies if the tree is a multiple or single select tree', false, false);
 		$this->overrideArgument('id', 'string', 'Specifies the field and div ID', true, 'ptExtbaseTreeSelector');
-      $this->registerArgument('restrictedDepth', 'int', 'Depth of tree to be rendered', false);
+		$this->registerArgument('restrictedDepth', 'int', 'Depth of tree to be rendered', false);
+		$this->registerArgument('expand', 'string', 'Expand Mode. "all" or "root"', false, 'root');
 	}
 
 
@@ -185,7 +186,8 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 			array(
 				'nodeJSON' => $treeNodes,
 				'multiple' => $this->multiple ? 'true': 'false',
-				'fieldId' => $this->arguments['id']
+				'fieldId' => $this->arguments['id'],
+				'expand' => $this->arguments['expand'],
 			)
 			,FALSE, FALSE
 		);

@@ -84,7 +84,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 	 * If key does not exist, empty array is returned.
      *
      * @param string $key Key of settings array to be returned
-     * @return array
+     * @return mixed
      */
     public function getSettings($key = '') {
     	if ($key != '' ) {
@@ -93,7 +93,6 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
             return $this->settings;
     	}
     }
-
 
 
 	/**
@@ -175,7 +174,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 	 * Checks if the tsKey exists in the settings and throw an exception with the given method if not
 	 *
 	 * @param string $tsKey with the value to copy to the internal property
-	 * @param string_type $errorMessageIfNotExists
+	 * @param string $errorMessageIfNotExists
 	 * @param string $internalPropertyName optional property name if it is deiferent from the tsKey
 	 * @throws Exception
 	 */

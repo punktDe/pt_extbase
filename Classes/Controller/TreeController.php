@@ -3,7 +3,7 @@
  *  Copyright notice
  *
  *  (c) 2010-2012 punkt.de GmbH - Karlsruhe, Germany - http://www.punkt.de
- *  Authors: Daniel Lienert
+ *  Authors: Daniel Lienert, Sebastian Helzle
  *  All rights reserved
  *
  *  For further information: http://extlist.punkt.de <extlist@punkt.de>
@@ -31,6 +31,7 @@
  *
  * @author Daniel Lienert
  * @author Michael Knoll
+ * @author Sebastian Helzle
  */
 class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_ActionController {
 
@@ -128,18 +129,21 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * Get tree or subtree when node is given
 	 *
 	 * @dontvalidate
-	 * @param Tx_PtExtbase_Tree_Node $node
+	 * @param int $node
+	 * @param int $restrictedDepth
 	 */
-	public function getTreeAction(Tx_PtExtbase_Tree_Node $node = NULL) {
+	public function getTreeAction($node=NULL, $restrictedDepth=0) {
 		if($node) {
             $tree = $this->treeRepository->getEmptyTree($this->treeNameSpace);
 		} else {
 			$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
-            $tree->setRestrictedDepth(2);
-            $tree->setRespectRestrictedDepth(TRUE);
+			if ($restrictedDepth > 0) {
+	            $tree->setRestrictedDepth($restrictedDepth);
+	            $tree->setRespectRestrictedDepth(TRUE);
+			}
 		}
 
-		echo Tx_PtExtbase_Tree_ExtJsJsonTreeWriter::getInstance()->writeTree($tree);
+		echo Tx_PtExtbase_Tree_JSTreeJsonTreeWriter::getInstance()->writeTree($tree);
 		exit();
 	}
 
@@ -148,20 +152,31 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	/**
      * Adds new node into given parent node with given label
      *
-	 * @param Tx_PtExtbase_Tree_Node $parent
+	 * @param int $parent
 	 * @param string $label
 	 *
 	 * @return integer id of new node or 0 if error
 	 */
-	public function addNodeAction(Tx_PtExtbase_Tree_Node $parent, $label) {
-		$newNode = new Tx_PtExtbase_Tree_Node($label);
+	public function addNodeAction($parent, $label) {
+		//$newNode = new Tx_PtExtbase_Tree_Node($label);
+		// TODO: get correct class name from tree namespace
+		$newNode = new Tx_PtCertification_Domain_Model_Category($label);
+
 		$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+
+        $parent = $tree->getNodeByUid($parent);
+
 		$tree->insertNode($newNode, $parent);
         $this->treeRepository->update($tree);
 
 		$this->persistenceManager->persistAll();
 
-		echo $newNode->getUid() > 0 ? $newNode->getUid() : 0;
+		$newNodeUid = $newNode->getUid() > 0 ? $newNode->getUid() : 0;
+
+		// Create json response
+		$response = '{ "status": ' . ($newNodeUid > 0 ? 'true' : 'false') . ', "id": ' . $newNodeUid . ' }';
+
+		echo $response;
 		exit();
 	}
 
@@ -170,14 +185,19 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	/**
      * Removes given node from tree
      *
-	 * @param Tx_PtExtbase_Tree_Node $node
+	 * @param int $node
 	 */
-	public function removeNodeAction(Tx_PtExtbase_Tree_Node $node) {
+	public function removeNodeAction($node) {
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+
+        $node = $tree->getNodeByUid($node);
+
 		$tree->deleteNode($node);
         $this->treeRepository->update($tree);
 
 		$this->persistenceManager->persistAll();
+
+		echo '{ "status": true }';
 		exit();
 	}
 
@@ -188,15 +208,21 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 *
 	 * This action can be used for a drag'n'drop of a node "onto" another node.
 	 *
-	 * @param Tx_PtExtbase_Tree_Node $node Node to be moved
-	 * @param Tx_PtExtbase_Tree_Node $targetNode Node where moved node should be put into
+	 * @param int $node Node to be moved
+	 * @param int $targetNode Node where moved node should be put into
 	 */
-	public function moveNodeIntoAction(Tx_PtExtbase_Tree_Node $node, Tx_PtExtbase_Tree_Node $targetNode) {
+	public function moveNodeIntoAction($node, $targetNode) {
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+
+        $node = $tree->getNodeByUid($node);
+        $targetNode = $tree->getNodeByUid($targetNode);
+
 		$tree->moveNode($node, $targetNode);
         $this->treeRepository->update($tree);
 
 		$this->persistenceManager->persistAll();
+
+		echo '{ "status": true }';
 		exit();
 	}
 
@@ -205,15 +231,21 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	/**
 	 * Moves node given by ID after node given by ID as child of the very same node
 	 *
-	 * @param Tx_PtExtbase_Tree_Node $node Node that has to be moved
-	 * @param Tx_PtExtbase_Tree_Node $targetNode Node where moved node should be put before
+	 * @param int $node Node that has to be moved
+	 * @param int $targetNode Node where moved node should be put before
 	 */
-	public function moveNodeAfterAction(Tx_PtExtbase_Tree_Node $node, Tx_PtExtbase_Tree_Node $targetNode) {
+	public function moveNodeAfterAction($node, $targetNode) {
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+
+        $node = $tree->getNodeByUid($node);
+        $targetNode = $tree->getNodeByUid($targetNode);
+
 		$tree->moveNodeAfterNode($node, $targetNode);
         $this->treeRepository->update($tree);
 
 		$this->persistenceManager->persistAll();
+
+		echo '{ "status": true }';
 		exit();
 	}
 
@@ -222,15 +254,21 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	/**
 	 * Moves node before targetNode as child of the very same node.
 	 *
-	 * @param Tx_PtExtbase_Tree_Node $node ID of node that was moved
-	 * @param Tx_PtExtbase_Tree_Node $targetNode ID of node where moved node should be put after
+	 * @param int $node ID of node that was moved
+	 * @param int $targetNode ID of node where moved node should be put after
 	 */
-	public function moveNodeBeforeAction(Tx_PtExtbase_Tree_Node $node, Tx_PtExtbase_Tree_Node $targetNode) {
+	public function moveNodeBeforeAction($node, $targetNode) {
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+
+        $node = $tree->getNodeByUid($node);
+        $targetNode = $tree->getNodeByUid($targetNode);
+
 		$tree->moveNodeBeforeNode($node, $targetNode);
 		$this->treeRepository->update($tree);
 
 		$this->persistenceManager->persistAll();
+
+		echo '{ "status": true }';
 		exit();
 	}
 
@@ -241,14 +279,20 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
      *
      * TODO Warning: As we do not check any properties set on the node here, user could manipulate lft and rgt values and hence crash the tree!
      *
-	 * @param Tx_PtExtbase_Tree_Node $node
+	 * @param int $node
 	 * @param string $label
 	 */
-	public function saveNodeAction(Tx_PtExtbase_Tree_Node $node, $label = '') {
+	public function saveNodeAction($node, $label = '') {
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+
+        $node = $tree->getNodeByUid($node);
+
 		$node->setLabel($label);
 		$this->nodeRepository->update($node);
 
 		$this->persistenceManager->persistAll();
+
+		echo '{ "status": true }';
 		exit();
 	}
 
