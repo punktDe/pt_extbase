@@ -26,11 +26,11 @@
 /**
  * Compatibility Class for TypoScript Conversion service
  *
- * @package ConfigurationBuilder
+ * @package Compatibility
  * @author Daniel Lienert
  */
 
-class Tx_PtExtbase_Compatibility_Typoscript {
+class Tx_PtExtbase_Compatibility_Extbase_Service_TypoScript {
 
 	/**
 	 * @return \TYPO3\CMS\Extbase\Service\TypoScriptService
