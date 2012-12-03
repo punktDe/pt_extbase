@@ -158,7 +158,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 		$this->arguments['extKey'] = $this->extKey;
 
 		if(is_object($this->controllerContext)) {
-			$this->arguments['pluginNamespace'] = Tx_Extbase_Utility_Extension::getPluginNamespace(
+			$this->arguments['pluginNamespace'] = Tx_PtExtbase_Compatibility_Extbase_Utility_Extension::getPluginNamespace(
 				$this->controllerContext->getRequest()->getControllerExtensionName(),
 				$this->controllerContext->getRequest()->getPluginName()
 			);
