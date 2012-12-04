@@ -153,7 +153,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 		$this->nodeStack->pop();
 
 		if($this->lastVisitCallback) {
-			call_user_func(array($this->lastVisitCallback['target'], $this->lastVisitCallback['method']), $node, $currentNode);
+			$currentNode = call_user_func(array($this->lastVisitCallback['target'], $this->lastVisitCallback['method']), $node, $currentNode);
 		}
 
 		if (!$this->nodeStack->isEmpty()) {
