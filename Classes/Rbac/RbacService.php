@@ -2,7 +2,10 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Daniel Lienert <daniel@lienert.cc>
+*  (c) 2012 Michael Knoll <knoll@punkt.de>, punkt.de GmbH
+ * 		Daniel lienert <lienert@punkt.de>, punkt.de GmbH
+*
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,40 +25,25 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-/**
- * cObject Array viewHelper
- *
- * @package pt_extbase
- * @subpackage ViewHelpers
- */
-class Tx_PtExtbase_ViewHelpers_CObjectConfigViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
-	/**
-	 * Initialize arguments
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
 
-	}
+class Tx_PtExtbase_Rbac_RbacService implements Tx_PtExtbase_Rbac_RbacServiceInterface {
 
 
 	/**
-	 * Renders a cObject form an extbase formatted config
+	 * This is currently only a dummy implementation,
+	 * which is used if no other service was configured.
+	 * It just returns false on every request
 	 *
-	 * @param mixed $config
-	 * @param array $data
-	 * @return string
+	 * @param string $extension Extension to grant access to
+	 * @param string $object Object to grant access to
+	 * @param string $action Action to grant access to
+	 * @return bool
 	 */
-	public function render($config, $data = array()) {
+	public function loggedInUserHasAccess($extension, $object, $action) {
 
-		if(!is_array($config)) return $config;
+		return false;
 
-		if($data) {
-			Tx_PtExtbase_Div::getCobj()->start($data);
-		}
-
-		return Tx_PtExtbase_Div::getCobj()->cObjGetSingle($config['_typoScriptNodeValue'], Tx_Extbase_Utility_TypoScript::convertPlainArrayToTypoScriptArray($config));
 	}
-	
 }
+?>
