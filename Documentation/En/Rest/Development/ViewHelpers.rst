@@ -1,7 +1,7 @@
 ViewHelpers
 ===========
 
-CommentViewHelper
+Comment
 -----------------
 
 Just removes everything between the tags.
@@ -16,7 +16,7 @@ Example::
 
 
 
-RemoveLineBreaksViewHelper
+RemoveLineBreaks
 --------------------------
 
 Remove line breaks from the string.
@@ -31,7 +31,7 @@ Example
 
 
 
-ExplodeViewHelper
+Explode
 -----------------
 
 Explodes a string by the given delimiter.
@@ -48,7 +48,7 @@ Example
 
 
 
-Tree / PathViewHelper
+Tree / Path
 ---------------------
 
 Iterates over the path from a given node Id to the root, to draw a path or a rootline menu.
@@ -82,7 +82,7 @@ Example::
 	</f:for>
 
 
-Be / FormTokenViewHelper
+Be / FormToken
 ------------------------
 
 Just returns a formToken to be used in backend form links
@@ -96,3 +96,11 @@ Example:
 Returns:
 
 &formToken=<formTokenHash>
+
+
+Content / RenderPage
+------------------------
+
+
+
+
