@@ -1,6 +1,9 @@
 Changelog
 =========
 
+V 1.2.0:
+
+	- ADD: Compatibility layer for TYPO3 6.0
 
 V 1.0.0:
 
