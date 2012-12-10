@@ -3,7 +3,7 @@ pt_extbase
 ==========
 
 .. contents:: Content
-
+	:depth: 2
 
 .. include:: General/Index.rst
 
@@ -30,3 +30,7 @@ pt_extbase
 .. interface area
 
 .. include:: Interface/Index.rst
+
+
+
+.. include:: ChangeLog.rst
