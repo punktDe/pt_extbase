@@ -86,7 +86,7 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements t3lib_Sing
         $frameWorkKonfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
         $this->extensionName = $frameWorkKonfiguration['extensionName'];
-        $this->extensionNameSpace = Tx_Extbase_Utility_Extension::getPluginNamespace($frameWorkKonfiguration['extensionName'],
+        $this->extensionNameSpace = Tx_PtExtbase_Compatibility_Extbase_Utility_Extension::getPluginNamespace($frameWorkKonfiguration['extensionName'],
                                                                                         $frameWorkKonfiguration['pluginName']);
 
         $this->isInCachedMode = $frameWorkKonfiguration['pluginName'] == 'Cached' ? true : false;
@@ -106,7 +106,7 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements t3lib_Sing
 	 */
 	public function setExtensionNamespace($extensionName, $pluginName) {
 		$this->extensionName = $extensionName;
-		$this->extensionNameSpace = Tx_Extbase_Utility_Extension::getPluginNamespace($extensionName, $pluginName);
+		$this->extensionNameSpace = Tx_PtExtbase_Compatibility_Extbase_Utility_Extension::getPluginNamespace($extensionName, $pluginName);
 	}
 
 

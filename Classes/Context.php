@@ -71,15 +71,15 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 	 * 
 	 */
 	public function initializeObject() {
-		$frameWorkKonfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+		$frameWorkConfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		
-		$this->extensionName = $frameWorkKonfiguration['extensionName'];
-		$this->extensionNameSpace = Tx_Extbase_Utility_Extension::getPluginNamespace($frameWorkKonfiguration['extensionName'], 
-																						$frameWorkKonfiguration['pluginName']); 
+		$this->extensionName = $frameWorkConfiguration['extensionName'];
+		$this->extensionNameSpace = Tx_PtExtbase_Compatibility_Extbase_Utility_Extension::getPluginNamespace($frameWorkConfiguration['extensionName'],
+																						$frameWorkConfiguration['pluginName']);
 		
-		$this->inCachedMode = $frameWorkKonfiguration['pluginName'] == 'Cached' ? true : false;
+		$this->inCachedMode = $frameWorkConfiguration['pluginName'] == 'Cached' ? true : false;
 		
-		unset($frameWorkKonfiguration);
+		unset($frameWorkConfiguration);
 	}
 	
 	

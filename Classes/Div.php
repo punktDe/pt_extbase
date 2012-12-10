@@ -1683,6 +1683,26 @@ class Tx_PtExtbase_Div  {
 		return $tsArray;
 	}
 
+
+
+	/**
+	 * Especially when sending an object, that is marked as lazy loading to a viewHelper,
+	 * the real instance of this object must be received before it is send to the viewHelper
+	 * to fit to the viewHelpers class signature.
+	 *
+	 * @param $object
+	 * @return mixed
+	 */
+	public static function getLazyLoadedObject($object) {
+		if (get_class($object) === 'Tx_Extbase_Persistence_LazyLoadingProxy'
+				|| get_class($object) === 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\LazyLoadingProxy') {
+			return $object->_loadRealInstance();
+		} else {
+			return $object;
+		}
+	}
+
+
 }
 
 ?>

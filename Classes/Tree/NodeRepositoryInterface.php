@@ -53,5 +53,11 @@ interface Tx_PtExtbase_Tree_NodeRepositoryInterface {
      */
     public function updateOrAdd(Tx_PtExtbase_Tree_NodeInterface $node);
 
+
+
+	/**
+	 * @param bool $respectEnableFields
+	 */
+	public function setRespectEnableFields($respectEnableFields);
 }
 ?>
