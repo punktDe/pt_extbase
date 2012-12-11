@@ -10,3 +10,5 @@ Development
 .. include:: Controller.rst
 
 .. include:: Utility.rst
+
+.. include:: SqlGenerator.rst
