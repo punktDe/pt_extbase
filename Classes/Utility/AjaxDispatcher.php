@@ -49,6 +49,11 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected $objectManager;
 
 
+    /**
+   	 * @var string
+   	 */
+   	protected $vendorName;
+
 
 	/**
 	 * @var string
@@ -110,15 +115,18 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
      * ATTENTION: You should not call this method without initializing the dispatcher. Use initAndDispatch() instead!
      */
     public function dispatch() {
+        $configuration['vendorName'] = $this->vendorName;
         $configuration['extensionName'] = $this->extensionName;
         $configuration['pluginName'] = $this->pluginName;
 
+        /** @var $bootstrap Tx_Extbase_Core_Bootstrap */
         $bootstrap = t3lib_div::makeInstance('Tx_Extbase_Core_Bootstrap');
         $bootstrap->initialize($configuration);
 
         $this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
 
         $request = $this->buildRequest();
+        /** @var $response Tx_Extbase_MVC_Web_Response */
         $response = $this->objectManager->create('Tx_Extbase_MVC_Web_Response');
 
         $dispatcher =  $this->objectManager->get('Tx_Extbase_MVC_Dispatcher');
@@ -180,6 +188,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
      */
     protected function buildRequest() {
         $request = $this->objectManager->get('Tx_Extbase_MVC_Web_Request'); /* @var $request Tx_Extbase_MVC_Request */
+        $request->setControllerVendorName($this->vendorName);
         $request->setControllerExtensionName($this->extensionName);
         $request->setPluginName($this->pluginName);
         $request->setControllerName($this->controllerName);
@@ -204,6 +213,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 			$this->setRequestArgumentsFromGetPost();
 		}
 
+        $this->vendorName  = $this->requestArguments['vendorName'];
 		$this->extensionName  = $this->requestArguments['extensionName'];
 		$this->pluginName = $this->requestArguments['pluginName'];
 		$this->controllerName = $this->requestArguments['controllerName'];
@@ -287,6 +297,16 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 		$this->actionName = $actionName;
 		return $this;
 	}
+
+    /**
+     * @param string $vendorName
+     * @return Tx_PtExtbase_Utility_AjaxDispatcher
+     */
+    public function setVendorName($vendorName)
+    {
+        $this->vendorName = $vendorName;
+        return $this;
+    }
 
 }
 ?>
