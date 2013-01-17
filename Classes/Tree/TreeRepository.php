@@ -121,6 +121,15 @@ class Tx_PtExtbase_Tree_TreeRepository {
     public function setRespectRestrictedDepth($respectRestrictedDepth = TRUE) {
         $this->treeBuilder->setRespectRestrictedDepth($respectRestrictedDepth);
     }
+
+
+
+	/**
+	 * @param boolean $respectEnableFields
+	 */
+	public function setRespectEnableFields($respectEnableFields) {
+		$this->treeBuilder->setRespectEnableFields($respectEnableFields);
+	}
 	
 }
 ?>
