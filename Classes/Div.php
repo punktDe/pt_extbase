@@ -768,23 +768,24 @@ class Tx_PtExtbase_Div  {
      * @author  Rainer Kuhn 
      */
     public static function returnExtConfArray($extKey, $noExceptionIfNoConfigFound=false) {
+		if (file_exists(PATH_typo3conf.'localconf.php')) {
+			require(PATH_typo3conf.'localconf.php');  // don't use require_once here!
 
-        require(PATH_typo3conf.'localconf.php');  // don't use require_once here!
+			Tx_PtExtbase_Assertions_Assert::isNotEmptyString($extKey);
 
-        Tx_PtExtbase_Assertions_Assert::isNotEmptyString($extKey);
-
-        $baseConfArr = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$extKey]);
-        if (!is_array($baseConfArr)) {
-            if ($noExceptionIfNoConfigFound == true) {
-                $baseConfArr = array();
-            } else {
-                throw new Tx_PtExtbase_Exception_Exception('Extension configuration in localconf.php for extension "'.$extKey.'" not found!', 2,
-                                               '$TYPO3_CONF_VARS["EXT"]["extConf"]["'.$extKey.'"] not found in localconf.php.');
-            }
-        }
-
-        return $baseConfArr;
-
+			$baseConfArr = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$extKey]);
+		} else {
+			$baseConfArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey]);
+		}
+		if (!is_array($baseConfArr)) {
+			if ($noExceptionIfNoConfigFound == true) {
+				$baseConfArr = array();
+			} else {
+				throw new Tx_PtExtbase_Exception_Exception('Extension configuration in localconf.php for extension "'.$extKey.'" not found!', 2,
+					'$TYPO3_CONF_VARS["EXT"]["extConf"]["'.$extKey.'"] not found in localconf.php.');
+			}
+		}
+		return $baseConfArr;
     }
     
     
