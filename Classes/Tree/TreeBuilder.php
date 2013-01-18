@@ -169,6 +169,7 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
 
 
 
+
     /**
      * Sets respect restricted depth to given value.
      *
@@ -176,9 +177,18 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
      *
      * @param bool $respectRestrictedDepth
      */
-    public function setRespectRestrictedDepth($respectRestrictedDepth=TRUE) {
+    public function setRespectRestrictedDepth($respectRestrictedDepth = TRUE) {
         $this->respectRestrictedDepth = $respectRestrictedDepth;
     }
+
+
+
+	/**
+	 * @param boolean $respectEnableFields
+	 */
+	public function setRespectEnableFields($respectEnableFields) {
+		$this->nodeRepository->setRespectEnableFields($respectEnableFields);
+	}
 
 }
 ?>
