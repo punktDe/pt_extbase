@@ -1,6 +1,36 @@
 <?php
+/***************************************************************
+*  Copyright notice
+*
+*  (c) 2012 Michael Knoll
+*  All rights reserved
+*
+*  This script is part of the TYPO3 project. The TYPO3 project is
+*  free software; you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation; either version 2 of the License, or
+*  (at your option) any later version.
+*
+*  The GNU General Public License can be found at
+*  http://www.gnu.org/copyleft/gpl.html.
+*
+*  This script is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  This copyright notice MUST APPEAR in all copies of the script!
+***************************************************************/
 
-class Tx_PtExtbase_Tests_Unit_Assertion_AssertTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+/**
+ * Class implements testcase for assertion class
+ *
+ * @author  Michael Knoll <knoll@punkt.de>
+ * @package pt_extbase
+ * @subpackage Tests\Unit\Assertions
+ * @see Tx_PtExtbase_Assertions_Assert
+ */
+class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 	/**
 	 * Holds temporary instance of dbObj in Assert class.
@@ -14,7 +44,7 @@ class Tx_PtExtbase_Tests_Unit_Assertion_AssertTest extends Tx_PtExtbase_Tests_Un
 	/** @test */
 	public function isAThrowsNoExceptionIfAssertionHolds() {
 		// This test should pass without an Exception being thrown
-		Tx_PtExtbase_Assertions_Assert::isA($this, 'Tx_PtExtbase_Tests_Unit_Assertion_AssertTest', array('message' => 'Message that shows if assertion does not hold.'));
+		Tx_PtExtbase_Assertions_Assert::isA($this, __CLASS__, array('message' => 'Message that shows if assertion does not hold.'));
 	}
 
 
@@ -35,7 +65,7 @@ class Tx_PtExtbase_Tests_Unit_Assertion_AssertTest extends Tx_PtExtbase_Tests_Un
 	/** @test */
 	public function classExistsThrowsNoExceptionIfAssertionHolds() {
 		// This test should pass without an Exception being thrown
-		Tx_PtExtbase_Assertions_Assert::classExists('Tx_PtExtbase_Tests_Unit_Assertion_AssertTest', array('message' => 'Message that shows if assertion does not hold'));
+		Tx_PtExtbase_Assertions_Assert::classExists(__CLASS__, array('message' => 'Message that shows if assertion does not hold'));
 	}
 
 
@@ -107,7 +137,3 @@ class Tx_PtExtbase_Tests_Unit_Assertion_AssertTest extends Tx_PtExtbase_Tests_Un
 	}
 
 }
-
-
-
-class Tx_PtExtbase_Tests_Unit_Assertion_AssertTestFakeInterface {}

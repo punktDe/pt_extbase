@@ -28,7 +28,7 @@
  * @see     http://www.debuggable.com/posts/assert-the-yummyness-of-your-cake:480f4dd6-7fe0-4113-9776-458acbdd56cb
  * @author  Fabrizio Branca
  * @author  Michael Knoll
- * @see Tx_PtExtbase_Tests_Unit_Assertion
+ * @see Tx_PtExtbase_Tests_Unit_Assertions_AssertTest
  */
 class Tx_PtExtbase_Assertions_Assert {
 
