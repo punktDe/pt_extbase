@@ -3,6 +3,8 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+
+// TODO this is deactivated but we set it anyways in Tx_PtExtbase_State_Session_Storage_DBAdapterFactory since some websites crash otherwise. Fix this if you want to use caching!!!
 /**
 // Define state cache, if not already defined
 if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'])) {
