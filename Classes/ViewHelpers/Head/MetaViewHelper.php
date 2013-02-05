@@ -34,6 +34,16 @@
  */
 class Tx_PtExtbase_ViewHelpers_Head_MetaViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
 
+
+	/**
+	 * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
+	 * can decode the text's entities.
+	 *
+	 * @var boolean
+	 */
+	protected $escapingInterceptorEnabled = FALSE;
+
+
 	/**
 	 * @var	string
 	 */
@@ -62,6 +72,7 @@ class Tx_PtExtbase_ViewHelpers_Head_MetaViewHelper extends Tx_Fluid_Core_ViewHel
 	}
 
 
+
 	/**
 	 * Initialize ViewHelper
 	 */
@@ -74,12 +85,29 @@ class Tx_PtExtbase_ViewHelpers_Head_MetaViewHelper extends Tx_Fluid_Core_ViewHel
 	}
 
 
+
 	/**
-	 * Render
+	 * @param array $unEscapedTags
 	 */
-	public function render() {
+	public function render($unEscapedTags = array()) {
+		$this->markAsUnEscaped($unEscapedTags);
+
 		if($this->pageRenderer != NULL) {
-			$this->pageRenderer->addMetaTag($this->tag->render());
+			$metaTag = $this->tag->render();
+			$this->pageRenderer->addMetaTag($this->tag->render($metaTag));
+		}
+	}
+
+
+
+	/**
+	 * @param $tagNames
+	 */
+	protected function markAsUnEscaped($tagNames) {
+		foreach($tagNames as $tagName) {
+			if($this->hasArgument($tagName)) {
+				$this->tag->addAttribute($tagName, $this->arguments[$tagName],FALSE);
+			}
 		}
 	}
 
