@@ -150,8 +150,6 @@ class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends Tx_Extbase_T
 
 	/**
 	 * @test
-	 * @expectedException Exception
-	 * @expectedExceptionMessage No key Michael set in extension pt_rem! 1334406600
 	 */
 	public function getKeyFromExtensionSettingsThrowsExceptionIfNotSet() {
 		$extensionKey = 'pt_rem';
@@ -173,8 +171,14 @@ class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends Tx_Extbase_T
 		$proxyMock->_set('extensionSettings', $settings);
 
 		$expected = $settings[$extensionKey][$key];
-		$actual = $proxyMock->getKeyFromExtensionSettings($extensionKey, $key);
-		$this->assertSame($expected, $actual);
+
+		try {
+			$actual = $proxyMock->getKeyFromExtensionSettings($extensionKey, $key);
+		} catch (\Exception $e) {
+			return;
+		}
+
+		$this->fail('No exception thrown!');
 	}
 
 }
