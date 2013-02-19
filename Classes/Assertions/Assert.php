@@ -862,10 +862,10 @@ class Tx_PtExtbase_Assertions_Assert {
 
 
 	/**
-	 * Tests if a
+	 * Tests if an extension is loaded with an optionally given version.
 	 *
-	 * @param $extensionKey
-	 * @param $version
+	 * @param string $extensionKey Extension key of the extension that we want to be loaded
+	 * @param string $version Version of the extension that we want to have loaded
 	 */
 	public static function extensionIsLoaded($extensionKey, $version = '0.0.0') {
 		// Check whether extension is loaded at all
