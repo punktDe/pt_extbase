@@ -861,6 +861,24 @@ class Tx_PtExtbase_Assertions_Assert {
 
 
 
+	/**
+	 * Tests if a
+	 *
+	 * @param $extensionKey
+	 * @param $version
+	 */
+	public static function extensionIsLoaded($extensionKey, $version = '0.0.0') {
+		// Check whether extension is loaded at all
+		self::isTrue(t3lib_extMgm::isLoaded($extensionKey), array('message' => 'Extension ' . $extensionKey . ' is not loaded!'));
+
+		// Check whether extension is loaded with required version
+		list($sanitizedVersion,) = explode('-', $version);
+		$loadedVersion = t3lib_extMgm::getExtensionVersion($extensionKey);
+		self::test(version_compare($sanitizedVersion, $loadedVersion) >= 0, true, array('message' => 'Extension ' . $extensionKey . ' was installed with version ' . $loadedVersion . ' but version ' . $version . ' is required!'));
+	}
+
+
+
 	private function initializeDbObj() {
 		if (self::$dbObj === NULL) {
 			self::$dbObj = $GLOBALS['TYPO3_DB'];
