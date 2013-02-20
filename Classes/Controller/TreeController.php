@@ -65,6 +65,10 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
      */
     protected $treeRepository;
 
+	/**
+	 * @var boolean
+	 */
+	protected $treeRespectEnableFields;
 
 
 	/**
@@ -97,7 +101,8 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$settings = Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->read('Tx_PtExtbase_Tree_Configuration');
 		$settings = array(
 			'repository' => 'Tx_PtCertification_Domain_Repository_CategoryRepository',
-			'namespace' => 'tx_ptcertification_domain_model_category'
+			'namespace' => 'tx_ptcertification_domain_model_category',
+			'respectEnableFields' => FALSE,
 		);
 
 		if(array_key_exists('repository', $settings)) {
@@ -109,6 +114,10 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 		if(array_key_exists('namespace', $settings)) {
 			$this->treeNameSpace = $settings['namespace'];
+		}
+
+		if(array_key_exists('respectEnableFields', $settings)) {
+			$this->treeRespectEnableFields = $settings['respectEnableFields'];
 		}
 	}
 
@@ -136,7 +145,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		if($node) {
             $tree = $this->treeRepository->getEmptyTree($this->treeNameSpace);
 		} else {
-			$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+			$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, $this->treeRespectEnableFields);
 			if ($restrictedDepth > 0) {
 	            $tree->setRestrictedDepth($restrictedDepth);
 	            $tree->setRespectRestrictedDepth(TRUE);
