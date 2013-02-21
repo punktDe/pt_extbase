@@ -79,10 +79,11 @@ class Tx_PtExtbase_Tree_TreeRepository {
      * Loads tree for a given namespace
      *
      * @param $namespace string Namespace to build tree for
+	 * @param $respectEnableFields
      * @return Tx_PtExtbase_Tree_Tree Tree build for given namespace
      */
-    public function loadTreeByNamespace($namespace) {
-        return $this->treeBuilder->buildTreeForNamespace($namespace);
+    public function loadTreeByNamespace($namespace, $respectEnableFields = TRUE) {
+        return $this->treeBuilder->buildTreeForNamespace($namespace, $respectEnableFields);
     }
 
 
