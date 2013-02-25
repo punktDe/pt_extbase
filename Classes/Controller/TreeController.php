@@ -88,7 +88,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$treeRepositoryBuilder->setNodeRepositoryClassName($this->nodeRepositoryClassName);
 		$this->treeRepository = $treeRepositoryBuilder->buildTreeRepository();
 
-		$this->nodeRepository = t3lib_div::makeInstance($this->nodeRepositoryClassName);
+		$this->nodeRepository = $this->objectManager->get($this->nodeRepositoryClassName);
 
 		$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 	}
