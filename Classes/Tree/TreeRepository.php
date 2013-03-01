@@ -74,15 +74,18 @@ class Tx_PtExtbase_Tree_TreeRepository {
     }
 
 
-
-    /**
-     * Loads tree for a given namespace
-     *
-     * @param $namespace string Namespace to build tree for
-	 * @param $respectEnableFields
-     * @return Tx_PtExtbase_Tree_Tree Tree build for given namespace
-     */
-    public function loadTreeByNamespace($namespace, $respectEnableFields = TRUE) {
+	/**
+	 * Loads tree for a given namespace
+	 *
+	 * @param $namespace string Namespace to build tree for
+	 * @param bool $respectEnableFields
+	 * @param bool $removeInaccessibleSubTrees
+	 * @return Tx_PtExtbase_Tree_Tree Tree build for given namespace
+	 */
+    public function loadTreeByNamespace($namespace, $respectEnableFields = TRUE, $removeInaccessibleSubTrees = FALSE) {
+	    if ($removeInaccessibleSubTrees) {
+		    return $this->treeBuilder->buildTreeForNamespaceWithoutInaccessibleSubtrees($namespace);
+	    }
         return $this->treeBuilder->buildTreeForNamespace($namespace, $respectEnableFields);
     }
 
