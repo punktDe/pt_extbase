@@ -71,6 +71,14 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
 
 	
 	/**
+	 * @var array
+	 */
+	protected $treeCache;
+
+
+
+
+	/**
 	 * Constructor for treebuilder. Requires node repository as parameter.
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository
@@ -92,7 +100,61 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
         return Tx_PtExtbase_Tree_Tree::getEmptyTree($namespace, $rootLabel);
     }
 
-	
+
+
+	/**
+	 * @param string $namespace
+	 * @return Tx_PtExtbase_Tree_Tree
+	 */
+	public function buildTreeForNamespaceWithoutInaccessibleSubtrees($namespace) {
+		if (empty($this->treeCache[$namespace])) {
+			$this->treeCache[$namespace] = $this->buildTreeForNamespace($namespace);
+		}
+
+		$tree = $this->treeCache[$namespace];
+		$root = $tree->getRoot();
+		if ($root->isAccessible()) {
+			$clonedRoot = $this->getClonedNode($root);
+			$this->buildAccessRestrictedTreeRecursively($root, $clonedRoot);
+		}
+
+		$clonedTree = NULL;
+		$clonedTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($clonedRoot);
+		$clonedTree->setRestrictedDepth($this->restrictedDepth);
+		$clonedTree->setRespectRestrictedDepth($this->respectRestrictedDepth);
+
+		return $clonedTree;
+	}
+
+
+
+	/**
+	 * @param Tx_PtExtbase_Tree_Node $originalNode
+	 * @param Tx_PtExtbase_Tree_Node $clonedNode
+	 */
+	protected function buildAccessRestrictedTreeRecursively($originalNode, $clonedNode) {
+		foreach ($originalNode->getChildren() as $child) {
+			if ($child->isAccessible()) {
+				$clonedChild = $this->getClonedNode($child);
+				$clonedChild->setParent($clonedNode);
+				$this->buildAccessRestrictedTreeRecursively($child, $clonedChild);
+			}
+		}
+	}
+
+
+
+	/**
+	 * @param Tx_PtExtbase_Tree_Node $node
+	 * @return Tx_PtExtbase_Tree_Node
+	 */
+	protected function getClonedNode(Tx_PtExtbase_Tree_Node $node) {
+		$clonedNode = clone $node;
+		$clonedNode->clearRelatives();
+		return $clonedNode;
+	}
+
+
 
 	/**
 	 * Builds a tree for given namespace.
