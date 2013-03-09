@@ -37,7 +37,7 @@ class Tx_PtExtbase_ViewHelpers_Format_TimestampViewHelper extends Tx_Fluid_Core_
 	 */
 	public function initializeArguments() {
 		$this->registerArgument('timestamp', 'int', 'A timestamp', FALSE);
-		$this->registerArgument('format', 'int', 'String which is taken by PHP function strftime() to format a timestamp', TRUE);
+		$this->registerArgument('format', 'string', 'String which is taken by PHP function strftime() to format a timestamp', TRUE);
 	}
 
 	/**

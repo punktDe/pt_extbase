@@ -46,6 +46,11 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	 */
 	protected $relExtPath;
 
+	/**
+	 * @var string
+	 */
+	protected $typo3Path;
+
 
 	/**
 	 * Absolute ExtPath
@@ -77,19 +82,20 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	 */
 	public function initialize() {
 
-		$this->extKey = $this->controllerContext->getRequest()->getControllerExtensionKey();
-		$this->extKey = 'pt_extbase';
+		if($this->controllerContext instanceof Tx_Extbase_MVC_Controller_ControllerContext) {
+			$this->extKey = $this->controllerContext->getRequest()->getControllerExtensionKey();
+		} else {
+			$this->extKey = 'pt_extbase';
+		}
 
 		$this->extPath = t3lib_extMgm::extPath($this->extKey);
 		$this->relExtPath = t3lib_extMgm::siteRelPath($this->extKey);
-
 
 		if (TYPO3_MODE === 'BE') {
 			$this->initializeBackend();
 		} else {
 			$this->initializeFrontend();
 		}
-
 	}
 
 
@@ -101,6 +107,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	 */
 	protected function initializeBackend() {
 		$this->relExtPath = '../' . $this->relExtPath;
+		$this->typo3Path = $GLOBALS['BACK_PATH'];
 	}
 
 
@@ -111,6 +118,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	 * @return void
 	 */
 	protected function initializeFrontend() {
+		$this->typo3Path = '/' . $GLOBALS['TSFE']->absRefPrefix . 'typo3/';
 	}
 
 
@@ -155,6 +163,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	protected function addGenericArguments() {
 		$this->arguments['veriCode'] = $this->generateVeriCode();
 		$this->arguments['extPath'] = $this->relExtPath;
+		$this->arguments['typo3Path'] = $this->typo3Path;
 		$this->arguments['extKey'] = $this->extKey;
 
 		if(is_object($this->controllerContext)) {

@@ -4,6 +4,8 @@
  * @author Daniel Lienert <daniel@lienert.cc>
  */
 
+Ext.BLANK_IMAGE_URL = "###typo3Path###gfx/clear.gif";
+
 Ext.onReady(function(){
     var Tree = Ext.tree;
 
@@ -58,3 +60,4 @@ Ext.onReady(function(){
         ptExtbaseTree.expandAll();
     }
 });
+
