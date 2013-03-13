@@ -85,6 +85,34 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Un
 
 
 	/** @test */
+	public function buildTreeWithExcludedInaccessibleSubTreesReturnsExpectedTree() {
+		$nodesObjectStorage = self::buildSetOfNodesWithInaccessibleNodes();
+		$nodesArray = $nodesObjectStorage->toArray();
+		$repositoryMock = $this->buildRepositoryMock();
+		$repositoryMock->expects($this->once())
+		    ->method('findByNamespace')
+		    ->will($this->returnValue($nodesObjectStorage));
+		$treeBuilder = new Tx_PtExtbase_Tree_TreeBuilder($repositoryMock);
+		$tree = $treeBuilder->buildTreeForNamespaceWithoutInaccessibleSubtrees('no_matter_what_namespace');
+
+		$this->assertTrue(is_a($tree, Tx_PtExtbase_Tree_Tree));
+
+        echo $tree->toString();
+
+		// Assertions, that build tree is correct
+		$this->assertEquals($nodesArray[5]->getUid(), $tree->getRoot()->getUid(), 'Root node of tree is not root of given set of nodes');
+		$this->assertFalse($nodesArray[5] === $tree->getRoot());
+		$this->assertEquals(1, count($tree->getRoot()->getChildren()));
+		$children = $tree->getRoot()->getChildren()->toArray();
+		$this->assertEquals($nodesArray[1]->getUid(), $children[0]->getUid());
+		$child = $children[0];
+		$this->assertEquals($tree->getRoot(), $child->getParent());
+		$this->assertEquals(0, $child->getChildren()->count());
+	}
+
+
+
+	/** @test */
 	public function buildTreeForNamespaceThrowsExceptionIfNodesAreNotGivenInDescendingLeftValueOrder() {
         $repositoryMock = $this->buildRepositoryMock();
         $repositoryMock->expects($this->once())
@@ -115,6 +143,26 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Un
 		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(4,5,6,1,'4','testnamespace'));
 		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(3,3,4,1,'3','testnamespace'));
 		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(2,2,7,1,'2','testnamespace'));
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(1,1,12,1,'1','testnamespace'));
+		return $setOfNodes;
+	}
+
+
+
+	/**
+	 * Returns an ordered set of nodes with inaccessible nodes
+	 *
+	 * Inaccessible nodes: 2, 6
+	 *
+	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 */
+	protected static function buildSetOfNodesWithInaccessibleNodes() {
+		$setOfNodes = new Tx_Extbase_Persistence_ObjectStorage();
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(6,9,10,1,'6','testnamespace', FALSE));
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(5,8,11,1,'5','testnamespace'));
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(4,5,6,1,'4','testnamespace'));
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(3,3,4,1,'3','testnamespace'));
+		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(2,2,7,1,'2','testnamespace', FALSE));
 		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(1,1,12,1,'1','testnamespace'));
 		return $setOfNodes;
 	}

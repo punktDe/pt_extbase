@@ -543,5 +543,14 @@ class Tx_PtExtbase_Tree_Node
 		return $this->accessible;
 	}
 
+
+	/**
+	 * @return void
+	 */
+	public function clearRelatives() {
+		$this->parent = NULL;
+		$this->children = NULL;
+	}
+
 }
 ?>
