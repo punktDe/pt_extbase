@@ -121,7 +121,7 @@ class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends Tx_Fluid_Core_Vie
 	 */
 	protected function renderUl(array $flashMessages, array $messageCssClasses) {
 		$this->tag->setTagName('ul');
-		if ($this->arguments->hasArgument('class')) {
+		if ($this->hasArgument('class')) {
 			$this->tag->addAttribute('class', $this->arguments['class']);
 		}
 		$tagContent = '';
@@ -155,7 +155,7 @@ class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends Tx_Fluid_Core_Vie
 	 */
 	protected function renderDiv(array $flashMessages, array $messageCssClasses) {
 		$this->tag->setTagName('div');
-		if ($this->arguments->hasArgument('class')) {
+		if ($this->hasArgument('class')) {
 			$this->tag->addAttribute('class', $this->arguments['class']);
 		} else {
 			$this->tag->addAttribute('class', 'typo3-messages');

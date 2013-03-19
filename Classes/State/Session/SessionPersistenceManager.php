@@ -55,7 +55,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	/**
 	 * Holds an instance for a session adapter to store data to session
 	 * 
-	 * @var Tx_PtExtbase_State_Session_StorageAdapter
+	 * @var Tx_PtExtbase_State_Session_Storage_SessionAdapter
 	 */
 	private $sessionAdapter = null;
 	
@@ -103,16 +103,16 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
      */
     protected $isInitialized = false;
 
-	
-	
+
+
 	/**
-	 * Injector for session adapter
+	 * Constructor takes required adapter interface to be used for session storage
 	 *
 	 * @param Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter
 	 */
-	public function injectSessionAdapter(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter) {
+	public function __construct(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter) {
 		$this->sessionAdapter = $sessionAdapter;
-      $this->sessionAdapaterClass = get_class($sessionAdapter);
+		$this->sessionAdapaterClass = get_class($sessionAdapter);
 	}
 
 

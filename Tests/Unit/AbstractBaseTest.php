@@ -26,10 +26,22 @@
 /**
  * Class implements a base testcase for pt_extbase testcases
  *
- * @package Tests
+ * @package Tests\Unit
  * @author Michael Knoll <knoll@punkt.de>
  */
 abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends Tx_Extbase_Tests_Unit_BaseTestCase {
+
+	/**
+	 * Shortcut for creating a mock with no mocked methods, no constructor call and no changed class name
+	 *
+	 * @param $className Class name of mock to be created
+	 * @return PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected function getSimpleMock($className) {
+		return $this->getMock($className, array(), array(), '', FALSE);
+	}
+
+
 
 	/**
 	 * Returns a mocked Tx_Fluid_View_TemplateView object with a mocked assign method.

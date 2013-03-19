@@ -34,13 +34,12 @@ class Tx_PtExtbase_Tests_Unit_Lifecycle_HookManagerTest extends Tx_PtExtbase_Tes
 	
 	/** @test */
 	public function updateEndFiresUpdateOnSingletonLifecycleManager() {
-		$lifecycleManager = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
+		$hookManager = t3lib_div::makeInstance('tx_PtExtbase_Lifecycle_HookManager');
+		$lifecycleManager = t3lib_div::makeInstance('Tx_PtExtbase_Lifecycle_Manager');
 		$lifecycleManager->updateState(-1000); // we set a state that makes no sense
 		$fakeArray = array(); // we need a variable for passing parameter by reference
-		tx_PtExtbase_Lifecycle_HookManager::updateEnd($fakeArray, $fakeArray);
+		$hookManager->updateEnd($fakeArray, $fakeArray);
 		$this->assertEquals($lifecycleManager->getState(), Tx_PtExtbase_Lifecycle_Manager::END);
 	}
 	
 }
-
-?>

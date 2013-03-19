@@ -46,6 +46,7 @@ $GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
 $GLOBALS['TSFE']->initFEuser();
 $dispatcher = t3lib_div::makeInstance('Tx_PtExtbase_Utility_AjaxDispatcher'); /** @var $dispatcher Tx_PtExtbase_Utility_AjaxDispatcher */
 
+
 // ATTENTION! Dispatcher first needs to be initialized here!!!
 echo $dispatcher->initCallArguments()->dispatch();
 ?>

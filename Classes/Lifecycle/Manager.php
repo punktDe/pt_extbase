@@ -31,7 +31,7 @@
  * @author Michael Knoll
  * @package Lifecycle 
  */
-class Tx_PtExtbase_Lifecycle_Manager {
+class Tx_PtExtbase_Lifecycle_Manager implements t3lib_Singleton {
 
 	const UNDEFINED = 0;
 	const START = 1;
@@ -60,9 +60,19 @@ class Tx_PtExtbase_Lifecycle_Manager {
 	/**
 	 * Constructor for lifecycle manager
 	 *
+	 * After construction, stat is UNDEFINED
 	 */
 	public function __construct() {
 		$this->state = self::UNDEFINED;
+	}
+
+
+
+	/**
+	 * Used to initialize object when instantiated via object manager
+	 */
+	public function initializeObject() {
+		$this->state = self::START;
 	}
 	
 	

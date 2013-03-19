@@ -98,4 +98,3 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_SqlGeneratorTest extends Tx_Extbase_T
 	}
 
 }
-?>
