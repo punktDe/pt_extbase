@@ -26,8 +26,8 @@
 /**
  * Class implements a base testcase for pt_extbase testcases
  *
- * @package Tests
- * @author Michael Knoll 
+ * @package Tests\Unit
+ * @author Michael Knoll <knoll@punkt.de>
  */
 abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends Tx_Extbase_Tests_Unit_BaseTestCase {
 
@@ -41,5 +41,15 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends Tx_Extbase_T
 		return $this->getMock($className, array(), array(), '', FALSE);
 	}
 
+
+
+	/**
+	 * Returns a mocked Tx_Fluid_View_TemplateView object with a mocked assign method.
+	 *
+	 * @return Tx_Fluid_View_TemplateView The mocked view class
+	 */
+	public function getViewMockWithMockedAssignMethod() {
+		return $this->getMock('Tx_Fluid_View_TemplateView', array('assign'), array(), '', FALSE);
+	}
+
 }
-?>

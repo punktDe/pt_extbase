@@ -3,6 +3,9 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+
+// TODO this is deactivated but we set it anyways in Tx_PtExtbase_State_Session_Storage_DBAdapterFactory since some websites crash otherwise. Fix this if you want to use caching!!!
+/**
 // Define state cache, if not already defined
 if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'])) {
 	$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'] = array(
@@ -14,6 +17,7 @@ if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptex
 		)
 	);
 }
+*/
 
 /**
  * Register LifeCycle Manager
@@ -31,5 +35,13 @@ $TYPO3_CONF_VARS['FE']['eID_include']['ptxAjax'] = t3lib_extMgm::extPath('pt_ext
  * TODO Mind, that there is no access controll ATM!!!
  */
 $TYPO3_CONF_VARS['BE']['AJAX']['ptxAjax'] = t3lib_extMgm::extPath('pt_extbase').'Classes/Utility/AjaxDispatcher.php:Tx_PtExtbase_Utility_AjaxDispatcher->initAndDispatch';
+
+// Scheduler Tasks
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask'] = array(
+    'extension' => $_EXTKEY,
+    'title' => 'SQL Runner',
+    'description' => 'Runs an SQL file.',
+	'additionalFields' => 'Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields'
+);
 
 ?>

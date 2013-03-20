@@ -54,3 +54,6 @@ plugin.tx_ptextbase._CSS_DEFAULT_STYLE (
     }
     
 )
+
+# Dependency Injections
+config.tx_extbase.objects.Tx_PtExtbase_SqlRunner_SqlRunnerInterface.className = Tx_PtExtbase_SqlRunner_Typo3SqlRunner

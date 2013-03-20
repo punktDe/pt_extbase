@@ -43,6 +43,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends Tx_Fluid_ViewH
 		$this->registerArgument('repository', 'string', 'Specifies the tree repository', false);
 		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
 		$this->registerArgument('type', 'string', 'Specifies the tree type', false);
+		$this->registerArgument('respectEnableFields', 'boolean', 'Should the tree respect enable fields', false);
 	}
 
 
@@ -68,11 +69,14 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends Tx_Fluid_ViewH
 
 		/** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
 		$treeViewHelper = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
-		$treeViewHelper->setControllerContext($this->controllerContext);
+		//$treeViewHelper->setControllerContext($this->controllerContext);
 
 		//return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
-		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
-			array('baseUrl' => $this->getBaseURL()),FALSE, FALSE
+		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/ManipulationTree.js',
+			array(
+				'baseUrl' => $this->getBaseURL(),
+				'dbNodeTable' => 'tx_ptcertification_domain_model_category'
+			), FALSE, FALSE
 		);
 	}
 
@@ -95,6 +99,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends Tx_Fluid_ViewH
 		$treeSettings = array(
 			'repository' => $this->arguments['repository'],
 			'namespace' => $this->arguments['namespace'],
+			'respectEnableFields' => $this->arguments['respectEnableFields'],
 		);
 
 		Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->store('Tx_PtExtbase_Tree_Configuration', $treeSettings);

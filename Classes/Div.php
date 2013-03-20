@@ -31,7 +31,13 @@
  */
 class Tx_PtExtbase_Div  {
 
-    /**
+	/**
+	 * @var tslib_cObj
+	 */
+	protected static $cObj;
+
+
+	/**
      * Class constants: period specifiers for getPeriodAsInt()
     */
     const PERIOD_SECS = 0;      // period as seconds
@@ -725,6 +731,28 @@ class Tx_PtExtbase_Div  {
 
 
 
+	/**
+	 * return the cObj object
+	 *
+	 * @return tslib_cObj;
+	 */
+	public static function getCobj() {
+		if(!self::$cObj instanceof tslib_cObj) {
+			if(TYPO3_MODE == 'FE') {
+				if(!is_a($GLOBALS['TSFE']->cObj,'tslib_cObj')) {
+					$GLOBALS['TSFE']->newCObj();
+				}
+			} else {
+				t3lib_div::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory')->createFakeFrontend();
+			}
+			self::$cObj = $GLOBALS['TSFE']->cObj;
+		}
+
+		return self::$cObj;
+	}
+
+
+
     /***************************************************************************
      *   SECTION: EXTENSION CONFIGURATION RETRIEVAL METHODS
      **************************************************************************/
@@ -740,23 +768,24 @@ class Tx_PtExtbase_Div  {
      * @author  Rainer Kuhn 
      */
     public static function returnExtConfArray($extKey, $noExceptionIfNoConfigFound=false) {
+		if (file_exists(PATH_typo3conf.'localconf.php')) {
+			require(PATH_typo3conf.'localconf.php');  // don't use require_once here!
 
-        require(PATH_typo3conf.'localconf.php');  // don't use require_once here!
+			Tx_PtExtbase_Assertions_Assert::isNotEmptyString($extKey);
 
-        Tx_PtExtbase_Assertions_Assert::isNotEmptyString($extKey);
-
-        $baseConfArr = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$extKey]);
-        if (!is_array($baseConfArr)) {
-            if ($noExceptionIfNoConfigFound == true) {
-                $baseConfArr = array();
-            } else {
-                throw new Tx_PtExtbase_Exception_Exception('Extension configuration in localconf.php for extension "'.$extKey.'" not found!', 2,
-                                               '$TYPO3_CONF_VARS["EXT"]["extConf"]["'.$extKey.'"] not found in localconf.php.');
-            }
-        }
-
-        return $baseConfArr;
-
+			$baseConfArr = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$extKey]);
+		} else {
+			$baseConfArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey]);
+		}
+		if (!is_array($baseConfArr)) {
+			if ($noExceptionIfNoConfigFound == true) {
+				$baseConfArr = array();
+			} else {
+				throw new Tx_PtExtbase_Exception_Exception('Extension configuration in localconf.php for extension "'.$extKey.'" not found!', 2,
+					'$TYPO3_CONF_VARS["EXT"]["extConf"]["'.$extKey.'"] not found in localconf.php.');
+			}
+		}
+		return $baseConfArr;
     }
     
     
@@ -1317,6 +1346,7 @@ class Tx_PtExtbase_Div  {
      * @return  string  json
      * @see     http://www.bin-co.com/php/scripts/array2json/
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
+	 * @deprecated Use PHP internal function
      */
     public static function array2json($arr) {
 
@@ -1653,6 +1683,26 @@ class Tx_PtExtbase_Div  {
 
 		return $tsArray;
 	}
+
+
+
+	/**
+	 * Especially when sending an object, that is marked as lazy loading to a viewHelper,
+	 * the real instance of this object must be received before it is send to the viewHelper
+	 * to fit to the viewHelpers class signature.
+	 *
+	 * @param $object
+	 * @return mixed
+	 */
+	public static function getLazyLoadedObject($object) {
+		if (get_class($object) === 'Tx_Extbase_Persistence_LazyLoadingProxy'
+				|| get_class($object) === 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\LazyLoadingProxy') {
+			return $object->_loadRealInstance();
+		} else {
+			return $object;
+		}
+	}
+
 
 }
 

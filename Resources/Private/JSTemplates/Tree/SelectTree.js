@@ -4,10 +4,13 @@
  * @author Daniel Lienert <daniel@lienert.cc>
  */
 
+Ext.BLANK_IMAGE_URL = "###typo3Path###gfx/clear.gif";
+
 Ext.onReady(function(){
     var Tree = Ext.tree;
 
     var multiple = ###multiple###;
+    var expand = '###expand###';
 
 	var ptExtbaseTree = new Tree.TreePanel({
 	    autoScroll:true,
@@ -46,7 +49,15 @@ Ext.onReady(function(){
     })
 
     ptExtbaseTree.render('###fieldId###Div');
-    Ext.each(ptExtbaseTree.getRootNode().childNodes, function(node){
-        node.expand();
-    });
+
+    if(expand == 'root') {
+        Ext.each(ptExtbaseTree.getRootNode().childNodes, function(node){
+            node.expand();
+        });
+    }
+
+    if(expand == 'all') {
+        ptExtbaseTree.expandAll();
+    }
 });
+

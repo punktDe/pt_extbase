@@ -293,7 +293,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	 * Initializes TS rbac service (invoked from objectManager)
 	 */
 	public function initializeObject() {
-		$fullTypoScript = Tx_Extbase_Utility_TypoScript::convertTypoScriptArrayToPlainArray($this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT));
+		$fullTypoScript = Tx_PtExtbase_Compatibility_Extbase_Service_TypoScript::convertTypoScriptArrayToPlainArray($this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT));
 		$this->typoScriptRbacSettings = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($fullTypoScript, 'plugin.tx_ptextbase.settings.rbac');
 		$this->initGroupsToObjectAndActionsArray();
 	}
@@ -317,7 +317,11 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 			$userHasPrivileges = TRUE;
 		} else {
 			$userGroups = $this->userDetector->getUserGroupUids();
-			$userGroups[] = 'any';
+
+			if(count($userGroups) > 0) {
+				$userGroups[] = 'any';
+			}
+
 			foreach ($userGroups as $userGroup) {
 				if (is_array($this->groupsToObjectAndActionsArray[strtolower($extension)][$userGroup][$object]) && 
 					in_array($action, $this->groupsToObjectAndActionsArray[strtolower($extension)][$userGroup][$object])) {
@@ -334,9 +338,11 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	 * Initializes local privileges array from TypoScript settings
 	 */
 	protected function initGroupsToObjectAndActionsArray() {
-		foreach($this->typoScriptRbacSettings['extensions'] as $extensionName => $extensionRbacSettings) {
-			$this->_currentExtensionName = strtolower($extensionName);
-			$this->initRbacSettingsForGivenExtensionSettings($extensionRbacSettings);
+		if(is_array($this->typoScriptRbacSettings['extensions'])) {
+			foreach($this->typoScriptRbacSettings['extensions'] as $extensionName => $extensionRbacSettings) {
+				$this->_currentExtensionName = strtolower($extensionName);
+				$this->initRbacSettingsForGivenExtensionSettings($extensionRbacSettings);
+			}
 		}
 	}
 

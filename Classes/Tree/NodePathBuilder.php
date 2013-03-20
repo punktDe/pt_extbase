@@ -43,6 +43,12 @@ class Tx_PtExtbase_Tree_NodePathBuilder  {
 
 
 	/**
+	 * @var array
+	 */
+	protected $nodePathCache;
+
+
+	/**
 	 * @static
 	 * @param $repository
 	 * @param $nameSpace
@@ -110,24 +116,30 @@ class Tx_PtExtbase_Tree_NodePathBuilder  {
 	 * @return array|null
 	 */
 	protected function buildPathFromNodeToRoot($nodeUid) {
-		$node = $this->tree->getNodeByUid($nodeUid);
 
-		$pathFromNodeToRoot = array();
+		if(!array_key_exists($nodeUid, $this->nodePathCache)) {
 
-		if($node instanceof Tx_PtExtbase_Tree_Node) {
+			$node = $this->tree->getNodeByUid($nodeUid);
 
-			$pathFromNodeToRoot[] = $node;
+			$pathFromNodeToRoot = array();
 
-			while($node != $this->tree->getRoot()) {
-				$node = $node->getParent();
+			if($node instanceof Tx_PtExtbase_Tree_Node) {
+
 				$pathFromNodeToRoot[] = $node;
+
+				while($node != $this->tree->getRoot()) {
+					$node = $node->getParent();
+					$pathFromNodeToRoot[] = $node;
+				}
+
+				$this->nodePathCache[$nodeUid] = $pathFromNodeToRoot;
+
+			} else {
+				$this->nodePathCache[$nodeUid] = NULL;
 			}
-
-			return $pathFromNodeToRoot;
-
-		} else {
-			return null;
 		}
+
+		return $this->nodePathCache[$nodeUid];
 	}
 
 

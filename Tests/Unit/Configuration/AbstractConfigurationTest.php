@@ -40,20 +40,25 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends Tx
 	 * @var array
 	 */
 	protected $settings = array(
-	   'key1' => array(
-	       'key1-1' => 'value1-1',
-	       'key1-2' => 'value1-2',
-	       'key1-3' => array(
-	           'key1-3-1' => 'value1-3-1'
-	       )
-	   ),
-	   'key2' => 'value2',
-	   'key3' => '',
-	   'key4' => 'value4',
-	   'key6' => '',
-	   'key7' => '1',
-	   'key8' => 'value8',
-		'key9' => '0'
+		'key1' => array(
+			'key1-1' => 'value1-1',
+			'key1-2' => 'value1-2',
+			'key1-3' => array(
+				'key1-3-1' => 'value1-3-1'
+			)
+		),
+		'key2' => 'value2',
+		'key3' => '',
+		'key4' => 'value4',
+		'key6' => '',
+		'key7' => '1',
+		'key8' => 'value8',
+		'key9' => '0',
+		'cobjSetting' => array(
+				'_typoScriptNodeValue' => 'TEXT',
+				'value' => 'TEST',
+				'wrap' => 'x|x'
+			),
 	);
 	
 	
@@ -220,7 +225,6 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends Tx
 	public function setRequiredPropertySetsPropertyIfPropertyNameIsGiven() {
 		$this->assertEquals($this->concreteConfiguration->value3, $this->settings['key8']);
 	}
-	
 }
 
 

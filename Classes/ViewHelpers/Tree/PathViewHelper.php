@@ -27,7 +27,7 @@
  * View helper renders the path of a category
  *
  * @author Daniel Lienert
- * @package pt_certification
+ * @package pt_extbase
  * @subpackage ViewHelpers\Category
  */
 class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {

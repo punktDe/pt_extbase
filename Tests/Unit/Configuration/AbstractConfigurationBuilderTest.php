@@ -41,7 +41,15 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilderTest ext
 	 *
 	 * @var array
 	 */
-	protected $settings = array('testKey' => array('key1' => 'value1'));
+	protected $settings = array(
+		'testKey' => array('key1' => 'value1'),
+		'cobjSetting' => array(
+			'_typoScriptNodeValue' => 'TEXT',
+			'value' => 'TEST',
+			'wrap' => 'x|x'
+		),
+		'key2' => 'val2'
+	);
 	
 	
 	
@@ -67,7 +75,6 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilderTest ext
 		$this->assertTrue(is_a($configurationObject, 'Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject'));
 		$this->assertEquals($configurationObject->getSettings(), $this->settings['testKey']);
 	}
-	
 }
 
 
@@ -88,13 +95,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub ex
         )
     );
     
-    
-    
-    /**
-     * We overwrite constructor to prevent error for empty settings array
-     */
-    public function __construct($settings) {
-    }
+
 	
 }
 

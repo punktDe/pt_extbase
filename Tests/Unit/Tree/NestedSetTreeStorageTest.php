@@ -45,8 +45,15 @@ class Tx_PtExtbase_Tests_Unit_Tree_NestedSetTreeStorageTest extends Tx_PtExtbase
         $nodeRepositoryMock = $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('remove', 'update', 'updateOrAdd'), array(), '', FALSE);
         $nestedSetTreeStorage = new Tx_PtExtbase_Tree_NestedSetTreeStorage($nodeRepositoryMock);
         $wrongTree = $this->getMock('Tx_PtExtbase_Tree_TreeInterface', array(), array(), '', FALSE);
-        $this->setExpectedException('Exception');
-        $nestedSetTreeStorage->saveTree($wrongTree);
+
+
+		try {
+			$nestedSetTreeStorage->saveTree($wrongTree);
+		} catch(Exception $e) {
+			$this->assertTrue(TRUE);
+			return;
+		}
+		$this->fail('No Exception was thrown.');
     }
 
 
