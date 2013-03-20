@@ -120,4 +120,3 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements t3l
 	}
 
 }
-?>

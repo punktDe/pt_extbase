@@ -21,7 +21,6 @@ return array(
 	'tx_ptextbase_lifecycle_eventinterface' => $extensionClassesPath . 'Lifecycle/EventInterface.php',
 	'tx_ptextbase_lifecycle_hookmanager' => $extensionClassesPath . 'Lifecycle/HookManager.php',
 	'tx_ptextbase_lifecycle_manager' => $extensionClassesPath . 'Lifecycle/Manager.php',
-	'tx_ptextbase_lifecycle_managerfactory' => $extensionClassesPath . 'Lifecycle/ManagerFactory.php',
 	'tx_ptextbase_registry_registry' => $extensionClassesPath . 'Registry/Registry.php',
 	'tx_ptextbase_state_identifiableinterface' => $extensionClassesPath . 'State/IdentifiableInterface.php',
 	'tx_ptextbase_state_gpvars_gpvarsadapter' => $extensionClassesPath . 'State/GpVars/GpVarsAdapter.php',
@@ -60,5 +59,3 @@ return array(
 	// External files which are not auto-loaded by their respective extension
 	'tx_fluid_core_widget_abstractwidgetviewhelper' => t3lib_extMgm::extPath('fluid') . 'Classes/Core/Widget/AbstractWidgetViewHelper.php',
 );
-
-?>

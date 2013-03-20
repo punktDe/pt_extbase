@@ -55,7 +55,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	/**
 	 * Holds an instance for a session adapter to store data to session
 	 * 
-	 * @var Tx_PtExtbase_State_Session_StorageAdapter
+	 * @var Tx_PtExtbase_State_Session_Storage_SessionAdapter
 	 */
 	private $sessionAdapter = null;
 	
