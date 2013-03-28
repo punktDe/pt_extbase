@@ -34,21 +34,24 @@
  */
 class Tx_PtExtbase_Tests_Unit_Tree_NodeMock extends Tx_PtExtbase_Tree_Node {
 
-    /**
-     * Helper method to create a node mock object
-     *
-     * @param int $lft
-     * @param int $rgt
-     * @param int $root
-     * @param string $label
-     * @param string $namespace
-     * @return Tx_PtExtbase_Tree_Node
-     */
-    public static function createNode($uid, $lft, $rgt, $root, $label = '', $namespace = '') {
+	/**
+	 * Helper method to create a node mock object
+	 *
+	 * @param $uid
+	 * @param int $lft
+	 * @param int $rgt
+	 * @param int $root
+	 * @param string $label
+	 * @param string $namespace
+	 * @param bool $accessible
+	 * @return Tx_PtExtbase_Tree_Node
+	 */
+    public static function createNode($uid, $lft, $rgt, $root, $label = '', $namespace = '', $accessible = TRUE) {
         $node = new Tx_PtExtbase_Tests_Unit_Tree_NodeMock($uid, $label, $namespace);
         $node->setLft($lft);
         $node->setRgt($rgt);
         $node->setRoot($root);
+	    $node->setAccessible($accessible);
         return $node;
     }
 

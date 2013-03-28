@@ -185,6 +185,31 @@ class Tx_PtExtbase_Tests_Unit_Tree_NodeTest extends Tx_PtExtbase_Tests_Unit_Abst
         $node->setNamespace('testingNamespace');
         $this->assertEquals($node->getNamespace(), 'testingNamespace');
     }
+
+
+
+	/** @test */
+	public function clearRelativesRemovesParentAndChildren() {
+		$child1 = new Tx_PtExtbase_Tree_Node('1.1');
+		$child2 = new Tx_PtExtbase_Tree_Node('1.2');
+		$child3 = new Tx_PtExtbase_Tree_Node('1.3');
+		$parent = new Tx_PtExtbase_Tree_Node('1');
+
+		$nodeProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tree_Node'); /** @var Tx_PtExtbase_Tree_Node $nodeProxy */
+		$nodeProxy = new $nodeProxyClass();
+		$nodeProxy->addChild($child1);
+		$nodeProxy->addChildAfter($child2, $child1);
+		$nodeProxy->addChildAfter($child3, $child1);
+		$nodeProxy->setParent($parent);
+
+		$this->assertNotNull($nodeProxy->_get('children'));
+		$this->assertNotNull($nodeProxy->_get('parent'));
+
+		$nodeProxy->clearRelatives();
+
+		$this->assertNull($nodeProxy->_get('children'));
+		$this->assertNull($nodeProxy->_get('parent'));
+	}
 	
 }
 ?>
