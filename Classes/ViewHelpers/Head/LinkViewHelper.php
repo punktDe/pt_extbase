@@ -32,7 +32,7 @@
  * @package Viewhelpers
  * @subpackage Content/Head
  */
-class Tx_PtExtbase_ViewHelpers_Head_MetaViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
+class Tx_PtExtbase_ViewHelpers_Head_LinkViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
 
 
 	/**
@@ -47,7 +47,7 @@ class Tx_PtExtbase_ViewHelpers_Head_MetaViewHelper extends Tx_Fluid_Core_ViewHel
 	/**
 	 * @var	string
 	 */
-	protected $tagName = 'meta';
+	protected $tagName = 'link';
 
 
 	/**
@@ -62,13 +62,10 @@ class Tx_PtExtbase_ViewHelpers_Head_MetaViewHelper extends Tx_Fluid_Core_ViewHel
 	 * @return void
 	 */
 	public function initializeArguments() {
-		$this->registerTagAttribute('property', 'string', 'Property key');
-		$this->registerTagAttribute('name', 'string', 'Name property of meta tag');
-		$this->registerTagAttribute('http-equiv', 'string', 'Property: http-equiv');
-		$this->registerTagAttribute('scheme', 'string', 'Property: scheme');
-		$this->registerTagAttribute('lang', 'string', 'Property: lang');
-		$this->registerTagAttribute('dir', 'string', 'Property: dir');
-		$this->registerTagAttribute('content', 'string', 'Content of meta tag');
+		$this->registerTagAttribute('rel', 'string', 'Specifies the relationship between the current document and the linked document');
+		$this->registerTagAttribute('type', 'string', 'Specifies the type of the link');
+		$this->registerTagAttribute('title', 'string', 'Specifies the title');
+		$this->registerTagAttribute('href', 'string', 'Specifies the relationship between the linked document and the current document');
 	}
 
 
@@ -90,6 +87,9 @@ class Tx_PtExtbase_ViewHelpers_Head_MetaViewHelper extends Tx_Fluid_Core_ViewHel
 	 * @param array $unEscapedTags
 	 */
 	public function render($unEscapedTags = array()) {
+
+		$unEscapedTags[] = 'href';
+
 		$this->markAsUnEscaped($unEscapedTags);
 
 		if($this->pageRenderer != NULL) {
