@@ -31,7 +31,7 @@
  * @package pt_extbase
  * @subpackage Testing\Selenium\FixtureFramework
  */
-abstract class Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture {
+class Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture {
 
 	/**
 	 * @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
@@ -63,9 +63,11 @@ abstract class Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture {
 
 	/**
 	 * @param PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection
+	 * @return Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture
 	 */
 	public function setConnection($connection) {
 		$this->connection = $connection;
+		return $this;
 	}
 
 	/**
@@ -79,9 +81,11 @@ abstract class Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture {
 
 	/**
 	 * @param PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet
+	 * @return Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture
 	 */
 	public function setDataSet($dataSet) {
 		$this->dataSet = $dataSet;
+		return $this;
 	}
 
 	/**
@@ -95,9 +99,11 @@ abstract class Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture {
 
 	/**
 	 * @param PHPUnit_Extensions_Database_Operation_IDatabaseOperation $setUpOperation
+	 * @return Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture
 	 */
 	public function setSetUpOperation($setUpOperation) {
 		$this->setUpOperation = $setUpOperation;
+		return $this;
 	}
 }
 

@@ -31,7 +31,7 @@
  * @package pt_extbase
  * @subpackage Testing\Selenium\FixtureFramework
  */
-abstract class Tx_PtExtbase_Testing_Selenium_FixtureFramework_BaseTestcase extends PHPUnit_Extensions_SeleniumTestCase {
+abstract class Tx_PtExtbase_Testing_Selenium_FixtureFramework_SeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 
 	/**
 	 * @return array
@@ -41,7 +41,7 @@ abstract class Tx_PtExtbase_Testing_Selenium_FixtureFramework_BaseTestcase exten
 	/**
 	 * @return void
 	 */
-	public function setUp() {
+	protected function setUp() {
 		parent::setUp();
 		$fixtureImporter = new Tx_PtExtbase_Testing_Selenium_FixtureFramework_FixtureImporter();
 		$fixtureImporter->import($this->getFixtures());
