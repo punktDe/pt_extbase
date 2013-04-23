@@ -30,6 +30,7 @@ class Tx_PtExtbase_Logger_FormatProcessor extends t3lib_log_processor_Abstract {
 		'.h1' => 'formatH1',
 		'.h2' => 'formatH2',
 		'.h3' => 'formatH3',
+		'.h5' => 'formatH5',
 	);
 
 
@@ -81,4 +82,12 @@ class Tx_PtExtbase_Logger_FormatProcessor extends t3lib_log_processor_Abstract {
 		return "\n"  . $message . "\n" . str_pad('', strlen($message),'-') ;
 	}
 
+
+	/**
+	 * @param $message
+	 * @return string
+	 */
+	protected function formatH5($message) {
+		return "== " . $message . " ==" ;
+	}
 }
