@@ -361,6 +361,5 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 			$this->sessionData = array();
 		}
     }
-     
+
 }
-?>
