@@ -43,7 +43,7 @@ class Tx_PtExtbase_Utility_UserDetector implements t3lib_Singleton {
 	 *
 	 * @var array
 	 */
-	protected $groupUids = null;
+	protected $groupUids = array();
 
 
 
@@ -75,8 +75,10 @@ class Tx_PtExtbase_Utility_UserDetector implements t3lib_Singleton {
 			$this->userUid = $GLOBALS['BE_USER']->user['uid'];
 			$this->groupUids = t3lib_div::trimExplode(',', $GLOBALS['BE_USER']->user['usergroup']);
 		} else {
-			$this->userUid = $GLOBALS['TSFE']->fe_user->user['uid'];
-			$this->groupUids = t3lib_div::trimExplode(',', $GLOBALS['TSFE']->fe_user->user['usergroup']);
+			if($GLOBALS['TSFE']->fe_user->user) {
+				$this->userUid = $GLOBALS['TSFE']->fe_user->user['uid'];
+				$this->groupUids = t3lib_div::trimExplode(',', trim($GLOBALS['TSFE']->fe_user->user['usergroup']));
+			}
 		}
 	}
 

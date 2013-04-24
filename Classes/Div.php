@@ -737,7 +737,7 @@ class Tx_PtExtbase_Div  {
 	 * @return tslib_cObj;
 	 */
 	public static function getCobj() {
-		if(!self::$cObj) {
+		if(!self::$cObj instanceof tslib_cObj) {
 			if(TYPO3_MODE == 'FE') {
 				if(!is_a($GLOBALS['TSFE']->cObj,'tslib_cObj')) {
 					$GLOBALS['TSFE']->newCObj();
@@ -745,9 +745,9 @@ class Tx_PtExtbase_Div  {
 			} else {
 				t3lib_div::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory')->createFakeFrontend();
 			}
+			self::$cObj = $GLOBALS['TSFE']->cObj;
 		}
 
-		self::$cObj = $GLOBALS['TSFE']->cObj;
 		return self::$cObj;
 	}
 

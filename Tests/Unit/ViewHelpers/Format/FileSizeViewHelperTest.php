@@ -60,4 +60,3 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_FileSizeViewHelperTest extends 
 	}
 
 }
-?>
