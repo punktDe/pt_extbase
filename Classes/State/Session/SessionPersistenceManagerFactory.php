@@ -29,8 +29,9 @@
 /**
  * Class implements a factory for session persistence manager.
  *
+ * @deprecated Use Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder instead!
  * @package Domain
- * @subpackage StateAdapter
+ * @subpackage State\Session
  * @author Michael Knoll 
  */
 class Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory {
@@ -52,16 +53,31 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory {
 	 */
 	public static function getInstance(Tx_PtExtbase_State_Session_Storage_AdapterInterface $storageAdapter = null) {
 		if (self::$instance == NULL) {
-			self::$instance = new Tx_PtExtbase_State_Session_SessionPersistenceManager();
-			
 			// TODO factory should decide, which storage adapter to use!
 			if ($storageAdapter === null) {
-			   self::$instance->injectSessionAdapter(self::getStorageAdapter());
+				self::$instance = new Tx_PtExtbase_State_Session_SessionPersistenceManager(self::getStorageAdapter());
 			} else {
-				self::$instance->injectSessionAdapter($storageAdapter);
+				self::$instance = new Tx_PtExtbase_State_Session_SessionPersistenceManager($storageAdapter);
 			}
 		}
 		return self::$instance;
+	}
+
+
+
+	/**
+	 * This is only used during refactoring. As session persistence manager is created
+	 * via Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder::getInstance() in some
+	 * places, we have to set singleton instance of this object here to make sure, that no second
+	 * instance is created, once builder created one.
+	 *
+	 * TODO remove this, once refactoring is finished!
+	 *
+	 * @static
+	 * @param Tx_PtExtbase_State_Session_SessionPersistenceManager $sessionPersistenceManager
+	 */
+	public static function setInstance(Tx_PtExtbase_State_Session_SessionPersistenceManager $sessionPersistenceManager) {
+		self::$instance = $sessionPersistenceManager;
 	}
 	
 	
@@ -81,5 +97,4 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory {
 	}
 	
 }
-
 ?>

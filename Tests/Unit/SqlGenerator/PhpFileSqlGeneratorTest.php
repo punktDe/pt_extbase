@@ -131,4 +131,3 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends Tx_Ex
 	}
 
 }
-?>
