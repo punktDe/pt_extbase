@@ -36,7 +36,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_BaseTestCase extends Tx_Ext
 	/**
 	 * @return array
 	 */
-	abstract function getFixtures();
+	abstract protected function getFixtures();
 
 	/**
 	 * @return void
