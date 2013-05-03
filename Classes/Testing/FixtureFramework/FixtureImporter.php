@@ -67,6 +67,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter {
 				$this->fixture->getCredentials()->getSchema()
 			)
 		);
+		$this->fixture->getConnection()->getConnection()->query('SET NAMES utf8')->execute();
 	}
 
 	/**
