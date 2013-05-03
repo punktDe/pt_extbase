@@ -31,7 +31,7 @@
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
-abstract class Tx_PtExtbase_Testing_FixtureFramework_BaseTestCase extends PHPUnit_Extensions_SeleniumTestCase {
+abstract class Tx_PtExtbase_Testing_FixtureFramework_BaseTestCase extends Tx_Extbase_Tests_Unit_BaseTestCase {
 
 	/**
 	 * @return array
