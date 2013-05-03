@@ -84,6 +84,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 		$this->overrideArgument('id', 'string', 'Specifies the field and div ID', true, 'ptExtbaseTreeSelector');
 		$this->registerArgument('restrictedDepth', 'int', 'Depth of tree to be rendered', false);
 		$this->registerArgument('expand', 'string', 'Expand Mode. "all" or "root"', false, 'root');
+		$this->registerArgument('respectEnableFields', 'int', '0 = Show all entries, 1 = do not display hidden', false, 1);
 	}
 
 
@@ -138,7 +139,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 		$treeRepository = $treeRepositoryBuilder->buildTreeRepository();
 
-		$tree = $treeRepository->loadTreeByNamespace($this->arguments['namespace']);
+		$tree = $treeRepository->loadTreeByNamespace($this->arguments['namespace'], $this->arguments['respectEnableFields']);
 
 		if (isset($this->arguments['restrictedDepth'])) {
 			$tree->setRestrictedDepth($this->arguments['restrictedDepth']);
