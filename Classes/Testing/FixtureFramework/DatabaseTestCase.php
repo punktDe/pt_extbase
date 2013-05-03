@@ -57,11 +57,12 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 	 * @return void
 	 */
 	protected function setUp() {
-		parent::setUp();
 		if (!(in_array($_SERVER['HOSTNAME'], $this->allowedDomains)
 				|| in_array($_SERVER['HTTP_HOST'], $this->allowedDomains))) {
 			$this->markTestSkipped('This test is only allowed on domains: ' . implode(', ', $this->allowedDomains));
 		}
+		$fixtureImporter = new Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter();
+		$fixtureImporter->import($this->getFixtures());
 	}
 
 	/**
@@ -146,14 +147,6 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 	 * @return array
 	 */
 	abstract protected function getFixtures();
-
-	/**
-	 * @return void
-	 */
-	protected function setUp() {
-		$fixtureImporter = new Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter();
-		$fixtureImporter->import($this->getFixtures());
-	}
 
 }
 
