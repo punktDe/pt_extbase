@@ -28,6 +28,8 @@
 /**
  * Selenium Test Case
  *
+ * This class is based on the Extbase base test case.
+ *
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
