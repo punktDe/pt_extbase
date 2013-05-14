@@ -103,7 +103,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	 *
 	 * @param array $postVars
 	 */
-	public function injectPostVars(array $postVars = array()) {
+	public function _injectPostVars(array $postVars = array()) {
 		$this->postVars = $postVars;
 	}
 	
@@ -114,7 +114,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	 *
 	 * @param array $getVars
 	 */
-	public function injectGetVars(array $getVars = array()) {
+	public function _injectGetVars(array $getVars = array()) {
 		$this->getVars = $getVars;
 	}
 	
@@ -125,7 +125,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	 *
 	 * @param array $filesVars
 	 */
-	public function injectFilesVars(array $filesVars = array()) {
+	public function _injectFilesVars(array $filesVars = array()) {
 		$this->filesVars = $filesVars;
 	}
 	
@@ -134,10 +134,12 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	/**
 	 * Fills a given object with parameters that correspond to namespace identified by object
 	 *
+	 * TODO this won't work with DI! Rename in later refacotring.
+	 *
 	 * @param Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface $object
 	 */
 	public function injectParametersInObject(Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface $object) {
-		$object->injectGPVars($this->extractPgVarsByNamespace($object->getObjectNamespace()));
+		$object->_injectGPVars($this->extractPgVarsByNamespace($object->getObjectNamespace()));
 	}
 
 	
@@ -282,4 +284,3 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
     }
 	
 }
-?>
