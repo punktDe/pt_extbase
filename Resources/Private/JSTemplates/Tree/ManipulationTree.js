@@ -101,10 +101,15 @@
 				id = node.attr('id'),
 				metadata = node.attr('data-meta');
 
+			if (node.attr('disabled')) {
+				node.addClass('disabled').removeAttr('disabled');
+			}
+
 			// Add metadata to node html when an id and metadata is set
 			if (id && metadata !== undefined)
 				node.children('a:first').after('<span>(' + metadata + ')</span>');
 		});
+
 	}
 
 	function moveNode(e, data) {

@@ -106,10 +106,8 @@ class Tx_PtExtbase_Tree_NodeRepository
 
 		$nodes = $this->retrieveByNamespace($namespace, FALSE);
 
-		if($this->respectEnableFields) {
-			$accessibleNodes = $this->retrieveByNamespace($namespace, TRUE);
-			$this->markNodesAccessible($nodes, $accessibleNodes);
-		}
+		$accessibleNodes = $this->retrieveByNamespace($namespace, TRUE);
+		$this->markNodesAccessible($nodes, $accessibleNodes);
 
 		return $nodes;
 	}

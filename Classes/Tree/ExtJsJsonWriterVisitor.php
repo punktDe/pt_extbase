@@ -103,6 +103,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements  Tx_PtExtbase_Tree_Tre
 			'text' => $node->getLabel(),
 			'children' => array(),
 			'leaf' => !$node->hasChildren(),
+			'cls' => $node->isAccessible() ? '' : 'disabled',
 		);
 
 		$this->setSelectionOnNodeArray($node, $arrayForNode);
