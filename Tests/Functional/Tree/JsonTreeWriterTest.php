@@ -48,10 +48,8 @@ class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends Tx_PtExtbase
         $rootNode->addChild($secondNode);
 
         $jsonString = $jsonTreeWriter->writeTree($tree);
-        $this->assertEquals('[{"uid":' . $rootNode->getUid() . ',"label":"root","children":[{"uid":' . $firstNode->getUid() . ',"label":"firstNode","children":[]},{"uid":' . $secondNode->getUid() . ',"label":"secondNode","children":[{"uid":'.$firstChildOfSecondNode->getUid().',"label":"firstChildOfSecondNode","children":[]}]}]}]', $jsonString);
+        $this->assertEquals(trim('[{"uid":' . $rootNode->getUid() . ',"label":"root","children":[{"uid":' . $firstNode->getUid() . ',"label":"firstNode","children":[],"disabled":true},{"uid":' . $secondNode->getUid() . ',"label":"secondNode","children":[{"uid":'.$firstChildOfSecondNode->getUid().',"label":"firstChildOfSecondNode","children":[],"disabled":true}],"disabled":true}],"disabled":true}]'), trim($jsonString));
     }
-
-
 
     /** @test */
     public function jsonTreeWriterRespectsRestrictedLevelsInWrittenTrees() {
@@ -73,12 +71,12 @@ class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends Tx_PtExtbase
         // Restricting level to 2 (two children should be rendered)
         $tree->setRestrictedDepth(2);
         $jsonStringForDepth2 = $jsonTreeWriter->writeTree($tree);
-        $this->assertEquals('[{"uid":' . $rootNode->getUid() . ',"label":"root","children":[{"uid":' . $firstNode->getUid() . ',"label":"firstNode","children":[]},{"uid":' . $secondNode->getUid() . ',"label":"secondNode","children":[]}]}]', $jsonStringForDepth2);
+        $this->assertEquals('[{"uid":' . $rootNode->getUid() . ',"label":"root","children":[{"uid":' . $firstNode->getUid() . ',"label":"firstNode","children":[],"disabled":true},{"uid":' . $secondNode->getUid() . ',"label":"secondNode","children":[],"disabled":true}],"disabled":true}]', $jsonStringForDepth2);
 
         // Restricting level to 1 (only root should be rendered)
         $tree->setRestrictedDepth(1);
         $jsonStringForDepth1 = $jsonTreeWriter->writeTree($tree);
-        $this->assertEquals('[{"uid":' . $rootNode->getUid() . ',"label":"root","children":[]}]',$jsonStringForDepth1);
+        $this->assertEquals('[{"uid":' . $rootNode->getUid() . ',"label":"root","children":[],"disabled":true}]',$jsonStringForDepth1);
     }
 
 
