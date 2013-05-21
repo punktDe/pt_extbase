@@ -56,11 +56,10 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends Tx_Fluid_ViewH
 	 * @api
 	 */
 	public function render($required = NULL) {
-		$formField = parent::render($required, 'text', NULL);
 		$treeDiv = $this->getTreeDiv();
 		$treeJS = $this->getTreeJS();
 
-		return $formField . $treeDiv . $treeJS;
+		return $treeDiv . $treeJS;
 	}
 
 
