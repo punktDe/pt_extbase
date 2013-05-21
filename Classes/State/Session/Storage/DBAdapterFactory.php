@@ -68,27 +68,41 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory {
 	 * @return t3lib_cache_frontend_Cache
 	 */
 	protected function buildStateCache() {
-		
-			// Create the cache
-			try {
-				$GLOBALS['typo3CacheFactory']->create(
-					'tx_ptextbase',
-					't3lib_cache_frontend_VariableFrontend',
-					$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['backend'],
-					$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['options']
-				);
-			} catch(t3lib_cache_exception_DuplicateIdentifier $e) {
-				// do nothing, the cache already exists
-			}
-			
-			// Initialize the cache
-			try {
-				$cache = $GLOBALS['typo3CacheManager']->getCache('tx_ptextbase');
-			} catch(t3lib_cache_exception_NoSuchCache $e) {
-				throw new Exception('Unable to load Cache! 1299942198');
-			}
-		
-		
+		/**
+		 * TODO this is broken and we only use it to prevent a fatal error
+		 * TODO fix this if you want to use caching!!!
+		 */
+		if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['options'])) {
+			$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase'] = array(
+				'frontend' => 't3lib_cache_frontend_VariableFrontend',
+				'backend' => 't3lib_cache_backend_DbBackend',
+				'options' => array(
+					'cacheTable' => 'tx_ptextbase_cache_state',
+					'tagsTable'  => 'tx_ptextbase_cache_state_tags',
+				)
+			);
+		}
+
+		// Create the cache
+		try {
+			$GLOBALS['typo3CacheFactory']->create(
+				'tx_ptextbase',
+				't3lib_cache_frontend_VariableFrontend',
+				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['backend'],
+				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['options']
+			);
+		} catch(t3lib_cache_exception_DuplicateIdentifier $e) {
+			// do nothing, the cache already exists
+		}
+
+		// Initialize the cache
+		try {
+			$cache = $GLOBALS['typo3CacheManager']->getCache('tx_ptextbase');
+		} catch(t3lib_cache_exception_NoSuchCache $e) {
+			throw new Exception('Unable to load Cache! 1299942198');
+		}
+
+
 		return $cache;
 	}
 	

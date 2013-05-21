@@ -28,8 +28,18 @@
  * @see     http://www.debuggable.com/posts/assert-the-yummyness-of-your-cake:480f4dd6-7fe0-4113-9776-458acbdd56cb
  * @author  Fabrizio Branca
  * @author  Michael Knoll
+ * @see Tx_PtExtbase_Tests_Unit_Assertions_AssertTest
  */
 class Tx_PtExtbase_Assertions_Assert {
+
+	/**
+	 * Holds instance of t3lib_DB that can be mocked and injected for testing
+	 *
+	 * @var t3lib_DB
+	 */
+	public static $dbObj = NULL;
+
+
 
     /**
      * Basic test method
@@ -793,5 +803,86 @@ class Tx_PtExtbase_Assertions_Assert {
         return self::isArrayKey($val, $GLOBALS['TCA'], $info);
     }
 
+
+
+	/**
+	 * Test if given object implements given class
+	 *
+	 * Alias for isInstanceOf
+	 *
+	 * @param mixed $object Object to test whether it implements given class
+	 * @param string $className Class name which object should implement
+	 * @param array $info additional info, will be displayed as debug message, if object does not implement given class
+	 */
+	public static function isA($object, $className, $info=array()) {
+		self::classExists($className, array('message' => 'Assertion whether an object implements a class cannot be made, without the target class being loaded. Class ' . $className . ' does not exist! 1356205830'));
+		self::isInstanceOf($object, $className, $info);
+	}
+
+
+
+	/**
+	 * Test if class for given class name exists
+	 *
+	 * @param string $className Name of class to test whether it exists
+	 * @param array $info additional info, will be displayed as debug message, if class does not exist
+	 */
+	public static function classExists($className, $info=array()) {
+		self::isTrue(class_exists($className), $info);
+	}
+
+
+
+	/**
+	 * Tests if a given table exists in current default database
+	 *
+	 * @param string $tablename Table name for which to check whether it exists
+	 * @param array $info Additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
+	 */
+	public static function tableExists($tablename, array $info = array()) {
+		self::initializeDbObj();
+		$tables = self::$dbObj->admin_get_tables();
+		return self::isArrayKey($tablename, $tables, $info);
+	}
+
+
+
+	/**
+	 * Tests if a given table contains a given field.
+	 *
+	 * @param string $tablename Table name for which to check whether a given field exists in
+	 * @param string $fieldname Field name for which to check whether it exists in the given table
+	 * @param array $info Additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
+	 */
+	public static function tableAndFieldExist($tablename, $fieldname, $info =  array()) {
+		self::initializeDbObj();
+		return self::isArrayKey($fieldname, self::$dbObj->admin_get_fields($tablename), $info);
+	}
+
+
+
+	/**
+	 * Tests if an extension is loaded with an optionally given version.
+	 *
+	 * @param string $extensionKey Extension key of the extension that we want to be loaded
+	 * @param string $version Version of the extension that we want to have loaded
+	 */
+	public static function extensionIsLoaded($extensionKey, $version = '0.0.0') {
+		// Check whether extension is loaded at all
+		self::isTrue(t3lib_extMgm::isLoaded($extensionKey), array('message' => 'Extension ' . $extensionKey . ' is not loaded!'));
+
+		// Check whether extension is loaded with required version
+		list($sanitizedVersion,) = explode('-', $version);
+		$loadedVersion = t3lib_extMgm::getExtensionVersion($extensionKey);
+		self::test(version_compare($sanitizedVersion, $loadedVersion) >= 0, true, array('message' => 'Extension ' . $extensionKey . ' was installed with version ' . $loadedVersion . ' but version ' . $version . ' is required!'));
+	}
+
+
+
+	private function initializeDbObj() {
+		if (self::$dbObj === NULL) {
+			self::$dbObj = $GLOBALS['TYPO3_DB'];
+		}
+	}
+
 }
-?>
