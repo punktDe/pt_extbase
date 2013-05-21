@@ -50,13 +50,20 @@ class Tx_PtExtbase_Tree_TreeWalker {
      * @var int
      */
     protected $restrictedDepth = -1;
-	
-	
-	
+
+
+	/**
+	 * @var boolean
+	 */
+	protected $respectEnableFields = TRUE;
+
+
+
 	/**
 	 * Constructor for tree walker
 	 *
-	 * @param unknown_type $visitors
+	 * @param array $visitors
+	 * @throws Exception
 	 */
 	public function __construct($visitors) {
 		foreach($visitors as $visitor) {
@@ -100,7 +107,7 @@ class Tx_PtExtbase_Tree_TreeWalker {
 	 */
 	protected function dfs(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level = 1) {
 
-		//if($node->isAccessible()) {
+		if($node->isAccessible() || !$this->respectEnableFields) {
 			$this->doFirstVisit($node, $index, $level);
 			$index = $index + 1;
 
@@ -117,7 +124,7 @@ class Tx_PtExtbase_Tree_TreeWalker {
 
 			$this->doLastVisit($node, $index, $level);
 			$index = $index + 1;
-		//}
+		}
 	}
 
 
@@ -166,17 +173,28 @@ class Tx_PtExtbase_Tree_TreeWalker {
 			$visitor->doLastVisit($node, $index);
 		}
 	}
-	
-	
-	
+
+
 	/**
 	 * Traverses a tree breadth-first search. Applying registered visitors whenever a node is visited
 	 *
 	 * @param Tx_PtExtbase_Tree_TraversableInterface $tree
+	 * @throws Exception
 	 */
 	public function traverseTreeBfs(Tx_PtExtbase_Tree_TraversableInterface $tree) {
 		// TODO implement me!
         throw new Exception('Traversing tree BFS is not yet implemented!');
+	}
+
+
+
+	/**
+	 * @param boolean $respectEnableFields
+	 * @return $this
+	 */
+	public function setRespectEnableFields($respectEnableFields) {
+		$this->respectEnableFields = $respectEnableFields;
+		return $this;
 	}
 	
 }
