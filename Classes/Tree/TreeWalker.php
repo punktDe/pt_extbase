@@ -146,10 +146,11 @@ class Tx_PtExtbase_Tree_TreeWalker {
      *
      * @param Tx_PtExtbase_Tree_NodeInterface $node
      * @param $index
+	 * @param int $level tree level
      */
-	protected function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
+	protected function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, $index, $level) {
 		foreach ($this->visitors as $visitor) {
-			$visitor->doFirstVisit($node, $index);
+			$visitor->doFirstVisit($node, $index, $level);
 		}
 	}
 	
@@ -160,10 +161,11 @@ class Tx_PtExtbase_Tree_TreeWalker {
      *
      * @param Tx_PtExtbase_Tree_NodeInterface $node
      * @param $index
+	 * @param int $level tree level
      */
-	protected function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index) {
+	protected function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, $index, $level) {
 		foreach ($this->visitors as $visitor) {
-			$visitor->doLastVisit($node, $index);
+			$visitor->doLastVisit($node, $index, $level);
 		}
 	}
 	
@@ -173,6 +175,7 @@ class Tx_PtExtbase_Tree_TreeWalker {
 	 * Traverses a tree breadth-first search. Applying registered visitors whenever a node is visited
 	 *
 	 * @param Tx_PtExtbase_Tree_TraversableInterface $tree
+	 * @throws Exception
 	 */
 	public function traverseTreeBfs(Tx_PtExtbase_Tree_TraversableInterface $tree) {
 		// TODO implement me!
