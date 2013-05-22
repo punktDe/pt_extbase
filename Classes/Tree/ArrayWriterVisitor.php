@@ -86,7 +86,7 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
             'uid' => $node->getUid(),
             'label' => $node->getLabel(),
             'children' => array(),
-			'disabled' => $node->isAccessible(),
+			'disabled' => !$node->isAccessible(),
         );
 
         $this->nodeStack->push($arrayForNode);
