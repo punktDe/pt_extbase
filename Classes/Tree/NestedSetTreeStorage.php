@@ -61,12 +61,12 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
 	}
 
 
-
-    /**
-     * Saves a tree to storage
-     *
-     * @param Tx_PtExtbase_Tree_TreeInterface $tree
-     */
+	/**
+	 * Saves a tree to storage
+	 *
+	 * @param Tx_PtExtbase_Tree_TreeInterface $tree
+	 * @throws Exception
+	 */
     public function saveTree(Tx_PtExtbase_Tree_TreeInterface $tree) {
 
         if (!is_a($tree, Tx_PtExtbase_Tree_NestedSetTreeInterface)) {

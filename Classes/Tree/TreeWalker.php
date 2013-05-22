@@ -52,11 +52,19 @@ class Tx_PtExtbase_Tree_TreeWalker {
     protected $restrictedDepth = -1;
 
 
-	/**
-	 * @var boolean
-	 */
-	protected $respectEnableFields = TRUE;
 
+	/**
+	 * @var Tx_PtExtbase_Tree_TreeContext
+	 */
+	protected $treeContext;
+
+
+	/**
+	 * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+	 */
+	public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext) {
+		$this->treeContext = $treeContext;
+	}
 
 
 	/**
@@ -107,7 +115,7 @@ class Tx_PtExtbase_Tree_TreeWalker {
 	 */
 	protected function dfs(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level = 1) {
 
-		if($node->isAccessible() || !$this->respectEnableFields) {
+		if($node->isAccessible() || $this->treeContext->isWritable()) {
 			$this->doFirstVisit($node, $index, $level);
 			$index = $index + 1;
 
@@ -185,17 +193,5 @@ class Tx_PtExtbase_Tree_TreeWalker {
 		// TODO implement me!
         throw new Exception('Traversing tree BFS is not yet implemented!');
 	}
-
-
-
-	/**
-	 * @param boolean $respectEnableFields
-	 * @return $this
-	 */
-	public function setRespectEnableFields($respectEnableFields) {
-		$this->respectEnableFields = $respectEnableFields;
-		return $this;
-	}
-	
 }
 ?>

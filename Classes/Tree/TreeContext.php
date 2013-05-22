@@ -2,10 +2,9 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2010 Michael Knoll <mimi@kaktusteam.de>
-*  			Daniel Lienert <daniel@lienert.cc>
-*  			
+*  (c) 2013 Daniel Lienert <daniel@lienert.cc>
 *  All rights reserved
+*
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
 *  free software; you can redistribute it and/or modify
@@ -25,32 +24,52 @@
 ***************************************************************/
 
 /**
- * Interface for repositories that handle nodes in a nested set tree
+ * Define the Tree Context
  *
  * @package Tree
- * @author Michael Knoll <mimi@kaktusteam.de>
- * @author Daniel Lienert <daniel@lienert.cc>
+ * @author Daniel Lienert
  */
-interface Tx_PtExtbase_Tree_NodeRepositoryInterface {
+class Tx_PtExtbase_Tree_TreeContext implements t3lib_Singleton {
 
 	/**
-	 * Returns nodes for a given namespace
-	 * 
-	 * Nodes are ordered by left-value 
-	 *
-	 * @param string $namespace
-     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_NodeInterface>
+	 * @var $bool
 	 */
-	public function findByNamespace($namespace);
+	protected $writable = FALSE;
 
 
 
-    /**
-     * Updates a given node if it has already been added to repository or adds it.
-     *
-     * @abstract
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
-     */
-    public function updateOrAdd(Tx_PtExtbase_Tree_NodeInterface $node);
+	public function initializeObject() {
+		if(TYPO3_MODE === 'BE' || TYPO3_AJAX) {
+			$this->writable = TRUE;
+		}
+	}
+
+
+
+	/**
+	 * @param  $writable
+	 */
+	public function setWritable($writable) {
+		$this->writable = $writable;
+	}
+
+
+
+	/**
+	 * @return boolean
+	 */
+	public function isWritable() {
+		return $this->writable;
+	}
+
+
+
+	/**
+	 * @return bool
+	 */
+	public function respectEnableFields() {
+		return !$this->isWritable();
+	}
+
 }
 ?>

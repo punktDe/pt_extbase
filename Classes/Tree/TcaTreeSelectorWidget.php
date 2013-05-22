@@ -99,11 +99,21 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
 	 */
 	protected $expand = 'root';
 
+
+
 	/**
-	 * Should enableFields be respected (0 shows hidden entries)
-	 * @var int
+	 * @var Tx_PtExtbase_Tree_TreeContext
 	 */
-	protected $respectEnableFields = 1;
+	protected $treeContext;
+
+
+	/**
+	 * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+	 */
+	public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext) {
+		$this->treeContext = $treeContext;
+	}
+
 
 
     /**
@@ -111,7 +121,8 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      *
      * @param array $parameters
      * @param null $fObj
-     */
+	 * @return string
+	 */
     public function renderTcaTreeSelectorWidget(array $parameters=array(), $fObj=NULL) {
         // Backend form should be rendered no matter what happens here, so we catch exception
         try {

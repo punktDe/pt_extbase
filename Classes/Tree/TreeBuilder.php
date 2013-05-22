@@ -162,18 +162,10 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
 	 * If there are no nodes for given namespace, a new, empty tree with a single root node will be returned.
 	 *
 	 * @param $namespace
-	 * @param $respectEnableFields boolean
 	 * @return Tx_PtExtbase_Tree_Tree
 	 * @throws Exception
 	 */
-	public function buildTreeForNamespace($namespace, $respectEnableFields = TRUE) {
-		/**
-		 * Explanation: We build the tree bottom-up and therefore use a stack.
-		 * Each node is added to a child to topStack, if topStack's right-value is smaller
-		 * than current node's right-value.
-		 */
-		$this->nodeRepository->setRespectEnableFields($respectEnableFields);
-
+	public function buildTreeForNamespace($namespace) {
 		$nodes = $this->nodeRepository->findByNamespace($namespace);
 
 		// We have no nodes for given namespace, so we return empty tree with single root node
@@ -244,15 +236,5 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
     public function setRespectRestrictedDepth($respectRestrictedDepth = TRUE) {
         $this->respectRestrictedDepth = $respectRestrictedDepth;
     }
-
-
-
-	/**
-	 * @param boolean $respectEnableFields
-	 */
-	public function setRespectEnableFields($respectEnableFields) {
-		$this->nodeRepository->setRespectEnableFields($respectEnableFields);
-	}
-
 }
 ?>

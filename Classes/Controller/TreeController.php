@@ -65,10 +65,21 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
      */
     protected $treeRepository;
 
+
+
 	/**
-	 * @var boolean
+	 * @var Tx_PtExtbase_Tree_TreeContext
 	 */
-	protected $treeRespectEnableFields;
+	protected $treeContext;
+
+
+	/**
+	 * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+	 */
+	public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext) {
+		$this->treeContext = $treeContext;
+	}
+
 
 
 	/**
@@ -112,7 +123,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$settings = array(
 			'repository' => 'Tx_PtCertification_Domain_Repository_CategoryRepository',
 			'namespace' => 'tx_ptcertification_domain_model_category',
-			'respectEnableFields' => FALSE,
+			'respectEnableFields' => $this->treeContext->respectEnableFields(),
 		);
 
 		if(array_key_exists('repository', $settings)) {
@@ -124,10 +135,6 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 		if(array_key_exists('namespace', $settings)) {
 			$this->treeNameSpace = $settings['namespace'];
-		}
-
-		if(array_key_exists('respectEnableFields', $settings)) {
-			$this->treeRespectEnableFields = $settings['respectEnableFields'];
 		}
 	}
 
@@ -155,14 +162,14 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		if($node) {
             $tree = $this->treeRepository->getEmptyTree($this->treeNameSpace);
 		} else {
-			$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, $this->treeRespectEnableFields);
+			$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 			if ($restrictedDepth > 0) {
 	            $tree->setRestrictedDepth($restrictedDepth);
 	            $tree->setRespectRestrictedDepth(TRUE);
 			}
 		}
 
-		$this->returnDataAndShutDown(Tx_PtExtbase_Tree_JSTreeJsonTreeWriter::getInstance()->setRespectEnableFields($this->treeRespectEnableFields)->writeTree($tree));
+		$this->returnDataAndShutDown(Tx_PtExtbase_Tree_JSTreeJsonTreeWriter::getInstance()->writeTree($tree));
 	}
 
 
@@ -180,7 +187,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		// TODO: get correct class name from tree namespace
 		$newNode = new Tx_PtCertification_Domain_Model_Category($label);
 
-		$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+		$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
 
         $parent = $tree->getNodeByUid($parent);
 
@@ -205,7 +212,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param int $node
 	 */
 	public function removeNodeAction($node) {
-        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
 
         $node = $tree->getNodeByUid($node);
 
@@ -226,7 +233,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param int $targetNode Node where moved node should be put into
 	 */
 	public function moveNodeIntoAction($node, $targetNode) {
-        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
 
         $node = $tree->getNodeByUid($node);
         $targetNode = $tree->getNodeByUid($targetNode);
@@ -246,7 +253,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param int $targetNode Node where moved node should be put before
 	 */
 	public function moveNodeAfterAction($node, $targetNode) {
-        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
 
         $node = $tree->getNodeByUid($node);
         $targetNode = $tree->getNodeByUid($targetNode);
@@ -266,7 +273,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param int $targetNode ID of node where moved node should be put after
 	 */
 	public function moveNodeBeforeAction($node, $targetNode) {
-        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
 
         $node = $tree->getNodeByUid($node);
         $targetNode = $tree->getNodeByUid($targetNode);
@@ -288,7 +295,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param string $label
 	 */
 	public function saveNodeAction($node, $label = '') {
-        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
 
         $node = $tree->getNodeByUid($node);
 
