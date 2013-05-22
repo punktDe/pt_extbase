@@ -316,7 +316,6 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$this->persistenceManager->persistAll();
 		t3lib_div::cleanOutputBuffers();
 		echo $content;
-		$this->shutDown();
 		exit();
 	}
 
