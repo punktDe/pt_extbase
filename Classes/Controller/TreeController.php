@@ -72,6 +72,14 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 
 	/**
+	 * @param Tx_Extbase_Persistence_Manager $persistenceManager
+	 */
+	public function injectPersistenceManager(Tx_Extbase_Persistence_Manager $persistenceManager) {
+		$this->persistenceManager = $persistenceManager;
+	}
+
+
+	/**
 	 * Initializes the current action
 	 *
 	 * @return void
@@ -89,8 +97,6 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$this->treeRepository = $treeRepositoryBuilder->buildTreeRepository();
 
 		$this->nodeRepository = $this->objectManager->get($this->nodeRepositoryClassName);
-
-		$this->persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
 	}
 
 
@@ -156,8 +162,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 			}
 		}
 
-		echo Tx_PtExtbase_Tree_JSTreeJsonTreeWriter::getInstance()->setRespectEnableFields($this->treeRespectEnableFields)->writeTree($tree);
-		exit();
+		$this->returnDataAndShutDown(Tx_PtExtbase_Tree_JSTreeJsonTreeWriter::getInstance()->setRespectEnableFields($this->treeRespectEnableFields)->writeTree($tree));
 	}
 
 
@@ -189,8 +194,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		// Create json response
 		$response = '{ "status": ' . ($newNodeUid > 0 ? 'true' : 'false') . ', "id": ' . $newNodeUid . ' }';
 
-		echo $response;
-		exit();
+		$this->returnDataAndShutDown($response);
 	}
 
 
@@ -208,10 +212,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$tree->deleteNode($node);
         $this->treeRepository->update($tree);
 
-		$this->persistenceManager->persistAll();
-
-		echo '{ "status": true }';
-		exit();
+		$this->returnDataAndShutDown('{ "status": true }');
 	}
 
 
@@ -233,10 +234,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$tree->moveNode($node, $targetNode);
         $this->treeRepository->update($tree);
 
-		$this->persistenceManager->persistAll();
-
-		echo '{ "status": true }';
-		exit();
+		$this->returnDataAndShutDown('{ "status": true }');
 	}
 
 
@@ -256,10 +254,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$tree->moveNodeAfterNode($node, $targetNode);
         $this->treeRepository->update($tree);
 
-		$this->persistenceManager->persistAll();
-
-		echo '{ "status": true }';
-		exit();
+		$this->returnDataAndShutDown('{ "status": true }');
 	}
 
 
@@ -279,10 +274,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$tree->moveNodeBeforeNode($node, $targetNode);
 		$this->treeRepository->update($tree);
 
-		$this->persistenceManager->persistAll();
-
-		echo '{ "status": true }';
-		exit();
+		$this->returnDataAndShutDown('{ "status": true }');
 	}
 
 
@@ -303,9 +295,21 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		$node->setLabel($label);
 		$this->nodeRepository->update($node);
 
-		$this->persistenceManager->persistAll();
+		$this->returnDataAndShutDown('{ "status": true }');
+	}
 
-		echo '{ "status": true }';
+
+
+	/**
+	 * Return data to the client and shudown
+	 *
+	 * @param string $content
+	 */
+	protected function returnDataAndShutDown($content = '') {
+		$this->persistenceManager->persistAll();
+		t3lib_div::cleanOutputBuffers();
+		echo $content;
+		$this->shutDown();
 		exit();
 	}
 
