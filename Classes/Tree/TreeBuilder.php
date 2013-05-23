@@ -113,6 +113,7 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
 
 		$tree = $this->treeCache[$namespace];
 		$root = $tree->getRoot();
+
 		if ($root->isAccessible()) {
 			$clonedRoot = $this->getClonedNode($root);
 			$this->buildAccessRestrictedTreeRecursively($root, $clonedRoot);

@@ -32,6 +32,12 @@
  */
 class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
 
+	/**
+	 * @var Tx_Extbase_Object_ObjectManager
+	 */
+	protected $objectManager;
+
+
     /**
      * Holds singleton instance of TreeRepositoryBuilder
      *
@@ -77,6 +83,14 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
     protected $restrictedDepth = -1;
 
 
+	/**
+	 * @param Tx_Extbase_Object_ObjectManager $objectManager
+	 */
+	public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager) {
+		$this->objectManager = $objectManager;
+	}
+
+
 
     /**
      * Returns singleton instance of this class
@@ -108,10 +122,13 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
      */
     public function buildTreeRepository() {
         $nodeRepository = $this->buildNodeRepository();
-        $treeBuilder = $this->buildTreeBuilder($nodeRepository);
+
+		$treeBuilder = $this->buildTreeBuilder($nodeRepository);
         $treeBuilder->setRestrictedDepth($this->restrictedDepth);
-        $treeStorage = $this->buildTreeStorage($nodeRepository);
-        return new Tx_PtExtbase_Tree_TreeRepository($nodeRepository, $treeBuilder, $treeStorage);
+
+		$treeStorage = $this->buildTreeStorage($nodeRepository);
+
+        return $this->objectManager->get('Tx_PtExtbase_Tree_TreeRepository', $nodeRepository, $treeBuilder, $treeStorage);
     }
 
 
