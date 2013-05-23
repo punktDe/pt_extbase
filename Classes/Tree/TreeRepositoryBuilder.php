@@ -180,31 +180,35 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
 	 }
 
 
-
-    /**
-     * Returns instance of tree builder for class name set in builder
-     *
-     * @return Tx_PtExtbase_Tree_TreeBuilderInterface
-     * @throws Exception
-     */
+	/**
+	 * Returns instance of tree builder for class name set in builder
+	 *
+	 * @param Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository
+	 * @throws Exception
+	 * @return Tx_PtExtbase_Tree_TreeBuilderInterface
+	 */
     protected function buildTreeBuilder(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository) {
-        $treeBuilder = new $this->treeBuilderClassName($nodeRepository);
+
+		$treeBuilder = new $this->treeBuilderClassName($nodeRepository);
+
         if (!is_a($treeBuilder, 'Tx_PtExtbase_Tree_TreeBuilderInterface')) {
-        throw new Exception ('Given class name ' . $this->treeBuilderClassName . ' must implement Tx_PtExtbase_Tree_TreeBuilderInterface!', 1328201592);
+        	throw new Exception ('Given class name ' . $this->treeBuilderClassName . ' must implement Tx_PtExtbase_Tree_TreeBuilderInterface!', 1328201592);
         } /* @var $treeBuilder Tx_PtExtbase_Tree_TreeBuilderInterface */
-        $treeBuilder->setRespectRestrictedDepth(TRUE);
+
+		$treeBuilder->setRespectRestrictedDepth(TRUE);
         $treeBuilder->setRestrictedDepth($this->restrictedDepth);
-        return $treeBuilder;
+
+		return $treeBuilder;
     }
 
 
-
-    /**
-     * Returns instance of tree storage for class name set in builder
-     *
-     * @return Tx_PtExtbase_Tree_TreeStorageInterface
-     * @throws Exception
-     */
+	/**
+	 * Returns instance of tree storage for class name set in builder
+	 *
+	 * @param Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository
+	 * @throws Exception
+	 * @return Tx_PtExtbase_Tree_TreeStorageInterface
+	 */
     protected function buildTreeStorage(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository) {
         $treeStorage = new $this->treeStorageClassName($nodeRepository);
         if (!is_a($treeStorage, 'Tx_PtExtbase_Tree_TreeStorageInterface')) {

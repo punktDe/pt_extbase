@@ -38,9 +38,11 @@ class Tx_PtExtbase_Tree_JsonTreeWriter extends Tx_PtExtbase_Tree_ArrayTreeWriter
      * @return Tx_PtExtbase_Tree_JsonTreeWriter
      */
     public static function getInstance(array $visitors = array()) {
-        $arrayWriterVisitor = new Tx_PtExtbase_Tree_ArrayWriterVisitor();
+		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+
+        $arrayWriterVisitor = $objectManager->get('Tx_PtExtbase_Tree_ArrayWriterVisitor');
         $visitors[] = $arrayWriterVisitor;
-        $jsonTreeWriter = new Tx_PtExtbase_Tree_JsonTreeWriter($visitors, $arrayWriterVisitor);
+        $jsonTreeWriter = $objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', $visitors, $arrayWriterVisitor);
         return $jsonTreeWriter;
     }
 

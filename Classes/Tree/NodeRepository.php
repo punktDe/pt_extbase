@@ -147,12 +147,12 @@ class Tx_PtExtbase_Tree_NodeRepository
 	 * @param $namespace
 	 * @return array
 	 */
-	protected function retrieveByNamespace($namespace) {
+	protected function retrieveByNamespace($namespace, $respectEnableFields) {
 		$query = $this->createQuery();
 		$query->getQuerySettings()
 				  ->setRespectStoragePage(FALSE)
 				  ->setRespectSysLanguage(FALSE)
-				  ->setRespectEnableFields($this->treeContext->respectEnableFields());
+				  ->setRespectEnableFields($respectEnableFields);
 
 
 		$nameSpaceConstraint = $query->equals('namespace', $namespace);
@@ -161,7 +161,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 		/*
 		 * RespectEnableFields = FALSE means, that all records are selected INCLUDING the deleted records
 		 */
-		if(!$this->treeContext->respectEnableFields()) {
+		if(!$respectEnableFields) {
 			$query->matching(
 				$query->logicalAnd(
 					$nameSpaceConstraint,

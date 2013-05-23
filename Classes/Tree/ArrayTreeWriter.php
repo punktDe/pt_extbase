@@ -49,9 +49,12 @@ class Tx_PtExtbase_Tree_ArrayTreeWriter extends Tx_PtExtbase_Tree_TreeWalker {
      * @return Tx_PtExtbase_Tree_ArrayTreeWriter
      */
     public static function getInstance(array $visitors = array()) {
-        $arrayWriterVisitor = new Tx_PtExtbase_Tree_ArrayWriterVisitor();
+		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+
+        $arrayWriterVisitor = $objectManager->get('Tx_PtExtbase_Tree_ArrayWriterVisitor');
         $visitors[] = $arrayWriterVisitor;
-        $arrayTreeWriter = new Tx_PtExtbase_Tree_ArrayTreeWriter($visitors, $arrayWriterVisitor);
+
+        $arrayTreeWriter = $objectManager->get('Tx_PtExtbase_Tree_ArrayTreeWriter', $visitors, $arrayWriterVisitor);
         return $arrayTreeWriter;
     }
 
