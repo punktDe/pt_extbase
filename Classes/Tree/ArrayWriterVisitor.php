@@ -83,7 +83,7 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
      */
     public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
 		$arrayForNode = array(
-         	 //  'uid' => $node->getUid(),
+         	 'uid' => $node->getUid(),
             'label' => $node->getLabel(),
             'children' => array(),
 			'disabled' => !$node->isAccessible(),
