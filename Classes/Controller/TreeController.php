@@ -187,7 +187,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 		// TODO: get correct class name from tree namespace
 		$newNode = new Tx_PtCertification_Domain_Model_Category($label);
 
-		$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
+		$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $parent = $tree->getNodeByUid($parent);
 
@@ -212,7 +212,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param int $node
 	 */
 	public function removeNodeAction($node) {
-        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $node = $tree->getNodeByUid($node);
 
@@ -233,7 +233,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param int $targetNode Node where moved node should be put into
 	 */
 	public function moveNodeIntoAction($node, $targetNode) {
-        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $node = $tree->getNodeByUid($node);
         $targetNode = $tree->getNodeByUid($targetNode);
@@ -253,7 +253,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param int $targetNode Node where moved node should be put before
 	 */
 	public function moveNodeAfterAction($node, $targetNode) {
-        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $node = $tree->getNodeByUid($node);
         $targetNode = $tree->getNodeByUid($targetNode);
@@ -273,7 +273,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param int $targetNode ID of node where moved node should be put after
 	 */
 	public function moveNodeBeforeAction($node, $targetNode) {
-        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $node = $tree->getNodeByUid($node);
         $targetNode = $tree->getNodeByUid($targetNode);
@@ -295,7 +295,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * @param string $label
 	 */
 	public function saveNodeAction($node, $label = '') {
-        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace, FALSE);
+        $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $node = $tree->getNodeByUid($node);
 
