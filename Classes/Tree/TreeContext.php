@@ -38,7 +38,19 @@ class Tx_PtExtbase_Tree_TreeContext implements t3lib_Singleton {
 
 
 
+	/**
+	 * @return void
+	 */
 	public function initializeObject() {
+		$this->resetToDefault();
+	}
+
+
+
+	/**
+	 * @return void
+	 */
+	public function resetToDefault() {
 		if(TYPO3_MODE === 'BE' || TYPO3_AJAX) {
 			$this->writable = TRUE;
 		}
@@ -69,6 +81,15 @@ class Tx_PtExtbase_Tree_TreeContext implements t3lib_Singleton {
 	 */
 	public function respectEnableFields() {
 		return !$this->isWritable();
+	}
+
+
+
+	/**
+	 * @param boolean $respectEnableFields
+	 */
+	public function setRespectEnableFields($respectEnableFields) {
+		$this->writable = !$respectEnableFields;
 	}
 
 }
