@@ -99,7 +99,8 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
      */
     public static function getInstance() {
         if (self::$instance === null) {
-            self::$instance = new Tx_PtExtbase_Tree_TreeRepositoryBuilder();
+	        $objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+            self::$instance = $objectManager->get('Tx_PtExtbase_Tree_TreeRepositoryBuilder');
         }
         return self::$instance;
     }
@@ -107,10 +108,9 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
 
 
     /**
-     * Hidden constructor for this class
+     * return Tx_PtExtbase_Tree_TreeRepositoryBuilder
      */
-    protected function __construct() {
-        // We hide constructor to force usage of self::getInstance()
+    public function __construct() {
     }
 
 
