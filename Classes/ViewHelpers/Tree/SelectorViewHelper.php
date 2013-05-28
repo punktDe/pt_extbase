@@ -70,6 +70,23 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 
 	/**
+	 * @var Tx_PtExtbase_Tree_TreeContext
+	 */
+	protected $treeContext;
+
+
+
+	/**
+	 * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+	 * @return void
+	 */
+	public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext) {
+		$this->treeContext = $treeContext;
+	}
+
+
+
+	/**
 	 * Initialize arguments.
 	 *
 	 * @return void
@@ -139,7 +156,12 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 		$treeRepository = $treeRepositoryBuilder->buildTreeRepository();
 
-		$tree = $treeRepository->loadTreeByNamespace($this->arguments['namespace'], $this->arguments['respectEnableFields']);
+		if ($this->arguments['respectEnableFields']) {
+			$this->treeContext->setRespectEnableFields(TRUE);
+		} else {
+			$this->treeContext->setRespectEnableFields(FALSE);
+		}
+		$tree = $treeRepository->loadTreeByNamespace($this->arguments['namespace']);
 
 		if (isset($this->arguments['restrictedDepth'])) {
 			$tree->setRestrictedDepth($this->arguments['restrictedDepth']);
