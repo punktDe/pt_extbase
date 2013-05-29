@@ -75,6 +75,11 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	protected $treeContext;
 
 
+	/**
+	 * @var Tx_Extbase_Object_ObjectManager
+	 */
+	protected $objectManager;
+
 
 	/**
 	 * @param Tx_PtExtbase_Tree_TreeContext $treeContext
@@ -84,6 +89,13 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 		$this->treeContext = $treeContext;
 	}
 
+
+	/**
+	 * @param Tx_Extbase_Object_ObjectManager $objectManager
+	 */
+	public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager) {
+		$this->objectManager = $objectManager;
+	}
 
 
 	/**
@@ -168,11 +180,11 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 			$tree->setRespectRestrictedDepth(TRUE);
 		}
 
-		$arrayWriterVisitor = new Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor();
+		$arrayWriterVisitor = $this->objectManager->get('Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor');
 		$arrayWriterVisitor->setMultipleSelect($this->arguments['multiple']);
 		$arrayWriterVisitor->setSelection($this->getSelection());
 
-		$jsonTreeWriter = new Tx_PtExtbase_Tree_JsonTreeWriter(array($arrayWriterVisitor), $arrayWriterVisitor);
+		$jsonTreeWriter = $this->objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', array($arrayWriterVisitor), $arrayWriterVisitor);
 
 		return $jsonTreeWriter->writeTree($tree);
 	}
