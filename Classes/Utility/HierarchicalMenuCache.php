@@ -119,6 +119,15 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_
 
 
 	/**
+	 * Set default lifetime of cache entries to 2h
+	 *
+	 * @var int
+	 */
+	protected static $lifetime = 7200;
+
+
+
+	/**
 	 * @var t3lib_cache_backend_Backend
 	 */
 	private $cache;
@@ -187,7 +196,7 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_
 		// Render and cache menu if no cache entry exists
 		if ($renderedMenu === FALSE) {
 			$renderedMenu = parent::render($conf);
-			$this->cache->set($cacheIdentifierHash, $renderedMenu);
+			$this->cache->set($cacheIdentifierHash, $renderedMenu, array(), static::$lifetime);
 		}
 
 		return $renderedMenu;
