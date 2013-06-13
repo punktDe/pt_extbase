@@ -214,12 +214,18 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_
 	protected function createMenuCacheHashEntry($conf) {
 
 		// Get FE groups of currently logged in user for hash tag
-		$feGroups = t3lib_div::trimExplode(',', $GLOBALS['TSFE']->fe_user->user['usergroup']);
-		sort($feGroups);
+		if (!empty($GLOBALS['TSFE']->fe_user->user['usergroup'])) {
+			$feGroups = t3lib_div::trimExplode(',', $GLOBALS['TSFE']->fe_user->user['usergroup']);
+			sort($feGroups);
+		} else {
+			$feGroups = NULL;
+		}
 
 		$cacheTagIngredients = array();
-		$cacheTagIngredients[] = $feGroups;
-		$cacheTagIngredients[] = $_SERVER['HOSTNAME'];
+		if (!empty($feGroups)) {
+			$cacheTagIngredients[] = $feGroups;
+		}
+		$cacheTagIngredients[] = $_SERVER['SERVER_NAME'];
 		$cacheTagIngredients[] = $conf;
 
 		$cacheTagIngredients = $this->modifyCacheTagIngredients($cacheTagIngredients);
