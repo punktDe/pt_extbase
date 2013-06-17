@@ -175,12 +175,13 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 			$object->injectSessionData($objectData);
 		}
 	}
-	
-	
-	
+
+
+
 	/**
-	 * Get the session data for object 
-	 * @param string $objectNameSpace
+	 * Get the session data for object
+	 *
+	 * @param $objectNamespace
 	 * @return array sessiondata
 	 */
 	public function getSessionDataForObjectNamespace($objectNamespace) {
@@ -308,6 +309,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	}
 
 
+
 	/**
 	 * Add arguments to url if we cannot use session.
 	 *
@@ -328,6 +330,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 			$argumentArray = t3lib_div::array_merge_recursive_overrule($additionalArgumens, $argumentArray);
 		}
 	}
+
 
 
 	/**
