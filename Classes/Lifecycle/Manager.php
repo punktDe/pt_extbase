@@ -137,11 +137,9 @@ class Tx_PtExtbase_Lifecycle_Manager implements t3lib_Singleton {
 	 *
 	 */
 	protected function fireUpdate() {
-		foreach($this->observers as $observer) {
+		foreach($this->observers as $observer) { /* @var $observer Tx_PtExtbase_Lifecycle_EventInterface */
 			$observer->lifecycleUpdate($this->state);
 		}
 	} 
 	
 }
-
-?>
