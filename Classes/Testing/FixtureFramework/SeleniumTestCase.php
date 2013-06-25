@@ -131,6 +131,38 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_SeleniumTestCase extends PH
 	 */
 	abstract protected function getFixtures();
 
+	/*--------------------------------------------------------------------------------------------
+	//
+	// Own functions for selenium tests
+	//
+	//----------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Check for all given values of a selectbox if selected
+	 *
+	 * @param $multiSelectElementId
+	 * @param array $optionValues
+	 *
+	 * @api
+	 */
+	protected function assertSelectedOptions($multiSelectElementId, array $optionValues) {
+		foreach($optionValues as $optionValue) {
+			$this->assertSelectedOption($multiSelectElementId, $optionValue);
+		}
+	}
+
+	/**
+	 * Check if a certain value of a selectbox is selected
+	 *
+	 * @param $multiSelectElementId
+	 * @param $optionValue
+	 *
+	 * @api
+	 */
+	protected function assertSelectedOption($multiSelectElementId, $optionValue){
+		$this->assertElementPresent("//select[@id='" . $multiSelectElementId . "']//option[@value='" . $optionValue . "' and @selected='selected']");
+	}
+
 }
 
 ?>
