@@ -174,7 +174,7 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_
 		if (static::$CACHE_NAMESPACE !== NULL) {
 			return static::$CACHE_NAMESPACE;
 		} else {
-			throw new Exception('You have to set $CACHE_NAMESPACE as a property of your extending class!', 1370593166);
+			throw new Exception('You have to set $CACHE_NAMESPACE as a static property of your extending class!', 1370593166);
 		}
 	}
 
@@ -212,23 +212,19 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_
 	 * @return string
 	 */
 	protected function createMenuCacheHashEntry($conf) {
+		$cacheTagIngredients = array();
 
 		// Get FE groups of currently logged in user for hash tag
 		if (!empty($GLOBALS['TSFE']->fe_user->user['usergroup'])) {
 			$feGroups = t3lib_div::trimExplode(',', $GLOBALS['TSFE']->fe_user->user['usergroup']);
 			sort($feGroups);
-		} else {
-			$feGroups = NULL;
-		}
-
-		$cacheTagIngredients = array();
-		if (!empty($feGroups)) {
 			$cacheTagIngredients[] = $feGroups;
 		}
+
 		$cacheTagIngredients[] = $_SERVER['SERVER_NAME'];
 		$cacheTagIngredients[] = $conf;
 
-		$cacheTagIngredients = $this->modifyCacheTagIngredients($cacheTagIngredients);
+		$cacheTagIngredients = $this->modifyCacheTagIngredients($cacheTagIngredients, $conf);
 
 		// Merge hash tag
 		$hashTag = static::$CACHE_KEY . md5(serialize($cacheTagIngredients)) . '_' . $GLOBALS['TSFE']->sys_language_uid;
@@ -244,9 +240,10 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_
 	 * generated for the cache entry.
 	 *
 	 * @param array $cacheTagIngredients Array of default ingredients
+	 * @param array $conf Configuration of currently rendered menu
 	 * @return array The modified array
 	 */
-	protected function modifyCacheTagIngredients(array $cacheTagIngredients) {
+	protected function modifyCacheTagIngredients(array $cacheTagIngredients, $conf) {
 		return $cacheTagIngredients;
 	}
 
