@@ -27,6 +27,7 @@
 
 
 // We probably have no autoloading
+require_once(PATH_site . 'typo3/sysext/cms/tslib/content/class.tslib_content_abstract.php');
 require_once(PATH_site . 'typo3/sysext/cms/tslib/content/class.tslib_content_hierarchicalmenu.php');
 
 
