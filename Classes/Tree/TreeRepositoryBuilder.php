@@ -32,6 +32,12 @@
  */
 class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
 
+	/**
+	 * @var Tx_Extbase_Object_ObjectManager
+	 */
+	protected $objectManager;
+
+
     /**
      * Holds singleton instance of TreeRepositoryBuilder
      *
@@ -77,6 +83,14 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
     protected $restrictedDepth = -1;
 
 
+	/**
+	 * @param Tx_Extbase_Object_ObjectManager $objectManager
+	 */
+	public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager) {
+		$this->objectManager = $objectManager;
+	}
+
+
 
     /**
      * Returns singleton instance of this class
@@ -85,7 +99,8 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
      */
     public static function getInstance() {
         if (self::$instance === null) {
-            self::$instance = new Tx_PtExtbase_Tree_TreeRepositoryBuilder();
+	        $objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+            self::$instance = $objectManager->get('Tx_PtExtbase_Tree_TreeRepositoryBuilder');
         }
         return self::$instance;
     }
@@ -93,10 +108,9 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
 
 
     /**
-     * Hidden constructor for this class
+     * return Tx_PtExtbase_Tree_TreeRepositoryBuilder
      */
-    protected function __construct() {
-        // We hide constructor to force usage of self::getInstance()
+    public function __construct() {
     }
 
 
@@ -108,10 +122,13 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
      */
     public function buildTreeRepository() {
         $nodeRepository = $this->buildNodeRepository();
-        $treeBuilder = $this->buildTreeBuilder($nodeRepository);
+
+		$treeBuilder = $this->buildTreeBuilder($nodeRepository);
         $treeBuilder->setRestrictedDepth($this->restrictedDepth);
-        $treeStorage = $this->buildTreeStorage($nodeRepository);
-        return new Tx_PtExtbase_Tree_TreeRepository($nodeRepository, $treeBuilder, $treeStorage);
+
+		$treeStorage = $this->buildTreeStorage($nodeRepository);
+
+        return $this->objectManager->get('Tx_PtExtbase_Tree_TreeRepository', $nodeRepository, $treeBuilder, $treeStorage);
     }
 
 
@@ -167,44 +184,47 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
      * @throws Exception
      */
     protected function buildNodeRepository() {
-		 if (!class_exists($this->nodeRepositoryClassName)) {
-			throw new Exception('The given class ' . $this->nodeRepositoryClassName . ' does not exist!', 1328287190);
-		 }
+		if(!$this->nodeRepositoryClassName) 				throw new Exception('No Repository Class Name given.', 1369732947);
+		if (!class_exists($this->nodeRepositoryClassName)) 	throw new Exception('The given class ' . $this->nodeRepositoryClassName . ' does not exist!', 1328287190);
 
-		 $nodeRepository = t3lib_div::makeInstance($this->nodeRepositoryClassName);
+	    $nodeRepository = $this->objectManager->get($this->nodeRepositoryClassName);
 
-		 if (!is_a($nodeRepository, 'Tx_PtExtbase_Tree_NodeRepositoryInterface')) {
-			 throw new Exception ('Given class name ' . $this->nodeRepositoryClassName . ' must implement Tx_PtExtbase_Tree_NodeRepositoryInterface! 1328201591');
-		 }
-		 return $nodeRepository;
+		if (!is_a($nodeRepository, 'Tx_PtExtbase_Tree_NodeRepositoryInterface')) {
+			throw new Exception ('Given class name ' . $this->nodeRepositoryClassName . ' must implement Tx_PtExtbase_Tree_NodeRepositoryInterface!', 1328201591);
+		}
+		return $nodeRepository;
 	 }
 
 
-
-    /**
-     * Returns instance of tree builder for class name set in builder
-     *
-     * @return Tx_PtExtbase_Tree_TreeBuilderInterface
-     * @throws Exception
-     */
+	/**
+	 * Returns instance of tree builder for class name set in builder
+	 *
+	 * @param Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository
+	 * @throws Exception
+	 * @return Tx_PtExtbase_Tree_TreeBuilderInterface
+	 */
     protected function buildTreeBuilder(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository) {
-        $treeBuilder = new $this->treeBuilderClassName($nodeRepository);
+
+		$treeBuilder = new $this->treeBuilderClassName($nodeRepository);
+
         if (!is_a($treeBuilder, 'Tx_PtExtbase_Tree_TreeBuilderInterface')) {
-        throw new Exception ('Given class name ' . $this->treeBuilderClassName . ' must implement Tx_PtExtbase_Tree_TreeBuilderInterface!', 1328201592);
+        	throw new Exception ('Given class name ' . $this->treeBuilderClassName . ' must implement Tx_PtExtbase_Tree_TreeBuilderInterface!', 1328201592);
         } /* @var $treeBuilder Tx_PtExtbase_Tree_TreeBuilderInterface */
-        $treeBuilder->setRespectRestrictedDepth(TRUE);
+
+		$treeBuilder->setRespectRestrictedDepth(TRUE);
         $treeBuilder->setRestrictedDepth($this->restrictedDepth);
-        return $treeBuilder;
+
+		return $treeBuilder;
     }
 
 
-
-    /**
-     * Returns instance of tree storage for class name set in builder
-     *
-     * @return Tx_PtExtbase_Tree_TreeStorageInterface
-     * @throws Exception
-     */
+	/**
+	 * Returns instance of tree storage for class name set in builder
+	 *
+	 * @param Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository
+	 * @throws Exception
+	 * @return Tx_PtExtbase_Tree_TreeStorageInterface
+	 */
     protected function buildTreeStorage(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository) {
         $treeStorage = new $this->treeStorageClassName($nodeRepository);
         if (!is_a($treeStorage, 'Tx_PtExtbase_Tree_TreeStorageInterface')) {

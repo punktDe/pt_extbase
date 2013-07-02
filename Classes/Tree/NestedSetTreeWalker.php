@@ -54,8 +54,10 @@ class Tx_PtExtbase_Tree_NestedSetTreeWalker extends Tx_PtExtbase_Tree_TreeWalker
      * @return Tx_PtExtbase_Tree_NestedSetTreeWalker
      */
     public static function getInstance() {
-        $nestedSetTreeWalkerVisitor = new Tx_PtExtbase_Tree_NestedSetVisitor();
-        $nestedSetTreeWalker = new Tx_PtExtbase_Tree_NestedSetTreeWalker(array($nestedSetTreeWalkerVisitor), $nestedSetTreeWalkerVisitor);
+		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+		
+        $nestedSetTreeWalkerVisitor = $objectManager->get('Tx_PtExtbase_Tree_NestedSetVisitor');
+        $nestedSetTreeWalker = $objectManager->get('Tx_PtExtbase_Tree_NestedSetTreeWalker', array($nestedSetTreeWalkerVisitor), $nestedSetTreeWalkerVisitor);
         return $nestedSetTreeWalker;
     }
 

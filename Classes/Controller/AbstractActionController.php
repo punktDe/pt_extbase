@@ -62,21 +62,29 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	
 	/**
 	 * Constructor for all plugin controllers
+	 *
+	 * @param Tx_PtExtbase_Lifecycle_Manager $lifeCycleManager Injected lifecycle manager
 	 */
-	public function __construct() {
-		$this->lifecycleManager = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
+	public function __construct(Tx_PtExtbase_Lifecycle_Manager $lifeCycleManager) {
+		$this->lifecycleManager = $lifeCycleManager;
 		if (TYPO3_MODE == 'FE' && !$GLOBALS['TSFE']->beUserLogin) {
 			$this->errorMethodName = 'productionErrorAction';
 		}
 		parent::__construct();
 	}
 
+
+
+	/**
+	 * @return string
+	 */
 	protected function productionErrorAction() {
 		$parentMessage = parent::errorAction();
 		if (strlen($parentMessage)!= 0) {
 			return 'Invalid action or parameter';
 		}
 	}
+
 
 	
 	/**
@@ -119,17 +127,18 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
     protected function getFallbackViewClassName() {
     	return 'Tx_PtExtbase_View_BaseView';
     }
-    
-    
-    
-    /**
-     * Resolve the viewClassname defined via typoscript
-     * 
-     * View class can be configured in TS via
-     * plugin.<plugin_key>.settings.controller.<Controller_Name_without_Controller>.<action_Name_without_Action>.view = ViewClassName
-     * 
-     * @return string
-     */
+
+
+
+	/**
+	 * Resolve the viewClassname defined via typoscript
+	 *
+	 * View class can be configured in TS via
+	 * plugin.<plugin_key>.settings.controller.<Controller_Name_without_Controller>.<action_Name_without_Action>.view = ViewClassName
+	 *
+	 * @throws Exception if view class does not exist
+	 * @return string
+	 */
 	protected function resolveTsDefinedViewClassName() {
 
 		$viewClassName = $this->getTsViewClassName();
@@ -227,7 +236,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 		
 		if(TYPO3_MODE === 'BE') {
 			// if we are in BE mode, this ist the last line called
-			Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance()->updateState(Tx_PtExtbase_Lifecycle_Manager::END);
+			$this->lifecycleManager->updateState(Tx_PtExtbase_Lifecycle_Manager::END);
 		}
 	}
 

@@ -68,7 +68,7 @@ class Tx_PtExtbase_ViewHelpers_Head_MetaViewHelper extends Tx_Fluid_Core_ViewHel
 		$this->registerTagAttribute('scheme', 'string', 'Property: scheme');
 		$this->registerTagAttribute('lang', 'string', 'Property: lang');
 		$this->registerTagAttribute('dir', 'string', 'Property: dir');
-		$this->registerTagAttribute('content', 'string', 'Content of meta tag', TRUE);
+		$this->registerTagAttribute('content', 'string', 'Content of meta tag');
 	}
 
 

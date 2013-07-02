@@ -34,14 +34,16 @@
 class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerBuilderTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 	/** @test */
-	public function getInstanceReturnsSingletonInstanceOfLifecycleManager() {
-		$firstInstance = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
-		$this->assertTrue(is_a($firstInstance, 'Tx_PtExtbase_Lifecycle_Manager'));
-		$firstInstance->updateState(100);
-		$secondInstance = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
-		$this->assertEquals($firstInstance, $secondInstance);
+	public function getInstanceReturnsSingletonInstanceOfSessionPersistenceManager() {
+		$sessionAdapterMock = $this->getMock('Tx_PtExtbase_State_Session_Storage_SessionAdapter', array(), array(), '', FALSE);
+		$extbaseContext = $this->getMock('Tx_PtExtbase_Context', array(), array(), '', FALSE);
+		$objectManagerMock = $this->getMock('Tx_Extbase_Object_ObjectManager', array('get'), array(), '', FALSE);
+		$objectManagerMock->expects($this->once())->method('get')->will($this->returnValue(new Tx_PtExtbase_State_Session_SessionPersistenceManager($sessionAdapterMock)));
+		$sessionPersistenceManagerBuilder = t3lib_div::makeInstance('Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder', $extbaseContext, $objectManagerMock); /* @var $sessionPersistenceManagerBuilder Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder */
+		$firstInstance = $sessionPersistenceManagerBuilder->getInstance();
+		$secondInstance = $sessionPersistenceManagerBuilder->getInstance();
+		$this->assertTrue(is_a($firstInstance, 'Tx_PtExtbase_State_Session_SessionPersistenceManager'), 'Not an instance of Tx_PtExtbase_State_Session_SessionPersistenceManager');
+		$this->assertTrue($firstInstance === $secondInstance, 'No singleton instance!');
 	}
 	
 }
-
-?>

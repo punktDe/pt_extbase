@@ -44,10 +44,11 @@ class Tx_PtExtbase_ViewHelpers_Uri_CurrentViewHelper extends Tx_Fluid_Core_ViewH
 
 	/**
 	 * @param bool $absolute
+	 * @param array $additionalParams
 	 * @return string
 	 */
-	public function render($absolute = TRUE) {
-		$uri = '';
+	public function render($absolute = TRUE, $additionalParams = array()) {
+
 		if($absolute === TRUE) {
 			$uri = t3lib_div::getIndpEnv('TYPO3_REQUEST_URL');
 		} else {

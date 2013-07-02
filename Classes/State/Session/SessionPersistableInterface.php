@@ -37,17 +37,15 @@ interface Tx_PtExtbase_State_Session_SessionPersistableInterface extends Tx_PtEx
 	 *
 	 * @return array Object's state to be persisted to session
 	 */
-    public function persistToSession();
-    
-    
-    
+    public function _persistToSession();
+
+
+
     /**
      * Called by any mechanism to inject an object's state from session
      *
      * @param array $sessionData Object's state previously persisted to session
      */
-    public function injectSessionData(array $sessionData);
+    public function _injectSessionData(array $sessionData);
 	
 }
-
-?>

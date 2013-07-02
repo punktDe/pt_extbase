@@ -135,21 +135,21 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends Tx_PtExtba
 
 
 
-
 	/** @test */
 	public function visitorSetsClassToSelectedInSingleMode() {
-	   $visitors[] = $this->accessibleProxy;
+		$visitors[] = $this->accessibleProxy;
 
-	   $this->accessibleProxy->setMultipleSelect(false);
+		$this->accessibleProxy->setMultipleSelect(false);
 		$this->accessibleProxy->setSelection(5);
 
 		$arrayTreeWriter = new Tx_PtExtbase_Tree_ArrayTreeWriter($visitors, $this->accessibleProxy);
 
 		$tree = $arrayTreeWriter->writeTree($this->getTestTree());
-		$this->assertNull($tree['cls']);
-		$this->assertNull($tree['children'][0]['cls']);
+		$this->assertEquals('',$tree['cls']);
+		$this->assertEquals('',$tree['children'][0]['cls']);
 		$this->assertEquals('selectedNode', $tree['children'][1]['cls']);
 	}
+
 
 
 	public function callBackSetterDataProvider() {
@@ -237,7 +237,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends Tx_PtExtba
 
 		$this->accessibleProxy->registerFirstVisitCallback($callBackObject, 'callBackMethod');
 		$index = 1;
-		$this->accessibleProxy->doFirstVisit($node, $index);
+		$this->accessibleProxy->doFirstVisit($node, $index, $level);
 	}
 
 
@@ -257,8 +257,8 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends Tx_PtExtba
 		$this->accessibleProxy->registerLastVisitCallback($callBackObject, 'callBackMethod');
 		$index = 1;
 
-		$this->accessibleProxy->doFirstVisit($node, $index);
-		$this->accessibleProxy->doLastVisit($node, $index);
+		$this->accessibleProxy->doFirstVisit($node, $index, $level);
+		$this->accessibleProxy->doLastVisit($node, $index, $level);
 	}
 
 

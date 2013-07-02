@@ -2,8 +2,10 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2010-2011 punkt.de GmbH - Karlsruhe, Germany - http://www.punkt.de
- *  Authors: Daniel Lienert, Michael Knoll
+ *  (c) 2013 punkt.de GmbH
+ *  Authors:
+ *    Joachim Mathes <mathes@punkt.de>,
+ *    Sascha Dörr <doerr@punkt.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -24,40 +26,26 @@
  ***************************************************************/
 
 /**
- * Class implements a factory for building a lifecycle manager 
- * 
- * @author Christoph Ehscheidt 
- * @author Michael Knoll
- * @package Domain
- * @subpackage Lifecycle
+ * FixtureImporter
+ *
+ * @package pt_extbase
+ * @subpackage Testing\Selenium\FixtureFramework
  */
-class Tx_PtExtbase_Lifecycle_ManagerFactory {
+class Tx_PtExtbase_Testing_Selenium_FixtureFramework_FixtureImporter {
 
 	/**
-	 * Holds the singleton instance of a lifecycle manager.
-	 * 
-	 * @var Tx_PtExtbase_Lifecycle_leManager
+	 * @param $fixtures array
+	 * @return void
 	 */
-	protected static $instance = NULL;
-	
-	
-	
-	/**
-	 * Factory method for lifecycle manager instances. Returns singleton instance 
-	 * of lifecycle manager.
-	 *
-	 * @return Tx_PtExtbase_Lifecycle_Manager
-	 */
-	public static function getInstance() {
-		if(self::$instance === NULL) {
-			$lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
-			$lifecycleManager->updateState(Tx_PtExtbase_Lifecycle_Manager::START);
-			self::$instance = $lifecycleManager;
+	public function import($fixtures) {
+
+		foreach ($fixtures as $fixture) { /** @var Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture $fixture */
+			if($fixture instanceof Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture) {
+				$fixture->getSetUpOperation()->execute($fixture->getConnection(), $fixture->getDataSet());
+			}
 		}
-		
-		return self::$instance;
+
 	}
-	
 }
 
 ?>

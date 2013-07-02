@@ -38,8 +38,10 @@ class Tx_PtExtbase_Testing_Selenium_Backend_Modules {
 
 	/**
 	 * @param $selector string
+	 * @param string $elementToWaitFor
+	 * @return void
 	 */
-	public function openBackendModule($selector) {
+	public function openBackendModule($selector, $elementToWaitFor = 'id=typo3-docbody') {
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->testClass->fail("timeout");
 			try {
@@ -52,7 +54,7 @@ class Tx_PtExtbase_Testing_Selenium_Backend_Modules {
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->testClass->fail("timeout");
 			try {
-				if ($this->testClass->isElementPresent('id=typo3-docheader')) break;
+				if ($this->testClass->isElementPresent($elementToWaitFor)) break;
 			} catch (Exception $e) {}
 			sleep(1);
 		}

@@ -48,7 +48,8 @@ class Tx_PtExtbase_Tree_JSTreeJsonWriterVisitor extends Tx_PtExtbase_Tree_ArrayW
             'data' => $node->getLabel(),
             'attr' => array(
                 'id' => $node->getUid(),
-                'data-meta' => trim($metadata)
+                'data-meta' => trim($metadata),
+				'disabled' => !$node->isAccessible(),
             ),
             'children' => array()
         );

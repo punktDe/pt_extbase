@@ -266,14 +266,15 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
             throw new Exception("Trying to move a node after a node that doesn't have a parent node! 1307646535");
         }
 	}
-	
-	
-	
+
+
 	/**
 	 * Adds a given node into a given parent node
 	 *
 	 * @param Tx_PtExtbase_Tree_Node $newNode Node to be added to tree
 	 * @param Tx_PtExtbase_Tree_Node $parentNode Node to add new node into
+	 * @return \Tx_PtExtbase_Tree_TreeInterface|void
+	 * @throws Exception
 	 */
 	public function insertNode(Tx_PtExtbase_Tree_Node $newNode, Tx_PtExtbase_Tree_Node $parentNode) {
 		$internalParentNode = $this->getNodeByUid($parentNode->getUid());

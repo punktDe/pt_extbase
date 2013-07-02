@@ -2,8 +2,10 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2010-2011 punkt.de GmbH - Karlsruhe, Germany - http://www.punkt.de
- *  Authors: Daniel Lienert, Michael Knoll
+ *  (c) 2013 punkt.de GmbH
+ *  Authors:
+ *    Joachim Mathes <mathes@punkt.de>,
+ *    Sascha Dörr <doerr@punkt.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -24,23 +26,27 @@
  ***************************************************************/
 
 /**
- * Unit test for lifecycle manager factory
- * 
- * @author Michael Knoll 
- * @package Tests
- * @subpackage Lifecycle
+ * BaseTestcase
+ *
+ * @package pt_extbase
+ * @subpackage Testing\Selenium\FixtureFramework
  */
-class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerFactoryTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+abstract class Tx_PtExtbase_Testing_Selenium_FixtureFramework_SeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 
-	/** @test */
-	public function getInstanceReturnsSingletonInstanceOfLifecycleManager() {
-		$firstInstance = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
-		$this->assertTrue(is_a($firstInstance, 'Tx_PtExtbase_Lifecycle_Manager'));
-		$firstInstance->updateState(100);
-		$secondInstance = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
-		$this->assertEquals($firstInstance, $secondInstance);
+	/**
+	 * @return array
+	 */
+	abstract function getFixtures();
+
+	/**
+	 * @return void
+	 */
+	protected function setUp() {
+		parent::setUp();
+		$fixtureImporter = new Tx_PtExtbase_Testing_Selenium_FixtureFramework_FixtureImporter();
+		$fixtureImporter->import($this->getFixtures());
 	}
-	
+
 }
 
 ?>

@@ -59,17 +59,32 @@ class Tx_PtExtbase_Tree_TreeRepository {
     protected $treeStorage;
 
 
+	/**
+	 * @var Tx_PtExtbase_Tree_TreeContext
+	 */
+	protected $treeContext;
+
+
+
+	/**
+	 * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+	 */
+	public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext) {
+		$this->treeContext = $treeContext;
+	}
+
+
 
     /**
      * Constructor for tree repository
      *
      * @param Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository
-     * @param Tx_PtExtbase_Tree_TreeBuilder $treeBuidler
+     * @param Tx_PtExtbase_Tree_TreeBuilder $treeBuilder
      * @param Tx_PtExtbase_Tree_TreeStorageInterface $treeStorage
      */
-    public function __construct(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository, Tx_PtExtbase_Tree_TreeBuilder $treeBuidler, Tx_PtExtbase_Tree_TreeStorageInterface $treeStorage) {
+    public function __construct(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository, Tx_PtExtbase_Tree_TreeBuilder $treeBuilder, Tx_PtExtbase_Tree_TreeStorageInterface $treeStorage) {
         $this->nodeRepository = $nodeRepository;
-        $this->treeBuilder = $treeBuidler;
+        $this->treeBuilder = $treeBuilder;
         $this->treeStorage = $treeStorage;
     }
 
@@ -78,15 +93,14 @@ class Tx_PtExtbase_Tree_TreeRepository {
 	 * Loads tree for a given namespace
 	 *
 	 * @param $namespace string Namespace to build tree for
-	 * @param bool $respectEnableFields
-	 * @param bool $removeInaccessibleSubTrees
 	 * @return Tx_PtExtbase_Tree_Tree Tree build for given namespace
 	 */
-    public function loadTreeByNamespace($namespace, $respectEnableFields = TRUE, $removeInaccessibleSubTrees = FALSE) {
-	    if ($removeInaccessibleSubTrees) {
+    public function loadTreeByNamespace($namespace) {
+	    if ($this->treeContext->respectEnableFields()) {
 		    return $this->treeBuilder->buildTreeForNamespaceWithoutInaccessibleSubtrees($namespace);
-	    }
-        return $this->treeBuilder->buildTreeForNamespace($namespace, $respectEnableFields);
+	    } else {
+        	return $this->treeBuilder->buildTreeForNamespace($namespace);
+		}
     }
 
 
@@ -125,15 +139,5 @@ class Tx_PtExtbase_Tree_TreeRepository {
     public function setRespectRestrictedDepth($respectRestrictedDepth = TRUE) {
         $this->treeBuilder->setRespectRestrictedDepth($respectRestrictedDepth);
     }
-
-
-
-	/**
-	 * @param boolean $respectEnableFields
-	 */
-	public function setRespectEnableFields($respectEnableFields) {
-		$this->treeBuilder->setRespectEnableFields($respectEnableFields);
-	}
-	
 }
 ?>

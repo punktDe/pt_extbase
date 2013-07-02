@@ -35,16 +35,23 @@ class Tx_PtExtbase_Tree_NodeRepository
 
 
 	/**
-	 * @var boolean
-	 */
-	protected $respectEnableFields = TRUE;
-
-
-	/**
 	 * @var bool
 	 */
 	protected $showDeleted = FALSE;
 
+
+	/**
+	 * @var Tx_PtExtbase_Tree_TreeContext
+	 */
+	protected $treeContext;
+
+
+	/**
+	 * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+	 */
+	public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext) {
+		$this->treeContext = $treeContext;
+	}
 
 
 	/**
@@ -106,10 +113,8 @@ class Tx_PtExtbase_Tree_NodeRepository
 
 		$nodes = $this->retrieveByNamespace($namespace, FALSE);
 
-		if($this->respectEnableFields) {
-			$accessibleNodes = $this->retrieveByNamespace($namespace, TRUE);
-			$this->markNodesAccessible($nodes, $accessibleNodes);
-		}
+		$accessibleNodes = $this->retrieveByNamespace($namespace, TRUE);
+		$this->markNodesAccessible($nodes, $accessibleNodes);
 
 		return $nodes;
 	}
@@ -140,11 +145,9 @@ class Tx_PtExtbase_Tree_NodeRepository
 
 	/**
 	 * @param $namespace
-	 * @param bool $respectEnableFields
-	 * @param bool $showDeleted
 	 * @return array
 	 */
-	protected function retrieveByNamespace($namespace, $respectEnableFields = TRUE, $showDeleted = FALSE) {
+	protected function retrieveByNamespace($namespace, $respectEnableFields) {
 		$query = $this->createQuery();
 		$query->getQuerySettings()
 				  ->setRespectStoragePage(FALSE)
@@ -157,9 +160,8 @@ class Tx_PtExtbase_Tree_NodeRepository
 
 		/*
 		 * RespectEnableFields = FALSE means, that all records are selected INCLUDING the deleted records
-		 * With show deleted = FALSE, these records are filtered
 		 */
-		if($respectEnableFields === FALSE && $showDeleted === FALSE) {
+		if(!$respectEnableFields) {
 			$query->matching(
 				$query->logicalAnd(
 					$nameSpaceConstraint,
@@ -170,9 +172,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 			$query->matching($nameSpaceConstraint);
 		}
 
-
 		$query->setOrderings(array('lft' => Tx_Extbase_Persistence_Query::ORDER_DESCENDING));
-
 
 		return $query->execute();
 	}
@@ -254,14 +254,5 @@ class Tx_PtExtbase_Tree_NodeRepository
         $extQuery->getQuerySettings()->setReturnRawQueryResult(true); // Extbase WTF
         $extQuery->statement($query)->execute();
 	}
-
-
-	/**
-	 * @param boolean $respectEnableFields
-	 */
-	public function setRespectEnableFields($respectEnableFields) {
-		$this->respectEnableFields = $respectEnableFields;
-	}
-	
 }
 ?>

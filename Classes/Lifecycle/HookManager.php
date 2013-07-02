@@ -38,15 +38,16 @@ class tx_PtExtbase_Lifecycle_HookManager {
 	 * @param unknown_type $reference
 	 */
 	public function updateEnd(&$params, &$reference) {
-		
+
 		//If the class can not be resolved, we are not in an lifecycle-managed context. therefore exit here.
-		if(!class_exists('Tx_PtExtbase_Lifecycle_ManagerFactory')) return;
-		
-		$lifecycle = Tx_PtExtbase_Lifecycle_ManagerFactory::getInstance();
+		if (!class_exists('Tx_PtExtbase_Lifecycle_Manager')) {
+			return;
+		}
+
+		// This is a singleton, so we can use t3lib_div to get a singleton instance
+		$lifecycle = t3lib_div::makeInstance('Tx_PtExtbase_Lifecycle_Manager');
 		$lifecycle->updateState(Tx_PtExtbase_Lifecycle_Manager::END);
 		
 	}
 	
 }
-
-?>
