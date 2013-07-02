@@ -70,6 +70,35 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 
 	/**
+	 * @var Tx_PtExtbase_Tree_TreeContext
+	 */
+	protected $treeContext;
+
+
+	/**
+	 * @var Tx_Extbase_Object_ObjectManager
+	 */
+	protected $objectManager;
+
+
+	/**
+	 * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+	 * @return void
+	 */
+	public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext) {
+		$this->treeContext = $treeContext;
+	}
+
+
+	/**
+	 * @param Tx_Extbase_Object_ObjectManager $objectManager
+	 */
+	public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager) {
+		$this->objectManager = $objectManager;
+	}
+
+
+	/**
 	 * Initialize arguments.
 	 *
 	 * @return void
@@ -84,6 +113,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 		$this->overrideArgument('id', 'string', 'Specifies the field and div ID', true, 'ptExtbaseTreeSelector');
 		$this->registerArgument('restrictedDepth', 'int', 'Depth of tree to be rendered', false);
 		$this->registerArgument('expand', 'string', 'Expand Mode. "all" or "root"', false, 'root');
+		$this->registerArgument('respectEnableFields', 'int', '0 = Show all entries, 1 = do not display hidden', false, 1);
 	}
 
 
@@ -138,6 +168,11 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 		$treeRepository = $treeRepositoryBuilder->buildTreeRepository();
 
+		if ($this->arguments['respectEnableFields']) {
+			$this->treeContext->setRespectEnableFields(TRUE);
+		} else {
+			$this->treeContext->setRespectEnableFields(FALSE);
+		}
 		$tree = $treeRepository->loadTreeByNamespace($this->arguments['namespace']);
 
 		if (isset($this->arguments['restrictedDepth'])) {
@@ -145,11 +180,11 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 			$tree->setRespectRestrictedDepth(TRUE);
 		}
 
-		$arrayWriterVisitor = new Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor();
+		$arrayWriterVisitor = $this->objectManager->get('Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor');
 		$arrayWriterVisitor->setMultipleSelect($this->arguments['multiple']);
 		$arrayWriterVisitor->setSelection($this->getSelection());
 
-		$jsonTreeWriter = new Tx_PtExtbase_Tree_JsonTreeWriter(array($arrayWriterVisitor), $arrayWriterVisitor);
+		$jsonTreeWriter = $this->objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', array($arrayWriterVisitor), $arrayWriterVisitor);
 
 		return $jsonTreeWriter->writeTree($tree);
 	}

@@ -67,6 +67,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements t3l
 	 * Constructor takes context as required dependency to be injected via DI
 	 *
 	 * @param Tx_PtExtbase_Context $context
+	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
 	 */
 	public function __construct(Tx_PtExtbase_Context $context, Tx_Extbase_Object_ObjectManagerInterface $objectManager) {
 		$this->context = $context;

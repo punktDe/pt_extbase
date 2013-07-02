@@ -114,7 +114,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends Tx_PtExtbase_Tests_Uni
 		$visitorMock->expects($this->exactly(3))->method('doFirstVisit');
 		$visitorMock->expects($this->exactly(3))->method('doLastVisit');
 
-		$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+		$treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', array($visitorMock));
 		$treeWalker->traverseTreeDfs($tree);
 	}
 
@@ -127,11 +127,10 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends Tx_PtExtbase_Tests_Uni
 		$tree->getNodeByUid(3)->setAccessible(false);
 
 		$visitorMock = $this->createVisitorMock();
-		$visitorMock->expects($this->exactly(5))->method('doFirstVisit');
-		$visitorMock->expects($this->exactly(5))->method('doLastVisit');
-		// $visitorMock->expects($this->never())->method('doFirstVisit')->with($tree->getNodeByUid(3), 3);
+		$visitorMock->expects($this->exactly(6))->method('doFirstVisit');
+		$visitorMock->expects($this->exactly(6))->method('doLastVisit');
 
-		$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+		$treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', array($visitorMock));
 		$treeWalker->traverseTreeDfs($tree);
 	}
 
@@ -145,11 +144,11 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends Tx_PtExtbase_Tests_Uni
 		$tree->getNodeByUid(2)->setAccessible(false);
 
 		$visitorMock = $this->createVisitorMock();
-		$visitorMock->expects($this->exactly(3))->method('doFirstVisit');
-		$visitorMock->expects($this->exactly(3))->method('doLastVisit');
+		$visitorMock->expects($this->exactly(6))->method('doFirstVisit');
+		$visitorMock->expects($this->exactly(6))->method('doLastVisit');
 		// $visitorMock->expects($this->never())->method('doFirstVisit')->with($tree->getNodeByUid(3), 3);
 
-		$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+		$treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', array($visitorMock));
 		$treeWalker->traverseTreeDfs($tree);
 	}
 
@@ -159,6 +158,11 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends Tx_PtExtbase_Tests_Uni
 	 * @test
 	 */
 	public function treeWalkerRespectsNodeAccessibilityOnRoot() {
+
+		$treeContext = $this->objectManager->get('Tx_PtExtbase_Tree_TreeContext');
+		/** @var Tx_PtExtbase_Tree_TreeContext $treeContext */
+		$treeContext->setWritable(FALSE);
+
 		$tree = $this->createDemoTree();
 		$tree->getNodeByUid(1)->setAccessible(false);
 
@@ -166,7 +170,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends Tx_PtExtbase_Tests_Uni
 		$visitorMock->expects($this->never())->method('doFirstVisit');
 		$visitorMock->expects($this->never())->method('doLastVisit');
 
-		$treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+		$treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', array($visitorMock));
 		$treeWalker->traverseTreeDfs($tree);
 	}
 
