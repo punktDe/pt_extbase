@@ -356,4 +356,23 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 		}
 	}
 
+
+
+	/**
+	 * @return array
+	 */
+	public function getSessionData(){
+		return $this->sessionData;
+	}
+
+
+
+	/**
+	 * @param array $sessionData
+	 */
+	public function setSessionData(array $sessionData){
+		$this->sessionData = $sessionData;
+		$this->sessionHash = NULL;
+	}
+
 }
