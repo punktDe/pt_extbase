@@ -28,6 +28,7 @@
  * @package Services
  *
  * @author Daniel Lienert
+ * @see Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest
  */
 class Tx_PtExtbase_Service_HashFileSystemService {
 
