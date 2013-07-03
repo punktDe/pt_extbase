@@ -28,6 +28,7 @@
  * TestCase for hashFileSystemService
  *
  * @author Daniel Lienert
+ * @see Tx_PtExtbase_Service_HashFileSystemService
  */
 class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
@@ -50,7 +51,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 	public function setUp() {
 		parent::setUp();
 
-		$this->testDirectoryRoot = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_typo3, 'typo3temp', 'HashFileSystemServiceTest'));
+		$this->testDirectoryRoot = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'HashFileSystemServiceTest'));
 		if(file_exists($this->testDirectoryRoot)) Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->testDirectoryRoot);
 		$this->hashFileSystemService = new Tx_PtExtbase_Service_HashFileSystemService($this->testDirectoryRoot);
 	}
@@ -149,7 +150,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 	 * @test
 	 */
 	public function storeFile() {
-		$testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_typo3, 'typo3temp', 'test.pdf'));
+		$testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'test.pdf'));
 		touch($testFile);
 		$this->hashFileSystemService->storeFile(1234, $testFile);
 
@@ -167,7 +168,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 		$expectedFileLocation = $this->hashFileSystemService->getHashPath(1234) . '/test.pdf';
 		$this->assertFileNotExists($expectedFileLocation);
 
-		$testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_typo3, 'typo3temp', 'test.pdf'));
+		$testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'test.pdf'));
 		touch($testFile);
 
 		$this->hashFileSystemService->storeFile(1234, $testFile);
@@ -196,6 +197,5 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 		$this->hashFileSystemService->removeHasFileSystemCompletely();
 		$this->assertFalse(is_dir($this->testDirectoryRoot));
 	}
-
 
 }
