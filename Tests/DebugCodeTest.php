@@ -93,4 +93,3 @@ class Tx_PtExtbase_Tests_DebugCodeTest extends Tx_Extbase_Tests_Unit_BaseTestCas
 		return false;
 	}
 }
-?>

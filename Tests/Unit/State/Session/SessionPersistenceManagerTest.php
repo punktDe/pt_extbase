@@ -65,7 +65,7 @@ class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerTest extend
         
         $reloadedPersistableObject = new Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject();
         $sessionPersistenceManager->loadFromSession($reloadedPersistableObject);
-        $this->assertTrue($reloadedPersistableObject->dummyData['testkey1'] == 'testvalue1');
+        $this->assertSame('testvalue1', $reloadedPersistableObject->dummyData['testkey1'], 'Reloaded data in persistable object was not the same as the expected data!');
 	}
 
 

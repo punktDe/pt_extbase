@@ -31,7 +31,7 @@
  * @package Tests
  * @subpackage Collection
  */
-class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
     /**
      * @var tx_pttools_testCollection
@@ -233,5 +233,3 @@ class Tx_PtExtbase_Tests_Unit_Collection_ObjectCollectionMock extends Tx_PtExtba
         return $this->itemsArr;
     }
 }
-
-?>
