@@ -145,6 +145,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 
 	/**
 	 * @param $namespace
+	 * @param $respectEnableFields
 	 * @return array
 	 */
 	protected function retrieveByNamespace($namespace, $respectEnableFields) {

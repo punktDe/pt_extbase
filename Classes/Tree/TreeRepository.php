@@ -59,6 +59,7 @@ class Tx_PtExtbase_Tree_TreeRepository {
     protected $treeStorage;
 
 
+
 	/**
 	 * @var Tx_PtExtbase_Tree_TreeContext
 	 */
@@ -139,5 +140,5 @@ class Tx_PtExtbase_Tree_TreeRepository {
     public function setRespectRestrictedDepth($respectRestrictedDepth = TRUE) {
         $this->treeBuilder->setRespectRestrictedDepth($respectRestrictedDepth);
     }
+
 }
-?>
