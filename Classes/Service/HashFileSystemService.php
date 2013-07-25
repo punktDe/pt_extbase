@@ -30,7 +30,7 @@
  * @author Daniel Lienert
  * @see Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest
  */
-class Tx_PtExtbase_Service_HashFileSystemService {
+abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService {
 
 	/**
 	 * @var string
@@ -49,87 +49,74 @@ class Tx_PtExtbase_Service_HashFileSystemService {
 
 
 	/**
-	 * @param $astId
+	 * @param $identifier
 	 * @param $filePath
 	 * @param string $destinationFileName
 	 */
-	public function storeFile($astId, $filePath, $destinationFileName = '') {
+	public function storeFile($identifier, $filePath, $destinationFileName = '') {
 		$destinationFileName = trim($destinationFileName) ? trim($destinationFileName) : basename($filePath);
-		$targetPath = Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($astId, TRUE), $destinationFileName));
+		$targetPath = Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier, TRUE), $destinationFileName));
 		copy($filePath, $targetPath);
 	}
 
 
 	/**
-	 * @param $astId
+	 * @param $identifier
 	 * @param $fileName
 	 * @return mixed
 	 */
-	public function getFilePath($astId, $fileName) {
-		return Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($astId, TRUE), $fileName));
+	public function getFilePath($identifier, $fileName) {
+		return Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier, TRUE), $fileName));
 	}
 
 
 
 	/**
-	 * @param $astId
+	 * @param $identifier
 	 * @param $fileName
 	 * @return bool
 	 */
-	public function fileExists($astId, $fileName) {
-		return file_exists(Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($astId), $fileName)));
+	public function fileExists($identifier, $fileName) {
+		return file_exists(Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier), $fileName)));
 	}
 
 
 
 	/**
-	 * @param $astId
+	 * @param $identifier
 	 * @param $fileName
 	 */
-	public function removeFile($astId, $fileName) {
-		if(file_exists($this->getFilePath($astId, $fileName))) {
-			Tx_PtExtbase_Utility_Files::unlink($this->getFilePath($astId, $fileName));
+	public function removeFile($identifier, $fileName) {
+		if(file_exists($this->getFilePath($identifier, $fileName))) {
+			Tx_PtExtbase_Utility_Files::unlink($this->getFilePath($identifier, $fileName));
 		}
 	}
 
 
 
 	/**
-	 * @param $astId
+	 * @param $identifier
 	 */
-	public function removeStoreDirectory($astId) {
-		Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->getHashPath($astId, TRUE));
+	public function removeStoreDirectory($identifier) {
+		Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->getHashPath($identifier, TRUE));
 	}
 
 
 	/**
-	 * @param $astId
+	 * @param $identifier
 	 * @return array
 	 */
-	public function getDirectoryListing($astId) {
-		return Tx_PtExtbase_Utility_Files::readDirectoryRecursively($this->getHashPath($astId, TRUE));
+	public function getDirectoryListing($identifier) {
+		return Tx_PtExtbase_Utility_Files::readDirectoryRecursively($this->getHashPath($identifier, TRUE));
 	}
 
 
 	/**
-	 * @param $astId
+	 * @param string $identifier
 	 * @param bool $createDirectory
-	 * @throws \InvalidArgumentException
 	 * @return string
 	 */
-	public function getHashPath($astId, $createDirectory = FALSE) {
-		$astId = (int) $astId;
-		if($astId == 0) throw new \InvalidArgumentException('The AstId must be an integer > 0', 1369816965);
-
-		$level1 = $astId % 10;
-		$level2 = $astId % 100;
-
-		$hashPath = Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->rootDirectory, $level1, $level2, $astId));
-
-		if($createDirectory) Tx_PtExtbase_Utility_Files::createDirectoryRecursively($hashPath);
-
-		return $hashPath;
-	}
+	abstract public function getHashPath($identifier, $createDirectory = FALSE);
 
 
 	/**
