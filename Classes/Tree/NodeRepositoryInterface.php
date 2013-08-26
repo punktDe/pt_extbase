@@ -52,5 +52,5 @@ interface Tx_PtExtbase_Tree_NodeRepositoryInterface {
      * @param Tx_PtExtbase_Tree_NodeInterface $node
      */
     public function updateOrAdd(Tx_PtExtbase_Tree_NodeInterface $node);
+
 }
-?>

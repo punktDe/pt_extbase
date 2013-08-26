@@ -234,4 +234,3 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
     }
 	
 }
-?>

@@ -44,6 +44,37 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends Tx_Extbase_T
 
 
 	/**
+	 * Asserts that a class with given class name exists.
+	 *
+	 * @param string $className
+	 * @param string $message
+	 */
+	protected function assertClassExists($className, $message = '') {
+		if ($message === '') {
+			$message = 'Failed asserting that class ' . $className . ' exists.';
+		}
+		$this->assertTrue(class_exists($className), $message);
+	}
+
+
+
+	/**
+	 * Asserts that given object is of a given class.
+	 *
+	 * @param object $object
+	 * @param string $className
+	 * @param string $message
+	 */
+	protected function assertIsA($object, $className, $message = '') {
+		if ($message === '') {
+			$message = 'Failed asserting that ' . get_class($object) . ' is a ' . $className;
+		}
+		$this->assertTrue(is_a($object, $className), $message);
+	}
+
+
+
+	/**
 	 * Returns a mocked Tx_Fluid_View_TemplateView object with a mocked assign method.
 	 *
 	 * @return Tx_Fluid_View_TemplateView The mocked view class
