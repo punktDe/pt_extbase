@@ -50,6 +50,11 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 	protected $objectManager;
 
 	/**
+	 * @var array
+	 */
+	protected $fixtures = array();
+
+	/**
 	 * Set up
 	 *
 	 * This setUp() does not call its parent implementation to avoid database cleaning
@@ -62,7 +67,8 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 			$this->markTestSkipped('This test is only allowed on domains: ' . implode(', ', $this->allowedDomains));
 		}
 		$fixtureImporter = new Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter();
-		$fixtureImporter->import($this->getFixtures());
+		$this->fixtures = $this->getFixtures();
+		$fixtureImporter->import($this->fixtures);
 	}
 
 	/**
