@@ -66,9 +66,8 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 				|| in_array($_SERVER['HTTP_HOST'], $this->allowedDomains))) {
 			$this->markTestSkipped('This test is only allowed on domains: ' . implode(', ', $this->allowedDomains));
 		}
-		$fixtureImporter = new Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter();
-		$this->fixtures = $this->getFixtures();
-		$fixtureImporter->import($this->fixtures);
+		$fixtureImporter = t3lib_div::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter');
+		$fixtureImporter->import($this->getFixtures());
 	}
 
 	/**
