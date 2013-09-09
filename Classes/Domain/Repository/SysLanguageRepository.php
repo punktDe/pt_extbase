@@ -3,7 +3,6 @@
 *  Copyright notice
 *
 *  (c) 2010-2012 Daniel Lienert <daniel@lienert.cc>
-*  			
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -24,31 +23,24 @@
 ***************************************************************/
 
 /**
- * Class implements read only access to tt_pages table
+ * Repository for Pages
  *
  * @package Domain
- * @subpackage Model
- * @author Daniel Lienert <daniel@lienert.cc>
+ * @subpackage Repository
+ * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_PtExtbase_Domain_Repository_SysLanguageRepository extends Tx_Extbase_Persistence_Repository {
 
 	/**
-	 * @var string the module key
+	 * Constructor of the repository.
+	 * Sets the respect storage page to false.
+	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
 	 */
-	protected $module;
-
-
-	/**
-	 * @param string $module
-	 */
-	public function setModule($module) {
-		$this->module = $module;
+	public function __construct(Tx_Extbase_Object_ObjectManagerInterface $objectManager = NULL) {
+		 parent::__construct($objectManager);
+		 $this->defaultQuerySettings = new Tx_Extbase_Persistence_Typo3QuerySettings();
+		 $this->defaultQuerySettings->setRespectStoragePage(FALSE);
+		 $this->defaultQuerySettings->setRespectSysLanguage(FALSE);
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getModule() {
-		return $this->module;
-	}
 }
