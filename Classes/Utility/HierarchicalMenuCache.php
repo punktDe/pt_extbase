@@ -27,6 +27,7 @@
 
 
 // We probably have no autoloading
+require_once(PATH_site . 'typo3/sysext/cms/tslib/content/class.tslib_content_abstract.php');
 require_once(PATH_site . 'typo3/sysext/cms/tslib/content/class.tslib_content_hierarchicalmenu.php');
 
 
@@ -189,6 +190,13 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_
 	public function render($conf = array()) {
 		$this->initializeCache();
 
+		$cacheLifetime = static::$lifetime;
+
+		// Check for different cache lifetime
+		if (!empty($conf['cachingTtl']) && intval($conf['cachingTtl']) > 0) {
+			$cacheLifetime = intval($conf['cachingTtl']);
+		}
+
 		// Check whether cached menu exists
 		$cacheIdentifierHash = $this->createMenuCacheHashEntry($conf);
 		$renderedMenu = $this->cache->get($cacheIdentifierHash);
@@ -196,7 +204,7 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_
 		// Render and cache menu if no cache entry exists
 		if ($renderedMenu === FALSE) {
 			$renderedMenu = parent::render($conf);
-			$this->cache->set($cacheIdentifierHash, $renderedMenu, array(), static::$lifetime);
+			$this->cache->set($cacheIdentifierHash, $renderedMenu, array(), $cacheLifetime);
 		}
 
 		return $renderedMenu;
