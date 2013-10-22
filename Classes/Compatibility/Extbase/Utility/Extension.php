@@ -46,7 +46,7 @@ class Tx_PtExtbase_Compatibility_Extbase_Utility_Extension {
 	 * @param $pluginName
 	 * @return string
 	 */
-	public static function  getPluginNamespace($extensionName, $pluginName) {
+	public static function getPluginNamespace($extensionName, $pluginName) {
 		if (!class_exists('Tx_Extbase_Utility_Extension') || !method_exists('Tx_Extbase_Utility_Extension', 'getPluginNamespace')) {
 			return self::getExtensionService()->getPluginNamespace($extensionName, $pluginName);
 		} else {
