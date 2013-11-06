@@ -51,6 +51,8 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persisten
 	 */
 	public function findPagesInPid($pid) {
 		$query = $this->createQuery();
+		$query->setOrderings('sorting');
+
 		$pages = $query->matching(
 			$query->equals('pid', $pid)
 		)
