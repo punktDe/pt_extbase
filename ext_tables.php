@@ -31,5 +31,3 @@ $TCA['tx_ptextbase_tree_node'] = array (
 if (TYPO3_MODE=="BE")   {
 	$TBE_STYLES['inDocStyles_TBEstyle'] .= '@import "/typo3conf/ext/pt_extbase/Resources/Public/CSS/Backend.css";';
 }
-
-?>

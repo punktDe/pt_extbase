@@ -3,6 +3,7 @@
 *  Copyright notice
 *
 *  (c) 2010-2012 Daniel Lienert <daniel@lienert.cc>
+*  			
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,41 +24,85 @@
 ***************************************************************/
 
 /**
- * Repository for Pages
+ * Class implements READ ONLY access to sys_language
  *
  * @package Domain
- * @subpackage Repository
- * @author Daniel Lienert <daniel@lienert.cc>
+ * @subpackage Model
+ * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_PtExtbase_Domain_Model_SysLanguage extends Tx_Extbase_DomainObject_AbstractEntity {
+
+	/**
+	 * @var string
+	 */
+	protected $title;
+
 
 
 	/**
-	 * Constructor of the repository.
-	 * Sets the respect storage page to false.
-	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+	 * @var string
 	 */
-	public function __construct(Tx_Extbase_Object_ObjectManagerInterface $objectManager = NULL) {
-		 parent::__construct($objectManager);
-		 $this->defaultQuerySettings = new Tx_Extbase_Persistence_Typo3QuerySettings();
-		 $this->defaultQuerySettings->setRespectStoragePage(FALSE);
-		 $this->defaultQuerySettings->setRespectSysLanguage(FALSE);
-	}
+	protected $flag;
+
 
 
 	/**
-	 * @param $pid
-	 * @return array|Tx_Extbase_Persistence_QueryResultInterface
+	 * @var boolean
 	 */
-	public function findPagesInPid($pid) {
-		$query = $this->createQuery();
-		$query->setOrderings('sorting');
+	protected $indexEnable;
 
-		$pages = $query->matching(
-			$query->equals('pid', $pid)
-		)
-		->execute();
-		return $pages;
+
+
+	/**
+	 * @param string $flag
+	 */
+	public function setFlag($flag) {
+		$this->flag = $flag;
 	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getFlag() {
+		return $this->flag;
+	}
+
+
+
+	/**
+	 * @param boolean $indexEnable
+	 */
+	public function setIndexEnable($indexEnable) {
+		$this->indexEnable = $indexEnable;
+	}
+
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getIndexEnable() {
+		return $this->indexEnable;
+	}
+
+
+
+	/**
+	 * @param string $title
+	 */
+	public function setTitle($title) {
+		$this->title = $title;
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getTitle() {
+		return $this->title;
+	}
+
 }
-?>

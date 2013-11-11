@@ -52,4 +52,3 @@ class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnt
 		return $this->module;
 	}
 }
-?>

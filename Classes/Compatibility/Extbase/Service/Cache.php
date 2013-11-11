@@ -24,33 +24,51 @@
  ***************************************************************/
 
 /**
- * Compatibility Class for Extension Utility
+ * Compatibility Class for the Cache Management Service
  *
  * @package Compatibility
  * @author Daniel Lienert
  */
 
-class Tx_PtExtbase_Compatibility_Extbase_Utility_Extension {
+class Tx_PtExtbase_Compatibility_Extbase_Service_Cache {
+
 
 	/**
-	 * @return \TYPO3\CMS\Extbase\Service\ExtensionService
+	 * @var Tx_Extbase_Object_ObjectManagerInterface
 	 */
-	protected static function getExtensionService() {
-		return  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Service\\ExtensionService');
+	protected $objectManager;
+
+
+
+	/**
+	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+	 */
+	public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager) {
+		$this->objectManager = $objectManager;
 	}
 
 
 
 	/**
-	 * @param $extensionName
-	 * @param $pluginName
-	 * @return string
+	 * @return CacheService
 	 */
-	public static function getPluginNamespace($extensionName, $pluginName) {
-		if (!class_exists('Tx_Extbase_Utility_Extension') || !method_exists('Tx_Extbase_Utility_Extension', 'getPluginNamespace')) {
-			return self::getExtensionService()->getPluginNamespace($extensionName, $pluginName);
+	protected function getCacheService() {
+		// 4.6, 4.7
+		if(class_exists('Tx_Extbase_Service_CacheService')) {
+			return $this->objectManager->get('Tx_Extbase_Service_CacheService');
+		}
+	}
+
+
+
+	/**
+	 * @param $pageIdsToClear
+	 */
+	public function clearPageCache($pageIdsToClear) {
+		if(class_exists('Tx_Extbase_Utility_Cache')) {
+			Tx_Extbase_Utility_Cache::clearPageCache($pageIdsToClear);
 		} else {
-			return Tx_Extbase_Utility_Extension::getPluginNamespace($extensionName, $pluginName);
+			$this->getCacheService()->clearPageCache($pageIdsToClear);
 		}
 	}
 }

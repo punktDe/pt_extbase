@@ -34,6 +34,7 @@
  *
  * @package pt_extbase
  * @subpackage Utility
+ * @see Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper
  */
 abstract class Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper implements t3lib_Singleton {
 
@@ -122,4 +123,3 @@ abstract class Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper implements t3li
 	abstract protected function buildConstantToSpeakingNameMap();
 
 }
-?>

@@ -34,6 +34,15 @@ config.tx_extbase {
 				}
 			}
 
+            Tx_PtExtbase_Domain_Model_SysLanguage {
+				mapping {
+					tableName = sys_language
+					columns {
+
+					}
+				}
+			}
+
             Tx_Extbase_Domain_Model_FrontendUser.mapping.recordType >
             Tx_Extbase_Domain_Model_FrontendUserGroup.mapping.recordType >
         }

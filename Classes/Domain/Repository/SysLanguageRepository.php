@@ -27,10 +27,9 @@
  *
  * @package Domain
  * @subpackage Repository
- * @author Daniel Lienert <daniel@lienert.cc>
+ * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persistence_Repository {
-
+class Tx_PtExtbase_Domain_Repository_SysLanguageRepository extends Tx_Extbase_Persistence_Repository {
 
 	/**
 	 * Constructor of the repository.
@@ -44,20 +43,4 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persisten
 		 $this->defaultQuerySettings->setRespectSysLanguage(FALSE);
 	}
 
-
-	/**
-	 * @param $pid
-	 * @return array|Tx_Extbase_Persistence_QueryResultInterface
-	 */
-	public function findPagesInPid($pid) {
-		$query = $this->createQuery();
-		$query->setOrderings('sorting');
-
-		$pages = $query->matching(
-			$query->equals('pid', $pid)
-		)
-		->execute();
-		return $pages;
-	}
 }
-?>
