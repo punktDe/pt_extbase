@@ -354,15 +354,12 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 
 
 	/**
-	 * Resets session data, if given gpVarAdapter has empty submit values (no gpvars are given for current request)
+	 * Resets session data
 	 *
-	 * @param Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager
 	 * @return void
 	 */
-	public function resetSessionDataOnEmptyGpVars(Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager) {
-		if ($gpVarManager->isEmptySubmit()) {
-			$this->sessionData = array();
-		}
+	public function resetSessionData() {
+		$this->sessionData = array();
     }
 
 }
