@@ -37,7 +37,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 *
 	 * @var array
 	 */
-	protected $settings;
+	protected $settings = array();
 
 
 
