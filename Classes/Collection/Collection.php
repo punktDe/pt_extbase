@@ -352,7 +352,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     public function &getItemByIndex($idx) {
         // check parameters
         $idx = intval($idx);
-        if (($idx < 0) || ($idx > $this->count())) {
+        if (($idx < 0) || ($idx >= $this->count())) {
             throw new Tx_PtExtbase_Exception_Internal("Invalid index $idx");
         }
         $itemArr = array_values($this->itemsArr);
