@@ -47,6 +47,7 @@ return array(
 	'tx_ptextbase_compatibility_extbase_service_typoscript' => $extensionClassesPath . 'Compatibility/Extbase/Service/TypoScript.php',
 	'tx_ptextbase_scheduler_sqlrunner_sqlrunnertaskadditionalfields' => $extensionClassesPath . 'Scheduler/SqlRunner/SqlRunnerTaskAdditionalFields.php',
 	'tx_ptextbase_logger_formatprocessor' => $extensionClassesPath . 'Logger/Processor/FormatProcessor.php',
+	'tx_ptextbase_utility_constanttospeakingnamemapper' => $extensionClassesPath . 'Utility/ConstantToSpeakingNameMapper.php',
 
 	// Additionally added files
 	'tx_ptextbase_tests_unit_state_stubs_sessionadaptermock' => $unitTestsDir . 'State/Stubs/SessionAdapterMock.php',

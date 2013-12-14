@@ -34,7 +34,7 @@
  * @author Michael Knoll <knoll@punkt.de>
  * @package rbac
  */
-class Tx_PtExtbase_Utility_FeBeModeDetector {
+class Tx_PtExtbase_Utility_FeBeModeDetector implements t3lib_Singleton {
 
 	/**
 	 * Returns mode, TYPO3 is currently run in.

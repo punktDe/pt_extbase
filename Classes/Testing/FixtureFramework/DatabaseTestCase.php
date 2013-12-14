@@ -50,6 +50,11 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 	protected $objectManager;
 
 	/**
+	 * @var array
+	 */
+	protected $fixtures = array();
+
+	/**
 	 * Set up
 	 *
 	 * This setUp() does not call its parent implementation to avoid database cleaning
@@ -61,7 +66,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 				|| in_array($_SERVER['HTTP_HOST'], $this->allowedDomains))) {
 			$this->markTestSkipped('This test is only allowed on domains: ' . implode(', ', $this->allowedDomains));
 		}
-		$fixtureImporter = new Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter();
+		$fixtureImporter = t3lib_div::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter');
 		$fixtureImporter->import($this->getFixtures());
 	}
 
@@ -102,7 +107,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 	 * Creates a proxy class of the specified class which allows
 	 * for calling even protected methods and access of protected properties.
 	 *
-	 * @param $className Full qualified name of the original class
+	 * @param string $className Full qualified name of the original class
 	 * @return string Full qualified name of the built class
 	 */
 	protected function buildAccessibleProxy($className) {

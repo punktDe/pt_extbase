@@ -31,7 +31,12 @@
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
-class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter {
+class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements t3lib_singleton {
+
+	/**
+	 * @var array
+	 */
+	protected $fixtures;
 
 	/**
 	 * @var Tx_PtExtbase_Testing_FixtureFramework_Fixture
@@ -43,6 +48,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter {
 	 * @return void
 	 */
 	public function import($fixtures) {
+		$this->fixtures = $fixtures;
 		foreach ($fixtures as $fixture) { /** @var Tx_PtExtbase_Testing_FixtureFramework_Fixture $fixture */
 			$this->fixture = $fixture;
 			$this->setConnection();
@@ -123,6 +129,13 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter {
 			throw new \RuntimeException(sprintf('Command "%s" exited with exit code %s. Aborting!', $command, $returnValue));
 		}
 		return $output;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getFixtures() {
+		return $this->fixtures;
 	}
 
 }
