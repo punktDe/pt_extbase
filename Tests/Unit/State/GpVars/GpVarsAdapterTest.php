@@ -83,7 +83,7 @@ class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends Tx_PtExtbase_Tests
         )
         );
 	
-        $this->gpVarAdapter = new Tx_PtExtbase_State_GpVars_GpVarsAdapter();
+        $this->gpVarAdapter = new Tx_PtExtbase_State_GpVars_GpVarsAdapter('');
 	    $this->gpVarAdapter->injectGetVars($this->getVars);
 	    $this->gpVarAdapter->injectPostVars($this->postVars);
 	}

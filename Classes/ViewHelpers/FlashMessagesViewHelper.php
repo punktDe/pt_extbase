@@ -183,5 +183,20 @@ class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends Tx_Fluid_Core_Vie
 		$this->tag->setContent($tagContent);
 		return $this->tag->render();
 	}
+
+
+
+	/**
+	 * Implement this method for backwards compatibility with older Extbase versions
+	 * @param string $argumentName
+	 * @return bool
+	 */
+	protected function hasArgument($argumentName) {
+		if (is_callable('parent::hasArgument')) {
+			return parent::hasArgument($argumentName);
+		} else {
+			return isset($this->arguments[$argumentName]) && $this->arguments[$argumentName] !== NULL;
+		}
+	}
+
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This script is taken from fluid > 4.6 to be used in a TYPO3 4.5 environment
  */
 
