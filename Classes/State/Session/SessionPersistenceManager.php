@@ -249,7 +249,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 * @param $namespaceString string
 	 */
     public function removeSessionDataByNamespace($namespaceString) {
-        Tx_PtExtbase_Utility_NameSpace::removeDataFromNamespaceTree($namespaceString, $this->sessionData);
+		$this->sessionData = Tx_PtExtbase_Utility_NameSpace::removeDataFromNamespaceTree($namespaceString, $this->sessionData);
     }
 	
 	
