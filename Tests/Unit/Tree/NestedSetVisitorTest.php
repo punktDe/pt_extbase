@@ -38,11 +38,15 @@ class Tx_PtExtbase_Tests_Unit_Tree_NestedSetVisitorTest extends Tx_PtExtbase_Tes
 		$visitor = new Tx_PtExtbase_Tree_NestedSetVisitor();
 		$node = new Tx_PtExtbase_Tree_Node();
 		$index = 1;
-		$visitor->doFirstVisit($node, $index);
+		$level = 1;
+		$visitor->doFirstVisit($node, $index, $level);
 		$this->assertEquals($index, 1);
+		$this->assertEquals($level, 1);
 		$index = 6;
-		$visitor->doLastVisit($node, $index);
+		$level = 1;
+		$visitor->doLastVisit($node, $index, $level);
 		$this->assertEquals($index, 6);
+		$this->assertEquals($level, 1);
 		$this->assertEquals($node->getLft(), 1);
 		$this->assertEquals($node->getRgt(), 6);
 	}
