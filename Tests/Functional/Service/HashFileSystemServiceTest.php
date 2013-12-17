@@ -106,7 +106,8 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 		$astId = 123456;
 		$path = $this->hashFileSystemService->getHashPath($astId, TRUE);
 
-		$expectedFileNames = sort(array('file 1.txt', 'Gedöns.xls', 'file3.pdf'));
+		$expectedFileNames = array('file 1.txt', 'Gedöns.xls', 'file3.pdf');
+		sort($expectedFileNames);
 		$expectedFullPathFileNames = array();
 
 		foreach($expectedFileNames as $key => $fileName) {
@@ -114,7 +115,8 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 			touch($expectedFullPathFileNames[$key]);
 		}
 
-		$directoryListing = sort($this->hashFileSystemService->getDirectoryListing($astId));
+		$directoryListing = $this->hashFileSystemService->getDirectoryListing($astId);
+		sort($directoryListing);
 
 		$this->assertEquals($expectedFullPathFileNames, $directoryListing);
 	}
