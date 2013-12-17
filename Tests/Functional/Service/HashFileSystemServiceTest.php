@@ -106,7 +106,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 		$astId = 123456;
 		$path = $this->hashFileSystemService->getHashPath($astId, TRUE);
 
-		$expectedFileNames = array('file 1.txt', 'Gedöns.xls', 'file3.pdf');
+		$expectedFileNames = sort(array('file 1.txt', 'Gedöns.xls', 'file3.pdf'));
 		$expectedFullPathFileNames = array();
 
 		foreach($expectedFileNames as $key => $fileName) {
@@ -114,7 +114,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 			touch($expectedFullPathFileNames[$key]);
 		}
 
-		$directoryListing = $this->hashFileSystemService->getDirectoryListing($astId);
+		$directoryListing = sort($this->hashFileSystemService->getDirectoryListing($astId));
 
 		$this->assertEquals($expectedFullPathFileNames, $directoryListing);
 	}
@@ -149,7 +149,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 	 * @test
 	 */
 	public function storeFile() {
-		$testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_typo3, 'typo3temp', 'test.pdf'));
+		$testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'test.pdf'));
 		touch($testFile);
 		$this->hashFileSystemService->storeFile(1234, $testFile);
 
@@ -167,7 +167,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 		$expectedFileLocation = $this->hashFileSystemService->getHashPath(1234) . '/test.pdf';
 		$this->assertFileNotExists($expectedFileLocation);
 
-		$testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_typo3, 'typo3temp', 'test.pdf'));
+		$testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'test.pdf'));
 		touch($testFile);
 
 		$this->hashFileSystemService->storeFile(1234, $testFile);
