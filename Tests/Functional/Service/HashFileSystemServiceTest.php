@@ -50,7 +50,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 	public function setUp() {
 		parent::setUp();
 
-		$this->testDirectoryRoot = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_typo3, 'typo3temp', 'HashFileSystemServiceTest'));
+		$this->testDirectoryRoot = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'HashFileSystemServiceTest'));
 		if(file_exists($this->testDirectoryRoot)) Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->testDirectoryRoot);
 		$this->hashFileSystemService = new Tx_PtExtbase_Service_HashFileSystemService($this->testDirectoryRoot);
 	}
