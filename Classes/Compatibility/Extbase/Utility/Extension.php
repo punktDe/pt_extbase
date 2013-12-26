@@ -36,7 +36,7 @@ class Tx_PtExtbase_Compatibility_Extbase_Utility_Extension {
 	 * @return \TYPO3\CMS\Extbase\Service\ExtensionService
 	 */
 	protected static function getExtensionService() {
-		return  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Service\\ExtensionService');
+		return  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')->get('TYPO3\\CMS\\Extbase\\Service\\ExtensionService');
 	}
 
 
