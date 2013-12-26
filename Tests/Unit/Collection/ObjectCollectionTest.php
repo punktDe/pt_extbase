@@ -34,7 +34,7 @@
 class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 
     /**
-     * @var tx_pttools_testCollection
+     * @var Tx_PtExtbase_Tests_Unit_Collection_ObjectCollectionMock
      */
     private $fixture;
 
@@ -71,7 +71,7 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_Extbase_Tests_Unit
     /** @test */
     public function addingAnObjectOfTheWrongTypeThrowsException() {
         $this->setExpectedException('Tx_PtExtbase_Exception_Exception');
-        $this->fixture->addItem(array('hello' => 'world'));
+        $this->fixture->addItem(new StdClass('hello', 'world'));
     }
     
     

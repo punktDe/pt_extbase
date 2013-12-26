@@ -40,7 +40,8 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends Tx_PtExtbase_Tests_Uni
 	
 	
 	
-	/** @test */
+	/** @test
+	/
 	public function constructorAcceptsVisitorsAsArguments() {
 		$firstVisitor = $this->getMock('Tx_PtExtbase_Tree_NestedSetVisitor', array(), array(), '', FALSE);
 		$secondVisitor = $this->getMock('Tx_PtExtbase_Tree_NestedSetVisitor', array(), array(), '', FALSE);
@@ -210,7 +211,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends Tx_PtExtbase_Tests_Uni
      * @return PHPUnit_Framework_MockObject_MockObject
      */
     protected function createVisitorMock() {
-        return $this->getMock(Tx_PtExtbase_Tree_TreeWalkerVisitorInterface, array('doFirstVisit','doLastVisit'), array(), '', FALSE);
+        return $this->getMock('Tx_PtExtbase_Tree_TreeWalkerVisitorInterface', array('doFirstVisit','doLastVisit'), array(), '', FALSE);
     }
 	
 }
