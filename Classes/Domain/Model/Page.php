@@ -37,6 +37,15 @@ class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnt
 	 */
 	protected $module;
 
+	/**
+	 * @var string page title
+	 */
+	protected $title;
+
+	/**
+	 * @var int
+	 */
+	protected $sorting;
 
 	/**
 	 * @param string $module
@@ -44,11 +53,42 @@ class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnt
 	public function setModule($module) {
 		$this->module = $module;
 	}
-
 	/**
 	 * @return string
 	 */
 	public function getModule() {
 		return $this->module;
 	}
+
+	/**
+	 * @param string $title
+	 */
+	public function setTitle($title) {
+		$this->title = $title;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTitle() {
+		return $this->title;
+	}
+
+	/**
+	 * @param int $sorting
+	 */
+	public function setSorting($sorting) {
+		$this->sorting = $sorting;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getSorting() {
+		return $this->sorting;
+	}
+
+
+
+
 }
