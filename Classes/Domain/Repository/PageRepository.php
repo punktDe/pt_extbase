@@ -60,5 +60,19 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persisten
 		->execute();
 		return $pages;
 	}
+
+	public function findByPidAndDoktypeOrderBySorting($pid, $doktype) {
+		$query = $this->createQuery();
+
+		$query->setOrderings(array('sorting' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
+
+		$pages = $query->matching(
+			$query->logicalAnd(
+				$query->equals('pid', $pid),
+				$query->equals('doktype', $doktype)
+			)
+		)->execute();
+		return $pages;
+	}
 }
 ?>

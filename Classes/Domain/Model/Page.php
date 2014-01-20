@@ -48,6 +48,11 @@ class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnt
 	protected $sorting;
 
 	/**
+	 * @var int
+	 */
+	protected $doktype;
+
+	/**
 	 * @param string $module
 	 */
 	public function setModule($module) {
@@ -87,6 +92,21 @@ class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnt
 	public function getSorting() {
 		return $this->sorting;
 	}
+
+	/**
+	 * @param int $doktype
+	 */
+	public function setDoktype($doktype) {
+		$this->doktype = $doktype;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getDoktype() {
+		return $this->doktype;
+	}
+
 
 
 
