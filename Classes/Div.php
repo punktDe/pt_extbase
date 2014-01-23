@@ -1628,7 +1628,7 @@ class Tx_PtExtbase_Div  {
 	/**
 	 * @return bool
 	 */
-	public static function typo3Is6Plus() {
+	public static function isTypo36Plus() {
 		$firstNumber = (int) substr(TYPO3_version,0,1);
 		return ($firstNumber >= 6);
 	}
