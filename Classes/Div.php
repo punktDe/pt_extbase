@@ -165,27 +165,6 @@ class Tx_PtExtbase_Div  {
         return strtolower($charset);
 
     }
-
-    
-    
-    /**
-     * Checks if a file exists in the includepath and includes it once if it is available
-     *
-     * @param   string      name of the file to include
-     * @return  boolean     FALSE if file was not available/included, TRUE otherwise
-     * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-	  * @deprecated
-     */
-    public static function includeOnceIfExists($filename) {
-
-        if (self::fileExistsInIncpath($filename)) {
-            include_once $filename;
-            return true;
-        } else {
-            return false;
-        }
-
-    }
     
     
 
