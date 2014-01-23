@@ -1336,64 +1336,6 @@ class Tx_PtExtbase_Div  {
         return crypt($cleartext, $salt);
 
     }
-    
-    
-
-    /**
-     * Converts an array to a json string
-     *
-     * @param   array   $arr
-     * @return  string  json
-     * @see     http://www.bin-co.com/php/scripts/array2json/
-     * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-	 * @deprecated Use PHP internal function
-     */
-    public static function array2json($arr) {
-
-        if (function_exists('json_encode')) {
-            return json_encode($arr);
-
-        } else {
-            $parts = array();
-            $is_list = false;
-
-            //Find out if the given array is a numerical array
-            $keys = array_keys($arr);
-            $max_length = count($arr)-1;
-            if(($keys[0] == 0) and ($keys[$max_length] == $max_length)) {//See if the first key is 0 and last key is length - 1
-                $is_list = true;
-                for($i=0; $i<count($keys); $i++) { //See if each key correspondes to its position
-                    if($i != $keys[$i]) { //A key fails at position check.
-                        $is_list = false; //It is an associative array.
-                        break;
-                    }
-                }
-            }
-            foreach($arr as $key=>$value) {
-                if(is_array($value)) { //Custom handling for arrays
-                    if($is_list) $parts[] = self::array2json($value); /* :RECURSION: */
-                    else $parts[] = '"' . $key . '":' . self::array2json($value); /* :RECURSION: */
-                } else {
-                    $str = '';
-                    if(!$is_list) $str = '"' . $key . '":';
-
-                    //Custom handling for multiple data types
-                    if(is_numeric($value)) $str .= $value; //Numbers
-                    elseif($value === false) $str .= 'false'; //The booleans
-                    elseif($value === true) $str .= 'true';
-                    else $str .= '"' . addslashes($value) . '"'; //All other things
-                    // :TODO: Is there any more datatype we should be in the lookout for? (Object?)
-
-                    $parts[] = $str;
-                }
-            }
-            $json = implode(',',$parts);
-
-            if($is_list) return '[' . $json . ']';//Return numerical JSON
-            return '{' . $json . '}';//Return associative JSON
-        }
-
-    }
 
 
 
@@ -1703,6 +1645,14 @@ class Tx_PtExtbase_Div  {
 		}
 	}
 
+
+	/**
+	 * @return bool
+	 */
+	public static function typo3Is6Plus() {
+		$firstNumber = (int) substr(TYPO3_version,0,1);
+		return ($firstNumber >= 6);
+	}
 
 }
 
