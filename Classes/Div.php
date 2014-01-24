@@ -1626,11 +1626,21 @@ class Tx_PtExtbase_Div  {
 
 
 	/**
+	 * Returns TRUE if the current TYPO3 version es equal or greater than the given version
+	 *
+	 * @param $minVersion
 	 * @return bool
 	 */
-	public static function isTypo36Plus() {
-		$firstNumber = (int) substr(TYPO3_version,0,1);
-		return ($firstNumber >= 6);
+	public static function isMinTypo3Version($minVersion) {
+		if(class_exists('\TYPO3\CMS\Core\Utility\VersionNumberUtility')) {
+			$currentVersionAsInt = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version());
+			$minVersionAsInt = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($minVersion);
+		} else {
+			$currentVersionAsInt = t3lib_div::int_from_ver(TYPO3_version);
+			$minVersionAsInt = t3lib_div::int_from_ver($minVersion);
+		}
+
+		return $currentVersionAsInt >= $minVersionAsInt;
 	}
 
 }
