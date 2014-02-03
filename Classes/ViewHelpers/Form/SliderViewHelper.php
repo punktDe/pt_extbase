@@ -42,7 +42,7 @@ class SliderViewHelper extends TextfieldViewHelper {
 	public function render($required = NULL, $type = 'text', $placeholder = NULL, $sliderMin = 0, $sliderMax = 10, $sliderStep = 1) {
 		$inputString = parent::render($required, $type, $placeholder);
 
-		$sliderElementTemplate = '<div class="slider-element-wrap">%s<div class="slider-element"></div>%s</div>';
+		$sliderElementTemplate = '<div class="slider-element-wrap">%s<div class="slider-bar-wrap"><div class="slider-element"></div></div><div class="slider-input-wrap">%s</div></div>';
 
 		$javascriptCode = '<script type="text/javascript">
 $(function() {
