@@ -62,12 +62,10 @@ $(function() {
 			}
 		});
 
-		jQuery(".slider-element-wrap").each(function() {
-			jQuery(this).find("input").val(' . $sliderMin . ').live("keyup", function() {
-				if (' . $sliderMin . ' <= this.value && this.value <= ' . $sliderMax . ') {
-					jQuery(this).closest(".slider-element-wrap").find(".slider-element").slider("value", this.value);
-				}
-			});
+		jQuery("#' . $id . '").val(' . $sliderMin . ').live("keyup", function() {
+			if (' . $sliderMin . ' <= this.value && this.value <= ' . $sliderMax . ') {
+				jQuery(this).closest(".slider-element-wrap").find(".slider-element").slider("value", this.value);
+			}
 		});
 	}
 });
