@@ -115,12 +115,26 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected $pageUid;
 
 
+	/**
+	 * @var string
+	 */
+	protected $moduleSignature;
+
+
+	/**
+	 * @var array
+	 */
+	protected $dispatchCallArguments;
+
 
 	/**
 	 * Initializes dispatcher, dispatches request and echos it
 	 */
 	public function initAndEchoDispatch() {
 		// TODO perhaps we should send some headers here?
+
+		$this->dispatchCallArguments = func_get_args();
+
 		echo $this->initAndDispatch();
 	}
 
@@ -132,6 +146,9 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
      * Call this function if you want to use this dispatcher "standalone"
      */
     public function initAndDispatch() {
+
+		$this->dispatchCallArguments = func_get_args();
+
 		$this->initCallArguments();
 		$content = $this->dispatch();
         return $content;
@@ -146,6 +163,11 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
      * ATTENTION: You should not call this method without initializing the dispatcher. Use initAndDispatch() instead!
      */
     public function dispatch() {
+
+		$this->dispatchCallArguments = func_get_args();
+		$this->checkModuleAccessIfInBackend();
+		$this->checkAllowedControllerActions();
+
         $configuration['extensionName'] = $this->extensionName;
         $configuration['pluginName'] = $this->pluginName;
 
@@ -166,6 +188,40 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
     }
 
 
+	/**
+	 * Use the ajaxID to determine the target module and check the users access on that module
+	 *
+	 * @throws Exception
+	 */
+	protected function checkModuleAccessIfInBackend() {
+		if(TYPO3_MODE === 'BE') {
+			if(is_array($this->dispatchCallArguments) && $this->dispatchCallArguments[1] instanceof TYPO3AJAX) {
+				$ajaxId = $this->dispatchCallArguments[1]->getAjaxID();
+				if(!stristr($ajaxId, '::')) throw new \Exception('Please name the ajaxId the following way: TargetModuleSignature::IndividualAJAXIdentifier. The current ajax ID is: ' . $ajaxId, 1391143615);
+				list($moduleSignature) = explode('::', $ajaxId);
+
+				$backendUser = $GLOBALS['BE_USER']; /** @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication $backendUser */
+				$backendUser->modAccess(array('name' => $moduleSignature, 'access' => array('user', 'group')), TRUE);
+			}
+		}
+	}
+
+
+
+	/**
+	 * Check if the requested action is marked as accessible
+	 *
+	 * @throws Exception
+	 */
+	protected function checkAllowedControllerActions() {
+		if(!$this->extensionName || !$this->controllerName || !$this->actionName) throw new \Exception('Either extension, controller or action is undefined.', 1391146166);
+
+		$nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.allowedControllerActions', $this->extensionName, $this->controllerName, $this->actionName));
+		$actionAccess = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
+		if($actionAccess !== TRUE) throw new \Exception('The requested controller / action is not allowed to be called via ajax / eId. You have to grant the access with the configuration: $GLOBALS[\'' . str_replace('.', "']['", $nameSpace) . "'] = TRUE; in your ext_localconf.php", 1391145113);
+	}
+
+	
 	
 	/**
 	 * @param null $pageUid
