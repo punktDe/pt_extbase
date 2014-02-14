@@ -60,6 +60,7 @@ class SliderViewHelper extends TextfieldViewHelper {
 $(function() {
 	if (jQuery.ui) {
 		jQuery("#slider-' . $id . '").slider({
+			range: "min",
 			min: ' . $sliderMin . ',
 			max: ' . $sliderMax . ',
 			step: ' . $sliderStep . ',
