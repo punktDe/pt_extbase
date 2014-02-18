@@ -848,12 +848,6 @@ class Tx_PtExtbase_Div  {
      * @author  Rainer Kuhn , based on an idea of Fabian Koenig (http://lists.netfielders.de/pipermail/typo3-german/2007-May/032473.html)
      */
     public static function returnTyposcriptSetup($pageUid=1, $tsConfigKey='') {
-
-        // include required TYPO3 libraries
-        require_once(PATH_t3lib.'class.t3lib_page.php');
-        require_once(PATH_t3lib.'class.t3lib_tsparser_ext.php');
-        require_once(PATH_t3lib.'class.t3lib_befunc.php');
-
         // This method expects that there is not TSFE. If there is (or parts of it - like in the preBeUser hook) the following lines might fail.
         // So we unset TSFE after copying it to a temp variable if it exists and restore it afterwards
         if (is_object($GLOBALS['TSFE'])) {
