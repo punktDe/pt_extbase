@@ -40,8 +40,6 @@ class Tx_PtExtbase_ViewHelpers_ErrorMessagesViewHelper  extends Tx_Fluid_Core_Vi
 
 		$output = '';
 
-		Tx_Extbase_Utility_Debugger::var_dump($errors);
-
 		foreach ($errors as $properyError) {
 			foreach ($properyError->getErrors() as $error) { /** @var $error Tx_Extbase_Validation_Error */
 				$translatedMessage = $this->localization->translate('LLL:EXT:' . $extension . '/Resources/Private/Language/' . $file . ':' . $error->getMessage(), $extension);
