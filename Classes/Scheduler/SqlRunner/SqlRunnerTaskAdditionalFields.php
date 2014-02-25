@@ -107,7 +107,23 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	 */
 	protected function getLoadedExtensions() {
 		$loadedExtensions = array();
-		$enabledExtensions = t3lib_div::trimExplode(',', t3lib_extmgm::getEnabledExtensionList());
+
+		if (class_exists('t3lib_utility_VersionNumber')) {
+			$t3Version = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version);
+		} else {
+			$t3Version = t3lib_div::int_from_ver(TYPO3_version);
+		}
+
+		if ($t3Version < 6002000) {
+			$enabledExtensions = t3lib_div::trimExplode(',', t3lib_extmgm::getEnabledExtensionList());
+		} else {
+			$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+			$listUtility = $objectManager->get('TYPO3\\CMS\\Extensionmanager\\Utility\\ListUtility');
+			$availableExtensions = $listUtility->getAvailableExtensions();
+			$availableAndInstalledExtensions = $listUtility->getAvailableAndInstalledExtensions($availableExtensions);
+			$enabledExtensions = array_keys($availableAndInstalledExtensions);
+		}
+
 		foreach ($enabledExtensions as $enabledExtension) {
 			if (t3lib_extMgm::isLoaded($enabledExtension)) {
 				$loadedExtensions[] = $enabledExtension;
