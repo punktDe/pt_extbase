@@ -49,7 +49,7 @@ class Tx_PtExtbase_Domain_Validator_CaptchaStringValidator extends Tx_Extbase_Va
 	public function isValid($captchaString) {
 		session_start();
 		if ($captchaString != $_SESSION[self::CAPTCHA_SESSION_KEY]) {
-			$this->addError('Captcha string does not conform to captcha.', 1340029430);
+			$this->addError('PtExtbase.CaptchaStringValidator.InputStringWrong', 1340029430);
 			return FALSE;
 		}
 		return TRUE;
