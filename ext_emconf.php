@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "pt_extbase".
  *
- * Auto generated 13-02-2014 13:28
+ * Auto generated 15-04-2014 11:13
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
@@ -29,7 +29,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'modify_tables' => '',
 	'clearCacheOnLoad' => 0,
 	'lockType' => '',
-	'version' => '1.5.2-dev',
+	'version' => '1.5.3-dev',
 	'constraints' => array(
 		'depends' => array(
 			'typo3' => '4.5.0-6.1.99',
