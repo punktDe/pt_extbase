@@ -2,12 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012 punkt.de GmbH
- *  Authors:
- *    Christian Herberger <herberger@punkt.de>,
- *    Ursula Klinger <klinger@punkt.de>,
- *    Daniel Lienert <lienert@punkt.de>,
- *    Joachim Mathes <mathes@punkt.de>
+ *  (c) 2013 punkt.de <el_equipo@punkt.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -28,32 +23,26 @@
  ***************************************************************/
 
 /**
- * Zora-Card-Id Validator
+ * Request Arguments ViewHelper
  *
  * @package pt_extbase
- * @subpackage Domain\Validator
+ * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_Domain_Validator_CaptchaStringValidator extends Tx_Extbase_Validation_Validator_AbstractValidator {
-
-	const CAPTCHA_SESSION_KEY = 'tx_captcha_string';
+class Tx_PtExtbase_ViewHelpers_ShortLinkViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 	/**
-	 * @var
+	 * @param int $length
+	 * @param string $indexScriptUrl
+	 *
+	 * @return string
 	 */
-	protected $captchaString;
+	public function render($length = 0, $indexScriptUrl = '') {
+		$link = $this->renderChildren();
 
-	/**
-	 * @param string $captchaString The value that should be validated
-	 * @return boolean TRUE if the value is valid, FALSE if an error occurred
-	 */
-	public function isValid($captchaString) {
-		session_start();
-		if ($captchaString != $_SESSION[self::CAPTCHA_SESSION_KEY]) {
-			$this->addError('PtExtbase.CaptchaStringValidator.InputStringWrong', 1340029430);
-			return FALSE;
-		}
-		return TRUE;
+		$shortLink = t3lib_div::makeRedirectUrl($link, $length, $indexScriptUrl);
+
+		return $shortLink;
+
 	}
 
 }
-?>
