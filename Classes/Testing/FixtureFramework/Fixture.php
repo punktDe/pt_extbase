@@ -152,4 +152,3 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture {
 	}
 
 }
-?>
