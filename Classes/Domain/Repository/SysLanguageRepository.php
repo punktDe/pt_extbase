@@ -36,7 +36,7 @@ class Tx_PtExtbase_Domain_Repository_SysLanguageRepository extends Tx_Extbase_Pe
 	 * Sets the respect storage page to false.
 	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
 	 */
-	public function __construct(Tx_Extbase_Object_ObjectManagerInterface $objectManager = NULL) {
+	public function __construct(Tx_Extbase_Object_ObjectManagerInterface $objectManager) {
 		 parent::__construct($objectManager);
 		 $this->defaultQuerySettings = new Tx_Extbase_Persistence_Typo3QuerySettings();
 		 $this->defaultQuerySettings->setRespectStoragePage(FALSE);
