@@ -66,6 +66,10 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractModelTestcase extends Tx_PtExtbas
 				case 'boolean':
 					$testValue = TRUE;
 					break;
+
+				case 'float':
+					$testValue = 0 + mt_rand() / mt_getrandmax() * 20;
+					break;
 			}
 
 			$testName = 'Test setter and getter for Attribute ' . $attribute;
