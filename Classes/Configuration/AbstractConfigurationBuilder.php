@@ -115,10 +115,11 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 * Generic factory method for configuration objects
 	 *
 	 * @param string $configurationName
+	 * @param mixed $parameters
 	 * @return mixed
 	 * @throws Exception
 	 */
-	protected function buildConfigurationGeneric($configurationName) {
+	protected function buildConfigurationGeneric($configurationName, $parameters = array()) {
 
 		if(!$this->configurationObjectInstances[$configurationName]) {
 
@@ -133,7 +134,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 			}
 			
 			//$this->configurationObjectInstances[$configurationName] = $factoryClass::getInstance($this); // PHP 5.3 only ;)
-			$this->configurationObjectInstances[$configurationName] = call_user_func(array($factoryClass, 'getInstance'), $this); // Avoid :: notation in PHP < 5.3
+			$this->configurationObjectInstances[$configurationName] = call_user_func(array($factoryClass, 'getInstance'), $this, $parameters); // Avoid :: notation in PHP < 5.3
 
 		}
 		return $this->configurationObjectInstances[$configurationName];
