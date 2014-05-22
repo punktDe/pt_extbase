@@ -230,7 +230,6 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	public function init($pageUid = NULL) {
 		#define('TYPO3_MODE','FE');
 
-		tslib_eidtools::initTCA();
 		$this->pageUid = $pageUid;
 
 		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, '0', 1, '', '','','');
