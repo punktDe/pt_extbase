@@ -128,6 +128,12 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 
 	/**
+	 * @var string
+	 */
+	protected $format = 'html';
+
+
+	/**
 	 * Initializes dispatcher, dispatches request and echos it
 	 */
 	public function initAndEchoDispatch() {
@@ -276,6 +282,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
         $request->setControllerName($this->controllerName);
         $request->setControllerActionName($this->actionName);
         $request->setArguments($this->arguments);
+	    $request->setFormat($this->format);
 
         return $request;
     }
@@ -376,6 +383,17 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 */
 	public function setActionName($actionName) {
 		$this->actionName = $actionName;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param string $format
+	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 */
+	public function setFormat($format) {
+		$this->format = $format;
 		return $this;
 	}
 
