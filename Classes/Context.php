@@ -60,7 +60,7 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 
 		
 	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManager
+	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
 	 */
 	protected $configurationManager;
 	
@@ -85,10 +85,10 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 	
 	
 	/**
-	 * @param Tx_Extbase_Configuration_ConfigurationManager $configurationManager
+	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
 	 * @return void
 	 */
-	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManager $configurationManager) {
+	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
 		$this->configurationManager = $configurationManager;
 	}
 	
