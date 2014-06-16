@@ -71,7 +71,7 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements t3lib_Sing
     
     
     /**
-     * @var Tx_Extbase_Configuration_ConfigurationManager
+     * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
      */
     protected $configurationManager;
     
@@ -112,10 +112,10 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements t3lib_Sing
 
     
     /**
-     * @param Tx_Extbase_Configuration_ConfigurationManager $configurationManager
+     * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
      * @return void
      */
-    public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManager $configurationManager) {
+    public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
         $this->configurationManager = $configurationManager;
     }
     

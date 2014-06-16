@@ -153,6 +153,18 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 	 */
 	abstract protected function getFixtures();
 
+
+
+	/**
+	 * @param $object
+	 */
+	protected function cleanObjectState($object) {
+		if ($object !== NULL) {
+			$identityMap = $this->objectManager->get('Tx_Extbase_Persistence_IdentityMap');
+			$identityMap->unregisterObject($object);
+		}
+	}
+
 }
 
 ?>
