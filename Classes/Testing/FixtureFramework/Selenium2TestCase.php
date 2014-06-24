@@ -122,7 +122,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends P
 	 * @return void
 	 */
 	protected function setUp() {
-		$fixtureImporter = new Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter();
+		$fixtureImporter = t3lib_div::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
 		$fixtureImporter->import($this->getFixtures());
 	}
 
