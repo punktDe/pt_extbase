@@ -71,14 +71,6 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements t3lib_Singleton {
 
 		$frontEnd->tmpl->getFileName_backPath = PATH_site;
 
-		if (($pageUid > 0) && in_array('sys_template', $this->dirtySystemTables)) {
-			$frontEnd->tmpl->runThroughTemplates($frontEnd->sys_page->getRootLine($pageUid), 0);
-			$frontEnd->tmpl->generateConfig();
-			$frontEnd->tmpl->loaded = 1;
-			$frontEnd->settingLanguage();
-			$frontEnd->settingLocale();
-		}
-
 		$frontEnd->newCObj();
 
 		$GLOBALS['TSFE'] = $frontEnd;
