@@ -45,12 +45,12 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements t3lib_Singleton {
 	 * Create a fake frontend
 	 *
 	 * @param int $pageUid
-	 * @return null|tslib_fe
+	 * @return tslib_fe
 	 * @throws InvalidArgumentException
 	 */
 	public function createFakeFrontEnd($pageUid = 0) {
 
-		if($this->fakeFrontend && $GLOBALS['TSFE']) return $this->fakeFrontend;
+		if($this->fakeFrontend && $this->fakeFrontend === $GLOBALS['TSFE']) return $this->fakeFrontend;
 
 		if ($pageUid < 0) {
 			throw new InvalidArgumentException('$pageUid must be >= 0.');
@@ -58,34 +58,33 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements t3lib_Singleton {
 
 		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_TimeTrackNull');
 
-		/** @var $frontEnd tslib_fe */
-		$frontEnd = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
+		/** @var $this->fakeFrontend tslib_fe */
+		$this->fakeFrontend = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
 
 		// simulates a normal FE without any logged-in FE or BE user
-		$frontEnd->beUserLogin = FALSE;
-		$frontEnd->workspacePreview = '';
-		$frontEnd->initFEuser();
-		$frontEnd->determineId();
-		$frontEnd->initTemplate();
-		$frontEnd->config = array();
+		$this->fakeFrontend->beUserLogin = FALSE;
+		$this->fakeFrontend->workspacePreview = '';
+		$this->fakeFrontend->initFEuser();
 
-		$frontEnd->tmpl->getFileName_backPath = PATH_site;
-
-		if (($pageUid > 0) && in_array('sys_template', $this->dirtySystemTables)) {
-			$frontEnd->tmpl->runThroughTemplates($frontEnd->sys_page->getRootLine($pageUid), 0);
-			$frontEnd->tmpl->generateConfig();
-			$frontEnd->tmpl->loaded = 1;
-			$frontEnd->settingLanguage();
-			$frontEnd->settingLocale();
+		/*
+		 * determineId is only successful if it is called within the rootline of the current Page.
+		 * As in Backend Context dies could also be a sysFolder outside the rootline, we have to catch the error and continue
+		 */
+		try {
+			$this->fakeFrontend->determineId();
+		} catch (Exception $e) {
 		}
 
-		$frontEnd->newCObj();
+		$this->fakeFrontend->initTemplate();
+		$this->fakeFrontend->config = array();
 
-		$GLOBALS['TSFE'] = $frontEnd;
+		$this->fakeFrontend->tmpl->getFileName_backPath = PATH_site;
 
-		$this->fakeFrontend = $frontEnd;
+		$this->fakeFrontend->newCObj();
 
-		return $GLOBALS['TSFE']->id;
+		$GLOBALS['TSFE'] = $this->fakeFrontend;
+
+		return $this->fakeFrontend;
 	}
 }
 ?>

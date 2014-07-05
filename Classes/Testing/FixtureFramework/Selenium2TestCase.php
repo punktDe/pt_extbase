@@ -26,49 +26,19 @@
  ***************************************************************/
 
 /**
- * Database Test Case
+ * Selenium 2 Test Case
  *
  * This class is based on the Extbase base test case.
  *
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
-abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PHPUnit_Extensions_Database_TestCase {
-
-	/**
-	 * This array contains strings of domains, which are allowed to run database tests on.
-	 * The domain should be used to choose the configuration to be loaded. Thus a dedicated
-	 * database connection can be loaded.
-	 *
-	 * @var array
-	 */
-	protected $allowedDomains = array();
+abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends PHPUnit_Extensions_Selenium2TestCase {
 
 	/**
 	 * @var Tx_Extbase_Object_ObjectManagerInterface The object manager
 	 */
 	protected $objectManager;
-
-	/**
-	 * @var array
-	 */
-	protected $fixtures = array();
-
-	/**
-	 * Set up
-	 *
-	 * This setUp() does not call its parent implementation to avoid database cleaning
-	 *
-	 * @return void
-	 */
-	protected function setUp() {
-		if (!(in_array($_SERVER['HOSTNAME'], $this->allowedDomains)
-				|| in_array($_SERVER['HTTP_HOST'], $this->allowedDomains))) {
-			$this->markTestSkipped('This test is only allowed on domains: ' . implode(', ', $this->allowedDomains));
-		}
-		$fixtureImporter = t3lib_div::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
-		$fixtureImporter->import($this->getFixtures());
-	}
 
 	/**
 	 * Injects an untainted clone of the object manager and all its referencing
@@ -107,7 +77,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 	 * Creates a proxy class of the specified class which allows
 	 * for calling even protected methods and access of protected properties.
 	 *
-	 * @param string $className Full qualified name of the original class
+	 * @param $className Full qualified name of the original class
 	 * @return string Full qualified name of the built class
 	 */
 	protected function buildAccessibleProxy($className) {
@@ -149,22 +119,16 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 	}
 
 	/**
+	 * @return void
+	 */
+	protected function setUp() {
+		$fixtureImporter = t3lib_div::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
+		$fixtureImporter->import($this->getFixtures());
+	}
+
+	/**
 	 * @return array
 	 */
 	abstract protected function getFixtures();
 
-
-
-	/**
-	 * @param $object
-	 */
-	protected function cleanObjectState($object) {
-		if ($object !== NULL) {
-			$identityMap = $this->objectManager->get('Tx_Extbase_Persistence_IdentityMap');
-			$identityMap->unregisterObject($object);
-		}
-	}
-
 }
-
-?>
