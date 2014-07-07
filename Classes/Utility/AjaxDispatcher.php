@@ -128,6 +128,12 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 
 	/**
+	 * @var string
+	 */
+	protected $format = 'html';
+
+
+	/**
 	 * Initializes dispatcher, dispatches request and echos it
 	 */
 	public function initAndEchoDispatch() {
@@ -232,11 +238,9 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 		$this->pageUid = $pageUid;
 
-		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $TYPO3_CONF_VARS, $pageUid, '0', 1, '', '','','');
+		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, '0', 1, '', '','','');
 		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-
-		#$GLOBALS['TSFE']->initFeuser();
-		$GLOBALS['TSFE']->fe_user = tslib_eidtools::initFeUser();
+		$GLOBALS['TSFE']->initFEuser();
 
 		return $this;
 	}
@@ -278,6 +282,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
         $request->setControllerName($this->controllerName);
         $request->setControllerActionName($this->actionName);
         $request->setArguments($this->arguments);
+	    $request->setFormat($this->format);
 
         return $request;
     }
@@ -378,6 +383,17 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 */
 	public function setActionName($actionName) {
 		$this->actionName = $actionName;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param string $format
+	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 */
+	public function setFormat($format) {
+		$this->format = $format;
 		return $this;
 	}
 

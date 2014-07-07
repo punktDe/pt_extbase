@@ -36,6 +36,11 @@
 class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements tx_scheduler_AdditionalFieldProvider {
 
 	/**
+	 * @var Tx_Extbase_Object_ObjectManagerInterface
+	 */
+	protected $objectManager;
+
+	/**
 	 * @var array
 	 */
 	protected $configuration = array(
@@ -48,6 +53,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	 */
 	protected $fileExtensionList = 'sql,php';
 
+
+
 	/**
 	 * Gets additional fields to render in the form to add/edit a task
 	 *
@@ -59,6 +66,9 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	public function getAdditionalFields(array &$taskInfo, $task, tx_scheduler_Module $schedulerModule) {
 		$configuration = $this->configuration;
 		$additionalFields = array();
+
+		$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+
 		if (empty($taskInfo[$configuration['id']])) {
 			if($schedulerModule->CMD == 'edit') {
 				$taskInfo[$configuration['id']] = $task->$configuration['id'];
@@ -80,6 +90,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 		return $additionalFields;
 	}
 
+
+
 	/**
 	 * @return Tx_Fluid_View_StandaloneView
 	 */
@@ -89,6 +101,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 		$view->setPartialRootPath(t3lib_div::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Partials'));
 		return $view;
 	}
+
+
 
 	/**
 	 * @return array
@@ -102,12 +116,16 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 		return $sqlFilePaths;
 	}
 
+
+
 	/**
 	 * @return array
 	 */
 	protected function getLoadedExtensions() {
 		$loadedExtensions = array();
-		$enabledExtensions = t3lib_div::trimExplode(',', t3lib_extmgm::getEnabledExtensionList());
+
+		$enabledExtensions = $this->objectManager->get('Tx_PtExtbase_Compatibility_Core_ExtensionManager')->getEnabledExtensionList();
+
 		foreach ($enabledExtensions as $enabledExtension) {
 			if (t3lib_extMgm::isLoaded($enabledExtension)) {
 				$loadedExtensions[] = $enabledExtension;
@@ -115,6 +133,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 		}
 		return $loadedExtensions;
 	}
+
+
 
 	/**
 	 * @param string $extension
@@ -131,6 +151,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 		return $pathNameShortCuts;
 	}
 
+
+
 	/**
 	 * @param string $extension
 	 * @param string $path
@@ -141,6 +163,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 		return t3lib_div::getAllFilesAndFoldersInPath(array(), $path, $this->fileExtensionList);
 	}
 
+
+
 	/**
 	 * @param $extension
 	 * @param $pathName
@@ -149,6 +173,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	protected function buildPathNameShortcut($extension, $pathName) {
 		return 'EXT:' . $extension . '/' . substr($pathName, strlen(t3lib_extMgm::extPath($extension)), strlen($pathName));
 	}
+
+
 
 	/**
 	 * Validates the additional fields' values
@@ -161,6 +187,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 		$submittedData[$this->configuration['id']] = trim($submittedData[$this->configuration['id']]);
         return TRUE;
 	}
+
+
 
 	/**
 	 * Takes care of saving the additional fields' values in the task's object
