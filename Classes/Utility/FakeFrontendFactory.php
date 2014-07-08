@@ -66,14 +66,7 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements t3lib_Singleton {
 		$this->fakeFrontend->workspacePreview = '';
 		$this->fakeFrontend->initFEuser();
 
-		/*
-		 * determineId is only successful if it is called within the rootline of the current Page.
-		 * As in Backend Context dies could also be a sysFolder outside the rootline, we have to catch the error and continue
-		 */
-		try {
-			$this->fakeFrontend->determineId();
-		} catch (Exception $e) {
-		}
+//		$this->fakeFrontend->determineId();
 
 		$this->fakeFrontend->initTemplate();
 		$this->fakeFrontend->config = array();
