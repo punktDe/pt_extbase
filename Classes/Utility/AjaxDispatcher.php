@@ -238,10 +238,55 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 		$this->pageUid = $pageUid;
 
+		$this->initTca()
+			->initTsfe($pageUid)
+			->initFeUser();
+
+		return $this;
+	}
+
+
+
+	/**
+	 * @return $this
+	 */
+	public function initTca() {
+		tslib_eidtools::initTCA();
+
+		return $this;
+	}
+
+
+
+	/**
+	 * @param $pageUid
+	 * @return $this
+	 */
+	public function initTsfe($pageUid = NULL) {
 		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, '0', 1, '', '','','');
 		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+
+		return $this;
+	}
+
+
+
+	/**
+	 * @return $this
+	 */
+	public function initFeUser() {
 		$GLOBALS['TSFE']->initFEuser();
 
+		return $this;
+	}
+
+
+
+	/**
+	 * @return $this
+	 */
+	public function initFeUserGroups() {
+		$GLOBALS['TSFE']->initUserGroups();
 		return $this;
 	}
 
