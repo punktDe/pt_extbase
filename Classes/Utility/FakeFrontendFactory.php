@@ -65,9 +65,7 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements t3lib_Singleton {
 		$this->fakeFrontend->beUserLogin = FALSE;
 		$this->fakeFrontend->workspacePreview = '';
 		$this->fakeFrontend->initFEuser();
-
-//		$this->fakeFrontend->determineId();
-
+		$this->fakeFrontend->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
 		$this->fakeFrontend->initTemplate();
 		$this->fakeFrontend->config = array();
 
