@@ -1482,7 +1482,6 @@ class Tx_PtExtbase_Div  {
         if (TYPO3_MODE == 'FE' && is_object($GLOBALS['TSFE']->cObj)) {
             $result =  $GLOBALS['TSFE']->cObj->enableFields($table);
         } else {
-            require_once PATH_t3lib.'class.t3lib_befunc.php';
             $result = t3lib_BEfunc::BEenableFields($table);
             // this is a bugfix for TYPO3 because if there are no hidden, start and endtime fields it returns AND
             if (trim($result) == 'AND') {
