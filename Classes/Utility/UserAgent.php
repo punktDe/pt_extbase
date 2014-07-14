@@ -79,7 +79,7 @@ class Tx_PtExtbase_Utility_UserAgent implements t3lib_Singleton {
 	 */
 	public function getOperatingSystem() {
 		$operatingSystem = $this->findValueByMapping($this->knownOperatingSystems);
-		return $operatingSystem ? $operatingSystem : 'Unknown Operating System';
+		return $operatingSystem ? $operatingSystem : 'No known operating system found in HTTP_USER_AGENT: ' . $this->getUserAgentData();
     }
 
 
@@ -89,7 +89,7 @@ class Tx_PtExtbase_Utility_UserAgent implements t3lib_Singleton {
 	 */
 	public function getBrowser() {
 		$browser = $this->findValueByMapping($this->knownBrowsers);
-		return $browser ? $browser : 'Unknown Browser';
+		return $browser ? $browser : 'No known browser found in HTTP_USER_AGENT: ' . $this->getUserAgentData();
     }
 
 

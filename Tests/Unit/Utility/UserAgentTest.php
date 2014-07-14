@@ -68,7 +68,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_UserAgentTest extends Tx_Extbase_Tests_Uni
 			),
 			'UnknownSystem' => array(
 				'agentData' => 'Mozilla/5.0 (HyperFastBetterThanAnyOtherSystem) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36',
-				'expected' => 'Unknown Operating System'
+				'expected' => 'No known operating system found in HTTP_USER_AGENT: Mozilla/5.0 (HyperFastBetterThanAnyOtherSystem) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36'
 			)
 		);
 	}
@@ -102,7 +102,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_UserAgentTest extends Tx_Extbase_Tests_Uni
 			),
 			'UnknownSystem' => array(
 				'agentData' => 'Mozilla/5.0 (HyperFastBetterThanAnyOtherSystem) AppleWebKit/537.36 (KHTML, like Gecko) SuperBrowser/35.0.1916.153 NoBrowser/537.36',
-				'expected' => 'Unknown Browser'
+				'expected' => 'No known browser found in HTTP_USER_AGENT: Mozilla/5.0 (HyperFastBetterThanAnyOtherSystem) AppleWebKit/537.36 (KHTML, like Gecko) SuperBrowser/35.0.1916.153 NoBrowser/537.36'
 			)
 		);
 	}
