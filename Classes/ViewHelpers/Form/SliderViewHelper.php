@@ -32,15 +32,14 @@ class SliderViewHelper extends TextfieldViewHelper {
 	/**
 	 * @param boolean $required If the field is required or not
 	 * @param string $type The field type, e.g. "text", "email", "url" etc.
-	 * @param string $placeholder A string used as a placeholder for the value to enter
 	 * @param int $sliderMin
 	 * @param int $sliderMax
 	 * @param int $sliderStep
 	 *
 	 * @return string
 	 */
-	public function render($required = NULL, $type = 'text', $placeholder = NULL, $sliderMin = 0, $sliderMax = 10, $sliderStep = 1) {
-		$inputString = parent::render($required, $type, $placeholder);
+	public function render($required = NULL, $type = 'text', $sliderMin = 0, $sliderMax = 10, $sliderStep = 1) {
+		$inputString = parent::render($required, $type);
 
 		$id = $this->arguments['id'];
 
