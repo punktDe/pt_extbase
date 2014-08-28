@@ -99,15 +99,12 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends Tx_Pt
 			'SELECT * FROM baz;'
 		);
 
-		$sqlGenerator1 = $this->getMockBuilder('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator')
-				->setMethods(array('generate'))
-				->getMock();
+		$sqlGenerator1 = $this->getMock('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator', array('generate'), array(), '', FALSE);
 		$sqlGenerator1->expects($this->once())
 			->method('generate')
 			->will($this->returnValue($sql1));
-		$sqlGenerator2 = $this->getMockBuilder('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator')
-				->setMethods(array('generate'))
-				->getMock();
+
+		$sqlGenerator2 = $this->getMock('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator', array('generate'), array(), '', FALSE);
 		$sqlGenerator2->expects($this->once())
 				->method('generate')
 				->will($this->returnValue($sql2));
