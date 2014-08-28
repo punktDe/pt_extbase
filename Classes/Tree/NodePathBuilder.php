@@ -45,7 +45,7 @@ class Tx_PtExtbase_Tree_NodePathBuilder  {
 	/**
 	 * @var array
 	 */
-	protected $nodePathCache;
+	protected $nodePathCache = array();
 
 
 	/**

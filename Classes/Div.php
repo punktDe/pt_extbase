@@ -165,27 +165,6 @@ class Tx_PtExtbase_Div  {
         return strtolower($charset);
 
     }
-
-    
-    
-    /**
-     * Checks if a file exists in the includepath and includes it once if it is available
-     *
-     * @param   string      name of the file to include
-     * @return  boolean     FALSE if file was not available/included, TRUE otherwise
-     * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-	  * @deprecated
-     */
-    public static function includeOnceIfExists($filename) {
-
-        if (self::fileExistsInIncpath($filename)) {
-            include_once $filename;
-            return true;
-        } else {
-            return false;
-        }
-
-    }
     
     
 
@@ -869,12 +848,6 @@ class Tx_PtExtbase_Div  {
      * @author  Rainer Kuhn , based on an idea of Fabian Koenig (http://lists.netfielders.de/pipermail/typo3-german/2007-May/032473.html)
      */
     public static function returnTyposcriptSetup($pageUid=1, $tsConfigKey='') {
-
-        // include required TYPO3 libraries
-        require_once(PATH_t3lib.'class.t3lib_page.php');
-        require_once(PATH_t3lib.'class.t3lib_tsparser_ext.php');
-        require_once(PATH_t3lib.'class.t3lib_befunc.php');
-
         // This method expects that there is not TSFE. If there is (or parts of it - like in the preBeUser hook) the following lines might fail.
         // So we unset TSFE after copying it to a temp variable if it exists and restore it afterwards
         if (is_object($GLOBALS['TSFE'])) {
@@ -1336,64 +1309,6 @@ class Tx_PtExtbase_Div  {
         return crypt($cleartext, $salt);
 
     }
-    
-    
-
-    /**
-     * Converts an array to a json string
-     *
-     * @param   array   $arr
-     * @return  string  json
-     * @see     http://www.bin-co.com/php/scripts/array2json/
-     * @author  Fabrizio Branca <mail@fabrizio-branca.de>
-	 * @deprecated Use PHP internal function
-     */
-    public static function array2json($arr) {
-
-        if (function_exists('json_encode')) {
-            return json_encode($arr);
-
-        } else {
-            $parts = array();
-            $is_list = false;
-
-            //Find out if the given array is a numerical array
-            $keys = array_keys($arr);
-            $max_length = count($arr)-1;
-            if(($keys[0] == 0) and ($keys[$max_length] == $max_length)) {//See if the first key is 0 and last key is length - 1
-                $is_list = true;
-                for($i=0; $i<count($keys); $i++) { //See if each key correspondes to its position
-                    if($i != $keys[$i]) { //A key fails at position check.
-                        $is_list = false; //It is an associative array.
-                        break;
-                    }
-                }
-            }
-            foreach($arr as $key=>$value) {
-                if(is_array($value)) { //Custom handling for arrays
-                    if($is_list) $parts[] = self::array2json($value); /* :RECURSION: */
-                    else $parts[] = '"' . $key . '":' . self::array2json($value); /* :RECURSION: */
-                } else {
-                    $str = '';
-                    if(!$is_list) $str = '"' . $key . '":';
-
-                    //Custom handling for multiple data types
-                    if(is_numeric($value)) $str .= $value; //Numbers
-                    elseif($value === false) $str .= 'false'; //The booleans
-                    elseif($value === true) $str .= 'true';
-                    else $str .= '"' . addslashes($value) . '"'; //All other things
-                    // :TODO: Is there any more datatype we should be in the lookout for? (Object?)
-
-                    $parts[] = $str;
-                }
-            }
-            $json = implode(',',$parts);
-
-            if($is_list) return '[' . $json . ']';//Return numerical JSON
-            return '{' . $json . '}';//Return associative JSON
-        }
-
-    }
 
 
 
@@ -1567,7 +1482,6 @@ class Tx_PtExtbase_Div  {
         if (TYPO3_MODE == 'FE' && is_object($GLOBALS['TSFE']->cObj)) {
             $result =  $GLOBALS['TSFE']->cObj->enableFields($table);
         } else {
-            require_once PATH_t3lib.'class.t3lib_befunc.php';
             $result = t3lib_BEfunc::BEenableFields($table);
             // this is a bugfix for TYPO3 because if there are no hidden, start and endtime fields it returns AND
             if (trim($result) == 'AND') {
@@ -1703,6 +1617,24 @@ class Tx_PtExtbase_Div  {
 		}
 	}
 
+
+	/**
+	 * Returns TRUE if the current TYPO3 version es equal or greater than the given version
+	 *
+	 * @param $minVersion
+	 * @return bool
+	 */
+	public static function isMinTypo3Version($minVersion) {
+		if(class_exists('\TYPO3\CMS\Core\Utility\VersionNumberUtility')) {
+			$currentVersionAsInt = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version());
+			$minVersionAsInt = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($minVersion);
+		} else {
+			$currentVersionAsInt = t3lib_div::int_from_ver(TYPO3_version);
+			$minVersionAsInt = t3lib_div::int_from_ver($minVersion);
+		}
+
+		return $currentVersionAsInt >= $minVersionAsInt;
+	}
 
 }
 

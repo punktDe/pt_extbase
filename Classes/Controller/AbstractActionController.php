@@ -63,7 +63,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	/**
 	 * Constructor for all plugin controllers
 	 *
-	 * @param Tx_PtExtbase_Lifecycle_Manager $lifeCycleManager Injected lifecycle manager
+	 * @param Tx_PtExtbase_Lifecycle_Manager $lifeCycleManager
 	 */
 	public function __construct(Tx_PtExtbase_Lifecycle_Manager $lifeCycleManager) {
 		$this->lifecycleManager = $lifeCycleManager;

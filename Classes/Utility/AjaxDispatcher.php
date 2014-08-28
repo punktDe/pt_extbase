@@ -128,6 +128,13 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 
 	/**
+	 * @var string
+	 */
+	protected $format = 'html';
+
+
+
+	/**
 	 * Initializes dispatcher, dispatches request and echos it
 	 */
 	public function initAndEchoDispatch() {
@@ -232,12 +239,55 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 		$this->pageUid = $pageUid;
 
-		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $TYPO3_CONF_VARS, $pageUid, '0', 1, '', '','','');
+		$this->initTca()
+			->initTsfe($pageUid)
+			->initFeUser();
+
+		return $this;
+	}
+
+
+
+	/**
+	 * @return $this
+	 */
+	public function initTca() {
+		tslib_eidtools::initTCA();
+
+		return $this;
+	}
+
+
+
+	/**
+	 * @param $pageUid
+	 * @return $this
+	 */
+	public function initTsfe($pageUid = NULL) {
+		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, '0', 1, '', '','','');
 		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
 
-		#$GLOBALS['TSFE']->initFeuser();
-		$GLOBALS['TSFE']->fe_user = tslib_eidtools::initFeUser();
+		return $this;
+	}
 
+
+
+	/**
+	 * @return $this
+	 */
+	public function initFeUser() {
+		$GLOBALS['TSFE']->initFEuser();
+
+		return $this;
+	}
+
+
+
+	/**
+	 * @return $this
+	 */
+	public function initFeUserGroups() {
+		$GLOBALS['TSFE']->initUserGroups();
 		return $this;
 	}
 
@@ -278,6 +328,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
         $request->setControllerName($this->controllerName);
         $request->setControllerActionName($this->actionName);
         $request->setArguments($this->arguments);
+	    $request->setFormat($this->format);
 
         return $request;
     }
@@ -336,10 +387,11 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
     }
 
 
-	
+
 	/**
 	 * @param $extensionName
 	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 * @throws Exception
 	 */
 	public function setExtensionName($extensionName) {
 		if(!$extensionName) throw new Exception('No extension name set for extbase request.', 1327583056);
@@ -381,5 +433,15 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 		return $this;
 	}
 
+
+
+	/**
+	 * @param string $format
+	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 */
+	public function setFormat($format) {
+		$this->format = $format;
+		return $this;
+	}
+
 }
-?>

@@ -80,6 +80,15 @@ class Tx_PtExtbase_Utility_ExtensionSettings implements t3lib_Singleton {
 		return $settings;
 	}
 
+	/**
+	 * Use for testing purposes
+	 *
+	 * @param array $extensionSettings
+	 */
+	public function overrideExtensionSettings(array $extensionSettings) {
+		$this->extensionSettings = $extensionSettings;
+	}
+
 }
 
 ?>

@@ -27,59 +27,20 @@
  *
  * @package Domain
  * @subpackage Repository
- * @author Daniel Lienert <daniel@lienert.cc>
+ * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persistence_Repository {
-
+class Tx_PtExtbase_Domain_Repository_SysLanguageRepository extends Tx_Extbase_Persistence_Repository {
 
 	/**
 	 * Constructor of the repository.
 	 * Sets the respect storage page to false.
 	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
 	 */
-	public function __construct() {
-		 parent::__construct(t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager'));
-
+	public function __construct(Tx_Extbase_Object_ObjectManagerInterface $objectManager) {
+		 parent::__construct($objectManager);
 		 $this->defaultQuerySettings = new Tx_Extbase_Persistence_Typo3QuerySettings();
 		 $this->defaultQuerySettings->setRespectStoragePage(FALSE);
 		 $this->defaultQuerySettings->setRespectSysLanguage(FALSE);
 	}
 
-
-	/**
-	 * @param $pid
-	 * @return array|Tx_Extbase_Persistence_QueryResultInterface
-	 */
-	public function findPagesInPid($pid) {
-		$query = $this->createQuery();
-
-		$query->setOrderings(array('sorting' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
-
-		$pages = $query->matching(
-			$query->equals('pid', $pid)
-		)
-		->execute();
-		return $pages;
-	}
-
-
-	/**
-	 * @param $pid
-	 * @param $doktype
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findByPidAndDoktypeOrderBySorting($pid, $doktype) {
-		$query = $this->createQuery();
-
-		$query->setOrderings(array('sorting' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
-
-		$pages = $query->matching(
-			$query->logicalAnd(
-				$query->equals('pid', $pid),
-				$query->equals('doktype', $doktype)
-			)
-		)->execute();
-		return $pages;
-	}
 }
-?>

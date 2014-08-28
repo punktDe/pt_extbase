@@ -195,8 +195,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 
 	/**
 	 * Read the session data into the cache.
-	 *
-	 * TODO rename this to readFromSessionAdapter!
 	 */
 	protected function readFromSession() {
 		$this->sessionData = $this->sessionAdapter->read('pt_extbase.cached.session');
@@ -240,7 +238,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	 * @param $namespaceString string
 	 */
 	public function removeSessionDataByNamespace($namespaceString) {
-		Tx_PtExtbase_Utility_NameSpace::removeDataFromNamespaceTree($namespaceString, $this->sessionData);
+		$this->sessionData = Tx_PtExtbase_Utility_NameSpace::removeDataFromNamespaceTree($namespaceString, $this->sessionData);
 	}
 
 
@@ -345,7 +343,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 
 
 	/**
-	 * Resets session data, if given gpVarAdapter has empty submit values (no gpvars are given for current request)
+	 * Resets session data
 	 *
 	 * @param Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager
 	 * @return void
@@ -373,6 +371,12 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	public function setSessionData(array $sessionData){
 		$this->sessionData = $sessionData;
 		$this->sessionHash = NULL;
+	}
+
+
+
+	public function resetSessionData() {
+		$this->sessionData = array();
 	}
 
 }

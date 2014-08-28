@@ -36,7 +36,14 @@ class Tx_PtExtbase_Compatibility_Extbase_Utility_Extension {
 	 * @return \TYPO3\CMS\Extbase\Service\ExtensionService
 	 */
 	protected static function getExtensionService() {
-		return  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Service\\ExtensionService');
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+		$extensionService =  $objectManager->get('TYPO3\\CMS\\Extbase\\Service\\ExtensionService'); /** @var $extensionService TYPO3\CMS\Extbase\Service\ExtensionService */
+
+		if(method_exists($extensionService, 'injectConfigurationManager')) {
+			$extensionService->injectConfigurationManager($objectManager->get('TYPO3\\CMS\Extbase\\Configuration\\ConfigurationManagerInterface'));
+		}
+
+		return $extensionService;
 	}
 
 
@@ -46,7 +53,7 @@ class Tx_PtExtbase_Compatibility_Extbase_Utility_Extension {
 	 * @param $pluginName
 	 * @return string
 	 */
-	public static function  getPluginNamespace($extensionName, $pluginName) {
+	public static function getPluginNamespace($extensionName, $pluginName) {
 		if (!class_exists('Tx_Extbase_Utility_Extension') || !method_exists('Tx_Extbase_Utility_Extension', 'getPluginNamespace')) {
 			return self::getExtensionService()->getPluginNamespace($extensionName, $pluginName);
 		} else {

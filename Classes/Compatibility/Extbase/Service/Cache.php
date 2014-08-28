@@ -24,46 +24,51 @@
  ***************************************************************/
 
 /**
- * Compatibility Class for TypoScript Conversion service
+ * Compatibility Class for the Cache Management Service
  *
  * @package Compatibility
  * @author Daniel Lienert
  */
 
-class Tx_PtExtbase_Compatibility_Extbase_Service_TypoScript {
+class Tx_PtExtbase_Compatibility_Extbase_Service_Cache {
+
 
 	/**
-	 * @return \TYPO3\CMS\Extbase\Service\TypoScriptService
+	 * @var Tx_Extbase_Object_ObjectManagerInterface
 	 */
-	protected static function getTypoScriptService() {
-		return  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService');
+	protected $objectManager;
+
+
+
+	/**
+	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+	 */
+	public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager) {
+		$this->objectManager = $objectManager;
 	}
 
 
 
 	/**
-	 * @param array $plainArray
-	 * @return array
+	 * @return CacheService
 	 */
-	public static function convertPlainArrayToTypoScriptArray(array $plainArray) {
-		if (!class_exists('Tx_Extbase_Utility_TypoScript')) {
-			return self::getTypoScriptService()->convertPlainArrayToTypoScriptArray($plainArray);
-		} else {
-			return Tx_Extbase_Utility_TypoScript::convertPlainArrayToTypoScriptArray($plainArray);
+	protected function getCacheService() {
+		// 4.6, 4.7
+		if(class_exists('Tx_Extbase_Service_CacheService')) {
+			return $this->objectManager->get('Tx_Extbase_Service_CacheService');
 		}
 	}
 
 
 
 	/**
-	 * @param array $array
-	 * @return array
+	 * @param $pageIdsToClear
 	 */
-	public static function convertTypoScriptArrayToPlainArray(array $array) {
-		if (!class_exists('Tx_Extbase_Utility_TypoScript')) {
-			return self::getTypoScriptService()->convertTypoScriptArrayToPlainArray($array);
+	public function clearPageCache($pageIdsToClear) {
+		if(class_exists('Tx_Extbase_Utility_Cache')) {
+			Tx_Extbase_Utility_Cache::clearPageCache($pageIdsToClear);
 		} else {
-			return Tx_Extbase_Utility_TypoScript::convertTypoScriptArrayToPlainArray($array);
+			$this->getCacheService()->clearPageCache($pageIdsToClear);
 		}
 	}
 }

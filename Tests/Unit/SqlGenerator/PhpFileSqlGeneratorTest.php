@@ -34,6 +34,9 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends Tx_Pt
 
 	protected $proxyClass;
 
+	/**
+	 * @var Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator
+	 */
 	protected $proxy;
 
 	public function setUp() {

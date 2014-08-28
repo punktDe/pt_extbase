@@ -24,46 +24,70 @@
 ***************************************************************/
 
 /**
- * Class implements read only access to tt_pages table
+ * Class implements READ ONLY access to sys_language
  *
  * @package Domain
  * @subpackage Model
- * @author Daniel Lienert <daniel@lienert.cc>
+ * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_PtExtbase_Domain_Model_SysLanguage extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
-	 * @var string the module key
-	 */
-	protected $module;
-
-	/**
-	 * @var string page title
+	 * @var string
 	 */
 	protected $title;
 
-	/**
-	 * @var int
-	 */
-	protected $sorting;
+
 
 	/**
-	 * @var int
+	 * @var string
 	 */
-	protected $doktype;
+	protected $flag;
+
+
 
 	/**
-	 * @param string $module
+	 * @var boolean
 	 */
-	public function setModule($module) {
-		$this->module = $module;
+	protected $indexEnable;
+
+
+
+	/**
+	 * @param string $flag
+	 */
+	public function setFlag($flag) {
+		$this->flag = $flag;
 	}
+
+
+
 	/**
 	 * @return string
 	 */
-	public function getModule() {
-		return $this->module;
+	public function getFlag() {
+		return $this->flag;
 	}
+
+
+
+	/**
+	 * @param boolean $indexEnable
+	 */
+	public function setIndexEnable($indexEnable) {
+		$this->indexEnable = $indexEnable;
+	}
+
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getIndexEnable() {
+		return $this->indexEnable;
+	}
+
+
 
 	/**
 	 * @param string $title
@@ -72,43 +96,13 @@ class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnt
 		$this->title = $title;
 	}
 
+
+
 	/**
 	 * @return string
 	 */
 	public function getTitle() {
 		return $this->title;
 	}
-
-	/**
-	 * @param int $sorting
-	 */
-	public function setSorting($sorting) {
-		$this->sorting = $sorting;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getSorting() {
-		return $this->sorting;
-	}
-
-	/**
-	 * @param int $doktype
-	 */
-	public function setDoktype($doktype) {
-		$this->doktype = $doktype;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getDoktype() {
-		return $this->doktype;
-	}
-
-
-
-
 
 }

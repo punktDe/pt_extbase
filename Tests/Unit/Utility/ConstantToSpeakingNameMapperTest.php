@@ -27,6 +27,7 @@
  *
  * @package pt_extbase
  * @subpackage Tests\Unit\Utility
+ * @see Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper
  */
 class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
@@ -123,6 +124,8 @@ class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends Tx_Pt
 
 }
 
+
+
 class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapperMock extends Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper {
 
 	protected function getClassName() {
@@ -136,6 +139,8 @@ class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapperMock extends T
 	}
 
 }
+
+
 
 interface Tx_PtExtbase_Tests_Unit_Utility_ConstantTestInterface {
 	const FOO_BAR = 6;

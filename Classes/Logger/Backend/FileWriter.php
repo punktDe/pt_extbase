@@ -2,9 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012 Michael Knoll <knoll@punkt.de>, punkt.de GmbH
- *
- *
+ *  (c) 2012 punkt.de GmbH
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -24,52 +22,30 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
- * Class implements detector for TYPO3 mode.
+ * File Writer
  *
- * This class is mainly used for testing, as it can be mocked and hence
- * return arbitrary modes in a test.
- *
- * @author Michael Knoll <knoll@punkt.de>
- * @package rbac
+ * @package pt_dppp_base
+ * @subpackage Domain\Logger
  */
-class Tx_PtExtbase_Utility_FeBeModeDetector implements t3lib_Singleton {
+class Tx_PtExtbase_Logger_Backend_FileWriter extends t3lib_log_writer_File {
 
 	/**
-	 * Returns mode, TYPO3 is currently run in.
+	 * Sets the path to the log file.
 	 *
-	 * @return string
+	 * We overwrite this method to allow _absolute_ log paths!
+	 *
+	 * @param string $logFile path to the log file
+	 * @return t3lib_log_writer_Writer
+	 * @throws InvalidArgumentException
 	 */
-	public function getMode() {
-		if (TYPO3_MODE == 'BE') {
-			return 'BE';
-		} else {
-			return 'FE';
+	public function setLogFile($logFile) {
+		if (is_resource(self::$logFileHandle)) {
+			$this->closeLogFile();
 		}
-	}
-
-
-
-	/**
-	 * Returns TRUE, if we are in BE mode
-	 *
-	 * @return bool
-	 */
-	public function inBackendMode() {
-		return ($this->getMode() == 'BE');
-	}
-
-
-
-	/**
-	 * Returns TRUE, if we are in FE mode
-	 *
-	 * @return bool
-	 */
-	public function inFrontendMode() {
-		return ($this->getMode() == 'FE');
+		$this->logFile = $logFile;
+		$this->openLogFile();
+		return $this;
 	}
 
 }
-?>

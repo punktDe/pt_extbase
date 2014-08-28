@@ -2,9 +2,7 @@
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012 Michael Knoll <knoll@punkt.de>, punkt.de GmbH
- *
- *
+ *  (c) 2013 punkt.de <el_equipo@punkt.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -24,52 +22,27 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-
 /**
- * Class implements detector for TYPO3 mode.
+ * Request Arguments ViewHelper
  *
- * This class is mainly used for testing, as it can be mocked and hence
- * return arbitrary modes in a test.
- *
- * @author Michael Knoll <knoll@punkt.de>
- * @package rbac
+ * @package pt_extbase
+ * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_Utility_FeBeModeDetector implements t3lib_Singleton {
+class Tx_PtExtbase_ViewHelpers_ShortLinkViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 	/**
-	 * Returns mode, TYPO3 is currently run in.
+	 * @param int $length
+	 * @param string $indexScriptUrl
 	 *
 	 * @return string
 	 */
-	public function getMode() {
-		if (TYPO3_MODE == 'BE') {
-			return 'BE';
-		} else {
-			return 'FE';
-		}
-	}
+	public function render($length = 0, $indexScriptUrl = '') {
+		$link = $this->renderChildren();
 
+		$shortLink = t3lib_div::makeRedirectUrl($link, $length, $indexScriptUrl);
 
+		return $shortLink;
 
-	/**
-	 * Returns TRUE, if we are in BE mode
-	 *
-	 * @return bool
-	 */
-	public function inBackendMode() {
-		return ($this->getMode() == 'BE');
-	}
-
-
-
-	/**
-	 * Returns TRUE, if we are in FE mode
-	 *
-	 * @return bool
-	 */
-	public function inFrontendMode() {
-		return ($this->getMode() == 'FE');
 	}
 
 }
-?>
