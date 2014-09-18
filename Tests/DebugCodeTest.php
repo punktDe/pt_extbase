@@ -92,5 +92,5 @@ class Tx_PtExtbase_Tests_DebugCodeTest extends Tx_PtExtbase_Tests_Unit_AbstractB
 
 		return false;
 	}
+
 }
-?>

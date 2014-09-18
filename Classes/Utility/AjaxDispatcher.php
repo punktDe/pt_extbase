@@ -133,6 +133,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected $format = 'html';
 
 
+
 	/**
 	 * Initializes dispatcher, dispatches request and echos it
 	 */
@@ -386,10 +387,11 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
     }
 
 
-	
+
 	/**
 	 * @param $extensionName
 	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 * @throws Exception
 	 */
 	public function setExtensionName($extensionName) {
 		if(!$extensionName) throw new Exception('No extension name set for extbase request.', 1327583056);
@@ -443,4 +445,3 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	}
 
 }
-?>

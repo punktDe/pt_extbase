@@ -39,17 +39,6 @@ class Tx_PtExtbase_Tests_Unit_State_Stubs_GetPostVarObject implements Tx_PtExtba
 	
 	
 	
-	/**
-	 * Inject GP Vars
-	 *
-	 * @param array $GPVars
-	 */
-	public function injectGPVars($GPVars) {
-		$this->values = $GPVars;
-	}
-	
-	
-	
 	public function getValues() {
 		return $this->values;
 	}
@@ -70,8 +59,16 @@ class Tx_PtExtbase_Tests_Unit_State_Stubs_GetPostVarObject implements Tx_PtExtba
     public function setObjectNamespace($namespace) {
     	$this->namespace = $namespace;
     }
-	
-}
-	
 
-?>
+
+
+	/**
+	 * Injects GetPost Vars into object
+	 *
+	 * @param array $GPVars GP Var data to be injected into the object
+	 */
+	public function _injectGPVars($GPVars) {
+		$this->values = $GPVars;
+	}
+
+}

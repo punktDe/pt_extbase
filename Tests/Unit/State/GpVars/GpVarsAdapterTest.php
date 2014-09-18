@@ -29,6 +29,7 @@
  * @package Tests
  * @subpackage State/GpVars
  * @author Michael Knoll
+ * @see Tx_PtExtbase_State_GpVars_GpVarsAdapter
  */
 class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	
@@ -56,6 +57,13 @@ class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends Tx_PtExtbase_Tests
 	 * @var Tx_PtExtbase_State_GpVars_GpVarsAdapter
 	 */
 	protected $gpVarAdapter;
+
+
+
+	/**
+	 * @var string
+	 */
+	protected $extensionNamespace = 'tx_ptextbase';
 	
 	
 	
@@ -83,9 +91,9 @@ class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends Tx_PtExtbase_Tests
         )
         );
 	
-        $this->gpVarAdapter = new Tx_PtExtbase_State_GpVars_GpVarsAdapter('');
-	    $this->gpVarAdapter->injectGetVars($this->getVars);
-	    $this->gpVarAdapter->injectPostVars($this->postVars);
+        $this->gpVarAdapter = new Tx_PtExtbase_State_GpVars_GpVarsAdapter($this->extensionNamespace);
+	    $this->gpVarAdapter->_injectGetVars($this->getVars);
+	    $this->gpVarAdapter->_injectPostVars($this->postVars);
 	}
 	
 	
@@ -160,5 +168,3 @@ class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends Tx_PtExtbase_Tests
     }
 	
 }
-
-?>

@@ -28,6 +28,7 @@
  * TestCase for hashFileSystemService
  *
  * @author Daniel Lienert
+ * @see Tx_PtExtbase_Service_HashFileSystemService
  */
 class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
@@ -198,6 +199,5 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 		$this->hashFileSystemService->removeHasFileSystemCompletely();
 		$this->assertFalse(is_dir($this->testDirectoryRoot));
 	}
-
 
 }

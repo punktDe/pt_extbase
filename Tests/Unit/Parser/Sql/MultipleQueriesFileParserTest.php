@@ -30,7 +30,7 @@
  * @package pt_extbase
  * @subpackage Tests\Unit\Parser\Sql
  */
-class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 	protected $proxyClass;
 
@@ -81,4 +81,3 @@ class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends Tx
 	}
 
 }
-?>

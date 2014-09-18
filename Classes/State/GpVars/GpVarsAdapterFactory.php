@@ -29,7 +29,7 @@
  * @package State
  * @subpackage GpVars
  */
-class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory {
+class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory implements t3lib_Singleton {
 	
 	/**
 	 * Singleton instances of GET/POST Var Adapters.
@@ -37,7 +37,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory {
 	 *
 	 * @var array<Tx_PtExtbase_State_GpVars_GpVarsAdapter>
 	 */
-	private static $instances = array();
+	private $instances = array();
 	
 	
 	
@@ -47,24 +47,25 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory {
 	 * @param string $extensionNameSpace 
 	 * @return Tx_PtExtbase_State_GpVars_GpVarsAdapter Singleton instance of GET/POST Var Adapter.
 	 */
-	public static function getInstance($extensionNameSpace) {
-		if (!array_key_exists($extensionNameSpace, self::$instances) || self::$instances[$extensionNameSpace] == NULL) {
-			self::$instances[$extensionNameSpace] = new Tx_PtExtbase_State_GpVars_GpVarsAdapter($extensionNameSpace);
-			self::$instances[$extensionNameSpace]->injectGetVars(self::extractExtensionVariables($_GET, $extensionNameSpace));
-			self::$instances[$extensionNameSpace]->injectPostVars(self::extractExtensionVariables($_POST, $extensionNameSpace));
-			self::$instances[$extensionNameSpace]->injectFilesVars(self::extractExtensionVariables($_FILES, $extensionNameSpace));
+	public function getInstance($extensionNameSpace) {
+		if (!array_key_exists($extensionNameSpace, $this->instances) || $this->instances[$extensionNameSpace] == NULL) {
+			$this->instances[$extensionNameSpace] = new Tx_PtExtbase_State_GpVars_GpVarsAdapter($extensionNameSpace);
+			$this->instances[$extensionNameSpace]->_injectGetVars($this->extractExtensionVariables($_GET, $extensionNameSpace));
+			$this->instances[$extensionNameSpace]->_injectPostVars($this->extractExtensionVariables($_POST, $extensionNameSpace));
+			$this->instances[$extensionNameSpace]->_injectFilesVars($this->extractExtensionVariables($_FILES, $extensionNameSpace));
 		}
 	
-		return self::$instances[$extensionNameSpace];
+		return $this->instances[$extensionNameSpace];
 	}
-	
-		
-	
+
+
+
 	/**
 	 * Remove the extension name from the variables
-	 * 
-	 * @param string $vars
-	 * @param string $nameSpace
+	 *
+	 * @param array $vars
+	 * @param string $extensionNameSpace
+	 * @return array
 	 */
 	protected function extractExtensionVariables($vars, $extensionNameSpace) {
 		$extractedVars = $vars[$extensionNameSpace];
@@ -76,4 +77,3 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory {
 	}
 	
 }
-?>

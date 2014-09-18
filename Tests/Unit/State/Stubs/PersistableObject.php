@@ -48,17 +48,6 @@ class Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject implements Tx_PtExtb
 	public function initSomeData() {
 		$this->dummyData = array('testkey1' => 'testvalue1', 'testkey2' => 'testvalue2');
 	}
-	
-	
-	
-	/**
-	 * Function called by session persistence handler to retrieve data to be stored in session
-	 *
-	 * @return array Object data to be stored in session
-	 */
-	public function persistToSession() {
-		return $this->dummyData;
-	}
     
 	
 	
@@ -70,17 +59,26 @@ class Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject implements Tx_PtExtb
     public function getObjectNamespace() {
     	return 'tests.stateadapter.stubs.persistableobject';
     }
-    
-    
-    
-    /**
-     * Function called by session persistence handler, when object needs to be restored from session
-     *
-     * @param array $sessionData
-     */
-    public function injectSessionData(array $sessionData) {
-    	$this->dummyData = $sessionData;
-    }
-}
 
-?>
+
+
+	/**
+	 * Called by any mechanism to persist an object's state to session
+	 *
+	 * @return array Object's state to be persisted to session
+	 */
+	public function _persistToSession() {
+		return $this->dummyData;
+	}
+
+
+
+	/**
+	 * Called by any mechanism to inject an object's state from session
+	 *
+	 * @param array $sessionData Object's state previously persisted to session
+	 */
+	public function _injectSessionData(array $sessionData) {
+		$this->dummyData = $sessionData;
+	}
+}

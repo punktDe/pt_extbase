@@ -29,7 +29,7 @@
  * @subpackage Tests\Unit\Utility
  * @see Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper
  */
-class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 	/**
 	 * @var string

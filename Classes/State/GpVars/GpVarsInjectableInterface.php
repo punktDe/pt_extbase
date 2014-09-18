@@ -39,8 +39,6 @@ interface Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface
 	 *
 	 * @param array $GPVars GP Var data to be injected into the object
 	 */
-	public function injectGPVars($GPVars);
+	public function _injectGPVars($GPVars);
 
 }
-
-?>
