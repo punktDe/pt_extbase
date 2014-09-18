@@ -1,0 +1,16 @@
+Uncaught exception: This is a Test Exception
+
+014 Tx_PtDpppBase_Logger_LoggerTest::logException()
+013 ReflectionMethod::invokeArgs(Tx_PtExtbase_Logger_LoggerTest, array|0|)
+012 PHPUnit_Framework_TestCase::runTest()
+011 PHPUnit_Framework_TestCase::runBare()
+010 Tx_Extbase_Tests_Unit_BaseTestCase::runBare()
+009 PHPUnit_Framework_TestResult::run(Tx_PtExtbase_Logger_LoggerTest)
+008 PHPUnit_Framework_TestCase::run(PHPUnit_Framework_TestResult)
+007 PHPUnit_Framework_TestSuite::runTest(Tx_PtExtbase_Logger_LoggerTest, PHPUnit_Framework_TestResult)
+006 PHPUnit_Framework_TestSuite::run(PHPUnit_Framework_TestResult, FALSE, array|0|, array|0|, FALSE)
+005 PHPUnit_TextUI_TestRunner::doRun(PHPUnit_Framework_TestSuite, array|6|)
+004 PHPUnit_TextUI_Command::run(array|5|, TRUE)
+003 PHPUnit_TextUI_Command::main()
+002 Tx_Phpunit_TestRunner_CliTestRunner::run()
+001 include("/var/apache/partnerportal/htdocs/typo3conf/ext/phpunit/Scripts/ManualCliTestRunner.php")
