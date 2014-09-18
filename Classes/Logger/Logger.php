@@ -26,11 +26,6 @@
 class Tx_PtExtbase_Logger_Logger implements t3lib_singleton {
 
 	/**
-	 * @var Tx_PtDpppBase_Utility_ExtensionConfiguration
-	 */
-	protected $extensionConfiguration;
-
-	/**
 	 * @var t3lib_log_Logger
 	 */
 	protected $logger;
@@ -53,20 +48,8 @@ class Tx_PtExtbase_Logger_Logger implements t3lib_singleton {
 	 */
 	protected $defaultLogComponent;
 
-	/**
-	 * @param Tx_PtDpppBase_Utility_ExtensionConfiguration $extensionConfiguration
-	 * @return void
-	 */
-	public function injectExtensionConfiguration(Tx_PtDpppBase_Utility_ExtensionConfiguration $extensionConfiguration) {
-		$this->extensionConfiguration = $extensionConfiguration;
-	}
 
 
-
-	/**
-	 * @param string $logFilePath
-	 * @param string $exceptionDirectory
-	 */
 	public function __construct() {
 		$this->defaultLogComponent = __CLASS__;
 	}
@@ -87,8 +70,15 @@ class Tx_PtExtbase_Logger_Logger implements t3lib_singleton {
 		$this->logFilePath = $logFilePath;
 		$this->exceptionDirectory = $exceptionDirectory;
 
+
 		if(!$this->logFilePath) {
-			$this->logFilePath = $this->extensionConfiguration->getKeyFromExtensionConfiguration('pt_dppp_base', 'logFilePath');
+			$configuration = Tx_PtExtbase_Div::returnExtConfArray('pt_extbase');
+
+			if(array_key_exists('logFilePath', $configuration)) {
+				$this->logFilePath = $configuration['logFilePath'];
+			} else {
+				$this->logFilePath = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, '/typo3temp/application.log'));
+			}
 		}
 
 		if(!$this->exceptionDirectory) {

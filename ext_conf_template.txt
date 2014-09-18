@@ -1,0 +1,2 @@
+# cat=basic; type=string; label="Log file path for application log"
+logFilePath =
