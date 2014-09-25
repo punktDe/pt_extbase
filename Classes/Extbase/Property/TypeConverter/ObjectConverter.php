@@ -100,7 +100,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 	 * @throws Tx_Extbase_Property_Exception_InvalidTargetException
 	 */
 	public function getTypeOfChildProperty($targetType, $propertyName, Tx_Extbase_Property_PropertyMappingConfigurationInterface $configuration) {
-		$configuredTargetType = $configuration->getConfigurationFor($propertyName)->getConfigurationValue('TYPO3\Flow\Property\TypeConverter\ObjectConverter', self::CONFIGURATION_TARGET_TYPE);
+		$configuredTargetType = $configuration->getConfigurationFor($propertyName)->getConfigurationValue('Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter', self::CONFIGURATION_TARGET_TYPE);
 		if ($configuredTargetType !== NULL) {
 			return $configuredTargetType;
 		}
