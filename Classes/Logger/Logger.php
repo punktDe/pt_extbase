@@ -81,9 +81,16 @@ class Tx_PtExtbase_Logger_Logger implements t3lib_singleton {
 			}
 		}
 
+		if(!file_exists($this->logFilePath)){
+			echo 'The configured Log File Path "' . $this->logFilePath .'" doesn\'t exist';
+		}
+
 		if(!$this->exceptionDirectory) {
 			$path_parts = pathinfo($this->logFilePath);
-			$this->exceptionDirectory = realpath($path_parts['dirname'] . '/Exceptions/') . '/';
+
+			$this->exceptionDirectory = Tx_PtExtbase_Utility_Files::concatenatePaths(array(realpath($path_parts['dirname']), 'Exceptions'));
+			Tx_PtExtbase_Utility_Files::createDirectoryRecursively($this->exceptionDirectory);
+
 		}
 
 		$GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['writerConfiguration'] = array(
@@ -204,11 +211,11 @@ class Tx_PtExtbase_Logger_Logger implements t3lib_singleton {
 		if (file_exists($this->exceptionDirectory) && is_dir($this->exceptionDirectory) && is_writable($this->exceptionDirectory)) {
 
 			$referenceCode = ($exception->getCode() > 0 ? $exception->getCode() . '.' : '') . date('YmdHis', $_SERVER['REQUEST_TIME']) . substr(md5(rand()), 0, 6);
-			$exceptionDumpPathAndFilename = $this->exceptionDirectory . $referenceCode . '.txt';
+			$exceptionDumpPathAndFilename = Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->exceptionDirectory,  $referenceCode . '.txt'));
 			file_put_contents($exceptionDumpPathAndFilename, $message . PHP_EOL . PHP_EOL . $this->getBacktraceCode($backTrace,1));
 			$message .= ' - See also: ' . basename($exceptionDumpPathAndFilename);
 		} else {
-			$this->warning(sprintf('Could not write exception backtrace into %s because the directory could not be created or is not writable.', $this->exceptionDirectory), $logComponent, array());
+			$this->warning(sprintf('Could not write exception backtrace into %s because the directory could not be created or is not writable.', $this->exception ), $logComponent, array());
 		}
 
 		$this->critical($message, $logComponent, $additionalData);
