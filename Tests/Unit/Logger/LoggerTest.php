@@ -47,6 +47,8 @@ class Tx_PtExtbase_Logger_LoggerTest extends Tx_Extbase_Tests_Unit_BaseTestCase 
 
 
 	public function setUp() {
+		require_once t3lib_extMgm::extPath('t3lib_log') . 'classes/log/class.t3lib_log_level.php';
+
 		$this->logFilePath = __DIR__ . '/Logs/TestLog.log';
 		$this->logExceptionsPath = __DIR__ . '/Logs/Exceptions/';
 
