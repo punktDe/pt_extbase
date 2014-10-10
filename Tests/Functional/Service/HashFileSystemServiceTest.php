@@ -107,7 +107,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx
 		$astId = 123456;
 		$path = $this->hashFileSystemService->getHashPath($astId, TRUE);
 
-		$expectedFileNames = array('file 1.txt', 'Gedöns.xls', 'file3.pdf');
+		$expectedFileNames = array('file 1.txt', 'Gedoens.xls', 'file3.pdf');
 		sort($expectedFileNames);
 		$expectedFullPathFileNames = array();
 
