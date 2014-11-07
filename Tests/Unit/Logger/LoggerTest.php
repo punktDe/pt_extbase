@@ -47,10 +47,10 @@ class Tx_PtExtbase_Logger_LoggerTest extends Tx_Extbase_Tests_Unit_BaseTestCase 
 
 
 	public function setUp() {
-		$currentTypo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-		$expectedTypo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger('4.7.99');
-		if ($currentTypo3Version > $expectedTypo3Version) {
-			$this->markTestSkipped('TYPO3 Version has to be <= 4.7.99');
+
+
+		if (!class_exists('\TYPO3\CMS\Core\Log\Logger') && !class_exists('t3lib_log_Logger')) {
+			$this->markTestSkipped('you must use either TYPO3 6.X or the extension "t3lib_log"');
 		}
 
 		$this->logFilePath = __DIR__ . '/Logs/TestLog.log';
