@@ -49,8 +49,8 @@ class Tx_PtExtbase_Logger_LoggerTest extends Tx_Extbase_Tests_Unit_BaseTestCase 
 	public function setUp() {
 
 
-		if (!class_exists('\TYPO3\CMS\Core\Log\Logger') && !class_exists('t3lib_log_Logger')) {
-			$this->markTestSkipped('you must use either TYPO3 6.X or the extension "t3lib_log"');
+		if (!class_exists('t3lib_log_Logger')) {
+			$this->markTestSkipped('you must use the extension "t3lib_log" - thus it\'s not possible to use the logger in 6.x atm');
 		}
 
 		$this->logFilePath = __DIR__ . '/Logs/TestLog.log';
