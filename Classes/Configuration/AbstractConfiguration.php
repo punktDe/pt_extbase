@@ -152,10 +152,10 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 	 * Set the internal property from to a boolean value if given tsKey exists.
 	 * If the given tsKey does not exist, the internal property is not changed.
 	 * If the given tsKey exists, but is empty, the internal property is set to false
-	 * If the given tsKey exists and is set to '1', the internal propterty is set to true
+	 * If the given tsKey exists and is set to '1', the internal property is set to true
 	 *
 	 * @param string $tsKey with the value to copy to the internal property
-	 * @param string $internalPropertyName optional property name if it is deiferent from the tsKey
+	 * @param string $internalPropertyName optional property name if it is different from the tsKey
 	 */
 	protected function setBooleanIfExistsAndNotNothing($tsKey, $internalPropertyName = NULL) {
 		$property = $internalPropertyName ? $internalPropertyName : $tsKey;
@@ -175,14 +175,14 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 	 *
 	 * @param string $tsKey with the value to copy to the internal property
 	 * @param string $errorMessageIfNotExists
-	 * @param string $internalPropertyName optional property name if it is deiferent from the tsKey
+	 * @param string $internalPropertyName optional property name if it is different from the tsKey
 	 * @throws Exception
 	 */
 	protected function setRequiredValue($tsKey, $errorMessageIfNotExists, $internalPropertyName = NULL) {
 		if (!array_key_exists($tsKey, $this->settings)
 			|| (is_array($this->settings[$tsKey]) && empty($this->settings[$tsKey]))
 			|| (!is_array($this->settings[$tsKey]) && (strlen(trim($this->settings[$tsKey])) === 0))) {
-			Throw new Exception($errorMessageIfNotExists, 1415701115);
+			throw new Exception($errorMessageIfNotExists, 1415701115);
 		}
 
 		$property = $internalPropertyName ? $internalPropertyName : $tsKey;
