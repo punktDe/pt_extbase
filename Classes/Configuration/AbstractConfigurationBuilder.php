@@ -92,8 +92,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 * @throws Exception
 	 */
 	public function __call($functionName, $arguments) {
-		#$functionName = strtolower($functionName);
-		
+
 		$matches = array();
 		$pattern = '/(get|build)(.+)Config(uration)?/is';
 		preg_match($pattern, $functionName, $matches);
@@ -106,7 +105,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 			}
 			return $this->buildConfigurationGeneric($matches[2]);
 		}
-		throw new Exception('The method configurationBuilder::' . $functionName . ' could not be found or handled by magic function. 1289407912');
+		throw new Exception('The method configurationBuilder::' . $functionName . ' could not be found or handled by magic function.', 1289407912);
 	}
 
 
@@ -124,16 +123,15 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 		if(!$this->configurationObjectInstances[$configurationName]) {
 
 			if(!array_key_exists($configurationName, $this->configurationObjectSettings)) {
-				throw new Exception('No Configuration Object with name ' . $configurationName . ' defined in ConfigurationBuilder 1289397150');
+				throw new Exception('No Configuration Object with name ' . $configurationName . ' defined in ConfigurationBuilder', 1289397150);
 			}
 
 			$factoryClass = $this->configurationObjectSettings[$configurationName]['factory'];
 
 			if(!class_exists($factoryClass)) {
-				throw new Exception('Factory class for configuration ' . $configurationName . ': ' . $factoryClass .  'not found! 1293416866');
+				throw new Exception('Factory class for configuration ' . $configurationName . ': ' . $factoryClass .  'not found!', 1293416866);
 			}
 			
-			//$this->configurationObjectInstances[$configurationName] = $factoryClass::getInstance($this); // PHP 5.3 only ;)
 			$this->configurationObjectInstances[$configurationName] = call_user_func(array($factoryClass, 'getInstance'), $this, $parameters); // Avoid :: notation in PHP < 5.3
 
 		}
@@ -151,7 +149,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 */
 	public function getSettingsForConfigObject($configurationName) {
 		if(!array_key_exists($configurationName, $this->configurationObjectSettings)) {
-			throw new Exception('No Configuration Object with name ' . $configurationName . ' defined in ConfigurationBuilder 1289397150');
+			throw new Exception('No Configuration Object with name ' . $configurationName . ' defined in ConfigurationBuilder', 1289397150);
 		}
 
 		$tsKey = array_key_exists('tsKey', $this->configurationObjectSettings[$configurationName]) ? $this->configurationObjectSettings[$configurationName]['tsKey'] : $configurationName;
@@ -226,4 +224,3 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 		}
 	}
 }
-?>
