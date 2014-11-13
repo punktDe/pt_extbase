@@ -75,7 +75,7 @@ class Tx_PtExtbase_Utility_NameSpace {
 	
 	
 	/**
-	 * Save a value on an array position identfied by namespace
+	 * Save a value on an array position identified by namespace
 	 *
 	 * @param string $namespaceString (Namespace identifier - dot separated)
 	 * @param array $array array to save the data in
