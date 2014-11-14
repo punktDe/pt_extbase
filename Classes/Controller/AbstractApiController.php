@@ -53,6 +53,11 @@ class Tx_PtExtbase_Controller_AbstractApiController extends Tx_Extbase_MVC_Contr
 		try {
 			parent::callActionMethod();
 		} catch (Exception $exception) {
+
+			if ($exception instanceof Tx_Extbase_MVC_Exception_StopAction) {
+				throw $exception;
+			}
+
 			header('HTTP/1.1 500 Internal Server Error', TRUE, 500);
 
 			$this->response->setContent($exception->getCode());
