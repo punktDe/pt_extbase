@@ -24,13 +24,11 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-
-// We probably have no autoloading
-require_once(PATH_site . 'typo3/sysext/cms/tslib/content/class.tslib_content_abstract.php');
-require_once(PATH_site . 'typo3/sysext/cms/tslib/content/class.tslib_content_hierarchicalmenu.php');
-
-
+if (version_compare(TYPO3_version, '6.0', '<')) {
+	// We probably have no autoloading
+	require_once(t3lib_extMgm::extPath('cms') . 'tslib/content/class.tslib_content_abstract.php');
+	require_once(t3lib_extMgm::extPath('cms') . 'tslib/content/class.tslib_content_hierarchicalmenu.php');
+}
 
 /**
  * Class implements an abstract class for x-classes modifying the rendering of hierarchical menus (hmenu).
