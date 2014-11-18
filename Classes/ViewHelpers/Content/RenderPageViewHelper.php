@@ -47,6 +47,11 @@ class Tx_PtExtbase_ViewHelpers_Content_RenderPageViewHelper extends Tx_Fluid_Cor
 	 * @return string The output
 	 */
 	public function render() {
+
+		if (!($GLOBALS['TSFE']->cObj instanceof tslib_cObj)) {
+			$GLOBALS['TSFE']->cObj = t3lib_div::makeInstance('tslib_cObj');
+		}
+
 		$pageUid = $this->arguments['pageUid'];
 		$conf = array( // config
 			'table' => 'tt_content',
