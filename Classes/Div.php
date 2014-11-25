@@ -322,7 +322,7 @@ class Tx_PtExtbase_Div  {
      */
     public static function clearCache($cacheCmd = 'all') {
 
-        if (!t3lib_div::testInt($cacheCmd) && !in_array($cacheCmd, array('pages', 'all', 'temp_CACHED'))) {
+        if (!t3lib_utility_Math::canBeInterpretedAsInteger($cacheCmd) && !in_array($cacheCmd, array('pages', 'all', 'temp_CACHED'))) {
             throw Tx_PtExtbase_Exception_Exception('Parameter must be "pages", "all", "temp_CACHED" or numeric');
         }
 
@@ -1629,8 +1629,8 @@ class Tx_PtExtbase_Div  {
 			$currentVersionAsInt = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version());
 			$minVersionAsInt = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($minVersion);
 		} else {
-			$currentVersionAsInt = t3lib_div::int_from_ver(TYPO3_version);
-			$minVersionAsInt = t3lib_div::int_from_ver($minVersion);
+			$currentVersionAsInt = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version);
+			$minVersionAsInt = t3lib_utility_VersionNumber::convertVersionNumberToInteger($minVersion);
 		}
 
 		return $currentVersionAsInt >= $minVersionAsInt;

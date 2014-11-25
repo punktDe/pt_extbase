@@ -46,10 +46,10 @@ class Tx_PtExtbase_Compatibility_Extbase_Service_TypoScript {
 	 * @return array
 	 */
 	public static function convertPlainArrayToTypoScriptArray(array $plainArray) {
-		if (!class_exists('Tx_Extbase_Utility_TypoScript')) {
+		if (!class_exists('Tx_Extbase_Service_TypoScriptService')) {
 			return self::getTypoScriptService()->convertPlainArrayToTypoScriptArray($plainArray);
 		} else {
-			return Tx_Extbase_Utility_TypoScript::convertPlainArrayToTypoScriptArray($plainArray);
+			return Tx_Extbase_Service_TypoScriptService::convertPlainArrayToTypoScriptArray($plainArray);
 		}
 	}
 
@@ -60,10 +60,10 @@ class Tx_PtExtbase_Compatibility_Extbase_Service_TypoScript {
 	 * @return array
 	 */
 	public static function convertTypoScriptArrayToPlainArray(array $array) {
-		if (!class_exists('Tx_Extbase_Utility_TypoScript')) {
+		if (!class_exists('Tx_Extbase_Service_TypoScriptService')) {
 			return self::getTypoScriptService()->convertTypoScriptArrayToPlainArray($array);
 		} else {
-			return Tx_Extbase_Utility_TypoScript::convertTypoScriptArrayToPlainArray($array);
+			return Tx_Extbase_Service_TypoScriptService::convertTypoScriptArrayToPlainArray($array);
 		}
 	}
 }

@@ -55,7 +55,7 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter {
 	 * @api
 	 */
 	public function importStdDb() {
-		$sqlFilename = t3lib_div::getFileAbsFileName(PATH_t3lib . 'stddb/tables.sql');
+		$sqlFilename = t3lib_div::getFileAbsFileName('EXT:core/ext_tables.sql');
 		$fileContent = t3lib_div::getUrl($sqlFilename);
 		$this->importDatabaseDefinitions($fileContent);
 		$this->importCacheTables();

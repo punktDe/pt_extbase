@@ -66,7 +66,7 @@ class Tx_PtExtbase_Compatibility_Extbase_Service_Cache {
 	 */
 	public function clearPageCache($pageIdsToClear) {
 		if(class_exists('Tx_Extbase_Utility_Cache')) {
-			Tx_Extbase_Utility_Cache::clearPageCache($pageIdsToClear);
+			Tx_Extbase_Service_CacheService::clearPageCache($pageIdsToClear);
 		} else {
 			$this->getCacheService()->clearPageCache($pageIdsToClear);
 		}
