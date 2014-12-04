@@ -62,7 +62,7 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements t3lib_Singleton {
 	protected function initializeBackend() {
 
 		if (!isset($GLOBALS['SOBE']->doc)) {
-			$GLOBALS['SOBE']->doc = t3lib_div::makeInstance('template');
+			$GLOBALS['SOBE']->doc = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeInstance('template');
 			$GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
 		}
 
@@ -118,18 +118,18 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements t3lib_Singleton {
 	 * Expand the EXT to a relative path
 	 *
 	 * @param string $filename
-	 * @return relative filename
+	 * @return string Relative filename
 	 */
 	public function getFileRelFileName($filename) {
 
 		if (substr($filename, 0, 4) == 'EXT:') { // extension
 			list($extKey, $local) = explode('/', substr($filename, 4), 2);
 			$filename = '';
-			if (strcmp($extKey, '') && t3lib_extMgm::isLoaded($extKey) && strcmp($local, '')) {
+			if (strcmp($extKey, '') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) && strcmp($local, '')) {
 				if(TYPO3_MODE === 'FE') {
-					$filename = t3lib_extMgm::siteRelPath($extKey) . $local;
+					$filename = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath($extKey) . $local;
 				} else {
-					$filename = t3lib_extMgm::extRelPath($extKey) . $local;
+					$filename = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($extKey) . $local;
 				}
 			}
 		}
@@ -137,6 +137,4 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements t3lib_Singleton {
 		return $filename;
 	}
 
-
 }
-?>
