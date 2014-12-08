@@ -153,7 +153,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 		$query->getQuerySettings()
 				  ->setRespectStoragePage(FALSE)
 				  ->setRespectSysLanguage(FALSE)
-				  ->setRespectEnableFields($respectEnableFields);
+				  ->setIgnoreEnableFields(!$respectEnableFields);
 
 
 		$nameSpaceConstraint = $query->equals('namespace', $namespace);
