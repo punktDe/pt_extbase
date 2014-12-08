@@ -70,18 +70,18 @@ if (version_compare(TYPO3_version, '6.0', '<')) {
  * 4. Add the following SQL snippet to your ext_tables.sql file
  *
  *   CREATE TABLE cf_ptonebrukerbase_hierarchicalmenu_cache (
- *        id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+ *        id integer(11) UNSIGNED NOT NULL AUTO_INCREMENT,
  *        identifier VARCHAR(250) DEFAULT '' NOT NULL,
- *        crdate INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+ *        crdate integer(11) UNSIGNED DEFAULT '0' NOT NULL,
  *        content mediumblob,
- *        lifetime INT(11) UNSIGNED DEFAULT '0' NOT NULL,
+ *        lifetime integer(11) UNSIGNED DEFAULT '0' NOT NULL,
  *        PRIMARY KEY (id),
  *        KEY cache_id (identifier)
  *   ) ENGINE=InnoDB;
  *
  *
  *   CREATE TABLE cf_ptonebrukerbase_hierarchicalmenu_cache_tags (
- *        id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+ *        id integer(11) UNSIGNED NOT NULL AUTO_INCREMENT,
  *        identifier VARCHAR(250) DEFAULT '' NOT NULL,
  *        tag VARCHAR(250) DEFAULT '' NOT NULL,
  *        PRIMARY KEY (id),
@@ -120,7 +120,7 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_
 	/**
 	 * Set default lifetime of cache entries to 2h
 	 *
-	 * @var int
+	 * @var integer
 	 */
 	protected static $lifetime = 7200;
 

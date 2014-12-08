@@ -38,9 +38,9 @@ class Tx_PtExtbase_Tests_Unit_Tree_NodeMock extends Tx_PtExtbase_Tree_Node {
 	 * Helper method to create a node mock object
 	 *
 	 * @param $uid
-	 * @param int $lft
-	 * @param int $rgt
-	 * @param int $root
+	 * @param integer $lft
+	 * @param integer $rgt
+	 * @param integer $root
 	 * @param string $label
 	 * @param string $namespace
 	 * @param bool $accessible

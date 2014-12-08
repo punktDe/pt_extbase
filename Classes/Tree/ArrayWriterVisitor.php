@@ -78,8 +78,8 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
 	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-     * @param int &$index Holds the visitation index of treewalker
-     * @param int &$level Holds level of visitation in tree, starting at 1
+     * @param integer &$index Holds the visitation index of treewalker
+     * @param integer &$level Holds level of visitation in tree, starting at 1
      */
     public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
 		$arrayForNode = array(
@@ -98,8 +98,8 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
 	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doLastVisit()
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-     * @param int &$index Holds the visitation index of treewalker
-     * @param int &$level Holds level of visitation in tree, starting at 1
+     * @param integer &$index Holds the visitation index of treewalker
+     * @param integer &$level Holds level of visitation in tree, starting at 1
      */
     public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
         $currentNode = $this->nodeStack->top();

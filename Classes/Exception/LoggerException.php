@@ -29,7 +29,7 @@ use TYPO3\CMS\Core\Log\LogLevel;
 class Tx_PtExtbase_Exception_LoggerException extends Exception {
 
 	/**
-	 * @var int
+	 * @var integer
 	 * @see t3lib_log_Level
 	 */
 	protected $logLevel;
@@ -37,7 +37,7 @@ class Tx_PtExtbase_Exception_LoggerException extends Exception {
 
 	/**
 	 * @param string $message
-	 * @param int $code
+	 * @param integer $code
 	 * @param \Exception|int $logLevel
 	 * @param Exception $previous
 	 */
@@ -52,7 +52,7 @@ class Tx_PtExtbase_Exception_LoggerException extends Exception {
 
 
 	/**
-	 * @return int
+	 * @return integer
 	 */
 	public function getLogLevel() {
 		return $this->logLevel;

@@ -88,7 +88,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      *
      * -1 means all levels of the tree are rendered.
      *
-     * @var int
+     * @var integer
      */
     protected $restrictedDepth = -1;
 

@@ -53,7 +53,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Holds a unique temporaray UID which is decreased every time, a temp uid is requested.
 	 *
-	 * @var int
+	 * @var integer
 	 */
 	protected static $tmpUidIndex = -1;
 
@@ -63,7 +63,7 @@ class Tx_PtExtbase_Tree_Node
 	 * Returns a unique temporary UID for node
 	 *
 	 * @static
-	 * @return int
+	 * @return integer
 	 */
 	protected static function getNewTemporaryUid() {
 		return self::$tmpUidIndex--;
@@ -83,7 +83,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Nested sets left number of node
 	 *
-	 * @var int $lft
+	 * @var integer $lft
 	 */
 	protected $lft;
 
@@ -92,7 +92,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Nested sets right number of node
 	 *
-	 * @var int $rgt
+	 * @var integer $rgt
 	 */
 	protected $rgt;
 
@@ -101,7 +101,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Uid of root node in tree
 	 *
-	 * @var int $root
+	 * @var integer $root
 	 */
 	protected $root;
 
@@ -187,7 +187,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Getter for root node uid
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getRoot() {
 		return $this->root;
@@ -198,7 +198,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Setter for root node uid
 	 *
-	 * @param int $root
+	 * @param integer $root
 	 */
 	public function setRoot($root) {
 		$this->root = $root;
@@ -209,7 +209,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Getter nested sets right number
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getRgt() {
 		return $this->rgt;
@@ -220,7 +220,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Setter nested sets right number
 	 *
-	 * @param int $rgt
+	 * @param integer $rgt
 	 */
 	public function setRgt($rgt) {
 		$this->rgt = $rgt;
@@ -231,7 +231,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Getter nested sets left number
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getLft() {
 		return $this->lft;
@@ -242,7 +242,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Setter nested sets left number
 	 *
-	 * @param int $lft
+	 * @param integer $lft
 	 */
 	public function setLft($lft) {
 		$this->lft = $lft;
@@ -294,7 +294,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Get count of children recursively
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getChildrenCount() {
 		if (!is_null($this->children)) {
@@ -312,7 +312,7 @@ class Tx_PtExtbase_Tree_Node
 	 * Level is equal to depth
 	 * of node in tree where root has depth 0.
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getLevel() {
 		if ($this->parent == null) {

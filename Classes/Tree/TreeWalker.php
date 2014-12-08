@@ -47,7 +47,7 @@ class Tx_PtExtbase_Tree_TreeWalker {
     /**
      * If set to a value different to -1, we stop traversing tree, if we pass given depth
      *
-     * @var int
+     * @var integer
      */
     protected $restrictedDepth = -1;
 
@@ -110,8 +110,8 @@ class Tx_PtExtbase_Tree_TreeWalker {
 	 * Helper method for doing a depth-first search on a node
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 * @param int &$index Referenced value of visitation index. Will be increased with every node visitation.
-     * @param int &$level Current level of visit in the tree starting at 1
+	 * @param integer &$index Referenced value of visitation index. Will be increased with every node visitation.
+     * @param integer &$level Current level of visit in the tree starting at 1
 	 */
 	protected function dfs(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level = 1) {
 

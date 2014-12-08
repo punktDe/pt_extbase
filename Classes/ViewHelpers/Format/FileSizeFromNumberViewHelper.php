@@ -37,7 +37,7 @@ class Tx_PtExtbase_ViewHelpers_Format_FileSizeFromNumberViewHelper extends Tx_Fl
 	/**
 	 * Renders the file size from a given size.
 	 *
-	 * @param int $size The file size we want to format
+	 * @param integer $size The file size we want to format
 	 * @param string $unit The unit in which file size is given. One of B | KB | MB | GB
 	 * @param bool $upperCase If set to true, unit label is printed in uppercase
 	 * @return string The formatted file size

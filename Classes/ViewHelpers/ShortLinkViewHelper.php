@@ -31,7 +31,7 @@
 class Tx_PtExtbase_ViewHelpers_ShortLinkViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
 
 	/**
-	 * @param int $length
+	 * @param integer $length
 	 * @param string $indexScriptUrl
 	 *
 	 * @return string

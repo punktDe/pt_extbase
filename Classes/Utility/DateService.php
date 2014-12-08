@@ -31,12 +31,12 @@
 class Tx_PtExtbase_Utility_DateService implements t3lib_Singleton {
 
 	/**
-	 * @var int
+	 * @var integer
 	 */
 	protected $overrideCurrentYear = NULL;
 
 	/**
-	 * @param int $overrideCurrentYear
+	 * @param integer $overrideCurrentYear
 	 */
 	public function setOverrideCurrentYear($overrideCurrentYear) {
 		$this->overrideCurrentYear = $overrideCurrentYear;

@@ -49,7 +49,7 @@ abstract class Tx_PtExtbase_Collection_SortableObjectCollection extends Tx_PtExt
 	 *
 	 * @param Tx_PtExtbase_Collection_SortableEntityInterface $a
 	 * @param Tx_PtExtbase_Collection_SortableEntityInterface $b
-	 * @return int -1, 0 or 1
+	 * @return integer -1, 0 or 1
 	 */
 	public static function compareItems(Tx_PtExtbase_Collection_SortableEntityInterface $a, Tx_PtExtbase_Collection_SortableEntityInterface $b) {
 		$sortingValueA = $a->getSortingValue();

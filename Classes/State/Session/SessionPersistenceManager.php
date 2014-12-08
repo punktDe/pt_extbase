@@ -205,7 +205,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	/**
 	 * React on lifecycle events.
 	 *
-	 * @param int $state
+	 * @param integer $state
 	 */
 	public function lifecycleUpdate($state) {
 		switch ($state) {

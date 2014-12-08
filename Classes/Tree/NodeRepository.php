@@ -89,7 +89,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 	/**
 	 * Returns a set of nodes determined by uid of root node
 	 *
-	 * @param int $rootUid
+	 * @param integer $rootUid
 	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
 	 */
 	public function findByRootUid($rootUid) {

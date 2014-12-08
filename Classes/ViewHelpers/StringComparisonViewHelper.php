@@ -5,7 +5,7 @@ class Tx_PtExtbase_ViewHelpers_StringComparisonViewHelper extends Tx_Fluid_Core_
 	/**
 	 * @param string $input
 	 * @param string $expected
-	 * @return int
+	 * @return integer
 	 */
 	public function render($input, $expected) {
 		if ($input == $expected) {

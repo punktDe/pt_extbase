@@ -55,7 +55,7 @@ interface Tx_PtExtbase_Tree_TraversableInterface {
     /**
      * Getter for restricted depth
      *
-     * @return int Restricted depth
+     * @return integer Restricted depth
      */
     public function getRestrictedDepth();
 	

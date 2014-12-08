@@ -86,9 +86,9 @@ class Tx_PtExtbase_Tree_NodePathBuilder  {
 
 
 	/**
-	 * @param int $nodeUid
-	 * @param int $startIndex
-	 * @param int $length
+	 * @param integer $nodeUid
+	 * @param integer $startIndex
+	 * @param integer $length
 	 * @return array nodes as plain array
 	 */
 	public function getPathFromRootToNode($nodeUid, $startIndex = 0, $length = 1000) {
@@ -99,9 +99,9 @@ class Tx_PtExtbase_Tree_NodePathBuilder  {
 
 
 	/**
-	 * @param int $nodeUid
-	 * @param int $startIndex
-	 * @param int $length
+	 * @param integer $nodeUid
+	 * @param integer $startIndex
+	 * @param integer $length
 	 * @return array nodes as plain array
 	 */
 	public function getPathFromNodeToRoot($nodeUid, $startIndex = 0, $length = 1000) {
@@ -112,7 +112,7 @@ class Tx_PtExtbase_Tree_NodePathBuilder  {
 
 
 	/**
-	 * @param int $nodeUid
+	 * @param integer $nodeUid
 	 * @return array|null
 	 */
 	protected function buildPathFromNodeToRoot($nodeUid) {

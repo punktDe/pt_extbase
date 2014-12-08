@@ -48,7 +48,7 @@ class Tx_PtExtbase_Assertions_Assert {
      * @param   mixed   second parameter
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @param   bool    (optional) if true (default), parameters are tested by identy and not only equality
-     * @param   int     (optional) error code, default is 0
+     * @param   integer     (optional) error code, default is 0
      * @throws  Exception   if assertion fails
      */
     public static function test($val, $expected, array $info = array(), $strict = true) {
