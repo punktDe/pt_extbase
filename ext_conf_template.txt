@@ -1,2 +1,4 @@
 # cat=basic; type=string; label="Log file path for application log"
 logFilePath =
+# cat=basic; type=int; label="Log level threshold: Range is from EMERGENCY = 0 to DEBUG = 7. Default is INFO = 6. See \TYPO3\CMS\Core\Log\LogLevel for more information."
+logLevelThreshold = 6

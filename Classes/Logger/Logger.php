@@ -38,6 +38,12 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	/**
+	 * @var integer
+	 */
+	protected $logLevelThreshold = TYPO3\CMS\Core\Log\LogLevel::INFO;
+
+
+	/**
 	 * @var string
 	 */
 	protected $exceptionDirectory;
@@ -84,6 +90,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$this->evaluateLogFilePath();
 		$this->evaluateExceptionDirectory();
+		$this->evaluateLogLevelThreshold();
 		$this->configureLogFileWriter();
 	}
 
@@ -107,6 +114,16 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
+	/**
+	 * @return void
+	 */
+	protected function evaluateLogLevelThreshold() {
+		if(array_key_exists('logLevelThreshold', $this->extensionConfiguration)) {
+			TYPO3\CMS\Core\Log\LogLevel::validateLevel($this->extensionConfiguration['logLevelThreshold']);
+			$this->logLevelThreshold = $this->extensionConfiguration['logLevelThreshold'];
+		}
+	}
+
 
 	/**
 	 * @return void
@@ -127,7 +144,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	protected function configureLogFileWriter() {
 		$GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['writerConfiguration'] = array(
-			\TYPO3\CMS\Core\Log\LogLevel::INFO => array(
+			$this->logLevelThreshold => array(
 				'Tx_PtExtbase_Logger_Writer_FileWriter' => array(
 					'logFile' => $this->logFilePath
 				)
