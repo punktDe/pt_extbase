@@ -32,7 +32,7 @@ class Tx_PtExtbase_Utility_UserDetector implements t3lib_Singleton {
 	/**
 	 * Uid of currently logged in user
 	 *
-	 * @var int
+	 * @var integer
 	 */
 	protected $userUid = null;
 

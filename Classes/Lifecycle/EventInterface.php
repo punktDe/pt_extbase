@@ -34,7 +34,7 @@ interface Tx_PtExtbase_Lifecycle_EventInterface {
 	/**
 	 * Will be called by the lifecycle manager. 
 	 * 
-	 * @param int $state
+	 * @param integer $state
 	 */
 	public function lifecycleUpdate($state);
 	

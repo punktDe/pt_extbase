@@ -78,7 +78,7 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder {
     /**
      * Holds restricted depth of tree to be build
      *
-     * @var int
+     * @var integer
      */
     protected $restrictedDepth = -1;
 

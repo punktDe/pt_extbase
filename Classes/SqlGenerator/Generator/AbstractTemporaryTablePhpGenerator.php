@@ -91,7 +91,7 @@ abstract class AbstractTemporaryTablePhpGenerator implements \Tx_PtExtbase_SqlGe
 	 */
 	protected $tableCreationQueryTemplate = "
 		CREATE TABLE IF NOT EXISTS `%s` (
-			`uid` int(11) NOT NULL AUTO_INCREMENT,
+			`uid` integer(11) NOT NULL AUTO_INCREMENT,
 			%s
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
 

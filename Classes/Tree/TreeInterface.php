@@ -36,7 +36,7 @@ interface Tx_PtExtbase_Tree_TreeInterface extends Tx_PtExtbase_Tree_TraversableI
 	/**
 	 * Returns node for a given uid
 	 *
-	 * @param int $uid Uid of node
+	 * @param integer $uid Uid of node
 	 * @return Tx_PtExtbase_Tree_Node
 	 */
 	public function getNodeByUid($uid);

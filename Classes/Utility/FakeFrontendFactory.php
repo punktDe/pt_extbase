@@ -44,7 +44,7 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements t3lib_Singleton {
 	/**
 	 * Create a fake frontend
 	 *
-	 * @param int $pageUid
+	 * @param integer $pageUid
 	 * @return tslib_fe
 	 * @throws InvalidArgumentException
 	 */

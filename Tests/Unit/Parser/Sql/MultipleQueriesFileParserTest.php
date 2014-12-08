@@ -54,7 +54,7 @@ class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends Tx
 		$sql = array(
 			"-- CREATE TABLE",
 			"CREATE TABLE IF NOT EXISTS tx_ptextbase_domain_model_category (",
-	   			"uid int(11) NOT NULL AUTO_INCREMENT,",
+	   			"uid integer(11) NOT NULL AUTO_INCREMENT,",
 	   			"title varchar(255) DEFAULT '' NOT NULL,",
 	   			"PRIMARY KEY (uid),",
 	   			"KEY(category_title)",
@@ -64,7 +64,7 @@ class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends Tx
 		);
 
 		$expected = array(
-			"CREATE TABLE IF NOT EXISTS tx_ptextbase_domain_model_category (uid int(11) NOT NULL AUTO_INCREMENT,title varchar(255) DEFAULT '' NOT NULL,PRIMARY KEY (uid),KEY(category_title)) ENGINE=MyISAM DEFAULT CHARACTER SET utf8;",
+			"CREATE TABLE IF NOT EXISTS tx_ptextbase_domain_model_category (uid integer(11) NOT NULL AUTO_INCREMENT,title varchar(255) DEFAULT '' NOT NULL,PRIMARY KEY (uid),KEY(category_title)) ENGINE=MyISAM DEFAULT CHARACTER SET utf8;",
 			"DROP TABLE IF EXISTS tx_ptextbase_domain_model_category;"
 		);
 

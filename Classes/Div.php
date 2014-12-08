@@ -231,7 +231,7 @@ class Tx_PtExtbase_Div  {
      *
      * @param   string  pid or alias
      * @param   bool    (optional) allow "0" as pid, default: false
-     * @return  int     pid
+     * @return  integer     pid
      * @throws  Tx_PtExtbase_Exception_Exception     if pid or alias does not exist, if query fails or if pid == 0 and allowPidZero is false
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      */
@@ -787,7 +787,7 @@ class Tx_PtExtbase_Div  {
      *  - Tx_PtExtbase_Div::typoscriptRegistry('plugin.my_ext.', NULL, 'my_ext', 'tsConfigurationPid');
      *
      * @param     string    typoscript config key, e.g. "plugin.tx_myext."
-     * @param     int       (optional) pageuid
+     * @param     integer       (optional) pageuid
      * @param     string    (optional) extension key
      * @param     string    (optional) extConfKey, e.g. "tsConfigurationPid"
      * @return    array     typoscript configuation array

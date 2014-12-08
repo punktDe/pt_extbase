@@ -64,7 +64,7 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
      * Level 2 = root node and its children are build
      * ...
      *
-     * @var int
+     * @var integer
      */
     protected $restrictedDepth;
 
@@ -218,7 +218,7 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
      *
      * If depth is restricted, tree is build only to given level by tree builder.
      *
-     * @param int $restrictedDepth
+     * @param integer $restrictedDepth
      */
     public function setRestrictedDepth($restrictedDepth) {
         $this->restrictedDepth = $restrictedDepth;

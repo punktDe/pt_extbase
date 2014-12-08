@@ -36,7 +36,7 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 	/**
 	 * Getter for root node uid
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getRoot();
 
@@ -44,7 +44,7 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 	/**
 	 * Setter for root node uid
 	 *
-	 * @param int $root
+	 * @param integer $root
 	 */
 	public function setRoot($root);
 
@@ -67,7 +67,7 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 	/**
 	 * Getter for nested sets right number in tree
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getRgt();
 
@@ -75,7 +75,7 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 	/**
 	 * Setter for nested sets right number in tree
 	 *
-	 * @param int $rgt
+	 * @param integer $rgt
 	 */
 	public function setRgt($rgt);
 
@@ -83,7 +83,7 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 	/**
 	 * Getter for nested sets left number tree
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getLft();
 
@@ -91,7 +91,7 @@ interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_Nod
 	/**
 	 * Setter for nested sets right number in tree
 	 *
-	 * @param int $lft
+	 * @param integer $lft
 	 */
 	public function setLft($lft);
 

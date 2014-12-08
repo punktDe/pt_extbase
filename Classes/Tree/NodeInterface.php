@@ -66,7 +66,7 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
 	 *
 	 * TODO is this really necessary for this interface?
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getChildrenCount();
 
@@ -77,7 +77,7 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
 	 * Level is equal to depth
 	 * of node in tree where root has depth 0.
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getLevel();
 
