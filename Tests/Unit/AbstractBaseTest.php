@@ -23,13 +23,35 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+
+
 /**
  * Class implements a base testcase for pt_extbase testcases
  *
  * @package Tests\Unit
  * @author Michael Knoll <knoll@punkt.de>
  */
-abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends Tx_Extbase_Tests_Unit_BaseTestCase {
+abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+
+	/**
+	 * @var Tx_Extbase_Object_ObjectManagerInterface The object manager
+	 */
+	protected $objectManager;
+
+
+	/**
+	 * Injects an untainted clone of the object manager and all its referencing
+	 * objects for every test.
+	 *
+	 * @return void
+	 */
+	public function runBare() {
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager');
+		$this->objectManager =  clone $objectManager;
+		parent::runBare();
+	}
+
+
 
 	/**
 	 * Shortcut for creating a mock with no mocked methods, no constructor call and no changed class name
