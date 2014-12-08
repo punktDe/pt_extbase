@@ -49,16 +49,28 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	protected $defaultLogComponent;
 
 
+	/**
+	 * @var array
+	 */
+	protected $extensionConfiguration = array();
 
+
+	/**
+	 * @return Tx_PtExtbase_Logger_Logger
+	 */
 	public function __construct() {
 		$this->defaultLogComponent = __CLASS__;
 	}
 
 
 
+	/**
+	 * @return void
+	 */
 	public function initializeObject() {
 		$this->configureLogger();
 	}
+
 
 
 	/**
@@ -66,16 +78,24 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $exceptionDirectory
 	 */
 	public function configureLogger($logFilePath = '', $exceptionDirectory = '') {
-
 		$this->logFilePath = $logFilePath;
 		$this->exceptionDirectory = $exceptionDirectory;
+		$this->extensionConfiguration = Tx_PtExtbase_Div::returnExtConfArray('pt_extbase');
+
+		$this->evaluateLogFilePath();
+		$this->evaluateExceptionDirectory();
+		$this->configureLogFileWriter();
+	}
 
 
+
+	/**
+	 * @return void
+	 */
+	protected function evaluateLogFilePath() {
 		if(!$this->logFilePath) {
-			$configuration = Tx_PtExtbase_Div::returnExtConfArray('pt_extbase');
-
-			if(array_key_exists('logFilePath', $configuration)) {
-				$this->logFilePath = $configuration['logFilePath'];
+			if(array_key_exists('logFilePath', $this->extensionConfiguration)) {
+				$this->logFilePath = $this->extensionConfiguration['logFilePath'];
 			} else {
 				$this->logFilePath = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, '/typo3temp/application.log'));
 			}
@@ -84,15 +104,28 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 		if(!file_exists($this->logFilePath)){
 			echo 'The configured Log File Path "' . $this->logFilePath .'" doesn\'t exist';
 		}
+	}
 
+
+
+	/**
+	 * @return void
+	 */
+	protected function evaluateExceptionDirectory() {
 		if(!$this->exceptionDirectory) {
 			$path_parts = pathinfo($this->logFilePath);
 
 			$this->exceptionDirectory = Tx_PtExtbase_Utility_Files::concatenatePaths(array(realpath($path_parts['dirname']), 'Exceptions'));
 			Tx_PtExtbase_Utility_Files::createDirectoryRecursively($this->exceptionDirectory);
-
 		}
+	}
 
+
+
+	/**
+	 * @return void
+	 */
+	protected function configureLogFileWriter() {
 		$GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['writerConfiguration'] = array(
 			\TYPO3\CMS\Core\Log\LogLevel::INFO => array(
 				'Tx_PtExtbase_Logger_Writer_FileWriter' => array(
@@ -101,6 +134,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 			)
 		);
 	}
+
 
 
 	/**
