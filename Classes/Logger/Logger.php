@@ -23,10 +23,10 @@
  *  Tx_PtExtbase_Logger_Logger
  *
  */
-class Tx_PtExtbase_Logger_Logger implements t3lib_singleton {
+class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var t3lib_log_Logger
+	 * @var \TYPO3\CMS\Core\Log\Logger
 	 */
 	protected $logger;
 
@@ -94,7 +94,7 @@ class Tx_PtExtbase_Logger_Logger implements t3lib_singleton {
 		}
 
 		$GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['writerConfiguration'] = array(
-				t3lib_log_Level::INFO => array(
+			\TYPO3\CMS\Core\Log\LogLevel::INFO => array(
 				'Tx_PtExtbase_Logger_Writer_FileWriter' => array(
 					'logFile' => $this->logFilePath
 				)
@@ -105,11 +105,11 @@ class Tx_PtExtbase_Logger_Logger implements t3lib_singleton {
 
 	/**
 	 * @param string $logComponent
-	 * @return t3lib_log_Logger
+	 * @return \TYPO3\CMS\Core\Log\Logger
 	 */
 	protected function getLogger($logComponent) {
 		if($logComponent === NULL) $logComponent = $this->defaultLogComponent;
-		return $this->logger = t3lib_div::makeInstance('t3lib_log_LogManager')->getLogger($logComponent);
+		return $this->logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Log\\LogManager')->getLogger($logComponent);
 	}
 
 
