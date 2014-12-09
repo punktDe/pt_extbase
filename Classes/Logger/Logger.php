@@ -164,6 +164,20 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
+
+	/**
+	 * Shortcut to log a ALERT record.
+	 *
+	 * @param string $message Log message.
+	 * @param array $data Additional data to log
+	 * @param string $logComponent
+	 */
+	public function alert($message, $logComponent = NULL, array $data = array()) {
+		$this->getLogger($logComponent)->alert($message, $data);
+	}
+
+
+
 	/**
 	 * Shortcut to log a CRITICAL record.
 	 *
@@ -199,6 +213,19 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function warning($message, $logComponent = NULL, array $data = array()) {
 		$this->getLogger($logComponent)->warning($message, $data);
+	}
+
+
+
+	/**
+	 * Shortcut to log an NOTICE record.
+	 *
+	 * @param string $message Log message.
+	 * @param array $data Additional data to log
+	 * @param string $logComponent
+	 */
+	public function notice($message, $logComponent = NULL, array $data = array()) {
+		$this->getLogger($logComponent)->notice($message, $data);
 	}
 
 
