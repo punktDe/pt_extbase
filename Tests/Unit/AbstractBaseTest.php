@@ -109,7 +109,7 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\C
 	 * @param array $actualErrors
 	 * @param array $expectedErrorCodes
 	 */
-	protected function assertErrorCodes(array $actualErrors, array $expectedErrorCodes) {
+	protected function assertErrorCodes(array $expectedErrorCodes, array $actualErrors) {
 		$actualErrorCodes = array();
 
 		foreach($actualErrors as $actualError) { /** @var \TYPO3\CMS\Extbase\Error\Error $actualError */
