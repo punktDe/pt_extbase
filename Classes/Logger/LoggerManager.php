@@ -42,7 +42,7 @@ class LoggerManager extends LogManager {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->loggerConfiguration = $GLOBALS['TYPO3_CONF_VARS']['LOG'];
+		$this->loggerConfiguration = &$GLOBALS['TYPO3_CONF_VARS']['LOG'];
 	}
 
 
