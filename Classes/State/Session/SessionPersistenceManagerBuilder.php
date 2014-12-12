@@ -36,7 +36,7 @@
  * @subpackage State\Session
  * @see Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerBuilderTest
  */
-class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements t3lib_Singleton {
+class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * Holds context in which builder is called
@@ -69,7 +69,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements t3l
 	 * @param Tx_PtExtbase_Context $context
 	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
 	 */
-	public function __construct(Tx_PtExtbase_Context $context, Tx_Extbase_Object_ObjectManagerInterface $objectManager) {
+	public function __construct(Tx_PtExtbase_Context $context, \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
 		$this->context = $context;
 		$this->objectManager = $objectManager;
 	}

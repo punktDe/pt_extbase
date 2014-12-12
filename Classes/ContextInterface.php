@@ -29,7 +29,7 @@
 * @author Daniel Lienert
 */
 
-interface Tx_PtExtbase_ContextInterface extends t3lib_Singleton {
+interface Tx_PtExtbase_ContextInterface extends \TYPO3\CMS\Core\SingletonInterface {
 	
 	
 	/**

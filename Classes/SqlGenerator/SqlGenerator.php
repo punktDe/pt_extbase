@@ -49,7 +49,7 @@ class Tx_PtExtbase_SqlGenerator_SqlGenerator implements Tx_PtExtbase_SqlGenerato
 	 * @param Tx_Extbase_Object_ObjectManager $objectManager
 	 * @return void
 	 */
-	public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager) {
+	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
 		$this->objectManager = $objectManager;
 	}
 
@@ -86,6 +86,4 @@ class Tx_PtExtbase_SqlGenerator_SqlGenerator implements Tx_PtExtbase_SqlGenerato
 			throw new Exception('Not a valid file: ' . $filePath . '! 1347035058');
 		}
 	}
-
 }
-?>

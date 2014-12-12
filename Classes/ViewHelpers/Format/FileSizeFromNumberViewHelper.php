@@ -32,7 +32,7 @@
  * @package ViewHelpers
  * @subpackage Format
  */
-class Tx_PtExtbase_ViewHelpers_Format_FileSizeFromNumberViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Format_FileSizeFromNumberViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Renders the file size from a given size.

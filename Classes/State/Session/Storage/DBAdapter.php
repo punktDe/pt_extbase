@@ -85,7 +85,7 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapter implements Tx_PtExtbase_State
 	 * 
 	 */
 	public function init() {
-		$this->cacheTag = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_Context')->getExtensionName();
+		$this->cacheTag = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_Context')->getExtensionName();
 	}
 	
 	

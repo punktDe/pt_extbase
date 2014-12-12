@@ -33,7 +33,7 @@
  * @author Joachim Mathes <mathes@punkt.de>
  */
 
-class Tx_PtExtbase_Utility_HeaderInclusion implements t3lib_Singleton {
+class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonInterface {
 	
 	/**
 	* @var t3lib_PageRenderer

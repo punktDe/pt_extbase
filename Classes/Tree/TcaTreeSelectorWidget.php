@@ -55,9 +55,9 @@
  * );
  *
  * // Add field to categoryTest TCA
- * t3lib_div::loadTCA("tx_ptextbasetests_domain_model_categorytest");
- * t3lib_extMgm::addTCAcolumns("tx_ptextbasetests_domain_model_categorytest",$tempColumns,1);
- * t3lib_extMgm::addToAllTCAtypes("tx_ptextbasetests_domain_model_categorytest","tx_ptextbasetests_domain_model_categorytest_categoryuid,TEST02;;;;1-1-1", '', 'after:name');
+ * \TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA("tx_ptextbasetests_domain_model_categorytest");
+ * \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns("tx_ptextbasetests_domain_model_categorytest",$tempColumns,1);
+ * \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes("tx_ptextbasetests_domain_model_categorytest","tx_ptextbasetests_domain_model_categorytest_categoryuid,TEST02;;;;1-1-1", '', 'after:name');
  *
  *
  * @package Tree
@@ -143,7 +143,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      * @param array $parameters Parameters passed by TCA rendering call
      * @param t3lib_TCEforms $fobj t3lib_TCEforms object passed by TCA rendering call
      */
-    protected function init($parameters = array(), t3lib_TCEforms $fobj = NULL) {
+    protected function init($parameters = array(), \TYPO3\CMS\Backend\Form\FormEngine $fobj = NULL) {
         parent::init($parameters, $fobj);
         $this->initTreeRepositoryBuilder();
     }
@@ -224,4 +224,3 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
     }
 
 }
-?>

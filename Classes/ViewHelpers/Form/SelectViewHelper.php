@@ -26,7 +26,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @api
  */
-class Tx_PtExtbase_ViewHelpers_Form_SelectViewHelper extends Tx_Fluid_ViewHelpers_Form_SelectViewHelper {
+class Tx_PtExtbase_ViewHelpers_Form_SelectViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\SelectViewHelper {
 
 	/**
 	 * Initialize arguments.
@@ -60,5 +60,3 @@ class Tx_PtExtbase_ViewHelpers_Form_SelectViewHelper extends Tx_Fluid_ViewHelper
 	}
 
 }
-
-?>

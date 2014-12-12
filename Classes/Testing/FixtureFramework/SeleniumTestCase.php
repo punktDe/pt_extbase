@@ -47,7 +47,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_SeleniumTestCase extends PH
 	 * @return void
 	 */
 	public function runBare() {
-		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager');
 		$this->objectManager =  clone $objectManager;
 		parent::runBare();
 	}

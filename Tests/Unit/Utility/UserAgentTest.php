@@ -28,7 +28,7 @@
  * @package pt_extbase
  * @subpackage Tests\Unit\Utility
  */
-class Tx_PtExtbase_Tests_Unit_Utility_UserAgentTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_PtExtbase_Tests_Unit_Utility_UserAgentTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
 	 * @var string

@@ -23,11 +23,12 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class implements detector for fe / be users.
  */
-class Tx_PtExtbase_Utility_UserDetector implements t3lib_Singleton {
+class Tx_PtExtbase_Utility_UserDetector implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * Uid of currently logged in user
@@ -73,11 +74,11 @@ class Tx_PtExtbase_Utility_UserDetector implements t3lib_Singleton {
 	public function initializeObject() {
 		if ($this->feBeModeDetector->getMode() == 'BE') {
 			$this->userUid = $GLOBALS['BE_USER']->user['uid'];
-			$this->groupUids = t3lib_div::trimExplode(',', $GLOBALS['BE_USER']->user['usergroup']);
+			$this->groupUids = GeneralUtility::trimExplode(',', $GLOBALS['BE_USER']->user['usergroup']);
 		} else {
 			if($GLOBALS['TSFE']->fe_user->user) {
 				$this->userUid = $GLOBALS['TSFE']->fe_user->user['uid'];
-				$this->groupUids = t3lib_div::trimExplode(',', trim($GLOBALS['TSFE']->fe_user->user['usergroup']));
+				$this->groupUids = GeneralUtility::trimExplode(',', trim($GLOBALS['TSFE']->fe_user->user['usergroup']));
 			}
 		}
 	}
@@ -101,4 +102,3 @@ class Tx_PtExtbase_Utility_UserDetector implements t3lib_Singleton {
 	}
 
 }
-?>

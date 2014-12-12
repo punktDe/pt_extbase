@@ -56,5 +56,3 @@ class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerFactoryTest
 	}
 	
 }
-
-?>

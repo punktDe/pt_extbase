@@ -28,7 +28,7 @@
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_CaptchaViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
+class Tx_PtExtbase_ViewHelpers_CaptchaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
 
 	protected $tagName = 'img';
 
@@ -45,7 +45,7 @@ class Tx_PtExtbase_ViewHelpers_CaptchaViewHelper extends Tx_Fluid_Core_ViewHelpe
 	public function initialize() {
 		parent::initialize();
 		$this->registerUniversalTagAttributes();
-		$this->captchaGeneratorPath = t3lib_extMgm::siteRelPath('captcha') . 'captcha/captcha.php';
+		$this->captchaGeneratorPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('captcha') . 'captcha/captcha.php';
 	}
 
 	/**

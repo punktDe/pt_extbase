@@ -43,7 +43,7 @@ class Tx_PtExtbase_Compatibility_Extbase_Service_Cache {
 	/**
 	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
 	 */
-	public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager) {
+	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
 		$this->objectManager = $objectManager;
 	}
 

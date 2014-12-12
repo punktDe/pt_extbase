@@ -91,14 +91,14 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory {
 				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['backend'],
 				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['options']
 			);
-		} catch(t3lib_cache_exception_DuplicateIdentifier $e) {
+		} catch(\TYPO3\CMS\Core\Cache\Exception\DuplicateIdentifierException $e) {
 			// do nothing, the cache already exists
 		}
 
 		// Initialize the cache
 		try {
 			$cache = $GLOBALS['typo3CacheManager']->getCache('tx_ptextbase');
-		} catch(t3lib_cache_exception_NoSuchCache $e) {
+		} catch(\TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException $e) {
 			throw new Exception('Unable to load Cache! 1299942198');
 		}
 
@@ -119,4 +119,3 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory {
 		return $stateHash;	
 	}
 }
-?>

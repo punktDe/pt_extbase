@@ -225,7 +225,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 		if(!is_array($this->postGetVars)) {
 			$this->postGetVars = $this->postVars;	
 			if (is_array($this->getVars) && is_array($this->postVars)) {
-				$this->postGetVars = t3lib_div::array_merge_recursive_overrule($this->getVars, $this->postVars);
+				$this->postGetVars = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge_recursive_overrule($this->getVars, $this->postVars);
 			}
 		}
 		
@@ -245,7 +245,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 			
 			$this->getPostVars = $this->getVars;	
 			if (is_array($this->getVars) && is_array($this->postVars)) {
-				$this->getPostVars = t3lib_div::array_merge_recursive_overrule($this->postVars, $this->getVars);
+				$this->getPostVars = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge_recursive_overrule($this->postVars, $this->getVars);
 			}
 				
 		}

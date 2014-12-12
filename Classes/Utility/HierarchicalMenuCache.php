@@ -26,8 +26,8 @@
 
 if (version_compare(TYPO3_version, '6.0', '<')) {
 	// We probably have no autoloading
-	require_once(t3lib_extMgm::extPath('cms') . 'tslib/content/class.tslib_content_abstract.php');
-	require_once(t3lib_extMgm::extPath('cms') . 'tslib/content/class.tslib_content_hierarchicalmenu.php');
+	require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('cms') . 'tslib/content/class.tslib_content_abstract.php');
+	require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('cms') . 'tslib/content/class.tslib_content_hierarchicalmenu.php');
 }
 
 /**
@@ -43,13 +43,13 @@ if (version_compare(TYPO3_version, '6.0', '<')) {
  *
  * 2. Register this x-class in your ext_localconf:
  *
- *    $xclass = t3lib_extMgm::extPath('<YOUR_EXTENSION>') . '<PATH_TO_XCLASS>/ux_tslib_content_HierarchicalMenu.php';
+ *    $xclass = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('<YOUR_EXTENSION>') . '<PATH_TO_XCLASS>/ux_tslib_content_HierarchicalMenu.php';
  *    $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['tslib/content/class.tslib_content_hierarchicalmenu.php'] = $xclass;
  *
  *
  * 3. Add a caching framework configuration for the hierarchical menu caching inside ext_localconf.php
  *
- *    require_once t3lib_extMgm::extPath('<YOUR_EXTENSION>') . '<PATH_TO_XCLASS>/ux_tslib_content_HierarchicalMenu.php';
+ *    require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('<YOUR_EXTENSION>') . '<PATH_TO_XCLASS>/ux_tslib_content_HierarchicalMenu.php';
  *
  *    if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations'][ux_tslib_content_HierarchicalMenu::CACHE_NAMESPACE()])) {
  *         $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations'][ux_tslib_content_HierarchicalMenu::CACHE_NAMESPACE()] = array(
@@ -96,7 +96,7 @@ if (version_compare(TYPO3_version, '6.0', '<')) {
  * @author Michael Knoll <knoll@punkt.de>
  * @package Utility
  */
-abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_HierarchicalMenu {
+abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends \TYPO3\CMS\Frontend\ContentObject\HierarchicalMenuContentObject {
 
 
 	/**
@@ -222,7 +222,7 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_
 
 		// Get FE groups of currently logged in user for hash tag
 		if (!empty($GLOBALS['TSFE']->fe_user->user['usergroup'])) {
-			$feGroups = t3lib_div::trimExplode(',', $GLOBALS['TSFE']->fe_user->user['usergroup']);
+			$feGroups = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TSFE']->fe_user->user['usergroup']);
 			sort($feGroups);
 			$cacheTagIngredients[] = $feGroups;
 		}
@@ -260,7 +260,7 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends tslib_content_
 		$this->cacheFactory = $GLOBALS['typo3CacheFactory'];
 		try {
 			$this->cache = $this->cacheManager->getCache(static::$CACHE_NAMESPACE);
-		} catch (t3lib_cache_exception_NoSuchCache $e) {
+		} catch (\TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException $e) {
 			$this->cache = $this->cacheFactory->create(
 				static::$CACHE_NAMESPACE,
 				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][static::$CACHE_NAMESPACE]['frontend'],

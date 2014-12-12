@@ -25,6 +25,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class implements a viewhelper that renders a tree selector widget.
@@ -53,7 +54,7 @@
  *
  * @author Daniel Lienert
  */
-class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelpers_Form_TextfieldViewHelper {
+class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper {
 
 	/**
 	 * @var string
@@ -91,9 +92,9 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 
 
 	/**
-	 * @param Tx_Extbase_Object_ObjectManager $objectManager
+	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
 	 */
-	public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager) {
+	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
 		$this->objectManager = $objectManager;
 	}
 
@@ -196,7 +197,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	 */
 	protected function getSelection() {
 		if($this->multiple) {
-			return t3lib_div::trimExplode(',',$this->arguments['value'],TRUE);
+			return GeneralUtility::trimExplode(',',$this->arguments['value'],TRUE);
 		} else {
 			return (int) trim($this->arguments['value']);
 		}
@@ -214,7 +215,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	protected function getTreeJS($treeNodes) {
 
 		/** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
-		$treeViewHelper = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
+		$treeViewHelper = GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
 		//$treeViewHelper->setControllerContext($this->controllerContext);
 
 		$treeViewHelper->initialize();
@@ -240,4 +241,3 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends Tx_Fluid_ViewHelp
 	}
 
 }
-?>

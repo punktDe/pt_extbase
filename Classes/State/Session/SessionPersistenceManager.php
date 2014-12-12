@@ -315,8 +315,8 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 
 		} elseif ($this->sessionAdapaterClass == self::STORAGE_ADAPTER_NULL) {
 			$this->lifecycleUpdate(Tx_PtExtbase_Lifecycle_Manager::END);
-			$additionalArgumens = $this->array_filter_recursive($this->sessionData);
-			$argumentArray = t3lib_div::array_merge_recursive_overrule($additionalArgumens, $argumentArray);
+			$additionalArguments = $this->array_filter_recursive($this->sessionData);
+			$argumentArray = \TYPO3\CMS\Core\Utility\GeneralUtility::array_merge_recursive_overrule($additionalArguments, $argumentArray);
 		}
 	}
 

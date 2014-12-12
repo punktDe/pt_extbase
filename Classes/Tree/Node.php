@@ -23,6 +23,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * Class implements node domain object
@@ -47,7 +48,7 @@
  * @author Daniel Lienert <daniel@lienert.cc>
  */
 class Tx_PtExtbase_Tree_Node
-	extends Tx_Extbase_DomainObject_AbstractEntity
+	extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 	implements Tx_PtExtbase_Tree_NestedSetNodeInterface {
 
 	/**
@@ -175,7 +176,7 @@ class Tx_PtExtbase_Tree_Node
 	 * @return void
 	 */
 	protected function initStorageObjects() {
-		$this->children = new Tx_Extbase_Persistence_ObjectStorage();
+		$this->children = new ObjectStorage();
 	}
 
 
@@ -262,7 +263,7 @@ class Tx_PtExtbase_Tree_Node
 	public function setParent(Tx_PtExtbase_Tree_NodeInterface $node) {
 		$this->parent = $node;
 		if ($node->children == null)
-			$node->children = new Tx_Extbase_Persistence_ObjectStorage();
+			$node->children = new ObjectStorage();
 		$node->children->attach($this);
 	}
 
@@ -284,7 +285,7 @@ class Tx_PtExtbase_Tree_Node
 	 */
 	public function getChildren() {
 		if (is_null($this->children)) {
-			$this->children = new Tx_Extbase_Persistence_ObjectStorage();
+			$this->children = new ObjectStorage();
 		}
 		return $this->children;
 	}
@@ -349,7 +350,7 @@ class Tx_PtExtbase_Tree_Node
 	 * @return Tx_Extbase_Persistence_ObjectStorage
 	 */
 	public function getSubNodes() {
-		$subNodes = new Tx_Extbase_Persistence_ObjectStorage();
+		$subNodes = new ObjectStorage();
 		if ($this->children !== null && $this->children->count() > 0) {
 			foreach ($this->children as $child) {
 				$subNodes->attach($child);
@@ -373,7 +374,7 @@ class Tx_PtExtbase_Tree_Node
 	public function addChild(Tx_PtExtbase_Tree_NodeInterface $node) {
 		// TODO this should not be necessary. Seems like this method is not invoked, if object is loaded from database
 		if (is_null($this->children)) {
-			$this->children = new Tx_Extbase_Persistence_ObjectStorage();
+			$this->children = new ObjectStorage();
 		}
 
 		$this->children->attach($node);
@@ -389,7 +390,7 @@ class Tx_PtExtbase_Tree_Node
 	 * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter
 	 */
 	public function addChildAfter(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter) {
-		$newChildren = new Tx_Extbase_Persistence_ObjectStorage();
+		$newChildren = new ObjectStorage();
 		foreach ($this->children as $child) {
 			$newChildren->attach($child);
 			if ($child == $nodeToAddAfter) {
@@ -408,7 +409,7 @@ class Tx_PtExtbase_Tree_Node
 	 * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore
 	 */
 	public function addChildBefore(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore) {
-		$newChildren = new Tx_Extbase_Persistence_ObjectStorage();
+		$newChildren = new ObjectStorage();
 		foreach ($this->children as $child) {
 			if ($child == $nodeToAddBefore) {
 				$newChildren->attach($newChildNode);
@@ -553,4 +554,3 @@ class Tx_PtExtbase_Tree_Node
 	}
 
 }
-?>

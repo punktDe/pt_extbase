@@ -23,11 +23,13 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * This script loads the required environment to dispatch an extbase call
  *
  * Include this script in ext_localconf:
- * $TYPO3_CONF_VARS['FE']['eID_include']['ajaxDispatcher'] = t3lib_extMgm::extPath('pt_extbase').'Classes/Utility/eIDDispatcher.php'
+ * $TYPO3_CONF_VARS['FE']['eID_include']['ajaxDispatcher'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase').'Classes/Utility/eIDDispatcher.php'
  *
  *
  * @package Utility
@@ -38,19 +40,15 @@ if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-require_once t3lib_extMgm::extPath('pt_extbase') . 'Classes/Utility/AjaxDispatcher.php';
-
-//Connect to database
-tslib_eidtools::connectDB();
+require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Utility/AjaxDispatcher.php';
 
 
 // Init TSFE for database access
-$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $TYPO3_CONF_VARS, 0, 0, true);
-$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+$GLOBALS['TSFE'] = GeneralUtility::makeInstance('tslib_fe', $TYPO3_CONF_VARS, 0, 0, true);
+$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('t3lib_pageSelect');
 $GLOBALS['TSFE']->initFEuser();
-$dispatcher = t3lib_div::makeInstance('Tx_PtExtbase_Utility_AjaxDispatcher'); /** @var $dispatcher Tx_PtExtbase_Utility_AjaxDispatcher */
+$dispatcher = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_AjaxDispatcher'); /** @var $dispatcher Tx_PtExtbase_Utility_AjaxDispatcher */
 
 
 // ATTENTION! Dispatcher first needs to be initialized here!!!
 echo $dispatcher->initCallArguments()->dispatch();
-?>

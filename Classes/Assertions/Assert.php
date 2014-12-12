@@ -21,6 +21,8 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Assertion class
@@ -227,7 +229,7 @@ class Tx_PtExtbase_Assertions_Assert {
      */
     public static function isValidEmail($email, array $info = array()) {
         self::isString($email);
-        return self::test(t3lib_div::validEmail($email), true, $info);
+        return self::test(GeneralUtility::validEmail($email), true, $info);
     }
 
     /**
@@ -539,7 +541,7 @@ class Tx_PtExtbase_Assertions_Assert {
      */
     public static function isInList($val, $list, array $info = array()) {
 
-        return self::test(t3lib_div::inList($list, $val), true, $info);
+        return self::test(GeneralUtility::inList($list, $val), true, $info);
     }
 
 
@@ -603,11 +605,11 @@ class Tx_PtExtbase_Assertions_Assert {
      * Test if value is a valid mysql ressource
      *
      * @param     mixed        value
-     * @param     t3lib_DB    (optional) t3lib_DB used, default is NULL, then $GLOBALS['TYPO3_DB'] will be used
+     * @param     \TYPO3\CMS\Core\Database\DatabaseConnection    (optional) t3lib_DB used, default is NULL, then $GLOBALS['TYPO3_DB'] will be used
      * @param     array        (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isMySQLRessource($res, t3lib_DB $dbObj = NULL, array $info = array()) {
+    public static function isMySQLRessource($res, \TYPO3\CMS\Core\Database\DatabaseConnection $dbObj = NULL, array $info = array()) {
         if (is_null($dbObj)) {
             $dbObj = $GLOBALS['TYPO3_DB'];
         }
@@ -677,8 +679,8 @@ class Tx_PtExtbase_Assertions_Assert {
             $info['message'] = sprintf($info['message'], $val);
         }
         
-        $filePath = t3lib_div::getFileAbsFileName($val);
-        return self::test(t3lib_div::validPathStr($filePath) && is_file($filePath), true, $info);        
+        $filePath = GeneralUtility::getFileAbsFileName($val);
+        return self::test(GeneralUtility::validPathStr($filePath) && is_file($filePath), true, $info);
     }
     
     
@@ -693,8 +695,8 @@ class Tx_PtExtbase_Assertions_Assert {
     public static function isDir($val, array $info = array()) {
         self::isNotEmptyString($val, $info);
         
-        $filePath = t3lib_div::getFileAbsFileName($val, false);
-        return self::test(t3lib_div::validPathStr($filePath) && is_dir($filePath), true, $info);        
+        $filePath = GeneralUtility::getFileAbsFileName($val, false);
+        return self::test(GeneralUtility::validPathStr($filePath) && is_dir($filePath), true, $info);
     }
 
     
@@ -869,11 +871,11 @@ class Tx_PtExtbase_Assertions_Assert {
 	 */
 	public static function extensionIsLoaded($extensionKey, $version = '0.0.0') {
 		// Check whether extension is loaded at all
-		self::isTrue(t3lib_extMgm::isLoaded($extensionKey), array('message' => 'Extension ' . $extensionKey . ' is not loaded!'));
+		self::isTrue(ExtensionManagementUtility::isLoaded($extensionKey), array('message' => 'Extension ' . $extensionKey . ' is not loaded!'));
 
 		// Check whether extension is loaded with required version
 		list($sanitizedVersion,) = explode('-', $version);
-		$loadedVersion = t3lib_extMgm::getExtensionVersion($extensionKey);
+		$loadedVersion = ExtensionManagementUtility::getExtensionVersion($extensionKey);
 		self::test(version_compare($sanitizedVersion, $loadedVersion) >= 0, true, array('message' => 'Extension ' . $extensionKey . ' was installed with version ' . $loadedVersion . ' but version ' . $version . ' is required!'));
 	}
 

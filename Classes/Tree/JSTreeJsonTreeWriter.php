@@ -31,19 +31,18 @@
  */
 class Tx_PtExtbase_Tree_JSTreeJsonTreeWriter extends Tx_PtExtbase_Tree_JsonTreeWriter {
 
-    /**
-     * Creates a new instance of json writer
-     *
-     * @param array $visitors
-     * @return Tx_PtExtbase_Tree_JsonTreeWriter
-     */
-    public static function getInstance(array $visitors = array()) {
-		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+	/**
+	 * Creates a new instance of json writer
+	 *
+	 * @param array $visitors
+	 * @return Tx_PtExtbase_Tree_JsonTreeWriter
+	 */
+	public static function getInstance(array $visitors = array()) {
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager');
 
-        $arrayWriterVisitor = $objectManager->get('Tx_PtExtbase_Tree_JSTreeJsonWriterVisitor');
-        $visitors[] = $arrayWriterVisitor;
-        $jsonTreeWriter = $objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', $visitors, $arrayWriterVisitor);
-        return $jsonTreeWriter;
-    }
+		$arrayWriterVisitor = $objectManager->get('Tx_PtExtbase_Tree_JSTreeJsonWriterVisitor');
+		$visitors[] = $arrayWriterVisitor;
+		$jsonTreeWriter = $objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', $visitors, $arrayWriterVisitor);
+		return $jsonTreeWriter;
+	}
 }
-?>

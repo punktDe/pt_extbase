@@ -32,7 +32,7 @@
  * @package pt_dppp_base
  * @subpackage ViewHelpers\PageContent
  */
-class Tx_PtExtbase_ViewHelpers_Content_RenderPageViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Content_RenderPageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * @return void
@@ -48,8 +48,8 @@ class Tx_PtExtbase_ViewHelpers_Content_RenderPageViewHelper extends Tx_Fluid_Cor
 	 */
 	public function render() {
 
-		if (!($GLOBALS['TSFE']->cObj instanceof tslib_cObj)) {
-			$GLOBALS['TSFE']->cObj = t3lib_div::makeInstance('tslib_cObj');
+		if (!($GLOBALS['TSFE']->cObj instanceof \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer)) {
+			$GLOBALS['TSFE']->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tslib_cObj');
 		}
 
 		$pageUid = $this->arguments['pageUid'];
@@ -65,5 +65,3 @@ class Tx_PtExtbase_ViewHelpers_Content_RenderPageViewHelper extends Tx_Fluid_Cor
 	}
 
 }
-
-?>

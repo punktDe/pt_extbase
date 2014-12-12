@@ -28,7 +28,7 @@
  * @package pt_extbase
  * @subpackage Classes\Utility
  */
-class Tx_PtExtbase_Utility_ExtensionSettings implements t3lib_Singleton {
+class Tx_PtExtbase_Utility_ExtensionSettings implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @var array

@@ -23,6 +23,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Abstract class holding main functionality for TCA widgets based on Extbase and Fluid
@@ -142,7 +143,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      * @param array $parameters Parameters passed by TCA rendering call
      * @param t3lib_TCEforms $fobj t3lib_TCEforms object passed by TCA rendering call
      */
-    protected function init(array $params = array(), t3lib_TCEforms $fobj = null) {
+    protected function init(array $params = array(), \TYPO3\CMS\Backend\Form\FormEngine $fobj = null) {
         $this->tcaParameters = $params;
         $this->tceForms = $fobj;
         $this->initPropertiesFromParamsArray();
@@ -214,7 +215,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      * Initializes Extbase object manager
      */
     protected function initFrameWork() {
-		 $this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+		 $this->objectManager = GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager');
 		 $bootstrap = $this->objectManager->get('Tx_Extbase_Core_Bootstrap');
 		 $bootstrap->initialize(array('extensionName' => $this->extensionName, 'pluginName' => $this->pluginName));
     }
@@ -263,7 +264,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      * Initializes Template in Fluid renderer
      */
     protected function initTemplate() {
-        $fullQualifiedTemplatePath = t3lib_div::getFileAbsFileName($this->templatePath);
+        $fullQualifiedTemplatePath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->templatePath);
         $this->fluidRenderer->setTemplatePathAndFilename($fullQualifiedTemplatePath);
     }
 
@@ -277,11 +278,10 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
     */
     protected function getDocInstance() {
         if (!isset($GLOBALS['SOBE']->doc)) {
-            $GLOBALS['SOBE']->doc = t3lib_div::makeInstance('template');
+            $GLOBALS['SOBE']->doc = GeneralUtility::makeInstance('template');
             $GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
         }
         return $GLOBALS['SOBE']->doc;
     }
 
 }
-?>

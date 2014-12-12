@@ -1,4 +1,6 @@
 <?php
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 if (!defined ('TYPO3_MODE')) {
 	die ('Access denied.');
 }
@@ -28,13 +30,13 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['hook_eofe
  * Include the eId dispatcher in Frontend environment
  * TODO Mind, that there is no access controll ATM!!!!
  */
-$TYPO3_CONF_VARS['FE']['eID_include']['ptxAjax'] = t3lib_extMgm::extPath('pt_extbase').'Classes/Utility/eIDDispatcher.php';
+$TYPO3_CONF_VARS['FE']['eID_include']['ptxAjax'] = ExtensionManagementUtility::extPath('pt_extbase').'Classes/Utility/eIDDispatcher.php';
 
 /**
  * Include the ajax dispatcher in Backend environment
  * TODO Mind, that there is no access controll ATM!!!
  */
-$TYPO3_CONF_VARS['BE']['AJAX']['ptxAjax'] = t3lib_extMgm::extPath('pt_extbase').'Classes/Utility/AjaxDispatcher.php:Tx_PtExtbase_Utility_AjaxDispatcher->initAndDispatch';
+$TYPO3_CONF_VARS['BE']['AJAX']['ptxAjax'] = ExtensionManagementUtility::extPath('pt_extbase').'Classes/Utility/AjaxDispatcher.php:Tx_PtExtbase_Utility_AjaxDispatcher->initAndDispatch';
 
 // Scheduler Tasks
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask'] = array(
@@ -43,5 +45,3 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_PtExtbase_Sc
     'description' => 'Runs an SQL file.',
 	'additionalFields' => 'Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields'
 );
-
-?>

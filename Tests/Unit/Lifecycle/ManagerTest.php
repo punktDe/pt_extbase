@@ -117,7 +117,7 @@ class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest extends Tx_PtExtbase_Tests_U
 /**
  * Class implements a mock for testing lifecycle manager
  */
-require_once t3lib_extMgm::extPath('pt_extbase') . 'Classes/Lifecycle/EventInterface.php';
+require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Lifecycle/EventInterface.php';
 class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock implements Tx_PtExtbase_Lifecycle_EventInterface {
 	
 	public $state;
@@ -127,5 +127,3 @@ class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock implements Tx
 	}
 	
 }
-
-?>

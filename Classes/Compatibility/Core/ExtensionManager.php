@@ -43,7 +43,7 @@ class Tx_PtExtbase_Compatibility_Core_ExtensionManager {
 	/**
 	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
 	 */
-	public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager) {
+	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
 		$this->objectManager = $objectManager;
 	}
 
@@ -53,7 +53,7 @@ class Tx_PtExtbase_Compatibility_Core_ExtensionManager {
 	public function getEnabledExtensionList() {
 
 		if(class_exists('t3lib_extMgm') && method_exists('t3lib_extMgm', 'getEnabledExtensionList')) {
-			$enabledExtensions = t3lib_div::trimExplode(',', t3lib_extmgm::getEnabledExtensionList());
+			$enabledExtensions = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getEnabledExtensionList());
 
 		} else {
 			$listUtility = $this->objectManager->get('TYPO3\\CMS\\Extensionmanager\\Utility\\ListUtility'); /** @var $listUtility \TYPO3\CMS\Extensionmanager\Utility\ListUtility */

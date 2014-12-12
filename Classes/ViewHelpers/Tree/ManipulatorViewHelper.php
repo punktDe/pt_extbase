@@ -31,7 +31,7 @@
  *
  * @author Daniel Lienert
  */
-class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends Tx_Fluid_ViewHelpers_Form_TextfieldViewHelper {
+class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper {
 
 	/**
 	 * Initialize arguments.
@@ -67,7 +67,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends Tx_Fluid_ViewH
 	protected function getTreeJS() {
 
 		/** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
-		$treeViewHelper = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
+		$treeViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
 		//$treeViewHelper->setControllerContext($this->controllerContext);
 
 		//return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
@@ -121,4 +121,3 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends Tx_Fluid_ViewH
 	}
 
 }
-?>

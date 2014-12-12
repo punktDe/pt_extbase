@@ -21,6 +21,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 /**
  * TCA Service
@@ -28,7 +29,7 @@
  * @package pt_extbase
  * @subpackage Utility
  */
-class Tx_PtExtbase_Utility_Tca implements t3lib_Singleton {
+class Tx_PtExtbase_Utility_Tca implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * Extension Name
@@ -54,7 +55,7 @@ class Tx_PtExtbase_Utility_Tca implements t3lib_Singleton {
      * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
      * @return void
      */
-    public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager) {
         $this->configurationManager = $configurationManager;
     }
 
@@ -65,7 +66,7 @@ class Tx_PtExtbase_Utility_Tca implements t3lib_Singleton {
      *
      */
    public function initializeObject() {
-		$frameWorkKonfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+		$frameWorkKonfiguration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		$this->extensionName = $frameWorkKonfiguration['extensionName'];
 
 		$this->includeTcaForFrontend();
@@ -94,7 +95,6 @@ class Tx_PtExtbase_Utility_Tca implements t3lib_Singleton {
 	public function setTable($table) {
 		if($table !== $this->table) {
 			$this->table = $table;
-			t3lib_div::loadTCA($table);
 		}
 
 		return $this;

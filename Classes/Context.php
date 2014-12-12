@@ -71,7 +71,7 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 	 * 
 	 */
 	public function initializeObject() {
-		$frameWorkConfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+		$frameWorkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		
 		$this->extensionName = $frameWorkConfiguration['extensionName'];
 		$this->extensionNameSpace = Tx_PtExtbase_Compatibility_Extbase_Utility_Extension::getPluginNamespace($frameWorkConfiguration['extensionName'],
@@ -88,7 +88,7 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
 	 * @return void
 	 */
-	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
+	public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager) {
 		$this->configurationManager = $configurationManager;
 	}
 	
@@ -99,7 +99,7 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 	 * 
 	 * @param Tx_Extbase_MVC_Controller_ControllerContext $controllerContext
 	 */
-	public function setControllerContext(Tx_Extbase_MVC_Controller_ControllerContext $controllerContext) {
+	public function setControllerContext(\TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext) {
 		$this->controllerContext = $controllerContext;
 	}
 	
@@ -152,4 +152,3 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 	}
 	
 }
-?>

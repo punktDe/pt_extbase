@@ -21,6 +21,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
  * Repository for Pages
@@ -29,7 +30,7 @@
  * @subpackage Repository
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 
 
 	/**
@@ -38,9 +39,9 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persisten
 	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
 	 */
 	public function __construct() {
-		 parent::__construct(t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager'));
+		 parent::__construct(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager'));
 
-		 $this->defaultQuerySettings = new Tx_Extbase_Persistence_Typo3QuerySettings();
+		 $this->defaultQuerySettings = new \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings();
 		 $this->defaultQuerySettings->setRespectStoragePage(FALSE);
 		 $this->defaultQuerySettings->setRespectSysLanguage(FALSE);
 	}
@@ -53,7 +54,7 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persisten
 	public function findPagesInPid($pid) {
 		$query = $this->createQuery();
 
-		$query->setOrderings(array('sorting' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
+		$query->setOrderings(array('sorting' => QueryInterface::ORDER_ASCENDING));
 
 		$pages = $query->matching(
 			$query->equals('pid', $pid)
@@ -71,7 +72,7 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persisten
 	public function findByPidAndDoktypeOrderBySorting($pid, $doktype) {
 		$query = $this->createQuery();
 
-		$query->setOrderings(array('sorting' => Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
+		$query->setOrderings(array('sorting' => QueryInterface::ORDER_ASCENDING));
 
 		$pages = $query->matching(
 			$query->logicalAnd(
@@ -82,4 +83,3 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends Tx_Extbase_Persisten
 		return $pages;
 	}
 }
-?>

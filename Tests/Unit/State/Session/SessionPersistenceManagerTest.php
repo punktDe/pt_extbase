@@ -25,7 +25,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-#require_once t3lib_extMgm::extPath('pt_extbase') . 'Tests/State/Stubs/SessionAdapterMock.php';
+#require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Tests/State/Stubs/SessionAdapterMock.php';
 
 /**
  * Unit tests for session persistence manager

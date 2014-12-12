@@ -26,7 +26,7 @@
 /**
  *
  */
-class Tx_PtExtbase_Object_ObjectManager implements Tx_Extbase_Object_ObjectManagerInterface {
+class Tx_PtExtbase_Object_ObjectManager implements \TYPO3\CMS\Extbase\Object\ObjectManagerInterface {
 
 	/**
 	 * Returns TRUE if an object with the given name is registered

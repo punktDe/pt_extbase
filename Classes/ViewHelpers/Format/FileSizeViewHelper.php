@@ -26,7 +26,7 @@
 /**
  * @package ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * @param string $labels Labels in format  "B| KB| MB| GB"
@@ -34,7 +34,6 @@ class Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper extends Tx_Fluid_Core_V
 	 */
 	public function render($labels = '') {
 		$numberToFormat = (int) trim($this->renderChildren());
-		return t3lib_div::formatSize($numberToFormat, $labels);
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::formatSize($numberToFormat, $labels);
 	}
 }
-?>

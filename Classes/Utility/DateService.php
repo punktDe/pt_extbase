@@ -28,7 +28,7 @@
  * @package pt_extbase
  * @subpackage Utility
  */
-class Tx_PtExtbase_Utility_DateService implements t3lib_Singleton {
+class Tx_PtExtbase_Utility_DateService implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @var integer

@@ -47,7 +47,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends P
 	 * @return void
 	 */
 	public function runBare() {
-		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager');
 		$this->objectManager =  clone $objectManager;
 		parent::runBare();
 	}
@@ -122,7 +122,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends P
 	 * @return void
 	 */
 	protected function setUp() {
-		$fixtureImporter = t3lib_div::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
+		$fixtureImporter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
 		$fixtureImporter->import($this->getFixtures());
 	}
 

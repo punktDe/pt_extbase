@@ -33,7 +33,7 @@
  * @author Michael Knoll
  * @author Sebastian Helzle
  */
-class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_PtExtbase_Controller_TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * @var Tx_Extbase_Persistence_Manager
@@ -85,7 +85,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	/**
 	 * @param Tx_Extbase_Persistence_Manager $persistenceManager
 	 */
-	public function injectPersistenceManager(Tx_Extbase_Persistence_Manager $persistenceManager) {
+	public function injectPersistenceManager(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager $persistenceManager) {
 		$this->persistenceManager = $persistenceManager;
 	}
 
@@ -314,10 +314,9 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 */
 	protected function returnDataAndShutDown($content = '') {
 		$this->persistenceManager->persistAll();
-		t3lib_div::cleanOutputBuffers();
+		\TYPO3\CMS\Core\Utility\GeneralUtility::cleanOutputBuffers();
 		echo $content;
 		exit();
 	}
 
 }
-?>

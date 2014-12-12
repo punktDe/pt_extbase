@@ -30,7 +30,7 @@
  * @subpackage Model
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_PtExtbase_Domain_Model_Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * @var string the module key

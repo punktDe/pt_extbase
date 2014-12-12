@@ -34,7 +34,7 @@
  * You can use the upperCase-parameter to return the key in complete upper case (DE, EN...)
  *
  */
-class Tx_PtExtbase_ViewHelpers_LanguageKeyViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_LanguageKeyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Get the language key for the current language

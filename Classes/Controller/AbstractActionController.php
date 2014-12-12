@@ -22,6 +22,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Abstract controller extending Extbase ActionController. 
@@ -41,7 +42,7 @@
  * @author Daniel Lienert 
  * @package Controller
  */
-abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extbase_MVC_Controller_ActionController {
+abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 	
 	/**
 	 * @var Tx_PtExtbase_Lifecycle_Manager
@@ -91,7 +92,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	 * @param Tx_Extbase_MVC_View_ViewInterface $view
 	 * @return void
 	 */
-	protected function setViewConfiguration(Tx_Extbase_MVC_View_ViewInterface $view) {
+	protected function setViewConfiguration(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view) {
 		parent::setViewConfiguration($view);
 		$this->setCustomPathsInView($view);  
 	}
@@ -149,7 +150,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 				// Use the viewClassName as redirect path to a typoscript value holding the viewClassName
 				$redirectedViewClassName = $viewClassName . '.viewClassName';
 				$tsRedirectPath = explode('.', $redirectedViewClassName);
-				$redirectedViewClassName = Tx_Extbase_Utility_Arrays::getValueByPath($this->settings, $tsRedirectPath);
+				$redirectedViewClassName = \TYPO3\CMS\Extbase\Utility\ArrayUtility::getValueByPath($this->settings, $tsRedirectPath);
 
 				if($redirectedViewClassName) $viewClassName = $redirectedViewClassName;
 			}
@@ -190,7 +191,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	 * @param Tx_Extbase_MVC_View_ViewInterface $view
 	 * @throws Exception
 	 */
-	protected function setCustomPathsInView(Tx_Extbase_MVC_View_ViewInterface $view) {
+	protected function setCustomPathsInView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view) {
 		
 		// We use template method here to enable adding further informations in extending controllers
 		$templatePathAndFilename = $this->getTsTemplatePathAndFilename();
@@ -202,10 +203,10 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 		
 		if (isset($templatePathAndFilename) && strlen($templatePathAndFilename) > 0) {
 			// We enable FILE: and EXT: prefix for template path
-			if (file_exists(t3lib_div::getFileAbsFileName($templatePathAndFilename))) { 
-                $view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName($templatePathAndFilename));
+			if (file_exists(GeneralUtility::getFileAbsFileName($templatePathAndFilename))) {
+                $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templatePathAndFilename));
 			} else {
-				throw new Exception('Given template path and filename could not be found or resolved: ' . t3lib_div::getFileAbsFileName($templatePathAndFilename), 1284655109);
+				throw new Exception('Given template path and filename could not be found or resolved: ' . GeneralUtility::getFileAbsFileName($templatePathAndFilename), 1284655109);
 			}
         }		
 	}
@@ -231,7 +232,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	 * 
 	 * @see Classes/MVC/Controller/Tx_Extbase_MVC_Controller_ActionController::processRequest()
 	 */
-	public function processRequest(Tx_Extbase_MVC_RequestInterface $request, Tx_Extbase_MVC_ResponseInterface $response) {
+	public function processRequest(\TYPO3\CMS\Extbase\Mvc\RequestInterface $request, \TYPO3\CMS\Extbase\Mvc\ResponseInterface $response) {
 		parent::processRequest($request, $response);
 		
 		if(TYPO3_MODE === 'BE') {
@@ -247,7 +248,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends Tx_Extba
 	 *
 	 * @param Tx_Extbase_MVC_View_ViewInterface $view View to be injected (for testing)
 	 */
-	public function setView(Tx_Extbase_MVC_View_ViewInterface $view) {
+	public function setView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view) {
 		$this->view = $view;
 	}
 	

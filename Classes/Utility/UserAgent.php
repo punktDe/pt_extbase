@@ -25,7 +25,7 @@
 /**
  * User Agent Information
  */
-class Tx_PtExtbase_Utility_UserAgent implements t3lib_Singleton {
+class Tx_PtExtbase_Utility_UserAgent implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @var array
@@ -114,7 +114,7 @@ class Tx_PtExtbase_Utility_UserAgent implements t3lib_Singleton {
 	 * @return string
 	 */
 	protected function getUserAgentData() {
-		return t3lib_div::getIndpEnv('HTTP_USER_AGENT');
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('HTTP_USER_AGENT');
 	}
 
 }

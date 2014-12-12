@@ -31,7 +31,7 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_DomainObjectInterface {
+interface Tx_PtExtbase_Tree_NodeInterface extends \TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface {
 
 	/*********************************************************************************************************
 	 * Getters and setters for advanced domain logic. NOT USED FOR PERSISTENCE!
@@ -200,5 +200,3 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
 	public function getNamespace();
 
 }
-
-?>

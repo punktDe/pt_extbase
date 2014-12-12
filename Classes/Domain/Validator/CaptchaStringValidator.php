@@ -33,7 +33,7 @@
  * @package pt_extbase
  * @subpackage Domain\Validator
  */
-class Tx_PtExtbase_Domain_Validator_CaptchaStringValidator extends Tx_Extbase_Validation_Validator_AbstractValidator {
+class Tx_PtExtbase_Domain_Validator_CaptchaStringValidator extends \TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator {
 
 	const CAPTCHA_SESSION_KEY = 'tx_captcha_string';
 
@@ -56,4 +56,3 @@ class Tx_PtExtbase_Domain_Validator_CaptchaStringValidator extends Tx_Extbase_Va
 	}
 
 }
-?>

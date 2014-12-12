@@ -28,7 +28,7 @@
  *
  * @subpackage Tests\Unit\Service
  */
-class Tx_PtExtbase_Logger_LoggerTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_PtExtbase_Logger_LoggerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
 	 * @var Tx_PtExtbase_Logger_Logger

@@ -28,7 +28,7 @@
 /**
  * Interface for RBAC access control services
  */
-interface Tx_PtExtbase_Rbac_RbacServiceInterface extends t3lib_Singleton {
+interface Tx_PtExtbase_Rbac_RbacServiceInterface extends \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * Returns TRUE, if currently logged in user (frontend or backend) has

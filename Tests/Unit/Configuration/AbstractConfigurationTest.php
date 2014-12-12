@@ -23,7 +23,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once t3lib_extMgm::extPath('pt_extbase') . 'Classes/Configuration/AbstractConfiguration.php';
+require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Configuration/AbstractConfiguration.php';
 
 /**
  * Testcase for abstract configuration class
@@ -304,5 +304,3 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfiguration_Stub extends T
 class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder_Stub extends Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	
 }
-
-?>

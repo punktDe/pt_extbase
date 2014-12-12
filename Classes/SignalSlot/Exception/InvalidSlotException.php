@@ -32,6 +32,5 @@
  * @subpackage SignalSlot
  * @api
  */
-class Tx_PtExtbase_SignalSlot_Exception_InvalidSlotException extends Tx_Extbase_Object_Exception {
+class Tx_PtExtbase_SignalSlot_Exception_InvalidSlotException extends \TYPO3\CMS\Extbase\Object\Exception {
 }
-?>

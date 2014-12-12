@@ -31,7 +31,7 @@
  * @author Michael Knoll
  * @package Lifecycle 
  */
-class Tx_PtExtbase_Lifecycle_Manager implements t3lib_Singleton {
+class Tx_PtExtbase_Lifecycle_Manager implements \TYPO3\CMS\Core\SingletonInterface {
 
 	const UNDEFINED = 0;
 	const START = 1;

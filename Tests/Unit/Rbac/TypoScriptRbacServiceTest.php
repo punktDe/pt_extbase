@@ -520,7 +520,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 	 * @return string
 	 */
 	protected function getTypoScriptArrayForGivenTypoScriptString($typoScriptString) {
-		$typoScriptParser = t3lib_div::makeInstance('t3lib_TSparser'); /* @var $typoScriptParser t3lib_TSparser */
+		$typoScriptParser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('t3lib_TSparser'); /* @var $typoScriptParser t3lib_TSparser */
 		$typoScriptParser->parse($typoScriptString);
 		return Tx_PtExtbase_Compatibility_Extbase_Service_TypoScript::convertTypoScriptArrayToPlainArray($typoScriptParser->setup);
 	}

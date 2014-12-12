@@ -30,7 +30,7 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_ViewHelpers_Format_HighlightViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Format_HighlightViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**

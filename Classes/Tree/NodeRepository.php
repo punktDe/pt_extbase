@@ -30,7 +30,7 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
 class Tx_PtExtbase_Tree_NodeRepository
-    extends Tx_Extbase_Persistence_Repository
+    extends \TYPO3\CMS\Extbase\Persistence\Repository
     implements Tx_PtExtbase_Tree_NodeRepositoryInterface {
 
 
@@ -95,7 +95,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 	public function findByRootUid($rootUid) {
 		$query = $this->createQuery();
         $query->matching($query->equals('root', $rootUid))
-            ->setOrderings(array('lft' => Tx_Extbase_Persistence_Query::ORDER_DESCENDING));
+            ->setOrderings(array('lft' => \TYPO3\CMS\Extbase\Persistence\Generic\Query::ORDER_DESCENDING));
         return $query->execute();
 	}
 
@@ -173,7 +173,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 			$query->matching($nameSpaceConstraint);
 		}
 
-		$query->setOrderings(array('lft' => Tx_Extbase_Persistence_Query::ORDER_DESCENDING));
+		$query->setOrderings(array('lft' => \TYPO3\CMS\Extbase\Persistence\Generic\Query::ORDER_DESCENDING));
 
 		return $query->execute();
 	}
@@ -221,8 +221,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 			          "AND lft > " . $node->getLft();
 			#echo "Update 1: " . $query1;
             $extQuery1 = $this->createQuery();
-            $extQuery1->getQuerySettings()->setReturnRawQueryResult(true); // Extbase WTF
-            $extQuery1->statement($query1)->execute();
+            $extQuery1->statement($query1)->execute(TRUE);
 
 			// We update case 2. from above
 			$query2 = "UPDATE tx_ptextbase_tree_node " .
@@ -232,8 +231,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 			          "AND rgt > " . $node->getRgt();
 			#echo "Update 2: " . $query2;
             $extQuery2 = $this->createQuery();
-            $extQuery2->getQuerySettings()->setReturnRawQueryResult(true); // Extbase WTF
-            $extQuery2->statement($query2)->execute();
+            $extQuery2->statement($query2)->execute(TRUE);
 		}
 	}
 	
@@ -252,8 +250,6 @@ class Tx_PtExtbase_Tree_NodeRepository
         
         $query = "DELETE FROM tx_ptextbase_tree_node WHERE lft >= " . $left . " AND rgt <= " . $right;
         $extQuery = $this->createQuery();
-        $extQuery->getQuerySettings()->setReturnRawQueryResult(true); // Extbase WTF
-        $extQuery->statement($query)->execute();
+        $extQuery->statement($query)->execute(TRUE);
 	}
 }
-?>

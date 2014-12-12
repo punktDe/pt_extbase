@@ -33,7 +33,7 @@
  * @package pt_extbase
  * @subpackage Scheduler
  */
-class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
+class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
 
 	/**
 	 * @var Tx_Extbase_Object_ObjectManager
@@ -56,7 +56,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	public function execute() {
 		$this->initializeExtbase();
 		$this->initializeObject();
-		$sqls = $this->sqlGenerator->generate(t3lib_div::getFileAbsFileName($this->tx_ptextbase_sqlfile));
+		$sqls = $this->sqlGenerator->generate(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->tx_ptextbase_sqlfile));
 		$this->sqlRunner->runSqls($sqls);
 		return TRUE;
 	}
@@ -69,7 +69,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	protected function initializeExtbase() {
 		$configuration['extensionName'] = 'PtExtbase';
 		$configuration['pluginName'] = 'dummy';
-		$extbaseBootstrap = t3lib_div::makeInstance('Tx_Extbase_Core_Bootstrap'); /** @var Tx_Extbase_Core_Bootstrap $extbaseBootstrap  */
+		$extbaseBootstrap = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Core_Bootstrap'); /** @var Tx_Extbase_Core_Bootstrap $extbaseBootstrap  */
 		$extbaseBootstrap->initialize($configuration);
 	}
 
@@ -77,7 +77,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager');
 		$this->sqlGenerator = $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlGenerator');
 		$this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
 	}

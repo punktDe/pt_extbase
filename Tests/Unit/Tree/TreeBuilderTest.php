@@ -137,7 +137,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Un
 	 * @return Tx_Extbase_Persistence_ObjectStorage
 	 */
 	protected static function buildSetOfNodes() {
-		$setOfNodes = new Tx_Extbase_Persistence_ObjectStorage();
+		$setOfNodes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(6,9,10,1,'6','testnamespace'));
 		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(5,8,11,1,'5','testnamespace'));
 		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(4,5,6,1,'4','testnamespace'));
@@ -157,7 +157,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Un
 	 * @return Tx_Extbase_Persistence_ObjectStorage
 	 */
 	protected static function buildSetOfNodesWithInaccessibleNodes() {
-		$setOfNodes = new Tx_Extbase_Persistence_ObjectStorage();
+		$setOfNodes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
 		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(6,9,10,1,'6','testnamespace', FALSE));
 		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(5,8,11,1,'5','testnamespace'));
 		$setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(4,5,6,1,'4','testnamespace'));
@@ -175,7 +175,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Un
 	 * @return Tx_Extbase_Persistence_ObjectStorage
 	 */
 	protected static function buildWrongSortedSetOfNodes() {
-		$setOfNodes = new Tx_Extbase_Persistence_ObjectStorage();
+		$setOfNodes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
         $setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(5,8,11,1,'5'));
         $setOfNodes->attach(Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode(6,9,10,1,'6'));
         return $setOfNodes;
@@ -191,6 +191,4 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Un
 	protected function buildRepositoryMock() {
 		return $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('findByNamespace'), array(), '', FALSE);
 	}
-	
 }
-?>

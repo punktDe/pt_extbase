@@ -50,7 +50,7 @@
  *
  * @license http://www.gnu.org/copyleft/gpl.html
  */
-class Tx_PtExtbase_ViewHelpers_Be_IconViewHelper extends Tx_Fluid_ViewHelpers_Be_AbstractBackendViewHelper {
+class Tx_PtExtbase_ViewHelpers_Be_IconViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
 
 
 	/**
@@ -61,8 +61,7 @@ class Tx_PtExtbase_ViewHelpers_Be_IconViewHelper extends Tx_Fluid_ViewHelpers_Be
 	 * @return string the rendered icon link
 	 */
 	public function render($icon = 'actions-document-close', $title = '') {
-		return t3lib_iconWorks::getSpriteIcon($icon, array('title' => $title));
+		return \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($icon, array('title' => $title));
 	}
 
 }
-?>

@@ -23,9 +23,11 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once t3lib_extMgm::extPath('pt_extlist') . 'Classes/Domain/Configuration/ConfigurationBuilder.php';
-require_once t3lib_extMgm::extPath('pt_extbase') . 'Classes/Configuration/AbstractConfigurationBuilder.php';
-require_once t3lib_extMgm::extPath('pt_extbase') . 'Classes/Configuration/AbstractConfiguration.php';
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
+require_once ExtensionManagementUtility::extPath('pt_extlist') . 'Classes/Domain/Configuration/ConfigurationBuilder.php';
+require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Configuration/AbstractConfigurationBuilder.php';
+require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Configuration/AbstractConfiguration.php';
 
 /**
  * Testcase for abstract configuration builder class
@@ -119,5 +121,3 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_DummyCo
 		return $configObject;
 	}
 }
-
-?>

@@ -37,7 +37,7 @@
  *
  * @api
  */
-class Tx_PtExtbase_ViewHelpers_Format_UrlencodeViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Format_UrlencodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
@@ -65,4 +65,3 @@ class Tx_PtExtbase_ViewHelpers_Format_UrlencodeViewHelper extends Tx_Fluid_Core_
 	}
 
 }
-?>

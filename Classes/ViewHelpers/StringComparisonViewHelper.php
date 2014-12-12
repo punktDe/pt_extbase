@@ -1,6 +1,6 @@
 <?php
 
-class Tx_PtExtbase_ViewHelpers_StringComparisonViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_StringComparisonViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * @param string $input

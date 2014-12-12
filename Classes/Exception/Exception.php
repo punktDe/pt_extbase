@@ -21,6 +21,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * General exception class derived from PHP's default Exception class
@@ -149,7 +150,7 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
         
         // write to devlog
         if (TYPO3_DLOG) {
-            t3lib_div::devLog(
+            GeneralUtility::devLog(
                 $this->getMessage(), 
                 'pt_extbase', 
                 1, // "notice"
@@ -203,8 +204,8 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
             ;
         
         // write to TYPO3 devlog
-        if (TYPO3_DLOG) {
-            t3lib_div::devLog(
+        i\TYPO3\CMS\Core\Utility\GeneralUtilityDLOG) {
+            GeneralUtility::devLog(
                 $this->getMessage(), 
                 'pt_extbase', 
                 3, // "error"
@@ -220,15 +221,15 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
         }
         
         // write to TYPO3 syslog
-        $debugMsg = $this->debugMsg ? ': '.$this->debugMsg : '';
-        t3lib_div::sysLog(
+        $debugM\TYPO3\CMS\Core\Utility\GeneralUtilitys->debugMsg ? ': '.$this->debugMsg : '';
+        GeneralUtility::sysLog(
             $this->getMessage().' ['.get_class($this) . $debugMsg.']', 
             'pt_extbase', 
             3 // "error"
         );
         
         // write to TS log if appropriate
-        if ($GLOBALS['TT'] instanceof t3lib_timeTrack) {
+        if ($GLOBALS['TT'] instanceof \TYPO3\CMS\Core\TimeTracker\TimeTracker) {
             $GLOBALS['TT']->setTSlogMessage($this->getMessage() . '['.get_class($this).': '.$this->debugMsg.']', 3);
         }
         

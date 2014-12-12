@@ -24,6 +24,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * ViewHelper used to render a HEAD meta tag
@@ -32,7 +33,7 @@
  * @package Viewhelpers
  * @subpackage Uri
  */
-class Tx_PtExtbase_ViewHelpers_Uri_CurrentViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Uri_CurrentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
@@ -50,14 +51,11 @@ class Tx_PtExtbase_ViewHelpers_Uri_CurrentViewHelper extends Tx_Fluid_Core_ViewH
 	public function render($absolute = TRUE, $additionalParams = array()) {
 
 		if($absolute === TRUE) {
-			$uri = t3lib_div::getIndpEnv('TYPO3_REQUEST_URL');
+			$uri = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL');
 		} else {
-			$uri = t3lib_div::getIndpEnv('REQUEST_URI');
+			$uri = GeneralUtility::getIndpEnv('REQUEST_URI');
 		}
 
 		return $uri;
 	}
 }
-
-
-?>

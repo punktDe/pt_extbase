@@ -89,7 +89,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory {
 	 */
 	private static function getStorageAdapter() {
 		
-		if(t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_Context')->isInCachedMode()) {
+		if(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_Context')->isInCachedMode()) {
 			return Tx_PtExtbase_State_Session_Storage_DBAdapterFactory::getInstance();	
 		} else {
 			return Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance();	

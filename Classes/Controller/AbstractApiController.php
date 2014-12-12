@@ -18,6 +18,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Error\Error;
 
 /**
  * Abstract Controller
@@ -27,7 +28,7 @@
  * @package pt_dppp_base
  * @subpackage Controller
  */
-class Tx_PtExtbase_Controller_AbstractApiController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
 	 * @var Tx_PtExtbase_Logger_Logger
@@ -54,7 +55,7 @@ class Tx_PtExtbase_Controller_AbstractApiController extends Tx_Extbase_MVC_Contr
 			parent::callActionMethod();
 		} catch (Exception $exception) {
 
-			if ($exception instanceof Tx_Extbase_MVC_Exception_StopAction) {
+			if ($exception instanceof \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException) {
 				throw $exception;
 			}
 
@@ -87,7 +88,7 @@ class Tx_PtExtbase_Controller_AbstractApiController extends Tx_Extbase_MVC_Contr
 		foreach ($validationResult->getSubResults() as $argumentName => $subValidationResult) {
 			/** @var $subValidationResult Tx_Extbase_Error_Result */
 			$error = $subValidationResult->getFirstError();
-			if ($error instanceof Tx_Extbase_Error_Error) {
+			if ($error instanceof Error) {
 				break;
 			}
 		}
@@ -106,7 +107,7 @@ class Tx_PtExtbase_Controller_AbstractApiController extends Tx_Extbase_MVC_Contr
 	 * @return void
 	 */
 	protected function handleError($error) {
-		if ($error instanceof Tx_Extbase_Error_Error) {
+		if ($error instanceof Error) {
 			$this->logger->error(sprintf('%s (%s)', $error->getMessage(), $error->getCode()));
 			echo $error->getCode();
 		} else {

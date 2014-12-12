@@ -23,6 +23,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 /**
  * Unit test for object collection class
  * 
@@ -217,8 +219,8 @@ class Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock {
 }
 
 
-require_once t3lib_extMgm::extPath('pt_extbase') . 'Classes/Collection/Collection.php';
-require_once t3lib_extMgm::extPath('pt_extbase') . 'Classes/Collection/ObjectCollection.php';
+require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Collection/Collection.php';
+require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Collection/ObjectCollection.php';
 
 
 
