@@ -117,14 +117,9 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 			),
 		);
 
-		for ($logLevel = LogLevel::EMERGENCY; $logLevel <= LogLevel::DEBUG; $logLevel++) {
-			$GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration'] = array(
-				$logLevel => array(
-					'PunktDe\\PtExtbase\\Logger\\Processor\\ReplaceComponentProcessor' => array()
-				)
-			);
-
-		}
+		$GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration'][LogLevel::DEBUG] = array(
+			'PunktDe\\PtExtbase\\Logger\\Processor\\ReplaceComponentProcessor' => array()
+		);
 
 		if ($this->loggerConfiguration->weHaveAnyEmailReceivers()) {
 			$GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration'][$this->loggerConfiguration->getEmailLogLevelThreshold()]['Tx_PtExtbase_Logger_Processor_EmailProcessor'] = array(
