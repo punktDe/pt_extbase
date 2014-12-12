@@ -64,15 +64,10 @@ class Tx_PtExtbase_Logger_LoggerConfiguration implements SingletonInterface {
 
 
 	/**
-	 * @param string $logFilePath
-	 * @param string $exceptionDirectory
 	 * @return Tx_PtExtbase_Logger_LoggerConfiguration
 	 * @throws Tx_PtExtbase_Exception_Exception
 	 */
-	public function __construct($logFilePath = '', $exceptionDirectory = '') {
-		$this->logFilePath = $logFilePath;
-		$this->exceptionDirectory = $exceptionDirectory;
-
+	public function __construct() {
 		$this->extensionConfiguration = Tx_PtExtbase_Div::returnExtConfArray('pt_extbase');
 		$this->evaluateLogFilePath();
 		$this->evaluateExceptionDirectory();
@@ -87,12 +82,10 @@ class Tx_PtExtbase_Logger_LoggerConfiguration implements SingletonInterface {
 	 * @return void
 	 */
 	protected function evaluateLogFilePath() {
-		if(!$this->logFilePath) {
-			if(array_key_exists('logFilePath', $this->extensionConfiguration)) {
-				$this->logFilePath = $this->extensionConfiguration['logFilePath'];
-			} else {
-				$this->logFilePath = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, '/typo3temp/application.log'));
-			}
+		if(array_key_exists('logFilePath', $this->extensionConfiguration)) {
+			$this->logFilePath = $this->extensionConfiguration['logFilePath'];
+		} else {
+			$this->logFilePath = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, '/typo3temp/application.log'));
 		}
 
 		if(!file_exists($this->logFilePath)){

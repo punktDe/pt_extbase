@@ -29,9 +29,28 @@ use TYPO3\CMS\Core\Log\LogLevel;
 class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
+	 * @inject
+	 * @var \PunktDe\PtExtbase\Logger\LoggerManager
+	 */
+	protected $loggerManager;
+
+
+	/**
 	 * @var \TYPO3\CMS\Core\Log\Logger
 	 */
 	protected $logger;
+
+
+	/**
+	 * @var string
+	 */
+	protected $logFilePath;
+
+
+	/**
+	 * @var string
+	 */
+	protected $exceptionDirectory;
 
 
 	/**
@@ -45,6 +64,12 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	protected $defaultLogComponent;
 
+
+	/**
+	 * @inject
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+	 */
+	protected $objectManager;
 
 
 	/**
@@ -71,7 +96,10 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return void
 	 */
 	public function configureLogger($logFilePath = '', $exceptionDirectory = '') {
-		$this->loggerConfiguration = GeneralUtility::makeInstance('Tx_PtExtbase_Logger_LoggerConfiguration', $logFilePath, $exceptionDirectory);
+		$this->loggerConfiguration = $this->objectManager->get('Tx_PtExtbase_Logger_LoggerConfiguration');
+		$this->logFilePath = empty($logFilePath) ? $this->loggerConfiguration->getLogFilePath() : $logFilePath;
+		$this->exceptionDirectory = empty($exceptionDirectory) ? $this->loggerConfiguration->getExceptionDirectory() : $exceptionDirectory;
+
 		$this->configureLoggerProperties();
 	}
 
@@ -84,7 +112,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 		$GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['writerConfiguration'] = array(
 			$this->loggerConfiguration->getLogLevelThreshold() => array(
 				'Tx_PtExtbase_Logger_Writer_FileWriter' => array(
-					'logFile' => $this->loggerConfiguration->getLogFilePath()
+					'logFile' => $this->logFilePath
 				)
 			),
 		);
@@ -113,7 +141,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	protected function getLogger($logComponent) {
 		if($logComponent === NULL) $logComponent = $this->defaultLogComponent;
-		return $this->logger = GeneralUtility::makeInstance('PunktDe\\PtExtbase\\Logger\\LoggerManager')->getLogger($logComponent);
+		return $this->logger = $this->loggerManager->getLogger($logComponent);
 	}
 
 
@@ -263,22 +291,20 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	public function logException(\Exception $exception, $logComponent = NULL, array $additionalData = array()) {
 		$backTrace = $exception->getTrace();
 		$message = $this->getExceptionLogMessage($exception);
-		$exceptionDirectory = $this->loggerConfiguration->getExceptionDirectory();
 
 		if ($exception->getPrevious() !== NULL) {
 			$additionalData['previousException'] = $this->getExceptionLogMessage($exception->getPrevious());
 		}
 
-		if (!file_exists($exceptionDirectory)) mkdir($exceptionDirectory);
+		if (!file_exists($this->exceptionDirectory)) mkdir($this->exceptionDirectory);
 
-		if (file_exists($exceptionDirectory) && is_dir($exceptionDirectory) && is_writable($exceptionDirectory)) {
-
+		if (file_exists($this->exceptionDirectory) && is_dir($this->exceptionDirectory) && is_writable($this->exceptionDirectory)) {
 			$referenceCode = ($exception->getCode() > 0 ? $exception->getCode() . '.' : '') . date('YmdHis', $_SERVER['REQUEST_TIME']) . substr(md5(rand()), 0, 6);
-			$exceptionDumpPathAndFilename = Tx_PtExtbase_Utility_Files::concatenatePaths(array($exceptionDirectory,  $referenceCode . '.txt'));
+			$exceptionDumpPathAndFilename = Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->exceptionDirectory,  $referenceCode . '.txt'));
 			file_put_contents($exceptionDumpPathAndFilename, $message . PHP_EOL . PHP_EOL . $this->getBacktraceCode($backTrace,1));
 			$message .= ' - See also: ' . basename($exceptionDumpPathAndFilename);
 		} else {
-			$this->warning(sprintf('Could not write exception backtrace into %s because the directory could not be created or is not writable.', $exceptionDirectory), $logComponent, array());
+			$this->warning(sprintf('Could not write exception backtrace into %s because the directory could not be created or is not writable.', $this->exceptionDirectory), $logComponent, array());
 		}
 
 		$this->critical($message, $logComponent, $additionalData);
@@ -347,9 +373,9 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	protected function enrichLogDataByComponent(&$data, $component) {
 		if (empty($component)) {
-			array_push($data, $this->defaultLogComponent);
+			array_push($data, $this->loggerManager->unifyComponentName($this->defaultLogComponent));
 		} else {
-			array_push($data, $component);
+			array_push($data, $this->loggerManager->unifyComponentName($component));
 		}
 
 		return $this;

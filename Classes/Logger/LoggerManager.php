@@ -105,7 +105,7 @@ class LoggerManager extends LogManager {
 	 * @param $componentName
 	 * @return string
 	 */
-	protected function unifyComponentName($componentName) {
+	public function unifyComponentName($componentName) {
 		$separators = array('_', '\\');
 		return str_replace($separators, '.', $componentName);
 	}
