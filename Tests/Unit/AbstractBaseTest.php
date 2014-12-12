@@ -105,4 +105,21 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\C
 		return $this->getMock('Tx_Fluid_View_TemplateView', array('assign'), array(), '', FALSE);
 	}
 
+	/**
+	 * @param array $actualErrors
+	 * @param array $expectedErrorCodes
+	 */
+	protected function assertErrorCodes(array $expectedErrorCodes, array $actualErrors) {
+		$actualErrorCodes = array();
+
+		foreach($actualErrors as $actualError) { /** @var \TYPO3\CMS\Extbase\Error\Error $actualError */
+			$actualErrorCodes[] = $actualError->getCode();
+		}
+
+		sort($expectedErrorCodes);
+		sort($actualErrorCodes);
+
+		$this->assertEquals($expectedErrorCodes, $actualErrorCodes);
+	}
+
 }

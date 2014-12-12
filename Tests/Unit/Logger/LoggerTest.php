@@ -28,17 +28,19 @@
  *
  * @subpackage Tests\Unit\Service
  */
-class Tx_PtExtbase_Logger_LoggerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class Tx_PtExtbase_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 	/**
 	 * @var Tx_PtExtbase_Logger_Logger
 	 */
 	protected $logger;
 
+
 	/**
 	 * @var string
 	 */
 	protected $logFilePath;
+
 
 	/**
 	 * @var string
@@ -46,27 +48,29 @@ class Tx_PtExtbase_Logger_LoggerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase 
 	protected $logExceptionsPath;
 
 
+
+	/**
+	 * @return void
+	 */
 	public function setUp() {
-
-
-		if (!class_exists('t3lib_log_Logger')) {
-			$this->markTestSkipped('you must use the extension "t3lib_log" - thus it\'s not possible to use the logger in 6.x atm');
-		}
-
 		$this->logFilePath = __DIR__ . '/Logs/TestLog.log';
 		$this->logExceptionsPath = __DIR__ . '/Logs/Exceptions/';
 
 		$this->logger = $this->objectManager->get('Tx_PtExtbase_Logger_Logger');
 		$this->logger->configureLogger($this->logFilePath, $this->logExceptionsPath);
-
 	}
 
 
+	/**
+	 * @throws Exception
+	 * @return void
+	 */
 	public function tearDown() {
 		unset($this->logger);
 		file_put_contents($this->logFilePath, ''); // Clear File
 		Tx_PtExtbase_Utility_Files::emptyDirectoryRecursively($this->logExceptionsPath);
 	}
+
 
 
 	/**
@@ -78,6 +82,8 @@ class Tx_PtExtbase_Logger_LoggerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase 
 		$this->assertLogFileContains('[INFO]');
 	}
 
+
+
 	/**
 	 * @test
 	 */
@@ -87,6 +93,8 @@ class Tx_PtExtbase_Logger_LoggerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase 
 		$this->assertLogFileContains('[INFO]');
 	}
 
+
+
 	/**
 	 * @test
 	 */
@@ -95,6 +103,7 @@ class Tx_PtExtbase_Logger_LoggerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase 
 		$this->assertLogFileContains(' component="Tx.PtExtbase.Logger.LoggerTest": test - ["BLA"]');
 		$this->assertLogFileContains('[INFO]');
 	}
+
 
 
 	/**
@@ -115,6 +124,7 @@ class Tx_PtExtbase_Logger_LoggerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase 
 	}
 
 
+
 	/**
 	 * @param $expectedString
 	 */
@@ -126,7 +136,6 @@ class Tx_PtExtbase_Logger_LoggerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase 
 		$this->assertNotEmpty($data);
 		$this->assertContains($expectedString, $data, sprintf('Expected "%s" - But Log File is "%s"', $expectedString, $data));
 	}
-
 
 }
 
