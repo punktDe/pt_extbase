@@ -20,6 +20,7 @@
  ***************************************************************/
 
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Log\LogLevel;
 
 /**
  *  Tx_PtExtbase_Logger_Logger
@@ -81,20 +82,25 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	protected function configureLoggerProperties() {
 		$GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['writerConfiguration'] = array(
-			 $this->loggerConfiguration->getLogLevelThreshold() => array(
+			$this->loggerConfiguration->getLogLevelThreshold() => array(
 				'Tx_PtExtbase_Logger_Writer_FileWriter' => array(
 					'logFile' => $this->loggerConfiguration->getLogFilePath()
 				)
-			)
+			),
 		);
 
-		if ($this->loggerConfiguration->weHaveAnyEmailReceivers()) {
+		for ($logLevel = LogLevel::EMERGENCY; $logLevel <= LogLevel::DEBUG; $logLevel++) {
 			$GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration'] = array(
-				$this->loggerConfiguration->getEmailLogLevelThreshold() => array(
-					'Tx_PtExtbase_Logger_Processor_EmailProcessor' => array(
-						'receivers' => $this->loggerConfiguration->getEmailReceivers()
-					)
+				$logLevel => array(
+					'PunktDe\\PtExtbase\\Logger\\Processor\\ReplaceComponentProcessor' => array()
 				)
+			);
+
+		}
+
+		if ($this->loggerConfiguration->weHaveAnyEmailReceivers()) {
+			$GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration'][$this->loggerConfiguration->getEmailLogLevelThreshold()]['Tx_PtExtbase_Logger_Processor_EmailProcessor'] = array(
+				'receivers' => $this->loggerConfiguration->getEmailReceivers()
 			);
 		}
 	}
@@ -107,7 +113,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	protected function getLogger($logComponent) {
 		if($logComponent === NULL) $logComponent = $this->defaultLogComponent;
-		return $this->logger = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Log\\LogManager')->getLogger($logComponent);
+		return $this->logger = GeneralUtility::makeInstance('PunktDe\\PtExtbase\\Logger\\LoggerManager')->getLogger($logComponent);
 	}
 
 
@@ -120,7 +126,9 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $logComponent
 	 */
 	public function emergency($message, $logComponent = NULL, array $data = array()) {
-		$this->getLogger($logComponent)->emergency($message, $data);
+		$this
+			->enrichLogDataByComponent($data, $logComponent)
+			->getLogger($logComponent)->emergency($message, $data);
 	}
 
 
@@ -133,7 +141,9 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $logComponent
 	 */
 	public function alert($message, $logComponent = NULL, array $data = array()) {
-		$this->getLogger($logComponent)->alert($message, $data);
+		$this
+			->enrichLogDataByComponent($data, $logComponent)
+			->getLogger($logComponent)->alert($message, $data);
 	}
 
 
@@ -146,7 +156,9 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $logComponent
 	 */
 	public function critical($message, $logComponent = NULL, array $data = array()) {
-		$this->getLogger($logComponent)->critical($message, $data);
+		$this
+			->enrichLogDataByComponent($data, $logComponent)
+			->getLogger($logComponent)->critical($message, $data);
 	}
 
 
@@ -159,7 +171,9 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $logComponent
 	 */
 	public function error($message, $logComponent = NULL, array $data = array()) {
-		$this->getLogger($logComponent)->error($message, $data);
+		$this
+			->enrichLogDataByComponent($data, $logComponent)
+			->getLogger($logComponent)->error($message, $data);
 	}
 
 
@@ -172,7 +186,9 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $logComponent
 	 */
 	public function warning($message, $logComponent = NULL, array $data = array()) {
-		$this->getLogger($logComponent)->warning($message, $data);
+		$this
+			->enrichLogDataByComponent($data, $logComponent)
+			->getLogger($logComponent)->warning($message, $data);
 	}
 
 
@@ -185,7 +201,9 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $logComponent
 	 */
 	public function notice($message, $logComponent = NULL, array $data = array()) {
-		$this->getLogger($logComponent)->notice($message, $data);
+		$this
+			->enrichLogDataByComponent($data, $logComponent)
+			->getLogger($logComponent)->notice($message, $data);
 	}
 
 
@@ -198,7 +216,9 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $logComponent
 	 */
 	public function info($message, $logComponent = NULL, array $data = array()) {
-		$this->getLogger($logComponent)->info($message, $data);
+		$this
+			->enrichLogDataByComponent($data, $logComponent)
+			->getLogger($logComponent)->info($message, $data);
 	}
 
 
@@ -211,7 +231,9 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $logComponent
 	 */
 	public function debug($message, $logComponent = NULL, array $data = array()) {
-		$this->getLogger($logComponent)->debug($message, $data);
+		$this
+			->enrichLogDataByComponent($data, $logComponent)
+			->getLogger($logComponent)->debug($message, $data);
 	}
 
 
@@ -223,7 +245,9 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $logComponent
 	 */
 	public function log($level, $message, $logComponent = NULL, array $data = array()) {
-		$this->getLogger($logComponent)->log($level, $message, $data);
+		$this
+			->enrichLogDataByComponent($logComponent, $data)
+			->getLogger($logComponent)->log($level, $message, $data);
 	}
 
 
@@ -312,6 +336,23 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		return $backtraceCode;
+	}
+
+
+
+	/**
+	 * @param array $data
+	 * @param string $component
+	 * @return mixed
+	 */
+	protected function enrichLogDataByComponent(&$data, $component) {
+		if (empty($component)) {
+			array_push($data, $this->defaultLogComponent);
+		} else {
+			array_push($data, $component);
+		}
+
+		return $this;
 	}
 
 }
