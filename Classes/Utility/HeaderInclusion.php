@@ -22,6 +22,7 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * Utility to include defined frontend libraries as jQuery and related CSS
@@ -62,13 +63,11 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonI
 	protected function initializeBackend() {
 
 		if (!isset($GLOBALS['SOBE']->doc)) {
-			$GLOBALS['SOBE']->doc = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeInstance('template');
+			$GLOBALS['SOBE']->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\Template\\DocumentTemplate');
 			$GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
 		}
 
 		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
-
-		$this->relExtPath = '../' . $this->relExtPath;
 	}
 
 
@@ -125,11 +124,11 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonI
 		if (substr($filename, 0, 4) == 'EXT:') { // extension
 			list($extKey, $local) = explode('/', substr($filename, 4), 2);
 			$filename = '';
-			if (strcmp($extKey, '') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) && strcmp($local, '')) {
+			if (strcmp($extKey, '') && ExtensionManagementUtility::isLoaded($extKey) && strcmp($local, '')) {
 				if(TYPO3_MODE === 'FE') {
-					$filename = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath($extKey) . $local;
+					$filename = ExtensionManagementUtility::siteRelPath($extKey) . $local;
 				} else {
-					$filename = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($extKey) . $local;
+					$filename = ExtensionManagementUtility::extRelPath($extKey) . $local;
 				}
 			}
 		}
