@@ -37,6 +37,8 @@ class Tx_PtExtbase_Domain_Validator_CaptchaStringValidator extends \TYPO3\CMS\Ex
 
 	const CAPTCHA_SESSION_KEY = 'tx_captcha_string';
 
+	protected $acceptsEmptyValues = FALSE;
+
 	/**
 	 * @var
 	 */
@@ -50,9 +52,7 @@ class Tx_PtExtbase_Domain_Validator_CaptchaStringValidator extends \TYPO3\CMS\Ex
 		session_start();
 		if ($captchaString != $_SESSION[self::CAPTCHA_SESSION_KEY]) {
 			$this->addError('PtExtbase.CaptchaStringValidator.InputStringWrong', 1340029430);
-			return FALSE;
 		}
-		return TRUE;
 	}
 
 }
