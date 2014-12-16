@@ -204,7 +204,7 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
             ;
         
         // write to TYPO3 devlog
-        i\TYPO3\CMS\Core\Utility\GeneralUtilityDLOG) {
+		if (TYPO3_DLOG)  {
             GeneralUtility::devLog(
                 $this->getMessage(), 
                 'pt_extbase', 
@@ -221,7 +221,7 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
         }
         
         // write to TYPO3 syslog
-        $debugM\TYPO3\CMS\Core\Utility\GeneralUtilitys->debugMsg ? ': '.$this->debugMsg : '';
+		$debugMsg = $this->debugMsg ? ': '.$this->debugMsg : '';
         GeneralUtility::sysLog(
             $this->getMessage().' ['.get_class($this) . $debugMsg.']', 
             'pt_extbase', 
