@@ -66,8 +66,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	/**
-	 * @inject
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
@@ -79,6 +78,13 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->defaultLogComponent = __CLASS__;
 	}
 
+
+	/**
+	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+	 */
+	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
+		$this->objectManager = $objectManager;
+	}
 
 
 	/**

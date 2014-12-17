@@ -34,7 +34,7 @@
 abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManagerInterface The object manager
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface The object manager
 	 */
 	protected $objectManager;
 
@@ -46,7 +46,7 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\C
 	 * @return void
 	 */
 	public function runBare() {
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\\TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 		$this->objectManager =  clone $objectManager;
 		parent::runBare();
 	}
