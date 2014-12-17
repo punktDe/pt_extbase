@@ -23,6 +23,8 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -42,11 +44,19 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
+	 * @inject
+	 * @var \TYPO3\CMS\Extbase\Service\ExtensionService
+	 */
+	protected $extensionService;
+
+
+	/**
 	 * Relative extpath to the extension (eg typo3conf/ext/pt_extbase/)
 	 *
 	 * @var string
 	 */
 	protected $relExtPath;
+
 
 	/**
 	 * @var string
@@ -154,9 +164,8 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\
 
 
 	/**
-	 * Add some generic arguments that might be usefull
+	 * Add some generic arguments that might be useful
 	 *
-	 * @param array $arguments
 	 * @return void
 	 */
 	protected function addGenericArguments() {
@@ -166,7 +175,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\
 		$this->arguments['extKey'] = $this->extKey;
 
 		if (is_object($this->controllerContext)) {
-			$this->arguments['pluginNamespace'] = Tx_PtExtbase_Compatibility_Extbase_Utility_Extension::getPluginNamespace(
+			$this->arguments['pluginNamespace'] =  $this->extensionService->getPluginNamespace(
 				$this->controllerContext->getRequest()->getControllerExtensionName(),
 				$this->controllerContext->getRequest()->getPluginName()
 			);
