@@ -67,7 +67,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Flu
 	protected function getTreeJS() {
 
 		/** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
-		$treeViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
+		$treeViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
 		//$treeViewHelper->setControllerContext($this->controllerContext);
 
 		//return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',

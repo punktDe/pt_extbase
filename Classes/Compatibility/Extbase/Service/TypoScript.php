@@ -36,7 +36,7 @@ class Tx_PtExtbase_Compatibility_Extbase_Service_TypoScript {
 	 * @return \TYPO3\CMS\Extbase\Service\TypoScriptService
 	 */
 	protected static function getTypoScriptService() {
-		return  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService');
+		return  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Service\TypoScriptService');
 	}
 
 

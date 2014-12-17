@@ -54,8 +54,8 @@ class Tx_PtExtbase_Compatibility_Extbase_Service_Cache {
 	 */
 	protected function getCacheService() {
 		// 4.6, 4.7
-		if(class_exists('Tx_Extbase_Service_CacheService')) {
-			return $this->objectManager->get('Tx_Extbase_Service_CacheService');
+		if(class_exists('\TYPO3\CMS\Extbase\Service\CacheService')) {
+			return $this->objectManager->get('\TYPO3\CMS\Extbase\Service\CacheService');
 		}
 	}
 

@@ -215,8 +215,8 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      * Initializes Extbase object manager
      */
     protected function initFrameWork() {
-		 $this->objectManager = GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager');
-		 $bootstrap = $this->objectManager->get('Tx_Extbase_Core_Bootstrap');
+		 $this->objectManager = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
+		 $bootstrap = $this->objectManager->get('\TYPO3\CMS\Extbase\Core\Bootstrap');
 		 $bootstrap->initialize(array('extensionName' => $this->extensionName, 'pluginName' => $this->pluginName));
     }
 
@@ -226,12 +226,12 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      */
     protected function initFluidRenderer() {
         if(!$this->fluidRenderer) {
-            $request = $this->objectManager->get('Tx_Extbase_MVC_Request'); /* @var $request Tx_Extbase_MVC_Request */
+            $request = $this->objectManager->get('\TYPO3\CMS\Extbase\Mvc\Request'); /* @var $request \TYPO3\CMS\Extbase\Mvc\Request */
             $request->setControllerExtensionName($this->extensionName);
             $request->setPluginName($this->pluginName);
 
-            $this->fluidRenderer = $this->objectManager->get('Tx_Fluid_View_TemplateView');
-            $controllerContext = $this->objectManager->get('Tx_Extbase_MVC_Controller_ControllerContext');
+            $this->fluidRenderer = $this->objectManager->get('\TYPO3\CMS\Fluid\View\TemplateView');
+            $controllerContext = $this->objectManager->get('\TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext');
             $controllerContext->setRequest($request);
             $this->fluidRenderer->setControllerContext($controllerContext);
         }
@@ -278,7 +278,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
     */
     protected function getDocInstance() {
         if (!isset($GLOBALS['SOBE']->doc)) {
-            $GLOBALS['SOBE']->doc = GeneralUtility::makeInstance('template');
+            $GLOBALS['SOBE']->doc = GeneralUtility::makeInstance('\TYPO3\CMS\Backend\Template\DocumentTemplate');
             $GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
         }
         return $GLOBALS['SOBE']->doc;

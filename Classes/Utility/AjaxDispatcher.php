@@ -168,15 +168,15 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 		$configuration['extensionName'] = $this->extensionName;
 		$configuration['pluginName'] = $this->pluginName;
 
-		$bootstrap = GeneralUtility::makeInstance('Tx_Extbase_Core_Bootstrap');
+		$bootstrap = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Core\Bootstrap');
 		$bootstrap->initialize($configuration);
 
-		$this->objectManager = GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager');
+		$this->objectManager = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
 
 		$request = $this->buildRequest();
-		$response = $this->objectManager->get('Tx_Extbase_MVC_Web_Response');
+		$response = $this->objectManager->get('\TYPO3\CMS\Extbase\Mvc\Web\Response');
 
-		$dispatcher = $this->objectManager->get('Tx_Extbase_MVC_Dispatcher');
+		$dispatcher = $this->objectManager->get('\TYPO3\CMS\Extbase\Mvc\Dispatcher');
 		$dispatcher->dispatch($request, $response);
 
 		$response->sendHeaders();
@@ -251,8 +251,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 * @return $this
 	 */
 	public function initTsfe($pageUid = NULL) {
-		$GLOBALS['TSFE'] = GeneralUtility::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, '0', 1, '', '', '', '');
-		$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('t3lib_pageSelect');
+		$GLOBALS['TSFE'] = GeneralUtility::makeInstance('\TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, '0', 1, '', '', '', '');
+		$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('\TYPO3\CMS\Frontend\Page\PageRepository');
 
 		return $this;
 	}
@@ -293,8 +293,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 * @return void
 	 */
 	public function cleanShutDown() {
-		$this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
-		$this->objectManager->get('Tx_Extbase_Reflection_Service')->shutdown();
+		$this->objectManager->get('\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager')->persistAll();
+		$this->objectManager->get('\TYPO3\CMS\Extbase\Reflection\ReflectionService')->shutdown();
 	}
 
 
@@ -304,7 +304,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 * @return Tx_Extbase_MVC_Web_Request $request
 	 */
 	protected function buildRequest() {
-		$request = $this->objectManager->get('Tx_Extbase_MVC_Web_Request');
+		$request = $this->objectManager->get('\TYPO3\CMS\Extbase\Mvc\Web\Request');
 		/* @var $request Tx_Extbase_MVC_Request */
 		$request->setControllerExtensionName($this->extensionName);
 		$request->setPluginName($this->pluginName);

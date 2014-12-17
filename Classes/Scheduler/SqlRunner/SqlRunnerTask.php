@@ -69,7 +69,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Schedule
 	protected function initializeExtbase() {
 		$configuration['extensionName'] = 'PtExtbase';
 		$configuration['pluginName'] = 'dummy';
-		$extbaseBootstrap = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Core_Bootstrap'); /** @var Tx_Extbase_Core_Bootstrap $extbaseBootstrap  */
+		$extbaseBootstrap = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
 		$extbaseBootstrap->initialize($configuration);
 	}
 
@@ -77,7 +77,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Schedule
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager');
+		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
 		$this->sqlGenerator = $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlGenerator');
 		$this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
 	}

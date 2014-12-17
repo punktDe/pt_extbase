@@ -56,7 +56,7 @@ class Tx_PtExtbase_Compatibility_Core_ExtensionManager {
 			$enabledExtensions = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getEnabledExtensionList());
 
 		} else {
-			$listUtility = $this->objectManager->get('TYPO3\\CMS\\Extensionmanager\\Utility\\ListUtility'); /** @var $listUtility \TYPO3\CMS\Extensionmanager\Utility\ListUtility */
+			$listUtility = $this->objectManager->get('\TYPO3\CMS\Extensionmanager\Utility\ListUtility'); /** @var $listUtility \TYPO3\CMS\Extensionmanager\Utility\ListUtility */
 			$availableExtensions = $listUtility->getAvailableExtensions();
 			$availableAndInstalledExtensions = $listUtility->getAvailableAndInstalledExtensions($availableExtensions);
 			$enabledExtensions = array_keys($availableAndInstalledExtensions);
