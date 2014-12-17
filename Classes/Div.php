@@ -722,7 +722,7 @@ class Tx_PtExtbase_Div  {
 	 * @return tslib_cObj;
 	 */
 	public static function getCobj() {
-		if(!self::$cObj instanceof  \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer) {
+		if(!self::$cObj instanceof  \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer || $GLOBALS['TSFE'] === NULL) {
 			if(TYPO3_MODE == 'FE') {
 				if(!is_a($GLOBALS['TSFE']->cObj,'tslib_cObj')) {
 					$GLOBALS['TSFE']->newCObj();
