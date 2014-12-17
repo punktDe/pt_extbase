@@ -192,7 +192,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 */
 	protected function checkModuleAccessIfInBackend() {
 		if (TYPO3_MODE === 'BE') {
-			if (is_array($this->dispatchCallArguments) && $this->dispatchCallArguments[1] instanceof TYPO3AJAX) {
+			if (is_array($this->dispatchCallArguments) && $this->dispatchCallArguments[1] instanceof \TYPO3\CMS\Core\Http\AjaxRequestHandler) {
 				$ajaxId = $this->dispatchCallArguments[1]->getAjaxID();
 				if (!stristr($ajaxId, '::')) throw new \Exception('Please name the ajaxId the following way: TargetModuleSignature::IndividualAJAXIdentifier. The current ajax ID is: ' . $ajaxId, 1391143615);
 				list($moduleSignature) = explode('::', $ajaxId);
@@ -240,7 +240,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 * @return $this
 	 */
 	public function initTca() {
-		tslib_eidtools::initTCA();
+		\TYPO3\CMS\Frontend\Utility\EidUtility::initTCA();
 
 		return $this;
 	}
@@ -251,8 +251,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 * @return $this
 	 */
 	public function initTsfe($pageUid = NULL) {
-		$GLOBALS['TSFE'] = GeneralUtility::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, '0', 1, '', '', '', '');
-		$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('t3lib_pageSelect');
+		$GLOBALS['TSFE'] = GeneralUtility::makeInstance('\\TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, '0', 1, '', '', '', '');
+		$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('\\TYPO3\\CMS\\Frontend\\Page\\PageRepository');
 
 		return $this;
 	}
