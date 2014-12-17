@@ -332,7 +332,7 @@ class Tx_PtExtbase_Div  {
             throw Tx_PtExtbase_Exception_Exception('Parameter must be "pages", "all", "temp_CACHED" or numeric');
         }
 
-        $tce = GeneralUtility::makeInstance('t3lib_TCEmain'); /* @var $tce t3lib_TCEmain */
+        $tce = GeneralUtility::makeInstance('\TYPO3\CMS\Core\DataHandling\DataHandler'); /* @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
         $tce->stripslashes_values = 0;
         $tce->start(Array(),Array());
         $tce->clear_cacheCmd($cacheCmd);
@@ -707,8 +707,8 @@ class Tx_PtExtbase_Div  {
         if ($GLOBALS['LANG'] instanceof \TYPO3\CMS\Lang\LanguageService) {
             $lang = $GLOBALS['LANG'];
         } else {
-            $lang = GeneralUtility::makeInstance('language');
-            $lang->csConvObj = GeneralUtility::makeInstance('t3lib_cs');
+            $lang = GeneralUtility::makeInstance('\TYPO3\CMS\Lang\LanguageService');
+            $lang->csConvObj = GeneralUtility::makeInstance('\TYPO3\CMS\Core\Charset\CharsetConverter');
         }
         return $lang;
 
@@ -722,7 +722,7 @@ class Tx_PtExtbase_Div  {
 	 * @return tslib_cObj;
 	 */
 	public static function getCobj() {
-		if(!self::$cObj instanceof  \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer) {
+		if(!self::$cObj instanceof  \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer || $GLOBALS['TSFE'] === NULL) {
 			if(TYPO3_MODE == 'FE') {
 				if(!is_a($GLOBALS['TSFE']->cObj,'tslib_cObj')) {
 					$GLOBALS['TSFE']->newCObj();
@@ -862,9 +862,9 @@ class Tx_PtExtbase_Div  {
         }
 
         // create TS configuration: idea of Fabian Koenig (http://lists.netfielders.de/pipermail/typo3-german/2007-May/032473.html)
-        $sysPageObj = GeneralUtility::makeInstance('t3lib_pageSelect');
+        $sysPageObj = GeneralUtility::makeInstance('\TYPO3\CMS\Frontend\Page\PageRepository');
         $rootLine = $sysPageObj->getRootLine($pageUid);
-        $TSObj = GeneralUtility::makeInstance('t3lib_tsparser_ext');  /* @var $TSObj t3lib_tsparser_ext */
+        $TSObj = GeneralUtility::makeInstance('\TYPO3\CMS\Core\TypoScript\ExtendedTemplateService');  /* @var $TSObj \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService */
         $TSObj->tt_track = 0;
         $TSObj->init();
         $TSObj->runThroughTemplates($rootLine);
@@ -1587,7 +1587,7 @@ class Tx_PtExtbase_Div  {
 		if(!file_exists($tsSetupFilePath)) Throw new Exception('No Typoscript file found at path ' . $tsSetupFilePath . ' 1316733309');
 
 		$rawTsConfig  = file_get_contents($tsSetupFilePath);
-		$tsParser  = GeneralUtility::makeInstance('t3lib_TSparser'); /** @var $tsParser  t3lib_TSparser */
+		$tsParser  = GeneralUtility::makeInstance('\TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser'); /** @var $tsParser  \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser */
 
 		$tsLines = explode(LF, $rawTsConfig);
 

@@ -232,7 +232,6 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
 		if ($GLOBALS['TT'] instanceof \TYPO3\CMS\Core\TimeTracker\TimeTracker) {
 			$GLOBALS['TT']->setTSlogMessage($this->getMessage() . '['.get_class($this).': '.$this->debugMsg.']', 3);
 		}
-
 	}
     
     

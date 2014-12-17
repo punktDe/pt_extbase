@@ -77,7 +77,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 	 * @return void
 	 */
 	public function runBare() {
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Extbase_Object_ObjectManager');
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
 		$this->objectManager =  clone $objectManager;
 		parent::runBare();
 	}
@@ -160,7 +160,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 	 */
 	protected function cleanObjectState($object) {
 		if ($object !== NULL) {
-			$identityMap = $this->objectManager->get('Tx_Extbase_Persistence_IdentityMap');
+			$identityMap = $this->objectManager->get('\TYPO3\CMS\Extbase\Persistence\Generic\Session');
 			$identityMap->unregisterObject($object);
 		}
 	}

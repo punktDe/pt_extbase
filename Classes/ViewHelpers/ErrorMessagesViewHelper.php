@@ -24,7 +24,7 @@
 class Tx_PtExtbase_ViewHelpers_ErrorMessagesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
 
 	/**
-	 * @var Tx_Extbase_Utility_Localization
+	 * @var \TYPO3\CMS\Extbase\Utility\LocalizationUtility
 	 * @inject
 	 */
 	protected $localization;
@@ -36,12 +36,12 @@ class Tx_PtExtbase_ViewHelpers_ErrorMessagesViewHelper extends \TYPO3\CMS\Fluid\
 	 * @return mixed
 	 */
 	public function render($extension, $file = 'errors.xlf') {
-		$errors = $this->controllerContext->getRequest()->getErrors();
+		$validationResults = $this->controllerContext->getRequest()->getOriginalRequestMappingResults()->getFlattenedErrors();
 
 		$output = '';
 
-		foreach ($errors as $properyError) {
-			foreach ($properyError->getErrors() as $error) { /** @var $error Tx_Extbase_Validation_Error */
+		foreach ($validationResults as $propertyError) {
+			foreach ($propertyError as $error) { /** @var \TYPO3\CMS\Extbase\Validation\Error $error */
 				$translatedMessage = $this->localization->translate('LLL:EXT:' . $extension . '/Resources/Private/Language/' . $file . ':' . $error->getMessage(), $extension);
 
 				if (empty($translatedMessage)) {
