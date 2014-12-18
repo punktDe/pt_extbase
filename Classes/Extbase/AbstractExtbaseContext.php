@@ -59,6 +59,13 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
 
 
 	/**
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+	 */
+	protected $objectManager;
+
+
+
+	/**
 	 * Flexform selected ListIdentifier
 	 * @var string
 	 */
@@ -77,17 +84,16 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
 	 */
 	public function initializeObject() {
 
-		$frameWorkKonfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+		$frameWorkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
-		$this->extensionName = $frameWorkKonfiguration['extensionName'];
-		$this->extensionNameSpace = Tx_PtExtbase_Compatibility_Extbase_Utility_Extension::getPluginNamespace($frameWorkKonfiguration['extensionName'],
-			$frameWorkKonfiguration['pluginName']);
+		$this->extensionName = $frameWorkConfiguration['extensionName'];
+		$this->setExtensionNamespace($frameWorkConfiguration['extensionName'], $frameWorkConfiguration['pluginName']);
 
-		$this->isInCachedMode = $frameWorkKonfiguration['pluginName'] == 'Cached' ? true : false;
+		$this->isInCachedMode = $frameWorkConfiguration['pluginName'] == 'Cached' ? TRUE : FALSE;
 
-		$this->currentListIdentifier = $frameWorkKonfiguration['settings']['listIdentifier'];
+		$this->currentListIdentifier = $frameWorkConfiguration['settings']['listIdentifier'];
 
-		unset($frameWorkKonfiguration);
+		unset($frameWorkConfiguration);
 	}
 
 
@@ -99,13 +105,12 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
 	 */
 	public function setExtensionNamespace($extensionName, $pluginName) {
 		$this->extensionName = $extensionName;
-		$this->extensionNameSpace = Tx_PtExtbase_Compatibility_Extbase_Utility_Extension::getPluginNamespace($extensionName, $pluginName);
+		$this->extensionNameSpace = $this->objectManager->get('TYPO3\CMS\Extbase\Service\ExtensionService')->getPluginNamespace($extensionName, $pluginName);
 	}
 
 
 	/**
-	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
-	 * @return void
+	 * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
 	 */
 	public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager) {
 		$this->configurationManager = $configurationManager;
@@ -113,9 +118,19 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
 
 
 	/**
+	 * inject the objectManager
+	 *
+	 * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager
+	 * @return void
+	 */
+	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManager $objectManager) {
+		$this->objectManager = $objectManager;
+	}
+
+	/**
 	 * Set the Controller Context
 	 *
-	 * @param Tx_Extbase_MVC_Controller_ControllerContext $controllerContext
+	 * @param \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
 	 */
 	public function setControllerContext(\TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext) {
 		$this->controllerContext = $controllerContext;
@@ -127,14 +142,6 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
 	 */
 	public function getControllerContext() {
 		return $this->controllerContext;
-	}
-
-
-	/**
-	 * @return string constant
-	 */
-	public function getSessionStorageMode() {
-		return $this->sessionStorageMode;
 	}
 
 
