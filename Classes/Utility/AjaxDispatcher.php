@@ -294,8 +294,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 * @return void
 	 */
 	public function cleanShutDown() {
-		$this->objectManager->get('\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager')->persistAll();
-		$this->objectManager->get('\TYPO3\CMS\Extbase\Reflection\ReflectionService')->shutdown();
+		$this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager')->persistAll();
+		$this->objectManager->get('TYPO3\CMS\Extbase\Reflection\ReflectionService')->shutdown();
 	}
 
 
@@ -305,7 +305,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 * @return \TYPO3\CMS\Extbase\Mvc\Web\Request $request
 	 */
 	protected function buildRequest() {
-		$request = $this->objectManager->get('\TYPO3\CMS\Extbase\Mvc\Web\Request');
+		$request = $this->objectManager->get('TYPO3\CMS\Extbase\Mvc\Web\Request');
 		/* @var $request \TYPO3\CMS\Extbase\Mvc\Request */
 		$request->setControllerExtensionName($this->extensionName);
 		$request->setPluginName($this->pluginName);
