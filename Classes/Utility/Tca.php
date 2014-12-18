@@ -45,14 +45,14 @@ class Tx_PtExtbase_Utility_Tca implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	 /**
-     * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+     * @var ConfigurationManagerInterface
      */
     protected $configurationManager;
 
 
 
 	 /**
-     * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
+     * @param ConfigurationManagerInterface $configurationManager
      * @return void
      */
     public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager) {

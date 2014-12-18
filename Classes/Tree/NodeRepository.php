@@ -60,7 +60,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 	 * TODO rename: we do not find by nodeUid but by node object
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_PtExtbase_Tree_Node>
 	 */
 	public function findByRootOfGivenNodeUid(Tx_PtExtbase_Tree_NodeInterface $node) {
 		$rootUid = $node->getRoot();
@@ -90,7 +90,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 	 * Returns a set of nodes determined by uid of root node
 	 *
 	 * @param integer $rootUid
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_PtExtbase_Tree_Node>
 	 */
 	public function findByRootUid($rootUid) {
 		$query = $this->createQuery();
@@ -107,7 +107,7 @@ class Tx_PtExtbase_Tree_NodeRepository
 	  * The flag is than later respected when the rendering is done.
      *
      * @param $namespace
-     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_PtExtbase_Tree_Node>
      */
 	public function findByNamespace($namespace) {
 

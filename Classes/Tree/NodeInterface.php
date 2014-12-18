@@ -56,7 +56,7 @@ interface Tx_PtExtbase_Tree_NodeInterface extends \TYPO3\CMS\Extbase\DomainObjec
 	/**
 	 * Getter for child nodes
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	public function getChildren();
 
@@ -115,7 +115,7 @@ interface Tx_PtExtbase_Tree_NodeInterface extends \TYPO3\CMS\Extbase\DomainObjec
 	 * cat 1.2.1
 	 * cat 1.2.2
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	public function getSubNodes();
 

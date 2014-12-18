@@ -57,7 +57,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TY
 
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
@@ -67,7 +67,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TY
 	 * Constructor takes context as required dependency to be injected via DI
 	 *
 	 * @param Tx_PtExtbase_Context $context
-	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
 	 */
 	public function __construct(Tx_PtExtbase_Context $context, \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
 		$this->context = $context;

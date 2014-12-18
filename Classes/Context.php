@@ -34,7 +34,7 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 
 		
 	/**
-	 * @var Tx_Extbase_MVC_Controller_ControllerContext
+	 * @var \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext
 	 */
 	protected $controllerContext;
 	
@@ -60,7 +60,7 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 
 		
 	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
 	 */
 	protected $configurationManager;
 	
@@ -86,7 +86,7 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 	
 	
 	/**
-	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
+	 * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
 	 * @return void
 	 */
 	public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager) {
@@ -98,7 +98,7 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 	/**
 	 * Set the Controller Context
 	 * 
-	 * @param Tx_Extbase_MVC_Controller_ControllerContext $controllerContext
+	 * @param \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
 	 */
 	public function setControllerContext(\TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext) {
 		$this->controllerContext = $controllerContext;
@@ -107,7 +107,7 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface {
 	
 	
 	/**
-	 * @return Tx_Extbase_MVC_Controller_ControllerContext $controllerContext
+	 * @return \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
 	 */
 	public function getControllerContext() {
 		return $this->controllerContext;

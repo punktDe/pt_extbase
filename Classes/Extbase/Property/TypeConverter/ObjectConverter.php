@@ -54,13 +54,13 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
 
 	/**
 	 * @inject
-	 * @var Tx_Extbase_Object_ObjectManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
 	/**
 	 * @inject
-	 * @var Tx_Extbase_Reflection_Service
+	 * @var \TYPO3\CMS\Extbase\Reflection\ReflectionService
 	 */
 	protected $reflectionService;
 
@@ -95,9 +95,9 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
 	 *
 	 * @param string $targetType
 	 * @param string $propertyName
-	 * @param Tx_Extbase_Property_PropertyMappingConfigurationInterface $configuration
+	 * @param \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration
 	 * @return string
-	 * @throws Tx_Extbase_Property_Exception_InvalidTargetException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidTargetException
 	 */
 	public function getTypeOfChildProperty($targetType, $propertyName, \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration) {
 		$configuredTargetType = $configuration->getConfigurationFor($propertyName)->getConfigurationValue('Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter', self::CONFIGURATION_TARGET_TYPE);
@@ -129,11 +129,11 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
 	 * @param mixed $source
 	 * @param string $targetType
 	 * @param array $convertedChildProperties
-	 * @param Tx_Extbase_Property_PropertyMappingConfigurationInterface $configuration
+	 * @param \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration
 	 * @return object the target type
-	 * @throws Tx_Extbase_Property_Exception_InvalidTargetException
-	 * @throws Tx_Extbase_Property_Exception_InvalidDataTypeException
-	 * @throws Tx_Extbase_Property_Exception_InvalidPropertyMappingConfigurationException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidTargetException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidDataTypeException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidPropertyMappingConfigurationException
 	 */
 	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
 		$object = $this->buildObject($convertedChildProperties, $targetType);
@@ -158,7 +158,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
 	 *
 	 * @param mixed $source
 	 * @param string $originalTargetType
-	 * @param Tx_Extbase_Property_PropertyMappingConfigurationInterface $configuration
+	 * @param \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration
 	 * @return string
 	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidPropertyMappingConfigurationException
 	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidDataTypeException
@@ -200,7 +200,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
 	 * @param array &$possibleConstructorArgumentValues
 	 * @param string $objectType
 	 * @return object The created instance
-	 * @throws Tx_Extbase_Property_Exception_InvalidTargetException if a required constructor argument is missing
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidTargetException if a required constructor argument is missing
 	 */
 	protected function buildObject(array &$possibleConstructorArgumentValues, $objectType) {
 		$className = $objectType;
@@ -231,7 +231,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
 	 * @param string $targetType
 	 * @param string $originalTargetType
 	 * @return string
-	 * @throws Tx_Extbase_Property_Exception_InvalidDataTypeException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidDataTypeException
 	 */
 	protected function checkInheritanceChainWithoutIsA($targetType, $originalTargetType) {
 		$targetTypeToCompare = $targetType;
