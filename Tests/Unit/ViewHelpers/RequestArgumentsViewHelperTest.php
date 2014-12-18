@@ -52,7 +52,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_RequestArgumnetsViewHelperTest extends
 		);
 		$expected = '35';
 
-		$requestMock = $this->getMockBuilder('Tx_Extbase_MVC_Request')
+		$requestMock = $this->getMockBuilder('\TYPO3\CMS\Extbase\Mvc\Request')
 				->setMethods(array('getArgument'))
 				->getMock();
 		$requestMock->expects($this->once())

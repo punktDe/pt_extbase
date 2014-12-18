@@ -72,8 +72,8 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
 	 * @return boolean
 	 */
 	public function canConvertFrom($source, $targetType) {
-		$isValueObject = is_subclass_of($targetType, 'Tx_Extbase_DomainObject_AbstractValueObject');
-		$isEntity = is_subclass_of($targetType, 'Tx_Extbase_DomainObject_AbstractEntity');
+		$isValueObject = is_subclass_of($targetType, '\TYPO3\CMS\Extbase\DomainObject\AbstractValueObject');
+		$isEntity = is_subclass_of($targetType, '\TYPO3\CMS\Extbase\DomainObject\AbstractEntity');
 		return !($isEntity || $isValueObject);
 	}
 
