@@ -53,7 +53,7 @@ class Tx_PtExtbase_View_BaseView extends \TYPO3\CMS\Fluid\View\TemplateView  {
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see Classes/View/Tx_Fluid_View_TemplateView::initializeView()
+	 * @see initializeView() in parent
 	 */
 	public function initializeView() {
 	}
@@ -61,7 +61,7 @@ class Tx_PtExtbase_View_BaseView extends \TYPO3\CMS\Fluid\View\TemplateView  {
 
 	/**
 	 * (non-PHPdoc)
-	 * @see Classes/View/Tx_Fluid_View_TemplateView::getPartialSource()
+	 * @see getPartialSource() in parent
 	 *
 	 * @param string $partialName The name of the partial
 	 * @throws InvalidTemplateResourceException
@@ -167,7 +167,7 @@ class Tx_PtExtbase_View_BaseView extends \TYPO3\CMS\Fluid\View\TemplateView  {
      *
      * @param string $partialName The name of the partial
      * @return string the full path which should be used. The path definitely exists.
-     * @throws Tx_Fluid_View_Exception_InvalidTemplateResourceException
+     * @throws InvalidTemplateResourceException
      */
 	protected function getPartialPathAndFilename($partialName) {
 		if (file_exists($partialName)) { // partial is given as absolute path (rather unusual :-) )
@@ -175,7 +175,7 @@ class Tx_PtExtbase_View_BaseView extends \TYPO3\CMS\Fluid\View\TemplateView  {
 		} elseif (file_exists(GeneralUtility::getFileAbsFileName($partialName))) { // partial is given as EXT:pt_extbase/Resources/Private/Partials/Filter/StringFilter.html
 			return GeneralUtility::getFileAbsFileName($partialName);
 		} else {
-			if(method_exists('Tx_Fluid_View_TemplateView','getPartialPathAndFilename')) {
+			if(method_exists('\TYPO3\CMS\Fluid\View\TemplateView','getPartialPathAndFilename')) {
 				return parent::getPartialPathAndFilename($partialName); // this method only exists in 1.4.0
 			} else {
 				return $partialName;
@@ -193,7 +193,7 @@ class Tx_PtExtbase_View_BaseView extends \TYPO3\CMS\Fluid\View\TemplateView  {
      *
      * @param string $actionName Name of the action. If NULL, will be taken from request.
      * @return string Full path to template
-     * @throws Tx_Fluid_View_Exception_InvalidTemplateResourceException
+     * @throws TYPO3\CMS\Fluid\View\Exception\InvalidTemplateResourceException
      */
 	protected function getTemplatePathAndFilename($actionName = NULL) {
 
@@ -208,7 +208,7 @@ class Tx_PtExtbase_View_BaseView extends \TYPO3\CMS\Fluid\View\TemplateView  {
 			}
 
 		} else {
-			if(method_exists('Tx_Fluid_View_TemplateView', 'getTemplatePathAndFilename')) {
+			if(method_exists('\TYPO3\CMS\Fluid\View\TemplateView', 'getTemplatePathAndFilename')) {
 				return parent::getTemplatePathAndFilename($actionName); // this method only exists in 1.4.0
 			} else {
 				return $actionName;

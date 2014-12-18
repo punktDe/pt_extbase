@@ -95,10 +95,10 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 
 
 	/**
-	 * @return Tx_Fluid_View_StandaloneView
+	 * @return \TYPO3\CMS\Fluid\View\StandaloneView
 	 */
 	protected function getView() {
-		$view = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView'); /** @var Tx_Fluid_View_StandaloneView $view */
+		$view = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView'); /** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
 		$view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Templates/Scheduler/SqlRunner/TaskAdditionalFields.html'));
 		$view->setPartialRootPath(GeneralUtility::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Partials'));
 		return $view;

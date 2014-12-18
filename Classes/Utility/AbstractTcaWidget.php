@@ -36,7 +36,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
 
     /**
      * Fluid Renderer
-     * @var Tx_Fluid_View_TemplateView
+     * @var \TYPO3\CMS\Fluid\View\TemplateView
      */
     protected $fluidRenderer = NULL;
 
