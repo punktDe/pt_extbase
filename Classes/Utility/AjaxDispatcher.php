@@ -168,15 +168,15 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 		$configuration['extensionName'] = $this->extensionName;
 		$configuration['pluginName'] = $this->pluginName;
 
-		$bootstrap = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Core\Bootstrap');
+		$bootstrap = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap');
 		$bootstrap->initialize($configuration);
 
-		$this->objectManager = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
 		$request = $this->buildRequest();
-		$response = $this->objectManager->get('\TYPO3\CMS\Extbase\Mvc\Web\Response');
+		$response = $this->objectManager->get('TYPO3\CMS\Extbase\Mvc\Web\Response');
 
-		$dispatcher = $this->objectManager->get('\TYPO3\CMS\Extbase\Mvc\Dispatcher');
+		$dispatcher = $this->objectManager->get('TYPO3\CMS\Extbase\Mvc\Dispatcher');
 		$dispatcher->dispatch($request, $response);
 
 		$response->sendHeaders();
@@ -252,8 +252,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 */
 	public function initTsfe($pageUid = NULL) {
 
-		$GLOBALS['TSFE'] = GeneralUtility::makeInstance('\\TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, '0', 1, '', '', '', '');
-		$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('\\TYPO3\\CMS\\Frontend\\Page\\PageRepository');
+		$GLOBALS['TSFE'] = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, '0', 1, '', '', '', '');
+		$GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
 
 		return $this;
 	}

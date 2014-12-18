@@ -53,7 +53,7 @@ class Tx_PtExtbase_Tree_NestedSetTreeWalker extends Tx_PtExtbase_Tree_TreeWalker
 	 * @return Tx_PtExtbase_Tree_NestedSetTreeWalker
 	 */
 	public static function getInstance() {
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
 		$nestedSetTreeWalkerVisitor = $objectManager->get('Tx_PtExtbase_Tree_NestedSetVisitor');
 		$nestedSetTreeWalker = $objectManager->get('Tx_PtExtbase_Tree_NestedSetTreeWalker', array($nestedSetTreeWalkerVisitor), $nestedSetTreeWalkerVisitor);

@@ -69,7 +69,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 		$configuration = $this->configuration;
 		$additionalFields = array();
 
-		$this->objectManager = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
 		if (empty($taskInfo[$configuration['id']])) {
 			if($schedulerModule->CMD == 'edit') {
@@ -98,7 +98,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	 * @return Tx_Fluid_View_StandaloneView
 	 */
 	protected function getView() {
-		$view = GeneralUtility::makeInstance('\TYPO3\CMS\Fluid\View\StandaloneView'); /** @var Tx_Fluid_View_StandaloneView $view */
+		$view = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView'); /** @var Tx_Fluid_View_StandaloneView $view */
 		$view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Templates/Scheduler/SqlRunner/TaskAdditionalFields.html'));
 		$view->setPartialRootPath(GeneralUtility::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Partials'));
 		return $view;

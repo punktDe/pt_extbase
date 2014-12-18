@@ -156,7 +156,7 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter {
 	private function importDatabaseDefinitions($definitionContent) {
 		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
 			/* @var $install \TYPO3\CMS\Install\Service\SqlSchemaMigrationService */
-			$install = GeneralUtility::makeInstance('\TYPO3\CMS\Install\Service\SqlSchemaMigrationService');
+			$install = GeneralUtility::makeInstance('TYPO3\CMS\Install\Service\SqlSchemaMigrationService');
 		} else {
 			/* @var $install t3lib_install */
 			$install = GeneralUtility::makeInstance('t3lib_install');

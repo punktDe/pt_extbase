@@ -70,7 +70,7 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
 	 */
 	public function processLogRecord(LogRecord $logRecord) {
 		$this->logRecord = $logRecord;
-		$mail = GeneralUtility::makeInstance('\TYPO3\CMS\Core\Mail\MailMessage'); /** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
+		$mail = GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage'); /** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
 		$mail->setFrom(array("noreply@punkt.de" => "noreply@punkt.de"));
 		$mail->setTo($this->receivers);
 		$mail->setSubject(sprintf('Error on system %s', $this->serverInformation->getServerHostName()));

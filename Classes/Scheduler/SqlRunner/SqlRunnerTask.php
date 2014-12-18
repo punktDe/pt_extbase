@@ -26,6 +26,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * SQL Runner Task
@@ -56,7 +57,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Schedule
 	public function execute() {
 		$this->initializeExtbase();
 		$this->initializeObject();
-		$sqls = $this->sqlGenerator->generate(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->tx_ptextbase_sqlfile));
+		$sqls = $this->sqlGenerator->generate(GeneralUtility::getFileAbsFileName($this->tx_ptextbase_sqlfile));
 		$this->sqlRunner->runSqls($sqls);
 		return TRUE;
 	}
@@ -69,7 +70,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Schedule
 	protected function initializeExtbase() {
 		$configuration['extensionName'] = 'PtExtbase';
 		$configuration['pluginName'] = 'dummy';
-		$extbaseBootstrap = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
+		$extbaseBootstrap = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
 		$extbaseBootstrap->initialize($configuration);
 	}
 
@@ -77,7 +78,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Schedule
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 		$this->sqlGenerator = $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlGenerator');
 		$this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
 	}
@@ -88,6 +89,4 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Schedule
 	public function getAdditionalInformation() {
 		return "Run SQL file " . $this->tx_ptextbase_sqlfile;
 	}
-
 }
-?>

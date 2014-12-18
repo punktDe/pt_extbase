@@ -215,7 +215,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      * Initializes Extbase object manager
      */
     protected function initFrameWork() {
-		 $this->objectManager = GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager');
+		 $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 		 $bootstrap = $this->objectManager->get('\TYPO3\CMS\Extbase\Core\Bootstrap');
 		 $bootstrap->initialize(array('extensionName' => $this->extensionName, 'pluginName' => $this->pluginName));
     }
@@ -278,7 +278,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
     */
     protected function getDocInstance() {
         if (!isset($GLOBALS['SOBE']->doc)) {
-            $GLOBALS['SOBE']->doc = GeneralUtility::makeInstance('\TYPO3\CMS\Backend\Template\DocumentTemplate');
+            $GLOBALS['SOBE']->doc = GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
             $GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
         }
         return $GLOBALS['SOBE']->doc;

@@ -150,7 +150,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\
 		if (!file_exists($absoluteFileName)) throw new Exception('No JSTemplate found with path ' . $absoluteFileName . '. 1296554335');
 
 		if ($addToHead) {
-			GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager')
+			GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')
 				->get('Tx_PtExtbase_Utility_HeaderInclusion')
 				->addJsInlineCode($templatePath, $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments), $compress);
 		} else {

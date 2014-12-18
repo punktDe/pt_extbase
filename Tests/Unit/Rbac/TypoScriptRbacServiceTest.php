@@ -521,9 +521,9 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 	 * @return string
 	 */
 	protected function getTypoScriptArrayForGivenTypoScriptString($typoScriptString) {
-		$typoScriptParser = GeneralUtility::makeInstance('\\TYPO3\\CMS\\Core\\TypoScript\\Parser\\TypoScriptParser'); /* @var $typoScriptParser t3lib_TSparser */
+		$typoScriptParser = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser'); /* @var $typoScriptParser \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser */
 		$typoScriptParser->parse($typoScriptString);
-		return GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService')->convertTypoScriptArrayToPlainArray($typoScriptParser->setup);
+		return GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService')->convertTypoScriptArrayToPlainArray($typoScriptParser->setup);
 	}
 
 

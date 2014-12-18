@@ -39,7 +39,7 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
 	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
 	 */
 	public function __construct() {
-		 parent::__construct(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\TYPO3\CMS\Extbase\Object\ObjectManager'));
+		 parent::__construct(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager'));
 
 		 $this->defaultQuerySettings = new \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings();
 		 $this->defaultQuerySettings->setRespectStoragePage(FALSE);

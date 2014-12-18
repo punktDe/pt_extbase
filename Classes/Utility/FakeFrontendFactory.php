@@ -57,16 +57,16 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements \TYPO3\CMS\Core\Single
 			throw new InvalidArgumentException('$pageUid must be >= 0.');
 		}
 
-		$GLOBALS['TT'] = GeneralUtility::makeInstance('\TYPO3\CMS\Core\TimeTracker\NullTimeTracker');
+		$GLOBALS['TT'] = GeneralUtility::makeInstance('TYPO3\CMS\Core\TimeTracker\NullTimeTracker');
 
 		/** @var $this->fakeFrontend \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController */
-		$this->fakeFrontend = GeneralUtility::makeInstance('\TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
+		$this->fakeFrontend = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
 
 		// simulates a normal FE without any logged-in FE or BE user
 		$this->fakeFrontend->beUserLogin = FALSE;
 		$this->fakeFrontend->workspacePreview = '';
 		$this->fakeFrontend->initFEuser();
-		$this->fakeFrontend->sys_page = GeneralUtility::makeInstance('\TYPO3\CMS\Frontend\Page\PageRepository');
+		$this->fakeFrontend->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
 		$this->fakeFrontend->initTemplate();
 		$this->fakeFrontend->config = array();
 
