@@ -174,9 +174,9 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
 		$request = $this->buildRequest();
-		$response = $this->objectManager->get('TYPO3\CMS\Extbase\Mvc\Web\Response');
+		$response = $this->objectManager->get('TYPO3\CMS\Extbase\Mvc\Web\Response'); /** @var  $response \TYPO3\CMS\Extbase\Mvc\Web\Response */
 
-		$dispatcher = $this->objectManager->get('TYPO3\CMS\Extbase\Mvc\Dispatcher');
+		$dispatcher = $this->objectManager->get('TYPO3\CMS\Extbase\Mvc\Dispatcher'); /** @var \TYPO3\CMS\Extbase\Mvc\Dispatcher $dispatcher */
 		$dispatcher->dispatch($request, $response);
 
 		$response->sendHeaders();
