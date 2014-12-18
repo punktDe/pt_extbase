@@ -114,7 +114,7 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends Tx_Pt
 			'Tx_PtExtbase_SqlGenerator_SuperPhpFileGenerator' => $sqlGenerator2
 		);
 
-		$objectManagerMock = $this->getMockBuilder('Tx_Extbase_Object_ObjectManager')
+		$objectManagerMock = $this->getMockBuilder('\TYPO3\CMS\Extbase\Object\ObjectManager')
 				->setMethods(array('get'))
 				->getMock();
 		$objectManagerMock->expects($this->exactly(2))
