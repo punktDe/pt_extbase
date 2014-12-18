@@ -67,7 +67,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 	/**
 	 * Extbase Object Manager
-	 * @var Tx_Extbase_Object_ObjectManager
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
 	 */
 	protected $objectManager;
 
@@ -302,11 +302,11 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	/**
 	 * Build a request object
 	 *
-	 * @return Tx_Extbase_MVC_Web_Request $request
+	 * @return \TYPO3\CMS\Extbase\Mvc\Web\Request $request
 	 */
 	protected function buildRequest() {
 		$request = $this->objectManager->get('\TYPO3\CMS\Extbase\Mvc\Web\Request');
-		/* @var $request Tx_Extbase_MVC_Request */
+		/* @var $request \TYPO3\CMS\Extbase\Mvc\Request */
 		$request->setControllerExtensionName($this->extensionName);
 		$request->setPluginName($this->pluginName);
 		$request->setControllerName($this->controllerName);

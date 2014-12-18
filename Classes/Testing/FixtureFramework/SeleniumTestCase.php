@@ -36,7 +36,7 @@
 abstract class Tx_PtExtbase_Testing_FixtureFramework_SeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase {
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManagerInterface The object manager
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface The object manager
 	 */
 	protected $objectManager;
 

@@ -77,7 +77,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\
 
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManager
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 

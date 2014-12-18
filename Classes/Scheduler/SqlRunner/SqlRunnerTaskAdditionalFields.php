@@ -38,7 +38,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements \TYPO3\CMS\Scheduler\AdditionalFieldProviderInterface {
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 

@@ -41,12 +41,12 @@ class Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator implements Tx_PtExtbase_SqlG
 	protected $classNames;
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManager
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
 	/**
-	 * @param Tx_Extbase_Object_ObjectManager $objectManager
+	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
 	 * @return void
 	 */
 	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {

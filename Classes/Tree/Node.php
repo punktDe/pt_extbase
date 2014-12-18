@@ -120,7 +120,7 @@ class Tx_PtExtbase_Tree_Node
 	/**
 	 * Holds references to child-nodes
 	 *
-	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_Node>
+	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_PtExtbase_Tree_Node>
 	 */
 	protected $children;
 
@@ -171,7 +171,7 @@ class Tx_PtExtbase_Tree_Node
 
 
 	/**
-	 * Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
+	 * Initializes all \TYPO3\CMS\Extbase\Persistence\ObjectStorage instances.
 	 *
 	 * @return void
 	 */
@@ -281,7 +281,7 @@ class Tx_PtExtbase_Tree_Node
 
 
 	/**
-	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	public function getChildren() {
 		if (is_null($this->children)) {
@@ -347,7 +347,7 @@ class Tx_PtExtbase_Tree_Node
 	 * cat 1.2.1
 	 * cat 1.2.2
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	public function getSubNodes() {
 		$subNodes = new ObjectStorage();

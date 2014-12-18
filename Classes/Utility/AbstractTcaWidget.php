@@ -44,7 +44,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
 
     /**
      * Extbase Object Manager
-     * @var Tx_Extbase_Object_ObjectManager
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      */
     protected $objectManager;
 

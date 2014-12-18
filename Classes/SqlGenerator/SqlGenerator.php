@@ -36,7 +36,7 @@
 class Tx_PtExtbase_SqlGenerator_SqlGenerator implements Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface {
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManager
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
@@ -46,7 +46,7 @@ class Tx_PtExtbase_SqlGenerator_SqlGenerator implements Tx_PtExtbase_SqlGenerato
 	protected $sqlGenerators;
 
 	/**
-	 * @param Tx_Extbase_Object_ObjectManager $objectManager
+	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
 	 * @return void
 	 */
 	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {

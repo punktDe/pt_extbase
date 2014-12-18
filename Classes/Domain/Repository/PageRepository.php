@@ -36,7 +36,7 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
 	/**
 	 * Constructor of the repository.
 	 * Sets the respect storage page to false.
-	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
 	 */
 	public function __construct() {
 		 parent::__construct(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager'));
@@ -49,7 +49,7 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
 
 	/**
 	 * @param $pid
-	 * @return array|Tx_Extbase_Persistence_QueryResultInterface
+	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
 	 */
 	public function findPagesInPid($pid) {
 		$query = $this->createQuery();

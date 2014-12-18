@@ -89,7 +89,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
 
 	
 	/**
-	 * @param Tx_Extbase_MVC_View_ViewInterface $view
+	 * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view
 	 * @return void
 	 */
 	protected function setViewConfiguration(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view) {
@@ -188,7 +188,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
 	 * Template path can be configured in TS via
 	 * plugin.<plugin_key>.settings.controller.<Controller_Name_Without_Controller>.<action_name_without_action>.template = full_path_to_template_with.html
 	 * 
-	 * @param Tx_Extbase_MVC_View_ViewInterface $view
+	 * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view
 	 * @throws Exception
 	 */
 	protected function setCustomPathsInView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view) {
@@ -230,7 +230,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
 	/**
 	 * Fires end-of-lifecycle signal if processing backend request.
 	 * 
-	 * @see Classes/MVC/Controller/Tx_Extbase_MVC_Controller_ActionController::processRequest()
+	 * @see processRequest() in parent
 	 */
 	public function processRequest(\TYPO3\CMS\Extbase\Mvc\RequestInterface $request, \TYPO3\CMS\Extbase\Mvc\ResponseInterface $response) {
 		parent::processRequest($request, $response);
@@ -246,7 +246,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
 	/**
 	 * Setter for view, enables injection of mock view for easy testing.
 	 *
-	 * @param Tx_Extbase_MVC_View_ViewInterface $view View to be injected (for testing)
+	 * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view View to be injected (for testing)
 	 */
 	public function setView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view) {
 		$this->view = $view;

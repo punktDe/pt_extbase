@@ -39,7 +39,7 @@
 class Tx_PtExtbase_SignalSlot_Dispatcher implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
@@ -105,7 +105,7 @@ class Tx_PtExtbase_SignalSlot_Dispatcher implements \TYPO3\CMS\Core\SingletonInt
 	 * @param string $signalName Name of the signal
 	 * @param array $signalArguments arguments passed to the signal method
 	 * @return void
-	 * @throws Tx_Extbase_SignalSlot_Exception_InvalidSlotException if the slot is not valid
+	 * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException if the slot is not valid
 	 * @api
 	 */
 	public function dispatch($signalClassName, $signalName, array $signalArguments = array()) {

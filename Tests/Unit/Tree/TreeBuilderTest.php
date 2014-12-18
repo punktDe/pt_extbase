@@ -134,7 +134,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Un
 	/**
 	 * Returns an ordered set of nodes
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	protected static function buildSetOfNodes() {
 		$setOfNodes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
@@ -154,7 +154,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Un
 	 *
 	 * Inaccessible nodes: 2, 6
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	protected static function buildSetOfNodesWithInaccessibleNodes() {
 		$setOfNodes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
@@ -172,7 +172,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Un
 	/**
 	 * Helper method to return a wrong sorted set of nodes
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	protected static function buildWrongSortedSetOfNodes() {
 		$setOfNodes = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();

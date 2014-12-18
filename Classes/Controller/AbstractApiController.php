@@ -86,7 +86,7 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
 		$validationResult = $this->arguments->getValidationResults();
 
 		foreach ($validationResult->getSubResults() as $argumentName => $subValidationResult) {
-			/** @var $subValidationResult Tx_Extbase_Error_Result */
+			/** @var $subValidationResult \TYPO3\CMS\Extbase\Error\Result */
 			$error = $subValidationResult->getFirstError();
 			if ($error instanceof Error) {
 				break;

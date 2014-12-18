@@ -33,7 +33,7 @@
 abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var Tx_Extbase_MVC_Controller_ControllerContext
+	 * @var \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext
 	 */
 	protected $controllerContext;
 
@@ -73,7 +73,7 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
 
 
 	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
 	 */
 	protected $configurationManager;
 
@@ -138,7 +138,7 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
 
 
 	/**
-	 * @return Tx_Extbase_MVC_Controller_ControllerContext $controllerContext
+	 * @return \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
 	 */
 	public function getControllerContext() {
 		return $this->controllerContext;

@@ -51,7 +51,7 @@ interface Tx_PtExtbase_ContextInterface extends \TYPO3\CMS\Core\SingletonInterfa
 	
 	
 	/**
-	 * @return Tx_Extbase_MVC_Controller_ControllerContext $controllerContext
+	 * @return \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
 	 */
 	public function getControllerContext();
 	
