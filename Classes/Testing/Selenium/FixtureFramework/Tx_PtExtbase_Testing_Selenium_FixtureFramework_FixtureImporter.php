@@ -34,7 +34,7 @@
 class Tx_PtExtbase_Testing_Selenium_FixtureFramework_FixtureImporter {
 
 	/**
-	 * @param $fixtures array
+	 * @param array $fixtures
 	 * @return void
 	 */
 	public function import($fixtures) {

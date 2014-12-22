@@ -56,7 +56,7 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\C
 	/**
 	 * Shortcut for creating a mock with no mocked methods, no constructor call and no changed class name
 	 *
-	 * @param $className Class name of mock to be created
+	 * @param string $className Class name of mock to be created
 	 * @return PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getSimpleMock($className) {

@@ -149,7 +149,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	/**
 	 * return parameters by given namespace
 	 * 
-	 * @param $namespace string
+	 * @param string $namespace
 	 * @return array
 	 */
 	public function getParametersByNamespace($namespace) {

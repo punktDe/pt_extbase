@@ -206,8 +206,8 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
 
 
 	/**
-	 * @param $target object or className
-	 * @param $method
+	 * @param object|string $target object or className
+	 * @param string $method
 	 */
 	public function registerFirstVisitCallback($target, $method) {
 		$this->checkCallBack('firstVisitCallBack', $target, $method);
@@ -220,8 +220,8 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
 
 
 	/**
-	 * @param $target object or className
-	 * @param $method
+	 * @param mixed $target object or className
+	 * @param string $method
 	 */
 	public function registerLastVisitCallBack($target, $method) {
 		$this->checkCallBack('lastVisitCallBack', $target, $method);
