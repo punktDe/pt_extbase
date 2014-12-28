@@ -102,7 +102,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 			// TYPO3 Backend mode
 		} else {
 
-			Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], 't3lib_userAuth', array('message' => 'No valid backend user found!'));
+			Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], '\TYPO3\CMS\Core\Authentication\BackendUserAuthentication', array('message' => 'No valid backend user found!'));
 
 			$val = $GLOBALS['BE_USER']->getSessionData($key);
 			if (TYPO3_DLOG) GeneralUtility::devLog(sprintf('Reading "%s" from BE user session in "$GLOBALS[\'BE_USER\']"', $key), 'pt_extbase');
@@ -166,7 +166,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 			// TYPO3 Backend mode
 		} else {
 
-			Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], 't3lib_userAuth', array('message' => 'No valid backend user found!'));
+			Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], '\TYPO3\CMS\Core\Authentication\BackendUserAuthentication', array('message' => 'No valid backend user found!'));
 
 			$GLOBALS['BE_USER']->setAndSaveSessionData($key, $val);
 			if (TYPO3_DLOG) GeneralUtility::devLog(sprintf('Storing "%s" into BE user session using "$GLOBALS[\'BE_USER\']"', $key), 'pt_extbase');
