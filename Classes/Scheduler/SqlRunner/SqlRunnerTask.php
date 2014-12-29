@@ -26,6 +26,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * SQL Runner Task
@@ -33,10 +34,10 @@
  * @package pt_extbase
  * @subpackage Scheduler
  */
-class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
+class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManager
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
 	 */
 	protected $objectManager;
 
@@ -56,7 +57,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	public function execute() {
 		$this->initializeExtbase();
 		$this->initializeObject();
-		$sqls = $this->sqlGenerator->generate(t3lib_div::getFileAbsFileName($this->tx_ptextbase_sqlfile));
+		$sqls = $this->sqlGenerator->generate(GeneralUtility::getFileAbsFileName($this->tx_ptextbase_sqlfile));
 		$this->sqlRunner->runSqls($sqls);
 		return TRUE;
 	}
@@ -69,7 +70,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	protected function initializeExtbase() {
 		$configuration['extensionName'] = 'PtExtbase';
 		$configuration['pluginName'] = 'dummy';
-		$extbaseBootstrap = t3lib_div::makeInstance('Tx_Extbase_Core_Bootstrap'); /** @var Tx_Extbase_Core_Bootstrap $extbaseBootstrap  */
+		$extbaseBootstrap = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
 		$extbaseBootstrap->initialize($configuration);
 	}
 
@@ -77,7 +78,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 		$this->sqlGenerator = $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlGenerator');
 		$this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
 	}
@@ -88,6 +89,4 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends tx_scheduler_Task {
 	public function getAdditionalInformation() {
 		return "Run SQL file " . $this->tx_ptextbase_sqlfile;
 	}
-
 }
-?>

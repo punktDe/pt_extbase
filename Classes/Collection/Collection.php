@@ -42,7 +42,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     
     
     /**
-     * @var     int     uid of last selected collection item
+     * @var     integer     uid of last selected collection item
      */
     protected $selectedId;
 
@@ -195,7 +195,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
 	 * @param   mixed   $element element to prepend
 	 * @param   bool	$doNotModifyKeys (optional) if true key won't be modified, else numerical keys will be renumbered, default if false
 	 * @param   mixed   $useKey
-	 * @return  int	 (optional) Returns the new number of elements in the collection
+	 * @return  integer	 (optional) Returns the new number of elements in the collection
 	 */
     public function unshift($element, $doNotModifyKeys = false, $useKey = NULL) {
         $this->checkItemType($element);
@@ -222,7 +222,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * Multiple elements (like in array_push) are not supported!
      *
      * @param   mixed   element to append
-     * @return  int     Returns the new number of elements in the collection
+     * @return  integer     Returns the new number of elements in the collection
      */
     public function push($element) {
         $this->checkItemType($element);
@@ -393,7 +393,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     /**
      * Sets the property value
      *
-     * @param   int		$selectedId
+     * @param   integer		$selectedId
      * @return  void
      * @throws  Tx_PtExtbase_Exception_Internal    when parameter is not a valid item id
      */

@@ -30,7 +30,7 @@
  * @subpackage Model
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Domain_Model_SysLanguage extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_PtExtbase_Domain_Model_SysLanguage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * @var string

@@ -71,7 +71,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @api
  */
-class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
+class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
 
 	const RENDER_MODE_UL = 'ul';
 	const RENDER_MODE_DIV = 'div';
@@ -98,7 +98,7 @@ class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends Tx_Fluid_Core_Vie
 	 * @api
 	 */
 	public function render($renderMode = self::RENDER_MODE_UL, $messageCssClasses=array()) {
-		$flashMessages = $this->controllerContext->getFlashMessageContainer()->getAllMessagesAndFlush();
+		$flashMessages = $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush();
 		if ($flashMessages === NULL || count($flashMessages) === 0) {
 			return '';
 		}
@@ -108,7 +108,7 @@ class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends Tx_Fluid_Core_Vie
 			case self::RENDER_MODE_DIV:
 				return $this->renderDiv($flashMessages, $messageCssClasses);
 			default:
-				throw new Tx_Fluid_Core_ViewHelper_Exception('Invalid render mode "' . $renderMode . '" passed to FlashMessageViewhelper', 1290697924);
+				throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('Invalid render mode "' . $renderMode . '" passed to FlashMessageViewhelper', 1290697924);
 		}
 	}
 

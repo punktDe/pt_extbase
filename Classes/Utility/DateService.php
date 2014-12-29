@@ -28,15 +28,15 @@
  * @package pt_extbase
  * @subpackage Utility
  */
-class Tx_PtExtbase_Utility_DateService implements t3lib_Singleton {
+class Tx_PtExtbase_Utility_DateService implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var int
+	 * @var integer
 	 */
 	protected $overrideCurrentYear = NULL;
 
 	/**
-	 * @param int $overrideCurrentYear
+	 * @param integer $overrideCurrentYear
 	 */
 	public function setOverrideCurrentYear($overrideCurrentYear) {
 		$this->overrideCurrentYear = $overrideCurrentYear;

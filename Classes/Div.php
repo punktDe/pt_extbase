@@ -22,6 +22,12 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
 /**
  * General library class with static helper methods
  * 
@@ -77,7 +83,7 @@ class Tx_PtExtbase_Div  {
                 'keepValSessionKeyName' => $keepValSessionKeyName,
             );
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pt_extbase']['tx_ptextbase_div']['localRedirect'] as $funcName) {
-                t3lib_div::callUserFunction($funcName, $params, $fakeThis);
+                GeneralUtility::callUserFunction($funcName, $params, $fakeThis);
             }
         }
 
@@ -87,10 +93,10 @@ class Tx_PtExtbase_Div  {
         }
 
         // generate absolute URL from local path
-        $targetUrl  = t3lib_div::locationHeaderUrl($localPath);
+        $targetUrl  = GeneralUtility::locationHeaderUrl($localPath);
 
         // log to devlog
-        if (TYPO3_DLOG) t3lib_div::devLog('Redirecting from "'.t3lib_div::getIndpEnv('TYPO3_REQUEST_URL').'" to "'.$targetUrl.'"', 'pt_extbase', 1);
+        if (TYPO3_DLOG) GeneralUtility::devLog('Redirecting from "'. GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL').'" to "'.$targetUrl.'"', 'pt_extbase', 1);
 
         // redirect by sending a "Location" header
         header('Location: '.$targetUrl);
@@ -116,10 +122,10 @@ class Tx_PtExtbase_Div  {
         // check if there are any hook relevant userfunctions implemented
         if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extKey][$hookArrayKey][$functionName]) {
 
-            $hookObj = t3lib_div::getUserObj($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extKey][$hookArrayKey][$functionName], '');
+            $hookObj = GeneralUtility::getUserObj($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extKey][$hookArrayKey][$functionName], '');
 
             if (method_exists($hookObj, $functionName)) {
-                if (TYPO3_DLOG) t3lib_div::devLog(sprintf('Hook method found [%s][%s][%s], returning hook object (class: "%s")', $extKey, $hookArrayKey, $functionName, get_class($hookObj)), 'pt_extbase', 1);
+                if (TYPO3_DLOG) GeneralUtility::devLog(sprintf('Hook method found [%s][%s][%s], returning hook object (class: "%s")', $extKey, $hookArrayKey, $functionName, get_class($hookObj)), 'pt_extbase', 1);
 
                 $hookObj->pObj = self;
                 return $hookObj;
@@ -231,7 +237,7 @@ class Tx_PtExtbase_Div  {
      *
      * @param   string  pid or alias
      * @param   bool    (optional) allow "0" as pid, default: false
-     * @return  int     pid
+     * @return  integer     pid
      * @throws  Tx_PtExtbase_Exception_Exception     if pid or alias does not exist, if query fails or if pid == 0 and allowPidZero is false
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      */
@@ -301,7 +307,7 @@ class Tx_PtExtbase_Div  {
             }
             $jscode .= $varName .'.document.close();'.chr(10);
 
-            $GLOBALS['TSFE']->additionalHeaderData['popup'.$varName] .= t3lib_div::wrapJS($jscode);
+            $GLOBALS['TSFE']->additionalHeaderData['popup'.$varName] .= GeneralUtility::wrapJS($jscode);
             return true;
         } else {
             return false;
@@ -322,11 +328,15 @@ class Tx_PtExtbase_Div  {
      */
     public static function clearCache($cacheCmd = 'all') {
 
+<<<<<<< HEAD
         if (!t3lib_utility_Math::canBeInterpretedAsInteger($cacheCmd) && !in_array($cacheCmd, array('pages', 'all', 'temp_CACHED'))) {
+=======
+        if (!GeneralUtility::testInt($cacheCmd) && !in_array($cacheCmd, array('pages', 'all', 'temp_CACHED'))) {
+>>>>>>> 86afeecf95951d33b48a8495de952a9a879e65ee
             throw Tx_PtExtbase_Exception_Exception('Parameter must be "pages", "all", "temp_CACHED" or numeric');
         }
 
-        $tce = t3lib_div::makeInstance('t3lib_TCEmain'); /* @var $tce t3lib_TCEmain */
+        $tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler'); /* @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
         $tce->stripslashes_values = 0;
         $tce->start(Array(),Array());
         $tce->clear_cacheCmd($cacheCmd);
@@ -342,16 +352,16 @@ class Tx_PtExtbase_Div  {
      * @return  boolean  true if Cookies enabled, false if Cookies not disabled and no Error Page set or does not exist.
      * @author  Dorit Rottner <rottner@punkt.de>
      */
-     public static function checkCookies(tslib_pibase $pObj) {
+     public static function checkCookies(\TYPO3\CMS\Frontend\Plugin\AbstractPlugin $pObj) {
 
         if (!$_COOKIE['fe_typo_user']) {
             $redirect_url = $pObj->pi_linkTP_keepPIvars_url($overrulePIvars = array(), $cache = 1, $clearAnyway = 0, $GLOBALS['TSFE']->tmpl->setup['config.']['pt_extbase.']['cookieErrorPage']);
             if ($redirect_url) {
-                t3lib_div::devLog('Cookie not set redirect to '.$redirect_url, 'pt_extbase', 1);
-                header('Location: '.t3lib_div::locationHeaderUrl($redirect_url));
+                GeneralUtility::devLog('Cookie not set redirect to '.$redirect_url, 'pt_extbase', 1);
+                header('Location: '. GeneralUtility::locationHeaderUrl($redirect_url));
                 exit;
             } else {
-                t3lib_div::devLog('Cookie not set redirect url not specified. ', 'pt_extbase', 1);
+                GeneralUtility::devLog('Cookie not set redirect url not specified. ', 'pt_extbase', 1);
                 $return = false;
             }
         } else {
@@ -379,8 +389,8 @@ class Tx_PtExtbase_Div  {
         if (empty($accessList)) {
             return true;
         }
-        foreach(t3lib_div::intExplode(',', $groupList) as $groupUid) {
-            if (t3lib_div::inList($accessList, $groupUid)) {
+        foreach(GeneralUtility::intExplode(',', $groupList) as $groupUid) {
+            if (GeneralUtility::inList($accessList, $groupUid)) {
                 return true;
             }
         }
@@ -478,7 +488,7 @@ class Tx_PtExtbase_Div  {
      * @return  array   output array
      * @author  Fabrizio Branca <mail@fabrizio-branca.de> (taken from ext:tcaobjects)
      */
-    public static function stdWrapArray(array $data, tslib_cObj $cObj=NULL) {
+    public static function stdWrapArray(array $data,  \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj=NULL) {
 
         if (is_null($cObj)) {
             $cObj = $GLOBALS['TSFE']->cObj;
@@ -618,7 +628,7 @@ class Tx_PtExtbase_Div  {
      * @return  string      value of the passed locallang array key with all HTML entities replaced for display in browser
      * @author  Rainer Kuhn 
      */
-    public static function displayLL(tslib_pibase $callerObj, $LLkey) {
+    public static function displayLL(\TYPO3\CMS\Frontend\Plugin\AbstractPlugin $callerObj, $LLkey) {
 
         return htmlentities($callerObj->pi_getLL($LLkey), ENT_QUOTES);
 
@@ -647,7 +657,7 @@ class Tx_PtExtbase_Div  {
             } elseif (is_object($GLOBALS['LANG'])) {
                 // $llArray = $GLOBALS['LANG']->readLLfile($llFile);
                 // as the function readLLfile is protected in the latest TYPO3 version we read the ll file directly
-                $llArray = t3lib_div::readLLfile($llFile, $GLOBALS['LANG']->lang, $GLOBALS['LANG']->charSet); 
+                $llArray = GeneralUtility::readLLfile($llFile, $GLOBALS['LANG']->lang, $GLOBALS['LANG']->charSet);
             } else {
                 throw new Tx_PtExtbase_Exception_Exception('No valid TSFE or LANG object found!');
             }
@@ -698,11 +708,11 @@ class Tx_PtExtbase_Div  {
      */
     public static function getLangObject() {
 
-        if ($GLOBALS['LANG'] instanceof language) {
+        if ($GLOBALS['LANG'] instanceof \TYPO3\CMS\Lang\LanguageService) {
             $lang = $GLOBALS['LANG'];
         } else {
-            $lang = t3lib_div::makeInstance('language');
-            $lang->csConvObj = t3lib_div::makeInstance('t3lib_cs');
+            $lang = GeneralUtility::makeInstance('TYPO3\CMS\Lang\LanguageService');
+            $lang->csConvObj = GeneralUtility::makeInstance('TYPO3\CMS\Core\Charset\CharsetConverter');
         }
         return $lang;
 
@@ -716,13 +726,13 @@ class Tx_PtExtbase_Div  {
 	 * @return tslib_cObj;
 	 */
 	public static function getCobj() {
-		if(!self::$cObj instanceof tslib_cObj) {
+		if(!self::$cObj instanceof  \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer || $GLOBALS['TSFE'] === NULL) {
 			if(TYPO3_MODE == 'FE') {
 				if(!is_a($GLOBALS['TSFE']->cObj,'tslib_cObj')) {
 					$GLOBALS['TSFE']->newCObj();
 				}
 			} else {
-				t3lib_div::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory')->createFakeFrontend();
+				GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory')->createFakeFrontend();
 			}
 			self::$cObj = $GLOBALS['TSFE']->cObj;
 		}
@@ -787,7 +797,7 @@ class Tx_PtExtbase_Div  {
      *  - Tx_PtExtbase_Div::typoscriptRegistry('plugin.my_ext.', NULL, 'my_ext', 'tsConfigurationPid');
      *
      * @param     string    typoscript config key, e.g. "plugin.tx_myext."
-     * @param     int       (optional) pageuid
+     * @param     integer       (optional) pageuid
      * @param     string    (optional) extension key
      * @param     string    (optional) extConfKey, e.g. "tsConfigurationPid"
      * @return    array     typoscript configuation array
@@ -797,7 +807,7 @@ class Tx_PtExtbase_Div  {
 
         Tx_PtExtbase_Assertions_Assert::isNotEmptyString($tsConfigKey, array('message' => 'No "tsConfigKey" defined!'));
 
-        require_once t3lib_extMgm::extPath('pt_extbase').'Classes/Registry/Registry.php';
+        require_once ExtensionManagementUtility::extPath('pt_extbase').'Classes/Registry/Registry.php';
 
         $registry = Tx_PtExtbase_Registry_Registry::getInstance();
         $registryKey = 'ts_' . $tsConfigKey;
@@ -805,7 +815,7 @@ class Tx_PtExtbase_Div  {
         if (!$registry->has($registryKey)) {
 
             // In frontend context
-            if ($GLOBALS['TSFE'] instanceof tslib_fe) {
+            if ($GLOBALS['TSFE'] instanceof \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController) {
 
                 $confArray = self::getTS($tsConfigKey);
 
@@ -856,9 +866,9 @@ class Tx_PtExtbase_Div  {
         }
 
         // create TS configuration: idea of Fabian Koenig (http://lists.netfielders.de/pipermail/typo3-german/2007-May/032473.html)
-        $sysPageObj = t3lib_div::makeInstance('t3lib_pageSelect');
+        $sysPageObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
         $rootLine = $sysPageObj->getRootLine($pageUid);
-        $TSObj = t3lib_div::makeInstance('t3lib_tsparser_ext');  /* @var $TSObj t3lib_tsparser_ext */
+        $TSObj = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\ExtendedTemplateService');  /* @var $TSObj \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService */
         $TSObj->tt_track = 0;
         $TSObj->init();
         $TSObj->runThroughTemplates($rootLine);
@@ -1001,7 +1011,7 @@ class Tx_PtExtbase_Div  {
             $filteredValue = NULL;
         // all other values (including objects and arrays): set filtered value to empty string
         } else {
-            if (TYPO3_DLOG) t3lib_div::devLog(__METHOD__.'(): unfilterable value has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
+            if (TYPO3_DLOG) GeneralUtility::devLog(__METHOD__.'(): unfilterable value has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
         }
 
         return $filteredValue;
@@ -1047,12 +1057,12 @@ class Tx_PtExtbase_Div  {
                 // all other values (including non-ArrayAccess objects): set filtered value to empty string
                 } else {
                     $filteredArray[$newKey] = '';
-                    if (TYPO3_DLOG) t3lib_div::devLog(__METHOD__.'(): unfilterable array value of key "'.$key.'" has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
+                    if (TYPO3_DLOG) GeneralUtility::devLog(__METHOD__.'(): unfilterable array value of key "'.$key.'" has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
                 }
             }
 
         } else {
-            if (TYPO3_DLOG) t3lib_div::devLog(__METHOD__.'(): given parameter was no array', 'pt_tools', 2, array('original parameter' => $array));
+            if (TYPO3_DLOG) GeneralUtility::devLog(__METHOD__.'(): given parameter was no array', 'pt_tools', 2, array('original parameter' => $array));
         }
 
         return $filteredArray;
@@ -1131,7 +1141,7 @@ class Tx_PtExtbase_Div  {
                 // unset the property first, because overwriting it can have side-effects on ArrayAccess objects (e.g. when checking if an item already exists in the collection)
                 unset($filteredObject[$key]);
                 $filteredObject[$key] = '';
-                if (TYPO3_DLOG) t3lib_div::devLog(__METHOD__.'(): unfilterable ArrayAccess object property "'.$key.'" has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
+                if (TYPO3_DLOG) GeneralUtility::devLog(__METHOD__.'(): unfilterable ArrayAccess object property "'.$key.'" has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
             }
         }
 
@@ -1319,25 +1329,25 @@ class Tx_PtExtbase_Div  {
     /**
      * Returns the last built SQL SELECT query with tabs removed.
      *
-     * This function tries to retrieve the last built SQL SELECT query from the database object property $this->debug_lastBuiltQuery (works only since T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true). If this does not succeed, a fallback method is used (for former versions of class.t3lib_db.php [TYPO3 3.6.0-3.8.0beta1] or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true) to retrieve the query string from t3lib_db::SELECTquery() - as this is an overhead (t3lib_db::SELECTquery() is called a second time after the call from t3lib_db::exec_SELECT_query) IMO this should not be a permanent solution.
+     * This function tries to retrieve the last built SQL SELECT query from the database object property $this->debug_lastBuiltQuery (works only since T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true). If this does not succeed, a fallback method is used (for former versions of class.\TYPO3\CMS\Core\Database\DatabaseConnection.php [TYPO3 3.6.0-3.8.0beta1] or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true) to retrieve the query string from \TYPO3\CMS\Core\Database\DatabaseConnection::SELECTquery() - as this is an overhead (\TYPO3\CMS\Core\Database\DatabaseConnection::SELECTquery() is called a second time after the call from \TYPO3\CMS\Core\Database\DatabaseConnection::exec_SELECT_query) IMO this should not be a permanent solution.
      *
-     * @param   t3lib_db    TYPO3 database object (instance of t3lib_db) used for last executed SQL query
-     * @param   string      select field name(s) passed to last executed SQL query (see comment of t3lib_db::exec_SELECTquery())
-     * @param   string      from clause/table name(s) passed to last executed SQL query (see comment of t3lib_db::exec_SELECTquery())
-     * @param   string      where clause passed to last executed SQL query (see comment of t3lib_db::exec_SELECTquery())
-     * @param   string      (optional) order by clause passed to last executed SQL query (see comment of t3lib_db::exec_SELECTquery())
-     * @param   string      (optional) group by clause passed to last executed SQL query (see comment of t3lib_db::exec_SELECTquery())
-     * @param   string      (optional) limit clause passed to last executed SQL query (see comment of t3lib_db::exec_SELECTquery())
+     * @param   DatabaseConnection    TYPO3 database object (instance of \TYPO3\CMS\Core\Database\DatabaseConnection) used for last executed SQL query
+     * @param   string      select field name(s) passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_SELECTquery())
+     * @param   string      from clause/table name(s) passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_SELECTquery())
+     * @param   string      where clause passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_SELECTquery())
+     * @param   string      (optional) order by clause passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_SELECTquery())
+     * @param   string      (optional) group by clause passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_SELECTquery())
+     * @param   string      (optional) limit clause passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_SELECTquery())
      * @return  string      last built SQL query with tabs removed
-     * @see                 class.t3lib_db.php, t3lib_db::exec_SELECTquery()
+     * @see                 class.\TYPO3\CMS\Core\Database\DatabaseConnection.php, \TYPO3\CMS\Core\Database\DatabaseConnection::exec_SELECTquery()
      * @author  Rainer Kuhn 
      */
-    public static function returnLastBuiltSelectQuery(t3lib_db $dbObject, $select_fields, $from_table, $where_clause, $groupBy='', $orderBy='', $limit='') {
+    public static function returnLastBuiltSelectQuery(DatabaseConnection $dbObject, $select_fields, $from_table, $where_clause, $groupBy='', $orderBy='', $limit='') {
 
         // try to get query from debug_lastBuiltQuery (works only for T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true)
         $query = $dbObject->debug_lastBuiltQuery;
 
-        // fallback for former versions of class.t3lib_db.php (TYPO3 3.6.0-3.8.0beta1) or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true
+        // fallback for former versions of class.\TYPO3\CMS\Core\Database\DatabaseConnection.php (TYPO3 3.6.0-3.8.0beta1) or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true
         if (strlen($query) < 1) {
             $query = $dbObject->SELECTquery($select_fields, $from_table, $where_clause, $groupBy, $orderBy, $limit);
         }
@@ -1352,21 +1362,21 @@ class Tx_PtExtbase_Div  {
     /**
      * Returns the last built SQL DELETE query with tabs removed.
      *
-     * This function tries to retrieve the last built SQL DELETE query from the database object property $this->debug_lastBuiltQuery (works only since T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true). If this does not succeed, a fallback method is used (for former versions of class.t3lib_db.php [TYPO3 3.6.0-3.8.0beta1] or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true) to retrieve the query string from t3lib_db::DELETEquery() - as this is an overhead (t3lib_db::DELETEquery() is called a second time after the call from t3lib_db::exec_SELECT_query) IMO this should not be a permanent solution.
+     * This function tries to retrieve the last built SQL DELETE query from the database object property $this->debug_lastBuiltQuery (works only since T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true). If this does not succeed, a fallback method is used (for former versions of class.\TYPO3\CMS\Core\Database\DatabaseConnection.php [TYPO3 3.6.0-3.8.0beta1] or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true) to retrieve the query string from \TYPO3\CMS\Core\Database\DatabaseConnection::DELETEquery() - as this is an overhead (\TYPO3\CMS\Core\Database\DatabaseConnection::DELETEquery() is called a second time after the call from \TYPO3\CMS\Core\Database\DatabaseConnection::exec_SELECT_query) IMO this should not be a permanent solution.
      *
-     * @param   t3lib_db    TYPO3 database object (instance of t3lib_db) used for last executed SQL query
-     * @param   string      from clause/table name passed to last executed SQL query (see comment of t3lib_db::exec_DELETEquery())
-     * @param   string      where clause passed to last executed SQL query (see comment of t3lib_db::exec_DELETEquery())
+     * @param   DatabaseConnection    TYPO3 database object (instance of \TYPO3\CMS\Core\Database\DatabaseConnection) used for last executed SQL query
+     * @param   string      from clause/table name passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_DELETEquery())
+     * @param   string      where clause passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_DELETEquery())
      * @return  string      last built SQL query with tabs removed
-     * @see                 class.t3lib_db.php, t3lib_db::exec_DELETEquery()
+     * @see                 class.\TYPO3\CMS\Core\Database\DatabaseConnection.php, \TYPO3\CMS\Core\Database\DatabaseConnection::exec_DELETEquery()
      * @author  Rainer Kuhn 
      */
-    public static function returnLastBuiltDeleteQuery(t3lib_db $dbObject, $from_table, $where_clause) {
+    public static function returnLastBuiltDeleteQuery(DatabaseConnection $dbObject, $from_table, $where_clause) {
 
         // try to get query from debug_lastBuiltQuery (works only for T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true)
         $query = $dbObject->debug_lastBuiltQuery;
 
-        // fallback for former versions of class.t3lib_db.php (TYPO3 3.6.0-3.8.0beta1) or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true
+        // fallback for former versions of class.\TYPO3\CMS\Core\Database\DatabaseConnection.php (TYPO3 3.6.0-3.8.0beta1) or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true
         if (strlen($query) < 1) {
             $query = $dbObject->DELETEquery($from_table, $where_clause);
         }
@@ -1381,22 +1391,22 @@ class Tx_PtExtbase_Div  {
     /**
      * Returns the last built SQL UPDATE query with tabs removed.
      *
-     * This function tries to retrieve the last built SQL UPDATE query from the database object property $this->debug_lastBuiltQuery (works only since T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true). If this does not succeed, a fallback method is used (for former versions of class.t3lib_db.php [TYPO3 3.6.0-3.8.0beta1] or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true) to retrieve the query string from t3lib_db::UPDATEquery() - as this is an overhead (t3lib_db::UPDATEquery() is called a second time after the call from t3lib_db::exec_UPDATE_query) IMO this should not be a permanent solution.
+     * This function tries to retrieve the last built SQL UPDATE query from the database object property $this->debug_lastBuiltQuery (works only since T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true). If this does not succeed, a fallback method is used (for former versions of class.\TYPO3\CMS\Core\Database\DatabaseConnection.php [TYPO3 3.6.0-3.8.0beta1] or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true) to retrieve the query string from \TYPO3\CMS\Core\Database\DatabaseConnection::UPDATEquery() - as this is an overhead (\TYPO3\CMS\Core\Database\DatabaseConnection::UPDATEquery() is called a second time after the call from \TYPO3\CMS\Core\Database\DatabaseConnection::exec_UPDATE_query) IMO this should not be a permanent solution.
      *
-     * @param   t3lib_db    TYPO3 database object (instance of t3lib_db) used for last executed SQL query
-     * @param   string      table name passed to last executed SQL query (see comment of t3lib_db::exec_UPDATEquery())
-     * @param   string      where clause passed to last executed SQL query (see comment of t3lib_db::exec_UPDATEquery())
-     * @param   array       array containing field/value-pairs passed to last executed SQL query (see comment of t3lib_db::exec_UPDATEquery())
+     * @param   DatabaseConnection    TYPO3 database object (instance of \TYPO3\CMS\Core\Database\DatabaseConnection) used for last executed SQL query
+     * @param   string      table name passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_UPDATEquery())
+     * @param   string      where clause passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_UPDATEquery())
+     * @param   array       array containing field/value-pairs passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_UPDATEquery())
      * @return  string      last built SQL query with tabs removed
-     * @see                 class.t3lib_db.php, t3lib_db::exec_UPDATEquery()
+     * @see                 class.\TYPO3\CMS\Core\Database\DatabaseConnection.php, \TYPO3\CMS\Core\Database\DatabaseConnection::exec_UPDATEquery()
      * @author  Rainer Kuhn 
      */
-    public static function returnLastBuiltUpdateQuery(t3lib_db $dbObject, $table, $where, $updateFieldsArr) {
+    public static function returnLastBuiltUpdateQuery(DatabaseConnection $dbObject, $table, $where, $updateFieldsArr) {
 
         // try to get query from debug_lastBuiltQuery (works only for T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true)
         $query = $dbObject->debug_lastBuiltQuery;
 
-        // fallback for former versions of class.t3lib_db.php (TYPO3 3.6.0-3.8.0beta1) or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true
+        // fallback for former versions of class.\TYPO3\CMS\Core\Database\DatabaseConnection.php (TYPO3 3.6.0-3.8.0beta1) or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true
         if (strlen($query) < 1) {
             $query = $dbObject->UPDATEquery($table, $where, $updateFieldsArr);
         }
@@ -1411,21 +1421,21 @@ class Tx_PtExtbase_Div  {
     /**
      * Returns the last built SQL INSERT query with tabs removed.
      *
-     * This function tries to retrieve the last built SQL INSERT query from the database object property $this->debug_lastBuiltQuery (works only since T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true). If this does not succeed, a fallback method is used (for former versions of class.t3lib_db.php [TYPO3 3.6.0-3.8.0beta1] or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true) to retrieve the query string from t3lib_db::INSERTquery() - as this is an overhead (t3lib_db::INSERTquery() is called a second time after the call from t3lib_db::exec_INSERT_query) IMO this should not be a permanent solution.
+     * This function tries to retrieve the last built SQL INSERT query from the database object property $this->debug_lastBuiltQuery (works only since T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true). If this does not succeed, a fallback method is used (for former versions of class.\TYPO3\CMS\Core\Database\DatabaseConnection.php [TYPO3 3.6.0-3.8.0beta1] or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true) to retrieve the query string from \TYPO3\CMS\Core\Database\DatabaseConnection::INSERTquery() - as this is an overhead (\TYPO3\CMS\Core\Database\DatabaseConnection::INSERTquery() is called a second time after the call from \TYPO3\CMS\Core\Database\DatabaseConnection::exec_INSERT_query) IMO this should not be a permanent solution.
      *
-     * @param   t3lib_db    TYPO3 database object (instance of t3lib_db) used for last executed SQL query
-     * @param   string      table name passed to last executed SQL query (see comment of t3lib_db::exec_INSERTquery())
-     * @param   array       array containing field/value-pairs passed to last executed SQL query (see comment of t3lib_db::exec_INSERTquery())
+     * @param   DatabaseConnection    TYPO3 database object (instance of \TYPO3\CMS\Core\Database\DatabaseConnection) used for last executed SQL query
+     * @param   string      table name passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_INSERTquery())
+     * @param   array       array containing field/value-pairs passed to last executed SQL query (see comment of \TYPO3\CMS\Core\Database\DatabaseConnection::exec_INSERTquery())
      * @return  string      last built SQL query with tabs removed
-     * @see                 class.t3lib_db.php, t3lib_db::exec_INSERTquery()
+     * @see                 class.\TYPO3\CMS\Core\Database\DatabaseConnection.php, \TYPO3\CMS\Core\Database\DatabaseConnection::exec_INSERTquery()
      * @author  Rainer Kuhn 
      */
-    public static function returnLastBuiltInsertQuery(t3lib_db $dbObject, $table, $insertFieldsArr) {
+    public static function returnLastBuiltInsertQuery(DatabaseConnection $dbObject, $table, $insertFieldsArr) {
 
         // try to get query from debug_lastBuiltQuery (works only for T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true)
         $query = $dbObject->debug_lastBuiltQuery;
 
-        // fallback for former versions of class.t3lib_db.php (TYPO3 3.6.0-3.8.0beta1) or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true
+        // fallback for former versions of class.\TYPO3\CMS\Core\Database\DatabaseConnection.php (TYPO3 3.6.0-3.8.0beta1) or $GLOBALS['TYPO3_DB']->store_lastBuiltQuery _not_ set to true
         if (strlen($query) < 1) {
             $query = $dbObject->INSERTquery($table, $insertFieldsArr);
         }
@@ -1447,7 +1457,7 @@ class Tx_PtExtbase_Div  {
      * @param   integer     (optional) page id for INSERT (this setting has no effect if 2. param is set to false)
      * @param   integer     (optional) BE user id for INSERT (this setting has no effect if 2. param is set to false)
      * @return  array       expanded array for SQL INSERT or UPDATE statements
-     * @see                 class.t3lib_db.php, t3lib_db::exec_INSERTquery(), t3lib_db::exec_UPDATEquery()
+     * @see                 class.\TYPO3\CMS\Core\Database\DatabaseConnection.php, \TYPO3\CMS\Core\Database\DatabaseConnection::exec_INSERTquery(), \TYPO3\CMS\Core\Database\DatabaseConnection::exec_UPDATEquery()
      * @author  Dorit Rottner <rottner@punkt.de>
      */
     public static function expandFieldValuesForQuery($fieldValueArr, $isInsert=false, $pid=NULL, $cruser_id=NULL) {
@@ -1482,12 +1492,12 @@ class Tx_PtExtbase_Div  {
         if (TYPO3_MODE == 'FE' && is_object($GLOBALS['TSFE']->cObj)) {
             $result =  $GLOBALS['TSFE']->cObj->enableFields($table);
         } else {
-            $result = t3lib_BEfunc::BEenableFields($table);
+            $result = BackendUtility::BEenableFields($table);
             // this is a bugfix for TYPO3 because if there are no hidden, start and endtime fields it returns AND
             if (trim($result) == 'AND') {
                 $result = '';
             }
-            $result .= t3lib_BEfunc::deleteClause($table);
+            $result .= BackendUtility::deleteClause($table);
         }
         if ($alias != '') {
             $search = $table.'.';
@@ -1504,12 +1514,12 @@ class Tx_PtExtbase_Div  {
      * Returns true if a specified database table exists in the given database
      *
      * @param   string      database table name to check
-     * @param   t3lib_db    database object of type t3lib_db to use (e.g. $GLOBALS['TYPO3_DB'] to use TYPO3 default database)
+     * @param   DatabaseConnection    database object of type \TYPO3\CMS\Core\Database\DatabaseConnection to use (e.g. $GLOBALS['TYPO3_DB'] to use TYPO3 default database)
      * @return  boolean     TRUE if table exists in specified database, FALSE if not
      * @throws  Tx_PtExtbase_Exception_Exception   if the SHOW TABLES query fails/returns false
      * @author  Rainer Kuhn 
      */
-    public static function dbTableExists($table, t3lib_db $dbObj) {
+    public static function dbTableExists($table, DatabaseConnection $dbObj) {
 
         $tableExists = false;
         $query  = 'SHOW TABLES';
@@ -1543,12 +1553,12 @@ class Tx_PtExtbase_Div  {
      *
      * @param   string      database table name to check
      * @param   string      database name of the table to check
-     * @param   t3lib_db    database object of type t3lib_db to use (e.g. $GLOBALS['TYPO3_DB'] to use TYPO3 default database)
+     * @param   DatabaseConnection    database object of type \TYPO3\CMS\Core\Database\DatabaseConnection to use (e.g. $GLOBALS['TYPO3_DB'] to use TYPO3 default database)
      * @return  boolean     TRUE if specified table contains record rows, FALSE if not
      * @throws  Tx_PtExtbase_Exception_Exception   if the SHOW TABLE STATUS query fails/returns false
      * @author  Rainer Kuhn 
      */
-    public static function dbTableHasRecords($table, $dbName, t3lib_db $dbObj) {
+    public static function dbTableHasRecords($table, $dbName, DatabaseConnection $dbObj) {
 
         $tableHasRecords = false;
         $query  = 'SHOW TABLE STATUS FROM '.$dbObj->quoteStr($dbName, $table).' LIKE "'.$dbObj->quoteStr($table, $table).'"';
@@ -1573,7 +1583,7 @@ class Tx_PtExtbase_Div  {
 	/**
 	 * @static
 	 * @throws Exception if file not found
-	 * @param $filePath string path to typoscript file
+	 * @param string $tsSetupFilePath path to typoscript file
 	 * @return array ts-Config
 	 */
 	public static function loadTypoScriptFromFile($tsSetupFilePath) {
@@ -1581,12 +1591,12 @@ class Tx_PtExtbase_Div  {
 		if(!file_exists($tsSetupFilePath)) Throw new Exception('No Typoscript file found at path ' . $tsSetupFilePath . ' 1316733309');
 
 		$rawTsConfig  = file_get_contents($tsSetupFilePath);
-		$tsParser  = t3lib_div::makeInstance('t3lib_TSparser'); /** @var $tsParser  t3lib_TSparser */
+		$tsParser  = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser'); /** @var $tsParser  \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser */
 
 		$tsLines = explode(LF, $rawTsConfig);
 
 		foreach ($tsLines as &$value) {
-			$includeData = t3lib_TSparser::checkIncludeLines($value, 1, TRUE);
+			$includeData = \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::checkIncludeLines($value, 1, TRUE);
 			$value = $includeData['typoscript'];
 		}
 
@@ -1609,8 +1619,7 @@ class Tx_PtExtbase_Div  {
 	 * @return mixed
 	 */
 	public static function getLazyLoadedObject($object) {
-		if (get_class($object) === 'Tx_Extbase_Persistence_LazyLoadingProxy'
-				|| get_class($object) === 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\LazyLoadingProxy') {
+		if (get_class($object) === 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\LazyLoadingProxy') {
 			return $object->_loadRealInstance();
 		} else {
 			return $object;
@@ -1625,17 +1634,11 @@ class Tx_PtExtbase_Div  {
 	 * @return bool
 	 */
 	public static function isMinTypo3Version($minVersion) {
-		if(class_exists('\TYPO3\CMS\Core\Utility\VersionNumberUtility')) {
-			$currentVersionAsInt = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getNumericTypo3Version());
-			$minVersionAsInt = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger($minVersion);
-		} else {
-			$currentVersionAsInt = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version);
-			$minVersionAsInt = t3lib_utility_VersionNumber::convertVersionNumberToInteger($minVersion);
-		}
+		$currentVersionAsInt = VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getNumericTypo3Version());
+		$minVersionAsInt = VersionNumberUtility::convertVersionNumberToInteger($minVersion);
+
 
 		return $currentVersionAsInt >= $minVersionAsInt;
 	}
 
 }
-
-?>

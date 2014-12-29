@@ -22,6 +22,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class implements a testcase for the fake frontend creation
@@ -54,7 +55,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends Tx_PtExtba
 		$this->assertNull($GLOBALS['TSFE']);
 
 		/** @var $fakeFrontend Tx_PtExtbase_Utility_FakeFrontendFactory */
-		$fakeFrontend = t3lib_div::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
+		$fakeFrontend = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
 		$fakeFrontend->createFakeFrontEnd(1);
 
 		$this->assertInstanceOf('tslib_fe', $GLOBALS['TSFE']);
@@ -68,7 +69,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends Tx_PtExtba
 		$this->assertNull($GLOBALS['TSFE']);
 
 		/** @var $fakeFrontend Tx_PtExtbase_Utility_FakeFrontendFactory */
-		$fakeFrontend = t3lib_div::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
+		$fakeFrontend = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
 		$fakeFrontend->createFakeFrontEnd(1);
 
 		$this->assertNotNull($GLOBALS['TSFE']->cObj, 'No Cobject in faked frontend.');
@@ -76,5 +77,3 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends Tx_PtExtba
 	}
 	
 }
-
-?>

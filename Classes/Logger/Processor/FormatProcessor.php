@@ -23,7 +23,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class Tx_PtExtbase_Logger_FormatProcessor extends t3lib_log_processor_Abstract {
+class Tx_PtExtbase_Logger_FormatProcessor extends TYPO3\CMS\Core\Log\Processor\AbstractProcessor {
 
 
 	protected $formatTokens = array(
@@ -37,10 +37,10 @@ class Tx_PtExtbase_Logger_FormatProcessor extends t3lib_log_processor_Abstract {
 	/**
 	 * Formats the log
 	 *
-	 * @param t3lib_log_Record $logRecord
-	 * @return t3lib_log_Record
+	 * @param \TYPO3\CMS\Core\Log\LogRecord $logRecord
+	 * @return \TYPO3\CMS\Core\Log\LogRecord
 	 */
-	public function processLogRecord(t3lib_log_Record $logRecord) {
+	public function processLogRecord(\TYPO3\CMS\Core\Log\LogRecord $logRecord) {
 		$message = $logRecord->getMessage();
 
 		foreach($this->formatTokens as $token => $formattingMethod) {

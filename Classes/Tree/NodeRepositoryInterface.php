@@ -39,7 +39,7 @@ interface Tx_PtExtbase_Tree_NodeRepositoryInterface {
 	 * Nodes are ordered by left-value 
 	 *
 	 * @param string $namespace
-     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_PtExtbase_Tree_NodeInterface>
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_PtExtbase_Tree_NodeInterface>
 	 */
 	public function findByNamespace($namespace);
 

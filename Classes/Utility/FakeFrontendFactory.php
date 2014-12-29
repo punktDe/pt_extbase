@@ -22,6 +22,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /**
@@ -33,10 +34,10 @@
 * @subpackage Utility
 * @author Daniel Lienert <daniel@lienert.cc>
 */
-class Tx_PtExtbase_Utility_FakeFrontendFactory implements t3lib_Singleton {
+class Tx_PtExtbase_Utility_FakeFrontendFactory implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var tslib_fe
+	 * @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
 	 */
 	protected $fakeFrontend = NULL;
 
@@ -44,8 +45,8 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements t3lib_Singleton {
 	/**
 	 * Create a fake frontend
 	 *
-	 * @param int $pageUid
-	 * @return tslib_fe
+	 * @param integer $pageUid
+	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
 	 * @throws InvalidArgumentException
 	 */
 	public function createFakeFrontEnd($pageUid = 0) {
@@ -56,16 +57,17 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements t3lib_Singleton {
 			throw new InvalidArgumentException('$pageUid must be >= 0.');
 		}
 
-		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_TimeTrackNull');
+		$GLOBALS['TT'] = GeneralUtility::makeInstance('TYPO3\CMS\Core\TimeTracker\NullTimeTracker');
 
-		/** @var $this->fakeFrontend tslib_fe */
-		$this->fakeFrontend = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
+		/** @var $this->fakeFrontend \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController */
+		$this->fakeFrontend = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
 
 		// simulates a normal FE without any logged-in FE or BE user
 		$this->fakeFrontend->beUserLogin = FALSE;
 		$this->fakeFrontend->workspacePreview = '';
 		$this->fakeFrontend->initFEuser();
-		$this->fakeFrontend->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+		$this->fakeFrontend->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+		$this->fakeFrontend->page = $pageUid;
 		$this->fakeFrontend->initTemplate();
 		$this->fakeFrontend->config = array();
 
@@ -78,4 +80,3 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements t3lib_Singleton {
 		return $this->fakeFrontend;
 	}
 }
-?>

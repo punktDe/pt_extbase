@@ -177,16 +177,16 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
 	 */
 	public function getMergedSettingsWithPrototype($overwriteSettings, $objectPath) {
 		// TODO cache this!
+
 		if(!is_array($overwriteSettings)) {
 			$overwriteSettings = array();
 		}
 
-		$mergedSettings = t3lib_div::array_merge_recursive_overrule(
-            $this->getPrototypeSettingsForObject($objectPath),
-			$overwriteSettings
-		);
+		$mergedSettings = $this->getPrototypeSettingsForObject($objectPath);
 
-        return $mergedSettings;
+		\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($mergedSettings, $overwriteSettings);
+
+		return $mergedSettings;
 	}
 
 

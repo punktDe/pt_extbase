@@ -19,6 +19,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Log\LogLevel;
+
 /**
  * InfoLoggerException
  *
@@ -27,7 +29,7 @@
 class Tx_PtExtbase_Exception_LoggerException extends Exception {
 
 	/**
-	 * @var int
+	 * @var integer
 	 * @see t3lib_log_Level
 	 */
 	protected $logLevel;
@@ -35,22 +37,22 @@ class Tx_PtExtbase_Exception_LoggerException extends Exception {
 
 	/**
 	 * @param string $message
-	 * @param int $code
+	 * @param integer $code
 	 * @param \Exception|int $logLevel
 	 * @param Exception $previous
 	 */
-	public function __construct($message = "", $code = 0, $logLevel = t3lib_log_Level::ERROR, Exception $previous = null) {
+	public function __construct($message = "", $code = 0, $logLevel = LogLevel::ERROR, Exception $previous = null) {
 		parent::__construct($message, $code, $previous);
-		if (t3lib_log_Level::isValidLevel($logLevel)) {
+		if (LogLevel::isValidLevel($logLevel)) {
 			$this->logLevel = $logLevel;
 		} else {
-			$this->logLevel = t3lib_log_Level::ERROR;
+			$this->logLevel = LogLevel::ERROR;
 		}
 	}
 
 
 	/**
-	 * @return int
+	 * @return integer
 	 */
 	public function getLogLevel() {
 		return $this->logLevel;

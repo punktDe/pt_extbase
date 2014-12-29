@@ -26,6 +26,8 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * SQL Runner Task Additional Fields
@@ -33,10 +35,10 @@
  * @package pt_extbase
  * @subpackage Scheduler
  */
-class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements tx_scheduler_AdditionalFieldProvider {
+class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements \TYPO3\CMS\Scheduler\AdditionalFieldProviderInterface {
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
@@ -63,11 +65,11 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	 * @param tx_scheduler_Module $schedulerModule Reference to the scheduler backend module
 	 * @return array A two dimensional array, array('Identifier' => array('fieldId' => array('code' => '', 'label' => '', 'cshKey' => '', 'cshLabel' => ''))
 	 */
-	public function getAdditionalFields(array &$taskInfo, $task, tx_scheduler_Module $schedulerModule) {
+	public function getAdditionalFields(array &$taskInfo, $task,  \TYPO3\CMS\Scheduler\Controller\SchedulerModuleController $schedulerModule) {
 		$configuration = $this->configuration;
 		$additionalFields = array();
 
-		$this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
 		if (empty($taskInfo[$configuration['id']])) {
 			if($schedulerModule->CMD == 'edit') {
@@ -93,12 +95,12 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 
 
 	/**
-	 * @return Tx_Fluid_View_StandaloneView
+	 * @return \TYPO3\CMS\Fluid\View\StandaloneView
 	 */
 	protected function getView() {
-		$view = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView'); /** @var Tx_Fluid_View_StandaloneView $view */
-		$view->setTemplatePathAndFilename(t3lib_div::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Templates/Scheduler/SqlRunner/TaskAdditionalFields.html'));
-		$view->setPartialRootPath(t3lib_div::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Partials'));
+		$view = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView'); /** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
+		$view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Templates/Scheduler/SqlRunner/TaskAdditionalFields.html'));
+		$view->setPartialRootPath(GeneralUtility::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Partials'));
 		return $view;
 	}
 
@@ -127,7 +129,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 		$enabledExtensions = $this->objectManager->get('Tx_PtExtbase_Compatibility_Core_ExtensionManager')->getEnabledExtensionList();
 
 		foreach ($enabledExtensions as $enabledExtension) {
-			if (t3lib_extMgm::isLoaded($enabledExtension)) {
+			if (ExtensionManagementUtility::isLoaded($enabledExtension)) {
 				$loadedExtensions[] = $enabledExtension;
 			}
 		}
@@ -159,8 +161,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	 * @return array
 	 */
 	protected function getFilePathsOfPath($extension, $path) {
-		$path = t3lib_extMgm::extPath($extension, $path);
-		return t3lib_div::getAllFilesAndFoldersInPath(array(), $path, $this->fileExtensionList);
+		$path = ExtensionManagementUtility::extPath($extension, $path);
+		return GeneralUtility::getAllFilesAndFoldersInPath(array(), $path, $this->fileExtensionList);
 	}
 
 
@@ -171,7 +173,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	 * @return string
 	 */
 	protected function buildPathNameShortcut($extension, $pathName) {
-		return 'EXT:' . $extension . '/' . substr($pathName, strlen(t3lib_extMgm::extPath($extension)), strlen($pathName));
+		return 'EXT:' . $extension . '/' . substr($pathName, strlen(ExtensionManagementUtility::extPath($extension)), strlen($pathName));
 	}
 
 
@@ -183,7 +185,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	 * @param tx_scheduler_Module $schedulerModule Reference to the scheduler backend module
 	 * @return boolean TRUE if validation was ok (or selected class is not relevant), FALSE otherwise
 	 */
-	public function validateAdditionalFields(array &$submittedData, tx_scheduler_Module $schedulerModule) {
+	public function validateAdditionalFields(array &$submittedData,  \TYPO3\CMS\Scheduler\Controller\SchedulerModuleController $schedulerModule) {
 		$submittedData[$this->configuration['id']] = trim($submittedData[$this->configuration['id']]);
         return TRUE;
 	}
@@ -197,10 +199,9 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
 	 * @param tx_scheduler_Task $task Reference to the scheduler backend module
 	 * @return void
 	 */
-	public function saveAdditionalFields(array $submittedData, tx_scheduler_Task $task) {
+	public function saveAdditionalFields(array $submittedData, \TYPO3\CMS\Scheduler\Task\AbstractTask $task) {
 		$configuration = $this->configuration;
 		$task->$configuration['id'] = $submittedData[$configuration['id']];
 	}
 
 }
-?>

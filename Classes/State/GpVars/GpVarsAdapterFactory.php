@@ -29,7 +29,7 @@
  * @package State
  * @subpackage GpVars
  */
-class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory implements t3lib_Singleton {
+class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	
 	/**
 	 * Singleton instances of GET/POST Var Adapters.

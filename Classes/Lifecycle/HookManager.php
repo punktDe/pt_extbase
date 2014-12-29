@@ -44,8 +44,8 @@ class tx_PtExtbase_Lifecycle_HookManager {
 			return;
 		}
 
-		// This is a singleton, so we can use t3lib_div to get a singleton instance
-		$lifecycle = t3lib_div::makeInstance('Tx_PtExtbase_Lifecycle_Manager');
+		// This is a singleton, so we can use \TYPO3\CMS\Core\Utility\GeneralUtility to get a singl\TYPO3\CMS\Core\Utility\GeneralUtilityance
+		$lifecycle = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_PtExtbase_Lifecycle_Manager');
 		$lifecycle->updateState(Tx_PtExtbase_Lifecycle_Manager::END);
 		
 	}

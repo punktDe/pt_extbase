@@ -36,8 +36,8 @@ interface Tx_PtExtbase_Tree_TreeWalkerVisitorInterface {
 	 * Run whenever a node is visited for the first time
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 * @param int &$index Holds the visitation index of treewalker
-     * @param int &$level Holds level of visitation in tree, starting at 1
+	 * @param integer &$index Holds the visitation index of treewalker
+     * @param integer &$level Holds level of visitation in tree, starting at 1
 	 */
 	public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level);
 	
@@ -47,8 +47,8 @@ interface Tx_PtExtbase_Tree_TreeWalkerVisitorInterface {
 	 * Run whenever a node is visited for the last time 
 	 *
 	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 * @param int &$index Holds the visitation index of treewalker
-     * @param int &$level Holds level of visitation in tree, starting at 1
+	 * @param integer &$index Holds the visitation index of treewalker
+     * @param integer &$level Holds level of visitation in tree, starting at 1
 	 */
 	public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level);
 	

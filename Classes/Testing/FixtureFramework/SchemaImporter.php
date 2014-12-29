@@ -1,4 +1,5 @@
 <?php
+
 /***************************************************************
  *  Copyright notice
  *
@@ -26,6 +27,8 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Schema importer
@@ -55,8 +58,8 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter {
 	 * @api
 	 */
 	public function importStdDb() {
-		$sqlFilename = t3lib_div::getFileAbsFileName('EXT:core/ext_tables.sql');
-		$fileContent = t3lib_div::getUrl($sqlFilename);
+		$sqlFilename = GeneralUtility::getFileAbsFileName(PATH_t3lib . 'stddb/tables.sql');
+		$fileContent = GeneralUtility::getUrl($sqlFilename);
 		$this->importDatabaseDefinitions($fileContent);
 		$this->importCacheTables();
 	}
@@ -65,8 +68,8 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter {
 	 * @return void
 	 */
 	protected function importCacheTables() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			$cacheTables = t3lib_cache::getDatabaseTableDefinitions();
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
+			$cacheTables = \TYPO3\CMS\Core\Cache\Cache::getDatabaseTableDefinitions();
 			$this->importDatabaseDefinitions($cacheTables);
 		}
 	}
@@ -90,7 +93,7 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter {
 		$this->useTestDatabase();
 
 		foreach ($extensions as $extensionName) {
-			if (!t3lib_extMgm::isLoaded($extensionName)) {
+			if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionName)) {
 				$this->markTestSkipped(
 					'This test is skipped because the extension ' . $extensionName .
 						' which was marked for import is not loaded on your system!'
@@ -116,8 +119,8 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter {
 		// hook to load additional files
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['phpunit']['importExtensions_additionalDatabaseFiles'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['phpunit']['importExtensions_additionalDatabaseFiles'] as $file) {
-				$sqlFilename = t3lib_div::getFileAbsFileName($file);
-				$fileContent = t3lib_div::getUrl($sqlFilename);
+				$sqlFilename = GeneralUtility::getFileAbsFileName($file);
+				$fileContent = GeneralUtility::getUrl($sqlFilename);
 
 				$this->importDatabaseDefinitions($fileContent);
 			}
@@ -134,8 +137,8 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter {
 	 * @return void
 	 */
 	private function importExtension($extensionName) {
-		$sqlFilename = t3lib_div::getFileAbsFileName(t3lib_extMgm::extPath($extensionName) . 'ext_tables.sql');
-		$fileContent = t3lib_div::getUrl($sqlFilename);
+		$sqlFilename = GeneralUtility::getFileAbsFileName(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionName) . 'ext_tables.sql');
+		$fileContent = GeneralUtility::getUrl($sqlFilename);
 
 		$this->importDatabaseDefinitions($fileContent);
 	}
@@ -151,12 +154,12 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter {
 	 * @return void
 	 */
 	private function importDatabaseDefinitions($definitionContent) {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			/* @var $install t3lib_install_Sql */
-			$install = t3lib_div::makeInstance('t3lib_install_Sql');
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+			/* @var $install \TYPO3\CMS\Install\Service\SqlSchemaMigrationService */
+			$install = GeneralUtility::makeInstance('TYPO3\CMS\Install\Service\SqlSchemaMigrationService');
 		} else {
 			/* @var $install t3lib_install */
-			$install = t3lib_div::makeInstance('t3lib_install');
+			$install = GeneralUtility::makeInstance('t3lib_install');
 		}
 
 		$fieldDefinitionsFile = $install->getFieldDefinitions_fileContent($definitionContent);
@@ -221,7 +224,7 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter {
 	 *         will be NULL if the dependencies could not be determined
 	 */
 	private function findDependencies($extKey) {
-		$path = t3lib_div::getFileAbsFileName(t3lib_extMgm::extPath($extKey) . 'ext_emconf.php');
+		$path = GeneralUtility::getFileAbsFileName(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey) . 'ext_emconf.php');
 		$_EXTKEY = $extKey;
 		include($path);
 
@@ -285,4 +288,3 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter {
 		}
 	}
 }
-?>

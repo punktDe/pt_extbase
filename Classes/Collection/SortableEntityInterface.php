@@ -33,7 +33,7 @@
 interface Tx_PtExtbase_Collection_SortableEntityInterface {
 
 	/**
-	 * @return int Sorting value
+	 * @return integer Sorting value
 	 */
 	public function getSortingValue();
 

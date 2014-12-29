@@ -63,7 +63,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Be_FormTokenViewHelperTest extends Tx_
 	 */
 	public function formTokenViewHelperReturnsFormTokenString() {
 		$formToken = $this->accessibleProxy->render();
-		$secondFormToken = t3lib_BEfunc::getUrlToken('tceAction');
+		$secondFormToken = \TYPO3\CMS\Backend\Utility\BackendUtility::getUrlToken('tceAction');
 
 		$this->assertEquals($formToken, $secondFormToken);
 	}

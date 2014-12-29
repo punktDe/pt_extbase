@@ -69,7 +69,7 @@ class Tx_PtExtbase_Utility_NameSpace {
 	 * @return array
 	 */
 	protected static function getNamespaceArrayByNamespaceString($namespaceString) {
-	    return t3lib_div::trimExplode('.', $namespaceString);
+	    return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('.', $namespaceString);
 	}
 	
 	

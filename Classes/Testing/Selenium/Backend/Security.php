@@ -37,8 +37,8 @@ class Tx_PtExtbase_Testing_Selenium_Backend_Security {
 	}
 
 	/**
-	 * @param $username string
-	 * @param $password string
+	 * @param string $username
+	 * @param string $password
 	 */
 	public function backendLogin($username, $password) {
 		$this->testClass->open($GLOBALS['SeleniumUrl']);

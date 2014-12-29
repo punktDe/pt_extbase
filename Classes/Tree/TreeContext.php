@@ -29,7 +29,7 @@
  * @package Tree
  * @author Daniel Lienert
  */
-class Tx_PtExtbase_Tree_TreeContext implements t3lib_Singleton {
+class Tx_PtExtbase_Tree_TreeContext implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @var $bool

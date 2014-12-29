@@ -31,7 +31,7 @@
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
-class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements t3lib_singleton {
+class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * @var array
@@ -44,7 +44,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements t3lib_sin
 	protected $fixture;
 
 	/**
-	 * @param $fixtures array
+	 * @param array $fixtures
 	 * @return void
 	 */
 	public function import($fixtures) {

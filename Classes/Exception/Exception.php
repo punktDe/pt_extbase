@@ -21,6 +21,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * General exception class derived from PHP's default Exception class
@@ -149,7 +150,7 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
         
         // write to devlog
         if (TYPO3_DLOG) {
-            t3lib_div::devLog(
+            GeneralUtility::devLog(
                 $this->getMessage(), 
                 'pt_extbase', 
                 1, // "notice"
@@ -192,47 +193,46 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
      * @param   void       
      * @return  void
      */
-    public function handle() {
-        
-        $traceString = 
-            'Error Type     : '.$this->errType.chr(10).
-            'Exception Class: '.get_class($this).chr(10).
-            'Error Message  : '.$this->getMessage().chr(10).
-            (!empty($this->debugMsg) ? 'Debug Message  : '.$this->debugMsg.chr(10) : '').
-            'Stack Trace    : '.chr(10).$this->getTraceAsString().chr(10).chr(10)
-            ;
-        
-        // write to TYPO3 devlog
-        if (TYPO3_DLOG) {
-            t3lib_div::devLog(
-                $this->getMessage(), 
-                'pt_extbase', 
-                3, // "error"
-                array(
-                    'exceptionClass' => get_class($this), 
-                    'debugMsg' => $this->debugMsg, 
-                    'file' => $this->getFile(), 
-                    'line' => $this->getLine(), 
-                    'code' => $this->getCode(),
-                    'trace' => $this->getTraceAsString(),
-                )
-            );
-        }
-        
-        // write to TYPO3 syslog
-        $debugMsg = $this->debugMsg ? ': '.$this->debugMsg : '';
-        t3lib_div::sysLog(
-            $this->getMessage().' ['.get_class($this) . $debugMsg.']', 
-            'pt_extbase', 
-            3 // "error"
-        );
-        
-        // write to TS log if appropriate
-        if ($GLOBALS['TT'] instanceof t3lib_timeTrack) {
-            $GLOBALS['TT']->setTSlogMessage($this->getMessage() . '['.get_class($this).': '.$this->debugMsg.']', 3);
-        }
-        
-    }
+	public function handle() {
+
+		$traceString =
+			'Error Type     : '.$this->errType.chr(10).
+			'Exception Class: '.get_class($this).chr(10).
+			'Error Message  : '.$this->getMessage().chr(10).
+			(!empty($this->debugMsg) ? 'Debug Message  : '.$this->debugMsg.chr(10) : '').
+			'Stack Trace    : '.chr(10).$this->getTraceAsString().chr(10).chr(10)
+		;
+
+		// write to TYPO3 devlog
+		if (TYPO3_DLOG) {
+			GeneralUtility::devLog(
+				$this->getMessage(),
+				'pt_extbase',
+				3, // "error"
+				array(
+					'exceptionClass' => get_class($this),
+					'debugMsg' => $this->debugMsg,
+					'file' => $this->getFile(),
+					'line' => $this->getLine(),
+					'code' => $this->getCode(),
+					'trace' => $this->getTraceAsString(),
+				)
+			);
+		}
+
+		// write to TYPO3 syslog
+		$debugMsg = $this->debugMsg ? ': '.$this->debugMsg : '';
+		GeneralUtility::sysLog(
+			$this->getMessage().' ['.get_class($this) . $debugMsg.']',
+			'pt_extbase',
+			3 // "error"
+		);
+
+		// write to TS log if appropriate
+		if ($GLOBALS['TT'] instanceof \TYPO3\CMS\Core\TimeTracker\TimeTracker) {
+			$GLOBALS['TT']->setTSlogMessage($this->getMessage() . '['.get_class($this).': '.$this->debugMsg.']', 3);
+		}
+	}
     
     
     

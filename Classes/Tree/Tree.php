@@ -86,7 +86,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
      * Level 2 = root node and its children are build
      * ...
      *
-     * @var int
+     * @var integer
      */
     protected $restrictedDepth;
 
@@ -95,7 +95,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Creates a new, empty tree with given namespace and a single root node labeled by given label.
      *
-     * @param $namespace Namespace for tree
+     * @param string $namespace Namespace for tree
      * @param string $rootLabel Label for root node
      * @return Tx_PtExtbase_Tree_Tree
      */
@@ -150,7 +150,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
 	/**
 	 * Returns node for a given uid
 	 *
-	 * @param int $uid Uid of node
+	 * @param integer $uid Uid of node
 	 * @return Tx_PtExtbase_Tree_Node
 	 */
 	public function getNodeByUid($uid) {
@@ -394,7 +394,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
      *
      * If depth is restricted, tree is build only to given level by tree builder.
      *
-     * @param int $restrictedDepth
+     * @param integer $restrictedDepth
      */
     public function setRestrictedDepth($restrictedDepth) {
         $this->restrictedDepth = $restrictedDepth;
@@ -405,7 +405,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Getter for restricted depth
      *
-     * @return int Restricted depth
+     * @return integer Restricted depth
      */
     public function getRestrictedDepth() {
         return $this->restrictedDepth;

@@ -37,7 +37,7 @@ class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends Tx_PtExtbase_Tests_U
 	 *
 	 * @var object
 	 */
-	private $dbObjTmp;
+	protected $dbObjTmp;
 
 
 

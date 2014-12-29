@@ -30,7 +30,7 @@
  * @subpackage Model\Extern
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Domain_Model_TTContent extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_PtExtbase_Domain_Model_TTContent extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 
 	/**
@@ -61,4 +61,3 @@ class Tx_PtExtbase_Domain_Model_TTContent extends Tx_Extbase_DomainObject_Abstra
 		return $this->listType;
 	}
 }
-?>

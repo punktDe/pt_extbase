@@ -1,28 +1,32 @@
 <?php
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2009 Michael Knoll <mimi@kaktusteam.de>, MKLV GbR
-*
-*
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2009 Michael Knoll <mimi@kaktusteam.de>, MKLV GbR
+ *
+ *
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Extbase\Service\ExtensionService;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class implements a viewhelper for inline javascript
@@ -37,7 +41,14 @@
  * extKey: Extension Key
  * pluginNamespace: Plugin Namespace for GET/POST parameters
  */
-class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+
+	/**
+	 * @inject
+	 * @var \TYPO3\CMS\Extbase\Service\ExtensionService
+	 */
+	protected $extensionService;
+
 
 	/**
 	 * Relative extpath to the extension (eg typo3conf/ext/pt_extbase/)
@@ -45,6 +56,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	 * @var string
 	 */
 	protected $relExtPath;
+
 
 	/**
 	 * @var string
@@ -74,7 +86,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	 */
 	protected $arguments = array();
 
-	
+
 	/**
 	 * Initialize ViewHelper
 	 *
@@ -82,14 +94,14 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	 */
 	public function initialize() {
 
-		if($this->controllerContext instanceof Tx_Extbase_MVC_Controller_ControllerContext) {
+		if ($this->controllerContext instanceof \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext) {
 			$this->extKey = $this->controllerContext->getRequest()->getControllerExtensionKey();
 		} else {
 			$this->extKey = 'pt_extbase';
 		}
 
-		$this->extPath = t3lib_extMgm::extPath($this->extKey);
-		$this->relExtPath = t3lib_extMgm::siteRelPath($this->extKey);
+		$this->extPath = ExtensionManagementUtility::extPath($this->extKey);
+		$this->relExtPath = ExtensionManagementUtility::siteRelPath($this->extKey);
 
 		if (TYPO3_MODE === 'BE') {
 			$this->initializeBackend();
@@ -97,7 +109,6 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 			$this->initializeFrontend();
 		}
 	}
-
 
 
 	/**
@@ -111,7 +122,6 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	}
 
 
-
 	/**
 	 * Initialize Frontend specific variables
 	 *
@@ -122,25 +132,25 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	}
 
 
-
 	/**
 	 * View helper for showing debug information for a given object
 	 *
 	 * @param string $templatePath Template path
-	 * @param array $arguments Arguments
+	 * @param array|string $arguments Arguments
 	 * @param boolean $addToHead Add to head section or return it a the place the viewhelper is
 	 * @param boolean $compress
+	 * @throws Exception
 	 * @return string
 	 */
 	public function render($templatePath, $arguments = '', $addToHead = true, $compress = true) {
 		$this->arguments = $arguments;
 		$this->addGenericArguments();
 
-		$absoluteFileName = t3lib_div::getFileAbsFileName($templatePath);
-		if(!file_exists($absoluteFileName)) throw new Exception('No JSTemplate found with path ' . $absoluteFileName . '. 1296554335');
+		$absoluteFileName = GeneralUtility::getFileAbsFileName($templatePath);
+		if (!file_exists($absoluteFileName)) throw new Exception('No JSTemplate found with path ' . $absoluteFileName . '. 1296554335');
 
-		if($addToHead) {
-			t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager')
+		if ($addToHead) {
+			GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')
 				->get('Tx_PtExtbase_Utility_HeaderInclusion')
 				->addJsInlineCode($templatePath, $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments), $compress);
 		} else {
@@ -153,11 +163,9 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	}
 
 
-
 	/**
-	 * Add some generic arguments that might be usefull
+	 * Add some generic arguments that might be useful
 	 *
-	 * @param array $arguments
 	 * @return void
 	 */
 	protected function addGenericArguments() {
@@ -166,14 +174,13 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 		$this->arguments['typo3Path'] = $this->typo3Path;
 		$this->arguments['extKey'] = $this->extKey;
 
-		if(is_object($this->controllerContext)) {
-			$this->arguments['pluginNamespace'] = Tx_PtExtbase_Compatibility_Extbase_Utility_Extension::getPluginNamespace(
+		if (is_object($this->controllerContext)) {
+			$this->arguments['pluginNamespace'] =  $this->extensionService->getPluginNamespace(
 				$this->controllerContext->getRequest()->getControllerExtensionName(),
 				$this->controllerContext->getRequest()->getPluginName()
 			);
 		}
 	}
-
 
 
 	/**
@@ -182,34 +189,33 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	 * @return string
 	 */
 	protected function generateVeriCode() {
-	   $sessionId = null;
-       if (TYPO3_MODE === 'BE') {
-            global $BE_USER;
-            $sessionId = $BE_USER->id;
-        } else {
-            $sessionId = $GLOBALS['TSFE']->fe_user->id;
-        }
-        return substr(md5($sessionId . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']), 0, 10);
+		$sessionId = null;
+		if (TYPO3_MODE === 'BE') {
+			global $BE_USER;
+			$sessionId = $BE_USER->id;
+		} else {
+			$sessionId = $GLOBALS['TSFE']->fe_user->id;
+		}
+		return substr(md5($sessionId . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']), 0, 10);
 	}
-
 
 
 	/**
 	 * Load JavaScript code from file
 	 *
 	 * @param string $absoluteFileName The absolute file name
+	 * @throws Exception
 	 * @return string JsCodeTemplate
 	 */
 	protected function loadJsCodeFromFile($absoluteFileName) {
 		$data = file_get_contents($absoluteFileName);
 
-		if($data === FALSE) {
+		if ($data === FALSE) {
 			throw new Exception('Could not read the file content of file ' . $absoluteFileName . '! 1300865874');
 		}
 
 		return $data;
 	}
-
 
 
 	/**
@@ -226,7 +232,6 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	}
 
 
-
 	/**
 	 * Find LLL markers in the jsCode and arguments for them
 	 *
@@ -237,12 +242,11 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 		$matches = array();
 		$pattern = '/\#\#\#LLL:.*\#\#\#/';
 		preg_match_all($pattern, $jsCode, $matches);
-		foreach($matches[0] as $match) {
+		foreach ($matches[0] as $match) {
 			$translateKey = substr($match, 7, -3);
 			$markers[$match] = $this->translate($translateKey);
 		}
 	}
-
 
 
 	/**
@@ -250,9 +254,8 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	 * @return string The value from LOCAL_LANG or NULL if no translation was found.
 	 */
 	protected function translate($translateKey) {
-		return Tx_Extbase_Utility_Localization::translate($translateKey, $this->extKey);
+		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($translateKey, $this->extKey);
 	}
-
 
 
 	/**
@@ -263,11 +266,10 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends Tx_Fluid_Co
 	 */
 	protected function prepareMarkers($arguments) {
 		$markers = array();
-		foreach($arguments as $key => $value) {
+		foreach ($arguments as $key => $value) {
 			$markers['###' . $key . '###'] = $value;
 		}
 		return $markers;
 	}
 
 }
-?>

@@ -28,7 +28,7 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_ViewHelpers_Format_CssNameViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Format_CssNameViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Render
@@ -41,7 +41,7 @@ class Tx_PtExtbase_ViewHelpers_Format_CssNameViewHelper extends Tx_Fluid_Core_Vi
 		$name = $this->renderChildren();
 
 		$name = trim($name);
-		$name = t3lib_div::camelCaseToLowerCaseUnderscored($name);
+		$name = \TYPO3\CMS\Core\Utility\GeneralUtility::camelCaseToLowerCaseUnderscored($name);
 		$name = strtolower($name);
 		$name = str_replace(array(' ', '_'), '-', $name);
 

@@ -87,7 +87,7 @@
  * @package ViewHelpers
  * @see Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest
  */
-class Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractConditionViewHelper {
+class Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper {
 
 	/**
 	 * @var null

@@ -28,10 +28,10 @@
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_ShortLinkViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_ShortLinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
-	 * @param int $length
+	 * @param integer $length
 	 * @param string $indexScriptUrl
 	 *
 	 * @return string
@@ -39,7 +39,7 @@ class Tx_PtExtbase_ViewHelpers_ShortLinkViewHelper extends Tx_Fluid_Core_ViewHel
 	public function render($length = 0, $indexScriptUrl = '') {
 		$link = $this->renderChildren();
 
-		$shortLink = t3lib_div::makeRedirectUrl($link, $length, $indexScriptUrl);
+		$shortLink = \TYPO3\CMS\Core\Utility\GeneralUtility::makeRedirectUrl($link, $length, $indexScriptUrl);
 
 		return $shortLink;
 

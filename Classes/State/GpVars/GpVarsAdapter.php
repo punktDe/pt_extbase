@@ -22,6 +22,8 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class implements adapter for GET and POST vars to be used by 
@@ -147,7 +149,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 	/**
 	 * return parameters by given namespace
 	 * 
-	 * @param $namespace string
+	 * @param string $namespace
 	 * @return array
 	 */
 	public function getParametersByNamespace($namespace) {
@@ -211,7 +213,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
      * @return array Merged get and post vars for given namespace
 	 */
 	public function extractPgVarsByNamespace($namespace) {
-		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getMergedPgVars(), $namespace); 	
+		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getMergedPgVars(), $namespace);
 	}
 	
 	
@@ -225,7 +227,8 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 		if(!is_array($this->postGetVars)) {
 			$this->postGetVars = $this->postVars;	
 			if (is_array($this->getVars) && is_array($this->postVars)) {
-				$this->postGetVars = t3lib_div::array_merge_recursive_overrule($this->getVars, $this->postVars);
+				$this->postGetVars = $this->getVars;
+				ArrayUtility::mergeRecursiveWithOverrule($this->postGetVars, $this->postVars);
 			}
 		}
 		
@@ -245,7 +248,8 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
 			
 			$this->getPostVars = $this->getVars;	
 			if (is_array($this->getVars) && is_array($this->postVars)) {
-				$this->getPostVars = t3lib_div::array_merge_recursive_overrule($this->postVars, $this->getVars);
+				$this->getPostVars = $this->postVars;
+				ArrayUtility::mergeRecursiveWithOverrule($this->getPostVars, $this->getVars);
 			}
 				
 		}

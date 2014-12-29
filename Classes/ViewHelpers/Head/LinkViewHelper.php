@@ -32,7 +32,7 @@
  * @package Viewhelpers
  * @subpackage Content/Head
  */
-class Tx_PtExtbase_ViewHelpers_Head_LinkViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractTagBasedViewHelper {
+class Tx_PtExtbase_ViewHelpers_Head_LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
 
 
 	/**

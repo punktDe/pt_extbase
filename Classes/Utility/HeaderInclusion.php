@@ -22,6 +22,7 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * Utility to include defined frontend libraries as jQuery and related CSS
@@ -33,7 +34,7 @@
  * @author Joachim Mathes <mathes@punkt.de>
  */
 
-class Tx_PtExtbase_Utility_HeaderInclusion implements t3lib_Singleton {
+class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonInterface {
 	
 	/**
 	* @var t3lib_PageRenderer
@@ -62,13 +63,11 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements t3lib_Singleton {
 	protected function initializeBackend() {
 
 		if (!isset($GLOBALS['SOBE']->doc)) {
-			$GLOBALS['SOBE']->doc = t3lib_div::makeInstance('template');
+			$GLOBALS['SOBE']->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
 			$GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
 		}
 
 		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
-
-		$this->relExtPath = '../' . $this->relExtPath;
 	}
 
 
@@ -118,18 +117,18 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements t3lib_Singleton {
 	 * Expand the EXT to a relative path
 	 *
 	 * @param string $filename
-	 * @return relative filename
+	 * @return string Relative filename
 	 */
 	public function getFileRelFileName($filename) {
 
 		if (substr($filename, 0, 4) == 'EXT:') { // extension
 			list($extKey, $local) = explode('/', substr($filename, 4), 2);
 			$filename = '';
-			if (strcmp($extKey, '') && t3lib_extMgm::isLoaded($extKey) && strcmp($local, '')) {
+			if (strcmp($extKey, '') && ExtensionManagementUtility::isLoaded($extKey) && strcmp($local, '')) {
 				if(TYPO3_MODE === 'FE') {
-					$filename = t3lib_extMgm::siteRelPath($extKey) . $local;
+					$filename = ExtensionManagementUtility::siteRelPath($extKey) . $local;
 				} else {
-					$filename = t3lib_extMgm::extRelPath($extKey) . $local;
+					$filename = ExtensionManagementUtility::extRelPath($extKey) . $local;
 				}
 			}
 		}
@@ -137,6 +136,4 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements t3lib_Singleton {
 		return $filename;
 	}
 
-
 }
-?>

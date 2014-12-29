@@ -25,7 +25,7 @@
  * @api
  * @Flow\Scope("singleton")
  */
-class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Extbase_Property_TypeConverter_AbstractTypeConverter {
+class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3\CMS\Extbase\Property\TypeConverter\AbstractTypeConverter {
 
 	/**
 	 * @var integer
@@ -54,13 +54,13 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 
 	/**
 	 * @inject
-	 * @var Tx_Extbase_Object_ObjectManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
 	/**
 	 * @inject
-	 * @var Tx_Extbase_Reflection_Service
+	 * @var \TYPO3\CMS\Extbase\Reflection\ReflectionService
 	 */
 	protected $reflectionService;
 
@@ -72,8 +72,8 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 	 * @return boolean
 	 */
 	public function canConvertFrom($source, $targetType) {
-		$isValueObject = is_subclass_of($targetType, 'Tx_Extbase_DomainObject_AbstractValueObject');
-		$isEntity = is_subclass_of($targetType, 'Tx_Extbase_DomainObject_AbstractEntity');
+		$isValueObject = is_subclass_of($targetType, '\TYPO3\CMS\Extbase\DomainObject\AbstractValueObject');
+		$isEntity = is_subclass_of($targetType, '\TYPO3\CMS\Extbase\DomainObject\AbstractEntity');
 		return !($isEntity || $isValueObject);
 	}
 
@@ -95,21 +95,21 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 	 *
 	 * @param string $targetType
 	 * @param string $propertyName
-	 * @param Tx_Extbase_Property_PropertyMappingConfigurationInterface $configuration
+	 * @param \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration
 	 * @return string
-	 * @throws Tx_Extbase_Property_Exception_InvalidTargetException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidTargetException
 	 */
-	public function getTypeOfChildProperty($targetType, $propertyName, Tx_Extbase_Property_PropertyMappingConfigurationInterface $configuration) {
+	public function getTypeOfChildProperty($targetType, $propertyName, \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration) {
 		$configuredTargetType = $configuration->getConfigurationFor($propertyName)->getConfigurationValue('Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter', self::CONFIGURATION_TARGET_TYPE);
 		if ($configuredTargetType !== NULL) {
 			return $configuredTargetType;
 		}
 
-		if (method_exists($targetType, Tx_Extbase_Reflection_ObjectAccess::buildSetterMethodName($propertyName))) {
-			$methodParameters = $this->reflectionService->getMethodParameters($targetType, Tx_Extbase_Reflection_ObjectAccess::buildSetterMethodName($propertyName));
+		if (method_exists($targetType, \TYPO3\CMS\Extbase\Reflection\ObjectAccess::buildSetterMethodName($propertyName))) {
+			$methodParameters = $this->reflectionService->getMethodParameters($targetType, \TYPO3\CMS\Extbase\Reflection\ObjectAccess::buildSetterMethodName($propertyName));
 			$methodParameter = current($methodParameters);
 			if (!isset($methodParameter['type'])) {
-				throw new Tx_Extbase_Property_Exception_InvalidTargetException('Setter for property "' . $propertyName . '" had no type hint or documentation in target object of type "' . $targetType . '".', 1303379158);
+				throw new \TYPO3\CMS\Extbase\Property\Exception\InvalidTargetException('Setter for property "' . $propertyName . '" had no type hint or documentation in target object of type "' . $targetType . '".', 1303379158);
 			} else {
 				return $methodParameter['type'];
 			}
@@ -118,7 +118,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 			if (isset($methodParameters[$propertyName]) && isset($methodParameters[$propertyName]['type'])) {
 				return $methodParameters[$propertyName]['type'];
 			} else {
-				throw new Tx_Extbase_Property_Exception_InvalidTargetException('Property "' . $propertyName . '" had no setter or constructor argument in target object of type "' . $targetType . '".', 1303379126);
+				throw new \TYPO3\CMS\Extbase\Property\Exception\InvalidTargetException('Property "' . $propertyName . '" had no setter or constructor argument in target object of type "' . $targetType . '".', 1303379126);
 			}
 		}
 	}
@@ -129,16 +129,16 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 	 * @param mixed $source
 	 * @param string $targetType
 	 * @param array $convertedChildProperties
-	 * @param Tx_Extbase_Property_PropertyMappingConfigurationInterface $configuration
+	 * @param \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration
 	 * @return object the target type
-	 * @throws Tx_Extbase_Property_Exception_InvalidTargetException
-	 * @throws Tx_Extbase_Property_Exception_InvalidDataTypeException
-	 * @throws Tx_Extbase_Property_Exception_InvalidPropertyMappingConfigurationException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidTargetException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidDataTypeException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidPropertyMappingConfigurationException
 	 */
-	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), Tx_Extbase_Property_PropertyMappingConfigurationInterface $configuration = NULL) {
+	public function convertFrom($source, $targetType, array $convertedChildProperties = array(), \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
 		$object = $this->buildObject($convertedChildProperties, $targetType);
 		foreach ($convertedChildProperties as $propertyName => $propertyValue) {
-			$result = Tx_Extbase_Reflection_ObjectAccess::setProperty($object, $propertyName, $propertyValue);
+			$result = \TYPO3\CMS\Extbase\Reflection\ObjectAccess::setProperty($object, $propertyName, $propertyValue);
 			if ($result === FALSE) {
 				$exceptionMessage = sprintf(
 					'Property "%s" having a value of type "%s" could not be set in target object of type "%s". Make sure that the property is accessible properly, for example via an appropriate setter method.',
@@ -146,7 +146,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 					(is_object($propertyValue) ? get_class($propertyValue) : gettype($propertyValue)),
 					$targetType
 				);
-				throw new Tx_Extbase_Property_Exception_InvalidTargetException($exceptionMessage, 1304538165);
+				throw new \TYPO3\CMS\Extbase\Property\Exception\InvalidTargetException($exceptionMessage, 1304538165);
 			}
 		}
 
@@ -158,13 +158,13 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 	 *
 	 * @param mixed $source
 	 * @param string $originalTargetType
-	 * @param Tx_Extbase_Property_PropertyMappingConfigurationInterface $configuration
+	 * @param \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration
 	 * @return string
-	 * @throws Tx_Extbase_Property_Exception_InvalidDataTypeException
-	 * @throws Tx_Extbase_Property_Exception_InvalidPropertyMappingConfigurationException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidPropertyMappingConfigurationException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidDataTypeException
 	 * @throws \InvalidArgumentException
 	 */
-	public function getTargetTypeForSource($source, $originalTargetType, Tx_Extbase_Property_PropertyMappingConfigurationInterface $configuration = NULL) {
+	public function getTargetTypeForSource($source, $originalTargetType, \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration = NULL) {
 		$targetType = $originalTargetType;
 
 		if (is_array($source) && array_key_exists('__type', $source)) {
@@ -174,13 +174,13 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 				throw new \InvalidArgumentException('A property mapping configuration must be given, not NULL.', 1326277369);
 			}
 			if ($configuration->getConfigurationValue('TYPO3\Flow\Property\TypeConverter\ObjectConverter', self::CONFIGURATION_OVERRIDE_TARGET_TYPE_ALLOWED) !== TRUE) {
-				throw new Tx_Extbase_Property_Exception_InvalidPropertyMappingConfigurationException('Override of target type not allowed. To enable this, you need to set the PropertyMappingConfiguration Value "CONFIGURATION_OVERRIDE_TARGET_TYPE_ALLOWED" to TRUE.', 1317050430);
+				throw new \TYPO3\CMS\Extbase\Property\Exception\InvalidPropertyMappingConfigurationException('Override of target type not allowed. To enable this, you need to set the PropertyMappingConfiguration Value "CONFIGURATION_OVERRIDE_TARGET_TYPE_ALLOWED" to TRUE.', 1317050430);
 			}
 
 			// FIXME: The following check and the checkInheritanceChainWithoutIsA() method should be removed if we raise the PHP requirement to 5.3.9 or higher
 			if (version_compare(phpversion(), '5.3.8', '>')) {
 				if ($targetType !== $originalTargetType && is_a($targetType, $originalTargetType, TRUE) === FALSE) {
-					throw new Tx_Extbase_Property_Exception_InvalidDataTypeException('The given type "' . $targetType . '" is not a subtype of "' . $originalTargetType . '".', 1317048056);
+					throw new \TYPO3\CMS\Extbase\Property\Exception\InvalidDataTypeException('The given type "' . $targetType . '" is not a subtype of "' . $originalTargetType . '".', 1317048056);
 				}
 			} else {
 				$targetType = $this->checkInheritanceChainWithoutIsA($targetType, $originalTargetType);
@@ -200,7 +200,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 	 * @param array &$possibleConstructorArgumentValues
 	 * @param string $objectType
 	 * @return object The created instance
-	 * @throws Tx_Extbase_Property_Exception_InvalidTargetException if a required constructor argument is missing
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidTargetException if a required constructor argument is missing
 	 */
 	protected function buildObject(array &$possibleConstructorArgumentValues, $objectType) {
 		$className = $objectType;
@@ -214,7 +214,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 				} elseif ($constructorArgumentInformation['optional'] === TRUE) {
 					$constructorArguments[] = $constructorArgumentInformation['defaultValue'];
 				} else {
-					throw new Tx_Extbase_Property_Exception_InvalidTargetException('Missing constructor argument "' . $constructorArgumentName . '" for object of type "' . $objectType . '".', 1268734872);
+					throw new \TYPO3\CMS\Extbase\Property\Exception\InvalidTargetException('Missing constructor argument "' . $constructorArgumentName . '" for object of type "' . $objectType . '".', 1268734872);
 				}
 			}
 			$classReflection = new \ReflectionClass($className);
@@ -231,7 +231,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 	 * @param string $targetType
 	 * @param string $originalTargetType
 	 * @return string
-	 * @throws Tx_Extbase_Property_Exception_InvalidDataTypeException
+	 * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidDataTypeException
 	 */
 	protected function checkInheritanceChainWithoutIsA($targetType, $originalTargetType) {
 		$targetTypeToCompare = $targetType;
@@ -241,7 +241,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends Tx_Ext
 			}
 		} while ($targetTypeToCompare = get_parent_class($targetTypeToCompare));
 
-		throw new Tx_Extbase_Property_Exception_InvalidDataTypeException('The given type "' . $targetType . '" is not a subtype of "' . $originalTargetType . '".', 1360928582);
+		throw new  \TYPO3\CMS\Extbase\Property\Exception\InvalidDataTypeException('The given type "' . $targetType . '" is not a subtype of "' . $originalTargetType . '".', 1360928582);
 	}
 
 }

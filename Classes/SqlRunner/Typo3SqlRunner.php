@@ -36,7 +36,7 @@
 class Tx_PtExtbase_SqlRunner_Typo3SqlRunner implements Tx_PtExtbase_SqlRunner_SqlRunnerInterface {
 
 	/**
-	 * @var t3lib_db
+	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
 	 */
 	protected $connection;
 
@@ -76,4 +76,3 @@ class Tx_PtExtbase_SqlRunner_Typo3SqlRunner implements Tx_PtExtbase_SqlRunner_Sq
 	}
 
 }
-?>

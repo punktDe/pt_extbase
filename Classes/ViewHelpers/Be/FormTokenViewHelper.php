@@ -28,7 +28,7 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 	/**
 	 * Render
@@ -38,7 +38,7 @@ class Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper extends Tx_Fluid_Core_View
 	 * @return string
 	 */
 	public function render() {
-		$formToken = t3lib_BEfunc::getUrlToken('tceAction');
+		$formToken = \TYPO3\CMS\Backend\Utility\BackendUtility::getUrlToken('tceAction');
 
 		return $formToken;
 	}

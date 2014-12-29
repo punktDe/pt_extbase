@@ -36,7 +36,7 @@
 abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends PHPUnit_Extensions_Selenium2TestCase {
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManagerInterface The object manager
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface The object manager
 	 */
 	protected $objectManager;
 
@@ -47,7 +47,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends P
 	 * @return void
 	 */
 	public function runBare() {
-		$objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
+		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 		$this->objectManager =  clone $objectManager;
 		parent::runBare();
 	}
@@ -77,7 +77,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends P
 	 * Creates a proxy class of the specified class which allows
 	 * for calling even protected methods and access of protected properties.
 	 *
-	 * @param $className Full qualified name of the original class
+	 * @param string $className Full qualified name of the original class
 	 * @return string Full qualified name of the built class
 	 */
 	protected function buildAccessibleProxy($className) {
@@ -122,7 +122,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends P
 	 * @return void
 	 */
 	protected function setUp() {
-		$fixtureImporter = t3lib_div::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
+		$fixtureImporter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
 		$fixtureImporter->import($this->getFixtures());
 	}
 

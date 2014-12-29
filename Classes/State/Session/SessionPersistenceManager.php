@@ -205,7 +205,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	/**
 	 * React on lifecycle events.
 	 *
-	 * @param int $state
+	 * @param integer $state
 	 */
 	public function lifecycleUpdate($state) {
 		switch ($state) {
@@ -235,7 +235,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	/**
 	 * Remove session data by given namespace
 	 *
-	 * @param $namespaceString string
+	 * @param string $namespaceString
 	 */
 	public function removeSessionDataByNamespace($namespaceString) {
 		$this->sessionData = Tx_PtExtbase_Utility_NameSpace::removeDataFromNamespaceTree($namespaceString, $this->sessionData);
@@ -310,13 +310,14 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
 	public function addSessionRelatedArguments(&$argumentArray) {
 		if (!is_array($argumentArray)) $argumentArray = array();
 
-		if ($this->sessionAdapaterClass == self::STORAGE_ADAPTER_DB) {
+		if ($this->sessionAdapaterClass === self::STORAGE_ADAPTER_DB) {
 			$argumentArray['state'] = $this->getSessionDataHash();
 
-		} elseif ($this->sessionAdapaterClass == self::STORAGE_ADAPTER_NULL) {
+		} elseif ($this->sessionAdapaterClass === self::STORAGE_ADAPTER_NULL) {
 			$this->lifecycleUpdate(Tx_PtExtbase_Lifecycle_Manager::END);
-			$additionalArgumens = $this->array_filter_recursive($this->sessionData);
-			$argumentArray = t3lib_div::array_merge_recursive_overrule($additionalArgumens, $argumentArray);
+			$sessionArguments = $this->array_filter_recursive($this->sessionData);
+			\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($sessionArguments, $argumentArray);
+			$argumentArray = $sessionArguments;
 		}
 	}
 

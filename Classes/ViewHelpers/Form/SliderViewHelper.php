@@ -32,9 +32,9 @@ class SliderViewHelper extends TextfieldViewHelper {
 	/**
 	 * @param boolean $required If the field is required or not
 	 * @param string $type The field type, e.g. "text", "email", "url" etc.
-	 * @param int $sliderMin
-	 * @param int $sliderMax
-	 * @param int $sliderStep
+	 * @param integer $sliderMin
+	 * @param integer $sliderMax
+	 * @param integer $sliderStep
 	 *
 	 * @return string
 	 */

@@ -36,10 +36,10 @@
  *
  * @api
  */
-class Tx_PtExtbase_SignalSlot_Dispatcher implements t3lib_Singleton {
+class Tx_PtExtbase_SignalSlot_Dispatcher implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var Tx_Extbase_Object_ObjectManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
@@ -54,10 +54,10 @@ class Tx_PtExtbase_SignalSlot_Dispatcher implements t3lib_Singleton {
 	/**
 	 * Injects the object manager
 	 *
-	 * @param Tx_Extbase_Object_ObjectManagerInterface $objectManager
+	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
 	 * @return void
 	 */
-	public function injectObjectManager(Tx_Extbase_Object_ObjectManagerInterface $objectManager) {
+	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
 		$this->objectManager = $objectManager;
 	}
 
@@ -105,7 +105,7 @@ class Tx_PtExtbase_SignalSlot_Dispatcher implements t3lib_Singleton {
 	 * @param string $signalName Name of the signal
 	 * @param array $signalArguments arguments passed to the signal method
 	 * @return void
-	 * @throws Tx_Extbase_SignalSlot_Exception_InvalidSlotException if the slot is not valid
+	 * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException if the slot is not valid
 	 * @api
 	 */
 	public function dispatch($signalClassName, $signalName, array $signalArguments = array()) {
@@ -115,10 +115,10 @@ class Tx_PtExtbase_SignalSlot_Dispatcher implements t3lib_Singleton {
 				$object = $slotInformation['object'];
 			} else {
 				if (!isset($this->objectManager)) {
-					throw new Tx_Extbase_SignalSlot_Exception_InvalidSlotException(sprintf('Cannot dispatch %s::%s to class %s. The object manager is not yet available in the Signal Slot Dispatcher and therefore it cannot dispatch classes.', $signalClassName, $signalName, $slotInformation['class']), 1298113624);
+					throw new \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException(sprintf('Cannot dispatch %s::%s to class %s. The object manager is not yet available in the Signal Slot Dispatcher and therefore it cannot dispatch classes.', $signalClassName, $signalName, $slotInformation['class']), 1298113624);
 				}
 				if (!$this->objectManager->isRegistered($slotInformation['class'])) {
-					throw new Tx_Extbase_SignalSlot_Exception_InvalidSlotException('The given class "' . $slotInformation['class'] . '" is not a registered object.', 1245673367);
+					throw new \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException('The given class "' . $slotInformation['class'] . '" is not a registered object.', 1245673367);
 				}
 				$object = $this->objectManager->get($slotInformation['class']);
 			}
@@ -127,7 +127,7 @@ class Tx_PtExtbase_SignalSlot_Dispatcher implements t3lib_Singleton {
 				$slotArguments[] = $signalClassName . '::' . $signalName;
 			}
 			if (!method_exists($object, $slotInformation['method'])) {
-				throw new Tx_Extbase_SignalSlot_Exception_InvalidSlotException('The slot method ' . get_class($object) . '->' . $slotInformation['method'] . '() does not exist.', 1245673368);
+				throw new \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException('The slot method ' . get_class($object) . '->' . $slotInformation['method'] . '() does not exist.', 1245673368);
 			}
 			call_user_func_array(array($object, $slotInformation['method']), $slotArguments);
 		}
@@ -145,4 +145,3 @@ class Tx_PtExtbase_SignalSlot_Dispatcher implements t3lib_Singleton {
 		return (isset($this->slots[$signalClassName][$signalName])) ? $this->slots[$signalClassName][$signalName] : array();
 	}
 }
-?>

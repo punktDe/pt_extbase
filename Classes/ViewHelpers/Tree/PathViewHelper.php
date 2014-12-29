@@ -30,7 +30,7 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Category
  */
-class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 
 
 	/**

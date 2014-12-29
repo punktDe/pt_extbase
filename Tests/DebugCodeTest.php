@@ -58,7 +58,7 @@ class Tx_PtExtbase_Tests_DebugCodeTest extends Tx_PtExtbase_Tests_Unit_AbstractB
 	 */
 	public function checkForForgottenDebugCode($debugCommand) {
 		//$this->markTestSkipped('Test skipped, since grep finds the provided strings in this class.');
-		$searchPath = t3lib_extMgm::extPath($this->extensionName);
+		$searchPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($this->extensionName);
 
 		$command = 'fgrep -i -r ' . escapeshellarg($debugCommand) . ' ' . escapeshellarg($searchPath) . '| grep ".php"';
 		$result = `$command`;

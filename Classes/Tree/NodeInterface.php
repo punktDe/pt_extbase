@@ -31,7 +31,7 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_DomainObjectInterface {
+interface Tx_PtExtbase_Tree_NodeInterface extends \TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface {
 
 	/*********************************************************************************************************
 	 * Getters and setters for advanced domain logic. NOT USED FOR PERSISTENCE!
@@ -56,7 +56,7 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
 	/**
 	 * Getter for child nodes
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	public function getChildren();
 
@@ -66,7 +66,7 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
 	 *
 	 * TODO is this really necessary for this interface?
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getChildrenCount();
 
@@ -77,7 +77,7 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
 	 * Level is equal to depth
 	 * of node in tree where root has depth 0.
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function getLevel();
 
@@ -115,7 +115,7 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
 	 * cat 1.2.1
 	 * cat 1.2.2
 	 *
-	 * @return Tx_Extbase_Persistence_ObjectStorage
+	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
 	 */
 	public function getSubNodes();
 
@@ -200,5 +200,3 @@ interface Tx_PtExtbase_Tree_NodeInterface extends Tx_Extbase_DomainObject_Domain
 	public function getNamespace();
 
 }
-
-?>

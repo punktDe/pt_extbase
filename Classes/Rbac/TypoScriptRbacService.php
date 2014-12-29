@@ -184,7 +184,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	/**
 	 * Holds instance of configuration manager
 	 *
-	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
 	 */
 	protected $configurationManager;
 
@@ -259,9 +259,9 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	/**
 	 * Injects configuration manager from which we get TS configuration
 	 *
-	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
+	 * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
 	 */
-	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
+	public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager) {
 		$this->configurationManager = $configurationManager;
 	}
 
@@ -293,7 +293,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	 * Initializes TS rbac service (invoked from objectManager)
 	 */
 	public function initializeObject() {
-		$fullTypoScript = Tx_PtExtbase_Compatibility_Extbase_Service_TypoScript::convertTypoScriptArrayToPlainArray($this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT));
+		$fullTypoScript = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService')->convertTypoScriptArrayToPlainArray($this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT));
 		$this->typoScriptRbacSettings = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($fullTypoScript, 'plugin.tx_ptextbase.settings.rbac');
 		$this->initGroupsToObjectAndActionsArray();
 	}
@@ -413,10 +413,10 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 					$privileges[] = $privilege;
 				}
 			} else {
-				throw new Exception('No key "privileges" can be found for role ' . $role . ' in rbac configuration for extension ' . $this->_currentExtensionName . ' 1334831365');
+				throw new Exception('No key "privileges" can be found for role ' . $role . ' in rbac configuration for extension ' . $this->_currentExtensionName, 1334831365);
 			}
 		} else {
-			throw new Exception('Role ' . $role . ' is not configured in rbac configuration for extension ' . $this->_currentExtensionName . ' 1334831364');
+			throw new Exception('Role ' . $role . ' is not configured in rbac configuration for extension ' . $this->_currentExtensionName, 1334831364);
 		}
 		return $privileges;
 	}
@@ -432,7 +432,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 				return array($object => $this->getActionForObject($action, $object, $rbacSettings));
 			}
 		} else {
-			throw new Exception('You have no section "objects" within rbac settings for extension ' . $this->_currentExtensionName . ' 1334831366');
+			throw new Exception('You have no section "objects" within rbac settings for extension ' . $this->_currentExtensionName, 1334831366);
 		}
 	}
 
@@ -447,7 +447,7 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 				$actions[] = $action;
 			}
 		} else {
-			throw new Exception('You have no settings for object ' . $object . ' within your rbac settings ' . ' 1334831367');
+			throw new Exception('You have no settings for object ' . $object . ' within your rbac settings ', 1334831367);
 		}
 
 		return $actions;
@@ -474,6 +474,4 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 	protected function addObjectActionPrivilegeForCurrentGroupAndCurrentExtension($object, $action) {
 		$this->groupsToObjectAndActionsArray[$this->_currentExtensionName][$this->_currentGroupUid][$object][] = $action;
 	}
-
 }
-?>

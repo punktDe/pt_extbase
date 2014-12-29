@@ -33,10 +33,10 @@
  * @author Michael Knoll
  * @author Sebastian Helzle
  */
-class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_PtExtbase_Controller_TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
-	 * @var Tx_Extbase_Persistence_Manager
+	 * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
 	 */
 	protected $persistenceManager;
 
@@ -83,9 +83,9 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 
 
 	/**
-	 * @param Tx_Extbase_Persistence_Manager $persistenceManager
+	 * @param \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager $persistenceManager
 	 */
-	public function injectPersistenceManager(Tx_Extbase_Persistence_Manager $persistenceManager) {
+	public function injectPersistenceManager(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager $persistenceManager) {
 		$this->persistenceManager = $persistenceManager;
 	}
 
@@ -155,8 +155,8 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 * Get tree or subtree when node is given
 	 *
 	 * @dontvalidate
-	 * @param int $node
-	 * @param int $restrictedDepth
+	 * @param integer $node
+	 * @param integer $restrictedDepth
 	 */
 	public function getTreeAction($node=NULL, $restrictedDepth=0) {
 		if($node) {
@@ -177,7 +177,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	/**
      * Adds new node into given parent node with given label
      *
-	 * @param int $parent
+	 * @param integer $parent
 	 * @param string $label
 	 *
 	 * @return integer id of new node or 0 if error
@@ -209,7 +209,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	/**
      * Removes given node from tree
      *
-	 * @param int $node
+	 * @param integer $node
 	 */
 	public function removeNodeAction($node) {
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
@@ -229,8 +229,8 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 *
 	 * This action can be used for a drag'n'drop of a node "onto" another node.
 	 *
-	 * @param int $node Node to be moved
-	 * @param int $targetNode Node where moved node should be put into
+	 * @param integer $node Node to be moved
+	 * @param integer $targetNode Node where moved node should be put into
 	 */
 	public function moveNodeIntoAction($node, $targetNode) {
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
@@ -249,8 +249,8 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	/**
 	 * Moves node given by ID after node given by ID as child of the very same node
 	 *
-	 * @param int $node Node that has to be moved
-	 * @param int $targetNode Node where moved node should be put before
+	 * @param integer $node Node that has to be moved
+	 * @param integer $targetNode Node where moved node should be put before
 	 */
 	public function moveNodeAfterAction($node, $targetNode) {
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
@@ -269,8 +269,8 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	/**
 	 * Moves node before targetNode as child of the very same node.
 	 *
-	 * @param int $node ID of node that was moved
-	 * @param int $targetNode ID of node where moved node should be put after
+	 * @param integer $node ID of node that was moved
+	 * @param integer $targetNode ID of node where moved node should be put after
 	 */
 	public function moveNodeBeforeAction($node, $targetNode) {
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
@@ -291,7 +291,7 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
      *
      * TODO Warning: As we do not check any properties set on the node here, user could manipulate lft and rgt values and hence crash the tree!
      *
-	 * @param int $node
+	 * @param integer $node
 	 * @param string $label
 	 */
 	public function saveNodeAction($node, $label = '') {
@@ -314,10 +314,9 @@ class Tx_PtExtbase_Controller_TreeController extends Tx_Extbase_MVC_Controller_A
 	 */
 	protected function returnDataAndShutDown($content = '') {
 		$this->persistenceManager->persistAll();
-		t3lib_div::cleanOutputBuffers();
+		\TYPO3\CMS\Core\Utility\GeneralUtility::cleanOutputBuffers();
 		echo $content;
 		exit();
 	}
 
 }
-?>

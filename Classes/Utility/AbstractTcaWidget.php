@@ -23,6 +23,7 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Abstract class holding main functionality for TCA widgets based on Extbase and Fluid
@@ -35,7 +36,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
 
     /**
      * Fluid Renderer
-     * @var Tx_Fluid_View_TemplateView
+     * @var \TYPO3\CMS\Fluid\View\TemplateView
      */
     protected $fluidRenderer = NULL;
 
@@ -43,7 +44,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
 
     /**
      * Extbase Object Manager
-     * @var Tx_Extbase_Object_ObjectManager
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      */
     protected $objectManager;
 
@@ -142,7 +143,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      * @param array $parameters Parameters passed by TCA rendering call
      * @param t3lib_TCEforms $fobj t3lib_TCEforms object passed by TCA rendering call
      */
-    protected function init(array $params = array(), t3lib_TCEforms $fobj = null) {
+    protected function init(array $params = array(), \TYPO3\CMS\Backend\Form\FormEngine $fobj = null) {
         $this->tcaParameters = $params;
         $this->tceForms = $fobj;
         $this->initPropertiesFromParamsArray();
@@ -214,8 +215,8 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      * Initializes Extbase object manager
      */
     protected function initFrameWork() {
-		 $this->objectManager = t3lib_div::makeInstance('Tx_Extbase_Object_ObjectManager');
-		 $bootstrap = $this->objectManager->get('Tx_Extbase_Core_Bootstrap');
+		 $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+		 $bootstrap = $this->objectManager->get('TYPO3\CMS\Extbase\Core\Bootstrap');
 		 $bootstrap->initialize(array('extensionName' => $this->extensionName, 'pluginName' => $this->pluginName));
     }
 
@@ -225,12 +226,12 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      */
     protected function initFluidRenderer() {
         if(!$this->fluidRenderer) {
-            $request = $this->objectManager->get('Tx_Extbase_MVC_Request'); /* @var $request Tx_Extbase_MVC_Request */
+            $request = $this->objectManager->get('TYPO3\CMS\Extbase\Mvc\Request'); /* @var $request \TYPO3\CMS\Extbase\Mvc\Request */
             $request->setControllerExtensionName($this->extensionName);
             $request->setPluginName($this->pluginName);
 
-            $this->fluidRenderer = $this->objectManager->get('Tx_Fluid_View_TemplateView');
-            $controllerContext = $this->objectManager->get('Tx_Extbase_MVC_Controller_ControllerContext');
+            $this->fluidRenderer = $this->objectManager->get('TYPO3\CMS\Fluid\View\TemplateView');
+            $controllerContext = $this->objectManager->get('TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext');
             $controllerContext->setRequest($request);
             $this->fluidRenderer->setControllerContext($controllerContext);
         }
@@ -263,7 +264,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      * Initializes Template in Fluid renderer
      */
     protected function initTemplate() {
-        $fullQualifiedTemplatePath = t3lib_div::getFileAbsFileName($this->templatePath);
+        $fullQualifiedTemplatePath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->templatePath);
         $this->fluidRenderer->setTemplatePathAndFilename($fullQualifiedTemplatePath);
     }
 
@@ -277,11 +278,10 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
     */
     protected function getDocInstance() {
         if (!isset($GLOBALS['SOBE']->doc)) {
-            $GLOBALS['SOBE']->doc = t3lib_div::makeInstance('template');
+            $GLOBALS['SOBE']->doc = GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
             $GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
         }
         return $GLOBALS['SOBE']->doc;
     }
 
 }
-?>

@@ -50,7 +50,7 @@
  *
  * @license http://www.gnu.org/copyleft/gpl.html
  */
-class Tx_PtExtbase_ViewHelpers_Be_Buttons_IconViewHelper extends Tx_Fluid_ViewHelpers_Be_AbstractBackendViewHelper {
+class Tx_PtExtbase_ViewHelpers_Be_Buttons_IconViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper {
 
 	/**
 	 * Register arguments.
@@ -74,8 +74,7 @@ class Tx_PtExtbase_ViewHelpers_Be_Buttons_IconViewHelper extends Tx_Fluid_ViewHe
 			$onclick = ' onclick="'.$this->arguments['onclick'].'" ';
 		}
 
-		$ret = '<a href="' . $uri . '"' . $onclick . '>' . t3lib_iconWorks::getSpriteIcon($icon, array('title' => $title)) . '</a>';
+		$ret = '<a href="' . $uri . '"' . $onclick . '>' .  \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($icon, array('title' => $title)) . '</a>';
 		return $ret;
 	}
 }
-?>

@@ -30,7 +30,7 @@
  * @subpackage Model
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_PtExtbase_Domain_Model_Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 
 	/**
 	 * @var string the module key
@@ -43,12 +43,12 @@ class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnt
 	protected $title;
 
 	/**
-	 * @var int
+	 * @var integer
 	 */
 	protected $sorting;
 
 	/**
-	 * @var int
+	 * @var integer
 	 */
 	protected $doktype;
 
@@ -80,28 +80,28 @@ class Tx_PtExtbase_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEnt
 	}
 
 	/**
-	 * @param int $sorting
+	 * @param integer $sorting
 	 */
 	public function setSorting($sorting) {
 		$this->sorting = $sorting;
 	}
 
 	/**
-	 * @return int
+	 * @return integer
 	 */
 	public function getSorting() {
 		return $this->sorting;
 	}
 
 	/**
-	 * @param int $doktype
+	 * @param integer $doktype
 	 */
 	public function setDoktype($doktype) {
 		$this->doktype = $doktype;
 	}
 
 	/**
-	 * @return int
+	 * @return integer
 	 */
 	public function getDoktype() {
 		return $this->doktype;

@@ -31,7 +31,7 @@
  * @author Michael Knoll
  * @package Lifecycle 
  */
-class Tx_PtExtbase_Lifecycle_Manager implements t3lib_Singleton {
+class Tx_PtExtbase_Lifecycle_Manager implements \TYPO3\CMS\Core\SingletonInterface {
 
 	const UNDEFINED = 0;
 	const START = 1;
@@ -42,7 +42,7 @@ class Tx_PtExtbase_Lifecycle_Manager implements t3lib_Singleton {
 	/**
 	 * Holds the state of the lifecycle.
 	 * 
-	 * @var int
+	 * @var integer
 	 */
 	protected $state;
 	
@@ -80,7 +80,7 @@ class Tx_PtExtbase_Lifecycle_Manager implements t3lib_Singleton {
 	/**
 	 * Returns the current state of the lifecycle.
 	 * 
-	 * @return int
+	 * @return integer
 	 */
 	public function getState() {
 		return $this->state;
@@ -92,7 +92,7 @@ class Tx_PtExtbase_Lifecycle_Manager implements t3lib_Singleton {
 	 * Updates the current lifecycle state. 
 	 * If given state is not a advanced state, nothing will happen.
 	 * 
-	 * @param int $state
+	 * @param integer $state
 	 */
 	public function updateState($state) {
 		if($state <= $this->state) return;

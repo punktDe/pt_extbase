@@ -87,7 +87,7 @@ class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends Tx_PtExtbase_
 
 
 
-require_once t3lib_extMgm::extPath('pt_extbase') . 'Classes/Collection/SortableEntityInterface.php';
+require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Collection/SortableEntityInterface.php';
 
 /**
  * Sortable object mock implementing the SortableEntityInterface

@@ -34,7 +34,7 @@
  * @author Daniel Lienert 
  * @package ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_CommentViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_CommentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 	
 	/**
 	 * Return nothing or the comment if the variable is set to "show"
@@ -51,4 +51,3 @@ class Tx_PtExtbase_ViewHelpers_CommentViewHelper extends Tx_Fluid_Core_ViewHelpe
 		}
 	}
 }
-?>
