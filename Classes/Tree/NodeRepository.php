@@ -103,8 +103,8 @@ class Tx_PtExtbase_Tree_NodeRepository
 
     /**
      * Returns set of nodes for given namespace.
-	  * We return every node - if accessible or not, but mark an accessible on the node.
-	  * The flag is than later respected when the rendering is done.
+     * We return every node - if accessible or not, but mark an accessible on the node.
+     * The flag is than later respected when the rendering is done.
      *
      * @param $namespace
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_PtExtbase_Tree_Node>

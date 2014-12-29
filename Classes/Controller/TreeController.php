@@ -186,12 +186,12 @@ class Tx_PtExtbase_Controller_TreeController extends  \TYPO3\CMS\Extbase\Mvc\Con
 		//$newNode = new Tx_PtExtbase_Tree_Node($label);
 		// TODO: get correct class name from tree namespace
 		$newNode = new Tx_PtCertification_Domain_Model_Category($label);
-
 		$tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $parent = $tree->getNodeByUid($parent);
 
 		$tree->insertNode($newNode, $parent);
+
         $this->treeRepository->update($tree);
 
 		$this->persistenceManager->persistAll();
