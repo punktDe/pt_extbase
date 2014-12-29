@@ -55,7 +55,7 @@ class Tx_PtExtbase_ViewHelpers_CObjectConfigViewHelper extends \TYPO3\CMS\Fluid\
 			Tx_PtExtbase_Div::getCobj()->start($data);
 		}
 
-		return Tx_PtExtbase_Div::getCobj()->cObjGetSingle($config['_typoScriptNodeValue'], Tx_Extbase_Utility_TypoScript::convertPlainArrayToTypoScriptArray($config));
+		return Tx_PtExtbase_Div::getCobj()->cObjGetSingle($config['_typoScriptNodeValue'], Tx_Extbase_Service_TypoScriptService::convertPlainArrayToTypoScriptArray($config));
 	}
 	
 }
