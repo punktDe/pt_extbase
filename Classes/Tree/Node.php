@@ -553,4 +553,12 @@ class Tx_PtExtbase_Tree_Node
 		$this->children = NULL;
 	}
 
+
+	/**
+	 * @return void
+	 */
+	public function markAsNew() {
+		$this->uid = NULL;
+	}
+
 }
