@@ -328,12 +328,8 @@ class Tx_PtExtbase_Div  {
      */
     public static function clearCache($cacheCmd = 'all') {
 
-<<<<<<< HEAD
-        if (!t3lib_utility_Math::canBeInterpretedAsInteger($cacheCmd) && !in_array($cacheCmd, array('pages', 'all', 'temp_CACHED'))) {
-=======
-        if (!GeneralUtility::testInt($cacheCmd) && !in_array($cacheCmd, array('pages', 'all', 'temp_CACHED'))) {
->>>>>>> 86afeecf95951d33b48a8495de952a9a879e65ee
-            throw Tx_PtExtbase_Exception_Exception('Parameter must be "pages", "all", "temp_CACHED" or numeric');
+        if (!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($cacheCmd) && !in_array($cacheCmd, array('pages', 'all', 'temp_CACHED'))) {
+            throw new Tx_PtExtbase_Exception_Exception('Parameter must be "pages", "all", "temp_CACHED" or numeric');
         }
 
         $tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler'); /* @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
