@@ -37,7 +37,7 @@ class Tx_PtExtbase_Testing_Selenium_Backend_Modules {
 	}
 
 	/**
-	 * @param $selector string
+	 * @param string $selector
 	 * @param string $elementToWaitFor
 	 * @return void
 	 */

@@ -1579,7 +1579,7 @@ class Tx_PtExtbase_Div  {
 	/**
 	 * @static
 	 * @throws Exception if file not found
-	 * @param $filePath string path to typoscript file
+	 * @param string $tsSetupFilePath path to typoscript file
 	 * @return array ts-Config
 	 */
 	public static function loadTypoScriptFromFile($tsSetupFilePath) {

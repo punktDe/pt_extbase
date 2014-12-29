@@ -155,8 +155,8 @@ class Tx_PtExtbase_ViewHelpers_Rbac_HasAccessViewHelper extends \TYPO3\CMS\Fluid
 
 
 	/**
-	 * @param $object string
-	 * @param $action string
+	 * @param string $object
+	 * @param string $action
 	 * @return bool
 	 */
 	protected function hasAccess($object, $action) {

@@ -140,7 +140,7 @@ class Tx_PtExtbase_Tree_TreeWalker {
     /**
      * Returns true, if given level is NOT deeper than restricted depth set in treewalker.
      *
-     * @param $level Level to be compared with restricted depth
+     * @param integer $level Level to be compared with restricted depth
      * @return bool True, if level is not deeper than restricted depth
      */
     protected function levelIsBiggerThanRestrictedDepth($level) {

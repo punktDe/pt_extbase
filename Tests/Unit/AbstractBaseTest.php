@@ -56,7 +56,7 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\C
 	/**
 	 * Shortcut for creating a mock with no mocked methods, no constructor call and no changed class name
 	 *
-	 * @param $className Class name of mock to be created
+	 * @param string $className Class name of mock to be created
 	 * @return PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getSimpleMock($className) {
@@ -97,12 +97,12 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\C
 
 
 	/**
-	 * Returns a mocked Tx_Fluid_View_TemplateView object with a mocked assign method.
+	 * Returns a mocked \TYPO3\CMS\Fluid\View\TemplateView object with a mocked assign method.
 	 *
-	 * @return Tx_Fluid_View_TemplateView The mocked view class
+	 * @return \TYPO3\CMS\Fluid\View\TemplateView The mocked view class
 	 */
 	public function getViewMockWithMockedAssignMethod() {
-		return $this->getMock('Tx_Fluid_View_TemplateView', array('assign'), array(), '', FALSE);
+		return $this->getMock('\TYPO3\CMS\Fluid\View\TemplateView', array('assign'), array(), '', FALSE);
 	}
 
 	/**

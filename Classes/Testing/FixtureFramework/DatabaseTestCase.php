@@ -160,7 +160,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
 	 */
 	protected function cleanObjectState($object) {
 		if ($object !== NULL) {
-			$identityMap = $this->objectManager->get('\TYPO3\CMS\Extbase\Persistence\Generic\Session');
+			$identityMap = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Session');
 			$identityMap->unregisterObject($object);
 		}
 	}

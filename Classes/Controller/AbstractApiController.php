@@ -69,7 +69,7 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
 				$this->logger->error(sprintf('%s (%s)', $exception->getMessage(), $exception->getCode()));
 			}
 
-			$this->objectManager->get('\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager')->persistAll();
+			$this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager')->persistAll();
 
 			return $exception->getCode();
 		}
@@ -95,7 +95,7 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
 
 		$this->handleError($error);
 
-		$this->objectManager->get('\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager')->persistAll();
+		$this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager')->persistAll();
 
 		die();
 	}

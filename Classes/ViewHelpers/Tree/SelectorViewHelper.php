@@ -209,7 +209,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\
 	 * Build and return the javascript via the javascript viewHelper
 	 * @todo refactor JSViewHelper and move the marker code to a separate utility, call the utility here
 	 *
-	 * @param $treeNodes string treeNode JSON
+	 * @param string $treeNodes treeNode JSON
 	 * @return string
 	 */
 	protected function getTreeJS($treeNodes) {

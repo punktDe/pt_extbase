@@ -37,7 +37,7 @@ class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerBuilderTest
 	public function getInstanceReturnsSingletonInstanceOfSessionPersistenceManager() {
 		$sessionAdapterMock = $this->getMock('Tx_PtExtbase_State_Session_Storage_SessionAdapter', array(), array(), '', FALSE);
 		$extbaseContext = $this->getMock('Tx_PtExtbase_Context', array(), array(), '', FALSE);
-		$objectManagerMock = $this->getMock('Tx_Extbase_Object_ObjectManager', array('get'), array(), '', FALSE);
+		$objectManagerMock = $this->getMock('\TYPO3\CMS\Extbase\Object\ObjectManager', array('get'), array(), '', FALSE);
 		$objectManagerMock->expects($this->once())->method('get')->will($this->returnValue(new Tx_PtExtbase_State_Session_SessionPersistenceManager($sessionAdapterMock)));
 		$sessionPersistenceManagerBuilder = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder', $extbaseContext, $objectManagerMock); /* @var $sessionPersistenceManagerBuilder Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder */
 		$firstInstance = $sessionPersistenceManagerBuilder->getInstance();

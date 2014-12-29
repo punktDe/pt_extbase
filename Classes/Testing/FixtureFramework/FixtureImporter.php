@@ -44,7 +44,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CM
 	protected $fixture;
 
 	/**
-	 * @param $fixtures array
+	 * @param array $fixtures
 	 * @return void
 	 */
 	public function import($fixtures) {

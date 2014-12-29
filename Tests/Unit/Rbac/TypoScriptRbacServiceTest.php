@@ -37,7 +37,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 
 	/** @test */
 	public function configurationManagerCanBeInjected() {
-		$configurationManagerMock = $this->getMock('Tx_Extbase_Configuration_ConfigurationManagerInterface', array(), array(), '', FALSE);
+		$configurationManagerMock = $this->getMock('\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface', array(), array(), '', FALSE);
 		$tsRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
 		$tsRbacService->injectConfigurationManager($configurationManagerMock);
 	}
@@ -535,7 +535,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 	 * @return PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getConfigurationManagerMockReturningGivenTypoScriptConfiguration($tsConfiguration) {
-		$configurationManagerMock = $this->getMock('Tx_Extbase_Configuration_ConfigurationManager', array('getConfiguration'), array(), '', FALSE);
+		$configurationManagerMock = $this->getMock('\TYPO3\CMS\Extbase\Configuration\ConfigurationManager', array('getConfiguration'), array(), '', FALSE);
 		$configurationManagerMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($tsConfiguration));
 		return $configurationManagerMock;
 	}

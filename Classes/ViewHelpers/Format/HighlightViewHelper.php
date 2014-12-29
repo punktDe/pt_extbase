@@ -34,8 +34,8 @@ class Tx_PtExtbase_ViewHelpers_Format_HighlightViewHelper extends \TYPO3\CMS\Flu
 
 
 	/**
-	 * @param $text string
-	 * @param $highlight variant
+	 * @param string $text
+	 * @param mixed $highlight variant
 	 * @return string
 	 */
 	public function render($text, $highlight) {

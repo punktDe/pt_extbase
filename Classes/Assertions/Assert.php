@@ -797,8 +797,8 @@ class Tx_PtExtbase_Assertions_Assert {
     /**
      * Test if a variable is the name of a table defined in TCA
      *  
-     * @param $val
-     * @param $info   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
+     * @param string $val
+     * @param array $info (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      */
     public static function isTcaTable($val, array $info = array()) {
         self::isNotEmptyString($val, $info);
