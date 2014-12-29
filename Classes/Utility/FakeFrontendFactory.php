@@ -37,7 +37,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Tx_PtExtbase_Utility_FakeFrontendFactory implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @var tslib_fe
+	 * @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
 	 */
 	protected $fakeFrontend = NULL;
 
@@ -46,7 +46,7 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements \TYPO3\CMS\Core\Single
 	 * Create a fake frontend
 	 *
 	 * @param integer $pageUid
-	 * @return tslib_fe
+	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
 	 * @throws InvalidArgumentException
 	 */
 	public function createFakeFrontEnd($pageUid = 0) {
@@ -67,6 +67,7 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements \TYPO3\CMS\Core\Single
 		$this->fakeFrontend->workspacePreview = '';
 		$this->fakeFrontend->initFEuser();
 		$this->fakeFrontend->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+		$this->fakeFrontend->page = $pageUid;
 		$this->fakeFrontend->initTemplate();
 		$this->fakeFrontend->config = array();
 
