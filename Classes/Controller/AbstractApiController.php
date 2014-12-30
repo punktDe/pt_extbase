@@ -80,6 +80,8 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
 
 	/**
 	 * Handles all errors thrown during the dispatcher / validation phase
+	 *
+	 * @return void
 	 */
 	protected function errorAction() {
 		header('HTTP/1.1 500 Internal Server Error', TRUE, 500);
@@ -106,7 +108,6 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
 
 	/**
 	 * @param mixed $error
-	 *
 	 * @return void
 	 */
 	protected function handleError($error) {
