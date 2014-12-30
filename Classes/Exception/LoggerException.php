@@ -30,7 +30,7 @@ class Tx_PtExtbase_Exception_LoggerException extends Exception {
 
 	/**
 	 * @var integer
-	 * @see t3lib_log_Level
+	 * @see \TYPO3\CMS\Core\Log\LogLevel
 	 */
 	protected $logLevel;
 
@@ -39,7 +39,7 @@ class Tx_PtExtbase_Exception_LoggerException extends Exception {
 	 * @param string $message
 	 * @param integer $code
 	 * @param \Exception|int $logLevel
-	 * @param Exception $previous
+	 * @param \Exception $previous
 	 */
 	public function __construct($message = "", $code = 0, $logLevel = LogLevel::ERROR, Exception $previous = null) {
 		parent::__construct($message, $code, $previous);

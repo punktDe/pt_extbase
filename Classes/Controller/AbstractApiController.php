@@ -18,6 +18,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Extbase\Error\Error;
 
 /**
@@ -25,7 +26,7 @@ use TYPO3\CMS\Extbase\Error\Error;
  *
  * Extend this controller to avoid any exploitable Extbase error messages
  *
- * @package pt_dppp_base
+ * @package pt_extbase
  * @subpackage Controller
  */
 class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
@@ -38,12 +39,12 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
 
 	/**
 	 * @param Tx_PtExtbase_Logger_Logger $logger
-	 *
 	 * @return void
 	 */
 	public function injectLogger(Tx_PtExtbase_Logger_Logger $logger) {
 		$this->logger = $logger;
 	}
+
 
 
 	/**
@@ -76,6 +77,7 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
 	}
 
 
+
 	/**
 	 * Handles all errors thrown during the dispatcher / validation phase
 	 */
@@ -99,6 +101,7 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
 
 		die();
 	}
+
 
 
 	/**

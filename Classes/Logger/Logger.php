@@ -23,8 +23,9 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Log\LogLevel;
 
 /**
- *  Tx_PtExtbase_Logger_Logger
+ * A Logger
  *
+ * @package pt_extbase
  */
 class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 
@@ -79,12 +80,14 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
+
 	/**
 	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
 	 */
 	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
 		$this->objectManager = $objectManager;
 	}
+
 
 
 	/**
@@ -280,6 +283,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
+
 	/**
 	 * Writes information about the given exception into the log.
 	 *
@@ -312,6 +316,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
+
 	/**
 	 * @param \Exception $exception
 	 * @return string
@@ -322,6 +327,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 		$line = isset($backTrace[0]['line']) ? ' in line ' . $backTrace[0]['line'] . ' of ' . $backTrace[0]['file'] : '';
 		return 'Uncaught exception' . $exceptionCodeNumber . $line . ': ' . $exception->getMessage();
 	}
+
 
 
 	/**
