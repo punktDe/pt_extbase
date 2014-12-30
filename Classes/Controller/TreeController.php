@@ -154,7 +154,7 @@ class Tx_PtExtbase_Controller_TreeController extends  \TYPO3\CMS\Extbase\Mvc\Con
 	/**
 	 * Get tree or subtree when node is given
 	 *
-	 * @dontvalidate
+	 * @@ignorevalidation
 	 * @param integer $node
 	 * @param integer $restrictedDepth
 	 */
