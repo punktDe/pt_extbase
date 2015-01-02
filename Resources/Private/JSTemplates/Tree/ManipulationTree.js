@@ -8,6 +8,7 @@
 
 	var baseURL = '###baseUrl###',
 		dbNodeTable = '###dbNodeTable###',
+		moduleUrl = '###moduleUrl###',
 		treeDiv = '#ptExtbaseTreeDiv',
 		debug = false,
 		jsTreeInstance = undefined,
@@ -73,12 +74,9 @@
 	/**
 	 * Opens a new window to edit the record
 	 */
-	function editRecord(table, id) {    
-		var returnUrl = escape('mod.php?M=txdpppeditor_PtCertificationQuestioncategory'),
-			editurl = "alt_doc.php?edit["+table+"]["+id+"]=edit&returnUrl=" + returnUrl;
-
-		// window.open(editurl, 'Edit record');
-		self.location.href = editurl;
+	function editRecord(table, id, returnUrl) {
+		var editUrl = "alt_doc.php?edit["+table+"]["+id+"]=edit&returnUrl=" + escape(returnUrl);
+		self.location.href = editUrl;
 	}
 
 	function editNode(node) {
@@ -86,7 +84,7 @@
 
 		log('Edit node with id ' + nodeId);
 
-		editRecord(dbNodeTable, nodeId);
+		editRecord(dbNodeTable, nodeId, moduleUrl);
 	}
 
 	function treeLoaded() {
