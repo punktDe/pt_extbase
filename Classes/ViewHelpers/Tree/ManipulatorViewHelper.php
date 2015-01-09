@@ -44,6 +44,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Flu
 		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
 		$this->registerArgument('type', 'string', 'Specifies the tree type', false);
 		$this->registerArgument('respectEnableFields', 'boolean', 'Should the tree respect enable fields', false);
+		$this->registerArgument('moduleName', 'string', 'Specify the module name', false);
 	}
 
 
@@ -68,13 +69,17 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Flu
 
 		/** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
 		$treeViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
-		//$treeViewHelper->setControllerContext($this->controllerContext);
 
-		//return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
+		$moduleUrl = '';
+		if (isset($this->arguments['moduleName'])) {
+			$moduleUrl = TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl($this->arguments['moduleName']);
+		}
+
 		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/ManipulationTree.js',
 			array(
 				'baseUrl' => $this->getBaseURL(),
-				'dbNodeTable' => 'tx_ptcertification_domain_model_category'
+				'dbNodeTable' => 'tx_ptcertification_domain_model_category',
+				'moduleUrl' => $moduleUrl
 			), FALSE, FALSE
 		);
 	}
