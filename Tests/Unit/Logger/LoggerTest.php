@@ -28,47 +28,26 @@
  *
  * @subpackage Tests\Unit\Service
  */
-class Tx_PtExtbase_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+
+	/**
+	 * @var string
+	 */
+	protected $proxyClass;
+
 
 	/**
 	 * @var Tx_PtExtbase_Logger_Logger
 	 */
-	protected $logger;
-
-
-	/**
-	 * @var string
-	 */
-	protected $logFilePath;
-
-
-	/**
-	 * @var string
-	 */
-	protected $logExceptionsPath;
-
+	protected $proxy;
 
 
 	/**
 	 * @return void
 	 */
 	public function setUp() {
-		$this->logFilePath = __DIR__ . '/Logs/TestLog.log';
-		$this->logExceptionsPath = __DIR__ . '/Logs/Exceptions/';
-
-		$this->logger = $this->objectManager->get('Tx_PtExtbase_Logger_Logger');
-		$this->logger->configureLogger($this->logFilePath, $this->logExceptionsPath);
-	}
-
-
-	/**
-	 * @throws Exception
-	 * @return void
-	 */
-	public function tearDown() {
-		unset($this->logger);
-		file_put_contents($this->logFilePath, ''); // Clear File
-		Tx_PtExtbase_Utility_Files::emptyDirectoryRecursively($this->logExceptionsPath);
+		$this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Logger_Logger');
+		$this->proxy = new $this->proxyClass();
 	}
 
 
@@ -76,66 +55,43 @@ class Tx_PtExtbase_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_AbstractBas
 	/**
 	 * @test
 	 */
-	public function logInfoWithoutFurtherParameter(){
-		$this->logger->info('test');
-		$this->assertLogFileContains('component="Tx.PtExtbase.Logger.Logger": test');
-		$this->assertLogFileContains('[INFO]');
+	public function configureLoggerPropertiesSetsValidConfiguration() {
+		$expectedLogPath = '/var/apache/partnerportal/log/EsalesLog';
+		$expectedLogLevelThreshold = \TYPO3\CMS\Core\Log\LogLevel::INFO;
+		$expectedEmailLogLevelThreshold = \TYPO3\CMS\Core\Log\LogLevel::CRITICAL;
+		$expectedEmailReceivers = 'bud@spencer.it,terence@hill.de';
+
+		$loggerConfigurationMock = $this->getMockBuilder('Tx_PtExtbase_Logger_LoggerConfiguration')
+			->setMethods(array('getLogLevelThreshold', 'getEmailLogLevelThreshold', 'weHaveAnyEmailReceivers', 'getEmailReceivers'))
+			->getMock();
+		$loggerConfigurationMock->expects($this->once())
+			->method('getLogLevelThreshold')
+			->will($this->returnValue($expectedLogLevelThreshold));
+		$loggerConfigurationMock->expects($this->once())
+			->method('getEmailLogLevelThreshold')
+			->will($this->returnValue($expectedEmailLogLevelThreshold));
+		$loggerConfigurationMock->expects($this->once())
+			->method('weHaveAnyEmailReceivers')
+			->will($this->returnValue(TRUE));
+		$loggerConfigurationMock->expects($this->once())
+			->method('getEmailReceivers')
+			->will($this->returnValue($expectedEmailReceivers));
+
+		$this->proxy->_set('logFilePath', $expectedLogPath);
+		$this->proxy->_set('loggerConfiguration', $loggerConfigurationMock);
+		$this->proxy->_call('configureLoggerProperties');
+
+		$this->assertArrayHasKey($expectedLogLevelThreshold, $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['writerConfiguration']);
+		$this->assertSame($expectedLogPath, $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['writerConfiguration'][$expectedLogLevelThreshold]['Tx_PtExtbase_Logger_Writer_FileWriter']['logFile']);
+		$this->assertArrayHasKey($expectedEmailLogLevelThreshold, $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration']);
+		$this->assertSame(array('receivers' => $expectedEmailReceivers), $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration'][$expectedEmailLogLevelThreshold]['Tx_PtExtbase_Logger_Processor_EmailProcessor']);
+		$this->assertArrayHasKey(\TYPO3\CMS\Core\Log\LogLevel::DEBUG, $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration']);
+		$this->assertArrayHasKey('PunktDe\\PtExtbase\\Logger\\Processor\\ReplaceComponentProcessor', $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration'][\TYPO3\CMS\Core\Log\LogLevel::DEBUG]);
+
 	}
 
 
 
-	/**
-	 * @test
-	 */
-	public function logInfoWithClassName(){
-		$this->logger->info('test', __CLASS__);
-		$this->assertLogFileContains('component="Tx.PtExtbase.Logger.LoggerTest": test');
-		$this->assertLogFileContains('[INFO]');
-	}
-
-
-
-	/**
-	 * @test
-	 */
-	public function logInfoWithClassNameAndAdditionlData(){
-		$this->logger->info('test', __CLASS__, array('BLA'));
-		$this->assertLogFileContains(' component="Tx.PtExtbase.Logger.LoggerTest": test - ["BLA"]');
-		$this->assertLogFileContains('[INFO]');
-	}
-
-
-
-	/**
-	 * @test
-	 */
-	public function logException() {
-
-		try {
-			throw new \Exception('This is a Test Exception');
-		} catch(\Exception $e) {
-			$this->logger->logException($e);
-		}
-
-		$this->assertLogFileContains('[CRITICAL]');
-		$this->assertLogFileContains('component="Tx.PtExtbase.Logger.Logger": Uncaught exception: This is a Test Exception - See also:');
-
-		$this->assertCount(1, Tx_PtExtbase_Utility_Files::readDirectoryRecursively($this->logExceptionsPath));
-	}
-
-
-
-	/**
-	 * @param $expectedString
-	 */
-	protected function assertLogFileContains($expectedString) {
-		if(!file_exists($this->logFilePath)) sleep(1);
-
-		$this->assertFileExists($this->logFilePath);
-		$data = file_get_contents($this->logFilePath);
-		$this->assertNotEmpty($data);
-		$this->assertContains($expectedString, $data, sprintf('Expected "%s" - But Log File is "%s"', $expectedString, $data));
-	}
 
 }
 

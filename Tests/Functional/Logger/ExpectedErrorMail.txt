@@ -1,0 +1,14 @@
+*Server*
+spiderman.web.net
+
+*Message*
+The fantastic three
+
+*Data*
+Summer
+Sun
+Sunshine
+
+*User Agent*
+Operating System: Mac OS X
+Browser: Chrome

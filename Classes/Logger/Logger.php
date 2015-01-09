@@ -55,6 +55,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	/**
+	 * @inject
 	 * @var Tx_PtExtbase_Logger_LoggerConfiguration
 	 */
 	protected $loggerConfiguration;
@@ -67,27 +68,11 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
-
-
-	/**
 	 * @return Tx_PtExtbase_Logger_Logger
 	 */
 	public function __construct() {
 		$this->defaultLogComponent = __CLASS__;
 	}
-
-
-
-	/**
-	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
-	 */
-	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
-		$this->objectManager = $objectManager;
-	}
-
 
 
 	/**
@@ -105,10 +90,8 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return void
 	 */
 	public function configureLogger($logFilePath = '', $exceptionDirectory = '') {
-		$this->loggerConfiguration = $this->objectManager->get('Tx_PtExtbase_Logger_LoggerConfiguration');
 		$this->logFilePath = empty($logFilePath) ? $this->loggerConfiguration->getLogFilePath() : $logFilePath;
 		$this->exceptionDirectory = empty($exceptionDirectory) ? $this->loggerConfiguration->getExceptionDirectory() : $exceptionDirectory;
-
 		$this->configureLoggerProperties();
 	}
 

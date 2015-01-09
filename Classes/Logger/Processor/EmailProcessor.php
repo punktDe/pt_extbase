@@ -54,12 +54,19 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
 
 
 	/**
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+	 */
+	protected $objectManager;
+
+
+	/**
 	 * @param array $options
 	 */
 	public function __construct(array $options = array()) {
 		parent::__construct($options);
-		$this->serverInformation = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_ServerInformation');
-		$this->userAgent = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_UserAgent');
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+		$this->serverInformation = $this->objectManager->get('Tx_PtExtbase_Utility_ServerInformation');
+		$this->userAgent = $this->objectManager->get('Tx_PtExtbase_Utility_UserAgent');
 	}
 
 
@@ -70,12 +77,17 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
 	 */
 	public function processLogRecord(LogRecord $logRecord) {
 		$this->logRecord = $logRecord;
-		$mail = GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage'); /** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
-		$mail->setFrom(array("noreply@punkt.de" => "noreply@punkt.de"));
-		$mail->setTo($this->receivers);
-		$mail->setSubject(sprintf('Error on system %s', $this->serverInformation->getServerHostName()));
-		$mail->setBody($this->renderViewForMail());
-		$mail->send();
+		try {
+			$mail = $this->objectManager->get('TYPO3\CMS\Core\Mail\MailMessage');
+			/** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
+			$mail->setFrom(array("noreply@punkt.de" => "noreply@punkt.de"));
+			$mail->setTo($this->receivers);
+			$mail->setSubject(sprintf('Error on system %s', $this->serverInformation->getServerHostName()));
+			$mail->setBody($this->renderViewForMail());
+			$mail->send();
+		} catch (\Exception $exception) {
+			error_log('The error mail could not be sent!');
+		}
 		return $logRecord;
 	}
 
