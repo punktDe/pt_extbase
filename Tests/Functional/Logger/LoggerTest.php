@@ -57,6 +57,8 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests
 		$this->logFilePath = __DIR__ . '/Logs/TestLog.log';
 		$this->logExceptionsPath = __DIR__ . '/Logs/Exceptions/';
 
+		Tx_PtExtbase_Utility_Files::createDirectoryRecursively($this->logExceptionsPath);
+
 		$container = $this->objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container'); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $container */
 		$container->registerImplementation('TYPO3\CMS\Core\Mail\MailMessage', 'Tx_PtTest_Mock_SwiftMessage');
 
