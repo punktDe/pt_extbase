@@ -24,12 +24,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-if (version_compare(TYPO3_version, '6.0', '<')) {
-	// We probably have no autoloading
-	require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('cms') . 'tslib/content/class.tslib_content_abstract.php');
-	require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('cms') . 'tslib/content/class.tslib_content_hierarchicalmenu.php');
-}
-
 /**
  * Class implements an abstract class for x-classes modifying the rendering of hierarchical menus (hmenu).
  *
