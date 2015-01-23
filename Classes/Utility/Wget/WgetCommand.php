@@ -1,7 +1,8 @@
 <?php
 namespace PunktDe\PtExtbase\Utility\Wget;
+use PunktDe\PtExtbase\Utility\TimeTracker;
 
- /***************************************************************
+/***************************************************************
  *  Copyright notice
  *
  *  (c) 2015 Daniel Lienert <lienert@punkt.de>
@@ -29,6 +30,11 @@ namespace PunktDe\PtExtbase\Utility\Wget;
 
 class WgetCommand {
 
+	/**
+	 * A list of allowed wget command arguments
+	 *
+	 * @var array
+	 */
 	protected $argumentMap = array(
 		'noCheckCertificate' => '--no-check-certificate',
 		'convertLinks' => '--convert-links',
@@ -42,8 +48,17 @@ class WgetCommand {
 		'directoryPrefix' => '--directory-prefix=%s',
 		'domains' => '--domains=%s',
 		'pageRequisites' => '--page-requisites',
-		'outputFile' => '--output-file=%s'
+		'outputFile' => '--output-file=%s',
+		'quiet' => '--quiet',
+		'outputDocument' => '--output-document=%s',
 	);
+
+
+	/**
+	 * @var \Tx_PtExtbase_Logger_Logger
+	 * @inject
+	 */
+	protected $logger;
 
 
 	/**
@@ -143,9 +158,25 @@ class WgetCommand {
 
 
 	/**
+	 * The log File Path
+	 *
 	 * @var string
 	 */
 	protected $outputFile;
+
+
+	/**
+	 * The documents will not be written to the appropriate files,
+	 * but all will be concatenated together and written to file.
+	 *
+	 * @var string
+	 */
+	protected $outputDocument;
+
+	/**
+	 * @var Boolean
+	 */
+	protected $quiet;
 
 
 	/**
@@ -297,8 +328,22 @@ class WgetCommand {
 		return $this;
 	}
 
+	/**
+	 * @param Boolean $quiet
+	 * @return $this
+	 */
+	public function setQuiet($quiet) {
+		$this->quiet = $quiet;
+		return $this;
+	}
 
-
+	/**
+	 * @param string $outputDocument
+	 */
+	public function setOutputDocument($outputDocument) {
+		$this->outputDocument = $outputDocument;
+		return $this;
+	}
 
 
 	/**
@@ -318,7 +363,7 @@ class WgetCommand {
 			}
 		}
 
-		return sprintf('%s %s %s', $this->wgetBinaryPath, implode(' ', $arguments), $this->url);
+		return sprintf('%s %s "%s"', $this->wgetBinaryPath, implode(' ', $arguments), $this->url);
 	}
 
 
@@ -332,8 +377,17 @@ class WgetCommand {
 
 	/**
 	 * Executes the wget command
+	 *
+	 * @return string
 	 */
 	public function execute() {
-		exec($this->buildCommand());
+		$command = $this->buildCommand();
+		TimeTracker::start($command);
+
+		exec($command, $outputLines);
+
+		$this->logger->debug('Called WGet command ' . $command, __CLASS__, array('time' => TimeTracker::stop($command)));
+
+		return implode('\n', $outputLines);
 	}
 } 
