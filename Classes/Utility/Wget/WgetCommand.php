@@ -48,9 +48,12 @@ class WgetCommand {
 		'directoryPrefix' => '--directory-prefix=%s',
 		'domains' => '--domains=%s',
 		'pageRequisites' => '--page-requisites',
-		'outputFile' => '--output-file=%s',
+		'outputFile' => '--output-file="%s"',
 		'quiet' => '--quiet',
 		'outputDocument' => '--output-document=%s',
+		'postData' => '--post-data="%s"',
+		'postFile' => '--post-file="%s"',
+		'noVerbose' => '--no-verbose'
 	);
 
 
@@ -86,18 +89,27 @@ class WgetCommand {
 
 
 	/**
+	 * Save cookies to file before exiting. This will not save cookies that have expired
+	 * or that have no expiry time (so-called “session cookies”), but also see ‘--keep-session-cookies’.
+	 *
 	 * @var string
 	 */
 	protected $saveCookies;
 
 
 	/**
+	 * Load cookies from file before the first HTTP retrieval.
+	 *
 	 * @var string
 	 */
 	protected $loadCookies;
 
 
 	/**
+	 * When specified, causes ‘--save-cookies’ to also save session cookies.
+	 * Session cookies are normally not saved because they are meant to be kept in memory
+	 * and forgotten when you exit the browser.
+	 *
 	 * @var Boolean
 	 */
 	protected $keepSessionCookies;
@@ -180,6 +192,27 @@ class WgetCommand {
 
 
 	/**
+	 * @var string
+	 */
+	protected $postData;
+
+
+	/**
+	 * @var string
+	 */
+	protected $postFile;
+
+
+	/**
+	 * Turn off verbose without being completely quiet (use ‘-q’ for that),
+	 * which means that error messages and basic information still get printed.
+	 *
+	 * @var Boolean
+	 */
+	protected $noVerbose;
+
+
+	/**
 	 * @param string $wgetBinaryPath
 	 * @return $this
 	 */
@@ -249,7 +282,7 @@ class WgetCommand {
 
 
 	/**
-	 * @param Booelan $keepSessionCookies
+	 * @param Boolean $keepSessionCookies
 	 * @return $this
 	 */
 	public function setKeepSessionCookies($keepSessionCookies) {
@@ -339,11 +372,62 @@ class WgetCommand {
 
 	/**
 	 * @param string $outputDocument
+	 * @return $this
 	 */
 	public function setOutputDocument($outputDocument) {
 		$this->outputDocument = $outputDocument;
 		return $this;
 	}
+
+
+	/**
+	 * @param string $postData
+	 * @return $this
+	 */
+	public function setPostData($postData) {
+		$this->postData = $postData;
+		return $this;
+	}
+
+
+	/**
+	 * Set The post data from a key-value array
+	 *
+	 * @param array $postData
+	 * @return $this
+	 */
+	public function setPostDataAsArray(array $postData) {
+		$keyValues = array();
+
+		foreach($postData as $key => $value) {
+			$keyValues[] = "$key=$value";
+		}
+
+		$this->setPostData(implode('&', $keyValues));
+
+		return $this;
+	}
+
+
+	/**
+	 * @param string $postFile
+	 * @return $this
+	 */
+	public function setPostFile($postFile) {
+		$this->postFile = $postFile;
+		return $this;
+	}
+
+
+	/**
+	 * @param boolean $noVerbose
+	 * @return $this
+	 */
+	public function setNoVerbose($noVerbose) {
+		$this->noVerbose = $noVerbose;
+		return $this;
+	}
+
 
 
 	/**
