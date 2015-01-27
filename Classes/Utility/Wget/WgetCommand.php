@@ -428,6 +428,20 @@ class WgetCommand {
 		return $this;
 	}
 
+	/**
+	 * @return boolean
+	 */
+	public function isNoVerbose() {
+		return $this->noVerbose;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getOutputFile() {
+		return $this->outputFile;
+	}
 
 
 	/**
