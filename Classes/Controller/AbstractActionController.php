@@ -251,5 +251,64 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
 	public function setView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view) {
 		$this->view = $view;
 	}
-	
+
+
+
+	/**
+	 * Recursively iterates through the specified arguments and turns instances of type \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+	 * into an arrays containing the uid of the domain object.
+	 *
+	 * @param array $arguments The arguments to be iterated
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentValueException
+	 * @return array The modified arguments array
+	 */
+	protected function convertDomainObjectsToIdentityArrays(array $arguments) {
+		foreach ($arguments as $argumentKey => $argumentValue) {
+			// if we have a LazyLoadingProxy here, make sure to get the real instance for further processing
+			if ($argumentValue instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy) {
+				$argumentValue = $argumentValue->_loadRealInstance();
+				// also update the value in the arguments array, because the lazyLoaded object could be
+				// hidden and thus the $argumentValue would be NULL.
+				$arguments[$argumentKey] = $argumentValue;
+			}
+			if ($argumentValue instanceof \TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject) {
+				if ($argumentValue->getUid() !== NULL) {
+					$arguments[$argumentKey] = $argumentValue->getUid();
+				} elseif ($argumentValue instanceof \TYPO3\CMS\Extbase\DomainObject\AbstractValueObject) {
+					$arguments[$argumentKey] = $this->convertTransientObjectToArray($argumentValue);
+				} else {
+					throw new \TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentValueException('Could not serialize Domain Object ' . get_class($argumentValue) . '. It is neither an Entity with identity properties set, nor a Value Object.', 1260881688);
+				}
+			} elseif (is_array($argumentValue)) {
+				$arguments[$argumentKey] = $this->convertDomainObjectsToIdentityArrays($argumentValue);
+			}
+		}
+		return $arguments;
+	}
+
+
+	/**
+	 * Converts a given object recursively into an array.
+	 *
+	 * @param \TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject $object
+	 * @return array
+	 * @todo Refactore this into convertDomainObjectsToIdentityArrays()
+	 */
+	public function convertTransientObjectToArray(\TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject $object) {
+		$result = array();
+		foreach ($object->_getProperties() as $propertyName => $propertyValue) {
+			if ($propertyValue instanceof \TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject) {
+				if ($propertyValue->getUid() !== NULL) {
+					$result[$propertyName] = $propertyValue->getUid();
+				} else {
+					$result[$propertyName] = $this->convertTransientObjectToArray($propertyValue);
+				}
+			} elseif (is_array($propertyValue)) {
+				$result[$propertyName] = $this->convertDomainObjectsToIdentityArrays($propertyValue);
+			} else {
+				$result[$propertyName] = $propertyValue;
+			}
+		}
+		return $result;
+	}
 }
