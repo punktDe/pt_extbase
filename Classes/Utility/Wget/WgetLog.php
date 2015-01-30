@@ -27,6 +27,19 @@
 namespace PunktDe\PtExtbase\Utility\Wget;
 
 
-class WgetLog {
+class WgetLog extends \Tx_PtExtbase_Collection_ObjectCollection {
 
-} 
+	/**
+	 * @var string
+	 */
+	protected $restrictedClassName = '\PunktDe\PtExtbase\Utility\Wget\WgetLogEntry';
+
+
+	/**
+	 * @param WgetLogEntry $wgetLogEntry
+	 * @throws \Tx_PtExtbase_Exception_Internal
+	 */
+	public function addLogEntry(WgetLogEntry $wgetLogEntry) {
+		$this->addItem($wgetLogEntry);
+	}
+}

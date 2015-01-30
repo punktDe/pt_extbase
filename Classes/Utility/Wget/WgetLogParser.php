@@ -84,18 +84,18 @@ class WgetLogParser {
 
 	/**
 	 * @param $logFileContent
-	 * @return array
+	 * @return WgetLog
 	 */
 	protected function buildLogFileEntryArray($logFileContent) {
 		$structuredLogFileEntries = $this->splitLogFileEntries($logFileContent);
 
-		$logFileObjectArray = array();
+		$wgetLog = $this->objectManager->get('\PunktDe\PtExtbase\Utility\Wget\WgetLog'); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLog  $wgetLog */
 
 		foreach($structuredLogFileEntries as $structuredLogFileEntry) {
-			$logFileObjectArray[] = $this->buildLogFileEntry($structuredLogFileEntry);
+			$wgetLog->addLogEntry($this->buildLogFileEntry($structuredLogFileEntry));
 		}
 
-		return $logFileObjectArray;
+		return $wgetLog;
 	}
 
 
@@ -146,6 +146,4 @@ class WgetLogParser {
 
 		return $structuredLogEntryArray;
 	}
-
-
 } 
