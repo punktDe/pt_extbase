@@ -53,7 +53,7 @@ class WgetCommandTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 	 * @test
 	 */
 	public function buildUrl() {
-		$expected = 'wget --no-check-certificate --convert-links --load-cookies=cookies.txt --execute robots=off --tries=30 --retry-connrefused --server-response --directory-prefix=2014-11-28-0958 --domains=test.punkt.de --page-requisites --output-file=2014-11-28-0958.log "http://test.punkt.de/page/"';
+		$expected = 'wget --no-check-certificate --convert-links --load-cookies=cookies.txt --execute robots=off --tries=30 --retry-connrefused --server-response --directory-prefix=2014-11-28-0958 --domains=test.punkt.de --page-requisites --output-file="2014-11-28-0958.log" "http://test.punkt.de/page/"';
 
 		$this->wgetCommand
 			->setWgetBinaryPath('wget')
