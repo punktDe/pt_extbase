@@ -24,46 +24,32 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-namespace PunktDe\PtExtbase\Utility\Wget;
+namespace PunktDe\PtExtbase\Tests\Utility\Wget;
 
-
-class WgetLog extends \Tx_PtExtbase_Collection_ObjectCollection {
-
-	/**
-	 * @var string
-	 */
-	protected $restrictedClassName = '\PunktDe\PtExtbase\Utility\Wget\WgetLogEntry';
-
+class WgetLogEntryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 	/**
-	 * @param WgetLogEntry $wgetLogEntry
-	 * @throws \Tx_PtExtbase_Exception_Internal
+	 * @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry
 	 */
-	public function addLogEntry(WgetLogEntry $wgetLogEntry) {
-		$this->addItem($wgetLogEntry);
+	protected $wgetLogEntry;
+
+
+	public function setUp() {
+		$wgetLogProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\Utility\Wget\WgetLogEntry');
+		$this->wgetLogEntry = $this->objectManager->get($wgetLogProxyClass);
+	}
+
+
+	public function tearDown() {
+
 	}
 
 
 	/**
-	 * @return bool
+	 * @test
 	 */
-	public function hasErrors() {
-		return $this->getErrors()->count() > 0 ?: FALSE;
-	}
-
-
-	/**
-	 * @return WgetLog
-	 */
-	public function getErrors() {
-		$errorEntries = new WgetLog();
-
-		foreach($this->itemsArr as $logEntry) {
-			if($logEntry->isError()) {
-				$errorEntries->addLogEntry($logEntry);
-			}
-		}
-
-		return $errorEntries;
+	public function wgetLogEntryCanBeIdentifiedAsError() {
+		$this->wgetLogEntry->setStatus(500);
+		$this->assertTrue($this->wgetLogEntry->isError());
 	}
 }
