@@ -26,6 +26,8 @@
 
 namespace PunktDe\PtExtbase\Tests\Utility\Wget;
 
+use PunktDe\PtExtbase\Utility\Files;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class WgetLogParserTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
@@ -43,14 +45,14 @@ class WgetLogParserTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 	public function setUp() {
 		$wgetLogParserProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\Utility\Wget\WgetLogParser');
-		$this->wgetLogParser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get($wgetLogParserProxyClass);
+		$this->wgetLogParser = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get($wgetLogParserProxyClass);
 
 		$this->logOutPutFile = __DIR__ . '/testLogFile.log';
 	}
 
 
 	public function tearDown() {
-		if(file_exists($this->logOutPutFile)) \Tx_PtExtbase_Utility_Files::unlink($this->logOutPutFile);
+		if(file_exists($this->logOutPutFile)) Files::unlink($this->logOutPutFile);
 	}
 
 
