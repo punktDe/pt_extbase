@@ -104,7 +104,7 @@ abstract class GitCommand {
 	 * @return string
 	 */
 	public function execute() {
-		$this->gitClient->execute($this);
+		return $this->gitClient->execute($this);
 	}
 
 
