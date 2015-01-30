@@ -72,11 +72,18 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
 
 			$this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager')->persistAll();
 
+			$this->cleanUpAtException();
+
 			return $exception->getCode();
 		}
 	}
 
+	/**
+	 * Use this method in own ApiController to implement further steps if an exception is thrown
+	 */
+	protected function cleanUpAtException() {
 
+	}
 
 	/**
 	 * Handles all errors thrown during the dispatcher / validation phase

@@ -43,12 +43,6 @@ class WgetLogEntry {
 
 
 	/**
-	 * @var string
-	 */
-	protected $status;
-
-
-	/**
 	 * @var integer
 	 */
 	protected $statusCode;
@@ -119,20 +113,6 @@ class WgetLogEntry {
 	 */
 	public function setStatus($status) {
 		$this->status = $status;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getStatusCode() {
-		return $this->statusCode;
-	}
-
-	/**
-	 * @param int $statusCode
-	 */
-	public function setStatusCode($statusCode) {
-		$this->statusCode = $statusCode;
 	}
 
 	/**
