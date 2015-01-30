@@ -38,7 +38,7 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	/**
 	 * @var string
 	 */
-	protected $pathToGitCommand;
+	protected $pathToGitCommand = '';
 
 
 	/**
@@ -67,7 +67,9 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @return void
 	 */
 	public function tearDown() {
-		\Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->repositoryRootPath);
+		if ($this->pathToGitCommand && file_exists($this->repositoryRootPath)) {
+			\Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->repositoryRootPath);
+		}
 	}
 
 
@@ -76,15 +78,14 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @return void
 	 */
 	protected function prepareGitEnvironment() {
-		if (file_exists($this->repositoryRootPath)) {
-			\Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->repositoryRootPath);
-		}
-
 		$this->pathToGitCommand = rtrim(`which git`);
 		if ($this->pathToGitCommand) {
 			$this->gitCommandForTestingExists = TRUE;
 
 			$this->repositoryRootPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . "RepositoryRootPath";
+			if (file_exists($this->repositoryRootPath)) {
+				\Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->repositoryRootPath);
+			}
 			mkdir($this->repositoryRootPath);
 		}
 	}
@@ -101,6 +102,8 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$loggerMock = $this->getMockBuilder('Tx_PtExtbase_Logger_Logger')
 			->getMock();
 		$this->proxy->_set('logger', $loggerMock);
+		$this->proxy->_set('objectManager', $this->objectManager);
+		$this->proxy->_set('shellCommandService', $this->objectManager->get('PunktDe\PtExtbase\Utility\ShellCommandService'));
 	}
 
 
@@ -216,19 +219,17 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @test
 	 */
 	public function gitWorkflowInitAddCommitLogReturnsValidInformation() {
+		$this->skipTestIfGitCommandForTestingDoesNotExist();
 		$initCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\InitCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\InitCommand $initCommand */
 		$addCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\AddCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\AddCommand $addCommand */
 		$commitCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\CommitCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\CommitCommand $commitCommand */
 		$logCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\LogCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\LogCommand $logCommand */
 
-		$addCommand->setPath(".");
-		$commitCommand->setMessage("[TASK] Initial commit");
-
-		$this->proxy->_set('objectManager', $this->objectManager);
-		$this->proxy->_set('shellCommandService', $this->objectManager->get('PunktDe\PtExtbase\Utility\ShellCommandService'));
-
 		$this->proxy->setCommandPath($this->pathToGitCommand);
 		$this->proxy->setRepositoryRootPath($this->repositoryRootPath);
+
+		$addCommand->setPath(".");
+		$commitCommand->setMessage("[TASK] Initial commit");
 
 		$this->proxy->execute($initCommand);
 
@@ -239,8 +240,83 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$actual = $this->proxy->execute($logCommand);
 
 		$expected = "[TASK] Initial commit";
-
 		$this->assertContains($expected, $actual);
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function checkIfFluentInterfaceWorks() {
+		$this->proxy->setCommandPath($this->pathToGitCommand);
+		$this->proxy->setRepositoryRootPath($this->repositoryRootPath);
+
+		$this->proxy
+			->init()
+			->execute();
+
+		file_put_contents($this->repositoryRootPath . DIRECTORY_SEPARATOR . "DoomDevice.txt", "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$this->proxy
+			->commit()
+			->setMessage("[TASK] Initial commit")
+			->execute();
+
+		$actual = $this->proxy
+			->log()
+			->execute();
+
+		$expected = "[TASK] Initial commit";
+		$this->assertContains($expected, $actual);
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function checkShortGitStatusOutput() {
+		$this->skipTestIfGitCommandForTestingDoesNotExist();
+
+		$this->proxy->setCommandPath($this->pathToGitCommand);
+		$this->proxy->setRepositoryRootPath($this->repositoryRootPath);
+
+		$this->proxy
+			->init()
+			->execute();
+
+		file_put_contents($this->repositoryRootPath . DIRECTORY_SEPARATOR . "film01.txt", "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+		file_put_contents($this->repositoryRootPath . DIRECTORY_SEPARATOR . "film02.txt", "2001 - A Space Odyssey");
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$this->proxy
+			->commit()
+			->setMessage("[TASK] Initial commit")
+			->execute();
+
+		unlink($this->repositoryRootPath . DIRECTORY_SEPARATOR . "film02.txt");
+
+		file_put_contents($this->repositoryRootPath . DIRECTORY_SEPARATOR . "film01.txt", "Lolita");
+		file_put_contents($this->repositoryRootPath . DIRECTORY_SEPARATOR . "film03.txt", "A Clockwork Orange");
+
+		$expected = " M film01.txt\n D film02.txt\n?? film03.txt\n";
+
+		$actual = $this->proxy
+			->status()
+			->setShort(TRUE)
+			->execute();
+
+		$this->assertSame($expected, $actual);
 	}
 
 
