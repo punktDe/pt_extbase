@@ -47,10 +47,25 @@ abstract class GitCommand {
 
 
 	/**
+	 * @var GitClient
+	 */
+	protected $gitClient;
+
+
+	/**
 	 * @inject
 	 * @var \Tx_PtExtbase_Logger_Logger
 	 */
 	protected $logger;
+
+
+	/**
+	 * @param GitClient|NULL $gitClient
+	 */
+	public function __construct($gitClient = NULL) {
+		$this->gitClient = $gitClient;
+	}
+
 
 
 	/**
@@ -81,6 +96,15 @@ abstract class GitCommand {
 		$arguments = $this->buildArguments();
 		array_unshift($arguments, $this->command);
 		return implode(' ', $arguments);
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function execute() {
+		$this->gitClient->execute($this);
 	}
 
 

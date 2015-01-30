@@ -90,71 +90,64 @@ class GitClient implements SingletonInterface {
 
 
 	/**
-	 * @param StatusCommand $gitCommand
 	 * @return string
 	 */
-	public function status(StatusCommand $gitCommand) {
-		return $this->execute($gitCommand);
+	public function status() {
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\StatusCommand', $this);
 	}
 
 
 
 	/**
-	 * @param LogCommand $gitCommand
 	 * @return string
 	 */
-	public function log(LogCommand $gitCommand) {
-		return $this->execute($gitCommand);
+	public function log() {
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\LogCommand', $this);
 	}
 
 
 
 	/**
-	 * @param AddCommand $gitCommand
 	 * @return string
 	 */
-	public function add(AddCommand $gitCommand) {
-		return $this->execute($gitCommand);
+	public function add() {
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\AddCommand', $this);
 	}
 
 
 
 	/**
-	 * @param CommitCommand $gitCommand
 	 * @return string
 	 */
-	public function commit(CommitCommand $gitCommand) {
-		return $this->execute($gitCommand);
+	public function commit() {
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\CommitCommand', $this);
 	}
 
 
 
 	/**
-	 * @param TagCommand $gitCommand
 	 * @return string
 	 */
-	public function tag(TagCommand $gitCommand) {
-		return $this->execute($gitCommand);
+	public function tag() {
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\TagCommand', $this);
 	}
 
 
 
 	/**
-	 * @param PushCommand $gitCommand
 	 * @return string
 	 */
-	public function push(PushCommand $gitCommand) {
-		return $this->execute($gitCommand);
+	public function push() {
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\PushCommand', $this);
 	}
 
 
 
 	/**
-	 * @param InitCommand $gitCommand
 	 * @return string
 	 */
-	public function init(InitCommand $gitCommand) {
-		return $this->execute($gitCommand);
+	public function init() {
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\InitCommand', $this);
 	}
 
 
@@ -163,7 +156,7 @@ class GitClient implements SingletonInterface {
 	 * @param GitCommand $gitCommand
 	 * @return string
 	 */
-	protected function execute($gitCommand) {
+	public function execute($gitCommand) {
 		return $this->shellCommandService->execute($this->renderCommand($gitCommand));
 	}
 

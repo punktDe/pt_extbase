@@ -230,13 +230,13 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$this->proxy->setCommandPath($this->pathToGitCommand);
 		$this->proxy->setRepositoryRootPath($this->repositoryRootPath);
 
-		$this->proxy->init($initCommand);
+		$this->proxy->execute($initCommand);
 
 		file_put_contents($this->repositoryRootPath . DIRECTORY_SEPARATOR . "DoomDevice.txt", "Dr. Strangelove or How I Stopped Worrying And Love The Bomb");
 
-		$this->proxy->add($addCommand);
-		$this->proxy->commit($commitCommand);
-		$actual = $this->proxy->log($logCommand);
+		$this->proxy->execute($addCommand);
+		$this->proxy->execute($commitCommand);
+		$actual = $this->proxy->execute($logCommand);
 
 		$expected = "[TASK] Initial commit";
 
