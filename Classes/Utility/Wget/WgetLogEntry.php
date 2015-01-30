@@ -31,6 +31,14 @@ class WgetLogEntry {
 
 
 	/**
+	 * Defines which status codes are errors
+	 *
+	 * @var array
+	 */
+	protected $errorStatusPattern = '[4,5]..';
+
+
+	/**
 	 * @var \DateTime
 	 */
 	protected $fetchDate;
@@ -45,7 +53,7 @@ class WgetLogEntry {
 	/**
 	 * @var integer
 	 */
-	protected $statusCode;
+	protected $status;
 
 
 	/**
@@ -127,5 +135,27 @@ class WgetLogEntry {
 	 */
 	public function setUrl($url) {
 		$this->url = $url;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getErrorStatusPattern() {
+		return $this->errorStatusPattern;
+	}
+
+	/**
+	 * @param array $errorStatusPatterns
+	 */
+	public function setErrorStatusPattern($errorStatusPatterns) {
+		$this->errorStatusPattern = $errorStatusPatterns;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isError() {
+		return preg_match(sprintf('/%s/', $this->errorStatusPattern), (string) $this->status) != 0 ?: FALSE;
 	}
 } 
