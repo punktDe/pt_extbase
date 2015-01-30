@@ -157,7 +157,9 @@ class GitClient implements SingletonInterface {
 	 * @return string
 	 */
 	public function execute($gitCommand) {
-		return $this->shellCommandService->execute($this->renderCommand($gitCommand));
+		$commandLine = $this->renderCommand($gitCommand);
+		$this->logger->info($commandLine);
+		return $this->shellCommandService->execute($commandLine);
 	}
 
 
