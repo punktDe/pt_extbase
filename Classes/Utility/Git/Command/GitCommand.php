@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git;
+namespace PunktDe\PtExtbase\Utility\Git\Command;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -24,7 +24,7 @@ namespace PunktDe\PtExtbase\Utility\Git;
 /**
  * Git Command
  *
- * @package PunktDe\PtExtbase\Utility\Git
+ * @package PunktDe\PtExtbase\Utility\Git\Command
  */
 abstract class GitCommand {
 
@@ -114,4 +114,4 @@ abstract class GitCommand {
 	 */
 	abstract public function render();
 
-} 
+}

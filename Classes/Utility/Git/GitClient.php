@@ -80,7 +80,7 @@ class GitClient implements SingletonInterface {
 	 * @throws \Exception
 	 */
 	protected function checkIfValidGitCommandIsAvailable() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\VoidCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\VoidCommand $command */
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\VoidCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\VoidCommand $command */
 		$command->setVersion(TRUE);
 		if (!file_exists($this->commandPath) || strpos($this->execute($command), 'git') !== 0) {
 			throw new \Exception("No valid git command found on system", 1422469432);
@@ -93,7 +93,7 @@ class GitClient implements SingletonInterface {
 	 * @return StatusCommand
 	 */
 	public function status() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\StatusCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand', $this);
 	}
 
 
@@ -102,7 +102,7 @@ class GitClient implements SingletonInterface {
 	 * @return LogCommand
 	 */
 	public function log() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\LogCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\LogCommand', $this);
 	}
 
 
@@ -111,7 +111,7 @@ class GitClient implements SingletonInterface {
 	 * @return AddCommand
 	 */
 	public function add() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\AddCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\AddCommand', $this);
 	}
 
 
@@ -120,7 +120,7 @@ class GitClient implements SingletonInterface {
 	 * @return CommitCommand
 	 */
 	public function commit() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\CommitCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\CommitCommand', $this);
 	}
 
 
@@ -129,7 +129,7 @@ class GitClient implements SingletonInterface {
 	 * @return TagCommand
 	 */
 	public function tag() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\TagCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\TagCommand', $this);
 	}
 
 
@@ -138,7 +138,7 @@ class GitClient implements SingletonInterface {
 	 * @return PushCommand
 	 */
 	public function push() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\PushCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\PushCommand', $this);
 	}
 
 
@@ -147,7 +147,7 @@ class GitClient implements SingletonInterface {
 	 * @return InitCommand
 	 */
 	public function init() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\InitCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\InitCommand', $this);
 	}
 
 

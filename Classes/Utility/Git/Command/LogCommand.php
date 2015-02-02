@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git;
+namespace PunktDe\PtExtbase\Utility\Git\Command;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -22,16 +22,16 @@ namespace PunktDe\PtExtbase\Utility\Git;
  ***************************************************************/
 
 /**
- * Push Command
+ * Log Command
  *
- * @package PunktDe\PtExtbase\Utility\Git
+ * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class PushCommand extends GitCommand {
+class LogCommand extends GitCommand {
 
 	/**
 	 * @var string
 	 */
-	protected $command = 'push';
+	protected $command = 'log';
 
 
 	/**
@@ -40,8 +40,7 @@ class PushCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'remote' => '%s',
-		'refspec' => '%s'
+		'nameOnly' => '--name-only',
 	);
 
 
@@ -49,31 +48,19 @@ class PushCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'remote' => '',
-		'refspec' => ''
+		'nameOnly' => FALSE
 	);
 
 
-	/**
-	 * @param string $remote
-	 * @return $this
-	 */
-	public function setRemote($remote) {
-		$this->arguments['remote'] = $remote;
-		return $this;
-	}
-
-
 
 	/**
-	 * @param string $refspec
+	 * @param boolean $nameOnly
 	 * @return $this
 	 */
-	public function setRefspec($refspec) {
-		$this->arguments['refspec'] = $refspec;
+	public function setNameOnly($nameOnly) {
+		$this->arguments['nameOnly'] = $nameOnly;
 		return $this;
 	}
-
 
 
 	/**

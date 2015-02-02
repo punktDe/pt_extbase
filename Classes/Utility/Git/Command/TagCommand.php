@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git;
+namespace PunktDe\PtExtbase\Utility\Git\Command;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -22,16 +22,16 @@ namespace PunktDe\PtExtbase\Utility\Git;
  ***************************************************************/
 
 /**
- * Log Command
+ * Tag Command
  *
- * @package PunktDe\PtExtbase\Utility\Git
+ * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class LogCommand extends GitCommand {
+class TagCommand extends GitCommand {
 
 	/**
 	 * @var string
 	 */
-	protected $command = 'log';
+	protected $command = 'tag';
 
 
 	/**
@@ -40,7 +40,8 @@ class LogCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'nameOnly' => '--name-only',
+		'sign' => '--sign',
+		'annotate' => '--annotate',
 	);
 
 
@@ -48,26 +49,51 @@ class LogCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'nameOnly' => FALSE
+		'sign' => 'FALSE'
 	);
 
 
 
 	/**
-	 * @param boolean $nameOnly
+	 * @param boolean $sign
 	 * @return $this
 	 */
-	public function setNameOnly($nameOnly) {
-		$this->arguments['nameOnly'] = $nameOnly;
+	public function setSign($sign) {
+		$this->arguments['sign'] = $sign;
 		return $this;
 	}
+
+
+
+	/**
+	 * @param boolean $annotate
+	 * @return $this
+	 */
+	public function setAnnotate($annotate) {
+		$this->arguments['annotate'] = $annotate;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param string $name
+	 * @return $this
+	 */
+	public function setName($name) {
+		$this->arguments['name'] = $name;
+		return $this;
+	}
+
 
 
 	/**
 	 * @return string
 	 */
 	public function render() {
-		return $this->buildCommand();
+		$command[] = $this->buildCommand();
+		$command[] = $this->arguments['name'];
+		return implode(' ', $command);
 	}
 
-} 
+}

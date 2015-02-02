@@ -112,7 +112,7 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @test
 	 */
 	public function logCommandRendersValidLogCommand() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\LogCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\LogCommand $command */
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\LogCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\LogCommand $command */
 		$command->setNameOnly(TRUE);
 		$expected = 'cd ~; /usr/bin/git log --name-only';
 		$actual = $this->proxy->_call('renderCommand', $command);
@@ -125,7 +125,7 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @test
 	 */
 	public function statusCommandRendersValidStatusCommand() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\StatusCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\StatusCommand $command */
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\StatusCommand $command */
 		$command->setShort(TRUE);
 		$expected = 'cd ~; /usr/bin/git status --short';
 		$actual = $this->proxy->_call('renderCommand', $command);
@@ -138,7 +138,7 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @test
 	 */
 	public function addCommandRendersValidAddCommand() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\AddCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\AddCommand $command */
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\AddCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\AddCommand $command */
 		$command->setPath('.');
 		$expected = 'cd ~; /usr/bin/git add .';
 		$actual = $this->proxy->_call('renderCommand', $command);
@@ -151,7 +151,7 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @test
 	 */
 	public function commitCommandRendersValidCommitCommand() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\CommitCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\CommitCommand $command */
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\CommitCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\CommitCommand $command */
 		$command->setMessage('This is a very cool message!');
 		$expected = 'cd ~; /usr/bin/git commit --message "This is a very cool message!"';
 		$actual = $this->proxy->_call('renderCommand', $command);
@@ -164,7 +164,7 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @test
 	 */
 	public function tagCommandRendersValidTagCommand() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\TagCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\TagCommand $command */
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\TagCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\TagCommand $command */
 		$command->setName('v1.2.3');
 		$command->setSign(TRUE);
 		$expected = 'cd ~; /usr/bin/git tag --sign v1.2.3';
@@ -178,7 +178,7 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @test
 	 */
 	public function pushCommandRendersValidPushCommand() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\PushCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\PushCommand $command */
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\PushCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\PushCommand $command */
 		$command->setRemote('origin');
 		$command->setRefspec('master');
 		$expected = 'cd ~; /usr/bin/git push origin master';
@@ -192,7 +192,7 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @test
 	 */
 	public function initCommandRendersValidInitCommand() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\InitCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\InitCommand $command */
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\InitCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\InitCommand $command */
 		$command->setBare(TRUE);
 		$command->setShared(TRUE);
 		$expected = 'cd ~; /usr/bin/git init --bare --shared';
@@ -220,10 +220,10 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 */
 	public function gitWorkflowInitAddCommitLogReturnsValidInformation() {
 		$this->skipTestIfGitCommandForTestingDoesNotExist();
-		$initCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\InitCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\InitCommand $initCommand */
-		$addCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\AddCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\AddCommand $addCommand */
-		$commitCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\CommitCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\CommitCommand $commitCommand */
-		$logCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\LogCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\LogCommand $logCommand */
+		$initCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\InitCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\InitCommand $initCommand */
+		$addCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\AddCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\AddCommand $addCommand */
+		$commitCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\CommitCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\CommitCommand $commitCommand */
+		$logCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\LogCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\LogCommand $logCommand */
 
 		$this->proxy->setCommandPath($this->pathToGitCommand);
 		$this->proxy->setRepositoryRootPath($this->repositoryRootPath);

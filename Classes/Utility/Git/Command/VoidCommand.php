@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git;
+namespace PunktDe\PtExtbase\Utility\Git\Command;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -22,17 +22,16 @@ namespace PunktDe\PtExtbase\Utility\Git;
  ***************************************************************/
 
 /**
- * Commit Command
+ * Void Command
  *
- * @package PunktDe\PtExtbase\Utility\Git
+ * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class CommitCommand extends GitCommand {
+class VoidCommand extends GitCommand {
 
 	/**
 	 * @var string
 	 */
-	protected $command = 'commit';
-
+	protected $command = '';
 
 	/**
 	 * A list of allowed git command options
@@ -40,7 +39,7 @@ class CommitCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'message' => '--message %s'
+		'version' => '--version',
 	);
 
 
@@ -48,20 +47,17 @@ class CommitCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'message' => ''
+		'version' => FALSE
 	);
 
 
 
 	/**
-	 * @param string $message
-	 * @return $this
+	 * @param boolean $version
 	 */
-	public function setMessage($message) {
-		$this->arguments['message'] = sprintf("\"%s\"", $message);
-		return $this;
+	public function setVersion($version) {
+		$this->arguments['version'] = $version;
 	}
-
 
 
 	/**
@@ -71,4 +67,4 @@ class CommitCommand extends GitCommand {
 		return $this->buildCommand();
 	}
 
-} 
+}

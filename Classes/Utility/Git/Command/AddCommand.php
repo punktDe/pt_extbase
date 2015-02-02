@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git;
+namespace PunktDe\PtExtbase\Utility\Git\Command;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -22,42 +22,41 @@ namespace PunktDe\PtExtbase\Utility\Git;
  ***************************************************************/
 
 /**
- * Status Command
+ * Add Command
  *
- * @package PunktDe\PtExtbase\Utility\Git
+ * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class StatusCommand extends GitCommand {
+class AddCommand extends GitCommand {
 
 	/**
 	 * @var string
 	 */
-	protected $command = 'status';
+	protected $command = 'add';
+
 
 	/**
 	 * A list of allowed git command options
 	 *
 	 * @var array
 	 */
-	protected $argumentMap = array(
-		'short' => '--short',
-	);
+	protected $argumentMap = array();
 
 
 	/**
 	 * @var array
 	 */
 	protected $arguments = array(
-		'short' => FALSE
+		'path' => ''
 	);
 
 
 
 	/**
-	 * @param boolean $short
+	 * @param boolean $path
 	 * @return $this
 	 */
-	public function setShort($short) {
-		$this->arguments['short'] = $short;
+	public function setPath($path) {
+		$this->arguments['path'] = $path;
 		return $this;
 	}
 
@@ -66,7 +65,9 @@ class StatusCommand extends GitCommand {
 	 * @return string
 	 */
 	public function render() {
-		return $this->buildCommand();
+		$command[] = $this->buildCommand();
+		$command[] = $this->arguments['path'];
+		return implode(' ', $command);
 	}
 
-} 
+}

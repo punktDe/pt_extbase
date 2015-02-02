@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git;
+namespace PunktDe\PtExtbase\Utility\Git\Command;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -22,16 +22,16 @@ namespace PunktDe\PtExtbase\Utility\Git;
  ***************************************************************/
 
 /**
- * Init Command
+ * Push Command
  *
- * @package PunktDe\PtExtbase\Utility\Git
+ * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class InitCommand extends GitCommand {
+class PushCommand extends GitCommand {
 
 	/**
 	 * @var string
 	 */
-	protected $command = 'init';
+	protected $command = 'push';
 
 
 	/**
@@ -40,8 +40,8 @@ class InitCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'bare' => '--bare',
-		'shared' => '--shared'
+		'remote' => '%s',
+		'refspec' => '%s'
 	);
 
 
@@ -49,28 +49,28 @@ class InitCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'bare' => FALSE,
-		'shared' => FALSE
+		'remote' => '',
+		'refspec' => ''
 	);
 
 
 	/**
-	 * @param boolean $bare
+	 * @param string $remote
 	 * @return $this
 	 */
-	public function setBare($bare) {
-		$this->arguments['bare'] = $bare;
+	public function setRemote($remote) {
+		$this->arguments['remote'] = $remote;
 		return $this;
 	}
 
 
 
 	/**
-	 * @param boolean $shared
+	 * @param string $refspec
 	 * @return $this
 	 */
-	public function setShared($shared) {
-		$this->arguments['shared'] = $shared;
+	public function setRefspec($refspec) {
+		$this->arguments['refspec'] = $refspec;
 		return $this;
 	}
 

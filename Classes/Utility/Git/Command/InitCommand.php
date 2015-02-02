@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git;
+namespace PunktDe\PtExtbase\Utility\Git\Command;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -22,16 +22,17 @@ namespace PunktDe\PtExtbase\Utility\Git;
  ***************************************************************/
 
 /**
- * Void Command
+ * Init Command
  *
- * @package PunktDe\PtExtbase\Utility\Git
+ * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class VoidCommand extends GitCommand {
+class InitCommand extends GitCommand {
 
 	/**
 	 * @var string
 	 */
-	protected $command = '';
+	protected $command = 'init';
+
 
 	/**
 	 * A list of allowed git command options
@@ -39,7 +40,8 @@ class VoidCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'version' => '--version',
+		'bare' => '--bare',
+		'shared' => '--shared'
 	);
 
 
@@ -47,17 +49,31 @@ class VoidCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'version' => FALSE
+		'bare' => FALSE,
+		'shared' => FALSE
 	);
+
+
+	/**
+	 * @param boolean $bare
+	 * @return $this
+	 */
+	public function setBare($bare) {
+		$this->arguments['bare'] = $bare;
+		return $this;
+	}
 
 
 
 	/**
-	 * @param boolean $version
+	 * @param boolean $shared
+	 * @return $this
 	 */
-	public function setVersion($version) {
-		$this->arguments['version'] = $version;
+	public function setShared($shared) {
+		$this->arguments['shared'] = $shared;
+		return $this;
 	}
+
 
 
 	/**
@@ -67,4 +83,4 @@ class VoidCommand extends GitCommand {
 		return $this->buildCommand();
 	}
 
-} 
+}
