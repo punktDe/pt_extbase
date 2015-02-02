@@ -1632,9 +1632,15 @@ class Tx_PtExtbase_Div  {
 	public static function isMinTypo3Version($minVersion) {
 		$currentVersionAsInt = VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getNumericTypo3Version());
 		$minVersionAsInt = VersionNumberUtility::convertVersionNumberToInteger($minVersion);
-
-
 		return $currentVersionAsInt >= $minVersionAsInt;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function getCurrentRequestId() {
+		return \TYPO3\CMS\Core\Core\Bootstrap::getInstance()->getRequestId();
 	}
 
 }

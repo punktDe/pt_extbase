@@ -78,7 +78,7 @@ class WgetLogParser {
 			throw new \Exception(sprintf('The log file %s could not be read.', $this->wgetCommand->getOutputFile()), 1422438059);
 		}
 
-		return file_get_contents($this->wgetCommand->getOutputFile());
+		return trim(file_get_contents($this->wgetCommand->getOutputFile()));
 	}
 
 
@@ -109,7 +109,10 @@ class WgetLogParser {
 		preg_match('/(^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})/', $structuredLogEntry['header'], $matches);
 		$wgetLogEntry->setFetchDate(\DateTime::createFromFormat('Y-m-d H:i:s', $matches[0]));
 
-		preg_match('/URL:(?<url>\S+)/', $structuredLogEntry['header'], $matches);
+		if(preg_match('/URL:(?<url>\S+)/', $structuredLogEntry['header'], $matches) == 0) {
+			// When an error occurs, the URL is written to the 'body', so try to find it there
+			preg_match('/(?<url>https?:\/\/\S+):/', $structuredLogEntry['body'], $matches);
+		}
 		$wgetLogEntry->setUrl($matches['url']);
 
 		preg_match('/HTTP\/[0-9,\.]+\s(?<status>\d+).*/', $structuredLogEntry['body'], $matches);
@@ -138,9 +141,9 @@ class WgetLogParser {
 
 		foreach($logEntryArray as $key => $entry) {
 			if($key % 2 === 0) {
-				$structuredLogEntryArray[$key]['header'] = $entry;
+				$structuredLogEntryArray[$key]['body'] = trim($entry);
 			} else {
-				$structuredLogEntryArray[$key-1]['body'] = $entry;
+				$structuredLogEntryArray[$key-1]['header'] = trim($entry);
 			}
 		}
 
