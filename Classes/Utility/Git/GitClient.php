@@ -22,8 +22,8 @@ namespace PunktDe\PtExtbase\Utility\Git;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Utility\ShellCommandService;
+use PunktDe\PtExtbase\Utility\Git\Command;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Git Client
@@ -34,7 +34,7 @@ class GitClient implements SingletonInterface {
 
 	/**
 	 * @inject
-	 * @var ObjectManager
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
 	protected $objectManager;
 
@@ -90,7 +90,7 @@ class GitClient implements SingletonInterface {
 
 
 	/**
-	 * @return StatusCommand
+	 * @return Command\StatusCommand
 	 */
 	public function status() {
 		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand', $this);
@@ -99,7 +99,7 @@ class GitClient implements SingletonInterface {
 
 
 	/**
-	 * @return LogCommand
+	 * @return Command\LogCommand
 	 */
 	public function log() {
 		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\LogCommand', $this);
@@ -108,7 +108,7 @@ class GitClient implements SingletonInterface {
 
 
 	/**
-	 * @return AddCommand
+	 * @return Command\AddCommand
 	 */
 	public function add() {
 		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\AddCommand', $this);
@@ -117,7 +117,7 @@ class GitClient implements SingletonInterface {
 
 
 	/**
-	 * @return CommitCommand
+	 * @return Command\CommitCommand
 	 */
 	public function commit() {
 		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\CommitCommand', $this);
@@ -126,7 +126,7 @@ class GitClient implements SingletonInterface {
 
 
 	/**
-	 * @return TagCommand
+	 * @return Command\TagCommand
 	 */
 	public function tag() {
 		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\TagCommand', $this);
@@ -135,7 +135,7 @@ class GitClient implements SingletonInterface {
 
 
 	/**
-	 * @return PushCommand
+	 * @return Command\PushCommand
 	 */
 	public function push() {
 		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\PushCommand', $this);
@@ -144,7 +144,7 @@ class GitClient implements SingletonInterface {
 
 
 	/**
-	 * @return InitCommand
+	 * @return Command\InitCommand
 	 */
 	public function init() {
 		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\InitCommand', $this);
@@ -153,7 +153,7 @@ class GitClient implements SingletonInterface {
 
 
 	/**
-	 * @param GitCommand $gitCommand
+	 * @param Command\GitCommand $gitCommand
 	 * @return string
 	 */
 	public function execute($gitCommand) {
@@ -165,7 +165,7 @@ class GitClient implements SingletonInterface {
 
 
 	/**
-	 * @param GitCommand $gitCommand
+	 * @param Command\GitCommand $gitCommand
 	 * @return string
 	 */
 	protected function renderCommand($gitCommand) {
