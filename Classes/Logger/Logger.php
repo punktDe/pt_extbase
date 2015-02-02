@@ -359,7 +359,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * @param array $data
 	 * @param string $component
-	 * @return mixed
+	 * @return \Tx_PtExtbase_Logger_Logger
 	 */
 	protected function enrichLogDataByComponent(&$data, $component) {
 		if (empty($component)) {
