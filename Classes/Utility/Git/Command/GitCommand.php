@@ -123,10 +123,35 @@ abstract class GitCommand {
 	 */
 	public function getCommandName() {
 		if (empty($this->commandName)) {
-			preg_match('|.*\\\(.+?)Command$|', get_class($this), $matches);
+			preg_match('|.*\\\(.+?)Command$|', $this->getClass(), $matches);
 			$this->commandName = strtolower($matches[1]);
 		}
 		return $this->commandName;
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getResultClassName() {
+		preg_match('|(.+)\\\Command\\\.+?Command$|', $this->getClass(), $matches);
+		$className = sprintf("%s\\Result\\%sResult", $matches[1], ucfirst($this->getCommandName()));
+		if (class_exists($className)) {
+			return $className;
+		}
+		return sprintf("%s\\Result\\Result", $matches[1]);
+	}
+
+
+
+	/**
+	 * Adapter method for test mocks
+	 *
+	 * @return string
+	 */
+	protected function getClass() {
+		return  get_class($this);
 	}
 
 

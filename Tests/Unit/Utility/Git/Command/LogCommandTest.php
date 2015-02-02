@@ -32,12 +32,55 @@ use \TYPO3\CMS\Core\Tests\UnitTestCase;
 class LogCommandTest extends UnitTestCase {
 
 	/**
+	 * @var \PunktDe\PtExtbase\Utility\Git\Command\LogCommand
+	 */
+	protected $logCommand;
+
+
+	/**
+	 * @return void
+	 */
+	public function setUp() {
+		$this->logCommand = new LogCommand();
+	}
+
+
+
+	/**
 	 * @test
 	 */
 	public function checkIfLogCommandIsExtractedFromClassName() {
 		$expected = "log";
-		$command = new LogCommand();
-		$actual = $command->getCommandName();
+		$actual = $this->logCommand->getCommandName();
+		$this->assertSame($expected, $actual);
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function getResultClassNameReturnsValidClassName() {
+		$expected = 'PunktDe\PtExtbase\Utility\Git\Result\LogResult';
+		$actual = $this->logCommand->getResultClassName();
+		$this->assertSame($expected, $actual);
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function getResultClassNameReturnsBaseResultClassIfNoDedicatedResultClassExists() {
+		$commandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\LogCommand')
+			->setMethods(array('getClass'))
+			->getMock();
+		$commandMock->expects($this->any())
+			->method('getClass')
+			->will($this->returnValue('PunktDe\PtExtbase\Utility\Git\Command\FooCommand'));
+
+		$expected = 'PunktDe\PtExtbase\Utility\Git\Result\Result';
+		$actual = $commandMock->getResultClassName();
 		$this->assertSame($expected, $actual);
 	}
 

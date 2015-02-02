@@ -71,4 +71,5 @@ class GitCommandTest extends UnitTestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+
 }
