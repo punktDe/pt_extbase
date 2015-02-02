@@ -53,7 +53,7 @@ class WgetTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @return void
 	 */
 	public function setUp() {
-		$this->workingDirectory = __DIR__ . 'WorkingDirectory';
+		$this->workingDirectory = Files::concatenatePaths(array(__DIR__, 'WorkingDirectory'));
 		Files::createDirectoryRecursively($this->workingDirectory);
 
 		$this->wgetCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetCommand');
@@ -75,12 +75,37 @@ class WgetTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 */
 	public function downloadNotExistingPageAndDetectErrors() {
 		$this->wgetCommand->setOutputFile(Files::concatenatePaths(array($this->workingDirectory, 'wget.log')))
-			->setOutputFile($this->workingDirectory)
 			->setDirectoryPrefix($this->workingDirectory)
 			->setNoVerbose(TRUE)
-			->setUrl('http://not.existing.punkt.de/index.html')
+			->setServerResponse(TRUE)
+			->setUrl('http://localhost/not-existing-file.html')
 			->execute();
 
 		$log = $this->wgetLogParser->parseLog($this->wgetCommand);
+
+		$this->assertTrue($log->hasErrors());
+		$this->assertCount(1, $log);
+
+		$logEntry = $log->getItemByIndex(0); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
+
+		$this->assertEquals(404, $logEntry->getStatus());
+		$this->assertEquals('http://localhost/not-existing-file.html', $logEntry->getUrl());
+	}
+
+	/**
+	 * @test
+	 */
+	public function downloadExistingPage() {
+		$this->wgetCommand->setOutputFile(Files::concatenatePaths(array($this->workingDirectory, 'wget.log')))
+			->setDirectoryPrefix($this->workingDirectory)
+			->setNoVerbose(TRUE)
+			->setServerResponse(TRUE)
+			->setUrl('http://localhost/')
+			->execute();
+
+		$log = $this->wgetLogParser->parseLog($this->wgetCommand);
+
+		$this->assertFalse($log->hasErrors());
+		$this->assertFileExists(Files::concatenatePaths(array($this->workingDirectory, 'index.html')));
 	}
 }

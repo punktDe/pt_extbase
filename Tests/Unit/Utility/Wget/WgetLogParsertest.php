@@ -57,7 +57,6 @@ class WgetLogParserTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 
 
 	protected $testWgetLogEntry1 = <<<'EOD'
-2015-01-26 17:50:43 URL:https://test.das-partnerportal.deutschepost.de/index.php?id=login&logintype=logout [6285/6285] -> "2014-11-28-0958/test.das-partnerportal.deutschepost.de/login/hdl/helpdesklogin/4092341/23589310/a9dc685506e98630/104" [1]
   HTTP/1.1 200 OK
   Server: Apache/2.4.6 (Red Hat)
   Last-Modified: Mon, 14 Apr 2014 13:44:20 GMT
@@ -71,10 +70,10 @@ class WgetLogParserTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
   Age: 241
   Via: 1.1 varnish
   Connection: keep-alive
+  2015-01-26 17:50:43 URL:https://test.das-partnerportal.deutschepost.de/index.php?id=login&logintype=logout [6285/6285] -> "2014-11-28-0958/test.das-partnerportal.deutschepost.de/login/hdl/helpdesklogin/4092341/23589310/a9dc685506e98630/104" [1]
 EOD;
 
 	protected $testWgetLogEntry2 = <<<'EOD'
-2015-01-26 17:50:43 URL:https://test.das-partnerportal.deutschepost.de/typo3temp/stylesheet_c89de9523c.1422025907.css [9169/9169] -> "2014-11-28-0958/test.das-partnerportal.deutschepost.de/typo3temp/stylesheet_c89de9523c.1422025907.css" [1]
   HTTP/1.1 200 OK
   Server: Apache/2.4.6 (Red Hat)
   Last-Modified: Fri, 09 Jan 2015 09:04:44 GMT
@@ -88,14 +87,14 @@ EOD;
   Age: 241
   Via: 1.1 varnish
   Connection: keep-alive
+  2015-01-26 17:50:43 URL:https://test.das-partnerportal.deutschepost.de/typo3temp/stylesheet_c89de9523c.1422025907.css [9169/9169] -> "2014-11-28-0958/test.das-partnerportal.deutschepost.de/typo3temp/stylesheet_c89de9523c.1422025907.css" [1]
 EOD;
 
 	/**
 	 * @var array
 	 */
 	protected $testWgetLogEntrySplitted1 = array('header' => '2015-01-26 17:50:43 URL:https://test.das-partnerportal.deutschepost.de/index.php?id=login&logintype=logout [6285/6285] -> "2014-11-28-0958/test.das-partnerportal.deutschepost.de/login/hdl/helpdesklogin/4092341/23589310/a9dc685506e98630/104" [1]',
-		'body' => '
-  HTTP/1.1 200 OK
+		'body' => 'HTTP/1.1 200 OK
   Server: Apache/2.4.6 (Red Hat)
   Last-Modified: Mon, 14 Apr 2014 13:44:20 GMT
   Vary: Accept-Encoding,User-Agent
@@ -107,8 +106,7 @@ EOD;
   X-Varnish: 938681105 938680885
   Age: 241
   Via: 1.1 varnish
-  Connection: keep-alive
-');
+  Connection: keep-alive');
 
 
 	/**
@@ -122,8 +120,7 @@ EOD;
 		$expectedLogEntryArray = array(
 			0 => $this->testWgetLogEntrySplitted1,
 			2 => array('header' => '2015-01-26 17:50:43 URL:https://test.das-partnerportal.deutschepost.de/typo3temp/stylesheet_c89de9523c.1422025907.css [9169/9169] -> "2014-11-28-0958/test.das-partnerportal.deutschepost.de/typo3temp/stylesheet_c89de9523c.1422025907.css" [1]',
-						'body' =>'
-  HTTP/1.1 200 OK
+						'body' =>'HTTP/1.1 200 OK
   Server: Apache/2.4.6 (Red Hat)
   Last-Modified: Fri, 09 Jan 2015 09:04:44 GMT
   Vary: Accept-Encoding,User-Agent
@@ -135,9 +132,12 @@ EOD;
   X-Varnish: 938681107 938680887
   Age: 241
   Via: 1.1 varnish
-  Connection: keep-alive')
+  Connection: keep-alive'
+	)
 		);
 
+		$this->assertEquals($expectedLogEntryArray[0], $actualLogEntryArray[0], 'First log entry differs');
+		$this->assertEquals($expectedLogEntryArray[2], $actualLogEntryArray[2], 'Second log entry differs');
 		$this->assertEquals($expectedLogEntryArray, $actualLogEntryArray);
 	}
 
