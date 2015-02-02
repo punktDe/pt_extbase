@@ -54,9 +54,11 @@ class StatusCommand extends GitCommand {
 
 	/**
 	 * @param boolean $short
+	 * @return $this
 	 */
 	public function setShort($short) {
 		$this->arguments['short'] = $short;
+		return $this;
 	}
 
 

@@ -22,7 +22,7 @@ namespace PunktDe\PtExtbase\Utility\Git;
  ***************************************************************/
 
 /**
- * Void Command
+ * Log Command
  *
  * @package PunktDe\PtExtbase\Utility\Git
  */
@@ -32,6 +32,7 @@ class LogCommand extends GitCommand {
 	 * @var string
 	 */
 	protected $command = 'log';
+
 
 	/**
 	 * A list of allowed git command options
