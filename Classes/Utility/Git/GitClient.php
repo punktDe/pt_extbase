@@ -22,6 +22,7 @@ namespace PunktDe\PtExtbase\Utility\Git;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Utility\ShellCommandService;
+use PunktDe\PtExtbase\Utility\Git\Result\Result;
 use PunktDe\PtExtbase\Utility\Git\Command;
 use TYPO3\CMS\Core\SingletonInterface;
 
@@ -82,7 +83,7 @@ class GitClient implements SingletonInterface {
 	protected function checkIfValidGitCommandIsAvailable() {
 		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\VoidCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\VoidCommand $command */
 		$command->setVersion(TRUE);
-		if (!file_exists($this->commandPath) || strpos($this->execute($command), 'git') !== 0) {
+		if (!file_exists($this->commandPath) || strpos($this->execute($command)->getRawResult(), 'git') !== 0) {
 			throw new \Exception("No valid git command found on system", 1422469432);
 		}
 	}
@@ -154,12 +155,13 @@ class GitClient implements SingletonInterface {
 
 	/**
 	 * @param Command\GitCommand $gitCommand
-	 * @return string
+	 * @return Result
 	 */
 	public function execute($gitCommand) {
 		$commandLine = $this->renderCommand($gitCommand);
 		$this->logger->info($commandLine);
-		return $this->shellCommandService->execute($commandLine);
+		// return $this->shellCommandService->execute($commandLine);
+		return $this->objectManager->get($gitCommand->getResultClassName(), $this->shellCommandService->execute($commandLine));
 	}
 
 

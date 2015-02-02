@@ -269,7 +269,7 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$actual = $this->proxy->execute($logCommand);
 
 		$expected = "[TASK] Initial commit";
-		$this->assertContains($expected, $actual);
+		$this->assertContains($expected, $actual->getRawResult());
 	}
 
 
@@ -302,7 +302,7 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 			->execute();
 
 		$expected = "[TASK] Initial commit";
-		$this->assertContains($expected, $actual);
+		$this->assertContains($expected, $actual->getRawResult());
 	}
 
 
@@ -345,7 +345,7 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 			->setShort(TRUE)
 			->execute();
 
-		$this->assertSame($expected, $actual);
+		$this->assertSame($expected, $actual->getRawResult());
 	}
 
 
