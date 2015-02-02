@@ -43,6 +43,12 @@ abstract class GitCommand {
 
 
 	/**
+	 * @var string
+	 */
+	protected $commandName = '';
+
+
+	/**
 	 * @var GitClient
 	 */
 	protected $gitClient;
@@ -116,8 +122,11 @@ abstract class GitCommand {
 	 * @return string
 	 */
 	public function getCommandName() {
-		preg_match('|.*\\\(.+?)Command$|', get_class($this), $matches);
-		return strtolower($matches[1]);
+		if (empty($this->commandName)) {
+			preg_match('|.*\\\(.+?)Command$|', get_class($this), $matches);
+			$this->commandName = strtolower($matches[1]);
+		}
+		return $this->commandName;
 	}
 
 
