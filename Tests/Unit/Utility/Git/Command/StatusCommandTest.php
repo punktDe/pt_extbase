@@ -25,14 +25,14 @@ use PunktDe\PtExtbase\Utility\Git\Command\LogCommand;
 use \TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /**
- * Git Command Test Case
+ * Status Command Test Case
  *
  * @package PunktDe\PtExtbase\Tests\Utility\Git\Command
  */
-class LogCommandTest extends UnitTestCase {
+class StatusCommandTest extends UnitTestCase {
 
 	/**
-	 * @var \PunktDe\PtExtbase\Utility\Git\Command\LogCommand
+	 * @var \PunktDe\PtExtbase\Utility\Git\Command\StatusCommand
 	 */
 	protected $logCommand;
 
@@ -41,7 +41,7 @@ class LogCommandTest extends UnitTestCase {
 	 * @return void
 	 */
 	public function setUp() {
-		$this->logCommand = new LogCommand();
+		$this->logCommand = new StatusCommand();
 	}
 
 
@@ -72,7 +72,7 @@ class LogCommandTest extends UnitTestCase {
 	 * @test
 	 */
 	public function getResultClassNameReturnsBaseResultClassIfNoDedicatedResultClassExists() {
-		$commandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\LogCommand')
+		$commandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand')
 			->setMethods(array('getClass'))
 			->getMock();
 		$commandMock->expects($this->any())

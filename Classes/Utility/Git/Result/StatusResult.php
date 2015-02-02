@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Command;
+namespace PunktDe\PtExtbase\Utility\Git\Result;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -22,47 +22,12 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  ***************************************************************/
 
 /**
- * Status Command
+ * Status Result
  *
- * @package PunktDe\PtExtbase\Utility\Git\Command
+ * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-class StatusCommand extends GitCommand {
+class StatusResult extends Result {
 
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'short' => '--short',
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'short' => FALSE
-	);
-
-
-
-	/**
-	 * @param boolean $short
-	 * @return $this
-	 */
-	public function setShort($short) {
-		$this->arguments['short'] = $short;
-		return $this;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
-	}
 
 
 }

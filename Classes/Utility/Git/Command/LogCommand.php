@@ -65,13 +65,4 @@ class LogCommand extends GitCommand {
 		return $this->buildCommand();
 	}
 
-
-
-	/**
-	 * @return string
-	 */
-	public function execute() {
-		return $this->gitClient->execute($this, $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Result\LogResult'));
-	}
-
 }

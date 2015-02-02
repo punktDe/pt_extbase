@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Command;
+namespace PunktDe\PtExtbase\Utility\Git\Result;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -22,47 +22,74 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  ***************************************************************/
 
 /**
- * Status Command
+ * Result
  *
- * @package PunktDe\PtExtbase\Utility\Git\Command
+ * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-class StatusCommand extends GitCommand {
+class Result {
 
 	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
+	 * @var integer
 	 */
-	protected $argumentMap = array(
-		'short' => '--short',
-	);
+	protected $exitCode;
 
 
 	/**
-	 * @var array
+	 * @var string
 	 */
-	protected $arguments = array(
-		'short' => FALSE
-	);
-
+	protected $rawResult = '';
 
 
 	/**
-	 * @param boolean $short
-	 * @return $this
+	 * @param string $rawResult
 	 */
-	public function setShort($short) {
-		$this->arguments['short'] = $short;
-		return $this;
+	public function __construct($rawResult) {
+		$this->rawResult = $rawResult;
 	}
+
+
+
+	/**
+	 * @return int
+	 */
+	public function getExitCode() {
+		return $this->exitCode;
+	}
+
+
+
+	/**
+	 * @param int $exitCode
+	 */
+	public function setExitCode($exitCode) {
+		$this->exitCode = $exitCode;
+	}
+
 
 
 	/**
 	 * @return string
 	 */
-	public function render() {
-		return $this->buildCommand();
+	public function getRawResult() {
+		return $this->rawResult;
 	}
 
+
+
+	/**
+	 * @param string $rawResult
+	 */
+	public function setRawResult($rawResult) {
+		$this->rawResult = $rawResult;
+	}
+
+
+
+	/**
+	 * @return void
+	 */
+	public function __string() {
+		echo $this->rawResult;
+	}
 
 }
