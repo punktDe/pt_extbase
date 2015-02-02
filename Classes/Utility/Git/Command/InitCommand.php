@@ -29,12 +29,6 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
 class InitCommand extends GitCommand {
 
 	/**
-	 * @var string
-	 */
-	protected $command = 'init';
-
-
-	/**
 	 * A list of allowed git command options
 	 *
 	 * @var array

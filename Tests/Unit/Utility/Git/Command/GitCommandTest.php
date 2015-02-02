@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Tests\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use \TYPO3\CMS\Core\Tests\UnitTestCase;
+
 /**
  * Git Command Test Case
  *
  * @package PunktDe\PtExtbase\Tests\Utility\Git\Command
  */
-class GitCommandTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class GitCommandTest extends UnitTestCase {
 
 	/**
 	 * @var \PunktDe\PtExtbase\Utility\Git\Command\GitCommand

@@ -29,11 +29,6 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
 class VoidCommand extends GitCommand {
 
 	/**
-	 * @var string
-	 */
-	protected $command = '';
-
-	/**
 	 * A list of allowed git command options
 	 *
 	 * @var array
@@ -58,6 +53,16 @@ class VoidCommand extends GitCommand {
 	public function setVersion($version) {
 		$this->arguments['version'] = $version;
 	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getCommandName() {
+		return '';
+	}
+
 
 
 	/**

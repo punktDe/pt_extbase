@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Command;
+namespace PunktDe\PtExtbase\Utility\Git\Command\Remote;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\Git\Command\GitCommand;
+
 /**
- * Commit Command
+ * Remote Add Command
  *
- * @package PunktDe\PtExtbase\Utility\Git\Command
+ * @package PunktDe\PtExtbase\Utility\Git\Command\Remote
  */
-class CommitCommand extends GitCommand {
+class AddCommand extends GitCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -34,7 +36,8 @@ class CommitCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'message' => '--message %s'
+		'name' => '%s',
+		'url' => '%s'
 	);
 
 
@@ -42,17 +45,29 @@ class CommitCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'message' => ''
+		'name' => '',
+		'url' => ''
 	);
 
 
 
 	/**
-	 * @param string $message
+	 * @param string $name
 	 * @return $this
 	 */
-	public function setMessage($message) {
-		$this->arguments['message'] = sprintf("\"%s\"", $message);
+	public function setName($name) {
+		$this->arguments['name'] = $name;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param string $url
+	 * @return $this
+	 */
+	public function setUrl($url) {
+		$this->arguments['url'] = $url;
 		return $this;
 	}
 

@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Command;
+namespace PunktDe\PtExtbase\Utility\Git\Command\Remote;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -21,18 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\Git\Command\GitCommand;
+
 /**
- * Remote Add Command
+ * Remote Remove Command
  *
- * @package PunktDe\PtExtbase\Utility\Git\Command
+ * @package PunktDe\PtExtbase\Utility\Git\Command\Remote
  */
-class RemoteAddCommand extends GitCommand {
-
-	/**
-	 * @var string
-	 */
-	protected $command = 'add';
-
+class RemoveCommand extends GitCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -40,8 +36,7 @@ class RemoteAddCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'name' => '%s',
-		'url' => '%s'
+		'name' => '%s'
 	);
 
 
@@ -49,8 +44,7 @@ class RemoteAddCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'name' => '',
-		'url' => ''
+		'name' => ''
 	);
 
 
@@ -61,17 +55,6 @@ class RemoteAddCommand extends GitCommand {
 	 */
 	public function setName($name) {
 		$this->arguments['name'] = $name;
-		return $this;
-	}
-
-
-
-	/**
-	 * @param string $url
-	 * @return $this
-	 */
-	public function setUrl($url) {
-		$this->arguments['url'] = $url;
 		return $this;
 	}
 

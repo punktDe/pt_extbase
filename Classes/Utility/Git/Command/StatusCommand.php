@@ -29,11 +29,6 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
 class StatusCommand extends GitCommand {
 
 	/**
-	 * @var string
-	 */
-	protected $command = 'status';
-
-	/**
 	 * A list of allowed git command options
 	 *
 	 * @var array

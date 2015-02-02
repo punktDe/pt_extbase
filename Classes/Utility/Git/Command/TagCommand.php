@@ -29,12 +29,6 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
 class TagCommand extends GitCommand {
 
 	/**
-	 * @var string
-	 */
-	protected $command = 'tag';
-
-
-	/**
 	 * A list of allowed git command options
 	 *
 	 * @var array

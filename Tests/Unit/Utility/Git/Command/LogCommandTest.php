@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Command;
+namespace PunktDe\PtExtbase\Tests\Utility\Git\Command;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -21,54 +21,24 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\Git\Command\LogCommand;
+use \TYPO3\CMS\Core\Tests\UnitTestCase;
+
 /**
- * Remote Remove Command
+ * Git Command Test Case
  *
- * @package PunktDe\PtExtbase\Utility\Git\Command
+ * @package PunktDe\PtExtbase\Tests\Utility\Git\Command
  */
-class RemoteRemoveCommand extends GitCommand {
+class LogCommandTest extends UnitTestCase {
 
 	/**
-	 * @var string
+	 * @test
 	 */
-	protected $command = 'remove';
-
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'name' => '%s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'name' => ''
-	);
-
-
-
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function setName($name) {
-		$this->arguments['name'] = $name;
-		return $this;
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
+	public function checkIfLogCommandIsExtractedFromClassName() {
+		$expected = "log";
+		$command = new LogCommand();
+		$actual = $command->getCommandName();
+		$this->assertSame($expected, $actual);
 	}
 
 }

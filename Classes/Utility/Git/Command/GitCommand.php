@@ -31,12 +31,6 @@ use PunktDe\PtExtbase\Utility\Git\GitClient;
 abstract class GitCommand {
 
 	/**
-	 * @var string
-	 */
-	protected $command = '';
-
-
-	/**
 	 * @var array
 	 */
 	protected $argumentMap = array();
@@ -103,7 +97,7 @@ abstract class GitCommand {
 	 */
 	protected function buildCommand() {
 		$arguments = $this->buildArguments();
-		array_unshift($arguments, $this->command);
+		array_unshift($arguments, $this->getCommandName());
 		return implode(' ', $arguments);
 	}
 
@@ -114,6 +108,16 @@ abstract class GitCommand {
 	 */
 	public function execute() {
 		return $this->gitClient->execute($this);
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getCommandName() {
+		preg_match('|.*\\\(.+?)Command$|', get_class($this), $matches);
+		return strtolower($matches[1]);
 	}
 
 

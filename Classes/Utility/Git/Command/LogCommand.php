@@ -29,12 +29,6 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
 class LogCommand extends GitCommand {
 
 	/**
-	 * @var string
-	 */
-	protected $command = 'log';
-
-
-	/**
 	 * A list of allowed git command options
 	 *
 	 * @var array
@@ -63,11 +57,21 @@ class LogCommand extends GitCommand {
 	}
 
 
+
 	/**
 	 * @return string
 	 */
 	public function render() {
 		return $this->buildCommand();
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function execute() {
+		return $this->gitClient->execute($this, $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Result\LogResult'));
 	}
 
 }

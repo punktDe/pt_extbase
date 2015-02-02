@@ -29,15 +29,9 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
 class RemoteCommand extends GitCommand {
 
 	/**
-	 * @var string
-	 */
-	protected $command = 'remote';
-
-
-	/**
 	 * @var GitCommand
 	 */
-	protected $remoteCommand;
+	protected $command;
 
 
 	/**
@@ -61,21 +55,21 @@ class RemoteCommand extends GitCommand {
 
 
 	/**
-	 * @return RemoteAddCommand
+	 * @return Remote\AddCommand
 	 */
 	public function add() {
-		$this->remoteCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\RemoteAddCommand', $this->gitClient);
-		return $this->remoteCommand;
+		$this->command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\Remote\AddCommand', $this->gitClient);
+		return $this->command;
 	}
 
 
 
 	/**
-	 * @return RemoteRemoveCommand
+	 * @return Remote\RemoveCommand
 	 */
 	public function remove() {
-		$this->remoteCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\RemoteRemoveCommand', $this->gitClient);
-		return $this->remoteCommand;
+		$this->command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\Remote\RemoveCommand', $this->gitClient);
+		return $this->command;
 	}
 
 
@@ -84,7 +78,7 @@ class RemoteCommand extends GitCommand {
 	 * @return string
 	 */
 	public function render() {
-		return sprintf("%s %s", $this->buildCommand(), $this->remoteCommand->render());
+		return sprintf("%s %s", $this->buildCommand(), $this->command->render());
 	}
 
 }

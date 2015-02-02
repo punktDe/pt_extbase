@@ -29,12 +29,6 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
 class AddCommand extends GitCommand {
 
 	/**
-	 * @var string
-	 */
-	protected $command = 'add';
-
-
-	/**
 	 * A list of allowed git command options
 	 *
 	 * @var array
