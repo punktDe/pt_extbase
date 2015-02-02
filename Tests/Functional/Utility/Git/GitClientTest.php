@@ -205,6 +205,35 @@ class GitClientTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	/**
 	 * @test
 	 */
+	public function remoteAddCommandRendersValidRemoteAddCommand() {
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\RemoteCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\RemoteCommand $command */
+		$command->add()
+			->setName('origin')
+			->setUrl('file:///tmp/punktde.git');
+		$expected = 'cd ~; /usr/bin/git remote add origin file:///tmp/punktde.git';
+		$actual = $this->proxy->_call('renderCommand', $command);
+		$this->assertSame($expected, $actual);
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function remoteRemoveCommandRendersValidRemoteRemoveCommand() {
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\RemoteCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\RemoteCommand $command */
+		$command->remove()
+			->setName('origin');
+		$expected = 'cd ~; /usr/bin/git remote remove origin';
+		$actual = $this->proxy->_call('renderCommand', $command);
+		$this->assertSame($expected, $actual);
+	}
+
+
+
+	/**
+	 * @test
+	 */
 	public function checkIfValidGitCommandIsAvailableThrowsNoExceptionIfGitExists() {
 		$this->skipTestIfGitCommandForTestingDoesNotExist();
 		$this->proxy->_set('objectManager', $this->objectManager);

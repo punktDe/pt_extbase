@@ -21,6 +21,8 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\Git\GitClient;
+
 /**
  * Git Command
  *
@@ -50,6 +52,13 @@ abstract class GitCommand {
 	 * @var GitClient
 	 */
 	protected $gitClient;
+
+
+	/**
+	 * @inject
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+	 */
+	protected $objectManager;
 
 
 	/**
