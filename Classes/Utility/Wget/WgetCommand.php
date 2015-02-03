@@ -53,7 +53,9 @@ class WgetCommand {
 		'outputDocument' => '--output-document=%s',
 		'postData' => '--post-data="%s"',
 		'postFile' => '--post-file="%s"',
-		'noVerbose' => '--no-verbose'
+		'noVerbose' => '--no-verbose',
+		'recursive' => '--recursive',
+		'noParent' => '--no-parent',
 	);
 
 
@@ -211,6 +213,16 @@ class WgetCommand {
 	 */
 	protected $noVerbose = TRUE;
 
+	/**
+	 * @var boolean
+	 */
+	protected $recursive;
+
+
+	/**
+	 * @var boolean
+	 */
+	protected $noParent;
 
 	/**
 	 * @param string $wgetBinaryPath
@@ -441,6 +453,25 @@ class WgetCommand {
 	 */
 	public function getOutputFile() {
 		return $this->outputFile;
+	}
+
+
+	/**
+	 * @param boolean $recursive
+	 * @return $this
+	 */
+	public function setRecursive($recursive) {
+		$this->recursive = $recursive;
+		return $this;
+	}
+
+	/**
+	 * @param boolean $noParent
+	 * @return $this
+	 */
+	public function setNoParent($noParent) {
+		$this->noParent = $noParent;
+		return $this;
 	}
 
 
