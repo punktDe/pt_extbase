@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\SingletonInterface;
+
 /**
  * Shell Command Service
  *
  * @package \PunktDe\PtExtbase\Utility
  */
-class ShellCommandService {
+class ShellCommandService implements SingletonInterface {
 
 	/**
 	 * @inject
