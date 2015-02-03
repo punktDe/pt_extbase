@@ -66,4 +66,22 @@ class WgetLog extends \Tx_PtExtbase_Collection_ObjectCollection {
 
 		return $errorEntries;
 	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray() {
+		$logArray = array();
+
+		foreach($this->itemsArr as $logEntry) { /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
+			$logArray[] = array(
+				'date' => $logEntry->getFetchDate(),
+				'url' => $logEntry->getUrl(),
+				'status' => $logEntry->getStatus(),
+				'length' => $logEntry->getContentLength()
+			);
+		}
+
+		return $logArray;
+	}
 }
