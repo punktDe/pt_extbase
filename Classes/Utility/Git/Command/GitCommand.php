@@ -21,7 +21,8 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\Git\GitClient;
+use PunktDe\PtExtbase\Utility\Git\GitRepository;
+use PunktDe\PtExtbase\Utility\Git\Result\Result;
 
 /**
  * Git Command
@@ -49,12 +50,6 @@ abstract class GitCommand {
 
 
 	/**
-	 * @var GitClient
-	 */
-	protected $gitClient;
-
-
-	/**
 	 * @inject
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
@@ -69,12 +64,9 @@ abstract class GitCommand {
 
 
 	/**
-	 * @param GitClient|NULL $gitClient
+	 * @var GitCommand
 	 */
-	public function __construct($gitClient = NULL) {
-		$this->gitClient = $gitClient;
-	}
-
+	protected $subCommand;
 
 
 	/**
@@ -104,16 +96,19 @@ abstract class GitCommand {
 	protected function buildCommand() {
 		$arguments = $this->buildArguments();
 		array_unshift($arguments, $this->getCommandName());
+		if ($this->subCommand instanceof GitCommand) {
+			array_unshift($arguments, $this->subCommand->render());
+		}
 		return implode(' ', $arguments);
 	}
 
 
 
 	/**
-	 * @return string
+	 * @return Result
 	 */
 	public function execute() {
-		return $this->gitClient->execute($this);
+		return $this->objectManager->get($this->getResultType(), $this);
 	}
 
 
@@ -134,13 +129,23 @@ abstract class GitCommand {
 	/**
 	 * @return string
 	 */
-	public function getResultClassName() {
+	public function getResultType() {
 		preg_match('|(.+)\\\Command\\\.+?Command$|', $this->getClass(), $matches);
 		$className = sprintf("%s\\Result\\%sResult", $matches[1], ucfirst($this->getCommandName()));
 		if (class_exists($className)) {
 			return $className;
 		}
 		return sprintf("%s\\Result\\Result", $matches[1]);
+	}
+
+
+
+	/**
+	 * @param GitCommand $command
+	 * @return void
+	 */
+	protected function attachCommand(GitCommand $command) {
+		$this->subCommand = $command;
 	}
 
 

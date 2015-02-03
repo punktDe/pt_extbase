@@ -49,9 +49,11 @@ class VoidCommand extends GitCommand {
 
 	/**
 	 * @param boolean $version
+	 * @return $this
 	 */
 	public function setVersion($version) {
 		$this->arguments['version'] = $version;
+		return $this;
 	}
 
 

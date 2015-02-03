@@ -26,8 +26,25 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-class StatusResult extends Result {
+class StatusResult extends AbstractResult {
+
+	/**
+	 * @return void
+	 */
+	protected function buildResult() {
+		foreach ($this->parseRawResult() as $resultLine) {
+
+		}
+
+	}
 
 
+
+	/**
+	 * @return array
+	 */
+	protected function parseRawResult() {
+
+	}
 
 }

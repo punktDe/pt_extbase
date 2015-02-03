@@ -21,17 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\ShellCommandService;
-use PunktDe\PtExtbase\Utility\Git\Result\Result;
 use PunktDe\PtExtbase\Utility\Git\Command;
-use TYPO3\CMS\Core\SingletonInterface;
 
 /**
- * Git Client
+ * Git Repository
  *
  * @package PunktDe\PtExtbase\Utility\Git
  */
-class GitClient implements SingletonInterface {
+class GitRepository {
 
 	/**
 	 * @inject
@@ -42,28 +39,38 @@ class GitClient implements SingletonInterface {
 
 	/**
 	 * @inject
-	 * @var ShellCommandService
-	 */
-	protected $shellCommandService;
-
-
-	/**
-	 * @inject
 	 * @var \Tx_PtExtbase_Logger_Logger
 	 */
 	protected $logger;
 
 
 	/**
-	 * @var string
+	 * @inject
+	 * @var \PunktDe\PtExtbase\Utility\Git\GitExecutionManager
 	 */
-	protected $commandPath = '/usr/bin/git';
+	protected $gitExecutionManager;
 
 
 	/**
 	 * @var string
 	 */
-	protected $repositoryRootPath = '~';
+	protected $commandPath;
+
+
+	/**
+	 * @var string
+	 */
+	protected $repositoryRootPath;
+
+
+	/**
+	 * @param string $commandPath
+	 * @param string $repositoryRootPath
+	 */
+	public function __construct($commandPath, $repositoryRootPath) {
+		$this->commandPath = $commandPath;
+		$this->repositoryRootPath = $repositoryRootPath;
+	}
 
 
 
@@ -71,6 +78,8 @@ class GitClient implements SingletonInterface {
 	 * @return void
 	 */
 	public function initializeObject() {
+		$this->setCommandPath($this->commandPath);
+		$this->setRepositoryRootPath($this->repositoryRootPath);
 		$this->checkIfValidGitCommandIsAvailable();
 	}
 
@@ -81,9 +90,7 @@ class GitClient implements SingletonInterface {
 	 * @throws \Exception
 	 */
 	protected function checkIfValidGitCommandIsAvailable() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\VoidCommand'); /** @var \PunktDe\PtExtbase\Utility\Git\Command\VoidCommand $command */
-		$command->setVersion(TRUE);
-		if (!file_exists($this->commandPath) || strpos($this->execute($command)->getRawResult(), 'git') !== 0) {
+		if (!file_exists($this->gitExecutionManager->getCommandPath()) || strpos($this->void()->setVersion(TRUE)->execute()->getRawResult(), 'git') !== 0) {
 			throw new \Exception("No valid git command found on system", 1422469432);
 		}
 	}
@@ -94,7 +101,7 @@ class GitClient implements SingletonInterface {
 	 * @return Command\StatusCommand
 	 */
 	public function status() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand');
 	}
 
 
@@ -103,7 +110,7 @@ class GitClient implements SingletonInterface {
 	 * @return Command\LogCommand
 	 */
 	public function log() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\LogCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\LogCommand');
 	}
 
 
@@ -112,7 +119,7 @@ class GitClient implements SingletonInterface {
 	 * @return Command\AddCommand
 	 */
 	public function add() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\AddCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\AddCommand');
 	}
 
 
@@ -121,7 +128,7 @@ class GitClient implements SingletonInterface {
 	 * @return Command\CommitCommand
 	 */
 	public function commit() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\CommitCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\CommitCommand');
 	}
 
 
@@ -130,7 +137,7 @@ class GitClient implements SingletonInterface {
 	 * @return Command\TagCommand
 	 */
 	public function tag() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\TagCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\TagCommand');
 	}
 
 
@@ -139,7 +146,7 @@ class GitClient implements SingletonInterface {
 	 * @return Command\PushCommand
 	 */
 	public function push() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\PushCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\PushCommand');
 	}
 
 
@@ -148,31 +155,26 @@ class GitClient implements SingletonInterface {
 	 * @return Command\InitCommand
 	 */
 	public function init() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\InitCommand', $this);
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\InitCommand');
 	}
 
 
 
 	/**
-	 * @param Command\GitCommand $gitCommand
-	 * @return Result
+	 * @return Command\RemoteCommand
 	 */
-	public function execute($gitCommand) {
-		$commandLine = $this->renderCommand($gitCommand);
-		$this->logger->info($commandLine);
-		// return $this->shellCommandService->execute($commandLine);
-		return $this->objectManager->get($gitCommand->getResultClassName(), $this->shellCommandService->execute($commandLine));
+	public function remote() {
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\RemoteCommand');
 	}
 
 
 
 	/**
-	 * @param Command\GitCommand $gitCommand
-	 * @return string
+	 * @return Command\VoidCommand
 	 */
-	protected function renderCommand($gitCommand) {
-		return sprintf('cd %s; %s %s', $this->repositoryRootPath, $this->commandPath, $gitCommand->render());
-    }
+	protected function void() {
+		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\VoidCommand');
+	}
 
 
 
@@ -180,7 +182,7 @@ class GitClient implements SingletonInterface {
 	 * @param string $commandPath
 	 */
 	public function setCommandPath($commandPath) {
-		$this->commandPath = $commandPath;
+		$this->gitExecutionManager->setCommandPath($commandPath);
 	}
 
 
@@ -189,7 +191,7 @@ class GitClient implements SingletonInterface {
 	 * @param string $repositoryRootPath
 	 */
 	public function setRepositoryRootPath($repositoryRootPath) {
-		$this->repositoryRootPath = $repositoryRootPath;
+		$this->gitExecutionManager->setRepositoryRootPath($repositoryRootPath);
 	}
 
 }

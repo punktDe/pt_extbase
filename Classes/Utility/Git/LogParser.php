@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Result;
+namespace PunktDe\PtExtbase\Utility\Git;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -21,21 +21,19 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use PunktDe\PtExtbase\Utility\ShellCommandService;
-
 /**
- * Result
+ * Log Parser
  *
- * @package PunktDe\PtExtbase\Utility\Git\Result
+ * @package PunktDe\PtExtbase\Utility\Git
  */
-class Result extends AbstractResult {
+class LogParser {
 
 	/**
-	 * @return void
+	 * @param string $log
+	 * @return Log
 	 */
-	protected function buildResult() {
+	public function parse($log) {
 
 	}
 
-}
+} 
