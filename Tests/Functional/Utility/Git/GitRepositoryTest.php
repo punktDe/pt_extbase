@@ -137,9 +137,6 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @test
 	 */
 	public function checkIfFluentInterfaceWorks() {
-		$this->proxy->setCommandPath($this->pathToGitCommand);
-		$this->proxy->setRepositoryRootPath($this->repositoryRootPath);
-
 		$this->proxy
 			->init()
 			->execute();
@@ -171,9 +168,6 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 */
 	public function checkShortGitStatusOutput() {
 		$this->skipTestIfGitCommandForTestingDoesNotExist();
-
-		$this->proxy->setCommandPath($this->pathToGitCommand);
-		$this->proxy->setRepositoryRootPath($this->repositoryRootPath);
 
 		$this->proxy
 			->init()

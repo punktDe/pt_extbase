@@ -54,13 +54,13 @@ class GitRepository {
 	/**
 	 * @var string
 	 */
-	protected $commandPath;
+	protected $commandPath = '/usr/bin/git';
 
 
 	/**
 	 * @var string
 	 */
-	protected $repositoryRootPath;
+	protected $repositoryRootPath = '~';
 
 
 	/**
@@ -78,8 +78,6 @@ class GitRepository {
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->setCommandPath($this->commandPath);
-		$this->setRepositoryRootPath($this->repositoryRootPath);
 		$this->checkIfValidGitCommandIsAvailable();
 	}
 
@@ -90,7 +88,7 @@ class GitRepository {
 	 * @throws \Exception
 	 */
 	protected function checkIfValidGitCommandIsAvailable() {
-		if (!file_exists($this->gitExecutionManager->getCommandPath()) || strpos($this->void()->setVersion(TRUE)->execute()->getRawResult(), 'git') !== 0) {
+		if (!file_exists($this->commandPath) || strpos($this->void()->setVersion(TRUE)->execute()->getRawResult(), 'git') !== 0) {
 			throw new \Exception("No valid git command found on system", 1422469432);
 		}
 	}
@@ -101,7 +99,7 @@ class GitRepository {
 	 * @return Command\StatusCommand
 	 */
 	public function status() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand');
+		return $this->createCommandForRepository('Status');
 	}
 
 
@@ -110,7 +108,7 @@ class GitRepository {
 	 * @return Command\LogCommand
 	 */
 	public function log() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\LogCommand');
+		return $this->createCommandForRepository('Log');
 	}
 
 
@@ -119,7 +117,7 @@ class GitRepository {
 	 * @return Command\AddCommand
 	 */
 	public function add() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\AddCommand');
+		return $this->createCommandForRepository('Add');
 	}
 
 
@@ -128,7 +126,7 @@ class GitRepository {
 	 * @return Command\CommitCommand
 	 */
 	public function commit() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\CommitCommand');
+		return $this->createCommandForRepository('Commit');
 	}
 
 
@@ -137,7 +135,7 @@ class GitRepository {
 	 * @return Command\TagCommand
 	 */
 	public function tag() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\TagCommand');
+		return $this->createCommandForRepository('Tag');
 	}
 
 
@@ -146,7 +144,7 @@ class GitRepository {
 	 * @return Command\PushCommand
 	 */
 	public function push() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\PushCommand');
+		return $this->createCommandForRepository('Push');
 	}
 
 
@@ -155,7 +153,7 @@ class GitRepository {
 	 * @return Command\InitCommand
 	 */
 	public function init() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\InitCommand');
+		return $this->createCommandForRepository('Init');
 	}
 
 
@@ -164,7 +162,7 @@ class GitRepository {
 	 * @return Command\RemoteCommand
 	 */
 	public function remote() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\RemoteCommand');
+		return $this->createCommandForRepository('Remote');
 	}
 
 
@@ -173,25 +171,37 @@ class GitRepository {
 	 * @return Command\VoidCommand
 	 */
 	protected function void() {
-		return $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\VoidCommand');
+		return $this->createCommandForRepository('Void');
+	}
+
+
+	
+	/**
+	 * @param string $commandName
+	 * @return Command\GitCommand
+	 */
+	protected function createCommandForRepository($commandName) {
+		$this->gitExecutionManager->setRepository($this);
+		return $this->objectManager->get(sprintf("PunktDe\\PtExtbase\\Utility\\Git\\Command\\%sCommand", $commandName));
 	}
 
 
 
 	/**
-	 * @param string $commandPath
+	 * @return string
 	 */
-	public function setCommandPath($commandPath) {
-		$this->gitExecutionManager->setCommandPath($commandPath);
+	public function getRepositoryRootPath() {
+		return $this->repositoryRootPath;
 	}
 
 
 
 	/**
-	 * @param string $repositoryRootPath
+	 * @return string
 	 */
-	public function setRepositoryRootPath($repositoryRootPath) {
-		$this->gitExecutionManager->setRepositoryRootPath($repositoryRootPath);
+	public function getCommandPath() {
+		return $this->commandPath;
 	}
+
 
 }

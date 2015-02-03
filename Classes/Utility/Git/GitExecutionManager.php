@@ -54,15 +54,9 @@ class GitExecutionManager implements SingletonInterface {
 
 
 	/**
-	 * @var string
+	 * @var \PunktDe\PtExtbase\Utility\Git\GitRepository
 	 */
-	protected $commandPath = '/usr/bin/git';
-
-
-	/**
-	 * @var string
-	 */
-	protected $repositoryRootPath = '~';
+	protected $repository;
 
 
 	/**
@@ -82,43 +76,16 @@ class GitExecutionManager implements SingletonInterface {
 	 * @return string
 	 */
 	protected function renderCommand($gitCommand) {
-		return sprintf('cd %s; %s %s', $this->repositoryRootPath, $this->commandPath, $gitCommand->render());
+		return sprintf('cd %s; %s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), $gitCommand->render());
     }
 
 
 
 	/**
-	 * @param string $commandPath
+	 * @param \PunktDe\PtExtbase\Utility\Git\GitRepository $repository
 	 */
-	public function setCommandPath($commandPath) {
-		$this->commandPath = $commandPath;
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function getCommandPath() {
-		return $this->commandPath;
-	}
-
-
-
-	/**
-	 * @param string $repositoryRootPath
-	 */
-	public function setRepositoryRootPath($repositoryRootPath) {
-		$this->repositoryRootPath = $repositoryRootPath;
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function getRepositoryRootPath() {
-		return $this->repositoryRootPath;
+	public function setRepository($repository) {
+		$this->repository = $repository;
 	}
 
 }
