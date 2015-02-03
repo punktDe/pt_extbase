@@ -80,12 +80,12 @@ namespace PunktDe\PtExtbase\Utility {
 		 * @param boolean $returnRealPath If turned on, all paths are resolved by calling realpath()
 		 * @param boolean $returnDotFiles If turned on, also files beginning with a dot will be returned
 		 * @param array $filenames Internally used for the recursion - don't specify!
-		 * @throws Exception
+		 * @throws \Exception
 		 * @return array Filenames including full path
 		 */
 		static public function readDirectoryRecursively($path, $suffix = NULL, $returnRealPath = FALSE, $returnDotFiles = FALSE, &$filenames = array()) {
 			if (!is_dir($path)) {
-				throw new Exception('"' . $path . '" is no directory.', 1207253462);
+				throw new \Exception('"' . $path . '" is no directory.', 1207253462);
 			}
 
 			$directoryIterator = new \DirectoryIterator($path);
@@ -114,24 +114,24 @@ namespace PunktDe\PtExtbase\Utility {
 		 *
 		 * @param string $path Path to the directory which shall be emptied.
 		 * @return void
-		 * @throws Exception
+		 * @throws \Exception
 		 * @see removeDirectoryRecursively()
 		 */
 		static public function emptyDirectoryRecursively($path) {
 			if (!is_dir($path)) {
-				throw new Exception('"' . $path . '" is no directory.', 1169047616);
+				throw new \Exception('"' . $path . '" is no directory.', 1169047616);
 			}
 
 			if (self::is_link($path)) {
 				if (self::unlink($path) !== TRUE) {
-					throw new Exception('Could not unlink symbolic link "' . $path . '".', 1323697654);
+					throw new \Exception('Could not unlink symbolic link "' . $path . '".', 1323697654);
 				}
 			} else {
 				$directoryIterator = new \RecursiveDirectoryIterator($path);
 				foreach ($directoryIterator as $fileInfo) {
 					if (!$fileInfo->isDir()) {
 						if (self::unlink($fileInfo->getPathname()) !== TRUE) {
-							throw new Exception('Could not unlink file "' . $fileInfo->getPathname() . '".', 1169047619);
+							throw new \Exception('Could not unlink file "' . $fileInfo->getPathname() . '".', 1169047619);
 						}
 					} elseif (!$directoryIterator->isDot()) {
 						self::removeDirectoryRecursively($fileInfo->getPathname());
@@ -149,26 +149,25 @@ namespace PunktDe\PtExtbase\Utility {
 		 *
 		 * @param  string $path Path to the directory which shall be removed completely.
 		 * @return void
-		 * @throws Exception
+		 * @throws \Exception
 		 * @see emptyDirectoryRecursively()
 		 */
 		static public function removeDirectoryRecursively($path) {
 			if (self::is_link($path)) {
 				if (self::unlink($path) !== TRUE) {
-					throw new Exception('Could not unlink symbolic link "' . $path . '".', 1316000297);
+					throw new \Exception('Could not unlink symbolic link "' . $path . '".', 1316000297);
 				}
 			} else {
 				self::emptyDirectoryRecursively($path);
 				try {
 					if (rmdir($path) !== TRUE) {
-						throw new Exception('Could not remove directory "' . $path . '".', 1316000298);
+						throw new \Exception('Could not remove directory "' . $path . '".', 1316000298);
 					}
 				} catch (\Exception $exception) {
-					throw new Exception('Could not remove directory "' . $path . '".', 1323961907);
+					throw new \Exception('Could not remove directory "' . $path . '".', 1323961907);
 				}
 			}
 		}
-
 
 
 		/**
@@ -176,8 +175,8 @@ namespace PunktDe\PtExtbase\Utility {
 		 * don't exist yet, they will be created as well.
 		 *
 		 * @param string $path Path to the directory which shall be created
+		 * @throws \Exception
 		 * @return void
-		 * @throws Exception
 		 * @todo Make mode configurable / make umask configurable
 		 */
 		static public function createDirectoryRecursively($path) {
@@ -185,14 +184,14 @@ namespace PunktDe\PtExtbase\Utility {
 				$path = substr($path, 0, -1);
 			}
 			if (is_file($path)) {
-				throw new Exception('Could not create directory "' . $path . '", because a file with that name exists!', 1349340620);
+				throw new \Exception('Could not create directory "' . $path . '", because a file with that name exists!', 1349340620);
 			}
 			if (!is_dir($path) && strlen($path) > 0) {
 				$oldMask = umask(000);
 				mkdir($path, 0777, TRUE);
 				umask($oldMask);
 				if (!is_dir($path)) {
-					throw new Exception('Could not create directory "' . $path . '"!', 1170251400);
+					throw new \Exception('Could not create directory "' . $path . '"!', 1170251400);
 				}
 			}
 		}
@@ -214,16 +213,16 @@ namespace PunktDe\PtExtbase\Utility {
 		 * @param boolean $keepExistingFiles
 		 * @param boolean $copyDotFiles
 		 * @return void
-		 * @throws Exception
+		 * @throws \Exception
 		 */
 		static public function copyDirectoryRecursively($sourceDirectory, $targetDirectory, $keepExistingFiles = FALSE, $copyDotFiles = FALSE) {
 			if (!is_dir($sourceDirectory)) {
-				throw new Exception('"' . $sourceDirectory . '" is no directory.', 1235428779);
+				throw new \Exception('"' . $sourceDirectory . '" is no directory.', 1235428779);
 			}
 
 			self::createDirectoryRecursively($targetDirectory);
 			if (!is_dir($targetDirectory)) {
-				throw new Exception('"' . $targetDirectory . '" is no directory.', 1235428780);
+				throw new \Exception('"' . $targetDirectory . '" is no directory.', 1235428780);
 			}
 
 			$sourceFilenames = self::readDirectoryRecursively($sourceDirectory, NULL, FALSE, $copyDotFiles);
@@ -260,7 +259,7 @@ namespace PunktDe\PtExtbase\Utility {
 				} else {
 					$content = file_get_contents($pathAndFilename, $flags, $context, $offset);
 				}
-			} catch (Exception $ignoredException) {
+			} catch (\Exception $ignoredException) {
 				$content = FALSE;
 			}
 			return $content;
