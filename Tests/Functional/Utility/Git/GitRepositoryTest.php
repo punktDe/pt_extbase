@@ -167,7 +167,7 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function checkShortGitStatusOutput() {
 		$this->skipTestIfGitCommandForTestingDoesNotExist();
