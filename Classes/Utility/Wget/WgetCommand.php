@@ -209,7 +209,7 @@ class WgetCommand {
 	 *
 	 * @var Boolean
 	 */
-	protected $noVerbose;
+	protected $noVerbose = TRUE;
 
 
 	/**
