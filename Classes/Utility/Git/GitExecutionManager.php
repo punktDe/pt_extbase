@@ -88,7 +88,7 @@ class GitExecutionManager implements SingletonInterface {
 	 * @return string
 	 */
 	protected function renderCommand() {
-		$this->commandLine = sprintf('cd %s; %s --git-dir=%s %s ', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), Files::concatenatePaths(array($this->repository->getRepositoryRootPath(), '.git')), $this->gitCommand->render());
+		$this->commandLine = sprintf('cd %s; %s --git-dir=%s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), Files::concatenatePaths(array($this->repository->getRepositoryRootPath(), '.git')), $this->gitCommand->render());
     }
 
 
