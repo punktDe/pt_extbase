@@ -87,14 +87,7 @@ class ShellCommandService implements SingletonInterface {
 	 * @return array
 	 */
 	protected function executeLocalCommand() {
-		$returnedOutput = '';
-		$fp = popen($this->command, 'r');
-		while (($line = fgets($fp)) !== FALSE) {
-			$this->logger->info('> ' . $line, __CLASS__);
-			$returnedOutput .= $line;
-		}
-		$exitCode = pclose($fp);
-		return array($exitCode, $returnedOutput);
+		return $this->executeProcess($this->command);
 	}
 
 
@@ -105,7 +98,7 @@ class ShellCommandService implements SingletonInterface {
 	protected function executeRemoteCommand() {
 		$sshOptions = array();
 		$sshCommand = 'ssh ' . implode(' ', $sshOptions) . ' ' . escapeshellarg($this->username . '@' . $this->hostname) . ' ' . escapeshellarg($this->command) . ' 2>&1';
-		return $this->executeProcess($sshCommand, '    > ');
+		return $this->executeProcess($sshCommand);
 	}
 
 
@@ -118,7 +111,7 @@ class ShellCommandService implements SingletonInterface {
 	 * @param string $logPrefix
 	 * @return array The exit code of the command and the returned output
 	 */
-	protected function executeProcess($command, $logPrefix) {
+	protected function executeProcess($command, $logPrefix = '') {
 		$returnedOutput = '';
 		$fp = popen($command, 'r');
 		while (($line = fgets($fp)) !== FALSE) {
