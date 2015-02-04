@@ -119,7 +119,7 @@ class ShellCommandService implements SingletonInterface {
 			$returnedOutput .= $line;
 		}
 		$exitCode = pclose($fp);
-		return array($exitCode, trim($returnedOutput));
+		return array($exitCode, $returnedOutput);
 	}
 
 
