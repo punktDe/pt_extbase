@@ -105,7 +105,6 @@ class ShellCommandService implements SingletonInterface {
 	 * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code
 	 */
 	public function executeRemoteCommand($command) {
-		$returnedOutput = '';
 		$sshOptions = array();
 		$sshCommand = 'ssh ' . implode(' ', $sshOptions) . ' ' . escapeshellarg($this->username . '@' . $this->hostname) . ' ' . escapeshellarg($command) . ' 2>&1';
 		return $this->executeProcess($sshCommand, '    > ');
