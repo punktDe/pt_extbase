@@ -21,6 +21,8 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Git;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\Files;
+
 /**
  * Git Repository Test Case
  *
@@ -80,7 +82,7 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 */
 	public function tearDown() {
 		if ($this->pathToGitCommand && file_exists($this->repositoryRootPath)) {
-			\Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->repositoryRootPath);
+			Files::removeDirectoryRecursively($this->repositoryRootPath);
 		}
 	}
 
@@ -96,7 +98,7 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 			$this->repositoryRootPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . "RepositoryRootPath";
 			if (file_exists($this->repositoryRootPath)) {
-				\Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->repositoryRootPath);
+				Files::removeDirectoryRecursively($this->repositoryRootPath);
 			}
 			mkdir($this->repositoryRootPath);
 		}
@@ -199,6 +201,28 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 			->execute();
 
 		$this->assertSame($expected, $actual->getRawResult());
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function existsReturnsValidBooleanValueDependingOnTheRepositoryStatus() {
+		$this->skipTestIfGitCommandForTestingDoesNotExist();
+
+ 		$this->proxy->init()->execute();
+
+		$result = $this->proxy->exists();
+		$this->assertInternalType('boolean', $result);
+		$this->assertTrue($result);
+
+		Files::removeDirectoryRecursively($this->repositoryRootPath);
+		Files::createDirectoryRecursively($this->repositoryRootPath);
+
+		$result = $this->proxy->exists();
+		$this->assertInternalType('boolean', $result);
+		$this->assertFalse($result);
 	}
 
 

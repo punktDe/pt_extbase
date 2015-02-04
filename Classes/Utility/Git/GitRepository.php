@@ -168,6 +168,18 @@ class GitRepository {
 
 
 	/**
+	 * @return boolean
+	 */
+	public function exists() {
+		if ($this->status()->execute()->getExitCode() === 128) {
+			return FALSE;
+		}
+		return TRUE;
+	}
+
+
+
+	/**
 	 * @return Command\VoidCommand
 	 */
 	protected function void() {
