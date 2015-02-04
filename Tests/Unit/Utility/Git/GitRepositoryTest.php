@@ -27,7 +27,7 @@ use \TYPO3\CMS\Core\Tests\UnitTestCase;
  * Git Repository Test Case
  *
  * @package pt_extbase
- * @subpackage PunktDe\PtExtbase\Tests\Functional\Utility\Git
+ * @subpackage PunktDe\PtExtbase\Tests\Unit\Utility\Git
  */
 class GitRepositoryTest extends UnitTestCase {
 
