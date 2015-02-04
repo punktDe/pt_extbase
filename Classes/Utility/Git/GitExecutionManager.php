@@ -78,7 +78,7 @@ class GitExecutionManager implements SingletonInterface {
 	public function execute($gitCommand) {
 		$this->gitCommand = $gitCommand;
 		$this->renderCommand();
-		return $this->executeCommandLineOnShell();
+		return array($this->executeCommandLineOnShell(), $this->shellCommandService->getExitCode());
 	}
 
 
@@ -98,11 +98,7 @@ class GitExecutionManager implements SingletonInterface {
 	 */
 	protected function executeCommandLineOnShell() {
 		$this->logger->info(sprintf("Running git command %s", $this->commandLine), __CLASS__);
-		$result = $this->shellCommandService->execute($this->commandLine);
-		if ($result === FALSE) {
-			throw new GitException(sprintf("git command %s returned with exit status %s", $this->commandLine, $this->shellCommandService->getExitCode()), 1423044698);
-		}
-		return $result;
+		return $this->shellCommandService->execute($this->commandLine);
 	}
 
 
