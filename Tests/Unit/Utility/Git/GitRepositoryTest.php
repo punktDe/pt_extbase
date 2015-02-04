@@ -115,6 +115,10 @@ class GitRepositoryTest extends UnitTestCase {
 		$this->prepareShellCommandExpectations();
 
 		$this->proxy->log()
+			->setMaxCount(10)
+			->execute();
+
+		$this->proxy->log()
 			->setFormat('%H')
 			->execute();
 
@@ -178,6 +182,7 @@ class GitRepositoryTest extends UnitTestCase {
 		$this->shellCommandServiceMock->expects($this->any())
 			->method('execute')
 			->withConsecutive(
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --max-count=10')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --pretty="%H"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config user.name "Bud Spencer"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config user.email "bud@spencer.it"')),

@@ -35,7 +35,8 @@ class LogCommand extends GitCommand {
 	 */
 	protected $argumentMap = array(
 		'nameOnly' => '--name-only',
-		'format' => '--pretty="%s"'
+		'format' => '--pretty="%s"',
+		'maxCount' => '--max-count=%s'
 	);
 
 
@@ -44,7 +45,8 @@ class LogCommand extends GitCommand {
 	 */
 	protected $arguments = array(
 		'nameOnly' => FALSE,
-		'format' => ''
+		'format' => '',
+		'maxCount' => ''
 	);
 
 
@@ -66,6 +68,17 @@ class LogCommand extends GitCommand {
 	 */
 	public function setFormat($format) {
 		$this->arguments['format'] = $format;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param integer $maxCount
+	 * @return $this
+	 */
+	public function setMaxCount($maxCount) {
+		$this->arguments['maxCount'] = $maxCount;
 		return $this;
 	}
 
