@@ -60,24 +60,50 @@ class GitExecutionManager implements SingletonInterface {
 
 
 	/**
-	 * @param Command\GitCommand $gitCommand
-	 * @return Result
+	 * @var \PunktDe\PtExtbase\Utility\Git\Command\GitCommand
 	 */
-	public function execute($gitCommand) {
-		$commandLine = $this->renderCommand($gitCommand);
-		$this->logger->info($commandLine);
-		return $this->shellCommandService->execute($commandLine);
-	}
+	protected $gitCommand;
 
+
+	/**
+	 * @var string
+	 */
+	protected $commandLine = '';
 
 
 	/**
 	 * @param Command\GitCommand $gitCommand
 	 * @return string
 	 */
-	protected function renderCommand($gitCommand) {
-		return sprintf('cd %s; %s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), $gitCommand->render());
+	public function execute($gitCommand) {
+		$this->gitCommand = $gitCommand;
+		$this->renderCommand();
+		return $this->executeCommandLineOnShell();
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	protected function renderCommand() {
+		$this->commandLine = sprintf('cd %s; %s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), $this->gitCommand->render());
     }
+
+
+
+	/**
+	 * @throws GitException
+	 * @return string
+	 */
+	protected function executeCommandLineOnShell() {
+		$this->logger->info(sprintf("Running git command %s", $this->commandLine), __CLASS__);
+		$result = $this->shellCommandService->execute($this->commandLine);
+		if ($result === FALSE) {
+			throw new GitException(sprintf("git command %s returned with exit status %s", $this->commandLine, $this->shellCommandService->getExitCode()), 1423044698);
+		}
+		return $result;
+	}
 
 
 
