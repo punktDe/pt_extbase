@@ -133,6 +133,9 @@ abstract class AbstractResult {
 	 * @return ObjectStorage
 	 */
 	public function getResult() {
+		if (count($this->result) === 0) {
+			$this->buildResult();
+		}
 		return $this->result;
 	}
 
@@ -148,7 +151,7 @@ abstract class AbstractResult {
 
 
 	/**
-	 * @return void
+	 * @return ObjectStorage
 	 */
 	abstract protected function buildResult();
 
