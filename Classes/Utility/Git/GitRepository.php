@@ -60,7 +60,7 @@ class GitRepository {
 	/**
 	 * @var string
 	 */
-	protected $repositoryRootPath = '~';
+	protected $repositoryRootPath = '.';
 
 
 	/**
