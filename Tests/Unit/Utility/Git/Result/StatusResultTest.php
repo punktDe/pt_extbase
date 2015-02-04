@@ -44,6 +44,7 @@ class StatusResultTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 			->setMethods(array('foo'))
 			->disableOriginalConstructor()
 			->getMock();
+		$this->proxy->_set('logger', $this->getSimpleMock('\Tx_PtExtbase_Logger_Logger'));
 	}
 
 

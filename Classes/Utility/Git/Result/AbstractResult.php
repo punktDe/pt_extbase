@@ -134,6 +134,7 @@ abstract class AbstractResult {
 	 */
 	public function getResult() {
 		if (count($this->result) === 0) {
+			$this->logger->info(sprintf("git command result size is %s bytes", strlen($this->rawResult)), __CLASS__);
 			$this->buildResult();
 		}
 		return $this->result;
