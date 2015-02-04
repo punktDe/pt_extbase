@@ -22,7 +22,7 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  ***************************************************************/
 
 /**
- * Status
+ * Path Status
  *
  * Syntax: XY PATH1 -> PATH2
  *
@@ -52,7 +52,7 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-class Status extends Result {
+class PathStatus {
 
 	/**
 	 * @var string

@@ -22,29 +22,41 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  ***************************************************************/
 
 /**
- * Status Result
+ * Path Status
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
 class StatusResult extends AbstractResult {
 
 	/**
-	 * @return void
+	 * @const SHORT_LOG_LINE_PATTERN
 	 */
-	protected function buildResult() {
-		foreach ($this->parseRawResult() as $resultLine) {
-
-		}
-
-	}
-
+	const SHORT_LOG_LINE_PATTERN = '/^(?<indexStatus>.)(?<worktreeStatus>.)[[:space:]]"?(?<path>.+?)"?(?:(?:[[:space:]]->[[:space:]])"?(?<correspondingPath>.+?)"?)?$/';
 
 
 	/**
-	 * @return array
+	 * Build the result
+	 *
+	 * Despite its totally weird API we use strtok() here due to performance issues.
+	 *
+	 * @return void
 	 */
-	protected function parseRawResult() {
+	protected function buildResult() {
+		$separator = "\n";
+		$line = strtok($this->rawResult, $separator);
 
+		while ($line !== FALSE) {
+			preg_match(self::SHORT_LOG_LINE_PATTERN, $line, $statusElements);
+
+			$pathStatus = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Result\PathStatus'); /** @var \PunktDe\PtExtbase\Utility\Git\Result\PathStatus $pathStatus */
+			$pathStatus->setIndexStatus(trim($statusElements['indexStatus']));
+			$pathStatus->setWorkTreeStatus(trim($statusElements['worktreeStatus']));
+			$pathStatus->setPath(trim($statusElements['path']));
+			$pathStatus->setCorrespondingPath(trim($statusElements['correspondingPath']));
+			$this->result->attach($pathStatus);
+
+			$line = strtok("\n");
+		}
 	}
 
 }
