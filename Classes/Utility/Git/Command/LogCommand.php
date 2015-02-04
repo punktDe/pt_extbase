@@ -35,6 +35,7 @@ class LogCommand extends GitCommand {
 	 */
 	protected $argumentMap = array(
 		'nameOnly' => '--name-only',
+		'format' => '--pretty="%s"'
 	);
 
 
@@ -42,7 +43,8 @@ class LogCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'nameOnly' => FALSE
+		'nameOnly' => FALSE,
+		'format' => ''
 	);
 
 
@@ -53,6 +55,17 @@ class LogCommand extends GitCommand {
 	 */
 	public function setNameOnly($nameOnly) {
 		$this->arguments['nameOnly'] = $nameOnly;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param string $format
+	 * @return $this
+	 */
+	public function setFormat($format) {
+		$this->arguments['format'] = $format;
 		return $this;
 	}
 

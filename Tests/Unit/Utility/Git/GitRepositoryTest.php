@@ -114,6 +114,10 @@ class GitRepositoryTest extends UnitTestCase {
 	public function commandRendersValidCommand() {
 		$this->prepareShellCommandExpectations();
 
+		$this->proxy->log()
+			->setFormat('%H')
+			->execute();
+
 		$this->proxy->config()
 			->setUserName('Bud Spencer')
 			->execute();
@@ -174,6 +178,7 @@ class GitRepositoryTest extends UnitTestCase {
 		$this->shellCommandServiceMock->expects($this->any())
 			->method('execute')
 			->withConsecutive(
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --pretty="%H"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config user.name "Bud Spencer"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config user.email "bud@spencer.it"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote remove origin')),
