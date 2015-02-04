@@ -42,6 +42,17 @@ class StatusResult extends AbstractResult {
 	 * @return void
 	 */
 	protected function buildResult() {
+		if ($this->gitCommand->getShort() === TRUE) {
+			$this->parseShortStatusResult();
+		}
+	}
+
+
+
+	/**
+	 * @return void
+	 */
+	protected function parseShortStatusResult() {
 		$separator = "\n";
 		$line = strtok($this->rawResult, $separator);
 
