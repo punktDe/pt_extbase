@@ -68,6 +68,12 @@ class ShellCommandService implements SingletonInterface {
 
 
 	/**
+	 * @var boolean
+	 */
+	protected $redirectStandardErrorToStandardOut = FALSE;
+
+
+	/**
 	 * @param mixed $command The shell command to execute, either string or array of commands
 	 * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code and $ignoreErrors was enabled.
 	 */
@@ -114,13 +120,28 @@ class ShellCommandService implements SingletonInterface {
 	 */
 	protected function executeProcess($command, $logPrefix = '') {
 		$returnedOutput = '';
-		$fp = popen($command, 'r');
+		$fp = popen($this->prepareCommand($command), 'r');
+
 		while (($line = fgets($fp)) !== FALSE) {
 			$this->logger->info($logPrefix . rtrim($line), __CLASS__);
 			$returnedOutput .= $line;
 		}
 		$exitCode = pclose($fp);
+
 		return array($exitCode, $returnedOutput);
+	}
+
+
+
+	/**
+	 * @param string $command
+	 * @return string
+	 */
+	protected function prepareCommand($command) {
+		if ($this->redirectStandardErrorToStandardOut) {
+			return sprintf("%s 2>&1", $command);
+		}
+		return $command;
 	}
 
 
@@ -150,6 +171,15 @@ class ShellCommandService implements SingletonInterface {
 	 */
 	public function setHostname($hostname) {
 		$this->hostname = $hostname;
+	}
+
+
+
+	/**
+	 * @param boolean $redirectStandardErrorToStandardOut
+	 */
+	public function setRedirectStandardErrorToStandardOut($redirectStandardErrorToStandardOut) {
+		$this->redirectStandardErrorToStandardOut = $redirectStandardErrorToStandardOut;
 	}
 
 
