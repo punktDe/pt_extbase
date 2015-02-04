@@ -168,6 +168,15 @@ class GitRepository {
 
 
 	/**
+	 * @return Command\ConfigCommand
+	 */
+	public function config() {
+		return $this->createCommandForRepository('Config');
+	}
+
+
+
+	/**
 	 * @return boolean
 	 */
 	public function exists() {
