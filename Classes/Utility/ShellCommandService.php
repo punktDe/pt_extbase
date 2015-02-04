@@ -49,6 +49,100 @@ class ShellCommandService implements SingletonInterface {
 	protected $hostname = 'localhost';
 
 
+	/**
+	 * @var string
+	 */
+	protected $command = '';
+
+
+	/**
+	 * @var integer
+	 */
+	protected $exitCode = 0;
+
+
+	/**
+	 * @var string
+	 */
+	protected $returnedOutput = '';
+
+
+	/**
+	 * @param mixed $command The shell command to execute, either string or array of commands
+	 * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code and $ignoreErrors was enabled.
+	 */
+	public function execute($command) {
+		$this->command = $command;
+		if ($this->hostname === 'localhost') {
+			list($this->exitCode, $this->returnedOutput) = $this->executeLocalCommand();
+		} else {
+			list($this->exitCode, $this->returnedOutput) = $this->executeRemoteCommand();
+		}
+		return $this->checkResult();
+	}
+
+
+
+	/**
+	 * @return array
+	 */
+	protected function executeLocalCommand() {
+		$returnedOutput = '';
+		$fp = popen($this->command, 'r');
+		while (($line = fgets($fp)) !== FALSE) {
+			$this->logger->info('> ' . $line, __CLASS__);
+			$returnedOutput .= $line;
+		}
+		$exitCode = pclose($fp);
+		return array($exitCode, $returnedOutput);
+	}
+
+
+
+	/**
+	 * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code
+	 */
+	protected function executeRemoteCommand() {
+		$sshOptions = array();
+		$sshCommand = 'ssh ' . implode(' ', $sshOptions) . ' ' . escapeshellarg($this->username . '@' . $this->hostname) . ' ' . escapeshellarg($this->command) . ' 2>&1';
+		return $this->executeProcess($sshCommand, '    > ');
+	}
+
+
+
+	/**
+	 * Open a process with popen and process each line by logging and
+	 * collecting its output.
+	 *
+	 * @param string $command
+	 * @param string $logPrefix
+	 * @return array The exit code of the command and the returned output
+	 */
+	protected function executeProcess($command, $logPrefix) {
+		$returnedOutput = '';
+		$fp = popen($command, 'r');
+		while (($line = fgets($fp)) !== FALSE) {
+			$this->logger->info($logPrefix . rtrim($line), __CLASS__);
+			$returnedOutput .= $line;
+		}
+		$exitCode = pclose($fp);
+		return array($exitCode, trim($returnedOutput));
+	}
+
+
+
+	/**
+	 * @return mixed
+	 */
+	protected function checkResult() {
+		if ($this->exitCode !== 0) {
+			$this->logger->error(sprintf("Shell command \"%s\" return exist status %s", $this->command, $this->exitCode), __CLASS__);
+			return FALSE;
+		}
+		return $this->returnedOutput;
+	}
+
+
 
 	/**
 	 * @param string $username
@@ -69,66 +163,10 @@ class ShellCommandService implements SingletonInterface {
 
 
 	/**
-	 * @param mixed $command The shell command to execute, either string or array of commands
-	 * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code and $ignoreErrors was enabled.
+	 * @return integer
 	 */
-	public function execute($command) {
-		if ($this->hostname === 'localhost') {
-			list($exitCode, $returnedOutput) = $this->executeLocalCommand($command);
-		} else {
-			list($exitCode, $returnedOutput) = $this->executeRemoteCommand($command);
-		}
-		return ($exitCode === 0 ? $returnedOutput : FALSE);
-	}
-
-
-
-	/**
-	 * @param string $command
-	 * @return array
-	 */
-	protected function executeLocalCommand($command) {
-		$returnedOutput = '';
-		$fp = popen($command, 'r');
-		while (($line = fgets($fp)) !== FALSE) {
-			$this->logger->info('> ' . $line, __CLASS__);
-			$returnedOutput .= $line;
-		}
-		$exitCode = pclose($fp);
-		return array($exitCode, $returnedOutput);
-	}
-
-
-
-	/**
-	 * @param string $command
-	 * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code
-	 */
-	public function executeRemoteCommand($command) {
-		$sshOptions = array();
-		$sshCommand = 'ssh ' . implode(' ', $sshOptions) . ' ' . escapeshellarg($this->username . '@' . $this->hostname) . ' ' . escapeshellarg($command) . ' 2>&1';
-		return $this->executeProcess($sshCommand, '    > ');
-	}
-
-
-
-	/**
-	 * Open a process with popen and process each line by logging and
-	 * collecting its output.
-	 *
-	 * @param string $command
-	 * @param string $logPrefix
-	 * @return array The exit code of the command and the returned output
-	 */
-	public function executeProcess($command, $logPrefix) {
-		$returnedOutput = '';
-		$fp = popen($command, 'r');
-		while (($line = fgets($fp)) !== FALSE) {
-			$this->logger->info($logPrefix . rtrim($line), __CLASS__);
-			$returnedOutput .= $line;
-		}
-		$exitCode = pclose($fp);
-		return array($exitCode, trim($returnedOutput));
+	public function getExitCode() {
+		return $this->exitCode;
 	}
 
 }
