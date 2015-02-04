@@ -38,6 +38,12 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 
 	/**
+	 * @var \PunktDe\PtExtbase\Utility\Git\GitRepository
+	 */
+	protected $remoteProxy;
+
+
+	/**
 	 * @var string
 	 */
 	protected $pathToGitCommand = '';
@@ -53,6 +59,12 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @var string
 	 */
  	protected $repositoryRootPath = '';
+
+
+	/**
+	 * @var string
+	 */
+	protected $remoteRepositoryRootPath = '';
 
 
 	/**
@@ -81,8 +93,13 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 * @return void
 	 */
 	public function tearDown() {
-		if ($this->pathToGitCommand && file_exists($this->repositoryRootPath)) {
-			Files::removeDirectoryRecursively($this->repositoryRootPath);
+		if ($this->pathToGitCommand) {
+			if (file_exists($this->repositoryRootPath)) {
+				Files::removeDirectoryRecursively($this->repositoryRootPath);
+			}
+			if (file_exists($this->remoteRepositoryRootPath)) {
+				Files::removeDirectoryRecursively($this->remoteRepositoryRootPath);
+			}
 		}
 	}
 
@@ -101,6 +118,12 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 				Files::removeDirectoryRecursively($this->repositoryRootPath);
 			}
 			mkdir($this->repositoryRootPath);
+
+			$this->remoteRepositoryRootPath = dirname(__FILE__) . DIRECTORY_SEPARATOR . "RemoteRepositoryRootPath";
+			if (file_exists($this->remoteRepositoryRootPath)) {
+				Files::removeDirectoryRecursively($this->remoteRepositoryRootPath);
+			}
+			mkdir($this->remoteRepositoryRootPath);
 		}
 	}
 
@@ -121,6 +144,7 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$this->objectContainer->registerImplementation('\Tx_PtExtbase_Logger_Logger', 'LoggerMock');
 
 		$this->proxy = $objectManager->get('PunktDe\PtExtbase\Utility\Git\GitRepository', $this->pathToGitCommand, $this->repositoryRootPath);
+		$this->remoteProxy = $objectManager->get('PunktDe\PtExtbase\Utility\Git\GitRepository', $this->pathToGitCommand, $this->remoteRepositoryRootPath);
 	}
 
 
@@ -223,6 +247,58 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$result = $this->proxy->exists();
 		$this->assertInternalType('boolean', $result);
 		$this->assertFalse($result);
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function pushingToARemoteRepositoryWorks() {
+		$this->skipTestIfGitCommandForTestingDoesNotExist();
+
+		$this->remoteProxy
+			->init()
+			->setBare(TRUE)
+			->execute();
+
+		$this->proxy
+			->init()
+			->execute();
+
+		$this->proxy
+			->remote()
+			->add()
+			->setName('origin')
+			->setUrl(sprintf("file://%s", $this->remoteRepositoryRootPath))
+			->execute();
+
+		file_put_contents($this->repositoryRootPath . DIRECTORY_SEPARATOR . "film01.txt", "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+		file_put_contents($this->repositoryRootPath . DIRECTORY_SEPARATOR . "film02.txt", "2001 - A Space Odyssey");
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$this->proxy
+			->commit()
+			->setMessage("[TASK] Initial commit")
+			->execute();
+
+ 		$this->proxy
+		    ->push()
+		    ->setRemote('origin')
+		    ->setRefspec('master')
+		    ->execute();
+
+		$actual = $this->remoteProxy
+			->log()
+			->execute()
+			->getRawResult();
+
+		$expected = "[TASK] Initial commit";
+		$this->assertContains($expected, $actual);
 	}
 
 
