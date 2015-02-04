@@ -103,7 +103,7 @@ class GitRepositoryTest extends UnitTestCase {
 			->setMethods(array('initializeObject'))
 			->setMockClassName('GitRepositoryMock')
 			->getMock();
-		$this->proxy = $objectManager->get('GitRepositoryMock', 'foo', 'bar');
+		$this->proxy = $objectManager->get('GitRepositoryMock', '/usr/bin/git', '~');
 	}
 
 
@@ -111,7 +111,7 @@ class GitRepositoryTest extends UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function logCommandRendersValidLogCommand() {
+	public function commandRendersValidCommand() {
 		$this->prepareShellCommandExpectations();
 
 		$this->proxy->remote()
@@ -166,15 +166,15 @@ class GitRepositoryTest extends UnitTestCase {
 		$this->shellCommandServiceMock->expects($this->any())
 			->method('execute')
 			->withConsecutive(
-				array($this->equalTo('cd ~; /usr/bin/git remote remove origin')),
-				array($this->equalTo('cd ~; /usr/bin/git remote add origin file:///tmp/punktde.git')),
-				array($this->equalTo('cd ~; /usr/bin/git init --bare --shared')),
-				array($this->equalTo('cd ~; /usr/bin/git push origin master')),
-				array($this->equalTo('cd ~; /usr/bin/git tag --sign v1.2.3')),
-				array($this->equalTo('cd ~; /usr/bin/git commit --message "This is a very cool message!"')),
-				array($this->equalTo('cd ~; /usr/bin/git add .')),
-				array($this->equalTo('cd ~; /usr/bin/git status --short')),
-				array($this->equalTo('cd ~; /usr/bin/git log --name-only'))
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote remove origin')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote add origin file:///tmp/punktde.git')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git init --bare --shared')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git push origin master')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag --sign v1.2.3')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --message "This is a very cool message!"')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add .')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --name-only'))
 			);
 	}
 
