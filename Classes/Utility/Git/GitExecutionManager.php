@@ -21,6 +21,7 @@ namespace PunktDe\PtExtbase\Utility\Git;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\Files;
 use PunktDe\PtExtbase\Utility\Git\Result\Result;
 use PunktDe\PtExtbase\Utility\Git\Command;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -87,7 +88,7 @@ class GitExecutionManager implements SingletonInterface {
 	 * @return string
 	 */
 	protected function renderCommand() {
-		$this->commandLine = sprintf('cd %s; %s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), $this->gitCommand->render());
+		$this->commandLine = sprintf('%s --git-dir=%s %s ', $this->repository->getCommandPath(), Files::concatenatePaths(array($this->repository->getRepositoryRootPath(), '.git')), $this->gitCommand->render());
     }
 
 
