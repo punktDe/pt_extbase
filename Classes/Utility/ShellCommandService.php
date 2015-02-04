@@ -78,7 +78,8 @@ class ShellCommandService implements SingletonInterface {
 		} else {
 			list($this->exitCode, $this->returnedOutput) = $this->executeRemoteCommand();
 		}
-		return $this->checkResult();
+		$this->checkResult();
+		return $this->returnedOutput;
 	}
 
 
@@ -125,14 +126,12 @@ class ShellCommandService implements SingletonInterface {
 
 
 	/**
-	 * @return mixed
+	 * @return void
 	 */
 	protected function checkResult() {
 		if ($this->exitCode !== 0) {
 			$this->logger->error(sprintf("Shell command \"%s\" return exist status %s", $this->command, $this->exitCode), __CLASS__);
-			return FALSE;
 		}
-		return $this->returnedOutput;
 	}
 
 
