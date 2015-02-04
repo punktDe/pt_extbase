@@ -21,8 +21,8 @@ namespace PunktDe\PtExtbase\Tests\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\Git\Command\LogCommand;
-use \TYPO3\CMS\Core\Tests\UnitTestCase;
+use PunktDe\PtExtbase\Utility\Git\Command\StatusCommand;
+use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /**
  * Status Command Test Case
@@ -34,14 +34,14 @@ class StatusCommandTest extends UnitTestCase {
 	/**
 	 * @var \PunktDe\PtExtbase\Utility\Git\Command\StatusCommand
 	 */
-	protected $logCommand;
+	protected $statusCommand;
 
 
 	/**
 	 * @return void
 	 */
 	public function setUp() {
-		$this->logCommand = new StatusCommand();
+		$this->statusCommand = new StatusCommand();
 	}
 
 
@@ -49,9 +49,9 @@ class StatusCommandTest extends UnitTestCase {
 	/**
 	 * @test
 	 */
-	public function checkIfLogCommandIsExtractedFromClassName() {
-		$expected = "log";
-		$actual = $this->logCommand->getCommandName();
+	public function checkIfStatusCommandIsExtractedFromClassName() {
+		$expected = "status";
+		$actual = $this->statusCommand->getCommandName();
 		$this->assertSame($expected, $actual);
 	}
 
@@ -61,8 +61,8 @@ class StatusCommandTest extends UnitTestCase {
 	 * @test
 	 */
 	public function getResultClassNameReturnsValidClassName() {
-		$expected = 'PunktDe\PtExtbase\Utility\Git\Result\LogResult';
-		$actual = $this->logCommand->getResultClassName();
+		$expected = 'PunktDe\PtExtbase\Utility\Git\Result\StatusResult';
+		$actual = $this->statusCommand->getResultType();
 		$this->assertSame($expected, $actual);
 	}
 
@@ -80,7 +80,7 @@ class StatusCommandTest extends UnitTestCase {
 			->will($this->returnValue('PunktDe\PtExtbase\Utility\Git\Command\FooCommand'));
 
 		$expected = 'PunktDe\PtExtbase\Utility\Git\Result\Result';
-		$actual = $commandMock->getResultClassName();
+		$actual = $commandMock->getResultType();
 		$this->assertSame($expected, $actual);
 	}
 
