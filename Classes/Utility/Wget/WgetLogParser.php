@@ -78,7 +78,13 @@ class WgetLogParser {
 			throw new \Exception(sprintf('The log file %s could not be read.', $this->wgetCommand->getOutputFile()), 1422438059);
 		}
 
-		return trim(file_get_contents($this->wgetCommand->getOutputFile()));
+		$content = trim(file_get_contents($this->wgetCommand->getOutputFile()));
+
+		if($content == '') {
+			throw new \Exception(sprintf('No content could be read from logfile %s.', $this->wgetCommand->getOutputFile()), 1423154366);
+		}
+
+		return $content;
 	}
 
 
@@ -92,7 +98,12 @@ class WgetLogParser {
 		$wgetLog = $this->objectManager->get('\PunktDe\PtExtbase\Utility\Wget\WgetLog'); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLog  $wgetLog */
 
 		foreach($structuredLogFileEntries as $structuredLogFileEntry) {
-			$wgetLog->addLogEntry($this->buildLogFileEntry($structuredLogFileEntry));
+
+			if(!$this->isSummary($structuredLogFileEntry)) {
+				$wgetLog->addLogEntry($this->buildLogFileEntry($structuredLogFileEntry));
+			} else {
+
+			};
 		}
 
 		return $wgetLog;
@@ -101,6 +112,7 @@ class WgetLogParser {
 
 	/**
 	 * @param $structuredLogEntry
+	 * @throws \Exception
 	 * @return WgetLogEntry
 	 */
 	protected function buildLogFileEntry($structuredLogEntry) {
@@ -113,6 +125,11 @@ class WgetLogParser {
 			// When an error occurs, the URL is written to the 'body', so try to find it there
 			preg_match('/(?<url>https?:\/\/\S+):/', $structuredLogEntry['body'], $matches);
 		}
+
+		if($matches['url'] == '') {
+			Throw new \Exception('The url could not be found in the log entry: ' . print_r($structuredLogEntry, 1), 1423154556);
+		}
+
 		$wgetLogEntry->setUrl($matches['url']);
 
 		preg_match('/HTTP\/[0-9,\.]+\s(?<status>\d+).*/', $structuredLogEntry['body'], $matches);
@@ -128,6 +145,18 @@ class WgetLogParser {
 	}
 
 
+	/**
+	 * Checks
+	 * @param $structuredLogEntry
+	 * @return bool
+	 */
+	protected function isSummary($structuredLogEntry) {
+		if(preg_match('/FINISHED --[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}--/', $structuredLogEntry['body']) === 1) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
 
 
 	/**
@@ -135,7 +164,7 @@ class WgetLogParser {
 	 * @return array
 	 */
 	protected function splitLogFileEntries($logFileContent) {
-		$logEntryArray =  preg_split('/([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.*)/', $logFileContent, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		$logEntryArray =  preg_split('/([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} URL.*)/', $logFileContent, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
 		$structuredLogEntryArray = array();
 
