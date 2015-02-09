@@ -4,8 +4,10 @@
 *Message*
 {logRecord.message}
 
-*Data*<f:for each="{logRecord.data}" as="item">
+*Data*
+Request-Id: {requestId}<f:for each="{logRecord.data}" as="item">
 {item}</f:for>
+
 
 *User Agent*
 Operating System: {userAgent.operatingSystem}

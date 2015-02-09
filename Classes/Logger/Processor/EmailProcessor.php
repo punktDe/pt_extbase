@@ -102,6 +102,7 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
 		$view->assign('logRecord', $this->logRecord);
 		$view->assign('serverInformation', $this->serverInformation);
 		$view->assign('userAgent', $this->userAgent);
+		$view->assign('requestId', Tx_PtExtbase_Div::getCurrentRequestId());
 		return $view->render();
 	}
 
