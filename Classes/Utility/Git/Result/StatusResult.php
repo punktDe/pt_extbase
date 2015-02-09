@@ -29,6 +29,12 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
 class StatusResult extends AbstractResult {
 
 	/**
+	 * @const LOG_LINE_SEPARATOR
+	 */
+	const LOG_LINE_SEPARATOR = "\n";
+
+
+	/**
 	 * @const SHORT_LOG_LINE_PATTERN
 	 */
 	const SHORT_LOG_LINE_PATTERN = '/^(?<indexStatus>.)(?<worktreeStatus>.)[[:space:]]"?(?<path>.+?)"?(?:(?:[[:space:]]->[[:space:]])"?(?<correspondingPath>.+?)"?)?$/';
@@ -53,8 +59,7 @@ class StatusResult extends AbstractResult {
 	 * @return void
 	 */
 	protected function parseShortStatusResult() {
-		$separator = "\n";
-		$line = strtok($this->rawResult, $separator);
+		$line = strtok($this->rawResult, self::LOG_LINE_SEPARATOR);
 
 		while ($line !== FALSE) {
 			preg_match(self::SHORT_LOG_LINE_PATTERN, $line, $statusElements);
@@ -66,7 +71,7 @@ class StatusResult extends AbstractResult {
 			$pathStatus->setCorrespondingPath(trim($statusElements['correspondingPath']));
 			$this->result->attach($pathStatus);
 
-			$line = strtok("\n");
+			$line = strtok(self::LOG_LINE_SEPARATOR);
 		}
 	}
 
