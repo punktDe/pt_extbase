@@ -369,7 +369,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		if(!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
-			array_unshift($data, 'UID: ' . $GLOBALS['TSFE']->fe_user->user['uid']);
+			array_unshift($data, array('UID' => $GLOBALS['TSFE']->fe_user->user['uid']));
 		}
 
 		return $this;
