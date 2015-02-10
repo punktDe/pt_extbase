@@ -52,7 +52,7 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-class PathStatus {
+class PathStatus implements ComponentInterface {
 
 	/**
 	 * @var string
@@ -146,6 +146,13 @@ class PathStatus {
 	 */
 	public function setWorkTreeStatus($workTreeStatus) {
 		$this->workTreeStatus = $workTreeStatus;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function toArray() {
+		return get_object_vars($this);
 	}
 
 }
