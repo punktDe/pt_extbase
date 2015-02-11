@@ -209,13 +209,12 @@ class StatusResultTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 		$parsedResultIndex = 0;
 		foreach($result as $actual) { /** @var \PunktDe\PtExtbase\Utility\Git\Result\PathStatus $pathStatus */
-			$this->assertSame($expected[$parsedResultIndex]['indexStatus'], $actual['indexStatus']);
-			$this->assertSame($expected[$parsedResultIndex]['worktreeStatus'], $actual['workTreeStatus']);
-			$this->assertSame($expected[$parsedResultIndex]['path'], $actual['path']);
-			$this->assertSame($expected[$parsedResultIndex]['correspondingPath'], $actual['correspondingPath']);
+			$this->assertSame($expected[$parsedResultIndex]['indexStatus'], $actual[0]);
+			$this->assertSame($expected[$parsedResultIndex]['worktreeStatus'], $actual[1]);
+			$this->assertSame($expected[$parsedResultIndex]['path'], $actual[2]);
+			$this->assertSame($expected[$parsedResultIndex]['correspondingPath'], $actual[3]);
 			$parsedResultIndex++;
 		}
 	}
-
 
 }

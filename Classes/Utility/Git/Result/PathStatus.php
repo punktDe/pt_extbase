@@ -148,11 +148,13 @@ class PathStatus implements ComponentInterface {
 		$this->workTreeStatus = $workTreeStatus;
 	}
 
+
+
 	/**
 	 * @return array
 	 */
 	public function toArray() {
-		return get_object_vars($this);
+		return array_values(get_object_vars($this));
 	}
 
 }
