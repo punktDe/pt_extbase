@@ -22,6 +22,7 @@ namespace PunktDe\PtExtbase\Utility\Git;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Utility\Git\Command;
+use PunktDe\PtExtbase\Utility\Files;
 
 /**
  * Git Repository
@@ -78,7 +79,17 @@ class GitRepository {
 	 * @return void
 	 */
 	public function initializeObject() {
+		$this->createRepositoryRootPath();
 		$this->checkIfValidGitCommandIsAvailable();
+	}
+
+
+
+	/**
+	 * @return void
+	 */
+	public function createRepositoryRootPath() {
+		Files::createDirectoryRecursively($this->repositoryRootPath);
 	}
 
 
@@ -172,6 +183,15 @@ class GitRepository {
 	 */
 	public function config() {
 		return $this->createCommandForRepository('Config');
+	}
+
+
+
+	/**
+	 * @return Command\CheckoutCommand
+	 */
+	public function checkout() {
+		return $this->createCommandForRepository('Checkout');
 	}
 
 

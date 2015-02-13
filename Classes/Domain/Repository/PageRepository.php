@@ -82,4 +82,44 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
 		)->execute();
 		return $pages;
 	}
+
+
+	/**
+	 * @param $uid
+	 * @return array
+	 */
+	public function getPageTreeFromRootPageUid($uid) {
+		$rootPage = $this->findByUid($uid);
+
+		$uidTreeList = array($uid => array('pageObject' => $rootPage));
+
+		$uidTreeList[$uid]['subPages'] = $this->getSubpagesOfUid($uid);
+
+		return $uidTreeList;
+	}
+
+
+	/**
+	 * @param $uid
+	 * @param array $pageTree
+	 *
+	 * @return array
+	 */
+	protected function getSubpagesOfUid($uid, $pageTree = array()) {
+		/**
+		 * @var $typo3PageRepository \TYPO3\CMS\Frontend\Page\PageRepository
+		 */
+		$typo3PageRepository = $this->objectManager->get('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
+		$typo3PageRepository->init(TRUE);
+
+		$pageTree = $typo3PageRepository->getMenu($uid);
+		$returnArray = array();
+
+		foreach ($pageTree as $page) {
+			$returnArray[$page['uid']]['pageObject'] = $this->findByUid($page['uid']);
+			$returnArray[$page['uid']]['subPages'] = $this->getSubpagesOfUid($page['uid'], $pageTree);
+		}
+
+		return $returnArray;
+	}
 }

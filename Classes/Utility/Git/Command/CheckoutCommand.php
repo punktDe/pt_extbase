@@ -22,11 +22,11 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  ***************************************************************/
 
 /**
- * Status Command
+ * Checkout Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class StatusCommand extends GitCommand {
+class CheckoutCommand extends GitCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -34,8 +34,9 @@ class StatusCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'short' => '--short',
-		'untrackedFilesMode' => '--untracked-files=%s'
+		'force' => '--force',
+		'quiet' => '--quiet',
+		'commitHash' => '%s'
 	);
 
 
@@ -43,45 +44,42 @@ class StatusCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'short' => FALSE,
-		'untrackedFilesMode' => 'all'
+		'force' => 'FALSE',
+		'quiet' => 'FALSE',
+		'commitHash' => ''
 	);
 
 
 
 	/**
-	 * @param boolean $short
+	 * @param string $commitHash
 	 * @return $this
 	 */
-	public function setShort($short) {
-		$this->arguments['short'] = $short;
+	public function setCommit($commitHash) {
+		$this->arguments['commitHash'] = $commitHash;
 		return $this;
 	}
 
 
 
 	/**
-	 * Set untracked files mode
-	 *
-	 * - all (default): Also shows individual files in untracked directories
-	 * - normal: Shows untracked files and directories
-	 * - no: Show no untracked files.
-	 *
-	 * @param string $mode
+	 * @param boolean $force
 	 * @return $this
 	 */
-	public function setUntrackedFilesMode($mode) {
-		$this->arguments['untrackedFilesMode'] = $mode;
+	public function setForce($force) {
+		$this->arguments['force'] = $force;
 		return $this;
 	}
 
 
 
 	/**
-	 * @return boolean
+	 * @param boolean $quiet
+	 * @return $this
 	 */
-	public function isShort() {
-		return $this->arguments['short'];
+	public function setQuiet($quiet) {
+		$this->arguments['quiet'] = $quiet;
+		return $this;
 	}
 
 
@@ -92,6 +90,5 @@ class StatusCommand extends GitCommand {
 	public function render() {
 		return $this->buildCommand();
 	}
-
 
 }

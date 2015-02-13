@@ -71,7 +71,7 @@ abstract class AbstractResult {
 
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+	 * @var ResultObjectStorage
 	 */
 	protected $result;
 
@@ -88,7 +88,7 @@ abstract class AbstractResult {
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->result = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\ObjectStorage');
+		$this->result = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Result\ResultObjectStorage');
 		list($this->rawResult, $this->exitCode) = $this->gitExecutionManager->execute($this->gitCommand);
 	}
 

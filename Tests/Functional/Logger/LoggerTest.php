@@ -19,6 +19,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\Flow\Utility\Files;
+
 /**
  * Test case for class Tx_PtExtbase_Logger_Logger
  *
@@ -51,19 +53,52 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests
 
 
 	/**
+	 * @var \TYPO3\CMS\Extbase\Object\Container\Container
+	 */
+	protected $objectContainer;
+
+
+	/**
 	 * @return void
 	 */
 	public function setUp() {
-		$this->logFilePath = __DIR__ . '/Logs/TestLog.log';
-		$this->logExceptionsPath = __DIR__ . '/Logs/Exceptions/';
+		$this->objectContainer = $this->objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container');
 
-		Tx_PtExtbase_Utility_Files::createDirectoryRecursively($this->logExceptionsPath);
+		$this->prepareWorkingDirectories();
+		$this->prepareMailMessageMock();
+		$this->prepareLoggerConfigurationMock();
+		$this->prepareUserAgentMock();
+		$this->prepareServerInformationMock();
+		$this->prepareRequestInformationMock();
+		$this->prepareLogger();
+	}
 
-		$container = $this->objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container'); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $container */
-		$container->registerImplementation('TYPO3\CMS\Core\Mail\MailMessage', 'Tx_PtTest_Mock_SwiftMessage');
 
-		$this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Logger_Logger');
+	/**
+	 * @return void
+	 */
+	protected function prepareWorkingDirectories() {
+		$this->logFilePath =  Files::concatenatePaths(array(__DIR__, '/Logs/TestLog.log'));
+		$this->logExceptionsPath = Files::concatenatePaths(array(__DIR__, '/Logs/Exceptions/'));
+		Files::createDirectoryRecursively($this->logExceptionsPath);
 
+	}
+
+
+
+	/**
+	 * @return void
+	 */
+	protected function prepareMailMessageMock() {
+		$this->objectContainer->registerImplementation('TYPO3\CMS\Core\Mail\MailMessage', 'Tx_PtTest_Mock_SwiftMessage');
+	}
+
+
+
+	/**
+	 * @return void
+	 */
+	protected function prepareLoggerConfigurationMock() {
 		$this->getMockBuilder('Tx_PtExtbase_Logger_LoggerConfiguration')
 			->setMockClassName('Tx_PtExtbase_Logger_LoggerConfigurationMock')
 			->setMethods(array('getLogLevelThreshold', 'getEmailLogLevelThreshold', 'weHaveAnyEmailReceivers', 'getEmailReceivers'))
@@ -82,31 +117,70 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests
 			->method('getEmailReceivers')
 			->will($this->returnValue('ry28@hugo10.intern.punkt.de'));
 
-		$container->registerImplementation('Tx_PtExtbase_Logger_LoggerConfiguration', 'Tx_PtExtbase_Logger_LoggerConfigurationMock');
+		$this->objectContainer->registerImplementation('Tx_PtExtbase_Logger_LoggerConfiguration', 'Tx_PtExtbase_Logger_LoggerConfigurationMock');
+	}
 
+
+
+	/**
+	 * @return void
+	 */
+	protected function prepareUserAgentMock() {
 		$this->getMockBuilder('Tx_PtExtbase_Utility_UserAgent')
-				->setMethods(array('getUserAgentData'))
-				->setMockClassName('Tx_PtExtbase_Utility_UserAgentMock')
-				->getMock();
+			->setMethods(array('getUserAgentData'))
+			->setMockClassName('Tx_PtExtbase_Utility_UserAgentMock')
+			->getMock();
 		$userAgentMock = $this->objectManager->get('Tx_PtExtbase_Utility_UserAgentMock');
 		$userAgentMock->expects($this->any())
-				->method('getUserAgentData')
-				->will($this->returnValue('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36'));
+			->method('getUserAgentData')
+			->will($this->returnValue('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36'));
 
-		$container->registerImplementation('Tx_PtExtbase_Utility_UserAgent', 'Tx_PtExtbase_Utility_UserAgentMock');
+		$this->objectContainer->registerImplementation('Tx_PtExtbase_Utility_UserAgent', 'Tx_PtExtbase_Utility_UserAgentMock');
+	}
 
+
+
+	/**
+	 * @return void
+	 */
+	protected function prepareServerInformationMock() {
 		$this->getMockBuilder('Tx_PtExtbase_Utility_ServerInformation')
-				->setMethods(array('getServerHostName'))
-				->setMockClassName('ServerInformationMock')
-				->getMock();
+			->setMethods(array('getServerHostName'))
+			->setMockClassName('ServerInformationMock')
+			->getMock();
 		$serverInformationMock = $this->objectManager->get('ServerInformationMock');
 		$serverInformationMock->expects($this->any())
-				->method('getServerHostName')
-				->will($this->returnValue('spiderman.web.net'));
+			->method('getServerHostName')
+			->will($this->returnValue('spiderman.web.net'));
 
-		$container = $this->objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container'); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $container */
-		$container->registerImplementation('Tx_PtExtbase_Utility_ServerInformation', 'ServerInformationMock');
+		$this->objectContainer->registerImplementation('Tx_PtExtbase_Utility_ServerInformation', 'ServerInformationMock');
+	}
 
+
+
+	/**
+	 * @return void
+	 */
+	protected function prepareRequestInformationMock() {
+		$this->getMockBuilder('PunktDe\PtExtbase\Utility\RequestInformation')
+			->setMethods(array('getCurrentRequestId'))
+			->setMockClassName('RequestInformationMock')
+			->getMock();
+		$requestInformationMock = $this->objectManager->get('RequestInformationMock');
+		$requestInformationMock->expects($this->any())
+			->method('getCurrentRequestId')
+			->will($this->returnValue('CongratulationsThisIsRequestNumber1000000'));
+
+		$this->objectContainer->registerImplementation('PunktDe\PtExtbase\Utility\RequestInformation', 'RequestInformationMock');
+	}
+
+
+
+	/**
+	 * @return void
+	 */
+	protected function prepareLogger() {
+		$this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Logger_Logger');
 		$this->logger = $this->objectManager->get($this->proxyClass);
 		$this->logger->configureLogger($this->logFilePath, $this->logExceptionsPath);
 	}

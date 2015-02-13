@@ -304,6 +304,92 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 
 	/**
+	 * @test
+	 */
+	public function checkoutChecksOutValidCommit() {
+		$this->skipTestIfGitCommandForTestingDoesNotExist();
+
+		$this->proxy
+			->init()
+			->execute();
+
+		$this->proxy
+			->remote()
+			->add()
+			->setName('origin')
+			->setUrl(sprintf("file://%s", $this->remoteRepositoryRootPath))
+			->execute();
+
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "2001 - A Space Odyssey");
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$this->proxy
+			->commit()
+			->setMessage("[TASK] Initial commit")
+			->execute();
+
+		$expectedCommitHash = $this->proxy
+			->log()
+			->setMaxCount(1)
+			->setFormat("%H")
+			->execute()
+			->getRawResult();
+
+		$this->assertRegExp('/[a-z0-9]{40}/', $expectedCommitHash);
+
+		unlink(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")));
+
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Lolita");
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film03.txt")), "A Clockwork Orange");
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$this->proxy
+			->commit()
+			->setMessage("[CHG] Change film texts")
+			->execute();
+
+		$this->assertFileExists(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")));
+		$this->assertFileNotExists(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")));
+		$this->assertFileExists(Files::concatenatePaths(array($this->repositoryRootPath, "film03.txt")));
+
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "Paths Of Glory");
+
+		$this->proxy
+			->checkout()
+			->setForce(TRUE)
+			->setQuiet(TRUE)
+			->setCommit($expectedCommitHash)
+			->execute();
+
+		$actualCommitHash = $this->proxy
+			->log()
+			->setMaxCount(1)
+			->setFormat("%H")
+			->execute()
+			->getRawResult();
+
+		$this->assertRegExp('/[a-z0-9]{40}/', $actualCommitHash);
+		$this->assertSame($expectedCommitHash, $actualCommitHash);
+
+		$this->assertFileExists(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")));
+		$this->assertStringEqualsFile(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+		$this->assertFileExists(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")));
+		$this->assertStringEqualsFile(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "2001 - A Space Odyssey");
+		$this->assertFileNotExists(Files::concatenatePaths(array($this->repositoryRootPath, "film03.txt")));
+	}
+
+
+
+	/**
 	 * @return void
 	 */
 	protected function skipTestIfGitCommandForTestingDoesNotExist() {

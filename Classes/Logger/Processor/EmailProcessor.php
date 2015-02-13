@@ -48,6 +48,12 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
 
 
 	/**
+	 * @var \PunktDe\PtExtbase\Utility\RequestInformation
+	 */
+	protected $requestInformation;
+
+
+	/**
 	 * @var Tx_PtExtbase_Utility_UserAgent
 	 */
 	protected $userAgent;
@@ -66,6 +72,7 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
 		parent::__construct($options);
 		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 		$this->serverInformation = $this->objectManager->get('Tx_PtExtbase_Utility_ServerInformation');
+		$this->requestInformation = $this->objectManager->get('PunktDe\PtExtbase\Utility\RequestInformation');
 		$this->userAgent = $this->objectManager->get('Tx_PtExtbase_Utility_UserAgent');
 	}
 
@@ -102,7 +109,7 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
 		$view->assign('logRecord', $this->logRecord);
 		$view->assign('serverInformation', $this->serverInformation);
 		$view->assign('userAgent', $this->userAgent);
-		$view->assign('requestId', Tx_PtExtbase_Div::getCurrentRequestId());
+		$view->assign('requestId', $this->requestInformation->getCurrentRequestId());
 		return $view->render();
 	}
 

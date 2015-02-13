@@ -48,7 +48,7 @@ class StatusResult extends AbstractResult {
 	 * @return void
 	 */
 	protected function buildResult() {
-		if ($this->gitCommand->getShort() === TRUE) {
+		if ($this->gitCommand->isShort()) {
 			$this->parseShortStatusResult();
 		}
 	}

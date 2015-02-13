@@ -109,6 +109,17 @@ class StatusResultTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 						'path' => 'file 05.txt',
 						'correspondingPath' => 'file06.txt'
 					)
+				),
+			),
+			'DirectorySeperatorInFileName' => array(
+				'rawResult' => "R  Data/file01.txt -> Data/file02.txt",
+				'parsedResult' => array(
+					array(
+						'indexStatus' => 'R',
+						'worktreeStatus' => '',
+						'path' => 'Data/file01.txt',
+						'correspondingPath' => 'Data/file02.txt'
+					)
 				)
 			),
 		);
@@ -125,10 +136,10 @@ class StatusResultTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 */
 	public function buildResultBuildsValidResult($rawResult, $parsedResult) {
 		$statusCommandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand')
-			->setMethods(array('getShort'))
+			->setMethods(array('isShort'))
 			->getMock();
 		$statusCommandMock->expects($this->once())
-			->method('getShort')
+			->method('isShort')
 			->will($this->returnValue(TRUE));
 
 		$this->proxy->_set('result', $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\ObjectStorage'));
@@ -145,6 +156,74 @@ class StatusResultTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 			$this->assertSame($parsedResult[$parsedResultIndex]['worktreeStatus'], $pathStatus->getWorkTreeStatus());
 			$this->assertSame($parsedResult[$parsedResultIndex]['path'], $pathStatus->getPath());
 			$this->assertSame($parsedResult[$parsedResultIndex]['correspondingPath'], $pathStatus->getCorrespondingPath());
+			$parsedResultIndex++;
+		}
+	}
+
+
+
+	/**
+	 * @return array
+	 */
+	public function resultCanBeConvertedToArrayDataProvider() {
+		return array(
+			'ModifiedDeletedUntracked' => array(
+				'rawResult' => " M file01.txt\n D file02.txt\n?? file03.txt\n",
+				'expected' => array(
+					array(
+						'indexStatus' => '',
+						'worktreeStatus' => 'M',
+						'path' => 'file01.txt',
+						'correspondingPath' => ''
+					),
+					array(
+						'indexStatus' => '',
+						'worktreeStatus' => 'D',
+						'path' => 'file02.txt',
+						'correspondingPath' => ''
+					),
+					array(
+						'indexStatus' => '?',
+						'worktreeStatus' => '?',
+						'path' => 'file03.txt',
+						'correspondingPath' => ''
+					),
+				),
+			),
+		);
+	}
+
+
+
+	/**
+	 * @test
+	 * @dataProvider resultCanBeConvertedToArrayDataProvider
+	 *
+	 * @param string $rawResult
+	 * @param array $expected
+	 */
+	public function resultCanBeConvertedToArray($rawResult, $expected) {
+		$statusCommandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand')
+			->setMethods(array('getShort'))
+			->getMock();
+		$statusCommandMock->expects($this->once())
+			->method('getShort')
+			->will($this->returnValue(TRUE));
+
+		$this->proxy->_set('result', $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Result\ResultObjectStorage'));
+		$this->proxy->_set('gitCommand', $statusCommandMock);
+		$this->proxy->_set('objectManager', $this->objectManager);
+		$this->proxy->_set('rawResult', $rawResult);
+
+		$result = $this->proxy->getResult();
+		$result = $result->toArray();
+
+		$parsedResultIndex = 0;
+		foreach($result as $actual) { /** @var \PunktDe\PtExtbase\Utility\Git\Result\PathStatus $pathStatus */
+			$this->assertSame($expected[$parsedResultIndex]['indexStatus'], $actual[0]);
+			$this->assertSame($expected[$parsedResultIndex]['worktreeStatus'], $actual[1]);
+			$this->assertSame($expected[$parsedResultIndex]['path'], $actual[2]);
+			$this->assertSame($expected[$parsedResultIndex]['correspondingPath'], $actual[3]);
 			$parsedResultIndex++;
 		}
 	}

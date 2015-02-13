@@ -114,6 +114,12 @@ class GitRepositoryTest extends UnitTestCase {
 	public function commandRendersValidCommand() {
 		$this->prepareShellCommandExpectations();
 
+		$this->proxy->checkout()
+			->setForce(TRUE)
+			->setQuiet(TRUE)
+			->setCommit('c0ca3ae2f34ef4dc024093f92547b43a4d9bd58a')
+			->execute();
+
 		$this->proxy->log()
 			->setMaxCount(10)
 			->execute();
@@ -182,6 +188,7 @@ class GitRepositoryTest extends UnitTestCase {
 		$this->shellCommandServiceMock->expects($this->any())
 			->method('execute')
 			->withConsecutive(
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git checkout --force --quiet c0ca3ae2f34ef4dc024093f92547b43a4d9bd58a')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --max-count=10')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --pretty="%H"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config user.name "Bud Spencer"')),
@@ -193,7 +200,7 @@ class GitRepositoryTest extends UnitTestCase {
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag --sign v1.2.3')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --message "This is a very cool message!"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add .')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short --untracked-files=all')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --name-only'))
 			);
 	}
