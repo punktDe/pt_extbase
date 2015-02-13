@@ -125,10 +125,10 @@ class StatusResultTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 */
 	public function buildResultBuildsValidResult($rawResult, $parsedResult) {
 		$statusCommandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand')
-			->setMethods(array('getShort'))
+			->setMethods(array('isShort'))
 			->getMock();
 		$statusCommandMock->expects($this->once())
-			->method('getShort')
+			->method('isShort')
 			->will($this->returnValue(TRUE));
 
 		$this->proxy->_set('result', $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\ObjectStorage'));
