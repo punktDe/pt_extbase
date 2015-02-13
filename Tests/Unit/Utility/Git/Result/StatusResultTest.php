@@ -109,6 +109,17 @@ class StatusResultTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 						'path' => 'file 05.txt',
 						'correspondingPath' => 'file06.txt'
 					)
+				),
+			),
+			'DirectorySeperatorInFileName' => array(
+				'rawResult' => "R  Data/file01.txt -> Data/file02.txt",
+				'parsedResult' => array(
+					array(
+						'indexStatus' => 'R',
+						'worktreeStatus' => '',
+						'path' => 'Data/file01.txt',
+						'correspondingPath' => 'Data/file02.txt'
+					)
 				)
 			),
 		);
