@@ -89,7 +89,7 @@ class GitRepository {
 	 */
 	protected function checkIfValidGitCommandIsAvailable() {
 		if (!file_exists($this->commandPath) || strpos($this->void()->setVersion(TRUE)->execute()->getRawResult(), 'git') !== 0) {
-			throw new \Exception("No valid git command found on system", 1422469432);
+			throw new \Exception("No valid git command found on system in path " . $this->commandPath, 1422469432);
 		}
 	}
 
