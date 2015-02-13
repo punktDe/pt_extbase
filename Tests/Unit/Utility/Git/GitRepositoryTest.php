@@ -200,7 +200,7 @@ class GitRepositoryTest extends UnitTestCase {
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag --sign v1.2.3')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --message "This is a very cool message!"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add .')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short --untracked-files=all')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --name-only'))
 			);
 	}

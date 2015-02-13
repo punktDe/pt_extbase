@@ -35,6 +35,7 @@ class StatusCommand extends GitCommand {
 	 */
 	protected $argumentMap = array(
 		'short' => '--short',
+		'untrackedFilesMode' => '--untracked-files=%s'
 	);
 
 
@@ -42,7 +43,8 @@ class StatusCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'short' => FALSE
+		'short' => FALSE,
+		'untrackedFilesMode' => 'all'
 	);
 
 
@@ -53,6 +55,23 @@ class StatusCommand extends GitCommand {
 	 */
 	public function setShort($short) {
 		$this->arguments['short'] = $short;
+		return $this;
+	}
+
+
+
+	/**
+	 * Set untracked files mode
+	 *
+	 * - all (default): Also shows individual files in untracked directories
+	 * - normal: Shows untracked files and directories
+	 * - no: Show no untracked files.
+	 *
+	 * @param string $mode
+	 * @return $this
+	 */
+	public function setUntrackedFilesMode($mode) {
+		$this->arguments['untrackedFilesMode'] = $mode;
 		return $this;
 	}
 
