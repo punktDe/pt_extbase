@@ -188,6 +188,15 @@ class GitRepository {
 
 
 	/**
+	 * @return Command\CheckoutCommand
+	 */
+	public function checkout() {
+		return $this->createCommandForRepository('Checkout');
+	}
+
+
+
+	/**
 	 * @return boolean
 	 */
 	public function exists() {
