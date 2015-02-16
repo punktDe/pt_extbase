@@ -123,7 +123,7 @@ class ShellCommandService implements SingletonInterface {
 		$fp = popen($this->prepareCommand($command), 'r');
 
 		while (($line = fgets($fp)) !== FALSE) {
-			$this->logger->info($logPrefix . rtrim($line), __CLASS__);
+			$this->logger->debug($logPrefix . rtrim($line), __CLASS__);
 			$returnedOutput .= $line;
 		}
 		$exitCode = pclose($fp);
