@@ -88,12 +88,12 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
 	 * @param $uid
 	 * @return array
 	 */
-	public function getPageTreeFromRootPageUid($uid) {
+	public function getPageTreeFromRootPageUid($uid, $respectEnableFields = TRUE, $respectDeletedField = TRUE) {
 		$rootPage = $this->findByUid($uid);
 
 		$uidTreeList = array($uid => array('pageObject' => $rootPage));
 
-		$uidTreeList[$uid]['subPages'] = $this->getSubpagesOfUid($uid);
+		$uidTreeList[$uid]['subPages'] = $this->getSubpagesOfUid($uid, $respectEnableFields, $respectDeletedField);
 
 		return $uidTreeList;
 	}
@@ -105,19 +105,16 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
 	 *
 	 * @return array
 	 */
-	protected function getSubpagesOfUid($uid, $pageTree = array()) {
-		/**
-		 * @var $typo3PageRepository \TYPO3\CMS\Frontend\Page\PageRepository
-		 */
-		$typo3PageRepository = $this->objectManager->get('TYPO3\\CMS\\Frontend\\Page\\PageRepository');
-		$typo3PageRepository->init(TRUE);
+	protected function getSubpagesOfUid($uid, $respectEnableFields, $respectDeletedField, $pageTree = array()) {
+		$this->defaultQuerySettings->setIgnoreEnableFields(!$respectEnableFields);
+		$this->defaultQuerySettings->setIncludeDeleted(!$respectDeletedField);
 
-		$pageTree = $typo3PageRepository->getMenu($uid);
+		$pageTree = $this->findPagesInPid($uid);
 		$returnArray = array();
 
 		foreach ($pageTree as $page) {
-			$returnArray[$page['uid']]['pageObject'] = $this->findByUid($page['uid']);
-			$returnArray[$page['uid']]['subPages'] = $this->getSubpagesOfUid($page['uid'], $pageTree);
+			$returnArray[$page->getUid()]['pageObject'] = $page;
+			$returnArray[$page->getUid()]['subPages'] = $this->getSubpagesOfUid($page->getUid(), $respectEnableFields, $respectDeletedField, $pageTree);
 		}
 
 		return $returnArray;
