@@ -32,6 +32,12 @@ use \TYPO3\CMS\Core\Log\LogManager;
 class LoggerManager extends LogManager {
 
 	/**
+	 * @const LOGGER_INDEX_PREFIX
+	 */
+	const LOGGER_INDEX_PREFIX = 'PTEXTBASE';
+
+
+	/**
 	 * @var array|NULL
 	 */
 	protected $loggerConfiguration;
@@ -82,7 +88,7 @@ class LoggerManager extends LogManager {
 	 * @return string
 	 */
 	protected function evaluateIndexNameByComponentName($componentName) {
-		$indexNameParts = array();
+		$indexNameParts = array(self::LOGGER_INDEX_PREFIX);
 
 		$explodedName = explode('.', $componentName);
 		$configuration = $this->loggerConfiguration;
