@@ -73,10 +73,20 @@ class RealUrl implements SingletonInterface {
 	 * @return integer
 	 */
 	public function mapPathToPageId($path) {
+		$this->initializeFrontendToMakeRealUrlWork();
 		$parameters['mode'] = 'decode';
 		$parameters['pathParts'] = GeneralUtility::trimExplode('/', $path);
 		$result = $this->realUrlAdvanced->main($parameters, $this->realUrl);
-		return $result['id'];
+		return $result[0];
+	}
+
+
+
+	/**
+	 * @return void
+	 */
+	protected function initializeFrontendToMakeRealUrlWork() {
+		$GLOBALS['TSFE'] = $this->objectManager->get('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], 0, 0);
 	}
 
 
