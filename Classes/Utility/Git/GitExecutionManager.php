@@ -98,7 +98,7 @@ class GitExecutionManager implements SingletonInterface {
 	 * @return string
 	 */
 	protected function executeCommandLineOnShell() {
-		$this->logger->info(sprintf("Running git command %s", $this->commandLine), __CLASS__);
+		$this->logger->debug(sprintf("Running git command %s", $this->commandLine), __CLASS__);
 		$this->shellCommandService->setRedirectStandardErrorToStandardOut(TRUE);
 		return $this->shellCommandService->execute($this->commandLine);
 	}
