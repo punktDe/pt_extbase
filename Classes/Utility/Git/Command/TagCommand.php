@@ -36,6 +36,7 @@ class TagCommand extends GitCommand {
 	protected $argumentMap = array(
 		'sign' => '--sign',
 		'annotate' => '--annotate',
+		'message' => '--message "%s"'
 	);
 
 
@@ -65,6 +66,17 @@ class TagCommand extends GitCommand {
 	 */
 	public function setAnnotate($annotate) {
 		$this->arguments['annotate'] = $annotate;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param string $message
+	 * @return $this
+	 */
+	public function setMessage($message) {
+		$this->arguments['message'] = $message;
 		return $this;
 	}
 
