@@ -56,17 +56,18 @@ class RealUrl implements SingletonInterface {
 	protected $realUrlAdvanced;
 
 
+
 	/**
 	 * Map path to page ID
 	 *
 	 * Path is the URL
 	 * - without domain
 	 * - without file suffix
-	 * - seperated by slash
+	 * - separated by slash
 	 *
 	 * E.g.:
 	 * - URL: http://www.kubrick.co.uk/film/aclockworkorange.html
-	 * - Path: film/aclockworkorange.html
+	 * - Path: film/aclockworkorange
 	 *
 	 * @param string $path
 	 * @return integer
