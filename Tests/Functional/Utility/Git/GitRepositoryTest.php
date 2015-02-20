@@ -2,7 +2,7 @@
 namespace PunktDe\PtExtbase\Tests\Functional\Utility\Git;
 
 /***************************************************************
- *  Copyright (C)  punkt.de GmbH
+ *  Copyright (C) 2015 punkt.de GmbH
  *  Authors: el_equipo <opiuqe_le@punkt.de>
  *
  *  This script is free software: you can redistribute it and/or modify
@@ -385,6 +385,182 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$this->assertFileExists(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")));
 		$this->assertStringEqualsFile(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "2001 - A Space Odyssey");
 		$this->assertFileNotExists(Files::concatenatePaths(array($this->repositoryRootPath, "film03.txt")));
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function cloneRepositoryClonesRepository() {
+		$this->skipTestIfGitCommandForTestingDoesNotExist();
+
+		$this->proxy
+			->init()
+			->execute();
+
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "2001 - A Space Odyssey");
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$this->proxy
+			->commit()
+			->setMessage("[TASK] Initial commit")
+			->execute();
+
+		$expectedFirstCommitHash = $this->proxy
+			->log()
+			->setMaxCount(1)
+			->setFormat("%H")
+			->execute()
+			->getRawResult();
+
+		unlink(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")));
+
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Lolita");
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film03.txt")), "A Clockwork Orange");
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$this->proxy
+			->commit()
+			->setMessage("[CHG] Change film texts")
+			->execute();
+
+		$expectedSecondCommitHash = $this->proxy
+			->log()
+			->setMaxCount(1)
+			->setFormat("%H")
+			->execute()
+			->getRawResult();
+
+		$this->proxy
+			->cloneRepository()
+			->setRepository('file://' . $this->repositoryRootPath)
+			->setDirectory($this->remoteRepositoryRootPath)
+			->execute();
+
+		$expectedCommits = sprintf("%s [CHG] Change film texts\n%s [TASK] Initial commit\n", trim($expectedSecondCommitHash), trim($expectedFirstCommitHash));
+		$actualCommits = $this->runGitCommandForAssertion(sprintf("%s --git-dir=%s/.git/ log --pretty=\"oneline\"", $this->pathToGitCommand, $this->remoteRepositoryRootPath));
+		$this->assertSame($expectedCommits, $actualCommits);
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function cloneDedicatedCommitCreatesGitRepositoryContainingExactlyThatCommit() {
+		$this->skipTestIfGitCommandForTestingDoesNotExist();
+
+		$this->proxy
+			->init()
+			->execute();
+
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "2001 - A Space Odyssey");
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$this->proxy
+			->commit()
+			->setMessage("[TASK] Initial commit")
+			->execute();
+
+		$this->proxy
+			->tag()
+			->setSign(FALSE)
+			->setName("Version01")
+			->execute();
+
+		$expectedFirstCommitHash = $this->proxy
+			->log()
+			->setMaxCount(1)
+			->setFormat("%H")
+			->execute()
+			->getRawResult();
+		$expectedFirstCommitHash = trim($expectedFirstCommitHash);
+
+		unlink(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")));
+
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Lolita");
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film03.txt")), "A Clockwork Orange");
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$this->proxy
+			->commit()
+			->setMessage("[CHG] Change film texts")
+			->execute();
+
+		$this->proxy
+			->tag()
+			->setSign(FALSE)
+			->setName("Version02")
+			->execute();
+
+		$expectedSecondCommitHash = $this->proxy
+			->log()
+			->setMaxCount(1)
+			->setFormat("%H")
+			->execute()
+			->getRawResult();
+		$expectedSecondCommitHash = trim($expectedSecondCommitHash);
+
+		$this->proxy
+			->cloneRepository()
+			->setDepth(1)
+			->setBranch("Version01")
+			->setRepository('file://' . $this->repositoryRootPath)
+			->setDirectory($this->remoteRepositoryRootPath)
+			->execute();
+
+		$expectedCommits = sprintf("%s [TASK] Initial commit\n", $expectedFirstCommitHash);
+		$actualCommits = $this->runGitCommandForAssertion(sprintf("%s --git-dir=%s/.git log --pretty=\"oneline\"", $this->pathToGitCommand, $this->remoteRepositoryRootPath));
+		$this->assertSame($expectedCommits, $actualCommits);
+
+		Files::emptyDirectoryRecursively($this->remoteRepositoryRootPath);
+
+		$this->proxy
+			->cloneRepository()
+			->setDepth(1)
+			->setBranch("Version02")
+			->setRepository('file://' . $this->repositoryRootPath)
+			->setDirectory($this->remoteRepositoryRootPath)
+			->execute();
+
+		$expectedCommits = sprintf("%s [CHG] Change film texts\n", $expectedSecondCommitHash);
+		$actualCommits = $this->runGitCommandForAssertion(sprintf("%s --git-dir=%s/.git log --pretty=\"oneline\"", $this->pathToGitCommand, $this->remoteRepositoryRootPath));
+		$this->assertSame($expectedCommits, $actualCommits);
+	}
+
+
+
+	/**
+	 * @param string $command
+	 * @return string
+	 */
+	protected function runGitCommandForAssertion($command) {
+		$returnedOutput = '';
+		$filePointer = popen($command, 'r');
+		while (($line = fgets($filePointer)) !== FALSE) {
+			$returnedOutput .= $line;
+		}
+		pclose($filePointer);
+		return $returnedOutput;
 	}
 
 

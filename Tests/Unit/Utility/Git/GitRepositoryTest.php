@@ -114,6 +114,13 @@ class GitRepositoryTest extends UnitTestCase {
 	public function commandRendersValidCommand() {
 		$this->prepareShellCommandExpectations();
 
+		$this->proxy->cloneRepository()
+			->setRepository('file:///path/to/a/repository/of/chocolate.git')
+			->setDirectory('/path/to/checked/out/chocolate/')
+			->setDepth(1)
+			->setBranch('YummyTag')
+			->execute();
+
 		$this->proxy->checkout()
 			->setForce(TRUE)
 			->setQuiet(TRUE)
@@ -189,6 +196,7 @@ class GitRepositoryTest extends UnitTestCase {
 		$this->shellCommandServiceMock->expects($this->any())
 			->method('execute')
 			->withConsecutive(
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git clone --branch YummyTag --depth 1 file:///path/to/a/repository/of/chocolate.git /path/to/checked/out/chocolate/')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git checkout --force --quiet c0ca3ae2f34ef4dc024093f92547b43a4d9bd58a')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --max-count=10')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --pretty="%H"')),
