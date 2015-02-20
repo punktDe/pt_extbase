@@ -51,6 +51,17 @@ class ConfigCommand extends GitCommand {
 
 
 	/**
+	 * @param boolean $global
+	 * @return $this
+	 */
+	public function setGlobal($global) {
+		$this->arguments['global'] = $global;
+		return $this;
+	}
+
+
+
+	/**
 	 * @param string $username
 	 * @return $this
 	 */
