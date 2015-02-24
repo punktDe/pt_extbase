@@ -34,7 +34,7 @@ class TagCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'sign' => '--sign',
+		'sign' => '-s',
 		'annotate' => '--annotate',
 		'message' => '--message "%s"'
 	);

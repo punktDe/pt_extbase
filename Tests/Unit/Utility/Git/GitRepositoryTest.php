@@ -214,7 +214,7 @@ class GitRepositoryTest extends UnitTestCase {
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote add origin file:///tmp/punktde.git')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git init --bare --shared')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git push origin master')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag --sign --message "Release" v1.2.3')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag -s --message "Release" v1.2.3')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --message "This is a very cool message!"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add .')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short --untracked-files=all')),
