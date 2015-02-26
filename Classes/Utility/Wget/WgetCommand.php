@@ -531,6 +531,8 @@ class WgetCommand {
 		$command = $this->buildCommand();
 		TimeTracker::start($command);
 
+		$this->logger->debug('Executing WGet command ' . $command, __CLASS__, array('time' => TimeTracker::stop($command)));
+
 		exec($command, $outputLines);
 
 		$this->logger->debug('Called WGet command ' . $command, __CLASS__, array('time' => TimeTracker::stop($command)));
