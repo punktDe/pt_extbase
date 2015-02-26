@@ -158,4 +158,17 @@ class WgetLogEntry {
 	public function isError() {
 		return preg_match(sprintf('/%s/', $this->errorStatusPattern), (string) $this->status) != 0 ?: FALSE;
 	}
+
+
+	/**
+	 * @return array
+	 */
+	public function toArray() {
+		return array(
+			'date' => $this->getFetchDate(),
+			'url' => $this->getUrl(),
+			'status' => $this->getStatus(),
+			'length' => $this->getContentLength()
+		);
+	}
 } 
