@@ -56,6 +56,7 @@ class WgetCommand {
 		'noVerbose' => '--no-verbose',
 		'recursive' => '--recursive',
 		'noParent' => '--no-parent',
+		'noProxy' => '--no-proxy'
 	);
 
 
@@ -223,6 +224,13 @@ class WgetCommand {
 	 * @var boolean
 	 */
 	protected $noParent;
+
+
+	/**
+	 * @var boolean
+	 */
+	protected $noProxy;
+
 
 	/**
 	 * @param string $wgetBinaryPath
@@ -473,6 +481,16 @@ class WgetCommand {
 		$this->noParent = $noParent;
 		return $this;
 	}
+
+	/**
+	 * @param boolean $noProxy
+	 * @return $this
+	 */
+	public function setNoProxy($noProxy) {
+		$this->noProxy = $noProxy;
+		return $this;
+	}
+
 
 
 	/**
