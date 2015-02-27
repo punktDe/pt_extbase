@@ -531,11 +531,11 @@ class WgetCommand {
 		$command = $this->buildCommand();
 		TimeTracker::start($command);
 
-		$this->logger->debug('Executing WGet command ' . $command, __CLASS__, array('time' => TimeTracker::stop($command)));
+		$this->logger->debug('Executing WGet command ' . $command, __CLASS__);
 
-		exec($command, $outputLines);
+		exec($command, $outputLines, $returnVar);
 
-		$this->logger->debug('Called WGet command ' . $command, __CLASS__, array('time' => TimeTracker::stop($command)));
+		$this->logger->debug('Called WGet command returned status ' . $returnVar, __CLASS__, array('time' => TimeTracker::stop($command)));
 
 		return implode('\n', $outputLines);
 	}
