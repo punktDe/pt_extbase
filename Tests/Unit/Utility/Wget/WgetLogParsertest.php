@@ -188,7 +188,7 @@ EOD;
 
 		$logFileEntries = $this->wgetLogParser->parseLog($wgetCommand);
 
-		$this->assertCount(3, $logFileEntries);
+		$this->assertCount(4, $logFileEntries);
 
 		// Case 200
 
@@ -223,5 +223,16 @@ EOD;
 		);
 
 		$this->assertEquals($logFileEntry3, $logFileEntries->getItemByIndex(2)->toArray());
+
+		// Case 404 on last line
+
+		$logFileEntry4 = array(
+			'date' => date_create_from_format('Y-m-d H:i:s', '2015-02-27 12:07:49'),
+			'url' => 'http://partnerportal.dpppa.dev.punkt.de/typo3conf/ext/pt_dppp_base/Resources/Public/Styles/jquery.selectBox-arrow.gif',
+			'status' => 404,
+			'length' => 275
+		);
+
+		$this->assertEquals($logFileEntry4, $logFileEntries->getItemByIndex(3)->toArray());
 	}
 }
