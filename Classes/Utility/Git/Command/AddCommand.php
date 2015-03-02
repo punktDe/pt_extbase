@@ -40,7 +40,8 @@ class AddCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'path' => ''
+		'path' => '',
+		'add' => '--add'
 	);
 
 
@@ -51,6 +52,16 @@ class AddCommand extends GitCommand {
 	 */
 	public function setPath($path) {
 		$this->arguments['path'] = $path;
+		return $this;
+	}
+
+
+	/**
+	 * @param boolean $all
+	 * @return $this
+	 */
+	public function setAll($all) {
+		$this->arguments['all'] = $all;
 		return $this;
 	}
 
