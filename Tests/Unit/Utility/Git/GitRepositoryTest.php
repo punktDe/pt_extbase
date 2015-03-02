@@ -184,6 +184,7 @@ class GitRepositoryTest extends UnitTestCase {
 
 		$this->proxy->add()
 			->setPath('.')
+			->setAll(TRUE)
 			->execute();
 
 		$this->proxy->status()
@@ -217,7 +218,7 @@ class GitRepositoryTest extends UnitTestCase {
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git push origin master')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag -s -a -m "Release" v1.2.3')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --message "This is a very cool message!"')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add .')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add --all .')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short --untracked-files=all')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --name-only'))
 			);
