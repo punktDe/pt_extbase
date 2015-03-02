@@ -22,7 +22,7 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  ***************************************************************/
 
 /**
- * Path Status
+ * Status Result
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
