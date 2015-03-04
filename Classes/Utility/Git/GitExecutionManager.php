@@ -22,48 +22,20 @@ namespace PunktDe\PtExtbase\Utility\Git;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Utility\Files;
-use PunktDe\PtExtbase\Utility\Git\Result\Result;
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ExecutionManager;
 use PunktDe\PtExtbase\Utility\Git\Command;
-use TYPO3\CMS\Core\SingletonInterface;
 
 /**
  * Git Execution Manager
  *
  * @package PunktDe\PtExtbase\Utility\Git
  */
-class GitExecutionManager implements SingletonInterface {
-
-	/**
-	 * @inject
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
-
-
-	/**
-	 * @inject
-	 * @var \PunktDe\PtExtbase\Utility\ShellCommandService
-	 */
-	protected $shellCommandService;
-
-
-	/**
-	 * @inject
-	 * @var \Tx_PtExtbase_Logger_Logger
-	 */
-	protected $logger;
-
+class GitExecutionManager extends ExecutionManager {
 
 	/**
 	 * @var \PunktDe\PtExtbase\Utility\Git\GitRepository
 	 */
 	protected $repository;
-
-
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Git\Command\GitCommand
-	 */
-	protected $gitCommand;
 
 
 	/**
@@ -73,35 +45,11 @@ class GitExecutionManager implements SingletonInterface {
 
 
 	/**
-	 * @param Command\GitCommand $gitCommand
-	 * @return string
-	 */
-	public function execute($gitCommand) {
-		$this->gitCommand = $gitCommand;
-		$this->renderCommand();
-		return array($this->executeCommandLineOnShell(), $this->shellCommandService->getExitCode());
-	}
-
-
-
-	/**
 	 * @return string
 	 */
 	protected function renderCommand() {
-		$this->commandLine = sprintf('cd %s; %s --git-dir=%s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), Files::concatenatePaths(array($this->repository->getRepositoryRootPath(), '.git')), $this->gitCommand->render());
+		$this->commandLine = sprintf('cd %s; %s --git-dir=%s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), Files::concatenatePaths(array($this->repository->getRepositoryRootPath(), '.git')), $this->command->render());
     }
-
-
-
-	/**
-	 * @throws GitException
-	 * @return string
-	 */
-	protected function executeCommandLineOnShell() {
-		$this->logger->debug(sprintf("Running git command %s", $this->commandLine), __CLASS__);
-		$this->shellCommandService->setRedirectStandardErrorToStandardOut(TRUE);
-		return $this->shellCommandService->execute($this->commandLine);
-	}
 
 
 

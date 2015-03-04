@@ -21,8 +21,7 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use PunktDe\PtExtbase\Utility\ShellCommandService;
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\AbstractResult;
 
 /**
  * Result
@@ -32,10 +31,16 @@ use PunktDe\PtExtbase\Utility\ShellCommandService;
 class Result extends AbstractResult {
 
 	/**
+	 * @inject
+	 * @var \PunktDe\PtExtbase\Utility\Git\GitExecutionManager
+	 */
+	protected $executionManager;
+
+
+	/**
 	 * @return void
 	 */
 	protected function buildResult() {
-
 	}
 
 }

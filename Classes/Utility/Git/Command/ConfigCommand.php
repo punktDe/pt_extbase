@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+
 /**
  * Config Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class ConfigCommand extends GitCommand {
+class ConfigCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -80,15 +82,5 @@ class ConfigCommand extends GitCommand {
 		$this->arguments['email'] = $email;
 		return $this;
 	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
-	}
-
 
 }

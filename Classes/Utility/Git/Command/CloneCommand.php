@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+
 /**
  * Clone Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class CloneCommand extends GitCommand {
+class CloneCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -93,15 +95,6 @@ class CloneCommand extends GitCommand {
 	public function setDirectory($directory) {
 		$this->arguments['directory'] = $directory;
 		return $this;
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
 	}
 
 }

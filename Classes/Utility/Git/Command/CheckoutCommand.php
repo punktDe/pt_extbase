@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+
 /**
  * Checkout Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class CheckoutCommand extends GitCommand {
+class CheckoutCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -80,15 +82,6 @@ class CheckoutCommand extends GitCommand {
 	public function setQuiet($quiet) {
 		$this->arguments['quiet'] = $quiet;
 		return $this;
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
 	}
 
 }

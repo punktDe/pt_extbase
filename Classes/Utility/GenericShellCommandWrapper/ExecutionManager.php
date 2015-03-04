@@ -24,11 +24,11 @@ namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
 use TYPO3\CMS\Core\SingletonInterface;
 
 /**
- * Abstract Execution Manager
+ * Execution Manager
  *
  * @package PunktDe\PtExtbase\Utility\GenericShellCommandWrapper
  */
-abstract class AbstractExecutionManager implements SingletonInterface {
+class ExecutionManager implements SingletonInterface {
 
 	/**
 	 * @inject
@@ -45,9 +45,45 @@ abstract class AbstractExecutionManager implements SingletonInterface {
 
 
 	/**
+	 * @var GenericShellCommand
+	 */
+	protected $command;
+
+
+	/**
+	 * @var string
+	 */
+	protected $commandLine = '';
+
+
+	/**
 	 * @param GenericShellCommand $command
 	 * @return string
 	 */
-	abstract public function execute($command);
+	public function execute($command) {
+		$this->command = $command;
+		$this->renderCommand();
+		return array($this->executeCommandLineOnShell(), $this->shellCommandService->getExitCode());
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	protected function renderCommand() {
+		$this->commandLine = sprintf('%s', $this->command->render());
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	protected function executeCommandLineOnShell() {
+		$this->logger->debug(sprintf("Running command %s", $this->commandLine), __CLASS__);
+		$this->shellCommandService->setRedirectStandardErrorToStandardOut(TRUE);
+		return $this->shellCommandService->execute($this->commandLine);
+	}
 
 }

@@ -45,7 +45,8 @@ abstract class AbstractResult {
 
 
 	/**
-	 * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\AbstractExecutionManager
+	 * @inject
+	 * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ExecutionManager
 	 */
 	protected $executionManager;
 
@@ -86,7 +87,7 @@ abstract class AbstractResult {
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->result = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Result\ResultObjectStorage');
+		$this->result = $this->objectManager->get('PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ResultObjectStorage');
 		list($this->rawResult, $this->exitCode) = $this->executionManager->execute($this->command);
 	}
 

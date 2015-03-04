@@ -143,7 +143,7 @@ class StatusResultTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 			->will($this->returnValue(TRUE));
 
 		$this->proxy->_set('result', $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\ObjectStorage'));
-		$this->proxy->_set('gitCommand', $statusCommandMock);
+		$this->proxy->_set('command', $statusCommandMock);
 		$this->proxy->_set('objectManager', $this->objectManager);
 		$this->proxy->_set('rawResult', $rawResult);
 
@@ -210,8 +210,8 @@ class StatusResultTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 			->method('isShort')
 			->will($this->returnValue(TRUE));
 
-		$this->proxy->_set('result', $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Result\ResultObjectStorage'));
-		$this->proxy->_set('gitCommand', $statusCommandMock);
+		$this->proxy->_set('result', $this->objectManager->get('PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ResultObjectStorage'));
+		$this->proxy->_set('command', $statusCommandMock);
 		$this->proxy->_set('objectManager', $this->objectManager);
 		$this->proxy->_set('rawResult', $rawResult);
 

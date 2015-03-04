@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+
 /**
  * Init Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class InitCommand extends GitCommand {
+class InitCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -66,15 +68,6 @@ class InitCommand extends GitCommand {
 	public function setShared($shared) {
 		$this->arguments['shared'] = $shared;
 		return $this;
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
 	}
 
 }

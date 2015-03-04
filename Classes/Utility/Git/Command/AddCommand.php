@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+
 /**
  * Add Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class AddCommand extends GitCommand {
+class AddCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -66,14 +68,6 @@ class AddCommand extends GitCommand {
 	public function setAll($all) {
 		$this->arguments['all'] = $all;
 		return $this;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
 	}
 
 }

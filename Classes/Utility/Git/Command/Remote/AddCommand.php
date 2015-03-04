@@ -21,14 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command\Remote;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\Git\Command\GitCommand;
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
 
 /**
  * Remote Add Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command\Remote
  */
-class AddCommand extends GitCommand {
+class AddCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -69,15 +69,6 @@ class AddCommand extends GitCommand {
 	public function setUrl($url) {
 		$this->arguments['url'] = $url;
 		return $this;
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
 	}
 
 }
