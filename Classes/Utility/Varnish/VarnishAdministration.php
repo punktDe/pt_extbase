@@ -38,12 +38,6 @@ class VarnishAdministration extends GenericShellCommand {
 
 
 	/**
-	 * @var \PunktDe\PtExtbase\Utility\Varnish\ExecutionManager
-	 */
-	protected $executionManager;
-
-
-	/**
 	 * @var array
 	 */
 	protected $argumentMap = array(

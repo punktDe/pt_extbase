@@ -31,13 +31,6 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\AbstractResult;
 class Result extends AbstractResult {
 
 	/**
-	 * @inject
-	 * @var \PunktDe\PtExtbase\Utility\Varnish\ExecutionManager
-	 */
-	protected $executionManager;
-
-
-	/**
 	 * @return void
 	 */
 	protected function buildResult() {
