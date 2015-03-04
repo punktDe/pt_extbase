@@ -21,8 +21,6 @@ namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\AbstractResult;
-
 /**
  * Generic Shell Command
  *
