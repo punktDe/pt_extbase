@@ -81,12 +81,12 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_
 		$this->proxy->_set('loggerConfiguration', $loggerConfigurationMock);
 		$this->proxy->_call('configureLoggerProperties');
 
-		$this->assertArrayHasKey($expectedLogLevelThreshold, $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['writerConfiguration']);
-		$this->assertSame($expectedLogPath, $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['writerConfiguration'][$expectedLogLevelThreshold]['Tx_PtExtbase_Logger_Writer_FileWriter']['logFile']);
-		$this->assertArrayHasKey($expectedEmailLogLevelThreshold, $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration']);
-		$this->assertSame(array('receivers' => $expectedEmailReceivers), $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration'][$expectedEmailLogLevelThreshold]['Tx_PtExtbase_Logger_Processor_EmailProcessor']);
-		$this->assertArrayHasKey(\TYPO3\CMS\Core\Log\LogLevel::DEBUG, $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration']);
-		$this->assertArrayHasKey('PunktDe\\PtExtbase\\Logger\\Processor\\ReplaceComponentProcessor', $GLOBALS['TYPO3_CONF_VARS']['LOG']['Tx']['processorConfiguration'][\TYPO3\CMS\Core\Log\LogLevel::DEBUG]);
+		$this->assertArrayHasKey($expectedLogLevelThreshold, $GLOBALS['TYPO3_CONF_VARS']['LOG']['writerConfiguration']);
+		$this->assertSame($expectedLogPath, $GLOBALS['TYPO3_CONF_VARS']['LOG']['writerConfiguration'][$expectedLogLevelThreshold]['Tx_PtExtbase_Logger_Writer_FileWriter']['logFile']);
+		$this->assertArrayHasKey($expectedEmailLogLevelThreshold, $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration']);
+		$this->assertSame(array('receivers' => $expectedEmailReceivers), $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][$expectedEmailLogLevelThreshold]['Tx_PtExtbase_Logger_Processor_EmailProcessor']);
+		$this->assertArrayHasKey(\TYPO3\CMS\Core\Log\LogLevel::DEBUG, $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration']);
+		$this->assertArrayHasKey('PunktDe\\PtExtbase\\Logger\\Processor\\ReplaceComponentProcessor', $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][\TYPO3\CMS\Core\Log\LogLevel::DEBUG]);
 
 	}
 
@@ -94,4 +94,3 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_
 
 
 }
-
