@@ -84,6 +84,7 @@ class ShellCommandService implements SingletonInterface {
 	 * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code and $ignoreErrors was enabled.
 	 */
 	public function execute($command) {
+		$this->command = $command;
 		if ($this->simulateMode === TRUE) {
 			return $this->returnedOutput;
 		}
@@ -97,7 +98,6 @@ class ShellCommandService implements SingletonInterface {
 	 * @return string
 	 */
 	protected function executeCommand($command) {
-		$this->command = $command;
 		if ($this->hostname === 'localhost') {
 			list($this->exitCode, $this->returnedOutput) = $this->executeLocalCommand();
 		} else {
@@ -223,6 +223,19 @@ class ShellCommandService implements SingletonInterface {
 
 
 	/**
+	 * Used for tests
+	 *
+	 * @return string
+	 */
+	public function getCommand() {
+		return $this->command;
+	}
+
+
+
+	/**
+	 * Used for tests
+	 *
 	 * @param integer $simulatedExitCode
 	 */
 	public function setSimulatedExitCode($simulatedExitCode) {
@@ -232,6 +245,8 @@ class ShellCommandService implements SingletonInterface {
 
 
 	/**
+	 * Used for tests
+	 *
 	 * @param string $simulatedReturnedOutput
 	 */
 	public function setSimulatedReturnedOutput($simulatedReturnedOutput) {
