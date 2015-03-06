@@ -84,12 +84,13 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
 	 */
 	public function processLogRecord(LogRecord $logRecord) {
 		$this->logRecord = $logRecord;
+
 		try {
 			$mail = $this->objectManager->get('TYPO3\CMS\Core\Mail\MailMessage');
 			/** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
 			$mail->setFrom(array("noreply@punkt.de" => "noreply@punkt.de"));
 			$mail->setTo($this->receivers);
-			$mail->setSubject(sprintf('Error on system %s', $this->serverInformation->getServerHostName()));
+			$mail->setSubject(sprintf('%s: Error on system %s', $this->getNamespaceOfLogComponent(), $this->serverInformation->getServerHostName()));
 			$mail->setBody($this->renderViewForMail());
 			$mail->send();
 		} catch (\Exception $exception) {
@@ -119,6 +120,15 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
 	 */
 	public function setReceivers($receivers) {
 		$this->receivers = $receivers;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getNamespaceOfLogComponent() {
+		$componentParts = explode('.', $this->logRecord->getComponent());
+
+		return $componentParts[1];
 	}
 
 }
