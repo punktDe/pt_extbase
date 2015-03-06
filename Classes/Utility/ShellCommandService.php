@@ -171,7 +171,7 @@ class ShellCommandService implements SingletonInterface {
 	 */
 	protected function checkResult() {
 		if ($this->exitCode !== 0) {
-			$this->logger->error(sprintf("Shell command \"%s\" return exist status %s", $this->command, $this->exitCode), __CLASS__);
+			$this->logger->error(sprintf("Shell command \"%s\" returned exist status %s", $this->command, $this->exitCode), __CLASS__);
 		}
 	}
 
