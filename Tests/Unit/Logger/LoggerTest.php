@@ -47,7 +47,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_
 	 */
 	public function setUp() {
 		$this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Logger_Logger');
-		$this->proxy = new $this->proxyClass();
+		$this->proxy = $this->objectManager->get($this->proxyClass);
 	}
 
 
@@ -88,6 +88,69 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_
 		$this->assertArrayHasKey(\TYPO3\CMS\Core\Log\LogLevel::DEBUG, $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration']);
 		$this->assertArrayHasKey('PunktDe\\PtExtbase\\Logger\\Processor\\ReplaceComponentProcessor', $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][\TYPO3\CMS\Core\Log\LogLevel::DEBUG]);
 
+	}
+
+	/**
+	 * @test
+	 */
+	public function enrichLogDataByComponentCallsLoggerSpecificMethod() {
+		$loggerMock = $this->getMockBuilder('Tx_PtExtbase_Logger_Logger')
+			->setMethods(array('enrichLoggerSpecificDataByComponent'))
+			->getMock();
+		$loggerMock->expects($this->once())
+			->method('enrichLoggerSpecificDataByComponent');
+		/** @var $loggerMock Tx_PtExtbase_Logger_Logger */
+		
+		$loggerManager = $this->objectManager->get('PunktDe\\PtExtbase\\Logger\\LoggerManager');
+		$loggerMock->injectLoggerManager($loggerManager);
+
+		$data = array();
+		$loggerMock->enrichLogDataByComponent($data, 'Extbase');
+	}
+
+	/**
+	 * @return array
+	 */
+	public function enrichLogDataByComponentEnrichesDataArrayDataProvider() {
+		return array(
+			'noUserNoComponent' => array(
+				'userId' => NULL,
+				'component' => '',
+				'expected' => array('loggerComponent' => 'Tx.PtExtbase.Logger.Logger')
+			),
+			'givenUserNoComponent' => array(
+				'userId' => 86,
+				'component' => '',
+				'expected' => array('UserID' => 86, 'loggerComponent' => 'Tx.PtExtbase.Logger.Logger')
+			),
+			'noUserGivenComponent' => array(
+				'userId' => NULL,
+				'component' => 'Tx_PtMock_Domain_Model_Stuff',
+				'expected' => array('loggerComponent' => 'Tx.PtMock.Domain.Model.Stuff')
+			),
+			'givenUserAndComponent' => array(
+				'userId' => 86,
+				'component' => 'Tx_PtMock_Domain_Model_Stuff',
+				'expected' => array('UserID' => 86, 'loggerComponent' => 'Tx.PtMock.Domain.Model.Stuff')
+			),
+		);
+	}
+
+	/**
+	 * @test
+	 * @dataProvider enrichLogDataByComponentEnrichesDataArrayDataProvider
+	 *
+	 * @param integer $userId
+	 * @param string $component
+	 * @param array $expected
+	 */
+	public function enrichLogDataByComponentEnrichesDataArray($userId, $component, $expected) {
+		$actual = array();
+
+		$GLOBALS['TSFE']->fe_user->user['uid'] = $userId;
+		$this->proxy->enrichLogDataByComponent($actual, $component);
+
+		$this->assertEquals($expected, $actual);
 	}
 
 

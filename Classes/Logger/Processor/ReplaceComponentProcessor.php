@@ -42,9 +42,15 @@ class ReplaceComponentProcessor extends AbstractProcessor {
 	 */
 	public function processLogRecord(LogRecord $logRecord) {
 		$data = $logRecord->getData();
-		return $logRecord
-			->setComponent(array_pop($data))
-			->setData($data);
+
+		if (array_key_exists('loggerComponent', $data)) {
+			$logRecord->setComponent($data['loggerComponent']);
+			unset($data['loggerComponent']);
+		}
+
+		$logRecord->setData($data);
+
+		return $logRecord;
 	}
 
 }

@@ -30,7 +30,6 @@ use TYPO3\CMS\Core\Log\LogLevel;
 class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @inject
 	 * @var \PunktDe\PtExtbase\Logger\LoggerManager
 	 */
 	protected $loggerManager;
@@ -74,6 +73,12 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->defaultLogComponent = __CLASS__;
 	}
 
+	/**
+	 * @param \PunktDe\PtExtbase\Logger\LoggerManager $loggerManager
+	 */
+	public function injectLoggerManager(\PunktDe\PtExtbase\Logger\LoggerManager $loggerManager) {
+		$this->loggerManager = $loggerManager;
+	}
 
 	/**
 	 * @return void
@@ -261,7 +266,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function log($level, $message, $logComponent = NULL, array $data = array()) {
 		$this
-			->enrichLogDataByComponent($logComponent, $data)
+			->enrichLogDataByComponent($data, $logComponent)
 			->getLogger($logComponent)->log($level, $message, $data);
 	}
 
@@ -361,18 +366,27 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $component
 	 * @return \Tx_PtExtbase_Logger_Logger
 	 */
-	protected function enrichLogDataByComponent(&$data, $component) {
-		if (empty($component)) {
-			array_push($data, $this->loggerManager->unifyComponentName($this->defaultLogComponent));
-		} else {
-			array_push($data, $this->loggerManager->unifyComponentName($component));
+	public function enrichLogDataByComponent(&$data, $component) {
+		if(!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
+			$data['UserID'] = $GLOBALS['TSFE']->fe_user->user['uid'];
 		}
 
-		if(!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
-			array_unshift($data, array('UID' => $GLOBALS['TSFE']->fe_user->user['uid']));
+		$this->enrichLoggerSpecificDataByComponent($data, $component);
+
+		if (empty($component)) {
+			$data['loggerComponent'] = $this->loggerManager->unifyComponentName($this->defaultLogComponent);
+		} else {
+			$data['loggerComponent'] = $this->loggerManager->unifyComponentName($component);
 		}
 
 		return $this;
+	}
+
+	/**
+	 * @param array $data
+	 * @param string $component
+	 */
+	public function enrichLoggerSpecificDataByComponent(&$data, $component) {
 	}
 
 }
