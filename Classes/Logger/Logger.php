@@ -30,7 +30,6 @@ use TYPO3\CMS\Core\Log\LogLevel;
 class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * @inject
 	 * @var \PunktDe\PtExtbase\Logger\LoggerManager
 	 */
 	protected $loggerManager;
@@ -74,6 +73,12 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->defaultLogComponent = __CLASS__;
 	}
 
+	/**
+	 * @param \PunktDe\PtExtbase\Logger\LoggerManager $loggerManager
+	 */
+	public function injectLoggerManager(\PunktDe\PtExtbase\Logger\LoggerManager $loggerManager) {
+		$this->loggerManager = $loggerManager;
+	}
 
 	/**
 	 * @return void
@@ -361,12 +366,12 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param string $component
 	 * @return \Tx_PtExtbase_Logger_Logger
 	 */
-	protected function enrichLogDataByComponent(&$data, $component) {
+	public function enrichLogDataByComponent(&$data, $component) {
 		if(!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
 			$data['UserID'] = $GLOBALS['TSFE']->fe_user->user['uid'];
 		}
 
-		$data += $this->addLoggerSpecificDataByComponent($component);
+		$this->enrichLoggerSpecificDataByComponent($data, $component);
 
 		if (empty($component)) {
 			$data['loggerComponent'] = $this->loggerManager->unifyComponentName($this->defaultLogComponent);
@@ -378,12 +383,10 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	/**
-	 * @param $component string
-	 *
-	 * @return array
+	 * @param array $data
+	 * @param string $component
 	 */
-	protected function addLoggerSpecificDataByComponent($component) {
-		return array();
+	public function enrichLoggerSpecificDataByComponent(&$data, $component) {
 	}
 
 }

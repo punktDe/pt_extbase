@@ -49,6 +49,8 @@ class ReplaceComponentProcessor extends AbstractProcessor {
 		}
 
 		$logRecord->setData($data);
+
+		return $logRecord;
 	}
 
 }
