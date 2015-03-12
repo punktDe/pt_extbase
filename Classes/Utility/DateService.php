@@ -35,12 +35,16 @@ class Tx_PtExtbase_Utility_DateService implements \TYPO3\CMS\Core\SingletonInter
 	 */
 	protected $overrideCurrentYear = NULL;
 
+
+
 	/**
 	 * @param integer $overrideCurrentYear
 	 */
 	public function setOverrideCurrentYear($overrideCurrentYear) {
 		$this->overrideCurrentYear = $overrideCurrentYear;
 	}
+
+
 
 	/**
 	 * @return integer
@@ -51,6 +55,15 @@ class Tx_PtExtbase_Utility_DateService implements \TYPO3\CMS\Core\SingletonInter
 		} else {
 			return intval($this->overrideCurrentYear);
 		}
+	}
+
+
+
+	/**
+	 * @return integer
+	 */
+	public function getCurrentTimestamp() {
+		return time();
 	}
 
 }
