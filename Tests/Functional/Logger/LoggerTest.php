@@ -272,7 +272,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests
 		$mailerMock = $this->objectManager->get('Tx_PtTest_Utility_Mailer'); /** @var Tx_PtTest_Utility_Mailer $mailerMock */
 		$mailerMock->prepare();
 
-		$this->logger->critical('The fantastic three', get_class($this), array('Summer', 'Sun', 'Sunshine'));
+		$this->logger->critical('The fantastic three', get_class($this), array('time' => 42.1337, 'name' => 'Summer', 'part' => 'Sun', 'weather' => 'Sunshine'));
 
 		$mail = $mailerMock->getFirstMail();
 
