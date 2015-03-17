@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Tests\Utility\Git\Command;
+namespace PunktDe\PtExtbase\Tests\Utility\GenericShellCommand;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -24,14 +24,14 @@ namespace PunktDe\PtExtbase\Tests\Utility\Git\Command;
 use \TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /**
- * Git Command Test Case
+ * Generic Shell Command Test Case
  *
  * @package PunktDe\PtExtbase\Tests\Utility\Git\Command
  */
-class GitCommandTest extends UnitTestCase {
+class GenericShellCommandTest extends UnitTestCase {
 
 	/**
-	 * @var \PunktDe\PtExtbase\Utility\Git\Command\GitCommand
+	 * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand
 	 */
 	protected $proxy;
 
@@ -40,7 +40,7 @@ class GitCommandTest extends UnitTestCase {
 	 * @return void
 	 */
 	public function setUp() {
-		$this->proxy = $this->getAccessibleMockForAbstractClass('PunktDe\PtExtbase\Utility\Git\Command\GitCommand');
+		$this->proxy = $this->getAccessibleMockForAbstractClass('PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand');
 	}
 
 

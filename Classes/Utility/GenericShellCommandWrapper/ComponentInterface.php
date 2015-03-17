@@ -1,9 +1,8 @@
 <?php
-
-namespace PunktDe\PtExtbase\Logger\Processor;
+namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
 
 /***************************************************************
- *  Copyright (C) 2014 punkt.de GmbH
+ *  Copyright (C) 2015 punkt.de GmbH
  *  Authors: el_equipo <opiuqe_le@punkt.de>
  *
  *  This script is free software: you can redistribute it and/or modify
@@ -22,35 +21,16 @@ namespace PunktDe\PtExtbase\Logger\Processor;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \TYPO3\CMS\Core\Log\LogRecord;
-use \TYPO3\CMS\Core\Log\Processor\AbstractProcessor;
-
 /**
- * Replace Component Processor
+ * Component Interface
  *
- * This processor replaces the component of a log message by the first entry
- * of the logger data. This is a convention which is used by the pt_extbase
- * logger to allow different components within one logger.
- *
- * @package pt_extbase
+ * @package PunktDe\PtExtbase\Utility\GenericShellCommandWrapper
  */
-class ReplaceComponentProcessor extends AbstractProcessor {
+interface ComponentInterface {
 
 	/**
-	 * @param LogRecord $logRecord
-	 * @return LogRecord
+	 * @return array
 	 */
-	public function processLogRecord(LogRecord $logRecord) {
-		$data = $logRecord->getData();
-
-		if (array_key_exists('loggerComponent', $data)) {
-			$logRecord->setComponent($data['loggerComponent']);
-			unset($data['loggerComponent']);
-		}
-
-		$logRecord->setData($data);
-
-		return $logRecord;
-	}
+	public function toArray();
 
 }

@@ -114,6 +114,18 @@ class GitRepositoryTest extends UnitTestCase {
 	public function commandRendersValidCommand() {
 		$this->prepareShellCommandExpectations();
 
+		$this->proxy->cloneRepository()
+			->setRepository('file:///path/to/a/repository/of/chocolate.git')
+			->setDirectory('/path/to/checked/out/chocolate/')
+			->execute();
+
+		$this->proxy->cloneRepository()
+			->setRepository('file:///path/to/a/repository/of/chocolate.git')
+			->setDirectory('/path/to/checked/out/chocolate/')
+			->setDepth(1)
+			->setBranch('YummyTag')
+			->execute();
+
 		$this->proxy->checkout()
 			->setForce(TRUE)
 			->setQuiet(TRUE)
@@ -129,10 +141,12 @@ class GitRepositoryTest extends UnitTestCase {
 			->execute();
 
 		$this->proxy->config()
+			->setGlobal(TRUE)
 			->setUserName('Bud Spencer')
 			->execute();
 
 		$this->proxy->config()
+			->setGlobal(TRUE)
 			->setEmail('bud@spencer.it')
 			->execute();
 
@@ -160,6 +174,7 @@ class GitRepositoryTest extends UnitTestCase {
 		$this->proxy->tag()
 			->setName('v1.2.3')
 			->setSign(TRUE)
+			->setAnnotate(TRUE)
 			->setMessage('Release')
 			->execute();
 
@@ -169,6 +184,7 @@ class GitRepositoryTest extends UnitTestCase {
 
 		$this->proxy->add()
 			->setPath('.')
+			->setAll(TRUE)
 			->execute();
 
 		$this->proxy->status()
@@ -189,18 +205,20 @@ class GitRepositoryTest extends UnitTestCase {
 		$this->shellCommandServiceMock->expects($this->any())
 			->method('execute')
 			->withConsecutive(
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git clone file:///path/to/a/repository/of/chocolate.git /path/to/checked/out/chocolate/')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git clone --branch YummyTag --depth 1 file:///path/to/a/repository/of/chocolate.git /path/to/checked/out/chocolate/')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git checkout --force --quiet c0ca3ae2f34ef4dc024093f92547b43a4d9bd58a')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --max-count=10')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --pretty="%H"')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config user.name "Bud Spencer"')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config user.email "bud@spencer.it"')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config --global user.name "Bud Spencer"')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config --global user.email "bud@spencer.it"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote remove origin')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote add origin file:///tmp/punktde.git')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git init --bare --shared')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git push origin master')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag --sign --message "Release" v1.2.3')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag -s -a -m "Release" v1.2.3')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --message "This is a very cool message!"')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add .')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add --all .')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short --untracked-files=all')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --name-only'))
 			);

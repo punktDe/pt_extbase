@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Command;
+namespace PunktDe\PtExtbase\Utility\Varnish\Command;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -24,20 +24,19 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
 use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
 
 /**
- * Push Command
+ * Varnish Administration Command
  *
- * @package PunktDe\PtExtbase\Utility\Git\Command
+ * @package PunktDe\PtExtbase\Utility\Varnish\Command
  */
-class PushCommand extends GenericShellCommand {
+class VarnishAdministrationCommand extends GenericShellCommand {
 
 	/**
-	 * A list of allowed git command options
-	 *
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'remote' => '%s',
-		'refspec' => '%s'
+		'secretFile' => '-S %s',
+		'address' => '%s',
+		'port' => '%s'
 	);
 
 
@@ -45,29 +44,71 @@ class PushCommand extends GenericShellCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'remote' => '',
-		'refspec' => ''
+		'secretFile' => '',
+		'address' => '',
+		'port' => ''
 	);
 
 
+
 	/**
-	 * @param string $remote
+	 * @param string $secretFile
 	 * @return $this
 	 */
-	public function setRemote($remote) {
-		$this->arguments['remote'] = $remote;
+	public function setSecretFile($secretFile) {
+		$this->arguments['secretFile'] = $secretFile;
 		return $this;
 	}
 
 
 
 	/**
-	 * @param string $refspec
+	 * @param string $address
 	 * @return $this
 	 */
-	public function setRefspec($refspec) {
-		$this->arguments['refspec'] = $refspec;
+	public function setAddress($address) {
+		$this->arguments['address'] = $address;
 		return $this;
+	}
+
+
+
+	/**
+	 * @param string $port
+	 * @return $this
+	 */
+	public function setPort($port) {
+		$this->arguments['portMode'] = $port;
+		return $this;
+	}
+
+
+
+	/**
+	 * @return BanUrlCommand
+	 */
+	public function add() {
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Varnish\Command\Remote\BanUrlCommand');
+		$command->attachCommand($this);
+		return $command;
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function render() {
+		return sprintf("%s", $this->buildCommand());
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getCommandName() {
+		return 'varnishadm';
 	}
 
 }

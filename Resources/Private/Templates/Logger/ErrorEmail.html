@@ -1,3 +1,4 @@
+{namespace ptx=Tx_PtExtbase_ViewHelpers}
 *Server*
 {serverInformation.serverHostName}
 
@@ -5,8 +6,9 @@
 {logRecord.message}
 
 *Data*
-Request-Id: {requestId}<f:for each="{logRecord.data}" as="item">
-{item}</f:for>
+Request-Id: {requestId}<f:for each="{logRecord.data}" as="item" key="name">
+{name}: <f:if condition="{ptx:condition.isArray(value: '{item}')}"><f:then><f:for each="{item}" as="itemSubValue">
+{itemSubValue}</f:for></f:then><f:else>{item}</f:else></f:if></f:for>
 
 *User Agent*
 Operating System: {userAgent.operatingSystem}

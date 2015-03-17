@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+
 /**
  * Tag Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class TagCommand extends GitCommand {
+class TagCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -34,9 +36,9 @@ class TagCommand extends GitCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'sign' => '--sign',
-		'annotate' => '--annotate',
-		'message' => '--message "%s"'
+		'sign' => '-s',
+		'annotate' => '-a',
+		'message' => '-m "%s"'
 	);
 
 

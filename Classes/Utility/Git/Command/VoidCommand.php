@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+
 /**
  * Void Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class VoidCommand extends GitCommand {
+class VoidCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -63,15 +65,6 @@ class VoidCommand extends GitCommand {
 	 */
 	public function getCommandName() {
 		return '';
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
 	}
 
 }

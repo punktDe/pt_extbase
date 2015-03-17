@@ -24,11 +24,11 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
 use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
 
 /**
- * Push Command
+ * Clone Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class PushCommand extends GenericShellCommand {
+class CloneCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -36,8 +36,10 @@ class PushCommand extends GenericShellCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'remote' => '%s',
-		'refspec' => '%s'
+		'branch' => '--branch %s',
+		'depth' => '--depth %s',
+		'repository' => '%s',
+		'directory' => '%s',
 	);
 
 
@@ -45,28 +47,53 @@ class PushCommand extends GenericShellCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'remote' => '',
-		'refspec' => ''
+		'branch' => '',
+		'depth' => '',
+		'repository' => '',
+		'directory' => ''
 	);
 
 
+
 	/**
-	 * @param string $remote
+	 * @param string $branch
 	 * @return $this
 	 */
-	public function setRemote($remote) {
-		$this->arguments['remote'] = $remote;
+	public function setBranch($branch) {
+		$this->arguments['branch'] = $branch;
 		return $this;
 	}
 
 
 
 	/**
-	 * @param string $refspec
+	 * @param integer $depth
 	 * @return $this
 	 */
-	public function setRefspec($refspec) {
-		$this->arguments['refspec'] = $refspec;
+	public function setDepth($depth) {
+		$this->arguments['depth'] = $depth;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param string $repository
+	 * @return $this
+	 */
+	public function setRepository($repository) {
+		$this->arguments['repository'] = $repository;
+		return $this;
+	}
+
+
+
+	/**
+	 * @param string $directory
+	 * @return $this
+	 */
+	public function setDirectory($directory) {
+		$this->arguments['directory'] = $directory;
 		return $this;
 	}
 

@@ -74,11 +74,30 @@ class ShellCommandService implements SingletonInterface {
 
 
 	/**
+	 * @var boolean
+	 */
+	protected $simulateMode = FALSE;
+
+
+	/**
 	 * @param mixed $command The shell command to execute, either string or array of commands
 	 * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code and $ignoreErrors was enabled.
 	 */
 	public function execute($command) {
 		$this->command = $command;
+		if ($this->simulateMode === TRUE) {
+			return $this->returnedOutput;
+		}
+		return $this->executeCommand($command);
+	}
+
+
+
+	/**
+	 * @param string $command
+	 * @return string
+	 */
+	protected function executeCommand($command) {
 		if ($this->hostname === 'localhost') {
 			list($this->exitCode, $this->returnedOutput) = $this->executeLocalCommand();
 		} else {
@@ -86,6 +105,7 @@ class ShellCommandService implements SingletonInterface {
 		}
 		$this->checkResult();
 		return $this->returnedOutput;
+
 	}
 
 
@@ -151,7 +171,7 @@ class ShellCommandService implements SingletonInterface {
 	 */
 	protected function checkResult() {
 		if ($this->exitCode !== 0) {
-			$this->logger->error(sprintf("Shell command \"%s\" return exist status %s", $this->command, $this->exitCode), __CLASS__);
+			$this->logger->error(sprintf("Shell command \"%s\" returned exist status %s", $this->command, $this->exitCode), __CLASS__);
 		}
 	}
 
@@ -189,6 +209,48 @@ class ShellCommandService implements SingletonInterface {
 	 */
 	public function getExitCode() {
 		return $this->exitCode;
+	}
+
+
+
+	/**
+	 * @param boolean $simulateMode
+	 */
+	public function setSimulateMode($simulateMode) {
+		$this->simulateMode = $simulateMode;
+	}
+
+
+
+	/**
+	 * Used for tests
+	 *
+	 * @return string
+	 */
+	public function getCommand() {
+		return $this->command;
+	}
+
+
+
+	/**
+	 * Used for tests
+	 *
+	 * @param integer $simulatedExitCode
+	 */
+	public function setSimulatedExitCode($simulatedExitCode) {
+		$this->exitCode = $simulatedExitCode;
+	}
+
+
+
+	/**
+	 * Used for tests
+	 *
+	 * @param string $simulatedReturnedOutput
+	 */
+	public function setSimulatedReturnedOutput($simulatedReturnedOutput) {
+		$this->returnedOutput = $simulatedReturnedOutput;
 	}
 
 }

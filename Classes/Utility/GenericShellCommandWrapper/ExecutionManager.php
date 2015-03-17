@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git;
+namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -21,21 +21,33 @@ namespace PunktDe\PtExtbase\Utility\Git;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\Files;
-use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ExecutionManager;
-use PunktDe\PtExtbase\Utility\Git\Command;
+use TYPO3\CMS\Core\SingletonInterface;
 
 /**
- * Git Execution Manager
+ * Execution Manager
  *
- * @package PunktDe\PtExtbase\Utility\Git
+ * @package PunktDe\PtExtbase\Utility\GenericShellCommandWrapper
  */
-class GitExecutionManager extends ExecutionManager {
+class ExecutionManager implements SingletonInterface {
 
 	/**
-	 * @var \PunktDe\PtExtbase\Utility\Git\GitRepository
+	 * @inject
+	 * @var \PunktDe\PtExtbase\Utility\ShellCommandService
 	 */
-	protected $repository;
+	protected $shellCommandService;
+
+
+	/**
+	 * @inject
+	 * @var \Tx_PtExtbase_Logger_Logger
+	 */
+	protected $logger;
+
+
+	/**
+	 * @var GenericShellCommand
+	 */
+	protected $command;
 
 
 	/**
@@ -45,19 +57,33 @@ class GitExecutionManager extends ExecutionManager {
 
 
 	/**
+	 * @param GenericShellCommand $command
 	 * @return string
 	 */
-	protected function renderCommand() {
-		$this->commandLine = sprintf('cd %s; %s --git-dir=%s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), Files::concatenatePaths(array($this->repository->getRepositoryRootPath(), '.git')), $this->command->render());
-    }
+	public function execute($command) {
+		$this->command = $command;
+		$this->renderCommand();
+		return array($this->executeCommandLineOnShell(), $this->shellCommandService->getExitCode());
+	}
 
 
 
 	/**
-	 * @param \PunktDe\PtExtbase\Utility\Git\GitRepository $repository
+	 * @return string
 	 */
-	public function setRepository($repository) {
-		$this->repository = $repository;
+	protected function renderCommand() {
+		$this->commandLine = sprintf('%s', $this->command->render());
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	protected function executeCommandLineOnShell() {
+		$this->logger->debug(sprintf("Running command %s", $this->commandLine), __CLASS__);
+		$this->shellCommandService->setRedirectStandardErrorToStandardOut(TRUE);
+		return $this->shellCommandService->execute($this->commandLine);
 	}
 
 }

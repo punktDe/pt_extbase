@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Result;
+namespace PunktDe\PtExtbase\Utility\Varnish\Result;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -21,26 +21,20 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\AbstractResult;
 
 /**
  * Result
  *
- * @package PunktDe\PtExtbase\Utility\Git\Result
+ * @package PunktDe\PtExtbase\Utility\Varnish\Result
  */
-class ResultObjectStorage extends ObjectStorage implements ComponentInterface {
+class Result extends AbstractResult {
 
 	/**
-	 * @return array
+	 * @return void
 	 */
-	public function toArray() {
-		$array = array();
-		$storage = array_values($this->storage);
-		foreach ($storage as $item) {
-			$object =  $item['obj'];  /** @var ComponentInterface $object */
-			$array[] = $object->toArray();
-		}
-		return $array;
+	protected function buildResult() {
+
 	}
 
 }

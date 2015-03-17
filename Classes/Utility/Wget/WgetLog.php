@@ -67,6 +67,23 @@ class WgetLog extends \Tx_PtExtbase_Collection_ObjectCollection {
 		return $errorEntries;
 	}
 
+
+	/**
+	 * @return WgetLog
+	 */
+	public function getSuccessful() {
+		$sucessfulEntries = new WgetLog();
+
+		foreach($this->itemsArr as $logEntry) {
+			if(!$logEntry->isError()) {
+				$sucessfulEntries->addLogEntry($logEntry);
+			}
+		}
+
+		return $sucessfulEntries;
+	}
+
+
 	/**
 	 * @return array
 	 */
@@ -74,13 +91,7 @@ class WgetLog extends \Tx_PtExtbase_Collection_ObjectCollection {
 		$logArray = array();
 
 		foreach($this->itemsArr as $logEntry) { /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
-
-			$logArray[] = array(
-				'date' => $logEntry->getFetchDate(),
-				'url' => $logEntry->getUrl(),
-				'status' => $logEntry->getStatus(),
-				'length' => $logEntry->getContentLength()
-			);
+			$logArray[] = $logEntry->toArray();
 		}
 
 		return $logArray;

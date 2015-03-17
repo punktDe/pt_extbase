@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+
 /**
  * Log Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class LogCommand extends GitCommand {
+class LogCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -80,15 +82,6 @@ class LogCommand extends GitCommand {
 	public function setMaxCount($maxCount) {
 		$this->arguments['maxCount'] = $maxCount;
 		return $this;
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
 	}
 
 }

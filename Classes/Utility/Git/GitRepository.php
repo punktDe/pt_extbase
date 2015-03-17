@@ -21,7 +21,7 @@ namespace PunktDe\PtExtbase\Utility\Git;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\Git\Command;
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
 use PunktDe\PtExtbase\Utility\Files;
 
 /**
@@ -197,6 +197,19 @@ class GitRepository {
 
 
 	/**
+	 * Clone Repository
+	 *
+	 * "clone" is a PHP key word. Thus, "cloneRepository" is used instead.
+	 *
+	 * @return Command\CloneCommand
+	 */
+	public function cloneRepository() {
+		return $this->createCommandForRepository('Clone');
+	}
+
+
+
+	/**
 	 * @return boolean
 	 */
 	public function exists() {
@@ -219,7 +232,7 @@ class GitRepository {
 	
 	/**
 	 * @param string $commandName
-	 * @return Command\GitCommand
+	 * @return GenericShellCommand
 	 */
 	protected function createCommandForRepository($commandName) {
 		$this->gitExecutionManager->setRepository($this);

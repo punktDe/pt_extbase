@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Command;
+namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -21,16 +21,16 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\Git\Result\Result;
-
 /**
- * Git Command
+ * Generic Shell Command
  *
- * @package PunktDe\PtExtbase\Utility\Git\Command
+ * @package PunktDe\PtExtbase\Utility\GenericShellCommandWrapper
  */
-abstract class GitCommand {
+class GenericShellCommand {
 
 	/**
+	 * A list of allowed command options
+	 *
 	 * @var array
 	 */
 	protected $argumentMap = array();
@@ -49,6 +49,12 @@ abstract class GitCommand {
 
 
 	/**
+	 * @var GenericShellCommand
+	 */
+	protected $subCommand;
+
+
+	/**
 	 * @inject
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
 	 */
@@ -60,12 +66,6 @@ abstract class GitCommand {
 	 * @var \Tx_PtExtbase_Logger_Logger
 	 */
 	protected $logger;
-
-
-	/**
-	 * @var GitCommand
-	 */
-	protected $subCommand;
 
 
 	/**
@@ -83,7 +83,6 @@ abstract class GitCommand {
 				}
 			}
 		}
-
 		return $arguments;
 	}
 
@@ -95,7 +94,7 @@ abstract class GitCommand {
 	protected function buildCommand() {
 		$arguments = $this->buildArguments();
 		array_unshift($arguments, $this->getCommandName());
-		if ($this->subCommand instanceof GitCommand) {
+		if ($this->subCommand instanceof GenericShellCommand) {
 			array_unshift($arguments, $this->subCommand->render());
 		}
 		return implode(' ', $arguments);
@@ -104,7 +103,7 @@ abstract class GitCommand {
 
 
 	/**
-	 * @return Result
+	 * @return AbstractResult
 	 */
 	public function execute() {
 		return $this->objectManager->get($this->getResultType(), $this);
@@ -140,10 +139,10 @@ abstract class GitCommand {
 
 
 	/**
-	 * @param GitCommand $command
+	 * @param GenericShellCommand $command
 	 * @return void
 	 */
-	protected function attachCommand(GitCommand $command) {
+	protected function attachCommand(GenericShellCommand $command) {
 		$this->subCommand = $command;
 	}
 
@@ -163,6 +162,8 @@ abstract class GitCommand {
 	/**
 	 * @return string
 	 */
-	abstract public function render();
+	public function render() {
+		return $this->buildCommand();
+	}
 
 }

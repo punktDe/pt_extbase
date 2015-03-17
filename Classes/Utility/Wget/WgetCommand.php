@@ -56,6 +56,7 @@ class WgetCommand {
 		'noVerbose' => '--no-verbose',
 		'recursive' => '--recursive',
 		'noParent' => '--no-parent',
+		'noProxy' => '--no-proxy'
 	);
 
 
@@ -223,6 +224,13 @@ class WgetCommand {
 	 * @var boolean
 	 */
 	protected $noParent;
+
+
+	/**
+	 * @var boolean
+	 */
+	protected $noProxy;
+
 
 	/**
 	 * @param string $wgetBinaryPath
@@ -474,6 +482,16 @@ class WgetCommand {
 		return $this;
 	}
 
+	/**
+	 * @param boolean $noProxy
+	 * @return $this
+	 */
+	public function setNoProxy($noProxy) {
+		$this->noProxy = $noProxy;
+		return $this;
+	}
+
+
 
 	/**
 	 * @return string
@@ -513,9 +531,11 @@ class WgetCommand {
 		$command = $this->buildCommand();
 		TimeTracker::start($command);
 
-		exec($command, $outputLines);
+		$this->logger->debug('Executing WGet command ' . $command, __CLASS__);
 
-		$this->logger->debug('Called WGet command ' . $command, __CLASS__, array('time' => TimeTracker::stop($command)));
+		exec($command, $outputLines, $returnVar);
+
+		$this->logger->debug('Called WGet command returned status ' . $returnVar, __CLASS__, array('time' => TimeTracker::stop($command)));
 
 		return implode('\n', $outputLines);
 	}

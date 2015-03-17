@@ -22,11 +22,11 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  ***************************************************************/
 
 /**
- * Path Status
+ * Status Result
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-class StatusResult extends AbstractResult {
+class StatusResult extends Result {
 
 	/**
 	 * @const LOG_LINE_SEPARATOR
@@ -48,7 +48,7 @@ class StatusResult extends AbstractResult {
 	 * @return void
 	 */
 	protected function buildResult() {
-		if ($this->gitCommand->isShort()) {
+		if ($this->command->isShort()) {
 			$this->parseShortStatusResult();
 		}
 	}

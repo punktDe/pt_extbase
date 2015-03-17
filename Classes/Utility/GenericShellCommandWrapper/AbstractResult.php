@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Result;
+namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -22,7 +22,6 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  ***************************************************************/
 
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
-use PunktDe\PtExtbase\Utility\ShellCommandService;
 
 /**
  * Abstract Result
@@ -47,15 +46,15 @@ abstract class AbstractResult {
 
 	/**
 	 * @inject
-	 * @var \PunktDe\PtExtbase\Utility\Git\GitExecutionManager
+	 * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ExecutionManager
 	 */
-	protected $gitExecutionManager;
+	protected $executionManager;
 
 
 	/**
-	 * @var \PunktDe\PtExtbase\Utility\Git\Command\GitCommand
+	 * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand
 	 */
-	protected $gitCommand;
+	protected $command;
 
 
 	/**
@@ -77,10 +76,10 @@ abstract class AbstractResult {
 
 
 	/**
-	 * @param \PunktDe\PtExtbase\Utility\Git\Command\GitCommand $gitCommand
+	 * @param \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand $command
 	 */
-	public function __construct($gitCommand) {
-		$this->gitCommand = $gitCommand;
+	public function __construct($command) {
+		$this->command = $command;
 	}
 
 
@@ -88,8 +87,8 @@ abstract class AbstractResult {
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->result = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Result\ResultObjectStorage');
-		list($this->rawResult, $this->exitCode) = $this->gitExecutionManager->execute($this->gitCommand);
+		$this->result = $this->objectManager->get('PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ResultObjectStorage');
+		list($this->rawResult, $this->exitCode) = $this->executionManager->execute($this->command);
 	}
 
 
@@ -134,7 +133,7 @@ abstract class AbstractResult {
 	 */
 	public function getResult() {
 		if (count($this->result) === 0) {
-			$this->logger->info(sprintf("git command result size is %s bytes", strlen($this->rawResult)), __CLASS__);
+			$this->logger->info(sprintf("Command result size is %s bytes", strlen($this->rawResult)), __CLASS__);
 			$this->buildResult();
 		}
 		return $this->result;

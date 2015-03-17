@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Command;
+namespace PunktDe\PtExtbase\Utility\Varnish;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -22,23 +22,27 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+use PunktDe\PtExtbase\Utility\Varnish\Command;
 
 /**
- * Config Command
+ * Varnish Administration
  *
- * @package PunktDe\PtExtbase\Utility\Git\Command
+ * @package PunktDe\PtExtbase\Utility\Varnish
  */
-class ConfigCommand extends GenericShellCommand {
+class VarnishAdministration extends GenericShellCommand {
 
 	/**
-	 * A list of allowed git command options
-	 *
+	 * @var string
+	 */
+	protected $commandPath = '/usr/bin/varnishadm';
+
+
+	/**
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'global' => '--global',
-		'username' => 'user.name "%s"',
-		'email' => 'user.email "%s"'
+		'secretFile' => '-S %s',
+		'addressAndPort' => '-T %s'
 	);
 
 
@@ -46,41 +50,66 @@ class ConfigCommand extends GenericShellCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'global' => FALSE,
-		'username' => '',
-		'email' => ''
+		'secretFile' => '',
+		'addressAndPort' => ''
 	);
 
 
 	/**
-	 * @param boolean $global
+	 * @param string $commandDirectory
+	 */
+	public function __construct($commandDirectory) {
+		$this->commandPath = $commandDirectory;
+	}
+
+
+	/**
+	 * @param string $secretFile
 	 * @return $this
 	 */
-	public function setGlobal($global) {
-		$this->arguments['global'] = $global;
+	public function setSecretFile($secretFile) {
+		$this->arguments['secretFile'] = $secretFile;
 		return $this;
 	}
 
 
 
 	/**
-	 * @param string $username
+	 * @param string $addressAndPort
 	 * @return $this
 	 */
-	public function setUserName($username) {
-		$this->arguments['username'] = $username;
+	public function setAddressAndPort($addressAndPort) {
+		$this->arguments['addressAndPort'] = $addressAndPort;
 		return $this;
 	}
 
 
 
 	/**
-	 * @param string $email
-	 * @return $this
+	 * @return \PunktDe\PtExtbase\Utility\Varnish\Command\BanUrlCommand
 	 */
-	public function setEmail($email) {
-		$this->arguments['email'] = $email;
-		return $this;
+	public function banUrl() {
+		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Varnish\Command\BanUrlCommand');
+		$command->attachCommand($this);
+		return $command;
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function render() {
+		return sprintf("%s", $this->buildCommand());
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	public function getCommandName() {
+		return $this->commandPath;
 	}
 
 }

@@ -21,26 +21,32 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+
 /**
  * Add Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class AddCommand extends GitCommand {
+class AddCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
 	 *
 	 * @var array
 	 */
-	protected $argumentMap = array();
+	protected $argumentMap = array(
+		'all' => '--all',
+		'path' => '%s'
+	);
 
 
 	/**
 	 * @var array
 	 */
 	protected $arguments = array(
-		'path' => ''
+		'path' => '',
+		'all' => FALSE
 	);
 
 
@@ -56,12 +62,12 @@ class AddCommand extends GitCommand {
 
 
 	/**
-	 * @return string
+	 * @param boolean $all
+	 * @return $this
 	 */
-	public function render() {
-		$command[] = $this->buildCommand();
-		$command[] = $this->arguments['path'];
-		return implode(' ', $command);
+	public function setAll($all) {
+		$this->arguments['all'] = $all;
+		return $this;
 	}
 
 }

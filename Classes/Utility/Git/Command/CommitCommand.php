@@ -21,12 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+
 /**
  * Commit Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class CommitCommand extends GitCommand {
+class CommitCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -54,15 +56,6 @@ class CommitCommand extends GitCommand {
 	public function setMessage($message) {
 		$this->arguments['message'] = sprintf("\"%s\"", $message);
 		return $this;
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
 	}
 
 }

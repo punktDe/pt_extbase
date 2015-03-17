@@ -22,15 +22,9 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  ***************************************************************/
 
 /**
- * Component Interface
+ * Push Result
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-interface ComponentInterface {
-
-	/**
-	 * @return array
-	 */
-	public function toArray();
-
+class PushResult extends Result {
 }

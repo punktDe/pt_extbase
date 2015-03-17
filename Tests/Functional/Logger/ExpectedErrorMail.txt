@@ -1,3 +1,4 @@
+
 *Server*
 spiderman.web.net
 
@@ -6,9 +7,14 @@ The fantastic three
 
 *Data*
 Request-Id: CongratulationsThisIsRequestNumber1000000
-Summer
-Sun
-Sunshine
+time: 42.1337
+name: Summer
+part: Sun
+multiPart:
+a
+b
+c
+weather: Sunshine
 
 *User Agent*
 Operating System: Mac OS X

@@ -94,7 +94,7 @@ class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
 				'loggerConfigurationConfiguration' => array(
 				),
-				'expected' => ''
+				'expected' => 'PTEXTBASE'
 			),
 			'onlyWriterConfigurationAvailable' => array(
 				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
@@ -105,7 +105,7 @@ class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 						)
 					)
 				),
-				'expected' => 'Tx'
+				'expected' => 'PTEXTBASE.Tx'
 			),
 			'onlyProcessorConfigurationAvailable' => array(
 				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
@@ -116,7 +116,7 @@ class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 						)
 					)
 				),
-				'expected' => 'Tx'
+				'expected' => 'PTEXTBASE.Tx'
 			),
 			'levelTwoConfigurationAvailable' => array(
 				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
@@ -129,7 +129,7 @@ class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 						)
 					)
 				),
-				'expected' => 'Tx.Acme'
+				'expected' => 'PTEXTBASE.Tx.Acme'
 			),
 			'maximumSpecificConfigurationAvailable' => array(
 				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
@@ -146,7 +146,7 @@ class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 						)
 					)
 				),
-				'expected' => 'Tx.Acme.Utility.ToonDrawer'
+				'expected' => 'PTEXTBASE.Tx.Acme.Utility.ToonDrawer'
 			),
 			'writerAndProcessorWithConfigurationOfUnequalSpecificityAvailable' => array(
 				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
@@ -166,7 +166,7 @@ class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 						)
 					)
 				),
-				'expected' => 'Tx.Acme.Utility.ToonDrawer'
+				'expected' => 'PTEXTBASE.Tx.Acme.Utility.ToonDrawer'
 			)
 		);
 	}
@@ -212,8 +212,8 @@ class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 				),
 				'expectedLoggerIndexKeys' => array(
 					'',
-					'Tx.Acme',
-					'Tx',
+					'PTEXTBASE.Tx.Acme',
+					'PTEXTBASE.Tx',
 				)
 			),
 		);
@@ -240,4 +240,3 @@ class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$this->assertSame($expectedLoggerIndexKeys, $actualLoggerIndexKeys, 'Expected and actual logger index keys are not equal');
 	}
 }
-

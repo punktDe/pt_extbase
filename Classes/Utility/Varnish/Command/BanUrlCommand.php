@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Command;
+namespace PunktDe\PtExtbase\Utility\Varnish\Command;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -24,11 +24,11 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
 use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
 
 /**
- * Push Command
+ * Ban URL Command
  *
- * @package PunktDe\PtExtbase\Utility\Git\Command
+ * @package PunktDe\PtExtbase\Utility\Varnish\Command
  */
-class PushCommand extends GenericShellCommand {
+class BanUrlCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -36,8 +36,7 @@ class PushCommand extends GenericShellCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
-		'remote' => '%s',
-		'refspec' => '%s'
+		'url' => '%s'
 	);
 
 
@@ -45,29 +44,42 @@ class PushCommand extends GenericShellCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
-		'remote' => '',
-		'refspec' => ''
+		'url' => '',
 	);
 
 
+
 	/**
-	 * @param string $remote
+	 * @param string $url
 	 * @return $this
 	 */
-	public function setRemote($remote) {
-		$this->arguments['remote'] = $remote;
+	public function setUrl($url) {
+		$this->arguments['url'] = $url;
 		return $this;
 	}
 
 
 
 	/**
-	 * @param string $refspec
-	 * @return $this
+	 * @return string
 	 */
-	public function setRefspec($refspec) {
-		$this->arguments['refspec'] = $refspec;
-		return $this;
+	public function getCommandName() {
+		return 'ban.url';
+	}
+
+
+
+	/**
+	 * @return string
+	 */
+	protected function buildCommand() {
+		$arguments = $this->buildArguments();
+		array_unshift($arguments, $this->getCommandName());
+		$arguments = array(sprintf("\"%s\"", implode(' ', $arguments)));
+		if ($this->subCommand instanceof GenericShellCommand) {
+			array_unshift($arguments, $this->subCommand->render());
+		}
+		return implode(' ', $arguments);
 	}
 
 }

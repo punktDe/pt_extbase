@@ -21,14 +21,14 @@ namespace PunktDe\PtExtbase\Utility\Git\Command\Remote;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\Git\Command\GitCommand;
+use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
 
 /**
  * Remote Remove Command
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command\Remote
  */
-class RemoveCommand extends GitCommand {
+class RemoveCommand extends GenericShellCommand {
 
 	/**
 	 * A list of allowed git command options
@@ -48,7 +48,6 @@ class RemoveCommand extends GitCommand {
 	);
 
 
-
 	/**
 	 * @param string $name
 	 * @return $this
@@ -56,15 +55,6 @@ class RemoveCommand extends GitCommand {
 	public function setName($name) {
 		$this->arguments['name'] = $name;
 		return $this;
-	}
-
-
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
 	}
 
 }
