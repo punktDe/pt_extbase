@@ -43,6 +43,11 @@ class Request {
 	protected $url;
 
 
+	/**
+	 * @var array
+	 */
+	protected $header;
+
 
 	/**
 	 * Post Data to a defined URL
@@ -68,6 +73,9 @@ class Request {
 	protected function buildRequest() {
 		$request = curl_init($this->url);
 		curl_setopt_array($request, $this->curlOptions);
+
+		if(count($this->header)) curl_setopt($request, CURLOPT_HTTPHEADER, $this->header);
+
 		return $request;
 	}
 
@@ -129,5 +137,14 @@ class Request {
 	 */
 	public function setCurlOption($curlOptionKey, $curlOptionValue) {
 		$this->curlOptions[$curlOptionKey] = $curlOptionValue;
+	}
+
+
+	/**
+	 * @param $key
+	 * @param $value
+	 */
+	public function addHeader($key, $value) {
+		$this->header[$key] = $value;
 	}
 } 

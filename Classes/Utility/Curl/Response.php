@@ -135,7 +135,7 @@ class Response {
 
 	/**
 	 * @param string $key
-	 * @return string
+	 * @return string|array
 	 */
 	public function getHeader($key = '') {
 		if($key === '') {
@@ -145,8 +145,9 @@ class Response {
 				return $this->header[$key];
 			}
 		}
-	}
 
+		return '';
+	}
 
 
 	/**
