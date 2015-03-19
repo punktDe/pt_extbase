@@ -67,7 +67,10 @@ class CurlTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$this->assertEquals(0, $response->getErrorNumber());
 
 		$this->assertFalse(stristr($response->getBody(), 'HTTP/1.1 200 OK'));
-		$this->assertTrue(FALSE !== strpos($response->getHeader(), 'HTTP/1.1 200 OK'));
+
+		$this->assertTrue(is_array($response->getHeader()));
+		$this->assertEquals('HTTP/1.1 200 OK', $response->getHeader('http_code'));
+		$this->assertEquals('text/html', $response->getHeader('Content-Type'));
 	}
 
 

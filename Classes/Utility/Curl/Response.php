@@ -44,7 +44,7 @@ class Response {
 	/**
 	 * @var string
 	 */
-	protected $header;
+	protected $header = array();
 
 
 	/**
@@ -97,7 +97,18 @@ class Response {
 	 */
 	protected function processResult($resultData) {
 		$this->body = substr($resultData, $this->headerSize);
-		$this->header = substr($resultData, 0, $this->headerSize);
+
+		$headerText = substr($resultData, 0, $this->headerSize);
+
+
+		foreach (explode("\r\n", $headerText) as $i => $headerLine) {
+			if ($i === 0) {
+				$this->header['http_code'] = $headerLine;
+			} else {
+				list ($key, $value) = explode(': ', $headerLine);
+				$this->header[$key] = $value;
+			}
+		}
 	}
 
 	/**
@@ -121,12 +132,22 @@ class Response {
 		return $this->httpCode;
 	}
 
+
 	/**
+	 * @param string $key
 	 * @return string
 	 */
-	public function getHeader() {
-		return $this->header;
+	public function getHeader($key = '') {
+		if($key === '') {
+			return $this->header;
+		} else {
+			if(array_key_exists($key, $this->header)) {
+				return $this->header[$key];
+			}
+		}
 	}
+
+
 
 	/**
 	 * @return string
