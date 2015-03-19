@@ -61,6 +61,17 @@ class Request {
 		return $this->executeRequest($request);
 	}
 
+	/**
+	 *  get data of a defined URL
+	 *
+	 * @return Response
+	 */
+	public function get() {
+		$request = $this->buildRequest();
+
+		return $this->executeRequest($request);
+	}
+
 
 	/**
 	 * @return resource
