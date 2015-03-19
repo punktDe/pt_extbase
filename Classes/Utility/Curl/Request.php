@@ -29,92 +29,33 @@ namespace PunktDe\PtExtbase\Utility\Curl;
 class Request {
 
 	/**
+	 * @var array
+	 */
+	protected $curlOptions = array(
+		CURLOPT_RETURNTRANSFER => TRUE,
+		CURLOPT_HEADER => TRUE
+	);
+
+
+	/**
 	 * @var string
 	 */
 	protected $url;
 
 
-	/**
-	 * @var string
-	 */
-	protected $proxyUrl = '';
-
-
-	/**
-	 * @var \Tx_PtExtbase_Logger_Logger
-	 */
-	protected $logger;
-
-
-	/**
-	 * @var integer
-	 */
-	protected $timeOut;
-
-
-	/**
-	 * @var string
-	 */
-	protected $header;
-
-
-	/**
-	 * @var integer
-	 */
-	protected $httpCode;
-
-
-	/**
-	 * @var string
-	 */
-	protected $result;
-
-
-	/**
-	 * @var boolean
-	 */
-	protected $requestSucceeded = FALSE;
-
-
-	/**
-	 * @var string
-	 */
-	protected $cookieFilePath;
-
-
-	/**
-	 * @var integer
-	 */
-	protected $errorNumber;
-
-
-	/**
-	 * @var string
-	 */
-	protected $errorMessage;
-
-
-	/**
-	 * @param \Tx_PtExtbase_Logger_Logger $logger
-	 * @return void
-	 */
-	public function inject(\Tx_PtExtbase_Logger_Logger $logger) {
-		$this->logger = $logger;
-	}
-
 
 	/**
 	 * Post Data to a defined URL
 	 *
-	 * @param string $data
-	 * @return bool
+	 * @param array $data
+	 * @return Response
 	 */
-	public function post($data = '') {
+	public function post($data = array()) {
 		$request = $this->buildRequest();
 
 		curl_setopt_array($request, array(
 			CURLOPT_POST => TRUE,
-			CURLOPT_POSTFIELDS => $data
+			CURLOPT_POSTFIELDS => http_build_query($data)
 		));
 
 		return $this->executeRequest($request);
@@ -126,48 +67,20 @@ class Request {
 	 */
 	protected function buildRequest() {
 		$request = curl_init($this->url);
-
-		curl_setopt_array($request, array(
-			CURLOPT_RETURNTRANSFER => TRUE,
-			CURLOPT_TIMEOUT => $this->timeOut,
-		));
-
-		if($this->proxyUrl) curl_setopt($request, CURLOPT_PROXY, $this->proxyUrl);
-		if($this->cookieFilePath) curl_setopt($request, CURLOPT_COOKIEJAR, $this->cookieFilePath);
-
+		curl_setopt_array($request, $this->curlOptions);
 		return $request;
 	}
 
 
 	/**
 	 * @param $request
-	 * @return bool
+	 * @return Response
 	 */
 	protected function executeRequest($request) {
-		$this->result = curl_exec($request);
-		return $this->handleResponse($request);
+		$resultData = curl_exec($request);
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('PunktDe\\PtExtbase\\Utility\\Curl\\Response', $request, $resultData);
 	}
 
-
-	/**
-	 * @param $request
-	 * @return bool
-	 */
-	protected function handleResponse($request) {
-		$requestSucceeded = TRUE;
-
-		$this->httpCode = (int) curl_getinfo($request, CURLINFO_HTTP_CODE);
-
-		if(curl_errno($request) > 0 || $this->httpCode !== 200) {
-			$this->errorNumber = curl_errno($request);
-			$this->errorMessage = curl_error($request);
-			$requestSucceeded = FALSE;
-		}
-
-		curl_close($request);
-
-		return $requestSucceeded;
-	}
 
 
 	/**
@@ -184,8 +97,8 @@ class Request {
 	 * @param string $proxyUrl
 	 * @return $this
 	 */
-	public function setProxyUrl($proxyUrl) {
-		$this->proxyUrl = $proxyUrl;
+	public function setProxy($proxyUrl) {
+		$this->setCurlOption(CURLOPT_PROXY, $proxyUrl);
 		return $this;
 	}
 
@@ -195,15 +108,26 @@ class Request {
 	 * @return $this
 	 */
 	public function setTimeOut($timeOut) {
-		$this->timeOut = $timeOut;
+		$this->setCurlOption(CURLOPT_TIMEOUT, $timeOut);
 		return $this;
 	}
 
 
 	/**
 	 * @param $cookieFilePath
+	 * @return $this
 	 */
 	public function useCookiesFromFile($cookieFilePath) {
-		$this->cookieFilePath = $cookieFilePath;
+		$this->setCurlOption(CURLOPT_COOKIEJAR, $cookieFilePath);
+		return $this;
+	}
+
+
+	/**
+	 * @param $curlOptionKey
+	 * @param $curlOptionValue
+	 */
+	public function setCurlOption($curlOptionKey, $curlOptionValue) {
+		$this->curlOptions[$curlOptionKey] = $curlOptionValue;
 	}
 } 
