@@ -85,6 +85,6 @@ class CurlTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$this->assertFalse($response->isRequestSucceeded());
 		$this->assertEquals(0, $response->getHttpCode());
 		$this->assertEquals(6, $response->getErrorNumber());
-		$this->assertRegExp('/Could( not|n\'t) resolve host: nonExistent\.url/', $response->getErrorMessage());
+		$this->assertRegExp('Could( not|n\'t) resolve host: nonExistent\.url', $response->getErrorMessage());
 	}
 }
