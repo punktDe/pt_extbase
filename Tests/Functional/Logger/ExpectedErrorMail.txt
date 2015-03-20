@@ -10,7 +10,7 @@ Request-Id: CongratulationsThisIsRequestNumber1000000
 time: 42.1337
 name: Summer
 part: Sun
-multiPart:
+multiPart: 
 a
 b
 c
