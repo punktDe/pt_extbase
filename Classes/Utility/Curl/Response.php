@@ -36,6 +36,14 @@ class Response {
 
 
 	/**
+	 * Defines which status codes are errors
+	 *
+	 * @var array
+	 */
+	protected $errorStatusPattern = '[4,5]..';
+
+
+	/**
 	 * @var string
 	 */
 	protected $body;
@@ -71,6 +79,12 @@ class Response {
 	protected $errorMessage;
 
 
+	/**
+	 * @var integer
+	 */
+	protected $requestTime;
+
+
 
 	public function __construct($request, $resultData) {
 
@@ -79,8 +93,9 @@ class Response {
 
 		$this->httpCode = (int) curl_getinfo($request, CURLINFO_HTTP_CODE);
 		$this->headerSize = (int) curl_getinfo($request, CURLINFO_HEADER_SIZE);
+		$this->requestTime = (int) curl_getinfo($request, CURLINFO_TOTAL_TIME);
 
-		if($this->errorNumber > 0) {
+		if($this->errorNumber > 0 || preg_match(sprintf('/%s/', $this->errorStatusPattern), (string) $this->httpCode) != 0) {
 			$this->requestSucceeded = FALSE;
 		} else {
 			$this->requestSucceeded = TRUE;
@@ -99,7 +114,6 @@ class Response {
 		$this->body = substr($resultData, $this->headerSize);
 
 		$headerText = substr($resultData, 0, $this->headerSize);
-
 
 		foreach (explode("\r\n", $headerText) as $i => $headerLine) {
 			if ($i === 0) {
@@ -130,6 +144,13 @@ class Response {
 	 */
 	public function getHttpCode() {
 		return $this->httpCode;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRequestTime() {
+		return $this->requestTime;
 	}
 
 

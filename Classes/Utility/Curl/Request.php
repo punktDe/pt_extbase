@@ -83,6 +83,7 @@ class Request {
 	 */
 	protected function buildRequest() {
 		$request = curl_init($this->url);
+
 		curl_setopt_array($request, $this->curlOptions);
 
 		if(count($this->header)) curl_setopt($request, CURLOPT_HTTPHEADER, $this->header);
@@ -123,6 +124,16 @@ class Request {
 
 
 	/**
+	 * @param $verifySSL
+	 * @return $this
+	 */
+	public function setVerifySSL($verifySSL) {
+		$this->setCurlOption(CURLOPT_SSL_VERIFYPEER, $verifySSL);
+		return $this;
+	}
+
+
+	/**
 	 * @param integer $timeOut
 	 * @return $this
 	 */
@@ -138,6 +149,7 @@ class Request {
 	 */
 	public function useCookiesFromFile($cookieFilePath) {
 		$this->setCurlOption(CURLOPT_COOKIEJAR, $cookieFilePath);
+		$this->setCurlOption(CURLOPT_COOKIEFILE, $cookieFilePath);
 		return $this;
 	}
 
