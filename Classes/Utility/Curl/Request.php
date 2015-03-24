@@ -97,7 +97,9 @@ class Request {
 	 * @return Response
 	 */
 	protected function executeRequest($request) {
+
 		$resultData = curl_exec($request);
+
 		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('PunktDe\\PtExtbase\\Utility\\Curl\\Response', $request, $resultData);
 	}
 
@@ -168,6 +170,6 @@ class Request {
 	 * @param $value
 	 */
 	public function addHeader($key, $value) {
-		$this->header[$key] = $value;
+		$this->header[] = $key .':'. $value;
 	}
-} 
+}
