@@ -52,15 +52,15 @@ class Request {
 	/**
 	 * Post Data to a defined URL
 	 *
-	 * @param array $data
+	 * @param  string $data
 	 * @return Response
 	 */
-	public function post($data = array()) {
+	public function post($data = '') {
 		$request = $this->buildRequest();
 
 		curl_setopt_array($request, array(
 			CURLOPT_POST => TRUE,
-			CURLOPT_POSTFIELDS => http_build_query($data)
+			CURLOPT_POSTFIELDS => $data
 		));
 
 		return $this->executeRequest($request);
