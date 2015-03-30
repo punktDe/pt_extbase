@@ -100,7 +100,9 @@ class Request {
 
 		$resultData = curl_exec($request);
 
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('PunktDe\\PtExtbase\\Utility\\Curl\\Response', $request, $resultData);
+		$response =  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('PunktDe\\PtExtbase\\Utility\\Curl\\Response', $request, $this, $resultData);
+
+		return $response;
 	}
 
 
@@ -114,6 +116,12 @@ class Request {
 		return $this;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getUrl() {
+		return $this->url;
+	}
 
 	/**
 	 * @param string $proxyUrl
