@@ -132,7 +132,7 @@ abstract class AbstractSchedulerTask extends \TYPO3\CMS\Scheduler\Task\AbstractT
 				$data['taskTitle'] = $taskTitle;
 			}
 
-			$this->logger->info(sprintf('Scheduler Task "%s" completed in "%d"', $taskTitle, $usedTime), get_class($this), $data);
+			$this->logger->info(sprintf('Scheduler Task "%s" completed', $taskTitle, $usedTime), get_class($this), $data);
 		}
 	}
 }
