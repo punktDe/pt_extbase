@@ -38,15 +38,26 @@ use PunktDe\PtExtbase\Utility\TimeTracker;
  */
 abstract class AbstractSchedulerTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
 
+
 	/**
 	 * @var \Tx_PtExtbase_Logger_Logger
 	 */
 	private $logger;
 
+
 	/**
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
 	 */
 	protected $objectManager;
+
+
+	/**
+	 * @return void
+	 */
+	protected function initializeObject() {
+	}
+
+
 
 	/**
 	 * Initialize Extbase
@@ -56,11 +67,16 @@ abstract class AbstractSchedulerTask extends \TYPO3\CMS\Scheduler\Task\AbstractT
 	protected function initializeExtbase() {
 		$configuration['extensionName'] = $this->getExtensionName();
 		$configuration['pluginName'] = 'dummy';
-		$extbaseBootstrap = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
+
+		$extbaseBootstrap = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap */
 		$extbaseBootstrap->initialize($configuration);
+
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 		$this->initializeObject();
+
 	}
+
+
 
 	/**
 	 * This method adds current execution to the execution list
@@ -71,26 +87,26 @@ abstract class AbstractSchedulerTask extends \TYPO3\CMS\Scheduler\Task\AbstractT
 	public function markExecution() {
 		TimeTracker::start('SchedulerTaskMeasure');
 		$this->initializeExtbase();
+
 		return parent::markExecution();
 	}
+
+
 
 	/**
 	 * Removes given execution from list
 	 *
 	 * @param integer $executionID Id of the execution to remove.
 	 * @param \Exception $failure An exception to signal a failed execution
-	 * @return 	void
+	 *
+	 * @return    void
 	 */
 	public function unmarkExecution($executionID, \Exception $failure = NULL) {
 		$this->logToApplicationLog();
 		parent::unmarkExecution($executionID, $failure);
 	}
 
-	/**
-	 * @return void
-	 */
-	protected function initializeObject() {
-	}
+
 
 	/**
 	 * Return the extensionName for Extbase Initialization
@@ -99,28 +115,24 @@ abstract class AbstractSchedulerTask extends \TYPO3\CMS\Scheduler\Task\AbstractT
 	 */
 	abstract public function getExtensionName();
 
-	/**
-	 * get title for scheduler job
-	 *
-	 * @return string
-	 */
-	protected function getSchedulerJobTitle() {
-		return '';
-	}
+
 
 	/**
 	 *
 	 */
 	protected function logToApplicationLog() {
 		$this->logger = $this->objectManager->get('\Tx_PtExtbase_Logger_Logger');
+
 		if ($this->logger instanceof \Tx_PtExtbase_Logger_Logger) {
 			$usedTime = TimeTracker::stop('SchedulerTaskMeasure');
 			$data['time'] = $usedTime;
-			$jobtitle = $this->getSchedulerJobTitle();
-			if ($jobtitle !== '') {
-				$data['jobtitle'] = $jobtitle;
+			$taskTitle = trim($this->getTaskTitle());
+
+			if ($taskTitle !== '') {
+				$data['taskTitle'] = $taskTitle;
 			}
-			$this->logger->info('Scheduler Task completed', get_class($this), $data);
+
+			$this->logger->info(sprintf('Scheduler Task "%s" completed in "%d"', $taskTitle, $usedTime), get_class($this), $data);
 		}
 	}
 }
