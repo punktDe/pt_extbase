@@ -51,4 +51,4 @@ $dispatcher = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_AjaxDispatcher'
 
 
 // ATTENTION! Dispatcher first needs to be initialized here!!!
-echo $dispatcher->initCallArguments()->dispatch();
+$dispatcher->initAndEchoDispatch();

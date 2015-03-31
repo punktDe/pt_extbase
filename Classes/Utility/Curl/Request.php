@@ -52,15 +52,15 @@ class Request {
 	/**
 	 * Post Data to a defined URL
 	 *
-	 * @param array $data
+	 * @param  string $data
 	 * @return Response
 	 */
-	public function post($data = array()) {
+	public function post($data = '') {
 		$request = $this->buildRequest();
 
 		curl_setopt_array($request, array(
 			CURLOPT_POST => TRUE,
-			CURLOPT_POSTFIELDS => http_build_query($data)
+			CURLOPT_POSTFIELDS => $data
 		));
 
 		return $this->executeRequest($request);
@@ -97,8 +97,12 @@ class Request {
 	 * @return Response
 	 */
 	protected function executeRequest($request) {
+
 		$resultData = curl_exec($request);
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('PunktDe\\PtExtbase\\Utility\\Curl\\Response', $request, $resultData);
+
+		$response =  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('PunktDe\\PtExtbase\\Utility\\Curl\\Response', $request, $this, $resultData);
+
+		return $response;
 	}
 
 
@@ -112,6 +116,12 @@ class Request {
 		return $this;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getUrl() {
+		return $this->url;
+	}
 
 	/**
 	 * @param string $proxyUrl
@@ -168,6 +178,6 @@ class Request {
 	 * @param $value
 	 */
 	public function addHeader($key, $value) {
-		$this->header[$key] = $value;
+		$this->header[] = $key .':'. $value;
 	}
-} 
+}

@@ -36,6 +36,7 @@ class PushCommand extends GenericShellCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
+		'tags' => '--tags',
 		'remote' => '%s',
 		'refspec' => '%s'
 	);
@@ -45,9 +46,21 @@ class PushCommand extends GenericShellCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
+		'tags' => FALSE,
 		'remote' => '',
 		'refspec' => ''
 	);
+
+
+
+	/**
+	 * @return $this
+	 */
+	public function setTags() {
+		$this->arguments['tags'] = TRUE;
+		return $this;
+	}
+
 
 
 	/**

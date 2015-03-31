@@ -84,16 +84,27 @@ class Response {
 	 */
 	protected $requestTime;
 
+	/**
+	 * @var Request
+	 */
+	protected $request;
 
 
-	public function __construct($request, $resultData) {
+	/**
+	 * @param $requestHandle
+	 * @param Request $request
+	 * @param $resultData
+	 */
+	public function __construct($requestHandle, Request $request, $resultData) {
 
-		$this->errorNumber = curl_errno($request);
-		$this->errorMessage = curl_error($request);
+		$this->request = $request;
 
-		$this->httpCode = (int) curl_getinfo($request, CURLINFO_HTTP_CODE);
-		$this->headerSize = (int) curl_getinfo($request, CURLINFO_HEADER_SIZE);
-		$this->requestTime = (int) curl_getinfo($request, CURLINFO_TOTAL_TIME);
+		$this->errorNumber = curl_errno($requestHandle);
+		$this->errorMessage = curl_error($requestHandle);
+
+		$this->httpCode = (int) curl_getinfo($requestHandle, CURLINFO_HTTP_CODE);
+		$this->headerSize = (int) curl_getinfo($requestHandle, CURLINFO_HEADER_SIZE);
+		$this->requestTime = (int) curl_getinfo($requestHandle, CURLINFO_TOTAL_TIME);
 
 		if($this->errorNumber > 0 || preg_match(sprintf('/%s/', $this->errorStatusPattern), (string) $this->httpCode) != 0) {
 			$this->requestSucceeded = FALSE;
@@ -103,7 +114,7 @@ class Response {
 
 		$this->processResult($resultData);
 
-		curl_close($request);
+		curl_close($requestHandle);
 	}
 
 
@@ -184,4 +195,19 @@ class Response {
 	public function isRequestSucceeded() {
 		return $this->requestSucceeded;
 	}
-} 
+
+	/**
+	 * @param Request $request
+	 */
+	public function setRequest($request) {
+		$this->request = $request;
+	}
+
+
+	/**
+	 * @return Request
+	 */
+	public function getRequest() {
+		return $this->request;
+	}
+}
