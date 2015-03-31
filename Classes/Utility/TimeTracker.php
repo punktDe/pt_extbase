@@ -54,7 +54,7 @@ class TimeTracker {
 			$startDate = self::$startDates[$trackIdentifier];
 			unset(self::$startDates[$trackIdentifier]);
 
-			return number_format((microtime(TRUE) - $startDate) * 1000, 2);
+			return (int)(microtime(TRUE) - $startDate) * 1000;
 		}
 	}
 } 
