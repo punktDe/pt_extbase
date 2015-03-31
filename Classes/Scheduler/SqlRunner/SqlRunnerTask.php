@@ -34,7 +34,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package pt_extbase
  * @subpackage Scheduler
  */
-class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
+class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \PunktDe\PtExtbase\Scheduler\AbstractSchedulerTask {
 
 	/**
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
@@ -55,23 +55,9 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Schedule
 	 * @return boolean Returns TRUE on successful execution, FALSE on error
 	 */
 	public function execute() {
-		$this->initializeExtbase();
-		$this->initializeObject();
 		$sqls = $this->sqlGenerator->generate(GeneralUtility::getFileAbsFileName($this->tx_ptextbase_sqlfile));
 		$this->sqlRunner->runSqls($sqls);
 		return TRUE;
-	}
-
-	/**
-	 * Initialize Extbase
-	 *
-	 * This is necessary to resolve the TypoScript interface definitions
-	 */
-	protected function initializeExtbase() {
-		$configuration['extensionName'] = 'PtExtbase';
-		$configuration['pluginName'] = 'dummy';
-		$extbaseBootstrap = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
-		$extbaseBootstrap->initialize($configuration);
 	}
 
 	/**
@@ -88,5 +74,14 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Schedule
 	 */
 	public function getAdditionalInformation() {
 		return "Run SQL file " . $this->tx_ptextbase_sqlfile;
+	}
+
+	/**
+	 * Return the extensionName for Extbase Initialization
+	 *
+	 * @return string
+	 */
+	public function getExtensionName() {
+		return 'PtExtbase';
 	}
 }
