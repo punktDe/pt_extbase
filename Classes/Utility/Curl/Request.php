@@ -167,9 +167,11 @@ class Request {
 	/**
 	 * @param $curlOptionKey
 	 * @param $curlOptionValue
+	 * @return $this
 	 */
 	public function setCurlOption($curlOptionKey, $curlOptionValue) {
 		$this->curlOptions[$curlOptionKey] = $curlOptionValue;
+		return $this;
 	}
 
 

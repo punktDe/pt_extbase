@@ -122,9 +122,7 @@ class Response {
 	 * @param $resultData
 	 */
 	protected function processResult($resultData) {
-		$this->body = substr($resultData, $this->headerSize);
-
-		$headerText = substr($resultData, 0, $this->headerSize);
+		list($headerText, $this->body) = explode("\r\n\r\n", $resultData, 2);
 
 		foreach (explode("\r\n", $headerText) as $i => $headerLine) {
 			if ($i === 0) {
