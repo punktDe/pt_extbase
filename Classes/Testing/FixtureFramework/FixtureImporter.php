@@ -78,7 +78,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CM
 
 	/**
 	 * @return void
-	 * @throws Tx_PtDpppTest_PhpUnit_Exception_TestException
+	 * @throws \RuntimeException
 	 */
 	protected function importSchema() {
 		$schemaFilePath = PATH_site . '/' . $this->fixture->getSchemaFilePath();
@@ -92,14 +92,14 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CM
 				$command[] = '< ' . $schemaFilePath;
 				$this->runCommand(implode(' ', $command));
 			} else {
-				throw new Tx_PtDpppTest_PhpUnit_Exception_TestException('Invalid schema file path ' . $schemaFilePath, 1365698869);
+				throw new \RuntimeException('Invalid schema file path ' . $schemaFilePath, 1365698869);
 			}
 		}
 	}
 
 	/**
 	 * @return void
-	 * @throws Tx_PtDpppTest_PhpUnit_Exception_TestException
+	 * @throws \RuntimeException
 	 */
 	protected function importFixture() {
 		if (!empty($this->fixture)) {
@@ -107,7 +107,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CM
 				$this->fixture->getConnection()->getConnection()->query('SET NAMES utf8')->execute();
 				$this->fixture->getSetUpOperation()->execute($this->fixture->getConnection(), $this->fixture->getDataSet());
 			} else {
-				throw new Tx_PtDpppTest_PhpUnit_Exception_TestException('Invalid fixture ' . get_class($this->fixture), 1365698869);
+				throw new \RuntimeException('Invalid fixture ' . get_class($this->fixture), 1365698869);
 			}
 		}
 	}
