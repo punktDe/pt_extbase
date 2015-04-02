@@ -51,9 +51,9 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	 * Constructor
 	 */
 	public function __construct() {
+		parent::__construct();
 		$this->initializeExtbase();
 		$this->initializeObject();
-		parent::__construct();
 	}
 
 
@@ -62,7 +62,6 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	 * @return void
 	 */
 	protected function initializeObject() {
-
 	}
 
 
