@@ -1,33 +1,29 @@
 <?php
+namespace PunktDe\PtExtbase\Scheduler;
+
 /***************************************************************
- *  Copyright notice
+ *  Copyright (C) 2015 punkt.de GmbH
+ *  Authors: el_equipo <opiuqe_le@punkt.de>
  *
- *  (c) 2015 punkt.de GmbH
- *  Authors:
- *    Michael Riedel <riedel@punkt.de>,
- *    Daniel Lienert <lienert@punkt.de>,
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
+ *  This script is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as published
+ *  by the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
  *
  *  This script is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-namespace PunktDe\PtExtbase\Scheduler;
-
+use TYPO3\CMS\Scheduler\Task\AbstractTask;
 use PunktDe\PtExtbase\Utility\TimeTracker;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Abstract Scheduler Task
@@ -36,7 +32,7 @@ use PunktDe\PtExtbase\Utility\TimeTracker;
  * @package pt_extbase
  * @subpackage Scheduler
  */
-abstract class AbstractSchedulerTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
+abstract class AbstractSchedulerTask extends AbstractTask {
 
 
 	/**
@@ -60,6 +56,8 @@ abstract class AbstractSchedulerTask extends \TYPO3\CMS\Scheduler\Task\AbstractT
 		parent::__construct();
 	}
 
+
+
 	/**
 	 * @return void
 	 */
@@ -78,10 +76,10 @@ abstract class AbstractSchedulerTask extends \TYPO3\CMS\Scheduler\Task\AbstractT
 		$configuration['extensionName'] = $this->getExtensionName();
 		$configuration['pluginName'] = 'dummy';
 
-		$extbaseBootstrap = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap */
+		$extbaseBootstrap = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap */
 		$extbaseBootstrap->initialize($configuration);
 
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 		//$this->initializeObject();
 
 	}
@@ -127,7 +125,7 @@ abstract class AbstractSchedulerTask extends \TYPO3\CMS\Scheduler\Task\AbstractT
 
 
 	/**
-	 *
+	 * @return void
 	 */
 	protected function logToApplicationLog() {
 		$this->logger = $this->objectManager->get('\Tx_PtExtbase_Logger_Logger');
