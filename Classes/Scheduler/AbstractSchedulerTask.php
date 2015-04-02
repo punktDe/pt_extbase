@@ -52,9 +52,19 @@ abstract class AbstractSchedulerTask extends \TYPO3\CMS\Scheduler\Task\AbstractT
 
 
 	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->initializeExtbase();
+		$this->initializeObject();
+		parent::__construct();
+	}
+
+	/**
 	 * @return void
 	 */
 	protected function initializeObject() {
+
 	}
 
 
@@ -72,21 +82,20 @@ abstract class AbstractSchedulerTask extends \TYPO3\CMS\Scheduler\Task\AbstractT
 		$extbaseBootstrap->initialize($configuration);
 
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-		$this->initializeObject();
+		//$this->initializeObject();
 
 	}
 
 
 
 	/**
-	 * This method adds current execution to the execution list
-	 * It also logs the execution time and mode
+	 * Start a stopwatch
 	 *
 	 * @return integer Execution id
 	 */
 	public function markExecution() {
 		TimeTracker::start('SchedulerTaskMeasure');
-		$this->initializeExtbase();
+		//$this->initializeExtbase();
 
 		return parent::markExecution();
 	}
