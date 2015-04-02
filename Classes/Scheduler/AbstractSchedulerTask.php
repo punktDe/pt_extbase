@@ -80,8 +80,6 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 		$extbaseBootstrap->initialize($configuration);
 
 		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-		//$this->initializeObject();
-
 	}
 
 
@@ -93,8 +91,6 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	 */
 	public function markExecution() {
 		TimeTracker::start('SchedulerTaskMeasure');
-		//$this->initializeExtbase();
-
 		return parent::markExecution();
 	}
 
