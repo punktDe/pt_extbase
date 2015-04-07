@@ -176,6 +176,19 @@ class Request {
 
 
 	/**
+	 * @param string $curlOptionKey
+	 * @return mixed
+	 */
+	public function getCurlOptions($curlOptionKey) {
+		if(isset($this->curlOptions[$curlOptionKey])) {
+			return $this->curlOptions[$curlOptionKey];
+		} else {
+			return NULL;
+		}
+	}
+
+
+	/**
 	 * @param $key
 	 * @param $value
 	 */

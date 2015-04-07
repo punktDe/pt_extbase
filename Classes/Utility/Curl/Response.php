@@ -122,6 +122,11 @@ class Response {
 	 * @param $resultData
 	 */
 	protected function processResult($resultData) {
+
+		if($this->request->getCurlOptions(CURLOPT_PROXY) !== NULL) {
+			$this->stripProxyHeader($resultData);
+		}
+
 		list($headerText, $this->body) = explode("\r\n\r\n", $resultData, 2);
 
 		foreach (explode("\r\n", $headerText) as $i => $headerLine) {
@@ -131,6 +136,18 @@ class Response {
 				list ($key, $value) = explode(': ', $headerLine);
 				$this->header[$key] = $value;
 			}
+		}
+	}
+
+
+	/**
+	 * @param string $resultData
+	 * @return string
+	 */
+	protected function stripProxyHeader(&$resultData) {
+		// cURL automatically handles Proxy rewrites, remove the "HTTP/1.0 200 Connection established" string
+		if (false !== stripos($resultData, "HTTP/1.0 200 Connection established\r\n\r\n")) {
+			$resultData = str_ireplace("HTTP/1.0 200 Connection established\r\n\r\n", '', $resultData);
 		}
 	}
 
