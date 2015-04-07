@@ -128,7 +128,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 	 * @param string $internalPropertyName optional property name if it is deiferent from the tsKey
 	 */
 	protected function setValueIfExistsAndNotNothing($tsKey, $internalPropertyName = NULL) {
-		if ($this->configValueExiststAndNotNothing($tsKey)) {
+		if ($this->configValueExistsAndNotNothing($tsKey)) {
 			$property = $internalPropertyName ? $internalPropertyName : $tsKey;
 			$this->$property = $this->settings[$tsKey];
 		}
@@ -142,7 +142,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
 	 * @param string $tsKey
 	 * @return bool True, if array key exists in settings and is not empty
 	 */
-	protected function configValueExiststAndNotNothing($tsKey) {
+	protected function configValueExistsAndNotNothing($tsKey) {
 		return array_key_exists($tsKey, $this->settings) && (is_array($this->settings[$tsKey]) || trim($this->settings[$tsKey]));
 	}
 
