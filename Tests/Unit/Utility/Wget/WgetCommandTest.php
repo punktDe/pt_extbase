@@ -26,9 +26,7 @@ namespace PunktDe\PtExtbase\Tests\Utility\Wget;
  ***************************************************************/
 
 /**
- * TCA Manager test case
- *
- * @package pt_dppp_zca
+ * @package pt_extbase
  * @subpackage Tests\Unit\Domain\Utlity
  */
 class WgetCommandTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
