@@ -145,10 +145,9 @@ class Response {
 	 * @return string
 	 */
 	protected function stripProxyHeader(&$resultData) {
-		// cURL automatically handles Proxy rewrites, remove the "HTTP/1.0 200 Connection established" string
-		if (false !== stripos($resultData, "HTTP/1.0 200 Connection established\r\n\r\n")) {
-			$resultData = str_ireplace("HTTP/1.0 200 Connection established\r\n\r\n", '', $resultData);
-		}
+		// cURL automatically handles Proxy rewrites, remove the "HTTP/X.X *" string
+		$resultData = preg_replace("/HTTP\/\d.\d\s.*\r\n\r\n/", '', $resultData);
+		return $resultData;
 	}
 
 	/**
