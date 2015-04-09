@@ -38,7 +38,7 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	/**
 	 * @var \Tx_PtExtbase_Logger_Logger
 	 */
-	private $logger;
+	protected $logger;
 
 
 	/**
@@ -47,16 +47,18 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	protected $objectManager;
 
 
+
 	/**
 	 * This function is public because it has to be called in the test methods for preparation.
-	 * The Initialization process can't be called:
-	 * 	1. in constructor because the constructor won't be called on unseralize
-	 * 	2. in the __wakeup method because the wakeup will be called before configurations are loaded
+	 * The Initialization process can't be called in:
+	 *    1. constructor because the constructor won't be called on unseralize
+	 *    2. the __wakeup method because the wakeup will be called before configurations are loaded
 	 */
-	public function initialize(){
+	public function initialize() {
 		$this->initializeExtbase();
 		$this->initializeObject();
 	}
+
 
 
 	/**
@@ -75,11 +77,41 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	}
 
 
+
 	/**
 	 * @return void
 	 */
 	protected function initializeObject() {
 	}
+
+
+
+	/**
+	 * @param array $loggerData
+	 *
+	 * @return array
+	 */
+	protected function addTaskLoggerData(&$loggerData = array()) {
+
+		$loggerData['time'] =  TimeTracker::stop('SchedulerTaskMeasure');
+
+		$taskTitle = trim($this->getTaskTitle());
+		if ($taskTitle !== '') {
+			$loggerData['taskTitle'] = $taskTitle;
+		}
+
+		$this->enrichTaskLoggerData($loggerData);
+
+	}
+
+
+
+	/**
+	 * @param $loggerData
+	 */
+	public function enrichTaskLoggerData(&$loggerData) {
+	}
+
 
 
 	/**
@@ -90,6 +122,7 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	public function markExecution() {
 		TimeTracker::start('SchedulerTaskMeasure');
 		$this->initialize();
+
 		return parent::markExecution();
 	}
 
@@ -123,18 +156,15 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	 * @return void
 	 */
 	protected function logToApplicationLog() {
-		$this->logger = $this->objectManager->get('\Tx_PtExtbase_Logger_Logger');
+
+		if(!($this->logger instanceof \Tx_PtExtbase_Logger_Logger)){
+			$this->logger = $this->objectManager->get('\Tx_PtExtbase_Logger_Logger');
+		}
 
 		if ($this->logger instanceof \Tx_PtExtbase_Logger_Logger) {
-			$usedTime = TimeTracker::stop('SchedulerTaskMeasure');
-			$data['time'] = $usedTime;
-			$taskTitle = trim($this->getTaskTitle());
-
-			if ($taskTitle !== '') {
-				$data['taskTitle'] = $taskTitle;
-			}
-
-			$this->logger->info(sprintf('Scheduler Task "%s" completed', $taskTitle, $usedTime), get_class($this), $data);
+			$data = array();
+			$this->addTaskLoggerData($data);
+			$this->logger->info(sprintf('Scheduler Task "%s" completed.', trim($this->getTaskTitle())), get_class($this), $data);
 		}
 	}
 }
