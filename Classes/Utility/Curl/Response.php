@@ -104,7 +104,7 @@ class Response {
 
 		$this->httpCode = (int) curl_getinfo($requestHandle, CURLINFO_HTTP_CODE);
 		$this->headerSize = (int) curl_getinfo($requestHandle, CURLINFO_HEADER_SIZE);
-		$this->requestTime = (int) curl_getinfo($requestHandle, CURLINFO_TOTAL_TIME);
+		$this->requestTime = (int) (curl_getinfo($requestHandle, CURLINFO_TOTAL_TIME) * 1000);
 
 		if($this->errorNumber > 0 || preg_match(sprintf('/%s/', $this->errorStatusPattern), (string) $this->httpCode) != 0) {
 			$this->requestSucceeded = FALSE;
