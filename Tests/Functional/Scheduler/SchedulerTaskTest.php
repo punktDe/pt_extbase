@@ -32,6 +32,33 @@ use TYPO3\Flow\Utility\Files;
  */
 class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
+	/**
+	 * TODO: remove if not needed for concatenation of Database paths
+	 */
+
+	protected $testRootPath = '';
+
+
+	/**
+	 * @test
+	 */
+	public function schedulerTask() {
+
+		$this->markTestSkipped("Not implemented yet");
+
+	}
+
+
+
+	/**
+	 * @return array of PHPUnit_Extensions_Database_DataSet_IDataSet
+	 */
+	protected function getBaseDatabaseFixture() {
+		return array(
+			new \PHPUnit_Extensions_Database_DataSet_YamlDataSet(Files::concatenatePaths(array($this->testRootPath, 'Fixture', 'SchedulerTaskTest.yaml')))
+		);
+	}
+
 
 
 }
