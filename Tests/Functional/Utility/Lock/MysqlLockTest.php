@@ -49,6 +49,9 @@ class MysqlLockTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$this->mysqlLock = $this->objectManager->get('PunktDe\\PtExtbase\\Utility\\Lock\\Lock', 'lockTest');
 	}
 
+	public function tearDown() {
+		$this->mysqlLock->release();
+	}
 
 	/**
 	 * @test
@@ -66,4 +69,16 @@ class MysqlLockTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
 		$this->assertEquals(1, $returnValue);
 	}
+
+	/**
+	 * @test
+	 */
+	public function acquiringLockASecondTimeIsNotPossibleTest() {
+		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest acquireExclusiveLock');
+		$this->assertEquals(0, $returnValue);
+	}
+
+
+
+
 }

@@ -35,9 +35,9 @@ class Lock {
 
 
 	/**
-	 * @param $subject
+	 * @param string $subject
 	 * @param string $lockStrategyClass
-	 * @param bool $exclusiveLock
+	 * @param boolean $exclusiveLock
 	 * @throws \Exception
 	 */
 	public function __construct($subject, $lockStrategyClass = Lock::LOCK_STRATEGY_MYSQL, $exclusiveLock = TRUE) {

@@ -85,7 +85,7 @@ class MySqlLockTestSecondInstance {
 	}
 
 	public function testAcquireExclusiveLock($lockIdentifier) {
-		$lockResult = $this->mySQLConnection->query(sprintf('SELECT GET_LOCK("%s", 60) as res', $lockIdentifier))->fetch();
+		$lockResult = $this->mySQLConnection->query(sprintf('SELECT GET_LOCK("%s", 5) as res', $lockIdentifier))->fetch();
 		echo $lockResult['res'];
 	}
 }

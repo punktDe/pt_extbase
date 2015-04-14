@@ -57,10 +57,13 @@ class MySqlLockStrategy implements LockStrategyInterface {
 	/**
 	 * @param string $subject
 	 * @param boolean $exclusiveLock TRUE to, acquire an exclusive (write) lock, FALSE for a shared (read) lock.
-	 * @return void
+	 * @return boolean TRUE if an lock is acquired, FALSE if not
 	 */
 	public function acquire($subject, $exclusiveLock) {
 		$this->identifier = $subject;
+		$mysqliRes = $this->connection->sql_query(sprintf('SELECT GET_LOCK("%s", %d) AS res', $this->identifier, $this->lockTime));
+		$resultArray = $mysqliRes->fetch_assoc();
+		return $resultArray['res'];
 	}
 
 
@@ -68,7 +71,6 @@ class MySqlLockStrategy implements LockStrategyInterface {
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
 	public function release() {
-		//$this->connection->exec_SELECTgetSingleRow(sprintf('RELEASE_LOCK("%s") as res', $this->identifier), '', '');
 		$this->connection->sql_query(sprintf('SELECT RELEASE_LOCK("%s") AS res', $this->identifier));
 		return TRUE;
 	}
