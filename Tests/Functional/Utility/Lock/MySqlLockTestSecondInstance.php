@@ -80,12 +80,12 @@ class MySqlLockTestSecondInstance {
 	}
 
 	public function testIfLockIsFree($lockIndentifier) {
-		$lockResult = $this->mySQLConnection->query(sprintf('SELECT IS_FREE_LOCK(%s) as res', $lockIndentifier))->fetch();
+		$lockResult = $this->mySQLConnection->query(sprintf('SELECT IS_FREE_LOCK("%s") as res', $lockIndentifier))->fetch();
 		echo $lockResult['res'];
 	}
 
 	public function testAcquireExclusiveLock($lockIdentifier) {
-		$lockResult = $this->mySQLConnection->query(sprintf('SELECT GET_LOCK(%s, 60) as res', $lockIdentifier))->fetch();
+		$lockResult = $this->mySQLConnection->query(sprintf('SELECT GET_LOCK("%s", 60) as res', $lockIdentifier))->fetch();
 		echo $lockResult['res'];
 	}
 }
