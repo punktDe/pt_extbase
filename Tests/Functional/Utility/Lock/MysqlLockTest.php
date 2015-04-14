@@ -26,7 +26,6 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Lock;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\Files;
 use PunktDe\PtExtbase\Utility\Lock\Lock;
 
 /**
