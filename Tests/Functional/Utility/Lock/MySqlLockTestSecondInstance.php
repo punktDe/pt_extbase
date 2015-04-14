@@ -43,16 +43,17 @@ class MySqlLockTestSecondInstance {
 	protected function connect() {
 
 		// Load system specific configuration for Apache mode
+		if (!isset($_SERVER['HTTP_HOST'])) $_SERVER['HTTP_HOST'] = $_SERVER['HOSTNAME'];
 		$dpppConfiguration = __DIR__ . '/../../../../../../configurations/' . $_SERVER['HTTP_HOST'] . '.php';
-echo $dpppConfiguration;
+
 		if (file_exists($dpppConfiguration)) {
 			@include($dpppConfiguration);
 		}
 
 		$credentials = $GLOBALS['TYPO3_CONF_VARS']['DB'];
-print_r($credentials);
-		die();
-		$this->mySQLConnection = new \PDO('mysql:host=' . $credentials['host'] . ';dbname=' . $credentials['database'], $credentials['user'], $credentials['password']);
+
+		$this->mySQLConnection = new \PDO('mysql:host=' . $credentials['host'] . ';dbname=' . $credentials['database'], $credentials['username'], $credentials['password']);
+
 	}
 
 
