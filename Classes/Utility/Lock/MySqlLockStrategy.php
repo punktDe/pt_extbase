@@ -60,7 +60,7 @@ class MySqlLockStrategy implements LockStrategyInterface {
 	 * @return void
 	 */
 	public function acquire($subject, $exclusiveLock) {
-
+		$this->identifier = $subject;
 	}
 
 
@@ -68,7 +68,8 @@ class MySqlLockStrategy implements LockStrategyInterface {
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
 	public function release() {
-		$this->connection->exec_SELECTgetSingleRow('res', sprintf('RELEASE_LOCK(%s)', $this->identifier));
+		//$this->connection->exec_SELECTgetSingleRow(sprintf('RELEASE_LOCK("%s") as res', $this->identifier), '', '');
+		$this->connection->sql_query(sprintf('SELECT RELEASE_LOCK("%s") AS res', $this->identifier));
 		return TRUE;
 	}
 }

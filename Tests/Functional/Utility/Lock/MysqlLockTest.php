@@ -27,6 +27,7 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Lock;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Utility\Files;
+use PunktDe\PtExtbase\Utility\Lock\Lock;
 
 /**
  * Wget Test Case
@@ -36,4 +37,33 @@ use PunktDe\PtExtbase\Utility\Files;
  */
 class MysqlLockTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
+	/**
+	 * @var Lock
+	 */
+	protected $mysqlLock;
+
+	/**
+	 *
+	 */
+	public function setUp() {
+		$this->mysqlLock = $this->objectManager->get('PunktDe\\PtExtbase\\Utility\\Lock\\Lock', 'lockTest');
+	}
+
+
+	/**
+	 * @test
+	 */
+	public function constructAcquiresLockTest() {
+		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
+		$this->assertEquals(0, $returnValue);
+	}
+
+	/**
+	 * @test
+	 */
+	public function afterReleaseLockIsFreeTest() {
+		$this->mysqlLock->release();
+		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
+		$this->assertEquals(1, $returnValue);
+	}
 }
