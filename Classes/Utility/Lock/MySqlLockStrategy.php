@@ -58,12 +58,28 @@ class MySqlLockStrategy implements LockStrategyInterface {
 	 * @param string $subject
 	 * @param boolean $exclusiveLock TRUE to, acquire an exclusive (write) lock, FALSE for a shared (read) lock.
 	 * @return boolean TRUE if an lock is acquired, FALSE if not
+	 *
+	 * @throws LockNotAcquiredException
+	 * @throws \Exception
 	 */
 	public function acquire($subject, $exclusiveLock) {
+		if (!$exclusiveLock) {
+			throw new \Exception('Shared lock is not possible when using MySqlLockStrategy', 1429016835);
+		}
+
 		$this->identifier = $subject;
-		$mysqliRes = $this->connection->sql_query(sprintf('SELECT GET_LOCK("%s", %d) AS res', $this->identifier, $this->lockTime));
-		$resultArray = $mysqliRes->fetch_assoc();
-		return $resultArray['res'];
+
+		$isFreeLockRes = $this->connection->sql_query(sprintf('SELECT IS_FREE_LOCK("%s") AS res', $this->identifier))->fetch_assoc();
+		if (!$isFreeLockRes['res']) {
+			throw new LockNotAcquiredException(sprintf('Lock %s is already acquired', $this->identifier), 1429016827);
+		}
+
+		$getLockRes = $this->connection->sql_query(sprintf('SELECT GET_LOCK("%s", %d) AS res', $this->identifier, $this->lockTime))->fetch_assoc();
+		if (!$getLockRes['res']) {
+			throw new LockNotAcquiredException(sprintf('Lock %s could not be acquired after waiting %d ms', $this->identifier, $this->lockTime), 1429016830);
+		}
+
+		return TRUE;
 	}
 
 

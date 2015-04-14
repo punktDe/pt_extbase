@@ -55,6 +55,18 @@ class MysqlLockTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	/**
 	 * @test
 	 */
+	public function acquiringSharedLockThrowsExceptionTest() {
+		$this->mysqlLock->release();
+		try {
+			$mysqlLock = $this->objectManager->get('PunktDe\\PtExtbase\\Utility\\Lock\\Lock', 'lockTest', 'PunktDe\\PtExtbase\\Utility\\Lock\\MySqlLockStrategy', FALSE);
+		} catch (\Exception $e) {
+			$this->assertEquals(1429016835, $e->getCode());
+		}
+	}
+
+	/**
+	 * @test
+	 */
 	public function constructAcquiresLockTest() {
 		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
 		$this->assertEquals(0, $returnValue);
@@ -76,8 +88,5 @@ class MysqlLockTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest acquireExclusiveLock');
 		$this->assertEquals(0, $returnValue);
 	}
-
-
-
 
 }
