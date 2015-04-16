@@ -23,6 +23,9 @@ namespace PunktDe\PtExtbase\Tests\Functional\Scheduler;
  ***************************************************************/
 
 
+use PunktDe\PtExtbase\Logger\LoggerManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\Flow\Utility\Files;
 
 /**
@@ -32,33 +35,116 @@ use TYPO3\Flow\Utility\Files;
  */
 class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
+	protected $testFilePath = '';
+
+	protected $logFilePath = '';
+
+	protected $schedulerTaskId = '';
+
 	/**
-	 * TODO: remove if not needed for concatenation of Database paths
+	 * @var \Tx_PtExtbase_Logger_LoggerConfiguration
 	 */
+	protected $loggerConfiguration;
 
-	protected $testRootPath = '';
 
+	protected function setUp(){
+
+		$this->prepareTestPaths();
+		Files::createDirectoryRecursively($this->testFilePath);
+		touch($this->logFilePath);
+
+		$this->schedulerTaskId = $this->getTestTaskId();
+	}
+
+
+
+	protected function tearDown(){
+		Files::removeDirectoryRecursively($this->testFilePath);
+		unlink($this->logFilePath);
+	}
 
 	/**
 	 * @test
 	 */
 	public function schedulerTask() {
 
-		$this->markTestSkipped("Not implemented yet");
+		shell_exec('/var/apache/partnerportal/htdocs/typo3/cli_dispatch.phpsh scheduler -f -i 31' );
 
+		$this->objectInitializationSuccessful();
+
+		$this->taskExecuteSuccessful();
+
+		$this->loggingSuccessful();
+
+	}
+
+
+	protected function prepareTestPaths(){
+
+		$this->testFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths(array(__DIR__,'WorkingDirectory'));
+
+		$this->loggerConfiguration = $this->objectManager->get('Tx_PtExtbase_Logger_LoggerConfiguration');
+		$this->logFilePath = $this->loggerConfiguration->getLogFilePath();
+
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	protected function getTestTaskId(){
+		$typo3db = $GLOBALS['TYPO3_DB']; /** @var $typo3db \TYPO3\CMS\Core\Database\DatabaseConnection */
+		$res = $typo3db->exec_SELECTquery('uid','tx_scheduler_task','serialized_task_object LIKE "%PunktDe\\\\PtExtbase\\\\Tests\\\\Functional\\\\Scheduler\\\\TestTask%"','','uid','1');
+		$testTaskRow = $typo3db->sql_fetch_assoc($res);
+		$typo3db->sql_free_result($res);
+		return $testTaskRow['uid'];
+	}
+
+
+	/**
+	 * @return string
+	 */
+	protected function getFileContent($filePath) {
+		$file = fopen($filePath, 'r');
+		$fileContent = fread($file, filesize($filePath));
+		return $fileContent;
+	}
+
+
+
+	protected function objectInitializationSuccessful() {
+		$initializeObjectTestFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths(array($this->testFilePath, "testTaskObjectInitialization.txt"));
+		$initializeObjectTestFileContent = $this->getFileContent($initializeObjectTestFilePath);
+
+		$this->assertEquals('1428924552', $initializeObjectTestFileContent, 'The content of the "initializeTestFile" file is not as expected');
 	}
 
 
 
 	/**
-	 * @return array of PHPUnit_Extensions_Database_DataSet_IDataSet
+	 * @return string
 	 */
-	protected function getBaseDatabaseFixture() {
-		return array(
-			new \PHPUnit_Extensions_Database_DataSet_YamlDataSet(Files::concatenatePaths(array($this->testRootPath, 'Fixture', 'SchedulerTaskTest.yaml')))
-		);
+	protected function taskExecuteSuccessful() {
+		$executeTestFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths(array($this->testFilePath, "testTaskExecution.txt"));
+		$executeTestFileContent = $this->getFileContent($executeTestFilePath);
+
+		$this->assertEquals('1428924570', $executeTestFileContent, 'The content of the "executeTestFile" file is not as expected');
 	}
 
+
+
+	protected function loggingSuccessful() {
+		$logTestFileContent = $executeTestFileContent = $this->getFileContent($this->logFilePath);
+		$logTestFileContentArray = array();
+		preg_match('|^(?<Timestamp>.*?[\+-]\d\d\d\d) \[(?<LogLevel>[^\]]+)\] request="(?<RequestId>[^"]+)" component="(?<Component>[^"]+)": (?<Message>[^{}]*)(?<Data>.*)?|', $logTestFileContent, $logTestFileContentArray);
+		$this->assertEquals('PunktDe.PtExtbase.Tests.Functional.Scheduler.TestTask', $logTestFileContentArray['Component'], 'The content of the file is not as expected');
+
+		$logData = json_decode($logTestFileContentArray['Data'], TRUE);
+
+		$this->assertTrue(array_key_exists('time', $logData), 'The task runtime is not written to the log');
+
+		$this->assertEquals('1429106236', $logData['additionalTestLogEntry'], 'The additional log Data provided by the Scheduler Task is not parsed');
+	}
 
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace PunktDe\PtDpppFis\Scheduler;
+namespace PunktDe\PtExtbase\Tests\Functional\Scheduler;
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
  *  Authors: el_equipo <opiuqe_le@punkt.de>
@@ -23,70 +23,73 @@ namespace PunktDe\PtDpppFis\Scheduler;
 
 
 use PunktDe\PtExtbase\Scheduler\AbstractSchedulerTask;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use \TYPO3\CMS\Core\Messaging\FlashMessage;
+use \TYPO3\CMS\Core\Messaging\FlashMessageQueue;
+use PunktDe\PtExtbase\Utility\Files;
 
 /**
  * Class IndexTask
  *
  * @package PunktDe\PtDpppFis\Scheduler
  */
-class IndexTask extends AbstractSchedulerTask {
+class TestTask extends AbstractSchedulerTask {
 
 	/**
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
 	 */
 	protected $objectManager;
 
-
-	/**
-	 * @var \PunktDe\PtDpppFis\Domain\Archiver\Archiver
-	 */
-	protected $archiver;
-
-
-	/**
-	 * @var \PunktDe\PtDpppMultipleDatabases\XClass\DatabaseConnection
-	 */
-	protected $databaseConnection;
-
-	/**
-	 * @var \Tx_PtExtbase_Logger_Logger
-	 */
-	protected $logger;
+	protected $testPath = '';
 
 	/**
 	 * @return boolean
 	 * @throws \Exception
 	 */
 	public function execute() {
-		try {
-			$this->archiver->archive($this->getLastExecutionTime());
+			try {
+				$flashMessage = GeneralUtility::makeInstance(
+					't3lib_FlashMessage',
+					'This Task is created for testing purposes, it creates some test files and log entries in the application log',
+					'',
+					FlashMessage::WARNING,
+					TRUE
+				);
+				FlashMessageQueue::addMessage($flashMessage);
+				$executeTestFilePath = Files::concatenatePaths(array($this->testPath, 'testTaskExecution.txt'));
+				file_put_contents( $executeTestFilePath, '1428924570');
 
-			return TRUE;
-		} catch (\Exception $e) {
-			$this->logger->error(sprintf('%s (%s)', $e->getMessage(), $e->getCode()));
-			throw $e;
+				return TRUE;
+
+			} catch (\Exception $e) {
+				$this->logger->error(sprintf('%s (%s)', $e->getMessage(), $e->getCode()));
+				throw $e;
+			}
 		}
-	}
+
 
 
 	/**
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-		$this->logger = $this->objectManager->get('Tx_PtExtbase_Logger_Logger');
-		$this->archiver = $this->objectManager->get('PunktDe\PtDpppFis\Domain\Archiver\Archiver');
-		$this->databaseConnection = $GLOBALS['TYPO3_DB'];
+		$this->testPath = Files::concatenatePaths(array(__DIR__,'/WorkingDirectory'));
+		var_dump($this->testPath);
+
+		$testInitializeObjectFilePath = Files::concatenatePaths(array($this->testPath,'testTaskObjectInitialization.txt'));
+		file_put_contents($testInitializeObjectFilePath, '1428924552');
+
 	}
+
 
 	/**
-	 * @return mixed
+	 * @param $loggerData
 	 */
-	protected function getLastExecutionTime() {
-		$result = $this->databaseConnection->exec_SELECTgetSingleRow('tstamp', 'tx_ptdpppfis_domain_model_version', 'status = "' . \PunktDe\PtDpppFis\Domain\Model\Version::STATUS_SUCCESS . '"', '', 'tstamp DESC');
-
-		return $result['tstamp'];
+	public function enrichTaskLoggerData(&$loggerData) {
+		$loggerData['additionalTestLogEntry'] = '1429106236';
 	}
+
 
 	/**
 	 * Return the extensionName for Extbase Initialization
@@ -94,6 +97,7 @@ class IndexTask extends AbstractSchedulerTask {
 	 * @return string
 	 */
 	public function getExtensionName() {
-		return 'PtDpppFis';
+		return 'PtDpppExtbase';
 	}
+
 }

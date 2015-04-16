@@ -45,3 +45,12 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_PtExtbase_Sc
     'description' => 'Runs an SQL file.',
 	'additionalFields' => 'Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields'
 );
+
+/*
+ * Test Scheduler Task
+ */
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['PunktDe\PtExtbase\Tests\Functional\Scheduler\TestTask'] = array(
+	'extension' => $_EXTKEY,
+	'title' => 'Pt_Extbase Test Abstract Scheduler Task',
+	'description' => 'This Task is for Testing, do not run this task in Production Environment',
+);
