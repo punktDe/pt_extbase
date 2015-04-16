@@ -68,7 +68,7 @@ class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 */
 	public function schedulerTask() {
 
-		shell_exec('/var/apache/partnerportal/htdocs/typo3/cli_dispatch.phpsh scheduler -f -i 31' );
+		shell_exec('/var/apache/partnerportal/htdocs/typo3/cli_dispatch.phpsh scheduler -f -i '. $this->schedulerTaskId );
 
 		$this->objectInitializationSuccessful();
 
@@ -94,7 +94,7 @@ class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	 */
 	protected function getTestTaskId(){
 		$typo3db = $GLOBALS['TYPO3_DB']; /** @var $typo3db \TYPO3\CMS\Core\Database\DatabaseConnection */
-		$res = $typo3db->exec_SELECTquery('uid','tx_scheduler_task','serialized_task_object LIKE "%PunktDe\\\\PtExtbase\\\\Tests\\\\Functional\\\\Scheduler\\\\TestTask%"','','uid','1');
+		$res = $typo3db->exec_SELECTquery('uid','tx_scheduler_task','serialized_task_object LIKE "%TestTask%"','','uid','1');
 		$testTaskRow = $typo3db->sql_fetch_assoc($res);
 		$typo3db->sql_free_result($res);
 		return $testTaskRow['uid'];
