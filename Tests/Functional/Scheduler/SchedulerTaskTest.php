@@ -97,6 +97,7 @@ class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$res = $typo3db->exec_SELECTquery('uid','tx_scheduler_task','serialized_task_object LIKE "%TestTask%"','','uid','1');
 		$testTaskRow = $typo3db->sql_fetch_assoc($res);
 		$typo3db->sql_free_result($res);
+		var_dump($testTaskRow['uid']);
 		return $testTaskRow['uid'];
 	}
 
