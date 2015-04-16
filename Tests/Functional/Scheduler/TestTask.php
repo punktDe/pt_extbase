@@ -41,7 +41,12 @@ class TestTask extends AbstractSchedulerTask {
 	 */
 	protected $objectManager;
 
+
+	/**
+	 * @var string
+	 */
 	protected $testPath = '';
+
 
 	/**
 	 * @return boolean
@@ -75,7 +80,6 @@ class TestTask extends AbstractSchedulerTask {
 	 */
 	public function initializeObject() {
 		$this->testPath = Files::concatenatePaths(array(__DIR__,'/WorkingDirectory'));
-		var_dump($this->testPath);
 
 		$testInitializeObjectFilePath = Files::concatenatePaths(array($this->testPath,'testTaskObjectInitialization.txt'));
 		file_put_contents($testInitializeObjectFilePath, '1428924552');
@@ -97,7 +101,7 @@ class TestTask extends AbstractSchedulerTask {
 	 * @return string
 	 */
 	public function getExtensionName() {
-		return 'PtDpppExtbase';
+		return 'PtExtbase';
 	}
 
 }

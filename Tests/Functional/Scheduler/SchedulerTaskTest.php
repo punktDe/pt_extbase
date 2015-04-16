@@ -23,7 +23,6 @@ namespace PunktDe\PtExtbase\Tests\Functional\Scheduler;
  ***************************************************************/
 
 
-use PunktDe\PtExtbase\Logger\LoggerManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\Flow\Utility\Files;
@@ -35,10 +34,22 @@ use TYPO3\Flow\Utility\Files;
  */
 class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
+
+	/**
+	 * @var string
+	 */
 	protected $testFilePath = '';
 
+
+	/**
+	 * @var string
+	 */
 	protected $logFilePath = '';
 
+
+	/**
+	 * @var string
+	 */
 	protected $schedulerTaskId = '';
 
 	/**
@@ -57,18 +68,12 @@ class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	}
 
 
-
-	protected function tearDown(){
-		Files::removeDirectoryRecursively($this->testFilePath);
-		unlink($this->logFilePath);
-	}
-
 	/**
 	 * @test
 	 */
 	public function schedulerTask() {
 
-		shell_exec('/var/apache/partnerportal/htdocs/typo3/cli_dispatch.phpsh scheduler -f -i '. $this->schedulerTaskId );
+		shell_exec(PATH_typo3.'cli_dispatch.phpsh scheduler -f -i '. $this->schedulerTaskId );
 
 		$this->objectInitializationSuccessful();
 
@@ -80,7 +85,6 @@ class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 
 	protected function prepareTestPaths(){
-
 		$this->testFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths(array(__DIR__,'WorkingDirectory'));
 
 		$this->loggerConfiguration = $this->objectManager->get('Tx_PtExtbase_Logger_LoggerConfiguration');
@@ -97,8 +101,6 @@ class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$res = $typo3db->exec_SELECTquery('uid','tx_scheduler_task','serialized_task_object LIKE "%TestTask%"','','uid','1');
 		$testTaskRow = $typo3db->sql_fetch_assoc($res);
 		$typo3db->sql_free_result($res);
-		var_dump($testTaskRow['uid']);
-		var_dump("2");
 		return $testTaskRow['uid'];
 	}
 
@@ -123,9 +125,6 @@ class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 
 
-	/**
-	 * @return string
-	 */
 	protected function taskExecuteSuccessful() {
 		$executeTestFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths(array($this->testFilePath, "testTaskExecution.txt"));
 		$executeTestFileContent = $this->getFileContent($executeTestFilePath);
@@ -148,5 +147,10 @@ class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$this->assertEquals('1429106236', $logData['additionalTestLogEntry'], 'The additional log Data provided by the Scheduler Task is not parsed');
 	}
 
+
+	protected function tearDown(){
+		Files::removeDirectoryRecursively($this->testFilePath);
+		unlink($this->logFilePath);
+	}
 
 }
