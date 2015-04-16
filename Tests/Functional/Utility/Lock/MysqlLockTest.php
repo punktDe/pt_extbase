@@ -54,20 +54,18 @@ class MysqlLockTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 
 	/**
 	 * @test
+	 * @expectedException Exception
+	 * @expectedExceptionCode 1429016835
 	 */
-	public function acquiringSharedLockThrowsExceptionTest() {
+	public function acquiringSharedLockThrowsException() {
 		$this->mysqlLock->release();
-		try {
-			$mysqlLock = $this->objectManager->get('PunktDe\\PtExtbase\\Utility\\Lock\\Lock', 'lockTest', 'PunktDe\\PtExtbase\\Utility\\Lock\\MySqlLockStrategy', FALSE);
-		} catch (\Exception $e) {
-			$this->assertEquals(1429016835, $e->getCode());
-		}
+		$this->objectManager->get('PunktDe\\PtExtbase\\Utility\\Lock\\Lock', 'lockTest', 'PunktDe\\PtExtbase\\Utility\\Lock\\MySqlLockStrategy', FALSE);
 	}
 
 	/**
 	 * @test
 	 */
-	public function constructAcquiresLockTest() {
+	public function constructAcquiresLock() {
 		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
 		$this->assertEquals(0, $returnValue);
 	}
@@ -75,8 +73,11 @@ class MysqlLockTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	/**
 	 * @test
 	 */
-	public function afterReleaseLockIsFreeTest() {
-		$this->mysqlLock->release();
+	public function afterReleaseLockIsFree() {
+		$released = $this->mysqlLock->release();
+
+		$this->assertTrue($released);
+
 		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
 		$this->assertEquals(1, $returnValue);
 	}
@@ -84,9 +85,17 @@ class MysqlLockTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	/**
 	 * @test
 	 */
-	public function acquiringLockASecondTimeIsNotPossibleTest() {
+	public function acquiringLockASecondTimeIsNotPossible() {
 		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest acquireExclusiveLock');
 		$this->assertEquals(0, $returnValue);
 	}
 
+
+	/**
+	 * @test
+	 */
+	public function freeingLockIsNotPossibleBySecondClient() {
+		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest freeLock');
+		$this->assertEquals(0, $returnValue);
+	}
 }

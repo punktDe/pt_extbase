@@ -65,11 +65,14 @@ class MySqlLockTestSecondInstance {
 
 		$lockIdentifier = $_SERVER['argv']['1'];
 		$testType = $_SERVER['argv']['2'];
-		$timeout = $_SERVER['argv']['3'] ? $_SERVER['argv']['3'] : 5;
+		$timeout = $_SERVER['argv']['3'] ? $_SERVER['argv']['3'] : 0;
 
 		switch($testType) {
 			case 'acquireExclusiveLock':
 				$this->testAcquireExclusiveLock($lockIdentifier, $timeout);
+				break;
+			case 'freeLock':
+				$this->freeLock($lockIdentifier);
 				break;
 			case 'testIfLockIsFree':
 				$this->testIfLockIsFree($lockIdentifier);
@@ -88,6 +91,15 @@ class MySqlLockTestSecondInstance {
 	public function testAcquireExclusiveLock($lockIdentifier, $timeout) {
 		$lockResult = $this->mySQLConnection->query(sprintf('SELECT GET_LOCK("%s", %d) as res', $lockIdentifier, $timeout))->fetch();
 		echo $lockResult['res'];
+	}
+
+	public function freeLock($lockIdentifier) {
+		$res = $this->mySQLConnection->query(sprintf('SELECT FREE_LOCK("%s") as res', $lockIdentifier));
+		if($res) {
+			$lockResult = $res->fetch();
+			echo $lockResult['res'];
+		}
+		echo 0;
 	}
 }
 

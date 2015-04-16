@@ -87,7 +87,12 @@ class MySqlLockStrategy implements LockStrategyInterface {
 	 * @return boolean TRUE on success, FALSE otherwise
 	 */
 	public function release() {
-		$this->connection->sql_query(sprintf('SELECT RELEASE_LOCK("%s") AS res', $this->identifier));
-		return TRUE;
+		$res = $this->connection->sql_query(sprintf('SELECT RELEASE_LOCK("%s") AS res', $this->identifier));
+		if($res) {
+			$releaseLockRes = $res->fetch_assoc();
+			return ((int) $releaseLockRes['res']) === 1;
+		}
+
+		return FALSE;
 	}
 }
