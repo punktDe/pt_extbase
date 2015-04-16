@@ -98,6 +98,7 @@ class SchedulerTaskTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$testTaskRow = $typo3db->sql_fetch_assoc($res);
 		$typo3db->sql_free_result($res);
 		var_dump($testTaskRow['uid']);
+		var_dump("2");
 		return $testTaskRow['uid'];
 	}
 
