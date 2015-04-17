@@ -70,7 +70,7 @@ class MySqlLockStrategy implements LockStrategyInterface {
 		$this->identifier = $subject;
 
 		$isFreeLockRes = $this->connection->sql_query(sprintf('SELECT IS_FREE_LOCK("%s") AS res', $this->identifier))->fetch_assoc();
-		if (!$isFreeLockRes['res']) {
+		if ((int) $isFreeLockRes['res'] !== 1) {
 			throw new LockNotAcquiredException(sprintf('Lock %s is already acquired', $this->identifier), 1429016827);
 		}
 
