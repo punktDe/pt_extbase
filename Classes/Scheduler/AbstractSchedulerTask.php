@@ -34,7 +34,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 abstract class AbstractSchedulerTask extends AbstractTask {
 
-
 	/**
 	 * @var \Tx_PtExtbase_Logger_Logger
 	 */
@@ -72,8 +71,6 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 
 		$extbaseBootstrap = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap */
 		$extbaseBootstrap->initialize($configuration);
-
-		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	}
 
 

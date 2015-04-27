@@ -37,11 +37,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \PunktDe\PtExtbase\Scheduler\AbstractSchedulerTask {
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-	 */
-	protected $objectManager;
-
-	/**
 	 * @var Tx_PtExtbase_SqlGenerator_SqlGenerator
 	 */
 	protected $sqlGenerator;
@@ -64,7 +59,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \PunktDe\PtExtbase\
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+		parent::initializeObject();
 		$this->sqlGenerator = $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlGenerator');
 		$this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
 	}
