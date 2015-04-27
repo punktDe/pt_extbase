@@ -26,7 +26,9 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use PunktDe\PtExtbase\Scheduler\AbstractSchedulerTask;
 
 /**
  * SQL Runner Task
@@ -34,7 +36,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package pt_extbase
  * @subpackage Scheduler
  */
-class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \PunktDe\PtExtbase\Scheduler\AbstractSchedulerTask {
+class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends AbstractSchedulerTask {
 
 	/**
 	 * @var Tx_PtExtbase_SqlGenerator_SqlGenerator
@@ -59,7 +61,6 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \PunktDe\PtExtbase\
 	 * @return void
 	 */
 	public function initializeObject() {
-		parent::initializeObject();
 		$this->sqlGenerator = $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlGenerator');
 		$this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
 	}
