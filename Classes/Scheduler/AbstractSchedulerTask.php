@@ -82,6 +82,7 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	 * @return void
 	 */
 	protected function initializeObject() {
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	}
 
 
