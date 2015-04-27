@@ -46,6 +46,11 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	protected $objectManager;
 
 
+	/**
+	 * @var \Tx_PtImporterBase_Importer_Extbase_Bootstrap
+	 */
+	protected $extbaseBootstrap;
+
 
 	/**
 	 * This function is public because it has to be called in the test methods for preparation.
@@ -55,6 +60,7 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	 */
 	public function initialize() {
 		$this->initializeExtbase();
+		$this->initializeLogger();
 		$this->initializeObject();
 	}
 
@@ -66,11 +72,18 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	 * This is necessary to resolve the TypoScript interface definitions
 	 */
 	protected function initializeExtbase() {
-		$configuration['extensionName'] = $this->getExtensionName();
-		$configuration['pluginName'] = 'dummy';
+		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+		$this->extbaseBootstrap = $this->objectManager->get('Tx_PtImporterBase_Importer_Extbase_Bootstrap');
+		$this->extbaseBootstrap->boot($this->getExtensionName());
+	}
 
-		$extbaseBootstrap = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap */
-		$extbaseBootstrap->initialize($configuration);
+
+
+	/**
+	 * @return void
+	 */
+	protected function initializeLogger() {
+		$this->logger = $this->objectManager->get('Tx_PtExtbase_Logger_Logger');
 	}
 
 
@@ -79,7 +92,6 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	 * @return void
 	 */
 	protected function initializeObject() {
-		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 	}
 
 
@@ -154,15 +166,9 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	 * @return void
 	 */
 	protected function logToApplicationLog() {
-
-		if(!($this->logger instanceof \Tx_PtExtbase_Logger_Logger)){
-			$this->logger = $this->objectManager->get('\Tx_PtExtbase_Logger_Logger');
-		}
-
-		if ($this->logger instanceof \Tx_PtExtbase_Logger_Logger) {
-			$data = array();
-			$this->addTaskLoggerData($data);
-			$this->logger->info(sprintf('Scheduler Task "%s" completed.', trim($this->getTaskTitle())), get_class($this), $data);
-		}
+		$data = array();
+		$this->addTaskLoggerData($data);
+		$this->logger->info(sprintf('Scheduler Task "%s" completed.', trim($this->getTaskTitle())), get_class($this), $data);
 	}
+
 }
