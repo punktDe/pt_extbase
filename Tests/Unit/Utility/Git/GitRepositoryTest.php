@@ -180,6 +180,11 @@ class GitRepositoryTest extends UnitTestCase {
 			->execute();
 
 		$this->proxy->commit()
+			->setAllowEmpty(TRUE)
+			->setMessage('This is a very empty commit!')
+			->execute();
+
+		$this->proxy->commit()
 			->setMessage('This is a very cool message!')
 			->execute();
 
@@ -218,6 +223,7 @@ class GitRepositoryTest extends UnitTestCase {
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git init --bare --shared')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git push --tags origin master')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag -s -a -m "Release" v1.2.3')),
+				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --allow-empty --message "This is a very empty commit!"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --message "This is a very cool message!"')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add --all .')),
 				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short --untracked-files=all')),
