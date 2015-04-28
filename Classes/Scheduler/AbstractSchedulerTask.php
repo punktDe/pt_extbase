@@ -55,7 +55,7 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	/**
 	 * This function is public because it has to be called in the test methods for preparation.
 	 * The Initialization process can't be called in:
-	 *    1. constructor because the constructor won't be called on unseralize
+	 *    1. constructor because the constructor won't be called on unserialize
 	 *    2. the __wakeup method because the wakeup will be called before configurations are loaded
 	 */
 	public function initialize() {
@@ -89,6 +89,11 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 
 
 	/**
+	 * Initialize Object
+	 *
+	 * Do not add functionality here. This method is meant to be used in inherited classes.
+	 * It is not abstract to make the implementation optional.
+	 *
 	 * @return void
 	 */
 	protected function initializeObject() {
@@ -98,11 +103,9 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 
 	/**
 	 * @param array $loggerData
-	 *
 	 * @return array
 	 */
 	protected function addTaskLoggerData(&$loggerData = array()) {
-
 		$loggerData['time'] =  TimeTracker::stop('SchedulerTaskMeasure');
 
 		$taskTitle = trim($this->getTaskTitle());
@@ -132,7 +135,6 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 	public function markExecution() {
 		TimeTracker::start('SchedulerTaskMeasure');
 		$this->initialize();
-
 		return parent::markExecution();
 	}
 
