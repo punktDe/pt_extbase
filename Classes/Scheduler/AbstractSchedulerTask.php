@@ -47,7 +47,7 @@ abstract class AbstractSchedulerTask extends AbstractTask {
 
 
 	/**
-	 * @var \Tx_PtImporterBase_Importer_Extbase_Bootstrap
+	 * @var \PunktDe\PtExtbase\Extbase\Bootstrap
 	 */
 	protected $extbaseBootstrap;
 
