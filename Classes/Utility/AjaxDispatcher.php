@@ -135,12 +135,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	/**
 	 * Initializes dispatcher, dispatches request and echos it
 	 */
-	public function initAndEchoDispatch() {
-		// TODO perhaps we should send some headers here?
-
-		$this->dispatchCallArguments = func_get_args();
-
-		echo $this->initAndDispatch();
+	public function initAndEchoDispatch($pageUid = 0) {
+		echo $this->initAndDispatch($pageUid);
 	}
 
 
@@ -149,11 +145,9 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 *
 	 * Call this function if you want to use this dispatcher "standalone"
 	 */
-	public function initAndDispatch() {
+	public function initAndDispatch($pageUid = 0) {
+		$this->init($pageUid);
 
-		$this->dispatchCallArguments = func_get_args();
-
-		$this->initCallArguments();
 		$content = $this->dispatch();
 		return $content;
 	}
@@ -220,23 +214,32 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected function checkAllowedControllerActions() {
 		if (!$this->extensionName || !$this->controllerName || !$this->actionName) throw new \Exception('Either extension, controller or action is undefined.', 1391146166);
 
-		$nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.allowedControllerActions', $this->extensionName, $this->controllerName, $this->actionName));
-		$actionAccess = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
-		if ($actionAccess !== TRUE) throw new \Exception('The requested controller / action is not allowed to be called via ajax / eId. You have to grant the access with the configuration: $GLOBALS[\'' . str_replace('.', "']['", $nameSpace) . "'] = TRUE; in your ext_localconf.php", 1391145113);
+		$nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'allowedControllerActions'));
+		$allowedControllerActions = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
+
+		if (!(in_array($this->actionName, $allowedControllerActions) || $this->checkLegacyAllowedControllerActions())) {
+			throw new \Exception('The requested controller / action is not allowed to be called via ajax / eId. You have to grant the access with the configuration: $GLOBALS[\'' . str_replace('.', "']['", $nameSpace) . "'][] = '" . $this->actionName . "'; in your ext_localconf.php", 1391145113);
+		}
+
+
 	}
 
 
 	/**
-	 * @param null $pageUid
+	 * @param integer $pageUid
 	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
 	 */
-	public function init($pageUid = NULL) {
-		#define('TYPO3_MODE','FE');
+	public function init($pageUid = 0) {
+		$this->initCallArguments();
 
-		$this->pageUid = $pageUid;
+		if ($pageUid !== 0) {
+			$this->pageUid = $pageUid;
+		} else {
+			$this->pageUid = $this->getPageUidFromConfiguration();
+		}
 
 		$this->initTca()
-			->initTsfe($pageUid)
+			->initTsfe($this->pageUid)
 			->initFeUser();
 
 		return $this;
@@ -439,6 +442,22 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	public function setFormat($format) {
 		$this->format = $format;
 		return $this;
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	protected function checkLegacyAllowedControllerActions() {
+		$nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.allowedControllerActions', $this->extensionName, $this->controllerName, $this->actionName));
+		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
+	}
+
+	/**
+	 * @return integer
+	 */
+	protected function getPageUidFromConfiguration() {
+		$nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'startingPoint'));
+		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
 	}
 
 }

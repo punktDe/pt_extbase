@@ -26,7 +26,9 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use PunktDe\PtExtbase\Scheduler\AbstractSchedulerTask;
 
 /**
  * SQL Runner Task
@@ -34,12 +36,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package pt_extbase
  * @subpackage Scheduler
  */
-class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Scheduler\Task\AbstractTask {
-
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-	 */
-	protected $objectManager;
+class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends AbstractSchedulerTask {
 
 	/**
 	 * @var Tx_PtExtbase_SqlGenerator_SqlGenerator
@@ -55,30 +52,15 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Schedule
 	 * @return boolean Returns TRUE on successful execution, FALSE on error
 	 */
 	public function execute() {
-		$this->initializeExtbase();
-		$this->initializeObject();
 		$sqls = $this->sqlGenerator->generate(GeneralUtility::getFileAbsFileName($this->tx_ptextbase_sqlfile));
 		$this->sqlRunner->runSqls($sqls);
 		return TRUE;
 	}
 
 	/**
-	 * Initialize Extbase
-	 *
-	 * This is necessary to resolve the TypoScript interface definitions
-	 */
-	protected function initializeExtbase() {
-		$configuration['extensionName'] = 'PtExtbase';
-		$configuration['pluginName'] = 'dummy';
-		$extbaseBootstrap = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
-		$extbaseBootstrap->initialize($configuration);
-	}
-
-	/**
 	 * @return void
 	 */
 	public function initializeObject() {
-		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 		$this->sqlGenerator = $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlGenerator');
 		$this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
 	}
@@ -88,5 +70,14 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends \TYPO3\CMS\Schedule
 	 */
 	public function getAdditionalInformation() {
 		return "Run SQL file " . $this->tx_ptextbase_sqlfile;
+	}
+
+	/**
+	 * Return the extensionName for Extbase Initialization
+	 *
+	 * @return string
+	 */
+	public function getExtensionName() {
+		return 'PtExtbase';
 	}
 }

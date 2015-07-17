@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Utility\Git\Command;
+namespace PunktDe\PtExtbase\Extbase;
 
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
@@ -21,66 +21,40 @@ namespace PunktDe\PtExtbase\Utility\Git\Command;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /**
- * Push Command
+ * Extbase Bootstrap
  *
- * @package PunktDe\PtExtbase\Utility\Git\Command
+ * @package PunktDe\PtExtbase\Extbase
  */
-class PushCommand extends GenericShellCommand {
+class Bootstrap {
 
 	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
+	 * @var ObjectManagerInterface
 	 */
-	protected $argumentMap = array(
-		'tags' => '--tags',
-		'remote' => '%s',
-		'refspec' => '%s'
-	);
+	protected $objectManager;
 
 
 	/**
-	 * @var array
+	 * @param ObjectManagerInterface $objectManager
 	 */
-	protected $arguments = array(
-		'tags' => FALSE,
-		'remote' => '',
-		'refspec' => ''
-	);
-
-
-
-	/**
-	 * @return $this
-	 */
-	public function setTags() {
-		$this->arguments['tags'] = TRUE;
-		return $this;
+	public function injectObjectManager(ObjectManagerInterface $objectManager) {
+		$this->objectManager = $objectManager;
 	}
 
 
 
 	/**
-	 * @param string $remote
-	 * @return $this
+	 * @param string $extensionName The condensed upper camel case extension key
+	 * @param string $pluginName
+	 * @return void
 	 */
-	public function setRemote($remote) {
-		$this->arguments['remote'] = $remote;
-		return $this;
-	}
-
-
-
-	/**
-	 * @param string $refspec
-	 * @return $this
-	 */
-	public function setRefspec($refspec) {
-		$this->arguments['refspec'] = $refspec;
-		return $this;
+	public function boot($extensionName, $pluginName = 'dummy') {
+		$configuration['extensionName'] = $extensionName;
+		$configuration['pluginName'] = $pluginName;
+		$extbaseBootstrap = $this->objectManager->get('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
+		$extbaseBootstrap->initialize($configuration);
 	}
 
 }

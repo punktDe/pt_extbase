@@ -601,6 +601,26 @@ class Tx_PtExtbase_Assertions_Assert {
 
 
 
+	/**
+	 * Test if value is a valid mysql result
+	 *
+	 * @param mixed value
+	 * @param \TYPO3\CMS\Core\Database\DatabaseConnection (optional) t3lib_DB used, default is NULL, then $GLOBALS['TYPO3_DB'] will be used
+	 * @param array (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
+	 * @return boolean
+	 */
+	public static function isMySQLSuccess($res, \TYPO3\CMS\Core\Database\DatabaseConnection $dbObj = NULL, array $info = array()) {
+		if ($res == TRUE) {
+			return TRUE;
+		} else if ($res == FALSE) {
+			return FALSE;
+		} else {
+			return self::isMySQLRessource($res, $dbObj, $info);
+		}
+	}
+
+
+
     /**
      * Test if value is a valid mysql ressource
      *

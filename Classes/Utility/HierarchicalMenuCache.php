@@ -101,14 +101,12 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends \TYPO3\CMS\Fro
 	protected static  $CACHE_KEY = NULL;
 
 
-
 	/**
 	 * Cache identifier for caching framework
 	 *
 	 * Set this in your extending class!
 	 */
 	protected static $CACHE_NAMESPACE = NULL;
-
 
 
 	/**
@@ -119,23 +117,20 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends \TYPO3\CMS\Fro
 	protected static $lifetime = 7200;
 
 
-
 	/**
-	 * @var t3lib_cache_backend_Backend
+	 * @var \TYPO3\CMS\Core\Cache\Backend\BackendInterface
 	 */
 	private $cache;
 
 
-
 	/**
-	 * @var  t3lib_cache_Manager
+	 * @var \TYPO3\CMS\Core\Cache\CacheManager
 	 */
 	private $cacheManager;
 
 
-
 	/**
-	 * @var t3lib_cache_Factory
+	 * @var \TYPO3\CMS\Core\Cache\CacheFactory
 	 */
 	private $cacheFactory;
 

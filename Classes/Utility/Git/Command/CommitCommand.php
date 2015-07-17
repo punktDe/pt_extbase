@@ -36,6 +36,7 @@ class CommitCommand extends GenericShellCommand {
 	 * @var array
 	 */
 	protected $argumentMap = array(
+		'allowEmpty' => '--allow-empty',
 		'message' => '--message %s'
 	);
 
@@ -44,8 +45,20 @@ class CommitCommand extends GenericShellCommand {
 	 * @var array
 	 */
 	protected $arguments = array(
+		'allowEmpty' => FALSE,
 		'message' => ''
 	);
+
+
+
+	/**
+	 * @param boolean $allowEmpty
+	 * @return $this
+	 */
+	public function setAllowEmpty($allowEmpty) {
+		$this->arguments['allowEmpty'] = $allowEmpty;
+		return $this;
+	}
 
 
 

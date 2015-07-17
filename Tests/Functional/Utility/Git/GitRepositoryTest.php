@@ -306,6 +306,69 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 	/**
 	 * @test
 	 */
+	public function pushingTagsToARemoteRepositoryWorks() {
+		$this->skipTestIfGitCommandForTestingDoesNotExist();
+
+		$expectedTagName = 'WhatATag';
+
+		$this->remoteProxy
+			->init()
+			->setBare(TRUE)
+			->execute();
+
+		$this->proxy
+			->init()
+			->execute();
+
+		$this->proxy
+			->remote()
+			->add()
+			->setName('origin')
+			->setUrl(sprintf("file://%s", $this->remoteRepositoryRootPath))
+			->execute();
+
+		file_put_contents($this->repositoryRootPath . DIRECTORY_SEPARATOR . "film01.txt", "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+		file_put_contents($this->repositoryRootPath . DIRECTORY_SEPARATOR . "film02.txt", "2001 - A Space Odyssey");
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$this->proxy
+			->commit()
+			->setMessage("[TASK] Initial commit")
+			->execute();
+
+		$this->proxy
+			->tag()
+			->setSign(FALSE)
+			->setName($expectedTagName)
+			->execute();
+
+ 		$this->proxy
+		    ->push()
+			->setTags()
+		    ->setRemote('origin')
+		    ->setRefspec('master')
+		    ->execute();
+
+		$actual = $this->remoteProxy
+			->log()
+			->execute()
+			->getRawResult();
+
+		$expected = "[TASK] Initial commit";
+		$this->assertContains($expected, $actual);
+		$actualTagName = $this->runGitCommandForAssertion(sprintf("%s --git-dir=%s/.git/ tag", $this->pathToGitCommand, $this->remoteRepositoryRootPath));
+		$this->assertSame($expectedTagName, trim($actualTagName));
+	}
+
+
+
+	/**
+	 * @test
+	 */
 	public function checkoutChecksOutValidCommit() {
 		$this->skipTestIfGitCommandForTestingDoesNotExist();
 
@@ -545,6 +608,45 @@ class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
 		$expectedCommits = sprintf("%s [CHG] Change film texts\n", $expectedSecondCommitHash);
 		$actualCommits = $this->runGitCommandForAssertion(sprintf("%s --git-dir=%s/.git log --pretty=\"oneline\"", $this->pathToGitCommand, $this->remoteRepositoryRootPath));
 		$this->assertSame($expectedCommits, $actualCommits);
+	}
+
+
+
+	/**
+	 * @test
+	 */
+	public function commitOfUnmodifiedRepositoryDoesNotReturnAnError() {
+		$this->skipTestIfGitCommandForTestingDoesNotExist();
+
+		$this->proxy
+			->init()
+			->execute();
+
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+		file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "2001 - A Space Odyssey");
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$this->proxy
+			->commit()
+			->setMessage("[TASK] Initial commit")
+			->execute();
+
+		$this->proxy
+			->add()
+			->setPath(".")
+			->execute();
+
+		$result = $this->proxy
+			->commit()
+			->setAllowEmpty(TRUE)
+			->setMessage("[TASK] Empty commit")
+			->execute();
+
+		$this->assertSame(0, $result->getExitCode());
 	}
 
 

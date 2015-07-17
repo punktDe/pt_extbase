@@ -24,37 +24,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-namespace PunktDe\PtExtbase\Utility;
+namespace PunktDe\PtExtbase\Utility\Lock;
 
 
-class TimeTracker {
+class LockNotAcquiredException extends \Exception {
 
-	/**
-	 * @var array
-	 */
-	protected static $startDates;
-
-
-	/**
-	 * @param $trackIdentifier
-	 */
-	public static function start($trackIdentifier) {
-		self::$startDates[$trackIdentifier] = microtime(TRUE);
-	}
-
-
-	/**
-	 * @param $trackIdentifier
-	 * @return float Measured time in milliseconds
-	 */
-	public static function stop($trackIdentifier) {
-		if(!array_key_exists($trackIdentifier, self::$startDates)) {
-			return -1;
-		} else {
-			$startDate = self::$startDates[$trackIdentifier];
-			unset(self::$startDates[$trackIdentifier]);
-
-			return (int)((microtime(TRUE) - $startDate) * 1000);
-		}
-	}
-} 
+}
