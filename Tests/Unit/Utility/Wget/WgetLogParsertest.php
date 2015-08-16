@@ -27,6 +27,7 @@
 namespace PunktDe\PtExtbase\Tests\Utility\Wget;
 
 use PunktDe\PtExtbase\Utility\Files;
+use PunktDe\PtExtbase\Utility\Wget\WgetLog;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class WgetLogParserTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
@@ -74,6 +75,8 @@ class WgetLogParserTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
 EOD;
 
 	protected $testWgetLogEntry2 = <<<'EOD'
+WARNUNG: Kann das Zertifikat von »das-partnerportal.deutschepost.de« nicht prüfen, ausgestellt von »»/C=DE/ST=Nordrhein-Westfalen/L=Bonn/O=Deutsche Post/CN=DPDHL TLS SHA2 CA I3««:.
+  Ein selbst-signiertes Zertifikat gefunden.
   HTTP/1.1 200 OK
   Server: Apache/2.4.6 (Red Hat)
   Last-Modified: Fri, 09 Jan 2015 09:04:44 GMT
@@ -106,7 +109,9 @@ EOD;
   Age: 241
   Via: 1.1 varnish
   Connection: keep-alive
-  2015-01-26 17:50:43 URL:https://test.de/index.php?id=login&logintype=logout [6285/6285] -> "2014-11-28-0958/test.de/login/hdl/helpdesklogin/4092341/23589310/a9dc685506e98630/104" [1]');
+  2015-01-26 17:50:43 URL:https://test.de/index.php?id=login&logintype=logout [6285/6285] -> "2014-11-28-0958/test.de/login/hdl/helpdesklogin/4092341/23589310/a9dc685506e98630/104" [1]
+WARNUNG: Kann das Zertifikat von »das-partnerportal.deutschepost.de« nicht prüfen, ausgestellt von »»/C=DE/ST=Nordrhein-Westfalen/L=Bonn/O=Deutsche Post/CN=DPDHL TLS SHA2 CA I3««:.
+  Ein selbst-signiertes Zertifikat gefunden.');
 
 
 	/**
@@ -133,7 +138,7 @@ EOD;
   Via: 1.1 varnish
   Connection: keep-alive
   2015-01-26 17:50:43 URL:https://test.de/typo3temp/stylesheet_c89de9523c.1422025907.css [9169/9169] -> "2014-11-28-0958/test.de/typo3temp/stylesheet_c89de9523c.1422025907.css" [1]'
-	)
+)
 		);
 
 		$this->assertEquals($expectedLogEntryArray[0], $actualLogEntryArray[0], 'First log entry differs');
@@ -234,5 +239,23 @@ EOD;
 		);
 
 		$this->assertEquals($logFileEntry4, $logFileEntries->getItemByIndex(3)->toArray());
+	}
+
+
+	/**
+	 * @test
+	 */
+	public function buildLogFileEntryArrayTest() {
+		$wgetLog = $this->wgetLogParser->_call('buildLogFileEntryArray', $this->testWgetLogEntry2); /** @var $wgetLog WgetLog */
+
+		$expected = array(
+			'date' => date_create_from_format('Y-m-d H:i:s', '2015-01-26 17:50:43'),
+			'url' => 'https://test.de/typo3temp/stylesheet_c89de9523c.1422025907.css',
+			'status' => 200,
+			'length' => 360
+		);
+
+		$this->assertEquals(1, $wgetLog->count());
+		$this->assertEquals($expected, $wgetLog->getItemByIndex(0)->toArray());
 	}
 }

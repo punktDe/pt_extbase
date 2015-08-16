@@ -31,10 +31,15 @@
 class Tx_PtExtbase_Utility_DateService implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
+	 * @var string
+	 */
+	protected $timezone = 'Europe/Berlin';
+
+
+	/**
 	 * @var integer
 	 */
 	protected $overrideCurrentYear = NULL;
-
 
 
 	/**
@@ -64,6 +69,34 @@ class Tx_PtExtbase_Utility_DateService implements \TYPO3\CMS\Core\SingletonInter
 	 */
 	public function getCurrentTimestamp() {
 		return time();
+	}
+
+
+
+	/**
+	 * @param integer $timestamp
+	 * @return integer
+	 */
+	public function getDaysBetweenNowAndTimestamp($timestamp) {
+		$currentDate = new \DateTime();
+		$currentDate->setTime(0, 0, 0);
+
+		$validationDate = new \DateTime('@' . $timestamp);
+		$validationDate->setTimezone(new \DateTimeZone($this->timezone));
+		$validationDate->setTime(0, 0, 0);
+
+		$diff = $validationDate->diff($currentDate);
+
+		return $diff->days;
+	}
+
+
+
+	/**
+	 * @param string $timezone
+	 */
+	public function setTimezone($timezone) {
+		$this->timezone = $timezone;
 	}
 
 }

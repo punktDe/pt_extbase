@@ -93,6 +93,8 @@ class WgetLogParser {
 	 * @return WgetLog
 	 */
 	protected function buildLogFileEntryArray($logFileContent) {
+		$logFileContent = $this->removeLeadingWarnings($logFileContent);
+
 		$structuredLogFileEntries = $this->splitLogFileEntries($logFileContent);
 
 		$wgetLog = $this->objectManager->get('\PunktDe\PtExtbase\Utility\Wget\WgetLog'); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLog  $wgetLog */
@@ -170,5 +172,18 @@ class WgetLogParser {
 		}
 
 		return $structuredLogEntryArray;
+	}
+
+	/**
+	 * For the log parser to work, the very first line has to start with '  HTTP/'
+	 *
+	 * @param $logFileContent
+	 *
+	 * @return string
+	 */
+	protected function removeLeadingWarnings($logFileContent) {
+		$logFileContent = substr($logFileContent, strpos($logFileContent, 'HTTP'));
+
+		return $logFileContent;
 	}
 } 
