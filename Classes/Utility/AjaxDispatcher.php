@@ -436,6 +436,16 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 
 	/**
+	 * @param $vendorName
+	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
+	 */
+	public function setVendorName($vendorName) {
+		$this->vendorName = $vendorName;
+		return $this;
+	}
+
+
+	/**
 	 * @param string $format
 	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
 	 */
