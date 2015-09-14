@@ -53,11 +53,14 @@ class Tx_PtExtbase_ViewHelpers_Content_RenderPageViewHelper extends \TYPO3\CMS\F
 		}
 
 		$pageUid = $this->arguments['pageUid'];
+
+		$sysLanguageUid = intval($GLOBALS['TSFE']->sys_language_uid);
+
 		$conf = array( // config
 			'table' => 'tt_content',
 			'select.' => array(
 				'pidInList' => $pageUid,
-				'where' => 'colPos=0'
+				'where' => 'colPos=0 AND (sys_language_uid=' . $sysLanguageUid . ' OR sys_language_uid=-1)'
 			),
 		);
 		$result = $GLOBALS['TSFE']->cObj->CONTENT($conf);
