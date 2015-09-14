@@ -240,6 +240,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 		$this->initTca()
 			->initTsfe($this->pageUid)
+			->initTypoScript()
 			->initFeUser();
 
 		return $this;
@@ -292,9 +293,12 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 * @return Tx_PtExtbase_Utility_AjaxDispatcher
 	 */
 	public function initTypoScript() {
-		$GLOBALS['TSFE']->getPageAndRootline();
-		$GLOBALS['TSFE']->initTemplate();
-		$GLOBALS['TSFE']->getConfigArray();
+
+		if ($this->getRenderTyposcriptFromConfiguration()) {
+			$GLOBALS['TSFE']->getPageAndRootline();
+			$GLOBALS['TSFE']->initTemplate();
+			$GLOBALS['TSFE']->getConfigArray();
+		}
 
 		return $this;
 	}
@@ -467,6 +471,14 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	 */
 	protected function getPageUidFromConfiguration() {
 		$nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'startingPoint'));
+		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
+	}
+
+	/**
+	 * @return boolean
+	 */
+	protected function getRenderTyposcriptFromConfiguration() {
+		$nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'renderTyposcript'));
 		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
 	}
 
