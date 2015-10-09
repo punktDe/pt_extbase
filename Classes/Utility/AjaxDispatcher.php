@@ -348,9 +348,9 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 
 		$this->setVendorAndExtensionName();
 
-		$this->pluginName = $this->requestArguments['pluginName'];
-		$this->controllerName = $this->requestArguments['controllerName'];
-		$this->actionName = $this->requestArguments['actionName'];
+		$this->pluginName = $this->pluginName ?: $this->requestArguments['pluginName'];
+		$this->controllerName = $this->controllerName ?: $this->requestArguments['controllerName'];
+		$this->actionName = $this->actionName ?: $this->requestArguments['actionName'];
 
 		$this->arguments = $this->requestArguments['arguments'];
 		if (!is_array($this->arguments)) $this->arguments = array();
@@ -362,7 +362,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher {
 	protected function setVendorAndExtensionName() {
 		$vendorName = NULL;
 
-		$this->extensionName = $this->requestArguments['extensionName'];
+		$this->extensionName = $this->extensionName ?: $this->requestArguments['extensionName'];
 
 		$delimiterPosition = strrpos($this->extensionName, '.');
 		if ($delimiterPosition !== FALSE) {
