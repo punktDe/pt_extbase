@@ -54,190 +54,198 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @author Daniel Lienert
  */
-class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper {
-
-	/**
-	 * @var string
-	 */
-	protected $nodes;
-
-
-
-	/**
-	 * @var boolean
-	 */
-	protected $multiple;
+class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper
+{
+    /**
+     * @var string
+     */
+    protected $nodes;
 
 
 
-	/**
-	 * @var Tx_PtExtbase_Tree_TreeContext
-	 */
-	protected $treeContext;
-
-
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
-
-
-	/**
-	 * @param Tx_PtExtbase_Tree_TreeContext $treeContext
-	 * @return void
-	 */
-	public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext) {
-		$this->treeContext = $treeContext;
-	}
-
-
-	/**
-	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
-	 */
-	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
-		$this->objectManager = $objectManager;
-	}
-
-
-	/**
-	 * Initialize arguments.
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-
-		$this->registerArgument('nodes', 'string', 'The tree nodes as JSON Array', false);
-		$this->registerArgument('repository', 'string', 'Specifies the node repository', false);
-		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
-		$this->registerArgument('multiple', 'boolean', 'Specifies if the tree is a multiple or single select tree', false, false);
-		$this->overrideArgument('id', 'string', 'Specifies the field and div ID', true, 'ptExtbaseTreeSelector');
-		$this->registerArgument('restrictedDepth', 'int', 'Depth of tree to be rendered', false);
-		$this->registerArgument('expand', 'string', 'Expand Mode. "all" or "root"', false, 'root');
-		$this->registerArgument('respectEnableFields', 'int', '0 = Show all entries, 1 = do not display hidden', false, 1);
-	}
+    /**
+     * @var boolean
+     */
+    protected $multiple;
 
 
 
-	/**
-	 * Initialize the viewHelper
-	 */
-	public function initialize() {
-		parent::initialize();
-
-		$this->multiple = $this->arguments['multiple'];
-		$this->nodes = trim($this->arguments['nodes']);
-
-		if(!$this->nodes) {
-			if(!$this->arguments['repository']) throw new Exception('Either treeNodes or a treeNodeRepository has to be given to use the viewHelper.', 1328536673);
-		}
-	}
+    /**
+     * @var Tx_PtExtbase_Tree_TreeContext
+     */
+    protected $treeContext;
 
 
-
-	/**
-	 * Renders the treeSelector.
-	 *
-	 * @param boolean $required If the field is required or not
-	 * @return string
-	 * @api
-	 */
-	public function render($required = NULL) {
-		$formField = parent::render($required, 'hidden', NULL);
-
-		if(!$this->nodes) {
-			$this->nodes = $this->getTreeNodes();
-		}
-
-		$treeDiv = $this->getTreeDiv();
-		$treeJS = $this->getTreeJS($this->nodes);
-
-		return $formField . $treeDiv . $treeJS;
-	}
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     */
+    protected $objectManager;
 
 
+    /**
+     * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+     * @return void
+     */
+    public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext)
+    {
+        $this->treeContext = $treeContext;
+    }
 
-	/**
-	 * Get Tree nodes as JSON array
-	 *
-	 * @return string JSON array
-	 */
-	protected function getTreeNodes() {
 
-		$treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
-		$treeRepositoryBuilder->setNodeRepositoryClassName($this->arguments['repository']);
+    /**
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     */
+    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
-		$treeRepository = $treeRepositoryBuilder->buildTreeRepository();
 
-		if ($this->arguments['respectEnableFields']) {
-			$this->treeContext->setRespectEnableFields(TRUE);
-		} else {
-			$this->treeContext->setRespectEnableFields(FALSE);
-		}
-		$tree = $treeRepository->loadTreeByNamespace($this->arguments['namespace']);
+    /**
+     * Initialize arguments.
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
 
-		if (isset($this->arguments['restrictedDepth'])) {
-			$tree->setRestrictedDepth($this->arguments['restrictedDepth']);
-			$tree->setRespectRestrictedDepth(TRUE);
-		}
-
-		$arrayWriterVisitor = $this->objectManager->get('Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor');
-		$arrayWriterVisitor->setMultipleSelect($this->arguments['multiple']);
-		$arrayWriterVisitor->setSelection($this->getSelection());
-
-		$jsonTreeWriter = $this->objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', array($arrayWriterVisitor), $arrayWriterVisitor);
-
-		return $jsonTreeWriter->writeTree($tree);
-	}
+        $this->registerArgument('nodes', 'string', 'The tree nodes as JSON Array', false);
+        $this->registerArgument('repository', 'string', 'Specifies the node repository', false);
+        $this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
+        $this->registerArgument('multiple', 'boolean', 'Specifies if the tree is a multiple or single select tree', false, false);
+        $this->overrideArgument('id', 'string', 'Specifies the field and div ID', true, 'ptExtbaseTreeSelector');
+        $this->registerArgument('restrictedDepth', 'int', 'Depth of tree to be rendered', false);
+        $this->registerArgument('expand', 'string', 'Expand Mode. "all" or "root"', false, 'root');
+        $this->registerArgument('respectEnableFields', 'int', '0 = Show all entries, 1 = do not display hidden', false, 1);
+    }
 
 
 
-	/**
-	 * @return array|int
-	 */
-	protected function getSelection() {
-		if($this->multiple) {
-			return GeneralUtility::trimExplode(',',$this->arguments['value'],TRUE);
-		} else {
-			return (int) trim($this->arguments['value']);
-		}
-	}
+    /**
+     * Initialize the viewHelper
+     */
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->multiple = $this->arguments['multiple'];
+        $this->nodes = trim($this->arguments['nodes']);
+
+        if (!$this->nodes) {
+            if (!$this->arguments['repository']) {
+                throw new Exception('Either treeNodes or a treeNodeRepository has to be given to use the viewHelper.', 1328536673);
+            }
+        }
+    }
 
 
 
-	/**
-	 * Build and return the javascript via the javascript viewHelper
-	 * @todo refactor JSViewHelper and move the marker code to a separate utility, call the utility here
-	 *
-	 * @param string $treeNodes treeNode JSON
-	 * @return string
-	 */
-	protected function getTreeJS($treeNodes) {
+    /**
+     * Renders the treeSelector.
+     *
+     * @param boolean $required If the field is required or not
+     * @return string
+     * @api
+     */
+    public function render($required = null)
+    {
+        $formField = parent::render($required, 'hidden', null);
 
-		/** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
-		$treeViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
-		//$treeViewHelper->setControllerContext($this->controllerContext);
+        if (!$this->nodes) {
+            $this->nodes = $this->getTreeNodes();
+        }
 
-		$treeViewHelper->initialize();
+        $treeDiv = $this->getTreeDiv();
+        $treeJS = $this->getTreeJS($this->nodes);
 
-		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
-			array(
-				'nodeJSON' => $treeNodes,
-				'multiple' => $this->multiple ? 'true': 'false',
-				'fieldId' => $this->arguments['id'],
-				'expand' => $this->arguments['expand'],
-			)
-			,FALSE, FALSE
-		);
-	}
+        return $formField . $treeDiv . $treeJS;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	protected function getTreeDiv() {
-		return '<div id="'.$this->arguments['id'].'Div"></div>';
-	}
+    /**
+     * Get Tree nodes as JSON array
+     *
+     * @return string JSON array
+     */
+    protected function getTreeNodes()
+    {
+        $treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
+        $treeRepositoryBuilder->setNodeRepositoryClassName($this->arguments['repository']);
 
+        $treeRepository = $treeRepositoryBuilder->buildTreeRepository();
+
+        if ($this->arguments['respectEnableFields']) {
+            $this->treeContext->setRespectEnableFields(true);
+        } else {
+            $this->treeContext->setRespectEnableFields(false);
+        }
+        $tree = $treeRepository->loadTreeByNamespace($this->arguments['namespace']);
+
+        if (isset($this->arguments['restrictedDepth'])) {
+            $tree->setRestrictedDepth($this->arguments['restrictedDepth']);
+            $tree->setRespectRestrictedDepth(true);
+        }
+
+        $arrayWriterVisitor = $this->objectManager->get('Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor');
+        $arrayWriterVisitor->setMultipleSelect($this->arguments['multiple']);
+        $arrayWriterVisitor->setSelection($this->getSelection());
+
+        $jsonTreeWriter = $this->objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', array($arrayWriterVisitor), $arrayWriterVisitor);
+
+        return $jsonTreeWriter->writeTree($tree);
+    }
+
+
+
+    /**
+     * @return array|int
+     */
+    protected function getSelection()
+    {
+        if ($this->multiple) {
+            return GeneralUtility::trimExplode(',', $this->arguments['value'], true);
+        } else {
+            return (int) trim($this->arguments['value']);
+        }
+    }
+
+
+
+    /**
+     * Build and return the javascript via the javascript viewHelper
+     * @todo refactor JSViewHelper and move the marker code to a separate utility, call the utility here
+     *
+     * @param string $treeNodes treeNode JSON
+     * @return string
+     */
+    protected function getTreeJS($treeNodes)
+    {
+
+        /** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
+        $treeViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
+        //$treeViewHelper->setControllerContext($this->controllerContext);
+
+        $treeViewHelper->initialize();
+
+        return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
+            array(
+                'nodeJSON' => $treeNodes,
+                'multiple' => $this->multiple ? 'true': 'false',
+                'fieldId' => $this->arguments['id'],
+                'expand' => $this->arguments['expand'],
+            ), false, false
+        );
+    }
+
+
+
+    /**
+     * @return string
+     */
+    protected function getTreeDiv()
+    {
+        return '<div id="'.$this->arguments['id'].'Div"></div>';
+    }
 }

@@ -31,7 +31,6 @@ use \TYPO3\CMS\Core\Tests\UnitTestCase;
  */
 class AjaxDispatcherTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
 {
-
     /**
      * @var \Tx_PtExtbase_Utility_AjaxDispatcher
      */
@@ -50,5 +49,4 @@ class AjaxDispatcherTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
     {
         $this->markTestIncomplete('Should be implemented');
     }
-
 }

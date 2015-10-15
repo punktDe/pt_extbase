@@ -28,46 +28,47 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class InitCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'bare' => '--bare',
-		'shared' => '--shared'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'bare' => FALSE,
-		'shared' => FALSE
-	);
+class InitCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'bare' => '--bare',
+        'shared' => '--shared'
+    );
 
 
-	/**
-	 * @param boolean $bare
-	 * @return $this
-	 */
-	public function setBare($bare) {
-		$this->arguments['bare'] = $bare;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'bare' => false,
+        'shared' => false
+    );
+
+
+    /**
+     * @param boolean $bare
+     * @return $this
+     */
+    public function setBare($bare)
+    {
+        $this->arguments['bare'] = $bare;
+        return $this;
+    }
 
 
 
-	/**
-	 * @param boolean $shared
-	 * @return $this
-	 */
-	public function setShared($shared) {
-		$this->arguments['shared'] = $shared;
-		return $this;
-	}
-
+    /**
+     * @param boolean $shared
+     * @return $this
+     */
+    public function setShared($shared)
+    {
+        $this->arguments['shared'] = $shared;
+        return $this;
+    }
 }

@@ -36,48 +36,52 @@ use PunktDe\PtExtbase\Scheduler\AbstractSchedulerTask;
  * @package pt_extbase
  * @subpackage Scheduler
  */
-class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends AbstractSchedulerTask {
+class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends AbstractSchedulerTask
+{
+    /**
+     * @var Tx_PtExtbase_SqlGenerator_SqlGenerator
+     */
+    protected $sqlGenerator;
 
-	/**
-	 * @var Tx_PtExtbase_SqlGenerator_SqlGenerator
-	 */
-	protected $sqlGenerator;
+    /**
+     * @var Tx_PtExtbase_SqlRunner_SqlRunnerInterface
+     */
+    protected $sqlRunner;
 
-	/**
-	 * @var Tx_PtExtbase_SqlRunner_SqlRunnerInterface
-	 */
-	protected $sqlRunner;
+    /**
+     * @return boolean Returns TRUE on successful execution, FALSE on error
+     */
+    public function execute()
+    {
+        $sqls = $this->sqlGenerator->generate(GeneralUtility::getFileAbsFileName($this->tx_ptextbase_sqlfile));
+        $this->sqlRunner->runSqls($sqls);
+        return true;
+    }
 
-	/**
-	 * @return boolean Returns TRUE on successful execution, FALSE on error
-	 */
-	public function execute() {
-		$sqls = $this->sqlGenerator->generate(GeneralUtility::getFileAbsFileName($this->tx_ptextbase_sqlfile));
-		$this->sqlRunner->runSqls($sqls);
-		return TRUE;
-	}
+    /**
+     * @return void
+     */
+    public function initializeObject()
+    {
+        $this->sqlGenerator = $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlGenerator');
+        $this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
+    }
 
-	/**
-	 * @return void
-	 */
-	public function initializeObject() {
-		$this->sqlGenerator = $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlGenerator');
-		$this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
-	}
+    /**
+     * @return string
+     */
+    public function getAdditionalInformation()
+    {
+        return "Run SQL file " . $this->tx_ptextbase_sqlfile;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getAdditionalInformation() {
-		return "Run SQL file " . $this->tx_ptextbase_sqlfile;
-	}
-
-	/**
-	 * Return the extensionName for Extbase Initialization
-	 *
-	 * @return string
-	 */
-	public function getExtensionName() {
-		return 'PtExtbase';
-	}
+    /**
+     * Return the extensionName for Extbase Initialization
+     *
+     * @return string
+     */
+    public function getExtensionName()
+    {
+        return 'PtExtbase';
+    }
 }

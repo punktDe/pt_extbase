@@ -29,21 +29,17 @@
  * @author      Fabrizio Branca 
  * @author      Michael Knoll
  * @package     Exception
- */ 
-class Tx_PtExtbase_Exception_Internal extends Tx_PtExtbase_Exception_Exception {
-     
+ */
+class Tx_PtExtbase_Exception_Internal extends Tx_PtExtbase_Exception_Exception
+{
     /**
      * Class constructor
      * 
      * @param   string  $errMsg error message (used for frontend/enduser display, too)    
      * @param   string  $debugMsg detailed debug message (not used for frontend display)  
      */
-    public function __construct($errMsg='', $debugMsg='') {
-        
+    public function __construct($errMsg='', $debugMsg='')
+    {
         parent::__construct($errMsg, 3, $debugMsg);
-        
-    }    
-    
+    }
 }
-
-?>

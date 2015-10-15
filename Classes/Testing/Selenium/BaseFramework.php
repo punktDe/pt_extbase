@@ -23,5 +23,3 @@
  */
 require_once 'Backend/Security.php';
 require_once 'Backend/Modules.php';
-
-?>

@@ -31,111 +31,116 @@
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
-class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CMS\Core\SingletonInterface {
+class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * @var array
+     */
+    protected $fixtures;
 
-	/**
-	 * @var array
-	 */
-	protected $fixtures;
+    /**
+     * @var Tx_PtExtbase_Testing_FixtureFramework_Fixture
+     */
+    protected $fixture;
 
-	/**
-	 * @var Tx_PtExtbase_Testing_FixtureFramework_Fixture
-	 */
-	protected $fixture;
+    /**
+     * @param array $fixtures
+     * @return void
+     */
+    public function import($fixtures)
+    {
+        $this->fixtures = $fixtures;
+        foreach ($fixtures as $fixture) { /** @var Tx_PtExtbase_Testing_FixtureFramework_Fixture $fixture */
+            $this->fixture = $fixture;
+            $this->setConnection();
+            if ($this->fixture->getSchemaFilePath() != "") {
+                $this->importSchema();
+            }
+            $this->importFixture();
+        }
+    }
 
-	/**
-	 * @param array $fixtures
-	 * @return void
-	 */
-	public function import($fixtures) {
-		$this->fixtures = $fixtures;
-		foreach ($fixtures as $fixture) { /** @var Tx_PtExtbase_Testing_FixtureFramework_Fixture $fixture */
-			$this->fixture = $fixture;
-			$this->setConnection();
-			if ($this->fixture->getSchemaFilePath() != "") {
-				$this->importSchema();
-			}
-			$this->importFixture();
-		}
-	}
+    /**
+     * @return void
+     */
+    protected function setConnection()
+    {
+        $this->fixture->setConnection(
+            new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection(
+                new PDO(
+                    $this->fixture->getCredentials()->getDsn(),
+                    $this->fixture->getCredentials()->getUsername(),
+                    $this->fixture->getCredentials()->getPassword()
+                ),
+                $this->fixture->getCredentials()->getSchema()
+            )
+        );
+        $this->fixture->getConnection()->getConnection()->query('SET NAMES utf8')->execute();
+    }
 
-	/**
-	 * @return void
-	 */
-	protected function setConnection() {
-		$this->fixture->setConnection(
-			new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection(
-				new PDO(
-					$this->fixture->getCredentials()->getDsn(),
-					$this->fixture->getCredentials()->getUsername(),
-					$this->fixture->getCredentials()->getPassword()
-				),
-				$this->fixture->getCredentials()->getSchema()
-			)
-		);
-		$this->fixture->getConnection()->getConnection()->query('SET NAMES utf8')->execute();
-	}
+    /**
+     * @return void
+     * @throws \RuntimeException
+     */
+    protected function importSchema()
+    {
+        if ($this->fixture->getSchemaFilePath() != '') {
+            $schemaFilePath = PATH_site . '/' . $this->fixture->getSchemaFilePath();
+            if (file_exists($schemaFilePath)) {
+                $command[] = 'mysql';
+                $command[] = '-h ' . $this->fixture->getCredentials()->getHostname();
+                $command[] = '-u ' . $this->fixture->getCredentials()->getUsername();
+                $command[] = '-p' . $this->fixture->getCredentials()->getPassword();
+                $command[] = $this->fixture->getCredentials()->getSchema();
+                $command[] = '< ' . $schemaFilePath;
+                $this->runCommand(implode(' ', $command));
+            } else {
+                throw new \RuntimeException('Invalid schema file path ' . $schemaFilePath, 1365698869);
+            }
+        }
+    }
 
-	/**
-	 * @return void
-	 * @throws \RuntimeException
-	 */
-	protected function importSchema() {
-		if ($this->fixture->getSchemaFilePath() != '') {
-			$schemaFilePath = PATH_site . '/' . $this->fixture->getSchemaFilePath();
-			if (file_exists($schemaFilePath)) {
-				$command[] = 'mysql';
-				$command[] = '-h ' . $this->fixture->getCredentials()->getHostname();
-				$command[] = '-u ' . $this->fixture->getCredentials()->getUsername();
-				$command[] = '-p' . $this->fixture->getCredentials()->getPassword();
-				$command[] = $this->fixture->getCredentials()->getSchema();
-				$command[] = '< ' . $schemaFilePath;
-				$this->runCommand(implode(' ', $command));
-			} else {
-				throw new \RuntimeException('Invalid schema file path ' . $schemaFilePath, 1365698869);
-			}
-		}
-	}
+    /**
+     * @return void
+     * @throws \RuntimeException
+     */
+    protected function importFixture()
+    {
+        if (!empty($this->fixture)) {
+            if ($this->fixture instanceof Tx_PtExtbase_Testing_FixtureFramework_Fixture) {
+                $this->fixture->getConnection()->getConnection()->query('SET NAMES utf8')->execute();
+                $this->fixture->getSetUpOperation()->execute($this->fixture->getConnection(), $this->fixture->getDataSet());
+            } else {
+                throw new \RuntimeException('Invalid fixture ' . get_class($this->fixture), 1365698869);
+            }
+        }
+    }
 
-	/**
-	 * @return void
-	 * @throws \RuntimeException
-	 */
-	protected function importFixture() {
-		if (!empty($this->fixture)) {
-			if($this->fixture instanceof Tx_PtExtbase_Testing_FixtureFramework_Fixture) {
-				$this->fixture->getConnection()->getConnection()->query('SET NAMES utf8')->execute();
-				$this->fixture->getSetUpOperation()->execute($this->fixture->getConnection(), $this->fixture->getDataSet());
-			} else {
-				throw new \RuntimeException('Invalid fixture ' . get_class($this->fixture), 1365698869);
-			}
-		}
-	}
+    /**
+     * @param string $command
+     * @param boolean $returnOutput
+     * @return array
+     * @throws \RuntimeException
+     */
+    protected function runCommand($command, $returnOutput = false)
+    {
+        $output = array();
+        if ($returnOutput === true) {
+            exec($command, $output, $returnValue);
+        } else {
+            system($command, $returnValue);
+        }
+        if ($returnValue !== 0) {
+            throw new \RuntimeException(sprintf('Command "%s" exited with exit code %s. Aborting!', $command, $returnValue));
+        }
+        return $output;
+    }
 
-	/**
-	 * @param string $command
-	 * @param boolean $returnOutput
-	 * @return array
-	 * @throws \RuntimeException
-	 */
-	protected function runCommand($command, $returnOutput = FALSE) {
-		$output = array();
-		if ($returnOutput === TRUE) {
-			exec($command, $output, $returnValue);
-		} else {
-			system($command, $returnValue);
-		}
-		if ($returnValue !== 0) {
-			throw new \RuntimeException(sprintf('Command "%s" exited with exit code %s. Aborting!', $command, $returnValue));
-		}
-		return $output;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getFixtures() {
-		return $this->fixtures;
-	}
-
+    /**
+     * @return array
+     */
+    public function getFixtures()
+    {
+        return $this->fixtures;
+    }
 }

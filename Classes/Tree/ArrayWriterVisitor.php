@@ -29,8 +29,8 @@
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalkerVisitorInterface {
-
+class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalkerVisitorInterface
+{
     /**
      * Holds an array representing array structure of nodes
      *
@@ -68,40 +68,43 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
     /**
      * Constructor for visitore
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->nodeStack = new Tx_PtExtbase_Tree_Stack();
     }
 
 
 
-	/**
-	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $node
+    /**
+     * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
      * @param integer &$index Holds the visitation index of treewalker
      * @param integer &$level Holds level of visitation in tree, starting at 1
      */
-    public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
-		$arrayForNode = array(
-         	 'uid' => $node->getUid(),
+    public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
+    {
+        $arrayForNode = array(
+              'uid' => $node->getUid(),
             'label' => $node->getLabel(),
             'children' => array(),
-			'disabled' => !$node->isAccessible(),
+            'disabled' => !$node->isAccessible(),
         );
 
         $this->nodeStack->push($arrayForNode);
-	}
+    }
 
 
-	
-	/**
-	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doLastVisit()
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $node
+    
+    /**
+     * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doLastVisit()
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
      * @param integer &$index Holds the visitation index of treewalker
      * @param integer &$level Holds level of visitation in tree, starting at 1
      */
-    public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
+    public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
+    {
         $currentNode = $this->nodeStack->top();
         $this->nodeStack->pop();
         if (!$this->nodeStack->isEmpty()) {
@@ -112,7 +115,7 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
         } else {
             $this->nodeArray = $currentNode;
         }
-	}
+    }
 
 
 
@@ -121,9 +124,8 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
      *
      * @return array
      */
-    public function getNodeArray() {
+    public function getNodeArray()
+    {
         return $this->nodeArray;
     }
-	
 }
-?>

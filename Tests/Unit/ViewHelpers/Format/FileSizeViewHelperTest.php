@@ -31,32 +31,32 @@
 * @author Daniel Lienert
 */
 
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_FileSizeViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_FileSizeViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     *
+     * @returns array
+     */
+    public static function fileSizeDataProvider()
+    {
+        return array(
+            'Bytes ' => array('145', '145 '),
+            'KiloBytes ' => array('1450', '1.4 K'),
+            'MegaBytes' => array('2540000', '2.4 M'),
+            'Gigabytes' => array('1234567890', '1.1 G')
+        );
+    }
 
 
-	/**
-	 *
-	 * @returns array
-	 */
-	public static function fileSizeDataProvider() {
-		return array(
-			'Bytes ' => array('145', '145 '),
-			'KiloBytes ' => array('1450', '1.4 K'),
-			'MegaBytes' => array('2540000', '2.4 M'),
-			'Gigabytes' => array('1234567890', '1.1 G')
-		);
-	}
-
-
-	/**
-	* @test
-	* @dataProvider fileSizeDataProvider
-	*/
-	public function render($input, $formatedOutput) {
-		$viewHelper = $this->getMock('Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper', array('renderChildren'));
-		$viewHelper->expects($this->once())->method('renderChildren')->will($this->returnValue($input));
-		$actualResult = $viewHelper->render();
-		$this->assertEquals($formatedOutput, $actualResult);
-	}
-
+    /**
+    * @test
+    * @dataProvider fileSizeDataProvider
+    */
+    public function render($input, $formatedOutput)
+    {
+        $viewHelper = $this->getMock('Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper', array('renderChildren'));
+        $viewHelper->expects($this->once())->method('renderChildren')->will($this->returnValue($input));
+        $actualResult = $viewHelper->render();
+        $this->assertEquals($formatedOutput, $actualResult);
+    }
 }

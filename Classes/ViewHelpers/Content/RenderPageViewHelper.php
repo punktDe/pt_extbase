@@ -32,39 +32,39 @@
  * @package pt_dppp_base
  * @subpackage ViewHelpers\PageContent
  */
-class Tx_PtExtbase_ViewHelpers_Content_RenderPageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Content_RenderPageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('pageUid', 'integer', 'Page Uid', true);
+    }
 
-	/**
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('pageUid', 'integer', 'Page Uid', TRUE);
-	}
+    /**
+     * Get the rendered content from a page
+     *
+     * @return string The output
+     */
+    public function render()
+    {
+        if (!($GLOBALS['TSFE']->cObj instanceof \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer)) {
+            $GLOBALS['TSFE']->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+        }
 
-	/**
-	 * Get the rendered content from a page
-	 *
-	 * @return string The output
-	 */
-	public function render() {
+        $pageUid = $this->arguments['pageUid'];
 
-		if (!($GLOBALS['TSFE']->cObj instanceof \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer)) {
-			$GLOBALS['TSFE']->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-		}
+        $sysLanguageUid = intval($GLOBALS['TSFE']->sys_language_uid);
 
-		$pageUid = $this->arguments['pageUid'];
-
-		$sysLanguageUid = intval($GLOBALS['TSFE']->sys_language_uid);
-
-		$conf = array( // config
-			'table' => 'tt_content',
-			'select.' => array(
-				'pidInList' => $pageUid,
-				'where' => 'colPos=0 AND (sys_language_uid=' . $sysLanguageUid . ' OR sys_language_uid=-1)'
-			),
-		);
-		$result = $GLOBALS['TSFE']->cObj->CONTENT($conf);
-		return $result;
-	}
-
+        $conf = array( // config
+            'table' => 'tt_content',
+            'select.' => array(
+                'pidInList' => $pageUid,
+                'where' => 'colPos=0 AND (sys_language_uid=' . $sysLanguageUid . ' OR sys_language_uid=-1)'
+            ),
+        );
+        $result = $GLOBALS['TSFE']->cObj->CONTENT($conf);
+        return $result;
+    }
 }

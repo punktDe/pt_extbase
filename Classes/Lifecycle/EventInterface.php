@@ -29,15 +29,12 @@
  * @author Michael Knoll
  * @package Lifecycle
  */
-interface Tx_PtExtbase_Lifecycle_EventInterface {
-	
-	/**
-	 * Will be called by the lifecycle manager. 
-	 * 
-	 * @param integer $state
-	 */
-	public function lifecycleUpdate($state);
-	
+interface Tx_PtExtbase_Lifecycle_EventInterface
+{
+    /**
+     * Will be called by the lifecycle manager. 
+     * 
+     * @param integer $state
+     */
+    public function lifecycleUpdate($state);
 }
-
-?>

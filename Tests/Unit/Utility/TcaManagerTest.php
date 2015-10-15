@@ -28,60 +28,59 @@
  * @package pt_dppp_zca
  * @subpackage Tests\Unit\Domain\Utlity
  */
-class Tx_PtExtBase_Utility_TcaManagerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
+class Tx_PtExtBase_Utility_TcaManagerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+{
+    protected $proxyClass;
 
-	protected $proxyClass;
+    protected $proxy;
 
-	protected $proxy;
+    protected $pagesTca;
 
-	protected $pagesTca;
+    public function setUp()
+    {
+        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_TcaManager');
+        $this->proxy = new $this->proxyClass();
+        $this->pagesTca = $GLOBALS['TCA']['pages'];
+    }
 
-	public function setUp() {
-		$this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_TcaManager');
-		$this->proxy = new $this->proxyClass();
-		$this->pagesTca = $GLOBALS['TCA']['pages'];
-	}
+    public function tearDown()
+    {
+        $GLOBALS['TCA']['pages'] = $this->pagesTca;
+        unset($this->proxy);
+    }
 
-	public function tearDown() {
-		$GLOBALS['TCA']['pages'] = $this->pagesTca;
-		unset($this->proxy);
-	}
+    /**
+     * @test
+     */
+    public function deactivateAndActivateDeleteFlag()
+    {
+        $proxyMock = $this->getMockBuilder($this->proxyClass)->setMethods(null)->getMock();
 
-	/**
-	 * @test
-	 */
-	public function deactivateAndActivateDeleteFlag() {
-		$proxyMock = $this->getMockBuilder($this->proxyClass)->setMethods(null)->getMock();
+        $this->assertEquals("deleted", $proxyMock->deactivateDeletedFlag('pages'));
+        $this->assertEquals("", $GLOBALS['TCA']['pages']['ctrl']['delete']);
 
-		$this->assertEquals("deleted",$proxyMock->deactivateDeletedFlag('pages'));
-		$this->assertEquals("",$GLOBALS['TCA']['pages']['ctrl']['delete']);
+        $proxyMock->activateDeletedFlag('pages', 'deleted');
 
-		$proxyMock->activateDeletedFlag('pages','deleted');
-
-		$this->assertEquals("deleted",$GLOBALS['TCA']['pages']['ctrl']['delete']);
-
-	}
-
-
-	/**
-	 * @test
-	 */
-	public function deactivateAndSetEnableColumns() {
-
-		$enableColumnsArray = array('test1'=>'TEST1','test2'=>'TEST2','test3'=>'TEST3');
-		$mergedEnableColumns = $GLOBALS['TCA']['pages']['ctrl']['enablecolumns'] = array_merge($GLOBALS['TCA']['pages']['ctrl']['enablecolumns'], $enableColumnsArray);
-		$toDeactivate = array('test1','test2');
-
-		$proxyMock = $this->getMockBuilder($this->proxyClass)->setMethods(null)->getMock();
-
-		$this->assertEquals(array('test1'=>'TEST1','test2'=>'TEST2'),$reEnableColumns = $proxyMock->deactivateEnableColumns('pages',$toDeactivate));
-		$this->assertEquals('TEST3',$GLOBALS['TCA']['pages']['ctrl']['enablecolumns']['test3']);
-
-		$proxyMock->setEnableColumns('pages',$reEnableColumns);
-
-		$this->assertEquals($mergedEnableColumns,$GLOBALS['TCA']['pages']['ctrl']['enablecolumns']);
+        $this->assertEquals("deleted", $GLOBALS['TCA']['pages']['ctrl']['delete']);
+    }
 
 
-	}
+    /**
+     * @test
+     */
+    public function deactivateAndSetEnableColumns()
+    {
+        $enableColumnsArray = array('test1'=>'TEST1','test2'=>'TEST2','test3'=>'TEST3');
+        $mergedEnableColumns = $GLOBALS['TCA']['pages']['ctrl']['enablecolumns'] = array_merge($GLOBALS['TCA']['pages']['ctrl']['enablecolumns'], $enableColumnsArray);
+        $toDeactivate = array('test1','test2');
 
+        $proxyMock = $this->getMockBuilder($this->proxyClass)->setMethods(null)->getMock();
+
+        $this->assertEquals(array('test1'=>'TEST1', 'test2'=>'TEST2'), $reEnableColumns = $proxyMock->deactivateEnableColumns('pages', $toDeactivate));
+        $this->assertEquals('TEST3', $GLOBALS['TCA']['pages']['ctrl']['enablecolumns']['test3']);
+
+        $proxyMock->setEnableColumns('pages', $reEnableColumns);
+
+        $this->assertEquals($mergedEnableColumns, $GLOBALS['TCA']['pages']['ctrl']['enablecolumns']);
+    }
 }

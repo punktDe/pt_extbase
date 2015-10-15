@@ -26,30 +26,32 @@
 
 namespace PunktDe\PtExtbase\Tests\Utility\Wget;
 
-class WgetLogEntryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry
-	 */
-	protected $wgetLogEntry;
-
-
-	public function setUp() {
-		$wgetLogProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\Utility\Wget\WgetLogEntry');
-		$this->wgetLogEntry = $this->objectManager->get($wgetLogProxyClass);
-	}
+class WgetLogEntryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry
+     */
+    protected $wgetLogEntry;
 
 
-	public function tearDown() {
+    public function setUp()
+    {
+        $wgetLogProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\Utility\Wget\WgetLogEntry');
+        $this->wgetLogEntry = $this->objectManager->get($wgetLogProxyClass);
+    }
 
-	}
+
+    public function tearDown()
+    {
+    }
 
 
-	/**
-	 * @test
-	 */
-	public function wgetLogEntryCanBeIdentifiedAsError() {
-		$this->wgetLogEntry->setStatus(500);
-		$this->assertTrue($this->wgetLogEntry->isError());
-	}
+    /**
+     * @test
+     */
+    public function wgetLogEntryCanBeIdentifiedAsError()
+    {
+        $this->wgetLogEntry->setStatus(500);
+        $this->assertTrue($this->wgetLogEntry->isError());
+    }
 }

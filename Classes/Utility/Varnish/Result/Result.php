@@ -28,13 +28,12 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\AbstractResult;
  *
  * @package PunktDe\PtExtbase\Utility\Varnish\Result
  */
-class Result extends AbstractResult {
-
-	/**
-	 * @return void
-	 */
-	protected function buildResult() {
-
-	}
-
+class Result extends AbstractResult
+{
+    /**
+     * @return void
+     */
+    protected function buildResult()
+    {
+    }
 }

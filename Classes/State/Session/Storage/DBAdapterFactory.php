@@ -32,90 +32,92 @@
  * @package Domain
  * @subpackage State\Session\Storage
  */
-class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory {
-	
-	/**
-	 *
-	 * @var Tx_PtExtbase_State_Session_Storage_DBAdapter
-	 */
-	protected static $instance = NULL;
-	
-	
-	/**
-	 * Create a single instance of the db storage adapter
-	 * 
-	 * @return Tx_PtExtbase_State_Session_Storage_DBAdapter
-	 */
-	public static function getInstance() {
-		
-		if(self::$instance == NULL) {
-			self::$instance = new Tx_PtExtbase_State_Session_Storage_DBAdapter();
+class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory
+{
+    /**
+     *
+     * @var Tx_PtExtbase_State_Session_Storage_DBAdapter
+     */
+    protected static $instance = null;
+    
+    
+    /**
+     * Create a single instance of the db storage adapter
+     * 
+     * @return Tx_PtExtbase_State_Session_Storage_DBAdapter
+     */
+    public static function getInstance()
+    {
+        if (self::$instance == null) {
+            self::$instance = new Tx_PtExtbase_State_Session_Storage_DBAdapter();
 
-			self::$instance->injectStateCache(self::buildStateCache());
-			self::$instance->setStateHash(self::getStateHash());	
-			
-			self::$instance->init();
-		}
-		
-		return self::$instance;
-	}
-	
-	
-	
-	/**
-	 * Build TYPO3 Caching Framework Cache
-	 * 
-	 * @return t3lib_cache_frontend_Cache
-	 */
-	protected function buildStateCache() {
-		/**
-		 * TODO this is broken and we only use it to prevent a fatal error
-		 * TODO fix this if you want to use caching!!!
-		 */
-		if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['options'])) {
-			$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase'] = array(
-				'frontend' => 't3lib_cache_frontend_VariableFrontend',
-				'backend' => 't3lib_cache_backend_DbBackend',
-				'options' => array(
-					'cacheTable' => 'tx_ptextbase_cache_state',
-					'tagsTable'  => 'tx_ptextbase_cache_state_tags',
-				)
-			);
-		}
+            self::$instance->injectStateCache(self::buildStateCache());
+            self::$instance->setStateHash(self::getStateHash());
+            
+            self::$instance->init();
+        }
+        
+        return self::$instance;
+    }
+    
+    
+    
+    /**
+     * Build TYPO3 Caching Framework Cache
+     * 
+     * @return t3lib_cache_frontend_Cache
+     */
+    protected function buildStateCache()
+    {
+        /**
+         * TODO this is broken and we only use it to prevent a fatal error
+         * TODO fix this if you want to use caching!!!
+         */
+        if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['options'])) {
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase'] = array(
+                'frontend' => 't3lib_cache_frontend_VariableFrontend',
+                'backend' => 't3lib_cache_backend_DbBackend',
+                'options' => array(
+                    'cacheTable' => 'tx_ptextbase_cache_state',
+                    'tagsTable'  => 'tx_ptextbase_cache_state_tags',
+                )
+            );
+        }
 
-		// Create the cache
-		try {
-			$GLOBALS['typo3CacheFactory']->create(
-				'tx_ptextbase',
-				't3lib_cache_frontend_VariableFrontend',
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['backend'],
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['options']
-			);
-		} catch(\TYPO3\CMS\Core\Cache\Exception\DuplicateIdentifierException $e) {
-			// do nothing, the cache already exists
-		}
+        // Create the cache
+        try {
+            $GLOBALS['typo3CacheFactory']->create(
+                'tx_ptextbase',
+                't3lib_cache_frontend_VariableFrontend',
+                $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['backend'],
+                $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['options']
+            );
+        } catch (\TYPO3\CMS\Core\Cache\Exception\DuplicateIdentifierException $e) {
+            // do nothing, the cache already exists
+        }
 
-		// Initialize the cache
-		try {
-			$cache = $GLOBALS['typo3CacheManager']->getCache('tx_ptextbase');
-		} catch(\TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException $e) {
-			throw new Exception('Unable to load Cache! 1299942198');
-		}
+        // Initialize the cache
+        try {
+            $cache = $GLOBALS['typo3CacheManager']->getCache('tx_ptextbase');
+        } catch (\TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException $e) {
+            throw new Exception('Unable to load Cache! 1299942198');
+        }
 
 
-		return $cache;
-	}
-	
-	
-	
-	/**
-	 * Get the stateHash.
-	 * 
-	 * @return string hash 
-	 */
-	protected static function getStateHash() {
-		$getPostVarAdapter = Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory::getInstance($extensionNameSpace);
-		$stateHash = $getPostVarAdapter->getParametersByNamespace('state');
-		return $stateHash;	
-	}
+        return $cache;
+    }
+    
+    
+    
+    /**
+     * Get the stateHash.
+     * 
+     * @return string hash 
+     */
+    protected static function getStateHash()
+    {
+        $getPostVarAdapter = Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory::getInstance($extensionNameSpace);
+        $stateHash = $getPostVarAdapter->getParametersByNamespace('state');
+        return $stateHash;
+    }
 }

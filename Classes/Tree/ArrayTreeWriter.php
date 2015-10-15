@@ -31,8 +31,8 @@
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tree_ArrayTreeWriter extends Tx_PtExtbase_Tree_TreeWalker {
-
+class Tx_PtExtbase_Tree_ArrayTreeWriter extends Tx_PtExtbase_Tree_TreeWalker
+{
     /**
      * Holds an instance of array writer visitor
      *
@@ -48,8 +48,9 @@ class Tx_PtExtbase_Tree_ArrayTreeWriter extends Tx_PtExtbase_Tree_TreeWalker {
      * @param array $visitors
      * @return Tx_PtExtbase_Tree_ArrayTreeWriter
      */
-    public static function getInstance(array $visitors = array()) {
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+    public static function getInstance(array $visitors = array())
+    {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
         $arrayWriterVisitor = $objectManager->get('Tx_PtExtbase_Tree_ArrayWriterVisitor');
         $visitors[] = $arrayWriterVisitor;
@@ -59,13 +60,14 @@ class Tx_PtExtbase_Tree_ArrayTreeWriter extends Tx_PtExtbase_Tree_TreeWalker {
     }
 
 
-	/**
-	 * Constructor for array tree writer
-	 *
-	 * @param array $visitors
-	 * @param \Tx_PtExtbase_Tree_ArrayWriterVisitor|\Tx_PtExtbase_Tree_TreeWalkerVisitorInterface $arrayWriterVisitor
-	 */
-    public function __construct(array $visitors, Tx_PtExtbase_Tree_TreeWalkerVisitorInterface $arrayWriterVisitor) {
+    /**
+     * Constructor for array tree writer
+     *
+     * @param array $visitors
+     * @param \Tx_PtExtbase_Tree_ArrayWriterVisitor|\Tx_PtExtbase_Tree_TreeWalkerVisitorInterface $arrayWriterVisitor
+     */
+    public function __construct(array $visitors, Tx_PtExtbase_Tree_TreeWalkerVisitorInterface $arrayWriterVisitor)
+    {
         parent::__construct($visitors);
         $this->arrayWriterVisitor = $arrayWriterVisitor;
     }
@@ -78,11 +80,10 @@ class Tx_PtExtbase_Tree_ArrayTreeWriter extends Tx_PtExtbase_Tree_TreeWalker {
      * @param Tx_PtExtbase_Tree_TreeInterface $tree
      * @return array
      */
-    public function writeTree(Tx_PtExtbase_Tree_TreeInterface $tree) {
+    public function writeTree(Tx_PtExtbase_Tree_TreeInterface $tree)
+    {
         $this->traverseTreeDfs($tree);
         $nodeArray = $this->arrayWriterVisitor->getNodeArray();
         return $nodeArray;
     }
-
 }
-?>

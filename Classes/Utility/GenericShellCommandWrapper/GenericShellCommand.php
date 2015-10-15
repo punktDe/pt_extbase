@@ -26,144 +26,151 @@ namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
  *
  * @package PunktDe\PtExtbase\Utility\GenericShellCommandWrapper
  */
-class GenericShellCommand {
-
-	/**
-	 * A list of allowed command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array();
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array();
+class GenericShellCommand
+{
+    /**
+     * A list of allowed command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array();
 
 
-	/**
-	 * @var string
-	 */
-	protected $commandName = '';
+    /**
+     * @var array
+     */
+    protected $arguments = array();
 
 
-	/**
-	 * @var GenericShellCommand
-	 */
-	protected $subCommand;
+    /**
+     * @var string
+     */
+    protected $commandName = '';
 
 
-	/**
-	 * @inject
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
+    /**
+     * @var GenericShellCommand
+     */
+    protected $subCommand;
 
 
-	/**
-	 * @inject
-	 * @var \Tx_PtExtbase_Logger_Logger
-	 */
-	protected $logger;
+    /**
+     * @inject
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     */
+    protected $objectManager;
 
 
-	/**
-	 * @return string
-	 */
-	protected function buildArguments() {
-		$arguments = array();
-
-		foreach($this->argumentMap as $propertyName => $argumentTemplate) {
-			if(array_key_exists($propertyName, $this->arguments) && !empty($this->arguments[$propertyName]) && $this->arguments[$propertyName] !== FALSE) {
-				if(stristr($argumentTemplate, '%s') === FALSE) {
-					$arguments[] = $argumentTemplate;
-				} else {
-					$arguments[] = sprintf($argumentTemplate, $this->arguments[$propertyName]);
-				}
-			}
-		}
-		return $arguments;
-	}
+    /**
+     * @inject
+     * @var \Tx_PtExtbase_Logger_Logger
+     */
+    protected $logger;
 
 
+    /**
+     * @return string
+     */
+    protected function buildArguments()
+    {
+        $arguments = array();
 
-	/**
-	 * @return string
-	 */
-	protected function buildCommand() {
-		$arguments = $this->buildArguments();
-		array_unshift($arguments, $this->getCommandName());
-		if ($this->subCommand instanceof GenericShellCommand) {
-			array_unshift($arguments, $this->subCommand->render());
-		}
-		return implode(' ', $arguments);
-	}
+        foreach ($this->argumentMap as $propertyName => $argumentTemplate) {
+            if (array_key_exists($propertyName, $this->arguments) && !empty($this->arguments[$propertyName]) && $this->arguments[$propertyName] !== false) {
+                if (stristr($argumentTemplate, '%s') === false) {
+                    $arguments[] = $argumentTemplate;
+                } else {
+                    $arguments[] = sprintf($argumentTemplate, $this->arguments[$propertyName]);
+                }
+            }
+        }
+        return $arguments;
+    }
 
 
 
-	/**
-	 * @return AbstractResult
-	 */
-	public function execute() {
-		return $this->objectManager->get($this->getResultType(), $this);
-	}
+    /**
+     * @return string
+     */
+    protected function buildCommand()
+    {
+        $arguments = $this->buildArguments();
+        array_unshift($arguments, $this->getCommandName());
+        if ($this->subCommand instanceof GenericShellCommand) {
+            array_unshift($arguments, $this->subCommand->render());
+        }
+        return implode(' ', $arguments);
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getCommandName() {
-		if (empty($this->commandName)) {
-			preg_match('|.*\\\(.+?)Command$|', $this->getClass(), $matches);
-			$this->commandName = strtolower($matches[1]);
-		}
-		return $this->commandName;
-	}
+    /**
+     * @return AbstractResult
+     */
+    public function execute()
+    {
+        return $this->objectManager->get($this->getResultType(), $this);
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getResultType() {
-		preg_match('|(.+)\\\Command\\\.+?Command$|', $this->getClass(), $matches);
-		$className = sprintf("%s\\Result\\%sResult", $matches[1], ucfirst($this->getCommandName()));
-		if (class_exists($className)) {
-			return $className;
-		}
-		return sprintf("%s\\Result\\Result", $matches[1]);
-	}
+    /**
+     * @return string
+     */
+    public function getCommandName()
+    {
+        if (empty($this->commandName)) {
+            preg_match('|.*\\\(.+?)Command$|', $this->getClass(), $matches);
+            $this->commandName = strtolower($matches[1]);
+        }
+        return $this->commandName;
+    }
 
 
 
-	/**
-	 * @param GenericShellCommand $command
-	 * @return void
-	 */
-	protected function attachCommand(GenericShellCommand $command) {
-		$this->subCommand = $command;
-	}
+    /**
+     * @return string
+     */
+    public function getResultType()
+    {
+        preg_match('|(.+)\\\Command\\\.+?Command$|', $this->getClass(), $matches);
+        $className = sprintf("%s\\Result\\%sResult", $matches[1], ucfirst($this->getCommandName()));
+        if (class_exists($className)) {
+            return $className;
+        }
+        return sprintf("%s\\Result\\Result", $matches[1]);
+    }
 
 
 
-	/**
-	 * Adapter method for test mocks
-	 *
-	 * @return string
-	 */
-	protected function getClass() {
-		return  get_class($this);
-	}
+    /**
+     * @param GenericShellCommand $command
+     * @return void
+     */
+    protected function attachCommand(GenericShellCommand $command)
+    {
+        $this->subCommand = $command;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return $this->buildCommand();
-	}
+    /**
+     * Adapter method for test mocks
+     *
+     * @return string
+     */
+    protected function getClass()
+    {
+        return  get_class($this);
+    }
 
+
+
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        return $this->buildCommand();
+    }
 }

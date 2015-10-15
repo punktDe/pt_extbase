@@ -14,67 +14,71 @@ namespace PunktDe\PtExtbase\Utility\Lock;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class Lock {
+class Lock
+{
+    const LOCK_STRATEGY_MYSQL = 'PunktDe\\PtExtbase\\Utility\\Lock\\MySqlLockStrategy';
 
-	const LOCK_STRATEGY_MYSQL = 'PunktDe\\PtExtbase\\Utility\\Lock\\MySqlLockStrategy';
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Lock\LockStrategyInterface
+     */
+    protected $lockStrategy;
 
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Lock\LockStrategyInterface
-	 */
-	protected $lockStrategy;
+    /**
+     * @var string
+     */
+    protected $subject;
 
-	/**
-	 * @var string
-	 */
-	protected $subject;
-
-	/**
-	 * @var boolean
-	 */
-	protected $exclusiveLock = TRUE;
-
-
-	/**
-	 * @param string $subject
-	 * @param string $lockStrategyClass
-	 * @param boolean $exclusiveLock
-	 * @throws \Exception
-	 */
-	public function __construct($subject, $lockStrategyClass = Lock::LOCK_STRATEGY_MYSQL, $exclusiveLock = TRUE) {
-		$this->lockStrategy = GeneralUtility::makeInstance($lockStrategyClass);
-		if (!($this->lockStrategy instanceof LockStrategyInterface)) {
-			throw new \Exception(sprintf('The given locking strategy class %s does not implement the LockStrategyInterface', $lockStrategyClass), 1428675841);
-		}
-
-		$this->lockStrategy->acquire($subject, $exclusiveLock);
-	}
+    /**
+     * @var boolean
+     */
+    protected $exclusiveLock = true;
 
 
-	/**
-	 * @return LockStrategyInterface
-	 */
-	public function getLockStrategy() {
-		return $this->lockStrategy;
-	}
+    /**
+     * @param string $subject
+     * @param string $lockStrategyClass
+     * @param boolean $exclusiveLock
+     * @throws \Exception
+     */
+    public function __construct($subject, $lockStrategyClass = Lock::LOCK_STRATEGY_MYSQL, $exclusiveLock = true)
+    {
+        $this->lockStrategy = GeneralUtility::makeInstance($lockStrategyClass);
+        if (!($this->lockStrategy instanceof LockStrategyInterface)) {
+            throw new \Exception(sprintf('The given locking strategy class %s does not implement the LockStrategyInterface', $lockStrategyClass), 1428675841);
+        }
+
+        $this->lockStrategy->acquire($subject, $exclusiveLock);
+    }
 
 
-	/**
-	 * Releases the lock
-	 * @return boolean TRUE on success, FALSE otherwise
-	 */
-	public function release() {
-		if ($this->lockStrategy instanceof LockStrategyInterface) {
-			return $this->lockStrategy->release();
-		}
-		return TRUE;
-	}
+    /**
+     * @return LockStrategyInterface
+     */
+    public function getLockStrategy()
+    {
+        return $this->lockStrategy;
+    }
 
 
-	/**
-	 * Destructor, releases the lock
-	 * @return void
-	 */
-	public function __destruct() {
-		$this->release();
-	}
+    /**
+     * Releases the lock
+     * @return boolean TRUE on success, FALSE otherwise
+     */
+    public function release()
+    {
+        if ($this->lockStrategy instanceof LockStrategyInterface) {
+            return $this->lockStrategy->release();
+        }
+        return true;
+    }
+
+
+    /**
+     * Destructor, releases the lock
+     * @return void
+     */
+    public function __destruct()
+    {
+        $this->release();
+    }
 }

@@ -32,145 +32,152 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package pt_extbase
  * @subpackage Scheduler
  */
-abstract class AbstractSchedulerTask extends AbstractTask {
-
-	/**
-	 * @var \Tx_PtExtbase_Logger_Logger
-	 */
-	protected $logger;
-
-
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-	 */
-	protected $objectManager;
+abstract class AbstractSchedulerTask extends AbstractTask
+{
+    /**
+     * @var \Tx_PtExtbase_Logger_Logger
+     */
+    protected $logger;
 
 
-	/**
-	 * @var \PunktDe\PtExtbase\Extbase\Bootstrap
-	 */
-	protected $extbaseBootstrap;
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+     */
+    protected $objectManager;
 
 
-	/**
-	 * This function is public because it has to be called in the test methods for preparation.
-	 * The Initialization process can't be called in:
-	 *    1. constructor because the constructor won't be called on unserialize
-	 *    2. the __wakeup method because the wakeup will be called before configurations are loaded
-	 */
-	public function initialize() {
-		$this->initializeExtbase();
-		$this->initializeLogger();
-		$this->initializeObject();
-	}
+    /**
+     * @var \PunktDe\PtExtbase\Extbase\Bootstrap
+     */
+    protected $extbaseBootstrap;
 
 
-
-	/**
-	 * Initialize Extbase
-	 *
-	 * This is necessary to resolve the TypoScript interface definitions
-	 */
-	protected function initializeExtbase() {
-		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-		$this->extbaseBootstrap = $this->objectManager->get('PunktDe\PtExtbase\Extbase\Bootstrap');
-		$this->extbaseBootstrap->boot($this->getExtensionName());
-	}
+    /**
+     * This function is public because it has to be called in the test methods for preparation.
+     * The Initialization process can't be called in:
+     *    1. constructor because the constructor won't be called on unserialize
+     *    2. the __wakeup method because the wakeup will be called before configurations are loaded
+     */
+    public function initialize()
+    {
+        $this->initializeExtbase();
+        $this->initializeLogger();
+        $this->initializeObject();
+    }
 
 
 
-	/**
-	 * @return void
-	 */
-	protected function initializeLogger() {
-		$this->logger = $this->objectManager->get('Tx_PtExtbase_Logger_Logger');
-	}
+    /**
+     * Initialize Extbase
+     *
+     * This is necessary to resolve the TypoScript interface definitions
+     */
+    protected function initializeExtbase()
+    {
+        $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $this->extbaseBootstrap = $this->objectManager->get('PunktDe\PtExtbase\Extbase\Bootstrap');
+        $this->extbaseBootstrap->boot($this->getExtensionName());
+    }
 
 
 
-	/**
-	 * Initialize Object
-	 *
-	 * Do not add functionality here. This method is meant to be used in inherited classes.
-	 * It is not abstract to make the implementation optional.
-	 *
-	 * @return void
-	 */
-	protected function initializeObject() {
-	}
+    /**
+     * @return void
+     */
+    protected function initializeLogger()
+    {
+        $this->logger = $this->objectManager->get('Tx_PtExtbase_Logger_Logger');
+    }
 
 
 
-	/**
-	 * @param array $loggerData
-	 * @return array
-	 */
-	protected function addTaskLoggerData(&$loggerData = array()) {
-		$loggerData['time'] =  TimeTracker::stop('SchedulerTaskMeasure');
-
-		$taskTitle = trim($this->getTaskTitle());
-		if ($taskTitle !== '') {
-			$loggerData['taskTitle'] = $taskTitle;
-		}
-
-		$this->enrichTaskLoggerData($loggerData);
-
-	}
+    /**
+     * Initialize Object
+     *
+     * Do not add functionality here. This method is meant to be used in inherited classes.
+     * It is not abstract to make the implementation optional.
+     *
+     * @return void
+     */
+    protected function initializeObject()
+    {
+    }
 
 
 
-	/**
-	 * @param $loggerData
-	 */
-	public function enrichTaskLoggerData(&$loggerData) {
-	}
+    /**
+     * @param array $loggerData
+     * @return array
+     */
+    protected function addTaskLoggerData(&$loggerData = array())
+    {
+        $loggerData['time'] =  TimeTracker::stop('SchedulerTaskMeasure');
+
+        $taskTitle = trim($this->getTaskTitle());
+        if ($taskTitle !== '') {
+            $loggerData['taskTitle'] = $taskTitle;
+        }
+
+        $this->enrichTaskLoggerData($loggerData);
+    }
 
 
 
-	/**
-	 * Start a stopwatch
-	 *
-	 * @return integer Execution id
-	 */
-	public function markExecution() {
-		TimeTracker::start('SchedulerTaskMeasure');
-		$this->initialize();
-		return parent::markExecution();
-	}
+    /**
+     * @param $loggerData
+     */
+    public function enrichTaskLoggerData(&$loggerData)
+    {
+    }
 
 
 
-	/**
-	 * Removes given execution from list
-	 *
-	 * @param integer $executionID Id of the execution to remove.
-	 * @param \Exception $failure An exception to signal a failed execution
-	 *
-	 * @return    void
-	 */
-	public function unmarkExecution($executionID, \Exception $failure = NULL) {
-		$this->logToApplicationLog();
-		parent::unmarkExecution($executionID, $failure);
-	}
+    /**
+     * Start a stopwatch
+     *
+     * @return integer Execution id
+     */
+    public function markExecution()
+    {
+        TimeTracker::start('SchedulerTaskMeasure');
+        $this->initialize();
+        return parent::markExecution();
+    }
 
 
 
-	/**
-	 * Return the extensionName for Extbase Initialization
-	 *
-	 * @return string
-	 */
-	abstract public function getExtensionName();
+    /**
+     * Removes given execution from list
+     *
+     * @param integer $executionID Id of the execution to remove.
+     * @param \Exception $failure An exception to signal a failed execution
+     *
+     * @return    void
+     */
+    public function unmarkExecution($executionID, \Exception $failure = null)
+    {
+        $this->logToApplicationLog();
+        parent::unmarkExecution($executionID, $failure);
+    }
 
 
 
-	/**
-	 * @return void
-	 */
-	protected function logToApplicationLog() {
-		$data = array();
-		$this->addTaskLoggerData($data);
-		$this->logger->info(sprintf('Scheduler Task "%s" completed.', trim($this->getTaskTitle())), get_class($this), $data);
-	}
+    /**
+     * Return the extensionName for Extbase Initialization
+     *
+     * @return string
+     */
+    abstract public function getExtensionName();
 
+
+
+    /**
+     * @return void
+     */
+    protected function logToApplicationLog()
+    {
+        $data = array();
+        $this->addTaskLoggerData($data);
+        $this->logger->info(sprintf('Scheduler Task "%s" completed.', trim($this->getTaskTitle())), get_class($this), $data);
+    }
 }

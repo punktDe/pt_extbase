@@ -30,13 +30,11 @@
  * @subpackage State\Session\Storage
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Unit_State_Session_Storage_SessionAdapterTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-     
-	/** @test */
-	public function notYetImplemented() {
-		$this->markTestIncomplete('Test is not yet implemented!');
-	}
-	
+class Tx_PtExtbase_Tests_Unit_State_Session_Storage_SessionAdapterTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /** @test */
+    public function notYetImplemented()
+    {
+        $this->markTestIncomplete('Test is not yet implemented!');
+    }
 }
-
-?>

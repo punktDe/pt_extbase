@@ -29,44 +29,42 @@
 * @author Daniel Lienert
 */
 
-interface Tx_PtExtbase_ContextInterface extends \TYPO3\CMS\Core\SingletonInterface {
-	
-	
-	/**
-	 * Defines if the extension act as it is in cached mode
-	 * @return bool
-	 */
-	public function isInCachedMode();
-	
-	
-	
-	/**
-	 * Set the cached mode for the complete extension.
-	 * This is autmatically set when extlsit is used as standalone cached extension
-	 * 
-	 * @param bool $inCachedMode
-	 */
-	public function setInCachedMode($inCachedMode);
+interface Tx_PtExtbase_ContextInterface extends \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * Defines if the extension act as it is in cached mode
+     * @return bool
+     */
+    public function isInCachedMode();
+    
+    
+    
+    /**
+     * Set the cached mode for the complete extension.
+     * This is autmatically set when extlsit is used as standalone cached extension
+     * 
+     * @param bool $inCachedMode
+     */
+    public function setInCachedMode($inCachedMode);
 
-	
-	
-	/**
-	 * @return \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
-	 */
-	public function getControllerContext();
-	
-	
-	
-	/**
-	 * @return string
-	 */
-	public function getExtensionName();
-	
-	
-	
-	/**
-	 * @return string
-	 */
-	public function getExtensionNamespace();
-} 
-?>
+    
+    
+    /**
+     * @return \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
+     */
+    public function getControllerContext();
+    
+    
+    
+    /**
+     * @return string
+     */
+    public function getExtensionName();
+    
+    
+    
+    /**
+     * @return string
+     */
+    public function getExtensionNamespace();
+}

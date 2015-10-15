@@ -28,55 +28,57 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class RemoteCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'remote' => '%s',
-		'refspec' => '%s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'remote' => '',
-		'refspec' => ''
-	);
+class RemoteCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'remote' => '%s',
+        'refspec' => '%s'
+    );
 
 
-	/**
-	 * @return Remote\AddCommand
-	 */
-	public function add() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\Remote\AddCommand');
-		$command->attachCommand($this);
-		return $command;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'remote' => '',
+        'refspec' => ''
+    );
 
 
-
-	/**
-	 * @return Remote\RemoveCommand
-	 */
-	public function remove() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\Remote\RemoveCommand');
-		$command->attachCommand($this);
-		return $command;
-	}
+    /**
+     * @return Remote\AddCommand
+     */
+    public function add()
+    {
+        $command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\Remote\AddCommand');
+        $command->attachCommand($this);
+        return $command;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return sprintf("%s", $this->buildCommand());
-	}
+    /**
+     * @return Remote\RemoveCommand
+     */
+    public function remove()
+    {
+        $command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Command\Remote\RemoveCommand');
+        $command->attachCommand($this);
+        return $command;
+    }
 
+
+
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        return sprintf("%s", $this->buildCommand());
+    }
 }

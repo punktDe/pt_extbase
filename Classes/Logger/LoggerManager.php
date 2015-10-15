@@ -29,91 +29,94 @@ use \TYPO3\CMS\Core\Log\LogManager;
  *
  * @package pt_extbase
  */
-class LoggerManager extends LogManager {
-
-	/**
-	 * @const LOGGER_INDEX_PREFIX
-	 */
-	const LOGGER_INDEX_PREFIX = 'PTEXTBASE';
-
-
-	/**
-	 * @var array|NULL
-	 */
-	protected $loggerConfiguration;
+class LoggerManager extends LogManager
+{
+    /**
+     * @const LOGGER_INDEX_PREFIX
+     */
+    const LOGGER_INDEX_PREFIX = 'PTEXTBASE';
 
 
-	/**
-	 * @return LoggerManager
-	 */
-	public function __construct() {
-		parent::__construct();
-		$this->loggerConfiguration = &$GLOBALS['TYPO3_CONF_VARS']['LOG'];
-	}
+    /**
+     * @var array|NULL
+     */
+    protected $loggerConfiguration;
 
 
-
-	/**
-	 * Gets a logger instance for the given name.
-	 *
-	 * This method overrides the TYPO3 core logger method to reduce the number
-	 * of instantiated loggers. This is done by grouping loggers by their
-	 * available configuration.
-	 *
-	 * @param string $name Logger name, empty to get the global "root" logger.
-	 * @return \TYPO3\CMS\Core\Log\Logger Logger with name $name
-	 */
-	public function getLogger($name = '') {
-		$logger = NULL; /** @var $logger \TYPO3\CMS\Core\Log\Logger */
-
-		$componentName = $this->unifyComponentName($name);
-		$indexName = $this->evaluateIndexNameByComponentName($componentName);
-
-		if (isset($this->loggers[$indexName])) {
-			$logger = $this->loggers[$indexName];
-		} else {
-			$logger = GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\Logger', $indexName);
-			$this->loggers[$indexName] = $logger;
-			$this->setWritersForLogger($logger);
-			$this->setProcessorsForLogger($logger);
-		}
-
-		return $logger;
-	}
+    /**
+     * @return LoggerManager
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->loggerConfiguration = &$GLOBALS['TYPO3_CONF_VARS']['LOG'];
+    }
 
 
 
-	/**
-	 * @param $componentName
-	 * @return string
-	 */
-	protected function evaluateIndexNameByComponentName($componentName) {
-		$indexNameParts = array(self::LOGGER_INDEX_PREFIX);
+    /**
+     * Gets a logger instance for the given name.
+     *
+     * This method overrides the TYPO3 core logger method to reduce the number
+     * of instantiated loggers. This is done by grouping loggers by their
+     * available configuration.
+     *
+     * @param string $name Logger name, empty to get the global "root" logger.
+     * @return \TYPO3\CMS\Core\Log\Logger Logger with name $name
+     */
+    public function getLogger($name = '')
+    {
+        $logger = null; /** @var $logger \TYPO3\CMS\Core\Log\Logger */
 
-		$explodedName = explode('.', $componentName);
-		$configuration = $this->loggerConfiguration;
+        $componentName = $this->unifyComponentName($name);
+        $indexName = $this->evaluateIndexNameByComponentName($componentName);
 
-		foreach ($explodedName as $partOfClassName) {
-			if (!empty($configuration[$partOfClassName])) {
-				$indexNameParts[] = $partOfClassName;
-			}
-			$configuration = $configuration[$partOfClassName];
-		}
+        if (isset($this->loggers[$indexName])) {
+            $logger = $this->loggers[$indexName];
+        } else {
+            $logger = GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\Logger', $indexName);
+            $this->loggers[$indexName] = $logger;
+            $this->setWritersForLogger($logger);
+            $this->setProcessorsForLogger($logger);
+        }
 
-		return implode('.', $indexNameParts);
-	}
+        return $logger;
+    }
 
 
 
-	/**
-	 * 	Transform namespaces and underscore class names to the dot-name style
-	 *
-	 * @param $componentName
-	 * @return string
-	 */
-	public function unifyComponentName($componentName) {
-		$separators = array('_', '\\');
-		return str_replace($separators, '.', $componentName);
-	}
+    /**
+     * @param $componentName
+     * @return string
+     */
+    protected function evaluateIndexNameByComponentName($componentName)
+    {
+        $indexNameParts = array(self::LOGGER_INDEX_PREFIX);
 
+        $explodedName = explode('.', $componentName);
+        $configuration = $this->loggerConfiguration;
+
+        foreach ($explodedName as $partOfClassName) {
+            if (!empty($configuration[$partOfClassName])) {
+                $indexNameParts[] = $partOfClassName;
+            }
+            $configuration = $configuration[$partOfClassName];
+        }
+
+        return implode('.', $indexNameParts);
+    }
+
+
+
+    /**
+     * 	Transform namespaces and underscore class names to the dot-name style
+     *
+     * @param $componentName
+     * @return string
+     */
+    public function unifyComponentName($componentName)
+    {
+        $separators = array('_', '\\');
+        return str_replace($separators, '.', $componentName);
+    }
 }

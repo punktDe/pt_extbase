@@ -30,99 +30,107 @@
  * @author Daniel Lienert
  * @see Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest
  */
-abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService {
-
-	/**
-	 * @var string
-	 */
-	protected $rootDirectory;
-
-
-
-	/**
-	 * @param $rootDirectory
-	 */
-	public function __construct($rootDirectory) {
-		Tx_PtExtbase_Utility_Files::createDirectoryRecursively($rootDirectory);
-		$this->rootDirectory = $rootDirectory;
-	}
-
-
-	/**
-	 * @param $identifier
-	 * @param $filePath
-	 * @param string $destinationFileName
-	 */
-	public function storeFile($identifier, $filePath, $destinationFileName = '') {
-		$destinationFileName = trim($destinationFileName) ? trim($destinationFileName) : basename($filePath);
-		$targetPath = Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier, TRUE), $destinationFileName));
-		copy($filePath, $targetPath);
-	}
-
-
-	/**
-	 * @param $identifier
-	 * @param $fileName
-	 * @return mixed
-	 */
-	public function getFilePath($identifier, $fileName) {
-		return Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier, TRUE), $fileName));
-	}
+abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
+{
+    /**
+     * @var string
+     */
+    protected $rootDirectory;
 
 
 
-	/**
-	 * @param $identifier
-	 * @param $fileName
-	 * @return bool
-	 */
-	public function fileExists($identifier, $fileName) {
-		return file_exists(Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier), $fileName)));
-	}
+    /**
+     * @param $rootDirectory
+     */
+    public function __construct($rootDirectory)
+    {
+        Tx_PtExtbase_Utility_Files::createDirectoryRecursively($rootDirectory);
+        $this->rootDirectory = $rootDirectory;
+    }
+
+
+    /**
+     * @param $identifier
+     * @param $filePath
+     * @param string $destinationFileName
+     */
+    public function storeFile($identifier, $filePath, $destinationFileName = '')
+    {
+        $destinationFileName = trim($destinationFileName) ? trim($destinationFileName) : basename($filePath);
+        $targetPath = Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier, true), $destinationFileName));
+        copy($filePath, $targetPath);
+    }
+
+
+    /**
+     * @param $identifier
+     * @param $fileName
+     * @return mixed
+     */
+    public function getFilePath($identifier, $fileName)
+    {
+        return Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier, true), $fileName));
+    }
 
 
 
-	/**
-	 * @param $identifier
-	 * @param $fileName
-	 */
-	public function removeFile($identifier, $fileName) {
-		if(file_exists($this->getFilePath($identifier, $fileName))) {
-			Tx_PtExtbase_Utility_Files::unlink($this->getFilePath($identifier, $fileName));
-		}
-	}
+    /**
+     * @param $identifier
+     * @param $fileName
+     * @return bool
+     */
+    public function fileExists($identifier, $fileName)
+    {
+        return file_exists(Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier), $fileName)));
+    }
 
 
 
-	/**
-	 * @param $identifier
-	 */
-	public function removeStoreDirectory($identifier) {
-		Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->getHashPath($identifier, TRUE));
-	}
+    /**
+     * @param $identifier
+     * @param $fileName
+     */
+    public function removeFile($identifier, $fileName)
+    {
+        if (file_exists($this->getFilePath($identifier, $fileName))) {
+            Tx_PtExtbase_Utility_Files::unlink($this->getFilePath($identifier, $fileName));
+        }
+    }
 
 
-	/**
-	 * @param $identifier
-	 * @return array
-	 */
-	public function getDirectoryListing($identifier) {
-		return Tx_PtExtbase_Utility_Files::readDirectoryRecursively($this->getHashPath($identifier, TRUE));
-	}
+
+    /**
+     * @param $identifier
+     */
+    public function removeStoreDirectory($identifier)
+    {
+        Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->getHashPath($identifier, true));
+    }
 
 
-	/**
-	 * @param string $identifier
-	 * @param bool $createDirectory
-	 * @return string
-	 */
-	abstract public function getHashPath($identifier, $createDirectory = FALSE);
+    /**
+     * @param $identifier
+     * @return array
+     */
+    public function getDirectoryListing($identifier)
+    {
+        return Tx_PtExtbase_Utility_Files::readDirectoryRecursively($this->getHashPath($identifier, true));
+    }
 
 
-	/**
-	 * Remove the complete directory
-	 */
-	public function removeHasFileSystemCompletely() {
-		Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->rootDirectory);
-	}
+    /**
+     * @param string $identifier
+     * @param bool $createDirectory
+     * @return string
+     */
+    abstract public function getHashPath($identifier, $createDirectory = false);
+
+
+    /**
+     * Remove the complete directory
+     */
+    public function removeHasFileSystemCompletely()
+    {
+        Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->rootDirectory);
+    }
 }

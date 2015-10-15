@@ -32,14 +32,14 @@
  * @subpackage Model
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-interface Tx_PtExtbase_Tree_TraversableInterface {
-	
-	/**
-	 * Returns root node of traversable object
-	 * 
-	 * @return Tx_PtExtbase_Tree_NodeInterface
-	 */
-	public function getRoot();
+interface Tx_PtExtbase_Tree_TraversableInterface
+{
+    /**
+     * Returns root node of traversable object
+     * 
+     * @return Tx_PtExtbase_Tree_NodeInterface
+     */
+    public function getRoot();
 
 
 
@@ -58,6 +58,4 @@ interface Tx_PtExtbase_Tree_TraversableInterface {
      * @return integer Restricted depth
      */
     public function getRestrictedDepth();
-	
 }
-?>

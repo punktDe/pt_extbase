@@ -37,28 +37,31 @@
  * @see Tx_PtExtbase_State_Session_SessionPersistenceManager
  *
  */
-class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-	
-	/** @test */
-	public function classExists() {
-		$sessionAdapterMock = $this->getMock('Tx_PtExtbase_State_Session_Storage_AdapterInterface', array(), array(), '', FALSE); /* @var $sessionAdapterMock Tx_PtExtbase_State_Session_Storage_AdapterInterface */
-		$sessionPersistenceManager = new Tx_PtExtbase_State_Session_SessionPersistenceManager($sessionAdapterMock);
-		$this->assertTrue(is_a($sessionPersistenceManager, 'Tx_PtExtbase_State_Session_SessionPersistenceManager'));
-	}
-	
-	
-	
-	/** @test */
-	public function persistToSessionPersistsObjectToSession() {
-		$persistableObjectStub = new Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject();
-		$sessionPersistenceManager = new Tx_PtExtbase_State_Session_SessionPersistenceManager(new Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock());
-		$sessionPersistenceManager->persistToSession($persistableObjectStub);
-	}
-	
-	
-	/** @test */
-	public function reloadFromSessionKeepsObjectValues() {
-		$persistableObjectStub = new Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject();
+class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /** @test */
+    public function classExists()
+    {
+        $sessionAdapterMock = $this->getMock('Tx_PtExtbase_State_Session_Storage_AdapterInterface', array(), array(), '', false); /* @var $sessionAdapterMock Tx_PtExtbase_State_Session_Storage_AdapterInterface */
+        $sessionPersistenceManager = new Tx_PtExtbase_State_Session_SessionPersistenceManager($sessionAdapterMock);
+        $this->assertTrue(is_a($sessionPersistenceManager, 'Tx_PtExtbase_State_Session_SessionPersistenceManager'));
+    }
+    
+    
+    
+    /** @test */
+    public function persistToSessionPersistsObjectToSession()
+    {
+        $persistableObjectStub = new Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject();
+        $sessionPersistenceManager = new Tx_PtExtbase_State_Session_SessionPersistenceManager(new Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock());
+        $sessionPersistenceManager->persistToSession($persistableObjectStub);
+    }
+    
+    
+    /** @test */
+    public function reloadFromSessionKeepsObjectValues()
+    {
+        $persistableObjectStub = new Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject();
         $sessionPersistenceManager = new Tx_PtExtbase_State_Session_SessionPersistenceManager(new Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock());
         $persistableObjectStub->initSomeData();
         $sessionPersistenceManager->persistToSession($persistableObjectStub);
@@ -66,36 +69,38 @@ class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerTest extend
         $reloadedPersistableObject = new Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject();
         $sessionPersistenceManager->loadFromSession($reloadedPersistableObject);
         $this->assertSame('testvalue1', $reloadedPersistableObject->dummyData['testkey1'], 'Reloaded data in persistable object was not the same as the expected data!');
-	}
+    }
 
 
 
-	/** @test */
-	public function sessionAdapterCanBeInjectedWithConstructor() {
-		$sessionAdapter = Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance();
-		new Tx_PtExtbase_State_Session_SessionPersistenceManager($sessionAdapter);
-	}
-	
-	
-	
-	/** @test */
-	public function getSessionDataByNamespaceReturnsCorrectValue() {
-		$sessionAdapterMock = new Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock();
-		
-		$sessionPersistenceManager = new Tx_PtExtbase_State_Session_SessionPersistenceManager($sessionAdapterMock);
+    /** @test */
+    public function sessionAdapterCanBeInjectedWithConstructor()
+    {
+        $sessionAdapter = Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance();
+        new Tx_PtExtbase_State_Session_SessionPersistenceManager($sessionAdapter);
+    }
+    
+    
+    
+    /** @test */
+    public function getSessionDataByNamespaceReturnsCorrectValue()
+    {
+        $sessionAdapterMock = new Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock();
+        
+        $sessionPersistenceManager = new Tx_PtExtbase_State_Session_SessionPersistenceManager($sessionAdapterMock);
         $sessionPersistenceManager->init();
         
-		$this->assertEquals($sessionPersistenceManager->getSessionDataByNamespace('test1.test2.test3'), 'value');
-	}
-	
-	
-	
-	/** @test */
-	public function getSessionDataHashReturnsExpectedHash() {
-		$sessionPersistenceManager = $this->getAccessibleMock('Tx_PtExtbase_State_Session_SessionPersistenceManager', array('dummyMethod'), array(new Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock()));
-		$sessionPersistenceManager->_set('sessionData', array('test'));
-		$hash = $sessionPersistenceManager->getSessionDataHash();
-		$this->assertEquals(md5(serialize(array('test'))), $hash);
-	}
-	
+        $this->assertEquals($sessionPersistenceManager->getSessionDataByNamespace('test1.test2.test3'), 'value');
+    }
+    
+    
+    
+    /** @test */
+    public function getSessionDataHashReturnsExpectedHash()
+    {
+        $sessionPersistenceManager = $this->getAccessibleMock('Tx_PtExtbase_State_Session_SessionPersistenceManager', array('dummyMethod'), array(new Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock()));
+        $sessionPersistenceManager->_set('sessionData', array('test'));
+        $hash = $sessionPersistenceManager->getSessionDataHash();
+        $this->assertEquals(md5(serialize(array('test'))), $hash);
+    }
 }

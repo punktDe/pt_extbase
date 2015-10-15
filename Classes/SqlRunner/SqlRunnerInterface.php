@@ -33,14 +33,12 @@
  * @package pt_extbase
  * @subpackage SqlRunner
  */
-interface Tx_PtExtbase_SqlRunner_SqlRunnerInterface {
-
-	/**
-	 * @abstract
-	 * @param array $sqls
-	 * @return void
-	 */
-	public function runSqls($sqls);
-
+interface Tx_PtExtbase_SqlRunner_SqlRunnerInterface
+{
+    /**
+     * @abstract
+     * @param array $sqls
+     * @return void
+     */
+    public function runSqls($sqls);
 }
-?>

@@ -24,7 +24,6 @@
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 /**
 * Utility to create a fake frontend
 * Used by pt_extlist to use cObj for rendering
@@ -34,49 +33,51 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 * @subpackage Utility
 * @author Daniel Lienert <daniel@lienert.cc>
 */
-class Tx_PtExtbase_Utility_FakeFrontendFactory implements \TYPO3\CMS\Core\SingletonInterface {
+class Tx_PtExtbase_Utility_FakeFrontendFactory implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+     */
+    protected $fakeFrontend = null;
 
-	/**
-	 * @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
-	 */
-	protected $fakeFrontend = NULL;
 
+    /**
+     * Create a fake frontend
+     *
+     * @param integer $pageUid
+     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+     * @throws InvalidArgumentException
+     */
+    public function createFakeFrontEnd($pageUid = 0)
+    {
+        if ($this->fakeFrontend && $this->fakeFrontend === $GLOBALS['TSFE']) {
+            return $this->fakeFrontend;
+        }
 
-	/**
-	 * Create a fake frontend
-	 *
-	 * @param integer $pageUid
-	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
-	 * @throws InvalidArgumentException
-	 */
-	public function createFakeFrontEnd($pageUid = 0) {
+        if ($pageUid < 0) {
+            throw new InvalidArgumentException('$pageUid must be >= 0.');
+        }
 
-		if($this->fakeFrontend && $this->fakeFrontend === $GLOBALS['TSFE']) return $this->fakeFrontend;
+        $GLOBALS['TT'] = GeneralUtility::makeInstance('TYPO3\CMS\Core\TimeTracker\NullTimeTracker');
 
-		if ($pageUid < 0) {
-			throw new InvalidArgumentException('$pageUid must be >= 0.');
-		}
+        /** @var $this->fakeFrontend \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController */
+        $this->fakeFrontend = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
 
-		$GLOBALS['TT'] = GeneralUtility::makeInstance('TYPO3\CMS\Core\TimeTracker\NullTimeTracker');
+        // simulates a normal FE without any logged-in FE or BE user
+        $this->fakeFrontend->beUserLogin = false;
+        $this->fakeFrontend->workspacePreview = '';
+        $this->fakeFrontend->initFEuser();
+        $this->fakeFrontend->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+        $this->fakeFrontend->page = $pageUid;
+        $this->fakeFrontend->initTemplate();
+        $this->fakeFrontend->config = array();
 
-		/** @var $this->fakeFrontend \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController */
-		$this->fakeFrontend = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
+        $this->fakeFrontend->tmpl->getFileName_backPath = PATH_site;
 
-		// simulates a normal FE without any logged-in FE or BE user
-		$this->fakeFrontend->beUserLogin = FALSE;
-		$this->fakeFrontend->workspacePreview = '';
-		$this->fakeFrontend->initFEuser();
-		$this->fakeFrontend->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
-		$this->fakeFrontend->page = $pageUid;
-		$this->fakeFrontend->initTemplate();
-		$this->fakeFrontend->config = array();
+        $this->fakeFrontend->newCObj();
 
-		$this->fakeFrontend->tmpl->getFileName_backPath = PATH_site;
+        $GLOBALS['TSFE'] = $this->fakeFrontend;
 
-		$this->fakeFrontend->newCObj();
-
-		$GLOBALS['TSFE'] = $this->fakeFrontend;
-
-		return $this->fakeFrontend;
-	}
+        return $this->fakeFrontend;
+    }
 }

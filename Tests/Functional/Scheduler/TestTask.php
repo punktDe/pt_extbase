@@ -1,6 +1,7 @@
 <?php
 
 namespace PunktDe\PtExtbase\Tests\Functional\Scheduler;
+
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
  *  Authors: el_equipo <opiuqe_le@punkt.de>
@@ -34,74 +35,75 @@ use PunktDe\PtExtbase\Utility\Files;
  *
  * @package PunktDe\PtDpppFis\Scheduler
  */
-class TestTask extends AbstractSchedulerTask {
-
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-	 */
-	protected $objectManager;
-
-
-	/**
-	 * @var string
-	 */
-	protected $testPath = '';
+class TestTask extends AbstractSchedulerTask
+{
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+     */
+    protected $objectManager;
 
 
-	/**
-	 * @return boolean
-	 * @throws \Exception
-	 */
-	public function execute() {
-			try {
-				$flashMessage = GeneralUtility::makeInstance(
-					't3lib_FlashMessage',
-					'This Task is created for testing purposes, it creates some test files and log entries in the application log',
-					'',
-					FlashMessage::WARNING,
-					TRUE
-				);
-				FlashMessageQueue::addMessage($flashMessage);
-				$executeTestFilePath = Files::concatenatePaths(array($this->testPath, 'testTaskExecution.txt'));
-				file_put_contents( $executeTestFilePath, '1428924570');
-
-				return TRUE;
-
-			} catch (\Exception $e) {
-				$this->logger->error(sprintf('%s (%s)', $e->getMessage(), $e->getCode()));
-				throw $e;
-			}
-		}
+    /**
+     * @var string
+     */
+    protected $testPath = '';
 
 
+    /**
+     * @return boolean
+     * @throws \Exception
+     */
+    public function execute()
+    {
+        try {
+            $flashMessage = GeneralUtility::makeInstance(
+                    't3lib_FlashMessage',
+                    'This Task is created for testing purposes, it creates some test files and log entries in the application log',
+                    '',
+                    FlashMessage::WARNING,
+                    true
+                );
+            FlashMessageQueue::addMessage($flashMessage);
+            $executeTestFilePath = Files::concatenatePaths(array($this->testPath, 'testTaskExecution.txt'));
+            file_put_contents($executeTestFilePath, '1428924570');
 
-	/**
-	 * @return void
-	 */
-	public function initializeObject() {
-		$this->testPath = Files::concatenatePaths(array(__DIR__,'/WorkingDirectory'));
-
-		$testInitializeObjectFilePath = Files::concatenatePaths(array($this->testPath,'testTaskObjectInitialization.txt'));
-		file_put_contents($testInitializeObjectFilePath, '1428924552');
-
-	}
+            return true;
+        } catch (\Exception $e) {
+            $this->logger->error(sprintf('%s (%s)', $e->getMessage(), $e->getCode()));
+            throw $e;
+        }
+    }
 
 
-	/**
-	 * @param $loggerData
-	 */
-	public function enrichTaskLoggerData(&$loggerData) {
-		$loggerData['additionalTestLogEntry'] = '1429106236';
-	}
+
+    /**
+     * @return void
+     */
+    public function initializeObject()
+    {
+        $this->testPath = Files::concatenatePaths(array(__DIR__, '/WorkingDirectory'));
+
+        $testInitializeObjectFilePath = Files::concatenatePaths(array($this->testPath, 'testTaskObjectInitialization.txt'));
+        file_put_contents($testInitializeObjectFilePath, '1428924552');
+    }
 
 
-	/**
-	 * Return the extensionName for Extbase Initialization
-	 *
-	 * @return string
-	 */
-	public function getExtensionName() {
-		return 'PtExtbase';
-	}
+    /**
+     * @param $loggerData
+     */
+    public function enrichTaskLoggerData(&$loggerData)
+    {
+        $loggerData['additionalTestLogEntry'] = '1429106236';
+    }
 
+
+    /**
+     * Return the extensionName for Extbase Initialization
+     *
+     * @return string
+     */
+    public function getExtensionName()
+    {
+        return 'PtExtbase';
+    }
 }

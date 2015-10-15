@@ -34,49 +34,50 @@
  * @package State
  * @subpackage Session\Storage
  */
-class Tx_PtExtbase_State_Session_Storage_NullStorageAdapter implements Tx_PtExtbase_State_Session_Storage_AdapterInterface  {
-
-	/**
-	 * Factory method to get an instance of this class
-	 *
-	 * @return Tx_PtExtbase_State_Session_Storage_NullStorageAdapter
-	 */
-	public static function getInstance() {
-		return new Tx_PtExtbase_State_Session_Storage_NullStorageAdapter();
-	}
-	
-	
-	
-	/**
-	 * Retrieve nothing
-	 * 
-	 * @param string $key
-	 */
-	public function read($key) {
-		return array();
-	}
-	
-	
-	
-	/**
-	 * Do not save any data
-	 * 
-	 * @param string $key
-	 * @param string $value
-	 */
-	public function store($key, $value) {
-	}
-	
-	
-	
-	/**
-	 * Do not delete any data
-	 * 
-	 * @param string $key
-	 */
-	public function delete($key) {
-	}
-	
+class Tx_PtExtbase_State_Session_Storage_NullStorageAdapter implements Tx_PtExtbase_State_Session_Storage_AdapterInterface
+{
+    /**
+     * Factory method to get an instance of this class
+     *
+     * @return Tx_PtExtbase_State_Session_Storage_NullStorageAdapter
+     */
+    public static function getInstance()
+    {
+        return new Tx_PtExtbase_State_Session_Storage_NullStorageAdapter();
+    }
+    
+    
+    
+    /**
+     * Retrieve nothing
+     * 
+     * @param string $key
+     */
+    public function read($key)
+    {
+        return array();
+    }
+    
+    
+    
+    /**
+     * Do not save any data
+     * 
+     * @param string $key
+     * @param string $value
+     */
+    public function store($key, $value)
+    {
+    }
+    
+    
+    
+    /**
+     * Do not delete any data
+     * 
+     * @param string $key
+     */
+    public function delete($key)
+    {
+    }
 }
-
-?>

@@ -26,53 +26,54 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-class StatusResult extends Result {
-
-	/**
-	 * @const LOG_LINE_SEPARATOR
-	 */
-	const LOG_LINE_SEPARATOR = "\n";
-
-
-	/**
-	 * @const SHORT_LOG_LINE_PATTERN
-	 */
-	const SHORT_LOG_LINE_PATTERN = '/^(?<indexStatus>.)(?<worktreeStatus>.)[[:space:]]"?(?<path>.+?)"?(?:(?:[[:space:]]->[[:space:]])"?(?<correspondingPath>.+?)"?)?$/';
+class StatusResult extends Result
+{
+    /**
+     * @const LOG_LINE_SEPARATOR
+     */
+    const LOG_LINE_SEPARATOR = "\n";
 
 
-	/**
-	 * Build the result
-	 *
-	 * Despite its totally weird API we use strtok() here due to performance issues.
-	 *
-	 * @return void
-	 */
-	protected function buildResult() {
-		if ($this->command->isShort()) {
-			$this->parseShortStatusResult();
-		}
-	}
+    /**
+     * @const SHORT_LOG_LINE_PATTERN
+     */
+    const SHORT_LOG_LINE_PATTERN = '/^(?<indexStatus>.)(?<worktreeStatus>.)[[:space:]]"?(?<path>.+?)"?(?:(?:[[:space:]]->[[:space:]])"?(?<correspondingPath>.+?)"?)?$/';
+
+
+    /**
+     * Build the result
+     *
+     * Despite its totally weird API we use strtok() here due to performance issues.
+     *
+     * @return void
+     */
+    protected function buildResult()
+    {
+        if ($this->command->isShort()) {
+            $this->parseShortStatusResult();
+        }
+    }
 
 
 
-	/**
-	 * @return void
-	 */
-	protected function parseShortStatusResult() {
-		$line = strtok($this->rawResult, self::LOG_LINE_SEPARATOR);
+    /**
+     * @return void
+     */
+    protected function parseShortStatusResult()
+    {
+        $line = strtok($this->rawResult, self::LOG_LINE_SEPARATOR);
 
-		while ($line !== FALSE) {
-			preg_match(self::SHORT_LOG_LINE_PATTERN, $line, $statusElements);
+        while ($line !== false) {
+            preg_match(self::SHORT_LOG_LINE_PATTERN, $line, $statusElements);
 
-			$pathStatus = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Result\PathStatus'); /** @var \PunktDe\PtExtbase\Utility\Git\Result\PathStatus $pathStatus */
-			$pathStatus->setIndexStatus(trim($statusElements['indexStatus']));
-			$pathStatus->setWorkTreeStatus(trim($statusElements['worktreeStatus']));
-			$pathStatus->setPath(trim($statusElements['path']));
-			$pathStatus->setCorrespondingPath(trim($statusElements['correspondingPath']));
-			$this->result->attach($pathStatus);
+            $pathStatus = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Result\PathStatus'); /** @var \PunktDe\PtExtbase\Utility\Git\Result\PathStatus $pathStatus */
+            $pathStatus->setIndexStatus(trim($statusElements['indexStatus']));
+            $pathStatus->setWorkTreeStatus(trim($statusElements['worktreeStatus']));
+            $pathStatus->setPath(trim($statusElements['path']));
+            $pathStatus->setCorrespondingPath(trim($statusElements['correspondingPath']));
+            $this->result->attach($pathStatus);
 
-			$line = strtok(self::LOG_LINE_SEPARATOR);
-		}
-	}
-
+            $line = strtok(self::LOG_LINE_SEPARATOR);
+        }
+    }
 }

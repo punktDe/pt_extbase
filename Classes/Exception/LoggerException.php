@@ -26,36 +26,37 @@ use TYPO3\CMS\Core\Log\LogLevel;
  *
  * @package pt_dppp_esales
  */
-class Tx_PtExtbase_Exception_LoggerException extends Exception {
-
-	/**
-	 * @var integer
-	 * @see \TYPO3\CMS\Core\Log\LogLevel
-	 */
-	protected $logLevel;
-
-
-	/**
-	 * @param string $message
-	 * @param integer $code
-	 * @param \Exception|int $logLevel
-	 * @param \Exception $previous
-	 */
-	public function __construct($message = "", $code = 0, $logLevel = LogLevel::ERROR, Exception $previous = null) {
-		parent::__construct($message, $code, $previous);
-		if (LogLevel::isValidLevel($logLevel)) {
-			$this->logLevel = $logLevel;
-		} else {
-			$this->logLevel = LogLevel::ERROR;
-		}
-	}
+class Tx_PtExtbase_Exception_LoggerException extends Exception
+{
+    /**
+     * @var integer
+     * @see \TYPO3\CMS\Core\Log\LogLevel
+     */
+    protected $logLevel;
 
 
-	/**
-	 * @return integer
-	 */
-	public function getLogLevel() {
-		return $this->logLevel;
-	}
+    /**
+     * @param string $message
+     * @param integer $code
+     * @param \Exception|int $logLevel
+     * @param \Exception $previous
+     */
+    public function __construct($message = "", $code = 0, $logLevel = LogLevel::ERROR, Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+        if (LogLevel::isValidLevel($logLevel)) {
+            $this->logLevel = $logLevel;
+        } else {
+            $this->logLevel = LogLevel::ERROR;
+        }
+    }
 
+
+    /**
+     * @return integer
+     */
+    public function getLogLevel()
+    {
+        return $this->logLevel;
+    }
 }

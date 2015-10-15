@@ -29,87 +29,92 @@ use PunktDe\PtExtbase\Utility\Varnish\Command;
  *
  * @package PunktDe\PtExtbase\Utility\Varnish
  */
-class VarnishAdministration extends GenericShellCommand {
-
-	/**
-	 * @var string
-	 */
-	protected $commandPath = '/usr/bin/varnishadm';
-
-
-	/**
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'secretFile' => '-S %s',
-		'addressAndPort' => '-T %s'
-	);
+class VarnishAdministration extends GenericShellCommand
+{
+    /**
+     * @var string
+     */
+    protected $commandPath = '/usr/bin/varnishadm';
 
 
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'secretFile' => '',
-		'addressAndPort' => ''
-	);
+    /**
+     * @var array
+     */
+    protected $argumentMap = array(
+        'secretFile' => '-S %s',
+        'addressAndPort' => '-T %s'
+    );
 
 
-	/**
-	 * @param string $commandDirectory
-	 */
-	public function __construct($commandDirectory) {
-		$this->commandPath = $commandDirectory;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'secretFile' => '',
+        'addressAndPort' => ''
+    );
 
 
-	/**
-	 * @param string $secretFile
-	 * @return $this
-	 */
-	public function setSecretFile($secretFile) {
-		$this->arguments['secretFile'] = $secretFile;
-		return $this;
-	}
+    /**
+     * @param string $commandDirectory
+     */
+    public function __construct($commandDirectory)
+    {
+        $this->commandPath = $commandDirectory;
+    }
 
 
-
-	/**
-	 * @param string $addressAndPort
-	 * @return $this
-	 */
-	public function setAddressAndPort($addressAndPort) {
-		$this->arguments['addressAndPort'] = $addressAndPort;
-		return $this;
-	}
+    /**
+     * @param string $secretFile
+     * @return $this
+     */
+    public function setSecretFile($secretFile)
+    {
+        $this->arguments['secretFile'] = $secretFile;
+        return $this;
+    }
 
 
 
-	/**
-	 * @return \PunktDe\PtExtbase\Utility\Varnish\Command\BanUrlCommand
-	 */
-	public function banUrl() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Varnish\Command\BanUrlCommand');
-		$command->attachCommand($this);
-		return $command;
-	}
+    /**
+     * @param string $addressAndPort
+     * @return $this
+     */
+    public function setAddressAndPort($addressAndPort)
+    {
+        $this->arguments['addressAndPort'] = $addressAndPort;
+        return $this;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return sprintf("%s", $this->buildCommand());
-	}
+    /**
+     * @return \PunktDe\PtExtbase\Utility\Varnish\Command\BanUrlCommand
+     */
+    public function banUrl()
+    {
+        $command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Varnish\Command\BanUrlCommand');
+        $command->attachCommand($this);
+        return $command;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getCommandName() {
-		return $this->commandPath;
-	}
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        return sprintf("%s", $this->buildCommand());
+    }
 
+
+
+    /**
+     * @return string
+     */
+    public function getCommandName()
+    {
+        return $this->commandPath;
+    }
 }

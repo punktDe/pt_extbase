@@ -28,60 +28,62 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class CheckoutCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'force' => '--force',
-		'quiet' => '--quiet',
-		'commitHash' => '%s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'force' => 'FALSE',
-		'quiet' => 'FALSE',
-		'commitHash' => ''
-	);
+class CheckoutCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'force' => '--force',
+        'quiet' => '--quiet',
+        'commitHash' => '%s'
+    );
 
 
-
-	/**
-	 * @param string $commitHash
-	 * @return $this
-	 */
-	public function setCommit($commitHash) {
-		$this->arguments['commitHash'] = $commitHash;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'force' => 'FALSE',
+        'quiet' => 'FALSE',
+        'commitHash' => ''
+    );
 
 
 
-	/**
-	 * @param boolean $force
-	 * @return $this
-	 */
-	public function setForce($force) {
-		$this->arguments['force'] = $force;
-		return $this;
-	}
+    /**
+     * @param string $commitHash
+     * @return $this
+     */
+    public function setCommit($commitHash)
+    {
+        $this->arguments['commitHash'] = $commitHash;
+        return $this;
+    }
 
 
 
-	/**
-	 * @param boolean $quiet
-	 * @return $this
-	 */
-	public function setQuiet($quiet) {
-		$this->arguments['quiet'] = $quiet;
-		return $this;
-	}
+    /**
+     * @param boolean $force
+     * @return $this
+     */
+    public function setForce($force)
+    {
+        $this->arguments['force'] = $force;
+        return $this;
+    }
 
+
+
+    /**
+     * @param boolean $quiet
+     * @return $this
+     */
+    public function setQuiet($quiet)
+    {
+        $this->arguments['quiet'] = $quiet;
+        return $this;
+    }
 }

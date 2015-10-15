@@ -29,19 +29,19 @@
  * @package Tree
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Tree_ExtJsJsonTreeWriter extends Tx_PtExtbase_Tree_JsonTreeWriter {
-
+class Tx_PtExtbase_Tree_ExtJsJsonTreeWriter extends Tx_PtExtbase_Tree_JsonTreeWriter
+{
     /**
      * Creates a new instance of json writer
      *
      * @param array $visitors
      * @return Tx_PtExtbase_Tree_JsonTreeWriter
      */
-    public static function getInstance(array $visitors = array()) {
+    public static function getInstance(array $visitors = array())
+    {
         $arrayWriterVisitor = new Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor();
         $visitors[] = $arrayWriterVisitor;
         $jsonTreeWriter = new Tx_PtExtbase_Tree_JsonTreeWriter($visitors, $arrayWriterVisitor);
         return $jsonTreeWriter;
     }
 }
-?>

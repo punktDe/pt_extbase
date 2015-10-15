@@ -33,57 +33,61 @@
  * @package pt_extbase
  * @subpackage SqlGenerator
  */
-class Tx_PtExtbase_SqlGenerator_SqlGenerator implements Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface {
+class Tx_PtExtbase_SqlGenerator_SqlGenerator implements Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface
+{
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     */
+    protected $objectManager;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
+    /**
+     * @var array
+     */
+    protected $sqlGenerators;
 
-	/**
-	 * @var array
-	 */
-	protected $sqlGenerators;
+    /**
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     * @return void
+     */
+    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
-	/**
-	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
-		$this->objectManager = $objectManager;
-	}
+    /**
+     * @return void
+     */
+    public function initializeObject()
+    {
+        $this->sqlGenerators = array(
+            'php' =>  $this->objectManager->get('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator'),
+            'sql' => $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlFileSqlGenerator'),
+        );
+    }
 
-	/**
-	 * @return void
-	 */
-	public function initializeObject() {
-		$this->sqlGenerators = array(
-			'php' =>  $this->objectManager->get('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator'),
-			'sql' => $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlFileSqlGenerator'),
-		);
-	}
+    /**
+     * @param string $filePath
+     * @return string
+     * @throws Exception
+     */
+    public function generate($filePath)
+    {
+        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+        $this->checkFilePath($filePath);
+        if (in_array($extension, array_keys($this->sqlGenerators))) {
+            return $this->sqlGenerators[$extension]->generate($filePath);
+        }
+        throw new Exception('Not a valid file extension: ' . $filePath . '! 1347035058');
+    }
 
-	/**
-	 * @param string $filePath
-	 * @return string
-	 * @throws Exception
-	 */
-	public function generate($filePath) {
-		$extension = pathinfo($filePath, PATHINFO_EXTENSION);
-		$this->checkFilePath($filePath);
-		if (in_array($extension, array_keys($this->sqlGenerators))) {
-			return $this->sqlGenerators[$extension]->generate($filePath);
-		}
-		throw new Exception('Not a valid file extension: ' . $filePath . '! 1347035058');
-	}
-
-	/**
-	 * @param $filePath
-	 * @throws Exception
-	 */
-	protected function checkFilePath($filePath) {
-		if (!is_file($filePath)) {
-			throw new Exception('Not a valid file: ' . $filePath . '! 1347035058');
-		}
-	}
+    /**
+     * @param $filePath
+     * @throws Exception
+     */
+    protected function checkFilePath($filePath)
+    {
+        if (!is_file($filePath)) {
+            throw new Exception('Not a valid file: ' . $filePath . '! 1347035058');
+        }
+    }
 }

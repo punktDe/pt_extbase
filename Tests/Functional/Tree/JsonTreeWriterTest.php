@@ -31,10 +31,11 @@
  * @subpackage Functional\Tree
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-
+class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
     /** @test */
-    public function jsonTreeWriterWritesExpectedJsonForGivenTree() {
+    public function jsonTreeWriterWritesExpectedJsonForGivenTree()
+    {
         $jsonTreeWriter = Tx_PtExtbase_Tree_JsonTreeWriter::getInstance();
 
         $tree = Tx_PtExtbase_Tree_Tree::getEmptyTree('root');
@@ -54,7 +55,8 @@ class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends Tx_PtExtbase
 
 
     /** @test */
-    public function jsonTreeWriterRespectsRestrictedLevelsInWrittenTrees() {
+    public function jsonTreeWriterRespectsRestrictedLevelsInWrittenTrees()
+    {
         $tree = Tx_PtExtbase_Tree_Tree::getEmptyTree('root');
 
         $rootNode = $tree->getRoot();
@@ -66,7 +68,7 @@ class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends Tx_PtExtbase
         $rootNode->addChild($firstNode);
         $rootNode->addChild($secondNode);
 
-        $tree->setRespectRestrictedDepth(TRUE);
+        $tree->setRespectRestrictedDepth(true);
 
         $jsonTreeWriter = Tx_PtExtbase_Tree_JsonTreeWriter::getInstance();
 
@@ -78,7 +80,7 @@ class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends Tx_PtExtbase
         // Restricting level to 1 (only root should be rendered)
         $tree->setRestrictedDepth(1);
         $jsonStringForDepth1 = $jsonTreeWriter->writeTree($tree);
-        $this->assertEquals('[{"uid":' . $rootNode->getUid() . ',"label":"root","children":[],"disabled":false}]',$jsonStringForDepth1);
+        $this->assertEquals('[{"uid":' . $rootNode->getUid() . ',"label":"root","children":[],"disabled":false}]', $jsonStringForDepth1);
     }
 
 
@@ -86,7 +88,8 @@ class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends Tx_PtExtbase
     /**
      * @return Tx_PtExtbase_Tree_Tree
      */
-    protected function createTestTree() {
+    protected function createTestTree()
+    {
         $tree = Tx_PtExtbase_Tree_Tree::getEmptyTree('root');
         $rootNode = $tree->getRoot();
         $firstNode = new Tx_PtExtbase_Tree_Node('firstNode');
@@ -99,6 +102,4 @@ class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends Tx_PtExtbase
 
         return $tree;
     }
-	
 }
-?>

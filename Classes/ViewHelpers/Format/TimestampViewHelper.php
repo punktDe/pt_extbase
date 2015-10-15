@@ -28,34 +28,35 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_ViewHelpers_Format_TimestampViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Format_TimestampViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Initialize arguments
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('timestamp', 'int', 'A timestamp', false);
+        $this->registerArgument('format', 'string', 'String which is taken by PHP function strftime() to format a timestamp', true);
+    }
 
-	/**
-	 * Initialize arguments
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('timestamp', 'int', 'A timestamp', FALSE);
-		$this->registerArgument('format', 'string', 'String which is taken by PHP function strftime() to format a timestamp', TRUE);
-	}
-
-	/**
-	 * Render
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$timestamp = $this->arguments['timestamp'];
-		if ($timestamp === NULL) {
-			$timestamp = $this->renderChildren();
-		}
-		$result = '';
-		if ($timestamp != NULL) {
-			//setlocale(LC_ALL, 'de_DE');
-			$result = strftime($this->arguments['format'], $timestamp);
-		}
-		return $result;
-	}
-	
+    /**
+     * Render
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $timestamp = $this->arguments['timestamp'];
+        if ($timestamp === null) {
+            $timestamp = $this->renderChildren();
+        }
+        $result = '';
+        if ($timestamp != null) {
+            //setlocale(LC_ALL, 'de_DE');
+            $result = strftime($this->arguments['format'], $timestamp);
+        }
+        return $result;
+    }
 }

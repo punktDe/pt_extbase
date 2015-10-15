@@ -28,77 +28,80 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Class implements detector for fe / be users.
  */
-class Tx_PtExtbase_Utility_UserDetector implements \TYPO3\CMS\Core\SingletonInterface {
-
-	/**
-	 * Uid of currently logged in user
-	 *
-	 * @var integer
-	 */
-	protected $userUid = null;
-
-
-
-	/**
-	 * Holds array of group uids
-	 *
-	 * @var array
-	 */
-	protected $groupUids = array();
+class Tx_PtExtbase_Utility_UserDetector implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * Uid of currently logged in user
+     *
+     * @var integer
+     */
+    protected $userUid = null;
 
 
 
-	/**
-	 * Holds instance of fe / be mode detector
-	 *
-	 * @var Tx_PtExtbase_Utility_FeBeModeDetector
-	 */
-	protected $feBeModeDetector;
+    /**
+     * Holds array of group uids
+     *
+     * @var array
+     */
+    protected $groupUids = array();
 
 
 
-	/**
-	 * Injects fe/be mode detector
-	 *
-	 * @param Tx_PtExtbase_Utility_FeBeModeDetector $feBeModeDetector
-	 */
-	public function injectFeBeModeDetector(Tx_PtExtbase_Utility_FeBeModeDetector $feBeModeDetector) {
-		$this->feBeModeDetector = $feBeModeDetector;
-	}
+    /**
+     * Holds instance of fe / be mode detector
+     *
+     * @var Tx_PtExtbase_Utility_FeBeModeDetector
+     */
+    protected $feBeModeDetector;
 
 
 
-	/**
-	 * Initializes object when created by object manager
-	 */
-	public function initializeObject() {
-		if ($this->feBeModeDetector->getMode() == 'BE') {
-			$this->userUid = $GLOBALS['BE_USER']->user['uid'];
-			$this->groupUids = GeneralUtility::trimExplode(',', $GLOBALS['BE_USER']->user['usergroup']);
-		} else {
-			if($GLOBALS['TSFE']->fe_user->user) {
-				$this->userUid = $GLOBALS['TSFE']->fe_user->user['uid'];
-				$this->groupUids = GeneralUtility::trimExplode(',', trim($GLOBALS['TSFE']->fe_user->user['usergroup']));
-			}
-		}
-	}
+    /**
+     * Injects fe/be mode detector
+     *
+     * @param Tx_PtExtbase_Utility_FeBeModeDetector $feBeModeDetector
+     */
+    public function injectFeBeModeDetector(Tx_PtExtbase_Utility_FeBeModeDetector $feBeModeDetector)
+    {
+        $this->feBeModeDetector = $feBeModeDetector;
+    }
 
 
 
-	/**
-	 * Returns UID of currently logged in user
-	 */
-	public function getUserUid() {
-		return $this->userUid;
-	}
+    /**
+     * Initializes object when created by object manager
+     */
+    public function initializeObject()
+    {
+        if ($this->feBeModeDetector->getMode() == 'BE') {
+            $this->userUid = $GLOBALS['BE_USER']->user['uid'];
+            $this->groupUids = GeneralUtility::trimExplode(',', $GLOBALS['BE_USER']->user['usergroup']);
+        } else {
+            if ($GLOBALS['TSFE']->fe_user->user) {
+                $this->userUid = $GLOBALS['TSFE']->fe_user->user['uid'];
+                $this->groupUids = GeneralUtility::trimExplode(',', trim($GLOBALS['TSFE']->fe_user->user['usergroup']));
+            }
+        }
+    }
 
 
 
-	/**
-	 * Returns array of UIDs of groups for currently logged in user
-	 */
-	public function getUserGroupUids() {
-		return $this->groupUids;
-	}
+    /**
+     * Returns UID of currently logged in user
+     */
+    public function getUserUid()
+    {
+        return $this->userUid;
+    }
 
+
+
+    /**
+     * Returns array of UIDs of groups for currently logged in user
+     */
+    public function getUserGroupUids()
+    {
+        return $this->groupUids;
+    }
 }

@@ -28,47 +28,48 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command\Remote
  */
-class AddCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'name' => '%s',
-		'url' => '%s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'name' => '',
-		'url' => ''
-	);
+class AddCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'name' => '%s',
+        'url' => '%s'
+    );
 
 
-
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function setName($name) {
-		$this->arguments['name'] = $name;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'name' => '',
+        'url' => ''
+    );
 
 
 
-	/**
-	 * @param string $url
-	 * @return $this
-	 */
-	public function setUrl($url) {
-		$this->arguments['url'] = $url;
-		return $this;
-	}
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->arguments['name'] = $name;
+        return $this;
+    }
 
+
+
+    /**
+     * @param string $url
+     * @return $this
+     */
+    public function setUrl($url)
+    {
+        $this->arguments['url'] = $url;
+        return $this;
+    }
 }

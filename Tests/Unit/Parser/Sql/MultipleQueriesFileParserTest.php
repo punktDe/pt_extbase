@@ -30,54 +30,56 @@
  * @package pt_extbase
  * @subpackage Tests\Unit\Parser\Sql
  */
-class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    protected $proxyClass;
 
-	protected $proxyClass;
+    protected $proxy;
 
-	protected $proxy;
+    public function setUp()
+    {
+        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser');
+        $this->proxy = new $this->proxyClass();
+    }
 
-	public function setUp() {
-		$this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser');
-		$this->proxy = new $this->proxyClass();
-	}
+    public function tearDown()
+    {
+        unset($this->proxy);
+    }
 
-	public function tearDown() {
-		unset($this->proxy);
-	}
+    /**
+     * @test
+     */
+    public function parseReturnsValidArrayOfQueries()
+    {
+        $input = 'tables.sql';
 
-	/**
-	 * @test
-	 */
-	public function parseReturnsValidArrayOfQueries() {
-		$input = 'tables.sql';
+        $sql = array(
+            "-- CREATE TABLE",
+            "CREATE TABLE IF NOT EXISTS tx_ptextbase_domain_model_category (",
+                "uid integer(11) NOT NULL AUTO_INCREMENT,",
+                "title varchar(255) DEFAULT '' NOT NULL,",
+                "PRIMARY KEY (uid),",
+                "KEY(category_title)",
+            ") ENGINE=MyISAM DEFAULT CHARACTER SET utf8;",
+            "-- DROP TABLE",
+            "DROP TABLE IF EXISTS tx_ptextbase_domain_model_category;"
+        );
 
-		$sql = array(
-			"-- CREATE TABLE",
-			"CREATE TABLE IF NOT EXISTS tx_ptextbase_domain_model_category (",
-	   			"uid integer(11) NOT NULL AUTO_INCREMENT,",
-	   			"title varchar(255) DEFAULT '' NOT NULL,",
-	   			"PRIMARY KEY (uid),",
-	   			"KEY(category_title)",
-			") ENGINE=MyISAM DEFAULT CHARACTER SET utf8;",
-			"-- DROP TABLE",
-			"DROP TABLE IF EXISTS tx_ptextbase_domain_model_category;"
-		);
+        $expected = array(
+            "CREATE TABLE IF NOT EXISTS tx_ptextbase_domain_model_category (uid integer(11) NOT NULL AUTO_INCREMENT,title varchar(255) DEFAULT '' NOT NULL,PRIMARY KEY (uid),KEY(category_title)) ENGINE=MyISAM DEFAULT CHARACTER SET utf8;",
+            "DROP TABLE IF EXISTS tx_ptextbase_domain_model_category;"
+        );
 
-		$expected = array(
-			"CREATE TABLE IF NOT EXISTS tx_ptextbase_domain_model_category (uid integer(11) NOT NULL AUTO_INCREMENT,title varchar(255) DEFAULT '' NOT NULL,PRIMARY KEY (uid),KEY(category_title)) ENGINE=MyISAM DEFAULT CHARACTER SET utf8;",
-			"DROP TABLE IF EXISTS tx_ptextbase_domain_model_category;"
-		);
+        $proxyMock = $this->getMockBuilder($this->proxyClass)
+                ->setMethods(array('loadSqlFile'))
+                ->getMock();
+        $proxyMock->expects($this->once())
+            ->method('loadSqlFile')
+            ->with($input)
+            ->will($this->returnValue($sql));
 
-		$proxyMock = $this->getMockBuilder($this->proxyClass)
-				->setMethods(array('loadSqlFile'))
-				->getMock();
-		$proxyMock->expects($this->once())
-			->method('loadSqlFile')
-			->with($input)
-			->will($this->returnValue($sql));
-
-		$actual = $proxyMock->parse($input);
-		$this->assertEquals($expected, $actual);
-	}
-
+        $actual = $proxyMock->parse($input);
+        $this->assertEquals($expected, $actual);
+    }
 }

@@ -28,84 +28,87 @@ use PunktDe\PtExtbase\Utility\Files;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Functional\Utility\Wget
  */
-class WgetTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class WgetTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var string
+     */
+    protected $workingDirectory = '';
 
 
-	/**
-	 * @var string
-	 */
- 	protected $workingDirectory = '';
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Wget\WgetCommand
+     */
+    protected $wgetCommand;
 
 
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Wget\WgetCommand
-	 */
-	protected $wgetCommand;
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Wget\WgetLogParser
+     */
+    protected $wgetLogParser;
 
 
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Wget\WgetLogParser
-	 */
-	protected $wgetLogParser;
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        $this->workingDirectory = Files::concatenatePaths(array(__DIR__, 'WorkingDirectory'));
+        Files::createDirectoryRecursively($this->workingDirectory);
 
-
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		$this->workingDirectory = Files::concatenatePaths(array(__DIR__, 'WorkingDirectory'));
-		Files::createDirectoryRecursively($this->workingDirectory);
-
-		$this->wgetCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetCommand');
-		$this->wgetLogParser = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetLogParser');
-	}
+        $this->wgetCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetCommand');
+        $this->wgetLogParser = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetLogParser');
+    }
 
 
 
-	/**
-	 * @return void
-	 */
-	public function tearDown() {
-		Files::removeDirectoryRecursively($this->workingDirectory);
-	}
+    /**
+     * @return void
+     */
+    public function tearDown()
+    {
+        Files::removeDirectoryRecursively($this->workingDirectory);
+    }
 
 
-	/**
-	 * @test
-	 */
-	public function downloadNotExistingPageAndDetectErrors() {
-		$this->wgetCommand->setOutputFile(Files::concatenatePaths(array($this->workingDirectory, 'wget.log')))
-			->setDirectoryPrefix($this->workingDirectory)
-			->setNoVerbose(TRUE)
-			->setServerResponse(TRUE)
-			->setUrl('http://localhost/not-existing-file.html')
-			->execute();
+    /**
+     * @test
+     */
+    public function downloadNotExistingPageAndDetectErrors()
+    {
+        $this->wgetCommand->setOutputFile(Files::concatenatePaths(array($this->workingDirectory, 'wget.log')))
+            ->setDirectoryPrefix($this->workingDirectory)
+            ->setNoVerbose(true)
+            ->setServerResponse(true)
+            ->setUrl('http://localhost/not-existing-file.html')
+            ->execute();
 
-		$log = $this->wgetLogParser->parseLog($this->wgetCommand);
+        $log = $this->wgetLogParser->parseLog($this->wgetCommand);
 
-		$this->assertTrue($log->hasErrors());
-		$this->assertCount(1, $log);
+        $this->assertTrue($log->hasErrors());
+        $this->assertCount(1, $log);
 
-		$logEntry = $log->getItemByIndex(0); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
+        $logEntry = $log->getItemByIndex(0); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
 
-		$this->assertEquals(404, $logEntry->getStatus());
-		$this->assertEquals('http://localhost/not-existing-file.html', $logEntry->getUrl());
-	}
+        $this->assertEquals(404, $logEntry->getStatus());
+        $this->assertEquals('http://localhost/not-existing-file.html', $logEntry->getUrl());
+    }
 
-	/**
-	 * @test
-	 */
-	public function downloadExistingPage() {
-		$this->wgetCommand->setOutputFile(Files::concatenatePaths(array($this->workingDirectory, 'wget.log')))
-			->setDirectoryPrefix($this->workingDirectory)
-			->setNoVerbose(TRUE)
-			->setServerResponse(TRUE)
-			->setUrl('http://localhost/')
-			->execute();
+    /**
+     * @test
+     */
+    public function downloadExistingPage()
+    {
+        $this->wgetCommand->setOutputFile(Files::concatenatePaths(array($this->workingDirectory, 'wget.log')))
+            ->setDirectoryPrefix($this->workingDirectory)
+            ->setNoVerbose(true)
+            ->setServerResponse(true)
+            ->setUrl('http://localhost/')
+            ->execute();
 
-		$log = $this->wgetLogParser->parseLog($this->wgetCommand);
+        $log = $this->wgetLogParser->parseLog($this->wgetCommand);
 
-		$this->assertFalse($log->hasErrors());
-		$this->assertFileExists(Files::concatenatePaths(array($this->workingDirectory, 'index.html')));
-	}
+        $this->assertFalse($log->hasErrors());
+        $this->assertFileExists(Files::concatenatePaths(array($this->workingDirectory, 'index.html')));
+    }
 }

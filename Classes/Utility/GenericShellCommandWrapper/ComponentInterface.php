@@ -26,11 +26,10 @@ namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
  *
  * @package PunktDe\PtExtbase\Utility\GenericShellCommandWrapper
  */
-interface ComponentInterface {
-
-	/**
-	 * @return array
-	 */
-	public function toArray();
-
+interface ComponentInterface
+{
+    /**
+     * @return array
+     */
+    public function toArray();
 }

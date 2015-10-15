@@ -30,15 +30,13 @@
  * @subpackage GpVars
  * @author Michael Knoll 
  */
-interface Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface 
-			extends Tx_PtExtbase_State_IdentifiableInterface {
-				
-    
-	/**
-	 * Injects GetPost Vars into object
-	 *
-	 * @param array $GPVars GP Var data to be injected into the object
-	 */
-	public function _injectGPVars($GPVars);
-
+interface Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface
+            extends Tx_PtExtbase_State_IdentifiableInterface
+{
+    /**
+     * Injects GetPost Vars into object
+     *
+     * @param array $GPVars GP Var data to be injected into the object
+     */
+    public function _injectGPVars($GPVars);
 }

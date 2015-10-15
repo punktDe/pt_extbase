@@ -29,8 +29,8 @@
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tree_NestedSetVisitor implements Tx_PtExtbase_Tree_TreeWalkerVisitorInterface {
-
+class Tx_PtExtbase_Tree_NestedSetVisitor implements Tx_PtExtbase_Tree_TreeWalkerVisitorInterface
+{
     /**
      * Holds an array of nodes that has already been visited
      *
@@ -40,30 +40,32 @@ class Tx_PtExtbase_Tree_NestedSetVisitor implements Tx_PtExtbase_Tree_TreeWalker
 
 
 
-	/**
-	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $node
+    /**
+     * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
      * @param integer &$index Holds the visitation index of treewalker
      * @param integer &$level Holds level of visitation in tree, starting at 1
      */
-    public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
-		$node->setLft($index);
-	}
+    public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
+    {
+        $node->setLft($index);
+    }
 
 
-	
-	/**
-	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doLastVisit()
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $node
+    
+    /**
+     * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doLastVisit()
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
      * @param integer &$index Holds the visitation index of treewalker
      * @param integer &$level Holds level of visitation in tree, starting at 1
      */
-    public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
-		$node->setRgt($index);
+    public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
+    {
+        $node->setRgt($index);
         $this->visitedNodes[] = $node;
-	}
+    }
 
 
 
@@ -72,9 +74,8 @@ class Tx_PtExtbase_Tree_NestedSetVisitor implements Tx_PtExtbase_Tree_TreeWalker
      *
      * @return array<Tx_PtExtbase_Tree_NestedSetNodeInterface>
      */
-    public function getVisitedNodes() {
+    public function getVisitedNodes()
+    {
         return $this->visitedNodes;
     }
-	
 }
-?>

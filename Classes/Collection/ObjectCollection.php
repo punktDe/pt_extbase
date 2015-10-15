@@ -33,32 +33,33 @@
  * @author      Michael Knoll
  * @package     Collection
  */
-abstract class Tx_PtExtbase_Collection_ObjectCollection extends Tx_PtExtbase_Collection_Collection {
+abstract class Tx_PtExtbase_Collection_ObjectCollection extends Tx_PtExtbase_Collection_Collection
+{
+    /**
+     * if set, added objects will be type checked against this classname -
+     * this property should be set by your inheriting class if want to check the object type when adding an item
+     *
+     * @var     string
+     */
+    protected $restrictedClassName = null;
 
-	/**
-	 * if set, added objects will be type checked against this classname -
-	 * this property should be set by your inheriting class if want to check the object type when adding an item
-	 *
-	 * @var     string
-	 */
-	protected $restrictedClassName = NULL;
 
-
-	/**
-	 * Checks if the type of an item object matches the restrictedClassName
-	 * (this property should be set in your inheriting class if want to check the object type when adding an item)
-	 *
-	 * Template method that overwrites behaviour of base class so that all
-	 * items added to the collection are checked to implement / extend
-	 * the type given in restrictedClassName property
-	 *
-	 * @param   mixed       object item to validate
-	 * @return  boolean     true if object validation suceeded, false otherwise
-	 */
-	final protected function checkItemType($itemObj) {
-		if (!is_null($this->restrictedClassName) && !($itemObj instanceof $this->restrictedClassName)) {
-			return false;
-		}
-		return true;
-	}
+    /**
+     * Checks if the type of an item object matches the restrictedClassName
+     * (this property should be set in your inheriting class if want to check the object type when adding an item)
+     *
+     * Template method that overwrites behaviour of base class so that all
+     * items added to the collection are checked to implement / extend
+     * the type given in restrictedClassName property
+     *
+     * @param   mixed       object item to validate
+     * @return  boolean     true if object validation suceeded, false otherwise
+     */
+    final protected function checkItemType($itemObj)
+    {
+        if (!is_null($this->restrictedClassName) && !($itemObj instanceof $this->restrictedClassName)) {
+            return false;
+        }
+        return true;
+    }
 }

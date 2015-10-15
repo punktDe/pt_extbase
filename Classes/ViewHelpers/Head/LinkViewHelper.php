@@ -32,83 +32,84 @@
  * @package Viewhelpers
  * @subpackage Content/Head
  */
-class Tx_PtExtbase_ViewHelpers_Head_LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
+class Tx_PtExtbase_ViewHelpers_Head_LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
+{
+    /**
+     * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
+     * can decode the text's entities.
+     *
+     * @var boolean
+     */
+    protected $escapingInterceptorEnabled = false;
 
 
-	/**
-	 * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
-	 * can decode the text's entities.
-	 *
-	 * @var boolean
-	 */
-	protected $escapingInterceptorEnabled = FALSE;
+    /**
+     * @var	string
+     */
+    protected $tagName = 'link';
 
 
-	/**
-	 * @var	string
-	 */
-	protected $tagName = 'link';
+    /**
+     * @var t3lib_PageRenderer
+     */
+    protected $pageRenderer;
 
 
-	/**
-	 * @var t3lib_PageRenderer
-	 */
-	protected $pageRenderer;
-
-
-	/**
-	 * Arguments initialization
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerTagAttribute('rel', 'string', 'Specifies the relationship between the current document and the linked document');
-		$this->registerTagAttribute('type', 'string', 'Specifies the type of the link');
-		$this->registerTagAttribute('title', 'string', 'Specifies the title');
-		$this->registerTagAttribute('href', 'string', 'Specifies the relationship between the linked document and the current document');
-	}
-
-
-
-	/**
-	 * Initialize ViewHelper
-	 */
-	public function initialize() {
-		parent::initialize();
-
-		if (TYPO3_MODE === 'FE' && $GLOBALS['TSFE']) {
-			$this->pageRenderer = $GLOBALS['TSFE']->getPageRenderer();
-		}
-	}
+    /**
+     * Arguments initialization
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerTagAttribute('rel', 'string', 'Specifies the relationship between the current document and the linked document');
+        $this->registerTagAttribute('type', 'string', 'Specifies the type of the link');
+        $this->registerTagAttribute('title', 'string', 'Specifies the title');
+        $this->registerTagAttribute('href', 'string', 'Specifies the relationship between the linked document and the current document');
+    }
 
 
 
-	/**
-	 * @param array $unEscapedTags
-	 */
-	public function render($unEscapedTags = array()) {
+    /**
+     * Initialize ViewHelper
+     */
+    public function initialize()
+    {
+        parent::initialize();
 
-		$unEscapedTags[] = 'href';
-
-		$this->markAsUnEscaped($unEscapedTags);
-
-		if($this->pageRenderer != NULL) {
-			$metaTag = $this->tag->render();
-			$this->pageRenderer->addMetaTag($this->tag->render($metaTag));
-		}
-	}
+        if (TYPO3_MODE === 'FE' && $GLOBALS['TSFE']) {
+            $this->pageRenderer = $GLOBALS['TSFE']->getPageRenderer();
+        }
+    }
 
 
 
-	/**
-	 * @param $tagNames
-	 */
-	protected function markAsUnEscaped($tagNames) {
-		foreach($tagNames as $tagName) {
-			if($this->hasArgument($tagName)) {
-				$this->tag->addAttribute($tagName, $this->arguments[$tagName],FALSE);
-			}
-		}
-	}
+    /**
+     * @param array $unEscapedTags
+     */
+    public function render($unEscapedTags = array())
+    {
+        $unEscapedTags[] = 'href';
 
+        $this->markAsUnEscaped($unEscapedTags);
+
+        if ($this->pageRenderer != null) {
+            $metaTag = $this->tag->render();
+            $this->pageRenderer->addMetaTag($this->tag->render($metaTag));
+        }
+    }
+
+
+
+    /**
+     * @param $tagNames
+     */
+    protected function markAsUnEscaped($tagNames)
+    {
+        foreach ($tagNames as $tagName) {
+            if ($this->hasArgument($tagName)) {
+                $this->tag->addAttribute($tagName, $this->arguments[$tagName], false);
+            }
+        }
+    }
 }

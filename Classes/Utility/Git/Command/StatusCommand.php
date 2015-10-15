@@ -28,60 +28,62 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class StatusCommand extends GenericShellCommand {
-
-	/**
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'short' => '--short',
-		'untrackedFilesMode' => '--untracked-files=%s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'short' => FALSE,
-		'untrackedFilesMode' => 'all'
-	);
+class StatusCommand extends GenericShellCommand
+{
+    /**
+     * @var array
+     */
+    protected $argumentMap = array(
+        'short' => '--short',
+        'untrackedFilesMode' => '--untracked-files=%s'
+    );
 
 
-
-	/**
-	 * @param boolean $short
-	 * @return $this
-	 */
-	public function setShort($short) {
-		$this->arguments['short'] = $short;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'short' => false,
+        'untrackedFilesMode' => 'all'
+    );
 
 
 
-	/**
-	 * Set untracked files mode
-	 *
-	 * - all (default): Also shows individual files in untracked directories
-	 * - normal: Shows untracked files and directories
-	 * - no: Show no untracked files.
-	 *
-	 * @param string $mode
-	 * @return $this
-	 */
-	public function setUntrackedFilesMode($mode) {
-		$this->arguments['untrackedFilesMode'] = $mode;
-		return $this;
-	}
+    /**
+     * @param boolean $short
+     * @return $this
+     */
+    public function setShort($short)
+    {
+        $this->arguments['short'] = $short;
+        return $this;
+    }
 
 
 
-	/**
-	 * @return boolean
-	 */
-	public function isShort() {
-		return $this->arguments['short'];
-	}
+    /**
+     * Set untracked files mode
+     *
+     * - all (default): Also shows individual files in untracked directories
+     * - normal: Shows untracked files and directories
+     * - no: Show no untracked files.
+     *
+     * @param string $mode
+     * @return $this
+     */
+    public function setUntrackedFilesMode($mode)
+    {
+        $this->arguments['untrackedFilesMode'] = $mode;
+        return $this;
+    }
 
+
+
+    /**
+     * @return boolean
+     */
+    public function isShort()
+    {
+        return $this->arguments['short'];
+    }
 }

@@ -33,14 +33,14 @@
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tree_TreeWalker {
-	
-	/**
-	 * Holds a set of strategies that are invoked, whenever a node is visited
-	 *
-	 * @var array<Tx_PtExtbase_Tree_TreeWalkerVisitorInterface>
-	 */
-	protected $visitors;
+class Tx_PtExtbase_Tree_TreeWalker
+{
+    /**
+     * Holds a set of strategies that are invoked, whenever a node is visited
+     *
+     * @var array<Tx_PtExtbase_Tree_TreeWalkerVisitorInterface>
+     */
+    protected $visitors;
 
 
 
@@ -53,45 +53,48 @@ class Tx_PtExtbase_Tree_TreeWalker {
 
 
 
-	/**
-	 * @var Tx_PtExtbase_Tree_TreeContext
-	 */
-	protected $treeContext;
+    /**
+     * @var Tx_PtExtbase_Tree_TreeContext
+     */
+    protected $treeContext;
 
 
-	/**
-	 * @param Tx_PtExtbase_Tree_TreeContext $treeContext
-	 */
-	public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext) {
-		$this->treeContext = $treeContext;
-	}
+    /**
+     * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+     */
+    public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext)
+    {
+        $this->treeContext = $treeContext;
+    }
 
 
-	/**
-	 * Constructor for tree walker
-	 *
-	 * @param array $visitors
-	 * @throws Exception
-	 */
-	public function __construct($visitors) {
-		foreach($visitors as $visitor) {
-			if (is_a($visitor, 'Tx_PtExtbase_Tree_TreeWalkerVisitorInterface')) {
-				$this->visitors[] = $visitor;
-			} else {
-				throw new Exception('Given visitor does not implement Tx_PtExtbase_Tree_TreeWalkerVisitorInterface. 1307902730');
-			}
-		}
-	}
-	
-	
-	
-	/**
-	 * Traverses a tree depth-first search. Applying registered visitors whenever a node is visited.
-	 *
-	 * @param Tx_PtExtbase_Tree_TraversableInterface $tree
-	 */
-	public function traverseTreeDfs(Tx_PtExtbase_Tree_TraversableInterface $tree) {
-		$index = 1;
+    /**
+     * Constructor for tree walker
+     *
+     * @param array $visitors
+     * @throws Exception
+     */
+    public function __construct($visitors)
+    {
+        foreach ($visitors as $visitor) {
+            if (is_a($visitor, 'Tx_PtExtbase_Tree_TreeWalkerVisitorInterface')) {
+                $this->visitors[] = $visitor;
+            } else {
+                throw new Exception('Given visitor does not implement Tx_PtExtbase_Tree_TreeWalkerVisitorInterface. 1307902730');
+            }
+        }
+    }
+    
+    
+    
+    /**
+     * Traverses a tree depth-first search. Applying registered visitors whenever a node is visited.
+     *
+     * @param Tx_PtExtbase_Tree_TraversableInterface $tree
+     */
+    public function traverseTreeDfs(Tx_PtExtbase_Tree_TraversableInterface $tree)
+    {
+        $index = 1;
 
         // If we should respect depth-restriction for tree traversal, we set property
         if ($tree->getRespectRestrictedDepth()) {
@@ -100,40 +103,40 @@ class Tx_PtExtbase_Tree_TreeWalker {
 
         $level = 1;
         if ($this->restrictedDepth === -1 || $level <= $this->restrictedDepth) {
-		    $this->dfs($tree->getRoot(), $index, $level);
+            $this->dfs($tree->getRoot(), $index, $level);
         }
-	}
-	
-	
-	
-	/**
-	 * Helper method for doing a depth-first search on a node
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 * @param integer &$index Referenced value of visitation index. Will be increased with every node visitation.
+    }
+    
+    
+    
+    /**
+     * Helper method for doing a depth-first search on a node
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param integer &$index Referenced value of visitation index. Will be increased with every node visitation.
      * @param integer &$level Current level of visit in the tree starting at 1
-	 */
-	protected function dfs(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level = 1) {
+     */
+    protected function dfs(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level = 1)
+    {
+        if ($node->isAccessible() || $this->treeContext->isWritable()) {
+            $this->doFirstVisit($node, $index, $level);
+            $index = $index + 1;
 
-		if($node->isAccessible() || $this->treeContext->isWritable()) {
-			$this->doFirstVisit($node, $index, $level);
-			$index = $index + 1;
+            if ($node->getChildrenCount() > 0) {
+                $level = $level + 1;
+                if ($this->restrictedDepth === -1 || $level <= $this->restrictedDepth) {
+                    foreach ($node->getChildren() as $child) {
+                        /* @var $child Tx_PtExtbase_Tree_NodeInterface */
+                        $this->dfs($child, $index, $level);
+                    }
+                }
+                $level = $level - 1;
+            }
 
-			if ($node->getChildrenCount() > 0) {
-				$level = $level + 1;
-				if ($this->restrictedDepth === -1 || $level <= $this->restrictedDepth) {
-					foreach ($node->getChildren() as $child) {
-						/* @var $child Tx_PtExtbase_Tree_NodeInterface */
-						$this->dfs($child, $index, $level);
-					}
-				}
-				$level = $level - 1;
-			}
-
-			$this->doLastVisit($node, $index, $level);
-			$index = $index + 1;
-		}
-	}
+            $this->doLastVisit($node, $index, $level);
+            $index = $index + 1;
+        }
+    }
 
 
 
@@ -143,8 +146,9 @@ class Tx_PtExtbase_Tree_TreeWalker {
      * @param integer $level Level to be compared with restricted depth
      * @return bool True, if level is not deeper than restricted depth
      */
-    protected function levelIsBiggerThanRestrictedDepth($level) {
-        error_log( "level: " . $level . " restricted depth: " . $this->restrictedDepth );
+    protected function levelIsBiggerThanRestrictedDepth($level)
+    {
+        error_log("level: " . $level . " restricted depth: " . $this->restrictedDepth);
         if ($this->restrictedDepth === -1) {
             return false;
         } elseif ($level > $this->restrictedDepth) {
@@ -153,8 +157,8 @@ class Tx_PtExtbase_Tree_TreeWalker {
             return false;
         }
     }
-	
-	
+    
+    
 
     /**
      * Calls registered visitors whenever a node is visited for the first time
@@ -162,13 +166,14 @@ class Tx_PtExtbase_Tree_TreeWalker {
      * @param Tx_PtExtbase_Tree_NodeInterface $node
      * @param $index
      */
-	protected function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
-		foreach ($this->visitors as $visitor) {
-			$visitor->doFirstVisit($node, $index, $level);
-		}
-	}
-	
-	
+    protected function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
+    {
+        foreach ($this->visitors as $visitor) {
+            $visitor->doFirstVisit($node, $index, $level);
+        }
+    }
+    
+    
 
     /**
      * Calls registered visitors whenever a node is visited for the last time
@@ -176,22 +181,23 @@ class Tx_PtExtbase_Tree_TreeWalker {
      * @param Tx_PtExtbase_Tree_NodeInterface $node
      * @param $index
      */
-	protected function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
-		foreach ($this->visitors as $visitor) {
-			$visitor->doLastVisit($node, $index, $level);
-		}
-	}
+    protected function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
+    {
+        foreach ($this->visitors as $visitor) {
+            $visitor->doLastVisit($node, $index, $level);
+        }
+    }
 
 
-	/**
-	 * Traverses a tree breadth-first search. Applying registered visitors whenever a node is visited
-	 *
-	 * @param Tx_PtExtbase_Tree_TraversableInterface $tree
-	 * @throws Exception
-	 */
-	public function traverseTreeBfs(Tx_PtExtbase_Tree_TraversableInterface $tree) {
-		// TODO implement me!
+    /**
+     * Traverses a tree breadth-first search. Applying registered visitors whenever a node is visited
+     *
+     * @param Tx_PtExtbase_Tree_TraversableInterface $tree
+     * @throws Exception
+     */
+    public function traverseTreeBfs(Tx_PtExtbase_Tree_TraversableInterface $tree)
+    {
+        // TODO implement me!
         throw new Exception('Traversing tree BFS is not yet implemented!');
-	}
+    }
 }
-?>

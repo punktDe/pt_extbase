@@ -28,48 +28,48 @@ use \TYPO3\CMS\Core\Tests\UnitTestCase;
  *
  * @package PunktDe\PtExtbase\Tests\Utility\Git\Command
  */
-class GenericShellCommandTest extends UnitTestCase {
-
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand
-	 */
-	protected $proxy;
-
-
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		$this->proxy = $this->getAccessibleMockForAbstractClass('PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand');
-	}
+class GenericShellCommandTest extends UnitTestCase
+{
+    /**
+     * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand
+     */
+    protected $proxy;
 
 
-	/**
-	 * @test
-	 */
-	public function checkIfBuildCommandRendersValidCommandString() {
-		$expected = array(
-			'--do this',
-			'--count toThree',
-			'--stop'
-		);
-
-		$this->proxy->_set('command', 'you');
-		$this->proxy->_set('argumentMap', array(
-			'do' => '--do %s',
-			'count' => '--count %s',
-			'stop' => '--stop'
-		));
-		$this->proxy->_set('arguments', array(
-			'do' => 'this',
-			'count' => 'toThree',
-			'stop' => TRUE
-		));
-
-		$actual = $this->proxy->_call('buildArguments');
-
-		$this->assertEquals($expected, $actual);
-	}
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        $this->proxy = $this->getAccessibleMockForAbstractClass('PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand');
+    }
 
 
+    /**
+     * @test
+     */
+    public function checkIfBuildCommandRendersValidCommandString()
+    {
+        $expected = array(
+            '--do this',
+            '--count toThree',
+            '--stop'
+        );
+
+        $this->proxy->_set('command', 'you');
+        $this->proxy->_set('argumentMap', array(
+            'do' => '--do %s',
+            'count' => '--count %s',
+            'stop' => '--stop'
+        ));
+        $this->proxy->_set('arguments', array(
+            'do' => 'this',
+            'count' => 'toThree',
+            'stop' => true
+        ));
+
+        $actual = $this->proxy->_call('buildArguments');
+
+        $this->assertEquals($expected, $actual);
+    }
 }

@@ -29,48 +29,49 @@ namespace PunktDe\PtExtbase\Tests\Utility\Wget;
  * @package pt_extbase
  * @subpackage Tests\Unit\Domain\Utlity
  */
-class WgetCommandTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
-
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Wget\WgetCommand
-	 */
-	protected $wgetCommand;
-
-
-
-	public function setUp() {
-		$this->wgetCommand = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('PunktDe\PtExtbase\Utility\Wget\WgetCommand');
-	}
-
-	public function tearDown() {
-
-	}
+class WgetCommandTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+{
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Wget\WgetCommand
+     */
+    protected $wgetCommand;
 
 
-	/**
-	 * @test
-	 */
-	public function buildUrl() {
-		$expected = 'wget --no-check-certificate --convert-links --load-cookies=cookies.txt --execute robots=off --tries=30 --retry-connrefused --server-response --directory-prefix=2014-11-28-0958 --domains=test.punkt.de --page-requisites --output-file="2014-11-28-0958.log" --no-verbose "http://test.punkt.de/page/"';
 
-		$this->wgetCommand
-			->setWgetBinaryPath('wget')
-			->setNoCheckCertificate(TRUE)
-			->setExecute('robots=off')
-			->setConvertLinks(TRUE)
-			->setLoadCookies('cookies.txt')
-			->setTries(30)
-			->setDomains('test.punkt.de')
-			->setRetryConnRefused(TRUE)
-			->setServerResponse(TRUE)
-			->setDirectoryPrefix('2014-11-28-0958')
-			->setPageRequisites(TRUE)
-			->setOutputFile('2014-11-28-0958.log')
-			->setUrl('http://test.punkt.de/page/');
+    public function setUp()
+    {
+        $this->wgetCommand = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('PunktDe\PtExtbase\Utility\Wget\WgetCommand');
+    }
 
-		$actual = $this->wgetCommand->getCommand();
+    public function tearDown()
+    {
+    }
 
-		$this->assertEquals($expected, $actual);
-	}
 
+    /**
+     * @test
+     */
+    public function buildUrl()
+    {
+        $expected = 'wget --no-check-certificate --convert-links --load-cookies=cookies.txt --execute robots=off --tries=30 --retry-connrefused --server-response --directory-prefix=2014-11-28-0958 --domains=test.punkt.de --page-requisites --output-file="2014-11-28-0958.log" --no-verbose "http://test.punkt.de/page/"';
+
+        $this->wgetCommand
+            ->setWgetBinaryPath('wget')
+            ->setNoCheckCertificate(true)
+            ->setExecute('robots=off')
+            ->setConvertLinks(true)
+            ->setLoadCookies('cookies.txt')
+            ->setTries(30)
+            ->setDomains('test.punkt.de')
+            ->setRetryConnRefused(true)
+            ->setServerResponse(true)
+            ->setDirectoryPrefix('2014-11-28-0958')
+            ->setPageRequisites(true)
+            ->setOutputFile('2014-11-28-0958.log')
+            ->setUrl('http://test.punkt.de/page/');
+
+        $actual = $this->wgetCommand->getCommand();
+
+        $this->assertEquals($expected, $actual);
+    }
 }

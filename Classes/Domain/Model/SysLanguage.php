@@ -30,79 +30,84 @@
  * @subpackage Model
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Domain_Model_SysLanguage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
-
-	/**
-	 * @var string
-	 */
-	protected $title;
-
-
-
-	/**
-	 * @var string
-	 */
-	protected $flag;
+class Tx_PtExtbase_Domain_Model_SysLanguage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
+    /**
+     * @var string
+     */
+    protected $title;
 
 
 
-	/**
-	 * @var boolean
-	 */
-	protected $indexEnable;
+    /**
+     * @var string
+     */
+    protected $flag;
 
 
 
-	/**
-	 * @param string $flag
-	 */
-	public function setFlag($flag) {
-		$this->flag = $flag;
-	}
+    /**
+     * @var boolean
+     */
+    protected $indexEnable;
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getFlag() {
-		return $this->flag;
-	}
+    /**
+     * @param string $flag
+     */
+    public function setFlag($flag)
+    {
+        $this->flag = $flag;
+    }
 
 
 
-	/**
-	 * @param boolean $indexEnable
-	 */
-	public function setIndexEnable($indexEnable) {
-		$this->indexEnable = $indexEnable;
-	}
+    /**
+     * @return string
+     */
+    public function getFlag()
+    {
+        return $this->flag;
+    }
 
 
 
-	/**
-	 * @return boolean
-	 */
-	public function getIndexEnable() {
-		return $this->indexEnable;
-	}
+    /**
+     * @param boolean $indexEnable
+     */
+    public function setIndexEnable($indexEnable)
+    {
+        $this->indexEnable = $indexEnable;
+    }
 
 
 
-	/**
-	 * @param string $title
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
+    /**
+     * @return boolean
+     */
+    public function getIndexEnable()
+    {
+        return $this->indexEnable;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
+
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 }

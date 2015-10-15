@@ -28,44 +28,47 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Be_FormTokenViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Be_FormTokenViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper
+     */
+    protected $accessibleProxyClass;
 
-	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper
-	 */
-	protected $accessibleProxyClass;
-
-	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper
-	 */
-	protected $accessibleProxy;
-
-
-	public function setUp() {
-		$this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper');
-		$this->accessibleProxy = new $this->accessibleProxyClass();
-	}
-
-	public function tearDown() {
-		unset($this->accessibleProxy);
-	}
-
-	/**
-	 * @test
-	 */
-	public function classExists() {
-		$this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper'));
-	}
+    /**
+     * @var Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper
+     */
+    protected $accessibleProxy;
 
 
-	/**
-	 * @test
-	 */
-	public function formTokenViewHelperReturnsFormTokenString() {
-		$formToken = $this->accessibleProxy->render();
-		$secondFormToken = \TYPO3\CMS\Backend\Utility\BackendUtility::getUrlToken('tceAction');
+    public function setUp()
+    {
+        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper');
+        $this->accessibleProxy = new $this->accessibleProxyClass();
+    }
 
-		$this->assertEquals($formToken, $secondFormToken);
-	}
-	
+    public function tearDown()
+    {
+        unset($this->accessibleProxy);
+    }
+
+    /**
+     * @test
+     */
+    public function classExists()
+    {
+        $this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper'));
+    }
+
+
+    /**
+     * @test
+     */
+    public function formTokenViewHelperReturnsFormTokenString()
+    {
+        $formToken = $this->accessibleProxy->render();
+        $secondFormToken = \TYPO3\CMS\Backend\Utility\BackendUtility::getUrlToken('tceAction');
+
+        $this->assertEquals($formToken, $secondFormToken);
+    }
 }

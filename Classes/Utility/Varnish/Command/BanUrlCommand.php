@@ -28,58 +28,60 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Varnish\Command
  */
-class BanUrlCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'url' => '%s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'url' => '',
-	);
+class BanUrlCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'url' => '%s'
+    );
 
 
-
-	/**
-	 * @param string $url
-	 * @return $this
-	 */
-	public function setUrl($url) {
-		$this->arguments['url'] = $url;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'url' => '',
+    );
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getCommandName() {
-		return 'ban.url';
-	}
+    /**
+     * @param string $url
+     * @return $this
+     */
+    public function setUrl($url)
+    {
+        $this->arguments['url'] = $url;
+        return $this;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	protected function buildCommand() {
-		$arguments = $this->buildArguments();
-		array_unshift($arguments, $this->getCommandName());
-		$arguments = array(sprintf("\"%s\"", implode(' ', $arguments)));
-		if ($this->subCommand instanceof GenericShellCommand) {
-			array_unshift($arguments, $this->subCommand->render());
-		}
-		return implode(' ', $arguments);
-	}
+    /**
+     * @return string
+     */
+    public function getCommandName()
+    {
+        return 'ban.url';
+    }
 
+
+
+    /**
+     * @return string
+     */
+    protected function buildCommand()
+    {
+        $arguments = $this->buildArguments();
+        array_unshift($arguments, $this->getCommandName());
+        $arguments = array(sprintf("\"%s\"", implode(' ', $arguments)));
+        if ($this->subCommand instanceof GenericShellCommand) {
+            array_unshift($arguments, $this->subCommand->render());
+        }
+        return implode(' ', $arguments);
+    }
 }

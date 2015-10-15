@@ -34,110 +34,113 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * @author Joachim Mathes <mathes@punkt.de>
  */
 
-class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonInterface {
-	
-	/**
-	* @var t3lib_PageRenderer
-	*/
-	protected $pageRenderer;
-	
+class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+    * @var t3lib_PageRenderer
+    */
+    protected $pageRenderer;
+    
 
-	
-	/**
-	 * Initialize the object (called by objectManager)
-	 * 
-	 */
-	public function initializeObject() {
-		if (TYPO3_MODE === 'BE') {
-         	$this->initializeBackend();
-         } else {
-         	$this->initializeFrontend();
-         }
-	}
-
-
-
-	/**
-	 * Initialize Backend specific variables
-	 */
-	protected function initializeBackend() {
-
-		if (!isset($GLOBALS['SOBE'])) {
-			$GLOBALS['SOBE'] = new \stdClass();
-		}
-
-		if (!isset($GLOBALS['SOBE']->doc)) {
-			$GLOBALS['SOBE']->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
-			$GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
-		}
-
-		$this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
-	}
+    
+    /**
+     * Initialize the object (called by objectManager)
+     * 
+     */
+    public function initializeObject()
+    {
+        if (TYPO3_MODE === 'BE') {
+            $this->initializeBackend();
+        } else {
+            $this->initializeFrontend();
+        }
+    }
 
 
 
-	/**
-	 * Initialize Frontend specific variables
-	 */
-	protected function initializeFrontend() {
-		$GLOBALS['TSFE']->backPath = TYPO3_mainDir;
-		$this->pageRenderer = $GLOBALS['TSFE']->getPageRenderer();
-	}
+    /**
+     * Initialize Backend specific variables
+     */
+    protected function initializeBackend()
+    {
+        if (!isset($GLOBALS['SOBE'])) {
+            $GLOBALS['SOBE'] = new \stdClass();
+        }
+
+        if (!isset($GLOBALS['SOBE']->doc)) {
+            $GLOBALS['SOBE']->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
+            $GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
+        }
+
+        $this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
+    }
 
 
 
-	/**
-	 * Add JS inline code
-	 *
-	 * @param string $name
-	 * @param string $block
-	 * @param boolean $compress
-	 * @param boolean $forceOnTop
-	 */
-	public function addJSInlineCode($name, $block, $compress = TRUE, $forceOnTop = FALSE) {
-		$this->pageRenderer->addJsInlineCode($name, $block, $compress, $forceOnTop);
-	}
+    /**
+     * Initialize Frontend specific variables
+     */
+    protected function initializeFrontend()
+    {
+        $GLOBALS['TSFE']->backPath = TYPO3_mainDir;
+        $this->pageRenderer = $GLOBALS['TSFE']->getPageRenderer();
+    }
 
 
 
-	/**
-	 * Add a CSS file
-	 *
-	 * @param $file
-	 * @param string $rel
-	 * @param string $media
-	 * @param string $title
-	 * @param bool $compress
-	 * @param bool $forceOnTop
-	 * @param string $allWrap
-	 */
-	public function addCSSFile($file, $rel = 'stylesheet', $media = 'all', $title = '', $compress = FALSE, $forceOnTop = FALSE, $allWrap = '') {
-		$this->pageRenderer->addCSSFile($this->getFileRelFileName($file), $rel, $media, $title, $compress, $forceOnTop , $allWrap);
-	}
+    /**
+     * Add JS inline code
+     *
+     * @param string $name
+     * @param string $block
+     * @param boolean $compress
+     * @param boolean $forceOnTop
+     */
+    public function addJSInlineCode($name, $block, $compress = true, $forceOnTop = false)
+    {
+        $this->pageRenderer->addJsInlineCode($name, $block, $compress, $forceOnTop);
+    }
 
 
 
-	/**
-	 * Expand the EXT to a relative path
-	 *
-	 * @param string $filename
-	 * @return string Relative filename
-	 */
-	public function getFileRelFileName($filename) {
+    /**
+     * Add a CSS file
+     *
+     * @param $file
+     * @param string $rel
+     * @param string $media
+     * @param string $title
+     * @param bool $compress
+     * @param bool $forceOnTop
+     * @param string $allWrap
+     */
+    public function addCSSFile($file, $rel = 'stylesheet', $media = 'all', $title = '', $compress = false, $forceOnTop = false, $allWrap = '')
+    {
+        $this->pageRenderer->addCSSFile($this->getFileRelFileName($file), $rel, $media, $title, $compress, $forceOnTop, $allWrap);
+    }
 
-		if (substr($filename, 0, 4) == 'EXT:') { // extension
-			list($extKey, $local) = explode('/', substr($filename, 4), 2);
-			$filename = '';
-			if (strcmp($extKey, '') && ExtensionManagementUtility::isLoaded($extKey) && strcmp($local, '')) {
-				if(TYPO3_MODE === 'FE') {
-					$filename = ExtensionManagementUtility::siteRelPath($extKey) . $local;
-				} else {
-					$filename = ExtensionManagementUtility::extRelPath($extKey) . $local;
-				}
-			}
-		}
 
-		return $filename;
-	}
 
+    /**
+     * Expand the EXT to a relative path
+     *
+     * @param string $filename
+     * @return string Relative filename
+     */
+    public function getFileRelFileName($filename)
+    {
+        if (substr($filename, 0, 4) == 'EXT:') { // extension
+            list($extKey, $local) = explode('/', substr($filename, 4), 2);
+            $filename = '';
+            if (strcmp($extKey, '') && ExtensionManagementUtility::isLoaded($extKey) && strcmp($local, '')) {
+                if (TYPO3_MODE === 'FE') {
+                    $filename = ExtensionManagementUtility::siteRelPath($extKey) . $local;
+                } else {
+                    $filename = ExtensionManagementUtility::extRelPath($extKey) . $local;
+                }
+            }
+        }
+
+        return $filename;
+    }
 }

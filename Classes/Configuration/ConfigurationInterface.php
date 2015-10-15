@@ -23,5 +23,4 @@ namespace PunktDe\PtExtbase\Configuration;
 
 interface ConfigurationInterface
 {
-
 }

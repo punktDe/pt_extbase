@@ -17,19 +17,18 @@ namespace PunktDe\PtExtbase\Utility\Lock;
  *
  * @api
  */
-interface LockStrategyInterface {
+interface LockStrategyInterface
+{
+    /**
+     * @param string $subject
+     * @param boolean $exclusiveLock TRUE to, acquire an exclusive (write) lock, FALSE for a shared (read) lock.
+     * @return boolean TRUE if lock could be acquired, FALSE otherwise
+     */
+    public function acquire($subject, $exclusiveLock);
 
-	/**
-	 * @param string $subject
-	 * @param boolean $exclusiveLock TRUE to, acquire an exclusive (write) lock, FALSE for a shared (read) lock.
-	 * @return boolean TRUE if lock could be acquired, FALSE otherwise
-	 */
-	public function acquire($subject, $exclusiveLock);
 
-
-	/**
-	 * @return boolean TRUE on success, FALSE otherwise
-	 */
-	public function release();
-
+    /**
+     * @return boolean TRUE on success, FALSE otherwise
+     */
+    public function release();
 }

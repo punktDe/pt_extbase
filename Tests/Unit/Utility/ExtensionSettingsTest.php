@@ -28,157 +28,163 @@
  * @package pt_extbase
  * @subpackage Tests\Unit\Utility
  */
-class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    protected $proxyClass;
 
-	protected $proxyClass;
+    protected $proxy;
 
-	protected $proxy;
+    public function setUp()
+    {
+        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_ExtensionSettings');
+        $this->proxy = new $this->proxyClass();
+    }
 
-	public function setUp() {
-		$this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_ExtensionSettings');
-		$this->proxy = new $this->proxyClass();
-	}
+    public function tearDown()
+    {
+        unset($this->proxy);
+    }
 
-	public function tearDown() {
-		unset($this->proxy);
-	}
+    /**
+     * @test
+     */
+    public function cacheExtensionSettingsCachesIfNecessary()
+    {
+        $key = 'pt_rem';
+        $settings = array(
+            $key => array(
+                'Michael' => 'Stipe',
+                'Peter' => 'Buck',
+                'Mike' => 'Mills'
+            )
+        );
 
-	/**
-	 * @test
-	 */
-	public function cacheExtensionSettingsCachesIfNecessary() {
-		$key = 'pt_rem';
-		$settings = array(
-			$key => array(
-				'Michael' => 'Stipe',
-				'Peter' => 'Buck',
-				'Mike' => 'Mills'
-			)
-		);
+        $proxyMock = $this->getMockBuilder($this->proxyClass)
+                ->setMethods(array('loadExtensionSettings'))
+                ->getMock();
+        $proxyMock->expects($this->once())
+                ->method('loadExtensionSettings')
+                ->with($key)
+                ->will($this->returnValue($settings[$key]));
 
-		$proxyMock = $this->getMockBuilder($this->proxyClass)
-				->setMethods(array('loadExtensionSettings'))
-				->getMock();
-		$proxyMock->expects($this->once())
-				->method('loadExtensionSettings')
-				->with($key)
-				->will($this->returnValue($settings[$key]));
+        $expected = $settings;
+        $proxyMock->_call('cacheExtensionSettings', $key);
+        $actual = $proxyMock->_get('extensionSettings');
+        $this->assertSame($expected, $actual);
+    }
 
-		$expected = $settings;
-		$proxyMock->_call('cacheExtensionSettings', $key);
-		$actual = $proxyMock->_get('extensionSettings');
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @test
+     */
+    public function cacheExtensionSettingsDoesNotCacheIfNotNecessary()
+    {
+        $key = 'pt_rem';
+        $settings = array(
+            $key => array(
+                'Michael' => 'Stipe',
+                'Peter' => 'Buck',
+                'Mike' => 'Mills'
+            )
+        );
 
-	/**
-	 * @test
-	 */
-	public function cacheExtensionSettingsDoesNotCacheIfNotNecessary() {
-		$key = 'pt_rem';
-		$settings = array(
-			$key => array(
-				'Michael' => 'Stipe',
-				'Peter' => 'Buck',
-				'Mike' => 'Mills'
-			)
-		);
+        $proxyMock = $this->getMockBuilder($this->proxyClass)
+                ->setMethods(array('loadExtensionSettings'))
+                ->getMock();
+        $proxyMock->expects($this->never())
+                ->method('loadExtensionSettings');
 
-		$proxyMock = $this->getMockBuilder($this->proxyClass)
-				->setMethods(array('loadExtensionSettings'))
-				->getMock();
-		$proxyMock->expects($this->never())
-				->method('loadExtensionSettings');
+        $proxyMock->_set('extensionSettings', $settings);
+        $proxyMock->_call('cacheExtensionSettings', $key);
+    }
 
-		$proxyMock->_set('extensionSettings', $settings);
-		$proxyMock->_call('cacheExtensionSettings', $key);
-	}
+    /**
+     * @test
+     */
+    public function getExtensionSettingsReturnsSettings()
+    {
+        $key = 'pt_rem';
+        $settings = array(
+            $key => array(
+                'Michael' => 'Stipe',
+                'Peter' => 'Buck',
+                'Mike' => 'Mills'
+            )
+        );
 
-	/**
-	 * @test
-	 */
-	public function getExtensionSettingsReturnsSettings() {
-		$key = 'pt_rem';
-		$settings = array(
-			$key => array(
-				'Michael' => 'Stipe',
-				'Peter' => 'Buck',
-				'Mike' => 'Mills'
-			)
-		);
+        $proxyMock = $this->getMockBuilder($this->proxyClass)
+                ->setMethods(array('cacheExtensionSettings'))
+                ->getMock();
+        $proxyMock->expects($this->once())
+                ->method('cacheExtensionSettings')
+                ->with($key);
 
-		$proxyMock = $this->getMockBuilder($this->proxyClass)
-				->setMethods(array('cacheExtensionSettings'))
-				->getMock();
-		$proxyMock->expects($this->once())
-				->method('cacheExtensionSettings')
-				->with($key);
+        $proxyMock->_set('extensionSettings', $settings);
 
-		$proxyMock->_set('extensionSettings', $settings);
+        $expected = $settings[$key];
+        $actual = $proxyMock->getExtensionSettings($key);
+        $this->assertSame($expected, $actual);
+    }
 
-		$expected = $settings[$key];
-		$actual = $proxyMock->getExtensionSettings($key);
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @test
+     */
+    public function getKeyFromExtensionSettingsReturnsKeyValueIfAvailable()
+    {
+        $extensionKey = 'pt_rem';
+        $key = 'Michael';
+        $settings = array(
+            $extensionKey => array(
+                $key => 'Stipe',
+                'Peter' => 'Buck',
+                'Mike' => 'Mills'
+            )
+        );
 
-	/**
-	 * @test
-	 */
-	public function getKeyFromExtensionSettingsReturnsKeyValueIfAvailable() {
-		$extensionKey = 'pt_rem';
-		$key = 'Michael';
-		$settings = array(
-			$extensionKey => array(
-				$key => 'Stipe',
-				'Peter' => 'Buck',
-				'Mike' => 'Mills'
-			)
-		);
+        $proxyMock = $this->getMockBuilder($this->proxyClass)
+                ->setMethods(array('cacheExtensionSettings'))
+                ->getMock();
+        $proxyMock->expects($this->once())
+                ->method('cacheExtensionSettings')
+                ->with($extensionKey);
 
-		$proxyMock = $this->getMockBuilder($this->proxyClass)
-				->setMethods(array('cacheExtensionSettings'))
-				->getMock();
-		$proxyMock->expects($this->once())
-				->method('cacheExtensionSettings')
-				->with($extensionKey);
+        $proxyMock->_set('extensionSettings', $settings);
 
-		$proxyMock->_set('extensionSettings', $settings);
+        $expected = $settings[$extensionKey][$key];
+        $actual = $proxyMock->getKeyFromExtensionSettings($extensionKey, $key);
+        $this->assertSame($expected, $actual);
+    }
 
-		$expected = $settings[$extensionKey][$key];
-		$actual = $proxyMock->getKeyFromExtensionSettings($extensionKey, $key);
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @test
+     */
+    public function getKeyFromExtensionSettingsThrowsExceptionIfNotSet()
+    {
+        $extensionKey = 'pt_rem';
+        $key = 'Michael';
+        $settings = array(
+            $extensionKey => array(
+                'Peter' => 'Buck',
+                'Mike' => 'Mills'
+            )
+        );
 
-	/**
-	 * @test
-	 */
-	public function getKeyFromExtensionSettingsThrowsExceptionIfNotSet() {
-		$extensionKey = 'pt_rem';
-		$key = 'Michael';
-		$settings = array(
-			$extensionKey => array(
-				'Peter' => 'Buck',
-				'Mike' => 'Mills'
-			)
-		);
+        $proxyMock = $this->getMockBuilder($this->proxyClass)
+                ->setMethods(array('cacheExtensionSettings'))
+                ->getMock();
+        $proxyMock->expects($this->once())
+                ->method('cacheExtensionSettings')
+                ->with($extensionKey);
 
-		$proxyMock = $this->getMockBuilder($this->proxyClass)
-				->setMethods(array('cacheExtensionSettings'))
-				->getMock();
-		$proxyMock->expects($this->once())
-				->method('cacheExtensionSettings')
-				->with($extensionKey);
+        $proxyMock->_set('extensionSettings', $settings);
 
-		$proxyMock->_set('extensionSettings', $settings);
+        $expected = $settings[$extensionKey][$key];
 
-		$expected = $settings[$extensionKey][$key];
+        try {
+            $actual = $proxyMock->getKeyFromExtensionSettings($extensionKey, $key);
+        } catch (\Exception $e) {
+            return;
+        }
 
-		try {
-			$actual = $proxyMock->getKeyFromExtensionSettings($extensionKey, $key);
-		} catch (\Exception $e) {
-			return;
-		}
-
-		$this->fail('No exception thrown!');
-	}
-
+        $this->fail('No exception thrown!');
+    }
 }

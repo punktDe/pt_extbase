@@ -30,17 +30,16 @@
  * @subpackage State\Stubs
  * @author Michael Knoll 
  */
-class Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock extends Tx_PtExtbase_State_Session_Storage_SessionAdapter {
+class Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock extends Tx_PtExtbase_State_Session_Storage_SessionAdapter
+{
+    public function __construct()
+    {
+    }
     
-	public function __construct() {
-	}
-	
-	
-	
-	public function read($string) {
-	    return array('test1' => array('test2' => array('test3' => 'value')));
-	}
-	
+    
+    
+    public function read($string)
+    {
+        return array('test1' => array('test2' => array('test3' => 'value')));
+    }
 }
-
-?>

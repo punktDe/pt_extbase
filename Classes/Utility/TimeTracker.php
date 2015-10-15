@@ -26,35 +26,36 @@
 
 namespace PunktDe\PtExtbase\Utility;
 
-
-class TimeTracker {
-
-	/**
-	 * @var array
-	 */
-	protected static $startDates;
-
-
-	/**
-	 * @param $trackIdentifier
-	 */
-	public static function start($trackIdentifier) {
-		self::$startDates[$trackIdentifier] = microtime(TRUE);
-	}
+class TimeTracker
+{
+    /**
+     * @var array
+     */
+    protected static $startDates;
 
 
-	/**
-	 * @param $trackIdentifier
-	 * @return float Measured time in milliseconds
-	 */
-	public static function stop($trackIdentifier) {
-		if(!array_key_exists($trackIdentifier, self::$startDates)) {
-			return -1;
-		} else {
-			$startDate = self::$startDates[$trackIdentifier];
-			unset(self::$startDates[$trackIdentifier]);
+    /**
+     * @param $trackIdentifier
+     */
+    public static function start($trackIdentifier)
+    {
+        self::$startDates[$trackIdentifier] = microtime(true);
+    }
 
-			return (int)((microtime(TRUE) - $startDate) * 1000);
-		}
-	}
-} 
+
+    /**
+     * @param $trackIdentifier
+     * @return float Measured time in milliseconds
+     */
+    public static function stop($trackIdentifier)
+    {
+        if (!array_key_exists($trackIdentifier, self::$startDates)) {
+            return -1;
+        } else {
+            $startDate = self::$startDates[$trackIdentifier];
+            unset(self::$startDates[$trackIdentifier]);
+
+            return (int)((microtime(true) - $startDate) * 1000);
+        }
+    }
+}

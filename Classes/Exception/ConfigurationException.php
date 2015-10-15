@@ -24,6 +24,7 @@
  *
  * @author      Daniel Lienert
  * @package     Exception
- */ 
-class Tx_PtExtbase_Exception_ConfigurationException extends Exception {
+ */
+class Tx_PtExtbase_Exception_ConfigurationException extends Exception
+{
 }

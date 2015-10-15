@@ -23,71 +23,75 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class Tx_PtExtbase_Logger_FormatProcessor extends TYPO3\CMS\Core\Log\Processor\AbstractProcessor {
+class Tx_PtExtbase_Logger_FormatProcessor extends TYPO3\CMS\Core\Log\Processor\AbstractProcessor
+{
+    protected $formatTokens = array(
+        '.h1' => 'formatH1',
+        '.h2' => 'formatH2',
+        '.h3' => 'formatH3',
+        '.h5' => 'formatH5',
+    );
 
 
-	protected $formatTokens = array(
-		'.h1' => 'formatH1',
-		'.h2' => 'formatH2',
-		'.h3' => 'formatH3',
-		'.h5' => 'formatH5',
-	);
+    /**
+     * Formats the log
+     *
+     * @param \TYPO3\CMS\Core\Log\LogRecord $logRecord
+     * @return \TYPO3\CMS\Core\Log\LogRecord
+     */
+    public function processLogRecord(\TYPO3\CMS\Core\Log\LogRecord $logRecord)
+    {
+        $message = $logRecord->getMessage();
 
+        foreach ($this->formatTokens as $token => $formattingMethod) {
+            if (substr($message, 0, strlen($token)) == $token) {
+                $message = substr($message, strlen($token));
+                $message = $this->$formattingMethod(trim($message));
+            }
+        }
 
-	/**
-	 * Formats the log
-	 *
-	 * @param \TYPO3\CMS\Core\Log\LogRecord $logRecord
-	 * @return \TYPO3\CMS\Core\Log\LogRecord
-	 */
-	public function processLogRecord(\TYPO3\CMS\Core\Log\LogRecord $logRecord) {
-		$message = $logRecord->getMessage();
-
-		foreach($this->formatTokens as $token => $formattingMethod) {
-			if(substr($message,0,strlen($token)) == $token) {
-				$message = substr($message, strlen($token));
-				$message = $this->$formattingMethod(trim($message));
-			}
-		}
-
-		$logRecord->setMessage($message);
-		return $logRecord;
-	}
+        $logRecord->setMessage($message);
+        return $logRecord;
+    }
 
 
 
-	/**
-	 * @param $message
-	 * @return string
-	 */
-	protected function formatH1($message) {
-		return "\n" . str_pad('', strlen($message),'=') . "\n" . $message . "\n" . str_pad('', strlen($message),'=');
-	}
+    /**
+     * @param $message
+     * @return string
+     */
+    protected function formatH1($message)
+    {
+        return "\n" . str_pad('', strlen($message), '=') . "\n" . $message . "\n" . str_pad('', strlen($message), '=');
+    }
 
 
-	/**
-	 * @param $message
-	 * @return string
-	 */
-	protected function formatH2($message) {
-		return "\n" . str_pad('', strlen($message),'-') . "\n" . $message . "\n" . str_pad('', strlen($message),'-');
-	}
+    /**
+     * @param $message
+     * @return string
+     */
+    protected function formatH2($message)
+    {
+        return "\n" . str_pad('', strlen($message), '-') . "\n" . $message . "\n" . str_pad('', strlen($message), '-');
+    }
 
 
-	/**
-	 * @param $message
-	 * @return string
-	 */
-	protected function formatH3($message) {
-		return "\n"  . $message . "\n" . str_pad('', strlen($message),'-') ;
-	}
+    /**
+     * @param $message
+     * @return string
+     */
+    protected function formatH3($message)
+    {
+        return "\n"  . $message . "\n" . str_pad('', strlen($message), '-') ;
+    }
 
 
-	/**
-	 * @param $message
-	 * @return string
-	 */
-	protected function formatH5($message) {
-		return "== " . $message . " ==" ;
-	}
+    /**
+     * @param $message
+     * @return string
+     */
+    protected function formatH5($message)
+    {
+        return "== " . $message . " ==" ;
+    }
 }

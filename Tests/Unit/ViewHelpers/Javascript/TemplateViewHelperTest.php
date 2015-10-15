@@ -31,47 +31,51 @@
  * @author Daniel Lienert <daniel@lienert.cc>
  * @author Joachim Mathes <mathes@punkt.de>
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    protected $accessibleProxyClass;
 
-	protected $accessibleProxyClass;
+    /**
+     * @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper
+     */
+    protected $accessibleProxy;
 
-	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper
-	 */
-	protected $accessibleProxy;
+    public function setUp()
+    {
+        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
+        $this->accessibleProxy = new $this->accessibleProxyClass();
+    }
 
-	public function setUp() {
-		$this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
-		$this->accessibleProxy = new $this->accessibleProxyClass();
-	}
+    public function tearDown()
+    {
+        unset($this->accessibleProxy);
+    }
 
-	public function tearDown() {
-		unset($this->accessibleProxy);
-	}
+    public function testPrepareMarkersBuildsArrayWithPrefixedAndPostfixedKeys()
+    {
+        $input = array(
+            'foo' => 'bar',
+            'bar' => 'baz'
+        );
+        $expected = array(
+            '###foo###' => 'bar',
+            '###bar###' => 'baz'
+        );
+        $actual = $this->accessibleProxy->_call('prepareMarkers', $input);
+        $this->assertEquals($expected, $actual);
+    }
 
-	public function testPrepareMarkersBuildsArrayWithPrefixedAndPostfixedKeys() {
-		$input = array(
-			'foo' => 'bar',
-			'bar' => 'baz'
-		);
-		$expected = array(
-			'###foo###' => 'bar',
-			'###bar###' => 'baz'
-		);
-		$actual = $this->accessibleProxy->_call('prepareMarkers', $input);
-		$this->assertEquals($expected, $actual);
-	}
+    public function testAddTranslationArguments()
+    {
+        $accessibleProxyMock = $this->getMockBuilder($this->accessibleProxyClass)
+                ->setMethods(array('translate'))
+                ->getMock();
+        $accessibleProxyMock->expects($this->once())
+                ->method('translate')
+                ->will($this->returnValue('bar'));
+        $accessibleProxyMock->_set('extKey', 'PtExtbase');
 
-	public function testAddTranslationArguments() {
-		$accessibleProxyMock = $this->getMockBuilder($this->accessibleProxyClass)
-				->setMethods(array('translate'))
-				->getMock();
-		$accessibleProxyMock->expects($this->once())
-				->method('translate')
-				->will($this->returnValue('bar'));
-		$accessibleProxyMock->_set('extKey', 'PtExtbase');
-
-		$input = "
+        $input = "
 		dialog({
             autoOpen: false,
             modal: true,
@@ -79,14 +83,15 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest exte
 	            title: '###LLL:foo###'
 	        });
 		";
-		$expected = array('###LLL:foo###' => 'bar');
-		$actual = array();
-		$accessibleProxyMock->_callRef('addTranslationMarkers', $input, $actual);
-		$this->assertEquals($expected, $actual);
-	}
+        $expected = array('###LLL:foo###' => 'bar');
+        $actual = array();
+        $accessibleProxyMock->_callRef('addTranslationMarkers', $input, $actual);
+        $this->assertEquals($expected, $actual);
+    }
 
-	public function testSubstituteMarkers() {
-		$input = "
+    public function testSubstituteMarkers()
+    {
+        $input = "
 		dialog({
             autoOpen: false,
             modal: true,
@@ -94,7 +99,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest exte
 	            title: '###LLL:foo###'
 	        });
 		";
-		$expected = "
+        $expected = "
 		dialog({
             autoOpen: false,
             modal: true,
@@ -102,24 +107,21 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest exte
 	            title: 'bar'
 	        });
 		";
-		$markers = array(
-			'###bar###' => 'baz',
-			'###LLL:foo###' => 'bar',
-		);
+        $markers = array(
+            '###bar###' => 'baz',
+            '###LLL:foo###' => 'bar',
+        );
 
-		$accessibleProxyMock = $this->getMockBuilder($this->accessibleProxyClass)
-				->setMethods(array('prepareMarkers', 'addTranslationMarkers'))
-				->getMock();
-		$accessibleProxyMock->expects($this->once())
-				->method('prepareMarkers')
-				->will($this->returnValue($markers));
-		$accessibleProxyMock->expects($this->once())
-				->method('addTranslationMarkers');
+        $accessibleProxyMock = $this->getMockBuilder($this->accessibleProxyClass)
+                ->setMethods(array('prepareMarkers', 'addTranslationMarkers'))
+                ->getMock();
+        $accessibleProxyMock->expects($this->once())
+                ->method('prepareMarkers')
+                ->will($this->returnValue($markers));
+        $accessibleProxyMock->expects($this->once())
+                ->method('addTranslationMarkers');
 
-		$actual = $accessibleProxyMock->_call('substituteMarkers', $input, $markers);
-		$this->assertEquals($expected, $actual);
-	}
-
+        $actual = $accessibleProxyMock->_call('substituteMarkers', $input, $markers);
+        $this->assertEquals($expected, $actual);
+    }
 }
-
-?>

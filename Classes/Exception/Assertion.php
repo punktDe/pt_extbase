@@ -28,19 +28,18 @@
  * @author      Fabrizio Branca
  * @author      Michael Knoll
  * @package     Exception
- */ 
-class Tx_PtExtbase_Exception_Assertion extends Tx_PtExtbase_Exception_Exception {
-     
+ */
+class Tx_PtExtbase_Exception_Assertion extends Tx_PtExtbase_Exception_Exception
+{
     /**
      * Class constructor
      * 
      * @param   string $errMsg  error message (used for frontend/enduser display, too)    
      * @param   string $debugMsg detailed debug message (not used for frontend display)  
      */
-    public function __construct($errMsg='', $debugMsg='') {
-        
+    public function __construct($errMsg='', $debugMsg='')
+    {
         parent::__construct($errMsg, 0, $debugMsg);
-        
     }
     
     
@@ -51,7 +50,8 @@ class Tx_PtExtbase_Exception_Assertion extends Tx_PtExtbase_Exception_Exception 
      * @param string $file
      * @return void
      */
-    public function setFile($file) {
+    public function setFile($file)
+    {
         $this->file = $file;
     }
     
@@ -63,10 +63,8 @@ class Tx_PtExtbase_Exception_Assertion extends Tx_PtExtbase_Exception_Exception 
      * @param string line
      * @return void
      */
-    public function setLine($line) {
+    public function setLine($line)
+    {
         $this->line = $line;
     }
-    
 }
-
-?>

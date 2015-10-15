@@ -29,67 +29,70 @@
  * @package pt_extbase
  * @subpackage Tests\Unit\Utility
  */
-class Tx_PtExtbase_Utility_ServerInformationTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Utility_ServerInformationTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    protected $proxyClass;
 
-	protected $proxyClass;
+    /**
+     * @var Tx_PtExtbase_Utility_ServerInformation
+     */
+    protected $proxy;
 
-	/**
-	 * @var Tx_PtExtbase_Utility_ServerInformation
-	 */
-	protected $proxy;
+    public function setUp()
+    {
+        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_ServerInformation');
+        $this->proxy = new $this->proxyClass();
+    }
 
-	public function setUp() {
-		$this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_ServerInformation');
-		$this->proxy = new $this->proxyClass();
-	}
+    public function tearDown()
+    {
+        unset($this->proxy);
+    }
 
-	public function tearDown() {
-		unset($this->proxy);
-	}
+    /**
+     * @return array
+     */
+    public function getServerHostNameReturnsExpectedValuesDataProvider()
+    {
+        return array(
+            array(
+                'server' => array(
+                    'HOSTNAME' => 'Jupiter',
+                    'HTTP_HOST' => 'Saturn'
+                ),
+                'expected' => 'Jupiter'
+            ),
+            array(
+                'server' => array(
+                    'HTTP_HOST' => 'Saturn'
+                ),
+                'expected' => 'Saturn'
+            ),
+            array(
+                'server' => array(
+                    'HOSTNAME' => 'Jupiter'
+                ),
+                'expected' => 'Jupiter'
+            ),
+            array(
+                'server' => array(
+                ),
+                'expected' => ''
+            )
+        );
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getServerHostNameReturnsExpectedValuesDataProvider() {
-		return array(
-			array(
-				'server' => array(
-					'HOSTNAME' => 'Jupiter',
-					'HTTP_HOST' => 'Saturn'
-				),
-				'expected' => 'Jupiter'
-			),
-			array(
-				'server' => array(
-					'HTTP_HOST' => 'Saturn'
-				),
-				'expected' => 'Saturn'
-			),
-			array(
-				'server' => array(
-					'HOSTNAME' => 'Jupiter'
-				),
-				'expected' => 'Jupiter'
-			),
-			array(
-				'server' => array(
-				),
-				'expected' => ''
-			)
-		);
-	}
-
-	/**
-	 * @param array $server
-	 * @param string $expected
-	 *
-	 * @test
-	 * @dataProvider getServerHostNameReturnsExpectedValuesDataProvider
-	 */
-	public function getServerHostNameReturnsExpectedValues($server, $expected) {
-		$_SERVER = $server;
-		$actual = $this->proxy->getServerHostName();
-		$this->assertSame($expected, $actual);
-	}
-
+    /**
+     * @param array $server
+     * @param string $expected
+     *
+     * @test
+     * @dataProvider getServerHostNameReturnsExpectedValuesDataProvider
+     */
+    public function getServerHostNameReturnsExpectedValues($server, $expected)
+    {
+        $_SERVER = $server;
+        $actual = $this->proxy->getServerHostName();
+        $this->assertSame($expected, $actual);
+    }
 }

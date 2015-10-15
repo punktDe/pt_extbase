@@ -35,15 +35,15 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * @author      Rainer Kuhn
  * @package     Div
  */
-class Tx_PtExtbase_Div  {
+class Tx_PtExtbase_Div
+{
+    /**
+     * @var tslib_cObj
+     */
+    protected static $cObj;
 
-	/**
-	 * @var tslib_cObj
-	 */
-	protected static $cObj;
 
-
-	/**
+    /**
      * Class constants: period specifiers for getPeriodAsInt()
     */
     const PERIOD_SECS = 0;      // period as seconds
@@ -72,7 +72,8 @@ class Tx_PtExtbase_Div  {
      * @see     tslib_pibase::pi_getPageLink()
      * @author  Rainer Kuhn 
      */
-    public static function localRedirect($localPath, $keepVal=NULL, $keepValSessionKeyName='redirectionKeepVal') {
+    public static function localRedirect($localPath, $keepVal=null, $keepValSessionKeyName='redirectionKeepVal')
+    {
 
         // hook: allow things to be done before redirecting
         if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pt_extbase']['tx_ptextbase_div']['localRedirect'])) {
@@ -96,12 +97,13 @@ class Tx_PtExtbase_Div  {
         $targetUrl  = GeneralUtility::locationHeaderUrl($localPath);
 
         // log to devlog
-        if (TYPO3_DLOG) GeneralUtility::devLog('Redirecting from "'. GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL').'" to "'.$targetUrl.'"', 'pt_extbase', 1);
+        if (TYPO3_DLOG) {
+            GeneralUtility::devLog('Redirecting from "'. GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL').'" to "'.$targetUrl.'"', 'pt_extbase', 1);
+        }
 
         // redirect by sending a "Location" header
         header('Location: '.$targetUrl);
         exit;
-
     }
 
     
@@ -117,19 +119,20 @@ class Tx_PtExtbase_Div  {
      * @throws  Tx_PtExtbase_Exception_Exception    if hook method registered, but not found
      * @author  Rainer Kuhn , based on tx_indexedsearch::hookRequest() by Kasper Sk�rh�j/Christian Jul Jensen
      */
-    public static function hookRequest($extKey, $hookArrayKey, $functionName) {
+    public static function hookRequest($extKey, $hookArrayKey, $functionName)
+    {
 
         // check if there are any hook relevant userfunctions implemented
         if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extKey][$hookArrayKey][$functionName]) {
-
             $hookObj = GeneralUtility::getUserObj($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extKey][$hookArrayKey][$functionName], '');
 
             if (method_exists($hookObj, $functionName)) {
-                if (TYPO3_DLOG) GeneralUtility::devLog(sprintf('Hook method found [%s][%s][%s], returning hook object (class: "%s")', $extKey, $hookArrayKey, $functionName, get_class($hookObj)), 'pt_extbase', 1);
+                if (TYPO3_DLOG) {
+                    GeneralUtility::devLog(sprintf('Hook method found [%s][%s][%s], returning hook object (class: "%s")', $extKey, $hookArrayKey, $functionName, get_class($hookObj)), 'pt_extbase', 1);
+                }
 
                 $hookObj->pObj = self;
                 return $hookObj;
-
             } else {
                 throw new Tx_PtExtbase_Exception_Exception('Hook method not found!', 3,
                                                'HOOK ERROR: method '.$functionName.' not found or no hook object returned');
@@ -137,7 +140,6 @@ class Tx_PtExtbase_Div  {
         }
 
         return false;
-
     }
 
     
@@ -153,8 +155,8 @@ class Tx_PtExtbase_Div  {
      * @author  Rainer Kuhn , based on a proposal by Martin Kutschker on http://lists.netfielders.de/pipermail/typo3-team-core/2006-May/004250.html
      * @see     http://typo3.org/documentation/document-library/references/doc_core_tsref/current/view/7/3/
      */
-    public static function getSiteCharsetEncoding($defaultCharset='iso-8859-1') {
-
+    public static function getSiteCharsetEncoding($defaultCharset='iso-8859-1')
+    {
         $charset = '';
 
         // do charset detection for FE and BE  ### TODO: do investigation and/or tests to find out if this is correct/sufficient...
@@ -169,7 +171,6 @@ class Tx_PtExtbase_Div  {
         }
 
         return strtolower($charset);
-
     }
     
     
@@ -183,8 +184,8 @@ class Tx_PtExtbase_Div  {
      * @version     1.2.1
      * @link        http://aidanlister.com/repos/v/function.file_exists_incpath.php
      */
-    public static function fileExistsInIncpath($filename) {
-
+    public static function fileExistsInIncpath($filename)
+    {
         $paths = explode(PATH_SEPARATOR, get_include_path());
 
         foreach ($paths as $path) {
@@ -197,7 +198,6 @@ class Tx_PtExtbase_Div  {
         }
 
         return false;
-
     }
     
     
@@ -210,8 +210,8 @@ class Tx_PtExtbase_Div  {
      * @return  string      mnemonic password
      * @author  Rainer Kuhn 
      */
-    public static function createPassword($length=8) {
-
+    public static function createPassword($length=8)
+    {
         $consonantArr  = array('b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','v','w','x','y','z');
         $vowelArr  = array('a','e','i','o','u');
         $password = '';
@@ -227,7 +227,6 @@ class Tx_PtExtbase_Div  {
         }
 
         return $password;
-
     }
     
     
@@ -241,13 +240,12 @@ class Tx_PtExtbase_Div  {
      * @throws  Tx_PtExtbase_Exception_Exception     if pid or alias does not exist, if query fails or if pid == 0 and allowPidZero is false
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      */
-    public static function getPid($pidOrAlias, $allowZeroAsPid=false) {
-        
+    public static function getPid($pidOrAlias, $allowZeroAsPid=false)
+    {
         static $cache = array();
         $cacheKey = $pidOrAlias . _ . ($allowZeroAsPid ? '1' : '0');
         
         if (!isset($cache[$cacheKey])) {
-
             $select  = 'uid';
             $from    = 'pages';
             if (!ctype_digit(strval($pidOrAlias))) {
@@ -296,12 +294,11 @@ class Tx_PtExtbase_Div  {
      * @return  bool    true if popup was rendered, otherwise false
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      */
-    public static function outputToPopup($htmlCode, $varName = '_popup', $windowParams = 'width=1280,height=600,resizable,scrollbars=yes', $windowUrl = '', $windowName = '') {
-
+    public static function outputToPopup($htmlCode, $varName = '_popup', $windowParams = 'width=1280,height=600,resizable,scrollbars=yes', $windowUrl = '', $windowName = '')
+    {
         if (is_object($GLOBALS['TSFE'])) {
-
             $jscode = $varName.' = window.open("'.$windowUrl.'","'.$windowName.'","'.$windowParams.'");'.chr(10);
-            foreach(explode(chr(10), $htmlCode) as $line) {
+            foreach (explode(chr(10), $htmlCode) as $line) {
                 $line = strtr($line, array('"' => '\\"'));
                 $jscode .= $varName .'.document.writeln("'.$line.'");'.chr(10);
             }
@@ -312,7 +309,6 @@ class Tx_PtExtbase_Div  {
         } else {
             return false;
         }
-
     }
     
     
@@ -326,17 +322,16 @@ class Tx_PtExtbase_Div  {
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      * @see     t3lib_TCEmain::clear_cacheCmd
      */
-    public static function clearCache($cacheCmd = 'all') {
-
+    public static function clearCache($cacheCmd = 'all')
+    {
         if (!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($cacheCmd) && !in_array($cacheCmd, array('pages', 'all', 'temp_CACHED'))) {
             throw new Tx_PtExtbase_Exception_Exception('Parameter must be "pages", "all", "temp_CACHED" or numeric');
         }
 
         $tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler'); /* @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
         $tce->stripslashes_values = 0;
-        $tce->start(Array(),Array());
+        $tce->start(array(), array());
         $tce->clear_cacheCmd($cacheCmd);
-
     }
 
     
@@ -348,25 +343,24 @@ class Tx_PtExtbase_Div  {
      * @return  boolean  true if Cookies enabled, false if Cookies not disabled and no Error Page set or does not exist.
      * @author  Dorit Rottner <rottner@punkt.de>
      */
-     public static function checkCookies(\TYPO3\CMS\Frontend\Plugin\AbstractPlugin $pObj) {
+     public static function checkCookies(\TYPO3\CMS\Frontend\Plugin\AbstractPlugin $pObj)
+     {
+         if (!$_COOKIE['fe_typo_user']) {
+             $redirect_url = $pObj->pi_linkTP_keepPIvars_url($overrulePIvars = array(), $cache = 1, $clearAnyway = 0, $GLOBALS['TSFE']->tmpl->setup['config.']['pt_extbase.']['cookieErrorPage']);
+             if ($redirect_url) {
+                 GeneralUtility::devLog('Cookie not set redirect to '.$redirect_url, 'pt_extbase', 1);
+                 header('Location: '. GeneralUtility::locationHeaderUrl($redirect_url));
+                 exit;
+             } else {
+                 GeneralUtility::devLog('Cookie not set redirect url not specified. ', 'pt_extbase', 1);
+                 $return = false;
+             }
+         } else {
+             $return = true;
+         }
 
-        if (!$_COOKIE['fe_typo_user']) {
-            $redirect_url = $pObj->pi_linkTP_keepPIvars_url($overrulePIvars = array(), $cache = 1, $clearAnyway = 0, $GLOBALS['TSFE']->tmpl->setup['config.']['pt_extbase.']['cookieErrorPage']);
-            if ($redirect_url) {
-                GeneralUtility::devLog('Cookie not set redirect to '.$redirect_url, 'pt_extbase', 1);
-                header('Location: '. GeneralUtility::locationHeaderUrl($redirect_url));
-                exit;
-            } else {
-                GeneralUtility::devLog('Cookie not set redirect url not specified. ', 'pt_extbase', 1);
-                $return = false;
-            }
-        } else {
-            $return = true;
-        }
-
-        return $return;
-
-    }
+         return $return;
+     }
     
     
 
@@ -380,18 +374,17 @@ class Tx_PtExtbase_Div  {
      * @see     t3lib_pageSelect::getMultipleGroupsWhereClause()
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      */
-    public static function hasGroupAccess($groupList, $accessList) {
-
+    public static function hasGroupAccess($groupList, $accessList)
+    {
         if (empty($accessList)) {
             return true;
         }
-        foreach(GeneralUtility::intExplode(',', $groupList) as $groupUid) {
+        foreach (GeneralUtility::intExplode(',', $groupList) as $groupUid) {
             if (GeneralUtility::inList($accessList, $groupUid)) {
                 return true;
             }
         }
         return false;
-
     }
     
     
@@ -427,14 +420,13 @@ class Tx_PtExtbase_Div  {
      * @return  string      quoted string
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      */
-    public static function quoteStr($content, $conf) {
-
+    public static function quoteStr($content, $conf)
+    {
         $conf['table'] = $GLOBALS['TSFE']->cObj->stdWrap($conf['table'], $conf['table.']);
 
         $quotedString = $GLOBALS['TYPO3_DB']->quoteStr($content, $conf['table']);
 
         return $quotedString;
-
     }
     
     
@@ -447,8 +439,8 @@ class Tx_PtExtbase_Div  {
      * @see     http://de.php.net/is_array
      * @author  Michael Knoll <knoll@punkt.de>
      */
-    public static function isAssociativeArray($array) {
-
+    public static function isAssociativeArray($array)
+    {
         if (is_array($array)) {
             foreach (array_keys($array) as $k => $v) {
                 if ($k !== $v) {
@@ -458,7 +450,6 @@ class Tx_PtExtbase_Div  {
         }
 
         return false;
-
     }
     
     
@@ -470,7 +461,8 @@ class Tx_PtExtbase_Div  {
      * @return  bool    true if integerish
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      */
-    public static function isIntegerish($val) {
+    public static function isIntegerish($val)
+    {
         // or: is_int($val) || ctype_digit($val)
         return ('x'.$val == 'x'.intval($val));
     }
@@ -484,8 +476,8 @@ class Tx_PtExtbase_Div  {
      * @return  array   output array
      * @author  Fabrizio Branca <mail@fabrizio-branca.de> (taken from ext:tcaobjects)
      */
-    public static function stdWrapArray(array $data,  \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj=NULL) {
-
+    public static function stdWrapArray(array $data,  \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj=null)
+    {
         if (is_null($cObj)) {
             $cObj = $GLOBALS['TSFE']->cObj;
         }
@@ -522,8 +514,8 @@ class Tx_PtExtbase_Div  {
      * @return  string      converted date (YYYY-MM-DD by default, if 2. param is set to true DD.MM.YYYY)
      * @author  Rainer Kuhn 
      */
-    public static function convertDate($dateOrig, $reverse=0) {
-
+    public static function convertDate($dateOrig, $reverse=0)
+    {
         Tx_PtExtbase_Assertions_Assert::isNotEmptyString($dateOrig);
 
         $dateConv = strtr($dateOrig, '.', '-');
@@ -532,7 +524,6 @@ class Tx_PtExtbase_Div  {
         $dateConv = implode($seperator, array_reverse($dateElements));
 
         return $dateConv;
-
     }
     
     
@@ -544,12 +535,11 @@ class Tx_PtExtbase_Div  {
      * @return  string      current date (YYYY-MM-DD by default, if 2. param is set to true DD.MM.YYYY)
      * @author  Rainer Kuhn 
      */
-    public static function dateToday($euroFormat=0) {
-
+    public static function dateToday($euroFormat=0)
+    {
         $today = ($euroFormat == 1 ? date('d.m.Y') : date('Y-m-d'));
 
         return $today;
-
     }
 
     
@@ -563,7 +553,8 @@ class Tx_PtExtbase_Div  {
      * @return  integer numeric difference between now and given period in given unit
      * @author  Wolfgang Zenker <zenker@punkt.de>
     */
-    public function getPeriodAsInt($period, $unit, $round = true) {
+    public function getPeriodAsInt($period, $unit, $round = true)
+    {
         $result = 0;
 
         if ($period != '') {
@@ -624,10 +615,9 @@ class Tx_PtExtbase_Div  {
      * @return  string      value of the passed locallang array key with all HTML entities replaced for display in browser
      * @author  Rainer Kuhn 
      */
-    public static function displayLL(\TYPO3\CMS\Frontend\Plugin\AbstractPlugin $callerObj, $LLkey) {
-
+    public static function displayLL(\TYPO3\CMS\Frontend\Plugin\AbstractPlugin $callerObj, $LLkey)
+    {
         return htmlentities($callerObj->pi_getLL($LLkey), ENT_QUOTES);
-
     }
     
     
@@ -642,9 +632,9 @@ class Tx_PtExtbase_Div  {
      * @see     language::readLLfile() = TYPO3 BE method
      * @author  Rainer Kuhn 
      */
-    public static function readLLfile($llFile) {
-
-            $llArray = array();
+    public static function readLLfile($llFile)
+    {
+        $llArray = array();
 
             // TYPO3 Frontend mode
             if (TYPO3_MODE == 'FE' && is_object($GLOBALS['TSFE'])) {
@@ -658,8 +648,7 @@ class Tx_PtExtbase_Div  {
                 throw new Tx_PtExtbase_Exception_Exception('No valid TSFE or LANG object found!');
             }
 
-            return $llArray;
-
+        return $llArray;
     }
     
     
@@ -676,8 +665,8 @@ class Tx_PtExtbase_Div  {
      * @see     language::getLLL() = TYPO3 BE method
      * @author  Rainer Kuhn 
      */
-    public static function getLLL($llKey, $llArray) {
-
+    public static function getLLL($llKey, $llArray)
+    {
         $llLabel = '';
 
         // TYPO3 Frontend mode
@@ -690,7 +679,6 @@ class Tx_PtExtbase_Div  {
         }
 
         return $llLabel;
-
     }
     
     
@@ -702,8 +690,8 @@ class Tx_PtExtbase_Div  {
      * @return  language    Language object
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      */
-    public static function getLangObject() {
-
+    public static function getLangObject()
+    {
         if ($GLOBALS['LANG'] instanceof \TYPO3\CMS\Lang\LanguageService) {
             $lang = $GLOBALS['LANG'];
         } else {
@@ -711,30 +699,30 @@ class Tx_PtExtbase_Div  {
             $lang->csConvObj = GeneralUtility::makeInstance('TYPO3\CMS\Core\Charset\CharsetConverter');
         }
         return $lang;
-
     }
 
 
 
-	/**
-	 * return the cObj object
-	 *
-	 * @return tslib_cObj;
-	 */
-	public static function getCobj() {
-		if(!self::$cObj instanceof  \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer || $GLOBALS['TSFE'] === NULL) {
-			if(TYPO3_MODE == 'FE') {
-				if(!is_a($GLOBALS['TSFE']->cObj,'tslib_cObj')) {
-					$GLOBALS['TSFE']->newCObj();
-				}
-			} else {
-				GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory')->createFakeFrontend();
-			}
-			self::$cObj = $GLOBALS['TSFE']->cObj;
-		}
+    /**
+     * return the cObj object
+     *
+     * @return tslib_cObj;
+     */
+    public static function getCobj()
+    {
+        if (!self::$cObj instanceof  \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer || $GLOBALS['TSFE'] === null) {
+            if (TYPO3_MODE == 'FE') {
+                if (!is_a($GLOBALS['TSFE']->cObj, 'tslib_cObj')) {
+                    $GLOBALS['TSFE']->newCObj();
+                }
+            } else {
+                GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory')->createFakeFrontend();
+            }
+            self::$cObj = $GLOBALS['TSFE']->cObj;
+        }
 
-		return self::$cObj;
-	}
+        return self::$cObj;
+    }
 
 
 
@@ -752,25 +740,26 @@ class Tx_PtExtbase_Div  {
      * @throws  Tx_PtExtbase_Exception_Exception   if no basic extension configuration is found in localconf.php or if extKey is empty
      * @author  Rainer Kuhn 
      */
-    public static function returnExtConfArray($extKey, $noExceptionIfNoConfigFound=false) {
-		if (file_exists(PATH_typo3conf.'localconf.php')) {
-			require(PATH_typo3conf.'localconf.php');  // don't use require_once here!
+    public static function returnExtConfArray($extKey, $noExceptionIfNoConfigFound=false)
+    {
+        if (file_exists(PATH_typo3conf.'localconf.php')) {
+            require(PATH_typo3conf.'localconf.php');  // don't use require_once here!
 
-			Tx_PtExtbase_Assertions_Assert::isNotEmptyString($extKey);
+            Tx_PtExtbase_Assertions_Assert::isNotEmptyString($extKey);
 
-			$baseConfArr = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$extKey]);
-		} else {
-			$baseConfArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey]);
-		}
-		if (!is_array($baseConfArr)) {
-			if ($noExceptionIfNoConfigFound == true) {
-				$baseConfArr = array();
-			} else {
-				throw new Tx_PtExtbase_Exception_Exception('Extension configuration in localconf.php for extension "'.$extKey.'" not found!', 2,
-					'$TYPO3_CONF_VARS["EXT"]["extConf"]["'.$extKey.'"] not found in localconf.php.');
-			}
-		}
-		return $baseConfArr;
+            $baseConfArr = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$extKey]);
+        } else {
+            $baseConfArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey]);
+        }
+        if (!is_array($baseConfArr)) {
+            if ($noExceptionIfNoConfigFound == true) {
+                $baseConfArr = array();
+            } else {
+                throw new Tx_PtExtbase_Exception_Exception('Extension configuration in localconf.php for extension "'.$extKey.'" not found!', 2,
+                    '$TYPO3_CONF_VARS["EXT"]["extConf"]["'.$extKey.'"] not found in localconf.php.');
+            }
+        }
+        return $baseConfArr;
     }
     
     
@@ -799,8 +788,8 @@ class Tx_PtExtbase_Div  {
      * @return    array     typoscript configuation array
      * @author    Fabrizio Branca <mail@fabrizio-branca.de>
      */
-    public static function typoscriptRegistry($tsConfigKey, $pageUid = NULL, $extKey = '', $extConfKey = '') {
-
+    public static function typoscriptRegistry($tsConfigKey, $pageUid = null, $extKey = '', $extConfKey = '')
+    {
         Tx_PtExtbase_Assertions_Assert::isNotEmptyString($tsConfigKey, array('message' => 'No "tsConfigKey" defined!'));
 
         require_once ExtensionManagementUtility::extPath('pt_extbase').'Classes/Registry/Registry.php';
@@ -812,34 +801,27 @@ class Tx_PtExtbase_Div  {
 
             // In frontend context
             if ($GLOBALS['TSFE'] instanceof \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController) {
-
                 $confArray = self::getTS($tsConfigKey);
 
             // Not in frontend context
             } else {
                 if (!is_null($pageUid)) {
-
                     Tx_PtExtbase_Assertions_Assert::isValidUid($pageUid, false, array('message' => 'No valid pageUid given'));
                     $confArray = self::returnTyposcriptSetup($pageUid, $tsConfigKey);
-
                 } elseif (!empty($extKey) && !empty($extConfKey)) {
-
                     $tmpExtConfArray = self::returnExtConfArray($extKey);
                     $pageUid = $tmpExtConfArray[$extConfKey];
                     Tx_PtExtbase_Assertions_Assert::isValidUid($pageUid, false, array('message' => 'No valid pageUid found under "'.$extConfKey.'" in extension configuration for extKey "'.$extKey.'"'));
                     $confArray = self::returnTyposcriptSetup($pageUid, $tsConfigKey);
-
                 } else {
                     throw new Tx_PtExtbase_Exception_Exception('You have to define either a "pageUid" or a "extKey" and a "extConfKey" when not in frontend context.');
                 }
             }
 
             $registry->register($registryKey, $confArray);
-
         }
 
         return $registry->get($registryKey);
-
     }
     
     
@@ -853,7 +835,8 @@ class Tx_PtExtbase_Div  {
      * @throws  Tx_PtExtbase_Exception_Exception   if no TS setup could be found/created
      * @author  Rainer Kuhn , based on an idea of Fabian Koenig (http://lists.netfielders.de/pipermail/typo3-german/2007-May/032473.html)
      */
-    public static function returnTyposcriptSetup($pageUid=1, $tsConfigKey='') {
+    public static function returnTyposcriptSetup($pageUid=1, $tsConfigKey='')
+    {
         // This method expects that there is not TSFE. If there is (or parts of it - like in the preBeUser hook) the following lines might fail.
         // So we unset TSFE after copying it to a temp variable if it exists and restore it afterwards
         if (is_object($GLOBALS['TSFE'])) {
@@ -888,7 +871,6 @@ class Tx_PtExtbase_Div  {
         }
 
         return $returnVal;  // mixed (array or single value)
-
     }
     
     
@@ -906,8 +888,8 @@ class Tx_PtExtbase_Div  {
      * @throws    Tx_PtExtbase_Exception_Exception            if subKey was not found
      * @author  Rainer Kuhn , Fabrizio Branca <mail@fabrizio-branca.de>
      */
-    public static function getTS($tsPath, array $tsArray = array()) {
-
+    public static function getTS($tsPath, array $tsArray = array())
+    {
         Tx_PtExtbase_Assertions_Assert::isNotEmptyString($tsPath, array('message' => '"tsPath" is empty!'));
         // TODO: improve pattern, so that ".blub" or "plugin..test" are not matched
 
@@ -944,8 +926,8 @@ class Tx_PtExtbase_Div  {
      * @throws  Tx_PtExtbase_Exception_Exception    if no flexform data was found
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      */
-    public static function mergeConfAndFlexform($pObj, $noExceptionIfNoFlexform = false) {
-
+    public static function mergeConfAndFlexform($pObj, $noExceptionIfNoFlexform = false)
+    {
         Tx_PtExtbase_Assertions_Assert::isObject($pObj, array('message' => '"$pObj" is no object.'));
         Tx_PtExtbase_Assertions_Assert::isInstanceOf($pObj->cObj, 'tslib_cObj', array('message' => '"$pObj->cObj" is no instance of "tslib_cObj".'));
         Tx_PtExtbase_Assertions_Assert::isArray($pObj->conf, array('message' => '"$pObj->conf" is no array.'));
@@ -972,9 +954,8 @@ class Tx_PtExtbase_Div  {
                 }
             }
         } elseif (!$noExceptionIfNoFlexform) {
-             throw new Tx_PtExtbase_Exception_Exception('No plugin configuration found!', 0, 'No flexform data found. Please update your plugin configuration!');
+            throw new Tx_PtExtbase_Exception_Exception('No plugin configuration found!', 0, 'No flexform data found. Please update your plugin configuration!');
         }
-
     }
 
 
@@ -995,24 +976,25 @@ class Tx_PtExtbase_Div  {
      * @see     http://www.cgisecurity.com/articles/xss-faq.shtml#vendor
      * @author  Rainer Kuhn 
      */
-     public static function htmlOutput($value) {
-
-        $filteredValue = '';
+     public static function htmlOutput($value)
+     {
+         $filteredValue = '';
 
         // scalars: convert HTML special chars in filtered value
         if (is_scalar($value)) {
             $filteredValue = htmlspecialchars((string)$value, ENT_QUOTES); // default PHP special char conversion with double AND single quotes translated (translates: & " ' < >)
         // NULL: keep NULL as filtered value
         } elseif (is_null($value)) {
-            $filteredValue = NULL;
+            $filteredValue = null;
         // all other values (including objects and arrays): set filtered value to empty string
         } else {
-            if (TYPO3_DLOG) GeneralUtility::devLog(__METHOD__.'(): unfilterable value has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
+            if (TYPO3_DLOG) {
+                GeneralUtility::devLog(__METHOD__.'(): unfilterable value has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
+            }
         }
 
-        return $filteredValue;
-
-    }
+         return $filteredValue;
+     }
 
 
     
@@ -1026,13 +1008,12 @@ class Tx_PtExtbase_Div  {
      * @see     Tx_PtExtbase_Div::htmlOutput()
      * @author  Rainer Kuhn 
      */
-     public static function htmlOutputArray($array, $filterKeys=1) {
+     public static function htmlOutputArray($array, $filterKeys=1)
+     {
+         $filteredArray = array();
 
-        $filteredArray = array();
-
-        if (is_array($array)) {
-
-            foreach ($array as $key=>$value) {
+         if (is_array($array)) {
+             foreach ($array as $key=>$value) {
 
             // array key conversion (if requested)
                 $newKey = ($filterKeys == 1 ? Tx_PtExtbase_Div::htmlOutput($key) : $key);
@@ -1049,21 +1030,23 @@ class Tx_PtExtbase_Div  {
                     $filteredArray[$newKey] = Tx_PtExtbase_Div::htmlOutputArrayAccess($value, $filterKeys);
                 // NULL: keep NULL as filtered value
                 } elseif (is_null($value)) {
-                    $filteredArray[$newKey] = NULL;
+                    $filteredArray[$newKey] = null;
                 // all other values (including non-ArrayAccess objects): set filtered value to empty string
                 } else {
                     $filteredArray[$newKey] = '';
-                    if (TYPO3_DLOG) GeneralUtility::devLog(__METHOD__.'(): unfilterable array value of key "'.$key.'" has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
+                    if (TYPO3_DLOG) {
+                        GeneralUtility::devLog(__METHOD__.'(): unfilterable array value of key "'.$key.'" has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
+                    }
                 }
-            }
+             }
+         } else {
+             if (TYPO3_DLOG) {
+                 GeneralUtility::devLog(__METHOD__.'(): given parameter was no array', 'pt_tools', 2, array('original parameter' => $array));
+             }
+         }
 
-        } else {
-            if (TYPO3_DLOG) GeneralUtility::devLog(__METHOD__.'(): given parameter was no array', 'pt_tools', 2, array('original parameter' => $array));
-        }
-
-        return $filteredArray;
-
-    }
+         return $filteredArray;
+     }
     
     
 
@@ -1095,18 +1078,19 @@ class Tx_PtExtbase_Div  {
      * @see     Tx_PtExtbase_Div::htmlOutputArray()
      * @author  Rainer Kuhn 
      */
-     public static function htmlOutputArrayAccess(ArrayAccess $arrayObject, $filterNestedArrayKeys=1) {
+     public static function htmlOutputArrayAccess(ArrayAccess $arrayObject, $filterNestedArrayKeys=1)
+     {
 
         // prevent endless recursion loop for nested objects
         static $loopCounter = 0;
-        $loopCounter += 1;
-        if ($loopCounter > 99) {
-            throw new Tx_PtExtbase_Exception_Internal('Recursion break', 'Max. recursion depth of 99 exceeded in '.__METHOD__);
-        }
+         $loopCounter += 1;
+         if ($loopCounter > 99) {
+             throw new Tx_PtExtbase_Exception_Internal('Recursion break', 'Max. recursion depth of 99 exceeded in '.__METHOD__);
+         }
 
-        $filteredObject = clone($arrayObject);
+         $filteredObject = clone($arrayObject);
 
-        foreach ($filteredObject as $key=>$value) {
+         foreach ($filteredObject as $key=>$value) {
 
             // scalars: use default htmlOutput()
             if (is_scalar($value)) {
@@ -1131,19 +1115,20 @@ class Tx_PtExtbase_Div  {
             } elseif (is_null($value)) {
                 // unset the property first, because overwriting it can have side-effects on ArrayAccess objects (e.g. when checking if an item already exists in the collection)
                 unset($filteredObject[$key]);
-                $filteredObject[$key] = NULL;
+                $filteredObject[$key] = null;
             // all other values (including non-ArrayAccess objects): set filtered value to empty string
             } else {
                 // unset the property first, because overwriting it can have side-effects on ArrayAccess objects (e.g. when checking if an item already exists in the collection)
                 unset($filteredObject[$key]);
                 $filteredObject[$key] = '';
-                if (TYPO3_DLOG) GeneralUtility::devLog(__METHOD__.'(): unfilterable ArrayAccess object property "'.$key.'" has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
+                if (TYPO3_DLOG) {
+                    GeneralUtility::devLog(__METHOD__.'(): unfilterable ArrayAccess object property "'.$key.'" has been converted to empty string', 'pt_tools', 2, array('original value' => $value));
+                }
             }
-        }
+         }
 
-        return $filteredObject;
-
-    }
+         return $filteredObject;
+     }
 
     
     
@@ -1155,7 +1140,8 @@ class Tx_PtExtbase_Div  {
      * @return  integer     integer converted from given value
      * @author  Rainer Kuhn 
      */
-     public static function returnIntegerValue($value, $returnOnlyPositive=0) {
+     public static function returnIntegerValue($value, $returnOnlyPositive=0)
+     {
 
         // use integer 1 for everything else than a numeric value
         $intValue = 1;
@@ -1170,8 +1156,8 @@ class Tx_PtExtbase_Div  {
             $intValue = 1;
         }
 
-        return $intValue;
-    }
+         return $intValue;
+     }
     
     
 
@@ -1182,18 +1168,19 @@ class Tx_PtExtbase_Div  {
      * @return  string      sanitized list
      * @author  Wolfgang Zenker <zenker@punkt.de>
      */
-     public static function sanitizeIntList($list) {
+     public static function sanitizeIntList($list)
+     {
 
         // turn list into array, sanitize array elements, put back into list
         $listArray = explode(',', $list);
-        $cleanArray = explode(',', $list);
-        foreach ($listArray as $element) {
-            $cleanArray[] = intval($element);
-        }
-        $list = implode(',', $cleanArray);
+         $cleanArray = explode(',', $list);
+         foreach ($listArray as $element) {
+             $cleanArray[] = intval($element);
+         }
+         $list = implode(',', $cleanArray);
 
-        return $list;
-    }
+         return $list;
+     }
     
     
 
@@ -1205,7 +1192,8 @@ class Tx_PtExtbase_Div  {
      * @return  array       exploded elements of CSL
      * @author  Rainer Kuhn 
      */
-    public static function returnArrayFromCsl($csl, $arrayName='') {
+    public static function returnArrayFromCsl($csl, $arrayName='')
+    {
 
         // try to compensate erroneous blanks and double commas
         $tmpCsl = str_replace(' ', '', $csl);
@@ -1219,7 +1207,7 @@ class Tx_PtExtbase_Div  {
         // explode and return as array
         $a_csl = array();
         if (!empty($tmpCsl)) {
-            if (strpos($tmpCsl, ',') === FALSE) {
+            if (strpos($tmpCsl, ',') === false) {
                 $a_csl[] = $tmpCsl; // if no commas are found: use comlete string as only array element
             } else {
                 $a_csl = explode(',', $tmpCsl);
@@ -1227,7 +1215,6 @@ class Tx_PtExtbase_Div  {
         }
 
         return $a_csl;
-
     }
     
     
@@ -1241,18 +1228,17 @@ class Tx_PtExtbase_Div  {
      * @return  array       associative array of the given key-value list
      * @author  Rainer Kuhn , Fabrizio Branca <mail@fabrizio-branca.de>
      */
-    public static function getArrayFromKeyValueList($keyValueList, $pairSeparator=';', $keyValueSeparator='=') {
-
+    public static function getArrayFromKeyValueList($keyValueList, $pairSeparator=';', $keyValueSeparator='=')
+    {
         $resultArr = array();
         $keyValuePairArr = explode($pairSeparator, $keyValueList);
 
-        foreach ($keyValuePairArr as $keyValuePair){
+        foreach ($keyValuePairArr as $keyValuePair) {
             list($key, $value) = explode($keyValueSeparator, $keyValuePair);
             $resultArr[trim($key)] = trim($value);
         }
 
         return $resultArr;
-
     }
     
     
@@ -1269,28 +1255,26 @@ class Tx_PtExtbase_Div  {
      * @see     http://de.php.net/iconv
      * @author  Rainer Kuhn 
      */
-     public static function iconvArray($inputArray, $inputCharset='ISO-8859-1', $outputCharset='UTF-8', $exclusionArr=array(), $noConvHandling='//TRANSLIT') {
-
-        if (is_array($inputArray)) {
-
-            $outputArray = array();
-            foreach ($inputArray as $key=>$value) {
-                if (is_string($value) && !in_array($key, $exclusionArr)) {
-                    $outputArray[$key] = iconv($inputCharset, $outputCharset.$noConvHandling, $value);
-                } elseif (is_array($value) && !in_array($key, $exclusionArr)) {
-                    $outputArray[$key] = self::iconvArray($value, $inputCharset, $outputCharset, $exclusionArr, $noConvHandling);
-                } else {
-                    $outputArray[$key] = $value;
-                }
-            }
+     public static function iconvArray($inputArray, $inputCharset='ISO-8859-1', $outputCharset='UTF-8', $exclusionArr=array(), $noConvHandling='//TRANSLIT')
+     {
+         if (is_array($inputArray)) {
+             $outputArray = array();
+             foreach ($inputArray as $key=>$value) {
+                 if (is_string($value) && !in_array($key, $exclusionArr)) {
+                     $outputArray[$key] = iconv($inputCharset, $outputCharset.$noConvHandling, $value);
+                 } elseif (is_array($value) && !in_array($key, $exclusionArr)) {
+                     $outputArray[$key] = self::iconvArray($value, $inputCharset, $outputCharset, $exclusionArr, $noConvHandling);
+                 } else {
+                     $outputArray[$key] = $value;
+                 }
+             }
         // "security bottom" if one passes anything other than an array (e.g. a NULL result from a database query fetch assoc call)
-        } else {
-            $outputArray = $inputArray;
-        }
+         } else {
+             $outputArray = $inputArray;
+         }
 
-        return $outputArray;
-
-    }
+         return $outputArray;
+     }
     
     
 
@@ -1302,7 +1286,8 @@ class Tx_PtExtbase_Div  {
      * @return  string      encrypted password including salt
      * @author  Wolfgang Zenker <zenker@punkt.de>
      */
-    public static function cryptPw($cleartext, $salt='') {
+    public static function cryptPw($cleartext, $salt='')
+    {
 
         // create salt
         if ($salt == '') {
@@ -1313,7 +1298,6 @@ class Tx_PtExtbase_Div  {
         $salt = '$1$'.$salt.'$';
 
         return crypt($cleartext, $salt);
-
     }
 
 
@@ -1338,7 +1322,8 @@ class Tx_PtExtbase_Div  {
      * @see                 class.\TYPO3\CMS\Core\Database\DatabaseConnection.php, \TYPO3\CMS\Core\Database\DatabaseConnection::exec_SELECTquery()
      * @author  Rainer Kuhn 
      */
-    public static function returnLastBuiltSelectQuery(DatabaseConnection $dbObject, $select_fields, $from_table, $where_clause, $groupBy='', $orderBy='', $limit='') {
+    public static function returnLastBuiltSelectQuery(DatabaseConnection $dbObject, $select_fields, $from_table, $where_clause, $groupBy='', $orderBy='', $limit='')
+    {
 
         // try to get query from debug_lastBuiltQuery (works only for T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true)
         $query = $dbObject->debug_lastBuiltQuery;
@@ -1350,7 +1335,6 @@ class Tx_PtExtbase_Div  {
 
         // remove tabs and return query string
         return str_replace(chr(9), '', $query);
-
     }
 
     
@@ -1367,7 +1351,8 @@ class Tx_PtExtbase_Div  {
      * @see                 class.\TYPO3\CMS\Core\Database\DatabaseConnection.php, \TYPO3\CMS\Core\Database\DatabaseConnection::exec_DELETEquery()
      * @author  Rainer Kuhn 
      */
-    public static function returnLastBuiltDeleteQuery(DatabaseConnection $dbObject, $from_table, $where_clause) {
+    public static function returnLastBuiltDeleteQuery(DatabaseConnection $dbObject, $from_table, $where_clause)
+    {
 
         // try to get query from debug_lastBuiltQuery (works only for T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true)
         $query = $dbObject->debug_lastBuiltQuery;
@@ -1379,7 +1364,6 @@ class Tx_PtExtbase_Div  {
 
         // remove tabs and return query string
         return str_replace(chr(9), '', $query);
-
     }
     
     
@@ -1397,7 +1381,8 @@ class Tx_PtExtbase_Div  {
      * @see                 class.\TYPO3\CMS\Core\Database\DatabaseConnection.php, \TYPO3\CMS\Core\Database\DatabaseConnection::exec_UPDATEquery()
      * @author  Rainer Kuhn 
      */
-    public static function returnLastBuiltUpdateQuery(DatabaseConnection $dbObject, $table, $where, $updateFieldsArr) {
+    public static function returnLastBuiltUpdateQuery(DatabaseConnection $dbObject, $table, $where, $updateFieldsArr)
+    {
 
         // try to get query from debug_lastBuiltQuery (works only for T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true)
         $query = $dbObject->debug_lastBuiltQuery;
@@ -1409,7 +1394,6 @@ class Tx_PtExtbase_Div  {
 
         // remove tabs and return query string
         return str_replace(chr(9), '', $query);
-
     }
     
     
@@ -1426,7 +1410,8 @@ class Tx_PtExtbase_Div  {
      * @see                 class.\TYPO3\CMS\Core\Database\DatabaseConnection.php, \TYPO3\CMS\Core\Database\DatabaseConnection::exec_INSERTquery()
      * @author  Rainer Kuhn 
      */
-    public static function returnLastBuiltInsertQuery(DatabaseConnection $dbObject, $table, $insertFieldsArr) {
+    public static function returnLastBuiltInsertQuery(DatabaseConnection $dbObject, $table, $insertFieldsArr)
+    {
 
         // try to get query from debug_lastBuiltQuery (works only for T3 3.8.0 with $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true)
         $query = $dbObject->debug_lastBuiltQuery;
@@ -1438,7 +1423,6 @@ class Tx_PtExtbase_Div  {
 
         // remove tabs and return query string
         return str_replace(chr(9), '', $query);
-
     }
 
     
@@ -1456,8 +1440,8 @@ class Tx_PtExtbase_Div  {
      * @see                 class.\TYPO3\CMS\Core\Database\DatabaseConnection.php, \TYPO3\CMS\Core\Database\DatabaseConnection::exec_INSERTquery(), \TYPO3\CMS\Core\Database\DatabaseConnection::exec_UPDATEquery()
      * @author  Dorit Rottner <rottner@punkt.de>
      */
-    public static function expandFieldValuesForQuery($fieldValueArr, $isInsert=false, $pid=NULL, $cruser_id=NULL) {
-
+    public static function expandFieldValuesForQuery($fieldValueArr, $isInsert=false, $pid=null, $cruser_id=null)
+    {
         if ($isInsert) {
             $fieldValueArr['crdate'] = time();
             if (! is_null($pid)) {
@@ -1470,7 +1454,6 @@ class Tx_PtExtbase_Div  {
         $fieldValueArr['tstamp'] = time();
 
         return $fieldValueArr;
-
     }
     
     
@@ -1483,8 +1466,8 @@ class Tx_PtExtbase_Div  {
      * @return  string      where-clause addition for this table
      * @author  Dorit Rottner <rottner@punkt.de>
      */
-    public static function enableFields($table, $alias = '') {
-
+    public static function enableFields($table, $alias = '')
+    {
         if (TYPO3_MODE == 'FE' && is_object($GLOBALS['TSFE']->cObj)) {
             $result =  $GLOBALS['TSFE']->cObj->enableFields($table);
         } else {
@@ -1501,7 +1484,6 @@ class Tx_PtExtbase_Div  {
             $result = str_replace($search, $replace, $result);
         }
         return $result;
-
     }
 
     
@@ -1515,8 +1497,8 @@ class Tx_PtExtbase_Div  {
      * @throws  Tx_PtExtbase_Exception_Exception   if the SHOW TABLES query fails/returns false
      * @author  Rainer Kuhn 
      */
-    public static function dbTableExists($table, DatabaseConnection $dbObj) {
-
+    public static function dbTableExists($table, DatabaseConnection $dbObj)
+    {
         $tableExists = false;
         $query  = 'SHOW TABLES';
 
@@ -1539,7 +1521,6 @@ class Tx_PtExtbase_Div  {
         }
 
         return $tableExists;
-
     }
 
     
@@ -1554,8 +1535,8 @@ class Tx_PtExtbase_Div  {
      * @throws  Tx_PtExtbase_Exception_Exception   if the SHOW TABLE STATUS query fails/returns false
      * @author  Rainer Kuhn 
      */
-    public static function dbTableHasRecords($table, $dbName, DatabaseConnection $dbObj) {
-
+    public static function dbTableHasRecords($table, $dbName, DatabaseConnection $dbObj)
+    {
         $tableHasRecords = false;
         $query  = 'SHOW TABLE STATUS FROM '.$dbObj->quoteStr($dbName, $table).' LIKE "'.$dbObj->quoteStr($table, $table).'"';
 
@@ -1576,71 +1557,75 @@ class Tx_PtExtbase_Div  {
     }
 
 
-	/**
-	 * @static
-	 * @throws Exception if file not found
-	 * @param string $tsSetupFilePath path to typoscript file
-	 * @return array ts-Config
-	 */
-	public static function loadTypoScriptFromFile($tsSetupFilePath) {
+    /**
+     * @static
+     * @throws Exception if file not found
+     * @param string $tsSetupFilePath path to typoscript file
+     * @return array ts-Config
+     */
+    public static function loadTypoScriptFromFile($tsSetupFilePath)
+    {
+        if (!file_exists($tsSetupFilePath)) {
+            throw new Exception('No Typoscript file found at path ' . $tsSetupFilePath . ' 1316733309');
+        }
 
-		if(!file_exists($tsSetupFilePath)) Throw new Exception('No Typoscript file found at path ' . $tsSetupFilePath . ' 1316733309');
+        $rawTsConfig  = file_get_contents($tsSetupFilePath);
+        $tsParser  = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser'); /** @var $tsParser  \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser */
 
-		$rawTsConfig  = file_get_contents($tsSetupFilePath);
-		$tsParser  = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser'); /** @var $tsParser  \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser */
+        $tsLines = explode(LF, $rawTsConfig);
 
-		$tsLines = explode(LF, $rawTsConfig);
+        foreach ($tsLines as &$value) {
+            $includeData = \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::checkIncludeLines($value, 1, true);
+            $value = $includeData['typoscript'];
+        }
 
-		foreach ($tsLines as &$value) {
-			$includeData = \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::checkIncludeLines($value, 1, TRUE);
-			$value = $includeData['typoscript'];
-		}
+        $rawTsConfig = implode(LF, $tsLines);
 
-		$rawTsConfig = implode(LF, $tsLines);
+        $tsParser->parse($rawTsConfig);
+        $tsArray = $tsParser->setup;
 
-		$tsParser->parse($rawTsConfig);
-		$tsArray = $tsParser->setup;
-
-		return $tsArray;
-	}
-
-
-
-	/**
-	 * Especially when sending an object, that is marked as lazy loading to a viewHelper,
-	 * the real instance of this object must be received before it is send to the viewHelper
-	 * to fit to the viewHelpers class signature.
-	 *
-	 * @param $object
-	 * @return mixed
-	 */
-	public static function getLazyLoadedObject($object) {
-		if (get_class($object) === 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\LazyLoadingProxy') {
-			return $object->_loadRealInstance();
-		} else {
-			return $object;
-		}
-	}
+        return $tsArray;
+    }
 
 
-	/**
-	 * Returns TRUE if the current TYPO3 version es equal or greater than the given version
-	 *
-	 * @param $minVersion
-	 * @return bool
-	 */
-	public static function isMinTypo3Version($minVersion) {
-		$currentVersionAsInt = VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getNumericTypo3Version());
-		$minVersionAsInt = VersionNumberUtility::convertVersionNumberToInteger($minVersion);
-		return $currentVersionAsInt >= $minVersionAsInt;
-	}
+
+    /**
+     * Especially when sending an object, that is marked as lazy loading to a viewHelper,
+     * the real instance of this object must be received before it is send to the viewHelper
+     * to fit to the viewHelpers class signature.
+     *
+     * @param $object
+     * @return mixed
+     */
+    public static function getLazyLoadedObject($object)
+    {
+        if (get_class($object) === 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\LazyLoadingProxy') {
+            return $object->_loadRealInstance();
+        } else {
+            return $object;
+        }
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public static function getCurrentRequestId() {
-		return \TYPO3\CMS\Core\Core\Bootstrap::getInstance()->getRequestId();
-	}
+    /**
+     * Returns TRUE if the current TYPO3 version es equal or greater than the given version
+     *
+     * @param $minVersion
+     * @return bool
+     */
+    public static function isMinTypo3Version($minVersion)
+    {
+        $currentVersionAsInt = VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getNumericTypo3Version());
+        $minVersionAsInt = VersionNumberUtility::convertVersionNumberToInteger($minVersion);
+        return $currentVersionAsInt >= $minVersionAsInt;
+    }
 
+
+    /**
+     * @return string
+     */
+    public static function getCurrentRequestId()
+    {
+        return \TYPO3\CMS\Core\Core\Bootstrap::getInstance()->getRequestId();
+    }
 }

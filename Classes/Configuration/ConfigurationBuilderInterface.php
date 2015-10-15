@@ -21,10 +21,8 @@
 
 namespace PunktDe\PtExtbase\Configuration;
 
-
 interface ConfigurationBuilderInterface
 {
-
     /**
      * @param string $key
      * @return array

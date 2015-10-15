@@ -28,34 +28,35 @@
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_CaptchaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
+class Tx_PtExtbase_ViewHelpers_CaptchaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
+{
+    protected $tagName = 'img';
 
-	protected $tagName = 'img';
+    /**
+     * @var string
+     */
+    protected $captchaGeneratorPath;
 
-	/**
-	 * @var string
-	 */
-	protected $captchaGeneratorPath;
+    /**
+     * Initialize ViewHelper
+     *
+     * @return void
+     */
+    public function initialize()
+    {
+        parent::initialize();
+        $this->registerUniversalTagAttributes();
+        $this->captchaGeneratorPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('captcha') . 'captcha/captcha.php';
+    }
 
-	/**
-	 * Initialize ViewHelper
-	 *
-	 * @return void
-	 */
-	public function initialize() {
-		parent::initialize();
-		$this->registerUniversalTagAttributes();
-		$this->captchaGeneratorPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('captcha') . 'captcha/captcha.php';
-	}
-
-	/**
-	 * Render
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$this->tag->addAttribute('src', $this->captchaGeneratorPath);
-		return $this->tag->render();
-	}
-	
+    /**
+     * Render
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $this->tag->addAttribute('src', $this->captchaGeneratorPath);
+        return $this->tag->render();
+    }
 }

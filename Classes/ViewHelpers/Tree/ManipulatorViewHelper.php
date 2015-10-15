@@ -31,98 +31,102 @@
  *
  * @author Daniel Lienert
  */
-class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper {
-
-	/**
-	 * Initialize arguments.
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('repository', 'string', 'Specifies the tree repository', false);
-		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
-		$this->registerArgument('type', 'string', 'Specifies the tree type', false);
-		$this->registerArgument('respectEnableFields', 'boolean', 'Should the tree respect enable fields', false);
-		$this->registerArgument('moduleName', 'string', 'Specify the module name', false);
-	}
-
-
-
-	/**
-	 * Renders the treeSelector.
-	 *
-	 * @param boolean $required If the field is required or not
-	 * @return string
-	 * @api
-	 */
-	public function render($required = NULL) {
-		$treeDiv = $this->getTreeDiv();
-		$treeJS = $this->getTreeJS();
-
-		return $treeDiv . $treeJS;
-	}
+class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper
+{
+    /**
+     * Initialize arguments.
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('repository', 'string', 'Specifies the tree repository', false);
+        $this->registerArgument('namespace', 'string', 'Specifies the tree namespace', false);
+        $this->registerArgument('type', 'string', 'Specifies the tree type', false);
+        $this->registerArgument('respectEnableFields', 'boolean', 'Should the tree respect enable fields', false);
+        $this->registerArgument('moduleName', 'string', 'Specify the module name', false);
+    }
 
 
 
-	protected function getTreeJS() {
+    /**
+     * Renders the treeSelector.
+     *
+     * @param boolean $required If the field is required or not
+     * @return string
+     * @api
+     */
+    public function render($required = null)
+    {
+        $treeDiv = $this->getTreeDiv();
+        $treeJS = $this->getTreeJS();
 
-		/** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
-		$treeViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
-
-		$moduleUrl = '';
-		if (isset($this->arguments['moduleName'])) {
-			$moduleUrl = TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl($this->arguments['moduleName']);
-		}
-
-		return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/ManipulationTree.js',
-			array(
-				'baseUrl' => $this->getBaseURL(),
-				'dbNodeTable' => 'tx_ptcertification_domain_model_category',
-				'moduleUrl' => $moduleUrl
-			), FALSE, FALSE
-		);
-	}
+        return $treeDiv . $treeJS;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	protected function getTreeDiv() {
-		return '<div id="ptExtbaseTreeDiv"></div>';
-	}
+    protected function getTreeJS()
+    {
+
+        /** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
+        $treeViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
+
+        $moduleUrl = '';
+        if (isset($this->arguments['moduleName'])) {
+            $moduleUrl = TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl($this->arguments['moduleName']);
+        }
+
+        return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/ManipulationTree.js',
+            array(
+                'baseUrl' => $this->getBaseURL(),
+                'dbNodeTable' => 'tx_ptcertification_domain_model_category',
+                'moduleUrl' => $moduleUrl
+            ), false, false
+        );
+    }
 
 
 
-	/**
-	 * Save settings to user session
-	 */
-	protected function saveTreeSettingsToSession() {
-
-		$treeSettings = array(
-			'repository' => $this->arguments['repository'],
-			'namespace' => $this->arguments['namespace'],
-			'respectEnableFields' => $this->arguments['respectEnableFields'],
-		);
-
-		Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->store('Tx_PtExtbase_Tree_Configuration', $treeSettings);
-	}
+    /**
+     * @return string
+     */
+    protected function getTreeDiv()
+    {
+        return '<div id="ptExtbaseTreeDiv"></div>';
+    }
 
 
 
-	/**
-	 * Determine the baseURl by context
-	 * @return string
-	 */
-	protected function getBaseURL() {
-		if (TYPO3_MODE == 'BE') {
-			$baseUrl = 'ajax.php?ajaxID=ptxAjax';
-		} elseif (TYPO3_MODE == 'FE') {
-			$baseUrl = 'index.php?eID=ptxAjax';
-		}
+    /**
+     * Save settings to user session
+     */
+    protected function saveTreeSettingsToSession()
+    {
+        $treeSettings = array(
+            'repository' => $this->arguments['repository'],
+            'namespace' => $this->arguments['namespace'],
+            'respectEnableFields' => $this->arguments['respectEnableFields'],
+        );
 
-		return $baseUrl;
-	}
+        Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->store('Tx_PtExtbase_Tree_Configuration', $treeSettings);
+    }
 
+
+
+    /**
+     * Determine the baseURl by context
+     * @return string
+     */
+    protected function getBaseURL()
+    {
+        if (TYPO3_MODE == 'BE') {
+            $baseUrl = 'ajax.php?ajaxID=ptxAjax';
+        } elseif (TYPO3_MODE == 'FE') {
+            $baseUrl = 'index.php?eID=ptxAjax';
+        }
+
+        return $baseUrl;
+    }
 }

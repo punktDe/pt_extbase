@@ -32,60 +32,62 @@
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tree_NestedSetTreeWalker extends Tx_PtExtbase_Tree_TreeWalker {
-
-	/**
-	 * Holds instance of nested sets visitor.
-	 *
-	 * Although we have this visitor in array of visitors for this tree walker,
-	 * we have a special reference here to get further information after
-	 * tree traversal!
-	 *
-	 * @var Tx_PtExtbase_Tree_NestedSetVisitor
-	 */
-	protected $nestedSetVisitor;
-
-
-	/**
-	 * Returns instance of Nested Sets Tree Walker
-	 *
-	 * @static
-	 * @return Tx_PtExtbase_Tree_NestedSetTreeWalker
-	 */
-	public static function getInstance() {
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-
-		$nestedSetTreeWalkerVisitor = $objectManager->get('Tx_PtExtbase_Tree_NestedSetVisitor');
-		$nestedSetTreeWalker = $objectManager->get('Tx_PtExtbase_Tree_NestedSetTreeWalker', array($nestedSetTreeWalkerVisitor), $nestedSetTreeWalkerVisitor);
-		return $nestedSetTreeWalker;
-	}
+class Tx_PtExtbase_Tree_NestedSetTreeWalker extends Tx_PtExtbase_Tree_TreeWalker
+{
+    /**
+     * Holds instance of nested sets visitor.
+     *
+     * Although we have this visitor in array of visitors for this tree walker,
+     * we have a special reference here to get further information after
+     * tree traversal!
+     *
+     * @var Tx_PtExtbase_Tree_NestedSetVisitor
+     */
+    protected $nestedSetVisitor;
 
 
-	/**
-	 * Constructor for nested sets tree walker.
-	 *
-	 * We add nestedSetVisitor explicitly as reference. You have to add it to array of visitors, too!
-	 *
-	 * @param array $visitors
-	 * @param Tx_PtExtbase_Tree_NestedSetVisitor $nestedSetVisitor
-	 */
-	public function __construct(array $visitors, Tx_PtExtbase_Tree_NestedSetVisitor $nestedSetVisitor) {
-		parent::__construct($visitors);
-		$this->nestedSetVisitor = $nestedSetVisitor;
-	}
+    /**
+     * Returns instance of Nested Sets Tree Walker
+     *
+     * @static
+     * @return Tx_PtExtbase_Tree_NestedSetTreeWalker
+     */
+    public static function getInstance()
+    {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+
+        $nestedSetTreeWalkerVisitor = $objectManager->get('Tx_PtExtbase_Tree_NestedSetVisitor');
+        $nestedSetTreeWalker = $objectManager->get('Tx_PtExtbase_Tree_NestedSetTreeWalker', array($nestedSetTreeWalkerVisitor), $nestedSetTreeWalkerVisitor);
+        return $nestedSetTreeWalker;
+    }
 
 
-	/**
-	 * Returns nodes found during depth-first-search traversal of tree with nested sets numbering.
-	 *
-	 * @param Tx_PtExtbase_Tree_NestedSetTreeInterface $tree
-	 * @return array<Tx_PtExtbase_Tree_NestedSetNodeInterface>
-	 */
-	public function traverseTreeAndGetNodes(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree) {
-		// TODO we should be able to pass tree here - not root of tree...
-		$this->traverseTreeDfs($tree);
-		$nodes = $this->nestedSetVisitor->getVisitedNodes();
-		return $nodes;
-	}
+    /**
+     * Constructor for nested sets tree walker.
+     *
+     * We add nestedSetVisitor explicitly as reference. You have to add it to array of visitors, too!
+     *
+     * @param array $visitors
+     * @param Tx_PtExtbase_Tree_NestedSetVisitor $nestedSetVisitor
+     */
+    public function __construct(array $visitors, Tx_PtExtbase_Tree_NestedSetVisitor $nestedSetVisitor)
+    {
+        parent::__construct($visitors);
+        $this->nestedSetVisitor = $nestedSetVisitor;
+    }
 
+
+    /**
+     * Returns nodes found during depth-first-search traversal of tree with nested sets numbering.
+     *
+     * @param Tx_PtExtbase_Tree_NestedSetTreeInterface $tree
+     * @return array<Tx_PtExtbase_Tree_NestedSetNodeInterface>
+     */
+    public function traverseTreeAndGetNodes(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree)
+    {
+        // TODO we should be able to pass tree here - not root of tree...
+        $this->traverseTreeDfs($tree);
+        $nodes = $this->nestedSetVisitor->getVisitedNodes();
+        return $nodes;
+    }
 }

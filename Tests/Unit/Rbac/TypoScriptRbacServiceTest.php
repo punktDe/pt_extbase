@@ -25,7 +25,6 @@
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 /**
  * Class implements testcase for TypoScriptRbacService
  *
@@ -33,20 +32,22 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package Tests
  * @subpackage Unit\Rbac
  */
-class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /** @test */
+    public function configurationManagerCanBeInjected()
+    {
+        $configurationManagerMock = $this->getMock('\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface', array(), array(), '', false);
+        $tsRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
+        $tsRbacService->injectConfigurationManager($configurationManagerMock);
+    }
 
-	/** @test */
-	public function configurationManagerCanBeInjected() {
-		$configurationManagerMock = $this->getMock('\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface', array(), array(), '', FALSE);
-		$tsRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
-		$tsRbacService->injectConfigurationManager($configurationManagerMock);
-	}
 
 
-
-	/** @test */
-	public function hasAccessReturnsTrueIfAllPrivilegesForExtensionAreGranted() {
-		$typoScriptConfiguration = '
+    /** @test */
+    public function hasAccessReturnsTrueIfAllPrivilegesForExtensionAreGranted()
+    {
+        $typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
 					yag {
@@ -73,26 +74,27 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 				}
 			}
 		';
-		$typoScriptArray = $this->getTypoScriptArrayForGivenTypoScriptString($typoScriptConfiguration);
+        $typoScriptArray = $this->getTypoScriptArrayForGivenTypoScriptString($typoScriptConfiguration);
 
-		$typoScriptRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
-		$typoScriptRbacService->injectConfigurationManager($this->getConfigurationManagerMockReturningGivenTypoScriptConfiguration($typoScriptArray));
-		$typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
-		$typoScriptRbacService->initializeObject();
+        $typoScriptRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
+        $typoScriptRbacService->injectConfigurationManager($this->getConfigurationManagerMockReturningGivenTypoScriptConfiguration($typoScriptArray));
+        $typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
+        $typoScriptRbacService->initializeObject();
 
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
-	}
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
+    }
 
 
 
-	/** @test */
-	public function hasAccessReturnsTrueIfAnyUserIsLoggedIn() {
-		$typoScriptConfiguration = '
+    /** @test */
+    public function hasAccessReturnsTrueIfAnyUserIsLoggedIn()
+    {
+        $typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
 					yag {
@@ -143,40 +145,41 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 				}
 			}
 		';
-		$typoScriptArray = $this->getTypoScriptArrayForGivenTypoScriptString($typoScriptConfiguration);
+        $typoScriptArray = $this->getTypoScriptArrayForGivenTypoScriptString($typoScriptConfiguration);
 
-		$typoScriptRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
-		$typoScriptRbacService->injectConfigurationManager($this->getConfigurationManagerMockReturningGivenTypoScriptConfiguration($typoScriptArray));
-		$typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
+        $typoScriptRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
+        $typoScriptRbacService->injectConfigurationManager($this->getConfigurationManagerMockReturningGivenTypoScriptConfiguration($typoScriptArray));
+        $typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
 
-		// Set up rbac service for admin user
-		$typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(1)));
-		$typoScriptRbacService->initializeObject();
+        // Set up rbac service for admin user
+        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(1)));
+        $typoScriptRbacService->initializeObject();
 
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
 
-		// Set up rbac service for editor user
-		$typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(2)));
-		$typoScriptRbacService->initializeObject();
+        // Set up rbac service for editor user
+        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(2)));
+        $typoScriptRbacService->initializeObject();
 
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
-		$this->assertFalse($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
-		$this->assertFalse($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
-	}
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
+        $this->assertFalse($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
+        $this->assertFalse($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
+    }
 
 
 
-	/** @test */
-	public function hasAccessReturnsExpectedResultsForGivenRbacSettingsInBeMode() {
-		$typoScriptConfiguration = '
+    /** @test */
+    public function hasAccessReturnsExpectedResultsForGivenRbacSettingsInBeMode()
+    {
+        $typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
 					yag {
@@ -227,40 +230,41 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 				}
 			}
 		';
-		$typoScriptArray = $this->getTypoScriptArrayForGivenTypoScriptString($typoScriptConfiguration);
+        $typoScriptArray = $this->getTypoScriptArrayForGivenTypoScriptString($typoScriptConfiguration);
 
-		$typoScriptRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
-		$typoScriptRbacService->injectConfigurationManager($this->getConfigurationManagerMockReturningGivenTypoScriptConfiguration($typoScriptArray));
-		$typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
+        $typoScriptRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
+        $typoScriptRbacService->injectConfigurationManager($this->getConfigurationManagerMockReturningGivenTypoScriptConfiguration($typoScriptArray));
+        $typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
 
-		// Set up rbac service for admin user
-		$typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(1)));
-		$typoScriptRbacService->initializeObject();
+        // Set up rbac service for admin user
+        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(1)));
+        $typoScriptRbacService->initializeObject();
 
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
 
-		// Set up rbac service for editor user
-		$typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(2)));
-		$typoScriptRbacService->initializeObject();
+        // Set up rbac service for editor user
+        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(2)));
+        $typoScriptRbacService->initializeObject();
 
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
-		$this->assertFalse($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
-		$this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
-		$this->assertFalse($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
-	}
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'edit'));
+        $this->assertFalse($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'delete'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'create'));
+        $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'edit'));
+        $this->assertFalse($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
+    }
 
 
 
-	/** @test */
-	public function initializeObjectThrowsExceptionIfRoleHasNoPrivilegesSet() {
-		$typoScriptConfiguration = '
+    /** @test */
+    public function initializeObjectThrowsExceptionIfRoleHasNoPrivilegesSet()
+    {
+        $typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
 					yag {
@@ -281,20 +285,21 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		try {
-			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
-		} catch(Exception $e) {
-			$this->assertTrue(TRUE);
-			return;
-		}
-		$this->fail('No Exception was thrown.');
-	}
+        try {
+            $this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+        } catch (Exception $e) {
+            $this->assertTrue(true);
+            return;
+        }
+        $this->fail('No Exception was thrown.');
+    }
 
 
 
-	/** @test */
-	public function initializeObjectThrowsExceptionIfRoleAssignedToGroupIsNotSetUp() {
-		$typoScriptConfiguration = '
+    /** @test */
+    public function initializeObjectThrowsExceptionIfRoleAssignedToGroupIsNotSetUp()
+    {
+        $typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
 					yag {
@@ -317,20 +322,21 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		try {
-			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
-		} catch(Exception $e) {
-			$this->assertTrue(TRUE);
-			return;
-		}
-		$this->fail('No Exception was thrown.');
-	}
+        try {
+            $this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+        } catch (Exception $e) {
+            $this->assertTrue(true);
+            return;
+        }
+        $this->fail('No Exception was thrown.');
+    }
 
 
 
-	/** @test */
-	public function initializeObjectThrowsExceptionIfPrivilegeUsesObjectThatIsNotConfigured() {
-		$typoScriptConfiguration = '
+    /** @test */
+    public function initializeObjectThrowsExceptionIfPrivilegeUsesObjectThatIsNotConfigured()
+    {
+        $typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
 					yag {
@@ -361,21 +367,21 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		try {
-			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
-		} catch(Exception $e) {
-			$this->assertTrue(TRUE);
-			return;
-		}
-		$this->fail('No Exception was thrown.');
-	}
+        try {
+            $this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+        } catch (Exception $e) {
+            $this->assertTrue(true);
+            return;
+        }
+        $this->fail('No Exception was thrown.');
+    }
 
 
 
-	/** @test */
-	public function initializeObjectThrowsExceptionIfNoSectionObjectsIsSetInTsConfiguration() {
-
-		$typoScriptConfiguration = '
+    /** @test */
+    public function initializeObjectThrowsExceptionIfNoSectionObjectsIsSetInTsConfiguration()
+    {
+        $typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
 					## Exception should be thrown, as we do not have section "objects" here!!
@@ -400,21 +406,21 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		try {
-			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
-		} catch(Exception $e) {
-			$this->assertTrue(TRUE);
-			return;
-		}
-		$this->fail('No Exception was thrown.');
-	}
+        try {
+            $this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+        } catch (Exception $e) {
+            $this->assertTrue(true);
+            return;
+        }
+        $this->fail('No Exception was thrown.');
+    }
 
 
 
-	/** @test */
-	public function initializeObjectThrowsExceptionIfAnActionIsUsedInPrivilegeThatIsNotSetUpInObjects() {
-
-		$typoScriptConfiguration = '
+    /** @test */
+    public function initializeObjectThrowsExceptionIfAnActionIsUsedInPrivilegeThatIsNotSetUpInObjects()
+    {
+        $typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
 					yag {
@@ -443,21 +449,21 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		try {
-			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
-		} catch(Exception $e) {
-			$this->assertTrue(TRUE);
-			return;
-		}
-		$this->fail('No Exception was thrown.');
-	}
+        try {
+            $this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+        } catch (Exception $e) {
+            $this->assertTrue(true);
+            return;
+        }
+        $this->fail('No Exception was thrown.');
+    }
 
 
 
-	/** @test */
-	public function initializeObjectThrowsExceptionIfWeUseObjectInPrivilegeThatIsNotConfiguredInObjectsSection() {
-
-		$typoScriptConfiguration = '
+    /** @test */
+    public function initializeObjectThrowsExceptionIfWeUseObjectInPrivilegeThatIsNotConfiguredInObjectsSection()
+    {
+        $typoScriptConfiguration = '
 			plugin.tx_ptextbase.settings.rbac {
 				extensions {
 					yag {
@@ -486,88 +492,92 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends Tx_PtExtbas
 			}
 		';
 
-		try {
-			$this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
-		} catch(Exception $e) {
-			$this->assertTrue(TRUE);
-			return;
-		}
-		$this->fail('No Exception was thrown.');
-	}
+        try {
+            $this->runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration);
+        } catch (Exception $e) {
+            $this->assertTrue(true);
+            return;
+        }
+        $this->fail('No Exception was thrown.');
+    }
 
 
 
-	/************************************************************************************************
-	 * Helper methods
-	 ************************************************************************************************/
+    /************************************************************************************************
+     * Helper methods
+     ************************************************************************************************/
 
-	protected function runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration) {
-		$typoScriptArray = $this->getTypoScriptArrayForGivenTypoScriptString($typoScriptConfiguration);
-		$typoScriptRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
-		$typoScriptRbacService->injectConfigurationManager($this->getConfigurationManagerMockReturningGivenTypoScriptConfiguration($typoScriptArray));
-		$typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
+    protected function runInitializeObjectWithGivenTypoScriptConfiguration($typoScriptConfiguration)
+    {
+        $typoScriptArray = $this->getTypoScriptArrayForGivenTypoScriptString($typoScriptConfiguration);
+        $typoScriptRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
+        $typoScriptRbacService->injectConfigurationManager($this->getConfigurationManagerMockReturningGivenTypoScriptConfiguration($typoScriptArray));
+        $typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
 
-		// Set up rbac service for admin user
-		$typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(1)));
-		$typoScriptRbacService->initializeObject();
-	}
-
-
-
-	/**
-	 * Returns parsed TypoScript array for given TypoScript string
-	 *
-	 * @param $typoScriptString
-	 * @return string
-	 */
-	protected function getTypoScriptArrayForGivenTypoScriptString($typoScriptString) {
-		$typoScriptParser = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser'); /* @var $typoScriptParser \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser */
-		$typoScriptParser->parse($typoScriptString);
-		return GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService')->convertTypoScriptArrayToPlainArray($typoScriptParser->setup);
-	}
+        // Set up rbac service for admin user
+        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(1)));
+        $typoScriptRbacService->initializeObject();
+    }
 
 
 
-	/**
-	 * Returns configuration manager mock that will return given configuration for getConfiguration()
-	 *
-	 * @param $tsConfiguration
-	 * @return PHPUnit_Framework_MockObject_MockObject
-	 */
-	protected function getConfigurationManagerMockReturningGivenTypoScriptConfiguration($tsConfiguration) {
-		$configurationManagerMock = $this->getMock('\TYPO3\CMS\Extbase\Configuration\ConfigurationManager', array('getConfiguration'), array(), '', FALSE);
-		$configurationManagerMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($tsConfiguration));
-		return $configurationManagerMock;
-	}
+    /**
+     * Returns parsed TypoScript array for given TypoScript string
+     *
+     * @param $typoScriptString
+     * @return string
+     */
+    protected function getTypoScriptArrayForGivenTypoScriptString($typoScriptString)
+    {
+        $typoScriptParser = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser'); /* @var $typoScriptParser \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser */
+        $typoScriptParser->parse($typoScriptString);
+        return GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService')->convertTypoScriptArrayToPlainArray($typoScriptParser->setup);
+    }
 
 
 
-	/**
-	 * Returns a fe / be mode detector returning given mode on getMode()
-	 *
-	 * @param $mode
-	 * @return PHPUnit_Framework_MockObject_MockObject
-	 */
-	protected function getFeBeModeDetectorMockReturningGivenMode($mode) {
-		$feBeModeDetectorMock = $this->getMock('Tx_PtExtbase_Utility_FeBeModeDetector', array('getMode'), array(), '', FALSE);
-		$feBeModeDetectorMock->expects($this->any())->method('getMode')->will($this->returnValue($mode));
-		return $feBeModeDetectorMock;
-	}
+    /**
+     * Returns configuration manager mock that will return given configuration for getConfiguration()
+     *
+     * @param $tsConfiguration
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getConfigurationManagerMockReturningGivenTypoScriptConfiguration($tsConfiguration)
+    {
+        $configurationManagerMock = $this->getMock('\TYPO3\CMS\Extbase\Configuration\ConfigurationManager', array('getConfiguration'), array(), '', false);
+        $configurationManagerMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($tsConfiguration));
+        return $configurationManagerMock;
+    }
 
 
 
-	/**
-	 * Returns user detector mock that will return given userUid and given userGroupUids on getUserUid() and getUserGroupUids()
-	 *
-	 * @param $userUid
-	 * @param array $groupUids
-	 * @return PHPUnit_Framework_MockObject_MockObject
-	 */
-	protected function getUserDetectorMockReturningGivenUserUidAndGroupUids($userUid, $groupUids = array()) {
-		$userDetectorMock = $this->getMock('Tx_PtExtbase_Utility_UserDetector', array('getUserUid', 'getUserGroupUids'), array(), '', FALSE);
-		$userDetectorMock->expects($this->any())->method('getUserUid')->will($this->returnValue($userUid));
-		$userDetectorMock->expects($this->any())->method('getUserGroupUids')->will($this->returnValue($groupUids));
-		return $userDetectorMock;
-	}
+    /**
+     * Returns a fe / be mode detector returning given mode on getMode()
+     *
+     * @param $mode
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getFeBeModeDetectorMockReturningGivenMode($mode)
+    {
+        $feBeModeDetectorMock = $this->getMock('Tx_PtExtbase_Utility_FeBeModeDetector', array('getMode'), array(), '', false);
+        $feBeModeDetectorMock->expects($this->any())->method('getMode')->will($this->returnValue($mode));
+        return $feBeModeDetectorMock;
+    }
 
+
+
+    /**
+     * Returns user detector mock that will return given userUid and given userGroupUids on getUserUid() and getUserGroupUids()
+     *
+     * @param $userUid
+     * @param array $groupUids
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getUserDetectorMockReturningGivenUserUidAndGroupUids($userUid, $groupUids = array())
+    {
+        $userDetectorMock = $this->getMock('Tx_PtExtbase_Utility_UserDetector', array('getUserUid', 'getUserGroupUids'), array(), '', false);
+        $userDetectorMock->expects($this->any())->method('getUserUid')->will($this->returnValue($userUid));
+        $userDetectorMock->expects($this->any())->method('getUserGroupUids')->will($this->returnValue($groupUids));
+        return $userDetectorMock;
+    }
 }

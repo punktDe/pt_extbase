@@ -30,41 +30,41 @@
  * @package Tests
  * @subpackage Controllers
  */
-class Tx_PtExtbase_Tests_Unit_Controller_AbstractApiControllerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-
-	/**
-	 * @var Tx_PtExtbase_Controller_AbstractApiController
-	 */
-	protected $controller;
-
-
-	public function setUp() {
-		$proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Controller_AbstractApiController');
-		$this->controller = $this->objectManager->get($proxyClass);
-	}
+class Tx_PtExtbase_Tests_Unit_Controller_AbstractApiControllerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var Tx_PtExtbase_Controller_AbstractApiController
+     */
+    protected $controller;
 
 
-	/**
-	 * @test
-	 */
-	public function findFirstError() {
-
-		/*
-		 * Root
-		 * 	- A
-		 * 	- B
-		 * 		- C (With Error)
-		 */
-		$rootResult = new \TYPO3\CMS\Extbase\Error\Result();
-		$rootResult->forProperty('A');
-		$rootResult->forProperty('B')->forProperty('C')->addError(new \TYPO3\CMS\Extbase\Error\Error('Fehler', 123456));
+    public function setUp()
+    {
+        $proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Controller_AbstractApiController');
+        $this->controller = $this->objectManager->get($proxyClass);
+    }
 
 
-		$foundError = $this->controller->_call('findFirstError', $rootResult); /** @var \TYPO3\CMS\Extbase\Error\Error $foundError */
+    /**
+     * @test
+     */
+    public function findFirstError()
+    {
 
-		$this->assertInstanceOf('\TYPO3\CMS\Extbase\Error\Error', $foundError);
-		$this->assertEquals(123456, $foundError->getCode());
-	}
+        /*
+         * Root
+         * 	- A
+         * 	- B
+         * 		- C (With Error)
+         */
+        $rootResult = new \TYPO3\CMS\Extbase\Error\Result();
+        $rootResult->forProperty('A');
+        $rootResult->forProperty('B')->forProperty('C')->addError(new \TYPO3\CMS\Extbase\Error\Error('Fehler', 123456));
 
+
+        $foundError = $this->controller->_call('findFirstError', $rootResult); /** @var \TYPO3\CMS\Extbase\Error\Error $foundError */
+
+        $this->assertInstanceOf('\TYPO3\CMS\Extbase\Error\Error', $foundError);
+        $this->assertEquals(123456, $foundError->getCode());
+    }
 }
-

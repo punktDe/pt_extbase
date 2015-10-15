@@ -28,24 +28,24 @@
  * @package pt_dppp_base
  * @subpackage Domain\Logger
  */
-class Tx_PtExtbase_Logger_Backend_FileWriter extends \TYPO3\CMS\Core\Log\Writer\FileWriter {
-
-	/**
-	 * Sets the path to the log file.
-	 *
-	 * We overwrite this method to allow _absolute_ log paths!
-	 *
-	 * @param string $logFile path to the log file
-	 * @return \TYPO3\CMS\Core\Log\Writer\FileWriter
-	 * @throws InvalidArgumentException
-	 */
-	public function setLogFile($logFile) {
-		if (is_resource(self::$logFileHandles)) {
-			$this->closeLogFile();
-		}
-		$this->logFile = $logFile;
-		$this->openLogFile();
-		return $this;
-	}
-
+class Tx_PtExtbase_Logger_Backend_FileWriter extends \TYPO3\CMS\Core\Log\Writer\FileWriter
+{
+    /**
+     * Sets the path to the log file.
+     *
+     * We overwrite this method to allow _absolute_ log paths!
+     *
+     * @param string $logFile path to the log file
+     * @return \TYPO3\CMS\Core\Log\Writer\FileWriter
+     * @throws InvalidArgumentException
+     */
+    public function setLogFile($logFile)
+    {
+        if (is_resource(self::$logFileHandles)) {
+            $this->closeLogFile();
+        }
+        $this->logFile = $logFile;
+        $this->openLogFile();
+        return $this;
+    }
 }

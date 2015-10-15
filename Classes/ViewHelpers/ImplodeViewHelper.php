@@ -30,17 +30,15 @@
  */
 
 
-class Tx_PtExtbase_ViewHelpers_ImplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
-
-	/**
-	 * @param string $glue
-	 * @return string
-	 */
-	public function render($glue = ', ') {
-		$pieces = $this->renderChildren();
-		return implode($glue, $pieces);
-	}
+class Tx_PtExtbase_ViewHelpers_ImplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * @param string $glue
+     * @return string
+     */
+    public function render($glue = ', ')
+    {
+        $pieces = $this->renderChildren();
+        return implode($glue, $pieces);
+    }
 }
-
-?>

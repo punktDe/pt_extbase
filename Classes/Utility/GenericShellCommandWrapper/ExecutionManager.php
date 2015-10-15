@@ -28,62 +28,64 @@ use TYPO3\CMS\Core\SingletonInterface;
  *
  * @package PunktDe\PtExtbase\Utility\GenericShellCommandWrapper
  */
-class ExecutionManager implements SingletonInterface {
-
-	/**
-	 * @inject
-	 * @var \PunktDe\PtExtbase\Utility\ShellCommandService
-	 */
-	protected $shellCommandService;
-
-
-	/**
-	 * @inject
-	 * @var \Tx_PtExtbase_Logger_Logger
-	 */
-	protected $logger;
+class ExecutionManager implements SingletonInterface
+{
+    /**
+     * @inject
+     * @var \PunktDe\PtExtbase\Utility\ShellCommandService
+     */
+    protected $shellCommandService;
 
 
-	/**
-	 * @var GenericShellCommand
-	 */
-	protected $command;
+    /**
+     * @inject
+     * @var \Tx_PtExtbase_Logger_Logger
+     */
+    protected $logger;
 
 
-	/**
-	 * @var string
-	 */
-	protected $commandLine = '';
+    /**
+     * @var GenericShellCommand
+     */
+    protected $command;
 
 
-	/**
-	 * @param GenericShellCommand $command
-	 * @return string
-	 */
-	public function execute($command) {
-		$this->command = $command;
-		$this->renderCommand();
-		return array($this->executeCommandLineOnShell(), $this->shellCommandService->getExitCode());
-	}
+    /**
+     * @var string
+     */
+    protected $commandLine = '';
 
 
-
-	/**
-	 * @return string
-	 */
-	protected function renderCommand() {
-		$this->commandLine = sprintf('%s', $this->command->render());
-	}
+    /**
+     * @param GenericShellCommand $command
+     * @return string
+     */
+    public function execute($command)
+    {
+        $this->command = $command;
+        $this->renderCommand();
+        return array($this->executeCommandLineOnShell(), $this->shellCommandService->getExitCode());
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	protected function executeCommandLineOnShell() {
-		$this->logger->debug(sprintf("Running command %s", $this->commandLine), __CLASS__);
-		$this->shellCommandService->setRedirectStandardErrorToStandardOut(TRUE);
-		return $this->shellCommandService->execute($this->commandLine);
-	}
+    /**
+     * @return string
+     */
+    protected function renderCommand()
+    {
+        $this->commandLine = sprintf('%s', $this->command->render());
+    }
 
+
+
+    /**
+     * @return string
+     */
+    protected function executeCommandLineOnShell()
+    {
+        $this->logger->debug(sprintf("Running command %s", $this->commandLine), __CLASS__);
+        $this->shellCommandService->setRedirectStandardErrorToStandardOut(true);
+        return $this->shellCommandService->execute($this->commandLine);
+    }
 }

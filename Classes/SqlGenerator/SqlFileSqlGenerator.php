@@ -33,28 +33,28 @@
  * @package pt_extbase
  * @subpackage SqlGenerator
  */
-class Tx_PtExtbase_SqlGenerator_SqlFileSqlGenerator implements Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface {
+class Tx_PtExtbase_SqlGenerator_SqlFileSqlGenerator implements Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface
+{
+    /**
+     * @var Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser
+     */
+    protected $multipleQueriesFileParser;
 
-	/**
-	 * @var Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser
-	 */
-	protected $multipleQueriesFileParser;
+    /**
+     * @param Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser $multipleQueriesFileParser
+     * @return void
+     */
+    public function injectMultipleQueriesFileParser(Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser $multipleQueriesFileParser)
+    {
+        $this->multipleQueriesFileParser = $multipleQueriesFileParser;
+    }
 
-	/**
-	 * @param Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser $multipleQueriesFileParser
-	 * @return void
-	 */
-	public function injectMultipleQueriesFileParser(Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser $multipleQueriesFileParser) {
-		$this->multipleQueriesFileParser = $multipleQueriesFileParser;
-	}
-
-	/**
-	 * @param string $filePath
-	 * @return array
-	 */
-	public function generate($filePath) {
-		return $this->multipleQueriesFileParser->parse($filePath);
-	}
-
+    /**
+     * @param string $filePath
+     * @return array
+     */
+    public function generate($filePath)
+    {
+        return $this->multipleQueriesFileParser->parse($filePath);
+    }
 }
-?>

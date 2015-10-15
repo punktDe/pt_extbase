@@ -28,19 +28,19 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  *
  * @package PunktDe\PtExtbase\Utility\GenericShellCommandWrapper
  */
-class ResultObjectStorage extends ObjectStorage implements ComponentInterface {
-
-	/**
-	 * @return array
-	 */
-	public function toArray() {
-		$array = array();
-		$storage = array_values($this->storage);
-		foreach ($storage as $item) {
-			$object =  $item['obj'];  /** @var ComponentInterface $object */
-			$array[] = $object->toArray();
-		}
-		return $array;
-	}
-
+class ResultObjectStorage extends ObjectStorage implements ComponentInterface
+{
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = array();
+        $storage = array_values($this->storage);
+        foreach ($storage as $item) {
+            $object =  $item['obj'];  /** @var ComponentInterface $object */
+            $array[] = $object->toArray();
+        }
+        return $array;
+    }
 }

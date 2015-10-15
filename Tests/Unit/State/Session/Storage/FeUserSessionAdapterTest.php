@@ -30,51 +30,55 @@
  * @subpackage State\Session\Storage
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Unit_State_Session_Storage_FeUserSessionAdapterTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-     
-	/** @test */
-	public function getInstanceReturnsSingletonInstanceOfSessionAdapter() {
-		$firstInstance = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();
-		$secondInstance = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();
-		$this->assertTrue($firstInstance === $secondInstance);
-	}
-	
-	
-	
-	/** @test */
-	public function readThrowsExceptionIfNoFeUserSessionIsAvailable() {
-		$tmp = $GLOBALS['TSFE']->fe_user;
-		try {
-			$feSessionAdapter = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();
-			$feSessionAdapter->read('test');
-		} catch (Exception $e) {
-			$GLOBALS['TSFE']->fe_user = $tmp;
-			return;
-		}
-		$this->fail('Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter throws no Exception on read, if no user session is available!');
-	}
-	
-	
-	
-	/** @test */
-	public function readReturnsExpectedValueFromFeUserSession() {
-		$feUserSessionMock = $this->getMock(tslib_feUserAuth, array(), array('getKey'), '', FALSE, FALSE);
-		$feUserSessionMock->expects($this->once())
-		    ->method(getKey)
-		    ->with($this->equalTo('user'),$this->equalTo('keyxy'))
-		    ->will($this->returnValue('valuexy'));
-		$tmp = $GLOBALS['TSFE']->fe_user;
-		$GLOBALS['TSFE']->fe_user = $feUserSessionMock;
-		$feSessionAdapter = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();
-		$this->assertEquals($feSessionAdapter->read('keyxy'), 'valuexy');
-		$GLOBALS['TSFE']->fe_user = $tmp;
-	}
-	
-	
-	
-	/** @test */
-	public function storeThrowsExceptionIfNoUserSessionIsAvailable() {
-		$tmp = $GLOBALS['TSFE']->fe_user;
+class Tx_PtExtbase_Tests_Unit_State_Session_Storage_FeUserSessionAdapterTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /** @test */
+    public function getInstanceReturnsSingletonInstanceOfSessionAdapter()
+    {
+        $firstInstance = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();
+        $secondInstance = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();
+        $this->assertTrue($firstInstance === $secondInstance);
+    }
+    
+    
+    
+    /** @test */
+    public function readThrowsExceptionIfNoFeUserSessionIsAvailable()
+    {
+        $tmp = $GLOBALS['TSFE']->fe_user;
+        try {
+            $feSessionAdapter = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();
+            $feSessionAdapter->read('test');
+        } catch (Exception $e) {
+            $GLOBALS['TSFE']->fe_user = $tmp;
+            return;
+        }
+        $this->fail('Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter throws no Exception on read, if no user session is available!');
+    }
+    
+    
+    
+    /** @test */
+    public function readReturnsExpectedValueFromFeUserSession()
+    {
+        $feUserSessionMock = $this->getMock(tslib_feUserAuth, array(), array('getKey'), '', false, false);
+        $feUserSessionMock->expects($this->once())
+            ->method(getKey)
+            ->with($this->equalTo('user'), $this->equalTo('keyxy'))
+            ->will($this->returnValue('valuexy'));
+        $tmp = $GLOBALS['TSFE']->fe_user;
+        $GLOBALS['TSFE']->fe_user = $feUserSessionMock;
+        $feSessionAdapter = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();
+        $this->assertEquals($feSessionAdapter->read('keyxy'), 'valuexy');
+        $GLOBALS['TSFE']->fe_user = $tmp;
+    }
+    
+    
+    
+    /** @test */
+    public function storeThrowsExceptionIfNoUserSessionIsAvailable()
+    {
+        $tmp = $GLOBALS['TSFE']->fe_user;
         try {
             $feSessionAdapter = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();
             $feSessionAdapter->store('test', 'test');
@@ -83,16 +87,17 @@ class Tx_PtExtbase_Tests_Unit_State_Session_Storage_FeUserSessionAdapterTest ext
             return;
         }
         $this->fail('Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter throws no Exception on store, if no user session is available!');
-	}
-	
-	
-	
-	/** @test */
-	public function storeStoresGivenValueWithGivenKeyInFrontendUserSession() {
-		$feUserSessionMock = $this->getMock(tslib_feUserAuth, array(), array('setKey', 'storeSessionData'), '', FALSE, FALSE);
+    }
+    
+    
+    
+    /** @test */
+    public function storeStoresGivenValueWithGivenKeyInFrontendUserSession()
+    {
+        $feUserSessionMock = $this->getMock(tslib_feUserAuth, array(), array('setKey', 'storeSessionData'), '', false, false);
         $feUserSessionMock->expects($this->once())
             ->method(setKey)
-            ->with($this->equalTo('user'),$this->equalTo('keyxy'), $this->equalTo('valuexy'));
+            ->with($this->equalTo('user'), $this->equalTo('keyxy'), $this->equalTo('valuexy'));
         $feUserSessionMock->expects($this->once())
             ->method(storeSessionData);
         $tmp = $GLOBALS['TSFE']->fe_user;
@@ -100,13 +105,14 @@ class Tx_PtExtbase_Tests_Unit_State_Session_Storage_FeUserSessionAdapterTest ext
         $feSessionAdapter = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();
         $feSessionAdapter->store('keyxy', 'valuexy');
         $GLOBALS['TSFE']->fe_user = $tmp;
-	}
-	
-	
-	
-	/** @test */
-	public function deleteThrowsExceptionIfNoUserSessionIsAvailable() {
-		$tmp = $GLOBALS['TSFE']->fe_user;
+    }
+    
+    
+    
+    /** @test */
+    public function deleteThrowsExceptionIfNoUserSessionIsAvailable()
+    {
+        $tmp = $GLOBALS['TSFE']->fe_user;
         try {
             $feSessionAdapter = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();
             $feSessionAdapter->delete('test');
@@ -115,15 +121,13 @@ class Tx_PtExtbase_Tests_Unit_State_Session_Storage_FeUserSessionAdapterTest ext
             return;
         }
         $this->fail('Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter throws no Exception on store, if no user session is available!');
-	}
-	
-	
-	
-	/** @test */
-	public function deleteRemovesKeyFromFrontendUserSession() {
-		$this->markTestIncomplete('No idea how to test this...');
-	}
-	
+    }
+    
+    
+    
+    /** @test */
+    public function deleteRemovesKeyFromFrontendUserSession()
+    {
+        $this->markTestIncomplete('No idea how to test this...');
+    }
 }
-
-?>

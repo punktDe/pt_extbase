@@ -28,38 +28,47 @@
  * @package Pt_Extbase
  * @subpackage Testing\Selenium\Backend
  */
-class Tx_PtExtbase_Testing_Selenium_Backend_Modules {
+class Tx_PtExtbase_Testing_Selenium_Backend_Modules
+{
+    public $testClass;
 
-	public $testClass;
+    public function __construct(PHPUnit_Extensions_SeleniumTestCase $testClass)
+    {
+        $this->testClass = $testClass;
+    }
 
-	public function __construct(PHPUnit_Extensions_SeleniumTestCase $testClass) {
-		$this->testClass = $testClass;
-	}
-
-	/**
-	 * @param string $selector
-	 * @param string $elementToWaitFor
-	 * @return void
-	 */
-	public function openBackendModule($selector, $elementToWaitFor = 'id=typo3-docbody') {
-		for ($second = 0; ; $second++) {
-			if ($second >= 60) $this->testClass->fail("timeout");
-			try {
-				if ($this->testClass->isElementPresent($selector)) break;
-			} catch (Exception $e) {}
-			sleep(1);
-		}
-		$this->testClass->click($selector);
-		$this->testClass->selectFrame("content");
-		for ($second = 0; ; $second++) {
-			if ($second >= 60) $this->testClass->fail("timeout");
-			try {
-				if ($this->testClass->isElementPresent($elementToWaitFor)) break;
-			} catch (Exception $e) {}
-			sleep(1);
-		}
-	}
-
+    /**
+     * @param string $selector
+     * @param string $elementToWaitFor
+     * @return void
+     */
+    public function openBackendModule($selector, $elementToWaitFor = 'id=typo3-docbody')
+    {
+        for ($second = 0; ; $second++) {
+            if ($second >= 60) {
+                $this->testClass->fail("timeout");
+            }
+            try {
+                if ($this->testClass->isElementPresent($selector)) {
+                    break;
+                }
+            } catch (Exception $e) {
+            }
+            sleep(1);
+        }
+        $this->testClass->click($selector);
+        $this->testClass->selectFrame("content");
+        for ($second = 0; ; $second++) {
+            if ($second >= 60) {
+                $this->testClass->fail("timeout");
+            }
+            try {
+                if ($this->testClass->isElementPresent($elementToWaitFor)) {
+                    break;
+                }
+            } catch (Exception $e) {
+            }
+            sleep(1);
+        }
+    }
 }
-
-?>

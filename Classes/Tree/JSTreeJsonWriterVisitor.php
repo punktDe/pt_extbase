@@ -29,33 +29,31 @@
  * @package Tree
  * @author Sebastian Helzle <helzle@punkt.de>
  */
-class Tx_PtExtbase_Tree_JSTreeJsonWriterVisitor extends Tx_PtExtbase_Tree_ArrayWriterVisitor {
-
-	/**
-	 * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $node
+class Tx_PtExtbase_Tree_JSTreeJsonWriterVisitor extends Tx_PtExtbase_Tree_ArrayWriterVisitor
+{
+    /**
+     * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
      * @param integer &$index Holds the visitation index of treewalker
      * @param integer &$level Holds level of visitation in tree, starting at 1
      */
-    public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level) {
-
+    public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
+    {
         $nodeUid = $node->getUid();
         $metadata = '';
 
 
-		$arrayForNode = array(
+        $arrayForNode = array(
             'data' => $node->getLabel(),
             'attr' => array(
                 'id' => $node->getUid(),
                 'data-meta' => trim($metadata),
-				'disabled' => !$node->isAccessible(),
+                'disabled' => !$node->isAccessible(),
             ),
             'children' => array()
         );
 
         $this->nodeStack->push($arrayForNode);
-	}
-	
+    }
 }
-?>

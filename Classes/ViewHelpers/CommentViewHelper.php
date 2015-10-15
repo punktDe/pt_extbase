@@ -34,20 +34,21 @@
  * @author Daniel Lienert 
  * @package ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_CommentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-	
-	/**
-	 * Return nothing or the comment if the variable is set to "show"
-	 * TODO: Think about a global variable to display / hide all comments
-	 * 
-	 * @param boolean $show
-	 * @return string 
-	 */
-	public function render($show = FALSE) {
-		if ($show) {
-			return $this->renderChildren();
-		} else {
-			return '';
-		}
-	}
+class Tx_PtExtbase_ViewHelpers_CommentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Return nothing or the comment if the variable is set to "show"
+     * TODO: Think about a global variable to display / hide all comments
+     * 
+     * @param boolean $show
+     * @return string 
+     */
+    public function render($show = false)
+    {
+        if ($show) {
+            return $this->renderChildren();
+        } else {
+            return '';
+        }
+    }
 }

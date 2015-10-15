@@ -28,67 +28,69 @@
  * @package pt_extbase
  * @subpackage Classes\Utility
  */
-class Tx_PtExtbase_Utility_ExtensionSettings implements \TYPO3\CMS\Core\SingletonInterface {
+class Tx_PtExtbase_Utility_ExtensionSettings implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * @var array
+     */
+    protected $extensionSettings = array();
 
-	/**
-	 * @var array
-	 */
-	protected $extensionSettings = array();
+    /**
+     * @param string $extensionKey
+     * @return array
+     */
+    public function getExtensionSettings($extensionKey)
+    {
+        $this->cacheExtensionSettings($extensionKey);
+        return $this->extensionSettings[$extensionKey];
+    }
 
-	/**
-	 * @param string $extensionKey
-	 * @return array
-	 */
-	public function getExtensionSettings($extensionKey) {
-		$this->cacheExtensionSettings($extensionKey);
-		return $this->extensionSettings[$extensionKey];
-	}
+    /**
+     * @param string $extensionKey
+     * @param string $key
+     * @return string
+     * @throws Exception
+     *
+     * TODO: this method returns a value not a key ....
+     */
+    public function getKeyFromExtensionSettings($extensionKey, $key)
+    {
+        $settings = $this->getExtensionSettings($extensionKey);
+        if (!isset($settings[$key])) {
+            throw new Exception('No key ' . $key . ' set in extension ' . $extensionKey . '! 1334406600');
+        }
+        return $settings[$key];
+    }
 
-	/**
-	 * @param string $extensionKey
-	 * @param string $key
-	 * @return string
-	 * @throws Exception
-	 *
-	 * TODO: this method returns a value not a key ....
-	 */
-	public function getKeyFromExtensionSettings($extensionKey, $key) {
-		$settings = $this->getExtensionSettings($extensionKey);
-		if (!isset($settings[$key])) {
-			throw new Exception('No key ' . $key . ' set in extension ' . $extensionKey . '! 1334406600');
-		}
-		return $settings[$key];
-	}
+    /**
+     * @param string $extensionKey
+     * @return array
+     */
+    protected function cacheExtensionSettings($extensionKey)
+    {
+        if (!array_key_exists($extensionKey, $this->extensionSettings) && !is_array($this->extensionSettings[$extensionKey])) {
+            $this->extensionSettings[$extensionKey] = array();
+            $this->extensionSettings[$extensionKey] = $this->loadExtensionSettings($extensionKey);
+        }
+    }
 
-	/**
-	 * @param string $extensionKey
-	 * @return array
-	 */
-	protected function cacheExtensionSettings($extensionKey) {
-		if (!array_key_exists($extensionKey, $this->extensionSettings) && !is_array($this->extensionSettings[$extensionKey])) {
-			$this->extensionSettings[$extensionKey] = array();
-			$this->extensionSettings[$extensionKey] = $this->loadExtensionSettings($extensionKey);
-		}
-	}
+    /**
+     * @param string $extensionKey
+     * @return array
+     */
+    protected function loadExtensionSettings($extensionKey)
+    {
+        $settings = Tx_PtExtbase_Div::returnExtConfArray($extensionKey);
+        return $settings;
+    }
 
-	/**
-	 * @param string $extensionKey
-	 * @return array
-	 */
-	protected function loadExtensionSettings($extensionKey) {
-		$settings = Tx_PtExtbase_Div::returnExtConfArray($extensionKey);
-		return $settings;
-	}
-
-	/**
-	 * Use for testing purposes
-	 *
-	 * @param array $extensionSettings
-	 */
-	public function overrideExtensionSettings(array $extensionSettings) {
-		$this->extensionSettings = $extensionSettings;
-	}
-
+    /**
+     * Use for testing purposes
+     *
+     * @param array $extensionSettings
+     */
+    public function overrideExtensionSettings(array $extensionSettings)
+    {
+        $this->extensionSettings = $extensionSettings;
+    }
 }
-
-?>

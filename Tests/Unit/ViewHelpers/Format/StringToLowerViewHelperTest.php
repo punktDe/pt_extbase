@@ -28,39 +28,42 @@
  * @package pt_extbase
  * @subpackage Tests\ViewHelpers\Format
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_StringToLowerViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_StringToLowerViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    protected $stringToLowerViewHelperProxyClass;
 
-	protected $stringToLowerViewHelperProxyClass;
+    protected $stringToLowerViewHelperProxy;
 
-	protected $stringToLowerViewHelperProxy;
+    public function setUp()
+    {
+        $this->stringToLowerViewHelperProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Format_StringToLowerViewHelper');
+        $this->stringToLowerViewHelperProxy = new $this->stringToLowerViewHelperProxyClass();
+    }
 
-	public function setUp() {
-		$this->stringToLowerViewHelperProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Format_StringToLowerViewHelper');
-		$this->stringToLowerViewHelperProxy = new $this->stringToLowerViewHelperProxyClass();
-	}
+    public function testRenderIfInputValueIsString()
+    {
+        $viewHelperArguments = array(
+            'string' => 'BaR'
+        );
+        $expectedOutput = 'bar';
+        $this->stringToLowerViewHelperProxy->_set('arguments', $viewHelperArguments);
+        $output = $this->stringToLowerViewHelperProxy->render();
+        $this->assertEquals($expectedOutput, $output);
+    }
 
-	public function testRenderIfInputValueIsString() {
-		$viewHelperArguments = array(
-			'string' => 'BaR'
-		);
-		$expectedOutput = 'bar';
-		$this->stringToLowerViewHelperProxy->_set('arguments', $viewHelperArguments);
-		$output = $this->stringToLowerViewHelperProxy->render();
-		$this->assertEquals($expectedOutput, $output);
-	}
+    public function testRenderReturnsInputValueIfInputValueIsNotString()
+    {
+        $viewHelperArguments = array(
+            'string' => 123
+        );
+        $expectedOutput = 123;
+        $this->stringToLowerViewHelperProxy->_set('arguments', $viewHelperArguments);
+        $output = $this->stringToLowerViewHelperProxy->render();
+        $this->assertEquals($expectedOutput, $output);
+    }
 
-	public function testRenderReturnsInputValueIfInputValueIsNotString() {
-		$viewHelperArguments = array(
-			'string' => 123
-		);
-		$expectedOutput = 123;
-		$this->stringToLowerViewHelperProxy->_set('arguments', $viewHelperArguments);
-		$output = $this->stringToLowerViewHelperProxy->render();
-		$this->assertEquals($expectedOutput, $output);
-	}
-
-	public function tearDown() {
-		unset($this->stringToLowerViewHelperProxy);
-	}
-	
+    public function tearDown()
+    {
+        unset($this->stringToLowerViewHelperProxy);
+    }
 }

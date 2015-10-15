@@ -37,31 +37,31 @@
  *
  * @api
  */
-class Tx_PtExtbase_ViewHelpers_Format_UrlencodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Format_UrlencodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
+     * can decode the text's entities.
+     *
+     * @var boolean
+     */
+    protected $escapingInterceptorEnabled = false;
 
-	/**
-	 * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
-	 * can decode the text's entities.
-	 *
-	 * @var boolean
-	 */
-	protected $escapingInterceptorEnabled = FALSE;
-
-	/**
-	 * Escapes special characters with their escaped counterparts as needed using PHPs rawurlencode() function.
-	 *
-	 * @param string $value string to format
-	 * @see http://www.php.net/manual/function.rawurlencode.php
-	 * @api
-	 */
-	public function render($value = NULL) {
-		if ($value === NULL) {
-			$value = $this->renderChildren();
-		}
-		if (!is_string($value)) {
-			return $value;
-		}
-		return rawurlencode($value);
-	}
-
+    /**
+     * Escapes special characters with their escaped counterparts as needed using PHPs rawurlencode() function.
+     *
+     * @param string $value string to format
+     * @see http://www.php.net/manual/function.rawurlencode.php
+     * @api
+     */
+    public function render($value = null)
+    {
+        if ($value === null) {
+            $value = $this->renderChildren();
+        }
+        if (!is_string($value)) {
+            return $value;
+        }
+        return rawurlencode($value);
+    }
 }

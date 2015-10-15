@@ -26,74 +26,78 @@
 
 namespace PunktDe\PtExtbase\Utility\Wget;
 
-
-class WgetLog extends \Tx_PtExtbase_Collection_ObjectCollection {
-
-	/**
-	 * @var string
-	 */
-	protected $restrictedClassName = '\PunktDe\PtExtbase\Utility\Wget\WgetLogEntry';
-
-
-	/**
-	 * @param WgetLogEntry $wgetLogEntry
-	 * @throws \Tx_PtExtbase_Exception_Internal
-	 */
-	public function addLogEntry(WgetLogEntry $wgetLogEntry) {
-		$this->addItem($wgetLogEntry);
-	}
+class WgetLog extends \Tx_PtExtbase_Collection_ObjectCollection
+{
+    /**
+     * @var string
+     */
+    protected $restrictedClassName = '\PunktDe\PtExtbase\Utility\Wget\WgetLogEntry';
 
 
-	/**
-	 * @return bool
-	 */
-	public function hasErrors() {
-		return $this->getErrors()->count() > 0 ?: FALSE;
-	}
+    /**
+     * @param WgetLogEntry $wgetLogEntry
+     * @throws \Tx_PtExtbase_Exception_Internal
+     */
+    public function addLogEntry(WgetLogEntry $wgetLogEntry)
+    {
+        $this->addItem($wgetLogEntry);
+    }
 
 
-	/**
-	 * @return WgetLog
-	 */
-	public function getErrors() {
-		$errorEntries = new WgetLog();
-
-		foreach($this->itemsArr as $logEntry) {
-			if($logEntry->isError()) {
-				$errorEntries->addLogEntry($logEntry);
-			}
-		}
-
-		return $errorEntries;
-	}
+    /**
+     * @return bool
+     */
+    public function hasErrors()
+    {
+        return $this->getErrors()->count() > 0 ?: false;
+    }
 
 
-	/**
-	 * @return WgetLog
-	 */
-	public function getSuccessful() {
-		$sucessfulEntries = new WgetLog();
+    /**
+     * @return WgetLog
+     */
+    public function getErrors()
+    {
+        $errorEntries = new WgetLog();
 
-		foreach($this->itemsArr as $logEntry) {
-			if(!$logEntry->isError()) {
-				$sucessfulEntries->addLogEntry($logEntry);
-			}
-		}
+        foreach ($this->itemsArr as $logEntry) {
+            if ($logEntry->isError()) {
+                $errorEntries->addLogEntry($logEntry);
+            }
+        }
 
-		return $sucessfulEntries;
-	}
+        return $errorEntries;
+    }
 
 
-	/**
-	 * @return array
-	 */
-	public function toArray() {
-		$logArray = array();
+    /**
+     * @return WgetLog
+     */
+    public function getSuccessful()
+    {
+        $sucessfulEntries = new WgetLog();
 
-		foreach($this->itemsArr as $logEntry) { /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
-			$logArray[] = $logEntry->toArray();
-		}
+        foreach ($this->itemsArr as $logEntry) {
+            if (!$logEntry->isError()) {
+                $sucessfulEntries->addLogEntry($logEntry);
+            }
+        }
 
-		return $logArray;
-	}
+        return $sucessfulEntries;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $logArray = array();
+
+        foreach ($this->itemsArr as $logEntry) { /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
+            $logArray[] = $logEntry->toArray();
+        }
+
+        return $logArray;
+    }
 }

@@ -23,18 +23,17 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class Tx_PtExtbase_ViewHelpers_ExplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
-	/**
-	 * @param string $delimiter
-	 * @param string $string
-	 *
-	 * @return array
-	 */
-	public function render($delimiter, $string ) {
-		$array = explode($delimiter, $string);
-		return $array;
-	}
+class Tx_PtExtbase_ViewHelpers_ExplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * @param string $delimiter
+     * @param string $string
+     *
+     * @return array
+     */
+    public function render($delimiter, $string)
+    {
+        $array = explode($delimiter, $string);
+        return $array;
+    }
 }
-
-?>

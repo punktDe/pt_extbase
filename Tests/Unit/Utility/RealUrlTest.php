@@ -29,57 +29,59 @@ use \TYPO3\CMS\Core\Tests\UnitTestCase;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Unit\Utility
  */
-class RealUrlTest extends UnitTestCase {
-
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\RealUrl
-	 */
-	protected $proxy;
-
-
-
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		$proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\RealUrl');
-		$this->proxy = new $proxyClass();
-	}
+class RealUrlTest extends UnitTestCase
+{
+    /**
+     * @var \PunktDe\PtExtbase\Utility\RealUrl
+     */
+    protected $proxy;
 
 
 
-	/**
-	 * @return array
-	 */
-	public function filterPathFromUrlReturnsValidPathDataProvider() {
- 		return array(
-		    'urlWithSchemeAndDomain' => array(
-			    'url' => 'http://www.kubrick.co.uk/a/clockwork/orange.html',
-			    'expected' => 'a/clockwork/orange'
-		    ),
-		    'urlWithoutSchemeAndWithDomain' => array(
-			    'url' => 'www.kubrick.co.uk/a/clockwork/orange.html',
-			    'expected' => 'a/clockwork/orange'
-		    ),
-		    'urlWithoutSchemeWithDomainWithHtmSuffix' => array(
-			    'url' => 'www.kubrick.co.uk/a/clockwork/orange.htm',
-			    'expected' => 'a/clockwork/orange'
-		    ),
-	    );
-	}
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        $proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\RealUrl');
+        $this->proxy = new $proxyClass();
+    }
 
 
 
-	/**
-	 * @test
-	 * @dataProvider filterPathFromUrlReturnsValidPathDataProvider
-	 *
-	 * @param string $url
-	 * @param string $expected
-	 */
-	public function filterPathFromUrlReturnsValidPath($url, $expected) {
-		$actual = $this->proxy->filterPathFromUrl($url);
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @return array
+     */
+    public function filterPathFromUrlReturnsValidPathDataProvider()
+    {
+        return array(
+            'urlWithSchemeAndDomain' => array(
+                'url' => 'http://www.kubrick.co.uk/a/clockwork/orange.html',
+                'expected' => 'a/clockwork/orange'
+            ),
+            'urlWithoutSchemeAndWithDomain' => array(
+                'url' => 'www.kubrick.co.uk/a/clockwork/orange.html',
+                'expected' => 'a/clockwork/orange'
+            ),
+            'urlWithoutSchemeWithDomainWithHtmSuffix' => array(
+                'url' => 'www.kubrick.co.uk/a/clockwork/orange.htm',
+                'expected' => 'a/clockwork/orange'
+            ),
+        );
+    }
 
+
+
+    /**
+     * @test
+     * @dataProvider filterPathFromUrlReturnsValidPathDataProvider
+     *
+     * @param string $url
+     * @param string $expected
+     */
+    public function filterPathFromUrlReturnsValidPath($url, $expected)
+    {
+        $actual = $this->proxy->filterPathFromUrl($url);
+        $this->assertSame($expected, $actual);
+    }
 }

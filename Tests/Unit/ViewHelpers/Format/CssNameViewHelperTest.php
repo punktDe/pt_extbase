@@ -31,33 +31,32 @@
 * @author Daniel Lienert
 */
 
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_CssNameViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_CssNameViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     *
+     * @returns array
+     */
+    public static function nameDataProvider()
+    {
+        return array(
+            'camelCase ' => array('DasIstEinTest', 'das-ist-ein-test'),
+            'Spaces ' => array('Das ist ein Test', 'das-ist-ein-test'),
+            'Spaces before and after ' => array(' Das ist ein Test ', 'das-ist-ein-test'),
+        );
+    }
 
 
-	/**
-	 *
-	 * @returns array
-	 */
-	public static function nameDataProvider() {
-		return array(
-			'camelCase ' => array('DasIstEinTest', 'das-ist-ein-test'),
-			'Spaces ' => array('Das ist ein Test', 'das-ist-ein-test'),
-			'Spaces before and after ' => array(' Das ist ein Test ', 'das-ist-ein-test'),
-		);
-	}
-
-
-	/**
-	* @test
-	* @dataProvider nameDataProvider
-	*/
-	public function render($input, $formatedOutput) {
-		$viewHelper = $this->getMock('Tx_PtExtbase_ViewHelpers_Format_CssNameViewHelper', array('renderChildren'));
-		$viewHelper->expects($this->once())->method('renderChildren')->will($this->returnValue($input));
-		
-		$actualResult = $viewHelper->render();
-		$this->assertEquals($formatedOutput, $actualResult);
-	}
-
+    /**
+    * @test
+    * @dataProvider nameDataProvider
+    */
+    public function render($input, $formatedOutput)
+    {
+        $viewHelper = $this->getMock('Tx_PtExtbase_ViewHelpers_Format_CssNameViewHelper', array('renderChildren'));
+        $viewHelper->expects($this->once())->method('renderChildren')->will($this->returnValue($input));
+        
+        $actualResult = $viewHelper->render();
+        $this->assertEquals($formatedOutput, $actualResult);
+    }
 }
-?>

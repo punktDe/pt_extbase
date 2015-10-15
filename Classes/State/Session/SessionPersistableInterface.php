@@ -30,13 +30,13 @@
  * @subpackage Session
  * @author Michael Knoll 
  */
-interface Tx_PtExtbase_State_Session_SessionPersistableInterface extends Tx_PtExtbase_State_IdentifiableInterface {
-	
-	/**
-	 * Called by any mechanism to persist an object's state to session
-	 *
-	 * @return array Object's state to be persisted to session
-	 */
+interface Tx_PtExtbase_State_Session_SessionPersistableInterface extends Tx_PtExtbase_State_IdentifiableInterface
+{
+    /**
+     * Called by any mechanism to persist an object's state to session
+     *
+     * @return array Object's state to be persisted to session
+     */
     public function _persistToSession();
 
 
@@ -47,5 +47,4 @@ interface Tx_PtExtbase_State_Session_SessionPersistableInterface extends Tx_PtEx
      * @param array $sessionData Object's state previously persisted to session
      */
     public function _injectSessionData(array $sessionData);
-	
 }

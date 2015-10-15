@@ -29,101 +29,109 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
  * @package pt_extbase
  * @subpackage Utility
  */
-class Tx_PtExtbase_Utility_Tca implements \TYPO3\CMS\Core\SingletonInterface {
-
-	/**
-	 * Extension Name
-	 * @var string
-	 */
-	protected $extensionName;
-
-
-	/**
-	 * @var string
-	 */
-	protected $table;
+class Tx_PtExtbase_Utility_Tca implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * Extension Name
+     * @var string
+     */
+    protected $extensionName;
 
 
-	 /**
+    /**
+     * @var string
+     */
+    protected $table;
+
+
+     /**
      * @var ConfigurationManagerInterface
      */
     protected $configurationManager;
 
 
 
-	 /**
+     /**
      * @param ConfigurationManagerInterface $configurationManager
      * @return void
      */
-    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager) {
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
+    {
         $this->configurationManager = $configurationManager;
     }
 
 
 
-	/**
+    /**
      * Initialize the object (called by objectManager)
      *
      */
-   public function initializeObject() {
-		$frameWorkKonfiguration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-		$this->extensionName = $frameWorkKonfiguration['extensionName'];
+   public function initializeObject()
+   {
+       $frameWorkKonfiguration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+       $this->extensionName = $frameWorkKonfiguration['extensionName'];
 
-		$this->includeTcaForFrontend();
-	}
-
-
-
-	/**
-	 * Set the extension namespace
-	 *
-	 * @param $extensionName
-	 * @return Tx_PtExtbase_Utility_Tca
-	 */
-	public function setExtensionName($extensionName) {
-		$this->extensionName = $extensionName;
-		return $this;
-	}
-
-
-	/**
-	 * Set the according table
-	 *
-	 * @param $table
-	 * @return Tx_PtExtbase_Utility_Tca
-	 */
-	public function setTable($table) {
-		if($table !== $this->table) {
-			$this->table = $table;
-		}
-
-		return $this;
-	}
+       $this->includeTcaForFrontend();
+   }
 
 
 
-	/**
-	 * Get the TCA settings by namespace
-	 *
-	 * @param $nameSpace
-	 * @param null $table
-	 * @return array
-	 */
-	public function getSettingsByNamespace($nameSpace, $table = null) {
-		if($table) $this->setTable($table);
-		$settings = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS['TCA'][$this->table],$nameSpace);
-
-		return $settings;
-	}
-	
+    /**
+     * Set the extension namespace
+     *
+     * @param $extensionName
+     * @return Tx_PtExtbase_Utility_Tca
+     */
+    public function setExtensionName($extensionName)
+    {
+        $this->extensionName = $extensionName;
+        return $this;
+    }
 
 
-	/**
-	 * Include TCA for the frontend
-	 *
-	 * @return void
-	 */
-	protected function includeTcaForFrontend() {
-		$GLOBALS['TSFE']->includeTCA();
-	}
+    /**
+     * Set the according table
+     *
+     * @param $table
+     * @return Tx_PtExtbase_Utility_Tca
+     */
+    public function setTable($table)
+    {
+        if ($table !== $this->table) {
+            $this->table = $table;
+        }
+
+        return $this;
+    }
+
+
+
+    /**
+     * Get the TCA settings by namespace
+     *
+     * @param $nameSpace
+     * @param null $table
+     * @return array
+     */
+    public function getSettingsByNamespace($nameSpace, $table = null)
+    {
+        if ($table) {
+            $this->setTable($table);
+        }
+        $settings = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS['TCA'][$this->table], $nameSpace);
+
+        return $settings;
+    }
+    
+
+
+    /**
+     * Include TCA for the frontend
+     *
+     * @return void
+     */
+    protected function includeTcaForFrontend()
+    {
+        $GLOBALS['TSFE']->includeTCA();
+    }
 }

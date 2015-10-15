@@ -28,33 +28,34 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
  *
  * @package PunktDe\PtExtbase\Extbase
  */
-class Bootstrap {
-
-	/**
-	 * @var ObjectManagerInterface
-	 */
-	protected $objectManager;
-
-
-	/**
-	 * @param ObjectManagerInterface $objectManager
-	 */
-	public function injectObjectManager(ObjectManagerInterface $objectManager) {
-		$this->objectManager = $objectManager;
-	}
+class Bootstrap
+{
+    /**
+     * @var ObjectManagerInterface
+     */
+    protected $objectManager;
 
 
+    /**
+     * @param ObjectManagerInterface $objectManager
+     */
+    public function injectObjectManager(ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
-	/**
-	 * @param string $extensionName The condensed upper camel case extension key
-	 * @param string $pluginName
-	 * @return void
-	 */
-	public function boot($extensionName, $pluginName = 'dummy') {
-		$configuration['extensionName'] = $extensionName;
-		$configuration['pluginName'] = $pluginName;
-		$extbaseBootstrap = $this->objectManager->get('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
-		$extbaseBootstrap->initialize($configuration);
-	}
 
+
+    /**
+     * @param string $extensionName The condensed upper camel case extension key
+     * @param string $pluginName
+     * @return void
+     */
+    public function boot($extensionName, $pluginName = 'dummy')
+    {
+        $configuration['extensionName'] = $extensionName;
+        $configuration['pluginName'] = $pluginName;
+        $extbaseBootstrap = $this->objectManager->get('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
+        $extbaseBootstrap->initialize($configuration);
+    }
 }

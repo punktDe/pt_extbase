@@ -34,237 +34,248 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package State
  * @subpackage GpVars
  */
-class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
-		
-	
-	/**
-	 * Holds array with post vars from current HTTP request
-	 *
-	 * @var array
-	 */
-	protected $postVars;
-	
-	
-	
-	/**
-	 * Holds array with get vars from current HTTP request
-	 *
-	 * @var array
-	 */
-	protected $getVars;
-	
-	
-	
-	/**
-	 * Holds an array of $_FILES vars
-	 *
-	 * @var array
-	 */
-	protected $filesVars;
-	
-	
-	
-	/**
-	 * Holds an merged array of get and post vars with Post Vars precedence 
-	 * @var array
-	 */
-	protected $postGetVars = NULL;
-	
-	
-	
-	/**
-	 * Holds an merged array of get and post vars with Get Vars precedence 
-	 * @var array
-	 */
-	protected $getPostVars = NULL;
-	
-	
-	
-	/**
-	 * Holds the extension namespace
-	 * 
-	 * @var string
-	 */
-	protected $extensionNameSpace ; 
-	
-	
-	
-	/**
-	 * Constructort, setting extension namespace for adapter
-	 *
-	 * @param string $extensionNameSpace Extension namespace to set up adapter for
-	 */
-	public function __construct($extensionNameSpace) {
-		$this->extensionNameSpace = $extensionNameSpace;
-	}
-	
-	
-	
-	/**
-	 * Injects array as post vars
-	 *
-	 * @param array $postVars
-	 */
-	public function _injectPostVars(array $postVars = array()) {
-		$this->postVars = $postVars;
-	}
-	
-	
+class Tx_PtExtbase_State_GpVars_GpVarsAdapter
+{
+    /**
+     * Holds array with post vars from current HTTP request
+     *
+     * @var array
+     */
+    protected $postVars;
+    
+    
+    
+    /**
+     * Holds array with get vars from current HTTP request
+     *
+     * @var array
+     */
+    protected $getVars;
+    
+    
+    
+    /**
+     * Holds an array of $_FILES vars
+     *
+     * @var array
+     */
+    protected $filesVars;
+    
+    
+    
+    /**
+     * Holds an merged array of get and post vars with Post Vars precedence 
+     * @var array
+     */
+    protected $postGetVars = null;
+    
+    
+    
+    /**
+     * Holds an merged array of get and post vars with Get Vars precedence 
+     * @var array
+     */
+    protected $getPostVars = null;
+    
+    
+    
+    /**
+     * Holds the extension namespace
+     * 
+     * @var string
+     */
+    protected $extensionNameSpace ;
+    
+    
+    
+    /**
+     * Constructort, setting extension namespace for adapter
+     *
+     * @param string $extensionNameSpace Extension namespace to set up adapter for
+     */
+    public function __construct($extensionNameSpace)
+    {
+        $this->extensionNameSpace = $extensionNameSpace;
+    }
+    
+    
+    
+    /**
+     * Injects array as post vars
+     *
+     * @param array $postVars
+     */
+    public function _injectPostVars(array $postVars = array())
+    {
+        $this->postVars = $postVars;
+    }
+    
+    
 
-	/**
-	 * Injects array as get vars
-	 *
-	 * @param array $getVars
-	 */
-	public function _injectGetVars(array $getVars = array()) {
-		$this->getVars = $getVars;
-	}
-	
-	
-	
-	/**
-	 * Injects array as files vars ($_FILES)
-	 *
-	 * @param array $filesVars
-	 */
-	public function _injectFilesVars(array $filesVars = array()) {
-		$this->filesVars = $filesVars;
-	}
-	
-	
-		
-	/**
-	 * Fills a given object with parameters that correspond to namespace identified by object
-	 *
-	 * TODO this won't work with DI! Rename in later refacotring.
-	 *
-	 * @param Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface $object
-	 */
-	public function injectParametersInObject(Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface $object) {
-		$object->_injectGPVars($this->extractPgVarsByNamespace($object->getObjectNamespace()));
-	}
+    /**
+     * Injects array as get vars
+     *
+     * @param array $getVars
+     */
+    public function _injectGetVars(array $getVars = array())
+    {
+        $this->getVars = $getVars;
+    }
+    
+    
+    
+    /**
+     * Injects array as files vars ($_FILES)
+     *
+     * @param array $filesVars
+     */
+    public function _injectFilesVars(array $filesVars = array())
+    {
+        $this->filesVars = $filesVars;
+    }
+    
+    
+        
+    /**
+     * Fills a given object with parameters that correspond to namespace identified by object
+     *
+     * TODO this won't work with DI! Rename in later refacotring.
+     *
+     * @param Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface $object
+     */
+    public function injectParametersInObject(Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface $object)
+    {
+        $object->_injectGPVars($this->extractPgVarsByNamespace($object->getObjectNamespace()));
+    }
 
-	
-	
-	/**
-	 * return parameters by given namespace
-	 * 
-	 * @param string $namespace
-	 * @return array
-	 */
-	public function getParametersByNamespace($namespace) {
-		return $this->extractPgVarsByNamespace($namespace);
-	}
-	
-	
-	
-	/**
-	 * return getVares by Namspace
-	 * 
-	 * @param string $nameSpace
-	 * @return array
-	 */
-	public function getGetVarsByNamespace($nameSpace) {
-		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getVars, $nameSpace);
-	}
-	
-	
-	
-	/**
-	 * return postVars by Namespace
-	 * 
-	 * @param string $nameSpace
-	 * @return array
-	 */
-	public function getPostVarsByNamespace($nameSpace) {
-		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->postVars, $nameSpace);
-	}
-	
-	
-	
-	/**
-	 * returns filesVars ($_FILES) by Namespace
-	 *
-	 * @param string $nameSpace
-	 * @return array
-	 */
-	public function getFilesVarsByNamespace($nameSpace) {
-		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->filesVars, $nameSpace);
-	}
-	
-	
-	
-	/**
-	 * Extracts merged GP vars for a given namespace. Merges Get vars over Post vars
-	 *
-	 * @param string $namespace
-	 * @return array Merged get and post vars for given namespace
-	 */
-	public function extractGpVarsByNamespace($namespace) {	
-		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getMergedGpVars(), $namespace); 
-	}
-
-	
-	
-	/**
-	 * Extracts merged GP vars for a given namespace. Merges Post vars over Get vars
+    
+    
+    /**
+     * return parameters by given namespace
+     * 
+     * @param string $namespace
+     * @return array
+     */
+    public function getParametersByNamespace($namespace)
+    {
+        return $this->extractPgVarsByNamespace($namespace);
+    }
+    
+    
+    
+    /**
+     * return getVares by Namspace
+     * 
+     * @param string $nameSpace
+     * @return array
+     */
+    public function getGetVarsByNamespace($nameSpace)
+    {
+        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getVars, $nameSpace);
+    }
+    
+    
+    
+    /**
+     * return postVars by Namespace
+     * 
+     * @param string $nameSpace
+     * @return array
+     */
+    public function getPostVarsByNamespace($nameSpace)
+    {
+        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->postVars, $nameSpace);
+    }
+    
+    
+    
+    /**
+     * returns filesVars ($_FILES) by Namespace
+     *
+     * @param string $nameSpace
+     * @return array
+     */
+    public function getFilesVarsByNamespace($nameSpace)
+    {
+        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->filesVars, $nameSpace);
+    }
+    
+    
+    
+    /**
+     * Extracts merged GP vars for a given namespace. Merges Get vars over Post vars
      *
      * @param string $namespace
      * @return array Merged get and post vars for given namespace
-	 */
-	public function extractPgVarsByNamespace($namespace) {
-		return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getMergedPgVars(), $namespace);
-	}
-	
-	
-	
-	/**
-	 * Merges Post vars over Get vars
-	 * 
-	 * @return array Merged get and post vars
-	 */
-	protected function getMergedPgVars() {
-		if(!is_array($this->postGetVars)) {
-			$this->postGetVars = $this->postVars;	
-			if (is_array($this->getVars) && is_array($this->postVars)) {
-				$this->postGetVars = $this->getVars;
-				ArrayUtility::mergeRecursiveWithOverrule($this->postGetVars, $this->postVars);
-			}
-		}
-		
-		return $this->postGetVars;
-	}
-	
-	
-	
-	
-	/**
-	 * Merges Get vars over Post vars
-	 * 
-	 * @return array Merged get and post vars
-	 */
-	protected function getMergedGpVars() {
-		if(!is_array($this->getPostVars)) {
-			
-			$this->getPostVars = $this->getVars;	
-			if (is_array($this->getVars) && is_array($this->postVars)) {
-				$this->getPostVars = $this->postVars;
-				ArrayUtility::mergeRecursiveWithOverrule($this->getPostVars, $this->getVars);
-			}
-				
-		}
-		
-		return $this->getPostVars;
-	}
-	
-	
-	
-	/**
-	 * @return string
-	 */
-	public function getExtensionNameSpace() {
-		return $this->extensionNameSpace;
-	}
+     */
+    public function extractGpVarsByNamespace($namespace)
+    {
+        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getMergedGpVars(), $namespace);
+    }
+
+    
+    
+    /**
+     * Extracts merged GP vars for a given namespace. Merges Post vars over Get vars
+     *
+     * @param string $namespace
+     * @return array Merged get and post vars for given namespace
+     */
+    public function extractPgVarsByNamespace($namespace)
+    {
+        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->getMergedPgVars(), $namespace);
+    }
+    
+    
+    
+    /**
+     * Merges Post vars over Get vars
+     * 
+     * @return array Merged get and post vars
+     */
+    protected function getMergedPgVars()
+    {
+        if (!is_array($this->postGetVars)) {
+            $this->postGetVars = $this->postVars;
+            if (is_array($this->getVars) && is_array($this->postVars)) {
+                $this->postGetVars = $this->getVars;
+                ArrayUtility::mergeRecursiveWithOverrule($this->postGetVars, $this->postVars);
+            }
+        }
+        
+        return $this->postGetVars;
+    }
+    
+    
+    
+    
+    /**
+     * Merges Get vars over Post vars
+     * 
+     * @return array Merged get and post vars
+     */
+    protected function getMergedGpVars()
+    {
+        if (!is_array($this->getPostVars)) {
+            $this->getPostVars = $this->getVars;
+            if (is_array($this->getVars) && is_array($this->postVars)) {
+                $this->getPostVars = $this->postVars;
+                ArrayUtility::mergeRecursiveWithOverrule($this->getPostVars, $this->getVars);
+            }
+        }
+        
+        return $this->getPostVars;
+    }
+    
+    
+    
+    /**
+     * @return string
+     */
+    public function getExtensionNameSpace()
+    {
+        return $this->extensionNameSpace;
+    }
 
 
 
@@ -277,7 +288,8 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
      * @param bool $includingFileVars If set to true, submitted values in $_FILES are also checked
      * @return bool True, if there are no gpvars in current request.
      */
-    public function isEmptySubmit($includingFileVars = false) {
+    public function isEmptySubmit($includingFileVars = false)
+    {
         if ($includingFileVars && count($this->filesVars) > 0) {
             return false;
         } elseif (count($this->getVars) == 0 && count($this->postVars) == 0) {
@@ -286,5 +298,4 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter {
             return false;
         }
     }
-	
 }

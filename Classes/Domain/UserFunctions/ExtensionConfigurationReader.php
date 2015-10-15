@@ -28,35 +28,34 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @package PunktDe\PtExtbase\Domain\UserFunctions
  */
-class ExtensionConfigurationReader implements SingletonInterface {
+class ExtensionConfigurationReader implements SingletonInterface
+{
+    /**
+     * @var \Tx_PtExtbase_Utility_ExtensionSettings
+     */
+    protected $extensionSettings;
 
-	/**
-	 * @var \Tx_PtExtbase_Utility_ExtensionSettings
-	 */
-	protected $extensionSettings;
-
-	/**
-	 * @param string $content
-	 * @param array $conf
-	 *
-	 * @return string
-	 * @throws \Exception
-	 */
-	public function getValueFromExtensionSettings($content = '', $conf = array()) {
-		$this->extensionSettings = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_ExtensionSettings');
+    /**
+     * @param string $content
+     * @param array $conf
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function getValueFromExtensionSettings($content = '', $conf = array())
+    {
+        $this->extensionSettings = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_ExtensionSettings');
 
 
-		$conf = $conf['userFunc.'];
+        $conf = $conf['userFunc.'];
 
-		$extensionName = $conf['extensionName'];
-		$settingName = $conf['settingName'];
+        $extensionName = $conf['extensionName'];
+        $settingName = $conf['settingName'];
 
-		if (!$settingName || !$extensionName) {
-			throw new \Exception('You need to provide extensionName and settingName in the userFunc settings!', 1439383004);
-		}
+        if (!$settingName || !$extensionName) {
+            throw new \Exception('You need to provide extensionName and settingName in the userFunc settings!', 1439383004);
+        }
 
-		return $this->extensionSettings->getKeyFromExtensionSettings($extensionName, $settingName);
-
-	}
-
+        return $this->extensionSettings->getKeyFromExtensionSettings($extensionName, $settingName);
+    }
 }

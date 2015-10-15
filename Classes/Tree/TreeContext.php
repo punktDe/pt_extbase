@@ -29,68 +29,72 @@
  * @package Tree
  * @author Daniel Lienert
  */
-class Tx_PtExtbase_Tree_TreeContext implements \TYPO3\CMS\Core\SingletonInterface {
-
-	/**
-	 * @var $bool
-	 */
-	protected $writable = FALSE;
-
-
-
-	/**
-	 * @return void
-	 */
-	public function initializeObject() {
-		$this->resetToDefault();
-	}
+class Tx_PtExtbase_Tree_TreeContext implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * @var $bool
+     */
+    protected $writable = false;
 
 
 
-	/**
-	 * @return void
-	 */
-	public function resetToDefault() {
-		if(TYPO3_MODE === 'BE' || TYPO3_AJAX) {
-			$this->writable = TRUE;
-		}
-	}
+    /**
+     * @return void
+     */
+    public function initializeObject()
+    {
+        $this->resetToDefault();
+    }
 
 
 
-	/**
-	 * @param  $writable
-	 */
-	public function setWritable($writable) {
-		$this->writable = $writable;
-	}
+    /**
+     * @return void
+     */
+    public function resetToDefault()
+    {
+        if (TYPO3_MODE === 'BE' || TYPO3_AJAX) {
+            $this->writable = true;
+        }
+    }
 
 
 
-	/**
-	 * @return boolean
-	 */
-	public function isWritable() {
-		return $this->writable;
-	}
+    /**
+     * @param  $writable
+     */
+    public function setWritable($writable)
+    {
+        $this->writable = $writable;
+    }
 
 
 
-	/**
-	 * @return bool
-	 */
-	public function respectEnableFields() {
-		return !$this->isWritable();
-	}
+    /**
+     * @return boolean
+     */
+    public function isWritable()
+    {
+        return $this->writable;
+    }
 
 
 
-	/**
-	 * @param boolean $respectEnableFields
-	 */
-	public function setRespectEnableFields($respectEnableFields) {
-		$this->writable = !$respectEnableFields;
-	}
+    /**
+     * @return bool
+     */
+    public function respectEnableFields()
+    {
+        return !$this->isWritable();
+    }
 
+
+
+    /**
+     * @param boolean $respectEnableFields
+     */
+    public function setRespectEnableFields($respectEnableFields)
+    {
+        $this->writable = !$respectEnableFields;
+    }
 }
-?>

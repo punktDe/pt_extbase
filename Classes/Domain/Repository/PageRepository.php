@@ -30,93 +30,97 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
  * @subpackage Repository
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
+class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
+    /**
+     * Constructor of the repository.
+     * Sets the respect storage page to false.
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     */
+    public function __construct()
+    {
+        parent::__construct(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager'));
+
+        $this->defaultQuerySettings = new \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings();
+        $this->defaultQuerySettings->setRespectStoragePage(false);
+        $this->defaultQuerySettings->setRespectSysLanguage(false);
+    }
 
 
-	/**
-	 * Constructor of the repository.
-	 * Sets the respect storage page to false.
-	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
-	 */
-	public function __construct() {
-		 parent::__construct(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager'));
+    /**
+     * @param $pid
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findPagesInPid($pid)
+    {
+        $query = $this->createQuery();
 
-		 $this->defaultQuerySettings = new \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings();
-		 $this->defaultQuerySettings->setRespectStoragePage(FALSE);
-		 $this->defaultQuerySettings->setRespectSysLanguage(FALSE);
-	}
+        $query->setOrderings(array('sorting' => QueryInterface::ORDER_ASCENDING));
 
-
-	/**
-	 * @param $pid
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findPagesInPid($pid) {
-		$query = $this->createQuery();
-
-		$query->setOrderings(array('sorting' => QueryInterface::ORDER_ASCENDING));
-
-		$pages = $query->matching(
-			$query->equals('pid', $pid)
-		)
-		->execute();
-		return $pages;
-	}
+        $pages = $query->matching(
+            $query->equals('pid', $pid)
+        )
+        ->execute();
+        return $pages;
+    }
 
 
-	/**
-	 * @param $pid
-	 * @param $doktype
-	 * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
-	 */
-	public function findByPidAndDoktypeOrderBySorting($pid, $doktype) {
-		$query = $this->createQuery();
+    /**
+     * @param $pid
+     * @param $doktype
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findByPidAndDoktypeOrderBySorting($pid, $doktype)
+    {
+        $query = $this->createQuery();
 
-		$query->setOrderings(array('sorting' => QueryInterface::ORDER_ASCENDING));
+        $query->setOrderings(array('sorting' => QueryInterface::ORDER_ASCENDING));
 
-		$pages = $query->matching(
-			$query->logicalAnd(
-				$query->equals('pid', $pid),
-				$query->equals('doktype', $doktype)
-			)
-		)->execute();
-		return $pages;
-	}
-
-
-	/**
-	 * @param $uid
-	 * @return array
-	 */
-	public function getPageTreeFromRootPageUid($uid, $respectEnableFields = TRUE, $respectDeletedField = TRUE) {
-		$rootPage = $this->findByUid($uid);
-
-		$uidTreeList = array($uid => array('pageObject' => $rootPage));
-
-		$uidTreeList[$uid]['subPages'] = $this->getSubpagesOfUid($uid, $respectEnableFields, $respectDeletedField);
-
-		return $uidTreeList;
-	}
+        $pages = $query->matching(
+            $query->logicalAnd(
+                $query->equals('pid', $pid),
+                $query->equals('doktype', $doktype)
+            )
+        )->execute();
+        return $pages;
+    }
 
 
-	/**
-	 * @param $uid
-	 * @param array $pageTree
-	 *
-	 * @return array
-	 */
-	protected function getSubpagesOfUid($uid, $respectEnableFields, $respectDeletedField, $pageTree = array()) {
-		$this->defaultQuerySettings->setIgnoreEnableFields(!$respectEnableFields);
-		$this->defaultQuerySettings->setIncludeDeleted(!$respectDeletedField);
+    /**
+     * @param $uid
+     * @return array
+     */
+    public function getPageTreeFromRootPageUid($uid, $respectEnableFields = true, $respectDeletedField = true)
+    {
+        $rootPage = $this->findByUid($uid);
 
-		$pageTree = $this->findPagesInPid($uid);
-		$returnArray = array();
+        $uidTreeList = array($uid => array('pageObject' => $rootPage));
 
-		foreach ($pageTree as $page) {
-			$returnArray[$page->getUid()]['pageObject'] = $page;
-			$returnArray[$page->getUid()]['subPages'] = $this->getSubpagesOfUid($page->getUid(), $respectEnableFields, $respectDeletedField, $pageTree);
-		}
+        $uidTreeList[$uid]['subPages'] = $this->getSubpagesOfUid($uid, $respectEnableFields, $respectDeletedField);
 
-		return $returnArray;
-	}
+        return $uidTreeList;
+    }
+
+
+    /**
+     * @param $uid
+     * @param array $pageTree
+     *
+     * @return array
+     */
+    protected function getSubpagesOfUid($uid, $respectEnableFields, $respectDeletedField, $pageTree = array())
+    {
+        $this->defaultQuerySettings->setIgnoreEnableFields(!$respectEnableFields);
+        $this->defaultQuerySettings->setIncludeDeleted(!$respectDeletedField);
+
+        $pageTree = $this->findPagesInPid($uid);
+        $returnArray = array();
+
+        foreach ($pageTree as $page) {
+            $returnArray[$page->getUid()]['pageObject'] = $page;
+            $returnArray[$page->getUid()]['subPages'] = $this->getSubpagesOfUid($page->getUid(), $respectEnableFields, $respectDeletedField, $pageTree);
+        }
+
+        return $returnArray;
+    }
 }

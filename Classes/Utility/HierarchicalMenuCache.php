@@ -90,173 +90,175 @@
  * @author Michael Knoll <knoll@punkt.de>
  * @package Utility
  */
-abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends \TYPO3\CMS\Frontend\ContentObject\HierarchicalMenuContentObject {
+abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends \TYPO3\CMS\Frontend\ContentObject\HierarchicalMenuContentObject
+{
+    /**
+     * Cache entry identifier
+     *
+     * Set this in your extending class!
+     */
+    protected static $CACHE_KEY = null;
 
 
-	/**
-	 * Cache entry identifier
-	 *
-	 * Set this in your extending class!
-	 */
-	protected static  $CACHE_KEY = NULL;
+    /**
+     * Cache identifier for caching framework
+     *
+     * Set this in your extending class!
+     */
+    protected static $CACHE_NAMESPACE = null;
 
 
-	/**
-	 * Cache identifier for caching framework
-	 *
-	 * Set this in your extending class!
-	 */
-	protected static $CACHE_NAMESPACE = NULL;
+    /**
+     * Set default lifetime of cache entries to 2h
+     *
+     * @var integer
+     */
+    protected static $lifetime = 7200;
 
 
-	/**
-	 * Set default lifetime of cache entries to 2h
-	 *
-	 * @var integer
-	 */
-	protected static $lifetime = 7200;
+    /**
+     * @var \TYPO3\CMS\Core\Cache\Backend\BackendInterface
+     */
+    private $cache;
 
 
-	/**
-	 * @var \TYPO3\CMS\Core\Cache\Backend\BackendInterface
-	 */
-	private $cache;
+    /**
+     * @var \TYPO3\CMS\Core\Cache\CacheManager
+     */
+    private $cacheManager;
 
 
-	/**
-	 * @var \TYPO3\CMS\Core\Cache\CacheManager
-	 */
-	private $cacheManager;
-
-
-	/**
-	 * @var \TYPO3\CMS\Core\Cache\CacheFactory
-	 */
-	private $cacheFactory;
-
-
-
-	/**
-	 * Returns the name of the cache to be used for hierarchical menu caching
-	 *
-	 * @throws Exception if $CACHE_KEY is not set in extending class
-	 * @return string
-	 */
-	public static function CACHE_KEY() {
-		if (static::$CACHE_KEY !== NULL) {
-			return static::$CACHE_KEY;
-		} else {
-			throw new Exception('You have to set $CACHE_KEY as a property of your extending class!', 1370593165);
-		}
-	}
+    /**
+     * @var \TYPO3\CMS\Core\Cache\CacheFactory
+     */
+    private $cacheFactory;
 
 
 
-	/**
-	 * Returns the namespace of the cache entries used for hierarchical menu caching
-	 *
-	 * @return string
-	 * @throws Exception if $CACHE_NAMESPACE is not set in extending class
-	 */
-	public static function CACHE_NAMESPACE() {
-		if (static::$CACHE_NAMESPACE !== NULL) {
-			return static::$CACHE_NAMESPACE;
-		} else {
-			throw new Exception('You have to set $CACHE_NAMESPACE as a static property of your extending class!', 1370593166);
-		}
-	}
+    /**
+     * Returns the name of the cache to be used for hierarchical menu caching
+     *
+     * @throws Exception if $CACHE_KEY is not set in extending class
+     * @return string
+     */
+    public static function CACHE_KEY()
+    {
+        if (static::$CACHE_KEY !== null) {
+            return static::$CACHE_KEY;
+        } else {
+            throw new Exception('You have to set $CACHE_KEY as a property of your extending class!', 1370593165);
+        }
+    }
 
 
 
-	/**
-	 * Rendering the cObject, HMENU
-	 *
-	 * @param	array		Array of TypoScript properties
-	 * @return	string		Output
-	 */
-	public function render($conf = array()) {
-		$this->initializeCache();
-
-		$cacheLifetime = static::$lifetime;
-
-		// Check for different cache lifetime
-		if (!empty($conf['cachingTtl']) && intval($conf['cachingTtl']) > 0) {
-			$cacheLifetime = intval($conf['cachingTtl']);
-		}
-
-		// Check whether cached menu exists
-		$cacheIdentifierHash = $this->createMenuCacheHashEntry($conf);
-		$renderedMenu = $this->cache->get($cacheIdentifierHash);
-
-		// Render and cache menu if no cache entry exists
-		if ($renderedMenu === FALSE) {
-			$renderedMenu = parent::render($conf);
-			$this->cache->set($cacheIdentifierHash, $renderedMenu, array(), $cacheLifetime);
-		}
-
-		return $renderedMenu;
-
-	}
+    /**
+     * Returns the namespace of the cache entries used for hierarchical menu caching
+     *
+     * @return string
+     * @throws Exception if $CACHE_NAMESPACE is not set in extending class
+     */
+    public static function CACHE_NAMESPACE()
+    {
+        if (static::$CACHE_NAMESPACE !== null) {
+            return static::$CACHE_NAMESPACE;
+        } else {
+            throw new Exception('You have to set $CACHE_NAMESPACE as a static property of your extending class!', 1370593166);
+        }
+    }
 
 
 
-	/**
-	 * Creates a cache tag for the menu cache entries.
-	 *
-	 * @param array $conf TS configuration for hmenu
-	 * @return string
-	 */
-	protected function createMenuCacheHashEntry($conf) {
-		$cacheTagIngredients = array();
+    /**
+     * Rendering the cObject, HMENU
+     *
+     * @param	array		Array of TypoScript properties
+     * @return	string		Output
+     */
+    public function render($conf = array())
+    {
+        $this->initializeCache();
 
-		// Get FE groups of currently logged in user for hash tag
-		if (!empty($GLOBALS['TSFE']->fe_user->user['usergroup'])) {
-			$feGroups = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TSFE']->fe_user->user['usergroup']);
-			sort($feGroups);
-			$cacheTagIngredients[] = $feGroups;
-		}
+        $cacheLifetime = static::$lifetime;
 
-		$cacheTagIngredients[] = $_SERVER['SERVER_NAME'];
-		$cacheTagIngredients[] = $conf;
+        // Check for different cache lifetime
+        if (!empty($conf['cachingTtl']) && intval($conf['cachingTtl']) > 0) {
+            $cacheLifetime = intval($conf['cachingTtl']);
+        }
 
-		$cacheTagIngredients = $this->modifyCacheTagIngredients($cacheTagIngredients, $conf);
+        // Check whether cached menu exists
+        $cacheIdentifierHash = $this->createMenuCacheHashEntry($conf);
+        $renderedMenu = $this->cache->get($cacheIdentifierHash);
 
-		// Merge hash tag
-		$hashTag = static::$CACHE_KEY . md5(serialize($cacheTagIngredients)) . '_' . $GLOBALS['TSFE']->sys_language_uid;
+        // Render and cache menu if no cache entry exists
+        if ($renderedMenu === false) {
+            $renderedMenu = parent::render($conf);
+            $this->cache->set($cacheIdentifierHash, $renderedMenu, array(), $cacheLifetime);
+        }
 
-		return $hashTag;
-
-	}
-
-
-
-	/**
-	 * Template method for modifying the ingredients of the hash tag
-	 * generated for the cache entry.
-	 *
-	 * @param array $cacheTagIngredients Array of default ingredients
-	 * @param array $conf Configuration of currently rendered menu
-	 * @return array The modified array
-	 */
-	protected function modifyCacheTagIngredients(array $cacheTagIngredients, $conf) {
-		return $cacheTagIngredients;
-	}
+        return $renderedMenu;
+    }
 
 
 
-	private function initializeCache() {
-		$this->cacheManager = $GLOBALS['typo3CacheManager'];
-		$this->cacheFactory = $GLOBALS['typo3CacheFactory'];
-		try {
-			$this->cache = $this->cacheManager->getCache(static::$CACHE_NAMESPACE);
-		} catch (\TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException $e) {
-			$this->cache = $this->cacheFactory->create(
-				static::$CACHE_NAMESPACE,
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][static::$CACHE_NAMESPACE]['frontend'],
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][static::$CACHE_NAMESPACE]['backend'],
-				$GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][static::$CACHE_NAMESPACE]['options']
-			);
-		}
-	}
+    /**
+     * Creates a cache tag for the menu cache entries.
+     *
+     * @param array $conf TS configuration for hmenu
+     * @return string
+     */
+    protected function createMenuCacheHashEntry($conf)
+    {
+        $cacheTagIngredients = array();
 
+        // Get FE groups of currently logged in user for hash tag
+        if (!empty($GLOBALS['TSFE']->fe_user->user['usergroup'])) {
+            $feGroups = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TSFE']->fe_user->user['usergroup']);
+            sort($feGroups);
+            $cacheTagIngredients[] = $feGroups;
+        }
+
+        $cacheTagIngredients[] = $_SERVER['SERVER_NAME'];
+        $cacheTagIngredients[] = $conf;
+
+        $cacheTagIngredients = $this->modifyCacheTagIngredients($cacheTagIngredients, $conf);
+
+        // Merge hash tag
+        $hashTag = static::$CACHE_KEY . md5(serialize($cacheTagIngredients)) . '_' . $GLOBALS['TSFE']->sys_language_uid;
+
+        return $hashTag;
+    }
+
+
+
+    /**
+     * Template method for modifying the ingredients of the hash tag
+     * generated for the cache entry.
+     *
+     * @param array $cacheTagIngredients Array of default ingredients
+     * @param array $conf Configuration of currently rendered menu
+     * @return array The modified array
+     */
+    protected function modifyCacheTagIngredients(array $cacheTagIngredients, $conf)
+    {
+        return $cacheTagIngredients;
+    }
+
+
+
+    private function initializeCache()
+    {
+        $this->cacheManager = $GLOBALS['typo3CacheManager'];
+        $this->cacheFactory = $GLOBALS['typo3CacheFactory'];
+        try {
+            $this->cache = $this->cacheManager->getCache(static::$CACHE_NAMESPACE);
+        } catch (\TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException $e) {
+            $this->cache = $this->cacheFactory->create(
+                static::$CACHE_NAMESPACE,
+                $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][static::$CACHE_NAMESPACE]['frontend'],
+                $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][static::$CACHE_NAMESPACE]['backend'],
+                $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][static::$CACHE_NAMESPACE]['options']
+            );
+        }
+    }
 }

@@ -30,174 +30,189 @@
  * @author Daniel Lienert
  * @see Tx_PtExtbase_Service_HashFileSystemService
  */
-class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-
-	/**
-	 * @var string
-	 */
-	protected $testDirectoryRoot;
-
-
-	/**
-	 * @var Tx_PtExtbase_Service_HashFileSystemService
-	 */
-	protected $hashFileSystemService;
+class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var string
+     */
+    protected $testDirectoryRoot;
 
 
-
-	/**
-	 * Initialize the test data
-	 */
-	public function setUp() {
-		parent::setUp();
-
-		$this->testDirectoryRoot = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'HashFileSystemServiceTest'));
-		if(file_exists($this->testDirectoryRoot)) Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->testDirectoryRoot);
-		$this->hashFileSystemService = new Tx_PtExtbase_Service_HashFileSystemService($this->testDirectoryRoot);
-	}
+    /**
+     * @var Tx_PtExtbase_Service_HashFileSystemService
+     */
+    protected $hashFileSystemService;
 
 
 
-	public function tearDown() {
-		if(file_exists($this->testDirectoryRoot)) Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->testDirectoryRoot);
-	}
+    /**
+     * Initialize the test data
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->testDirectoryRoot = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'HashFileSystemServiceTest'));
+        if (file_exists($this->testDirectoryRoot)) {
+            Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->testDirectoryRoot);
+        }
+        $this->hashFileSystemService = new Tx_PtExtbase_Service_HashFileSystemService($this->testDirectoryRoot);
+    }
 
 
 
-	/**
-	 * @test
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function getDirectoryHashPathThrowsExceptionIfNoAstIdIsGiven() {
-		$this->hashFileSystemService->getHashPath(0);
-	}
+    public function tearDown()
+    {
+        if (file_exists($this->testDirectoryRoot)) {
+            Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->testDirectoryRoot);
+        }
+    }
 
 
 
-	public function hashFileSystemDataProvider() {
-		return array(
-			'1Digit' => array('astId' => 1, 'expectedPath' => '/1/1/1'),
-			'multipleDigits' => array('astId' => 79784646, 'expectedPath' => '/6/46/79784646'),
-		);
-	}
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function getDirectoryHashPathThrowsExceptionIfNoAstIdIsGiven()
+    {
+        $this->hashFileSystemService->getHashPath(0);
+    }
 
 
 
-	/**
-	 * @test
-	 * @dataProvider hashFileSystemDataProvider
-	 * @param $astId
-	 * @param $expectedPath
-	 */
-	public function getHashPath($astId, $expectedPath) {
-		$expectedPath = $this->testDirectoryRoot . $expectedPath;
-
-		$path = $this->hashFileSystemService->getHashPath($astId, TRUE);
-		$this->assertEquals($expectedPath, $path);
-
-		$this->assertFileExists($expectedPath);
-	}
+    public function hashFileSystemDataProvider()
+    {
+        return array(
+            '1Digit' => array('astId' => 1, 'expectedPath' => '/1/1/1'),
+            'multipleDigits' => array('astId' => 79784646, 'expectedPath' => '/6/46/79784646'),
+        );
+    }
 
 
 
-	/**
-	 * @test
-	 */
-	public function getDirectoryListing() {
-		$astId = 123456;
-		$path = $this->hashFileSystemService->getHashPath($astId, TRUE);
+    /**
+     * @test
+     * @dataProvider hashFileSystemDataProvider
+     * @param $astId
+     * @param $expectedPath
+     */
+    public function getHashPath($astId, $expectedPath)
+    {
+        $expectedPath = $this->testDirectoryRoot . $expectedPath;
 
-		$expectedFileNames = array('file 1.txt', 'Gedoens.xls', 'file3.pdf');
-		sort($expectedFileNames);
-		$expectedFullPathFileNames = array();
+        $path = $this->hashFileSystemService->getHashPath($astId, true);
+        $this->assertEquals($expectedPath, $path);
 
-		foreach($expectedFileNames as $key => $fileName) {
-			$expectedFullPathFileNames[$key] = $path . '/' . $fileName;
-			touch($expectedFullPathFileNames[$key]);
-		}
-
-		$directoryListing = $this->hashFileSystemService->getDirectoryListing($astId);
-		sort($directoryListing);
-
-		$this->assertEquals($expectedFullPathFileNames, $directoryListing);
-	}
+        $this->assertFileExists($expectedPath);
+    }
 
 
 
-	/**
-	 * @test
-	 */
-	public function fileExistsTest() {
-		$path = $this->hashFileSystemService->getHashPath(123456, TRUE);
-		touch($path . '/' . 'test.pdf');
+    /**
+     * @test
+     */
+    public function getDirectoryListing()
+    {
+        $astId = 123456;
+        $path = $this->hashFileSystemService->getHashPath($astId, true);
 
-		$this->assertFalse($this->hashFileSystemService->fileExists(123, 'test.pdf'));
-		$this->assertTrue($this->hashFileSystemService->fileExists(123456, 'test.pdf'));
-	}
+        $expectedFileNames = array('file 1.txt', 'Gedoens.xls', 'file3.pdf');
+        sort($expectedFileNames);
+        $expectedFullPathFileNames = array();
 
+        foreach ($expectedFileNames as $key => $fileName) {
+            $expectedFullPathFileNames[$key] = $path . '/' . $fileName;
+            touch($expectedFullPathFileNames[$key]);
+        }
 
-	/**
-	 * @test
-	 */
-	public function getFilePath() {
-		$path = $this->hashFileSystemService->getHashPath(123456, TRUE);
-		touch($path . '/' . 'test.pdf');
-		
-		$actual = $this->hashFileSystemService->getFilePath(123456, 'test.pdf');
-		$this->assertEquals($this->testDirectoryRoot . '/6/56/123456/test.pdf', $actual);
-	}
-	
-	
-	/**
-	 * @test
-	 */
-	public function storeFile() {
-		$testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'test.pdf'));
-		touch($testFile);
-		$this->hashFileSystemService->storeFile(1234, $testFile);
+        $directoryListing = $this->hashFileSystemService->getDirectoryListing($astId);
+        sort($directoryListing);
 
-		$expectedFileLocation = $this->hashFileSystemService->getHashPath(1234) . '/test.pdf';
-
-		$this->assertFileExists($expectedFileLocation);
-	}
+        $this->assertEquals($expectedFullPathFileNames, $directoryListing);
+    }
 
 
 
-	/**
-	 * @test
-	 */
-	public function removeFile() {
-		$expectedFileLocation = $this->hashFileSystemService->getHashPath(1234) . '/test.pdf';
-		$this->assertFileNotExists($expectedFileLocation);
+    /**
+     * @test
+     */
+    public function fileExistsTest()
+    {
+        $path = $this->hashFileSystemService->getHashPath(123456, true);
+        touch($path . '/' . 'test.pdf');
 
-		$testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'test.pdf'));
-		touch($testFile);
-
-		$this->hashFileSystemService->storeFile(1234, $testFile);
-		$this->assertFileExists($expectedFileLocation);
-
-		$this->hashFileSystemService->removeFile(1234, 'test.pdf');
-		$this->assertFileNotExists($expectedFileLocation);
-	}
+        $this->assertFalse($this->hashFileSystemService->fileExists(123, 'test.pdf'));
+        $this->assertTrue($this->hashFileSystemService->fileExists(123456, 'test.pdf'));
+    }
 
 
-	/**
-	 * @test
-	 */
-	public function removeStoreDirectory() {
-		$path = $this->hashFileSystemService->getHashPath(123456, TRUE);
-		$this->assertFileExists($path);
-		$this->hashFileSystemService->removeStoreDirectory(123456);
-		$this->assertFileNotExists($path);
-	}
+    /**
+     * @test
+     */
+    public function getFilePath()
+    {
+        $path = $this->hashFileSystemService->getHashPath(123456, true);
+        touch($path . '/' . 'test.pdf');
+        
+        $actual = $this->hashFileSystemService->getFilePath(123456, 'test.pdf');
+        $this->assertEquals($this->testDirectoryRoot . '/6/56/123456/test.pdf', $actual);
+    }
+    
+    
+    /**
+     * @test
+     */
+    public function storeFile()
+    {
+        $testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'test.pdf'));
+        touch($testFile);
+        $this->hashFileSystemService->storeFile(1234, $testFile);
+
+        $expectedFileLocation = $this->hashFileSystemService->getHashPath(1234) . '/test.pdf';
+
+        $this->assertFileExists($expectedFileLocation);
+    }
 
 
-	/**
-	 * @test
-	 */
-	public function removeHasFileSystemCompletely() {
-		$this->hashFileSystemService->removeHasFileSystemCompletely();
-		$this->assertFalse(is_dir($this->testDirectoryRoot));
-	}
 
+    /**
+     * @test
+     */
+    public function removeFile()
+    {
+        $expectedFileLocation = $this->hashFileSystemService->getHashPath(1234) . '/test.pdf';
+        $this->assertFileNotExists($expectedFileLocation);
+
+        $testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'test.pdf'));
+        touch($testFile);
+
+        $this->hashFileSystemService->storeFile(1234, $testFile);
+        $this->assertFileExists($expectedFileLocation);
+
+        $this->hashFileSystemService->removeFile(1234, 'test.pdf');
+        $this->assertFileNotExists($expectedFileLocation);
+    }
+
+
+    /**
+     * @test
+     */
+    public function removeStoreDirectory()
+    {
+        $path = $this->hashFileSystemService->getHashPath(123456, true);
+        $this->assertFileExists($path);
+        $this->hashFileSystemService->removeStoreDirectory(123456);
+        $this->assertFileNotExists($path);
+    }
+
+
+    /**
+     * @test
+     */
+    public function removeHasFileSystemCompletely()
+    {
+        $this->hashFileSystemService->removeHasFileSystemCompletely();
+        $this->assertFalse(is_dir($this->testDirectoryRoot));
+    }
 }

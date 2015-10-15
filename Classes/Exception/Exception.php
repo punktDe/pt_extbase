@@ -31,8 +31,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author      Michael Knoll
  * @package     Exception
  */
-class Tx_PtExtbase_Exception_Exception extends Exception {
-    
+class Tx_PtExtbase_Exception_Exception extends Exception
+{
     /*
     // Dev Info: Class structure of parent class (PHP5's default Exception):
     
@@ -54,11 +54,11 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
         // Overrideable
         function __toString();                      // formatted string for display
     }
-    */    
-	
-	
-	
-	/**
+    */
+    
+    
+    
+    /**
      * @const   integer     constant for database error exception
      */
     const EXCP_DATABASE = 1;
@@ -91,8 +91,8 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
      */
     const EXCP_WEBSERVICE = 5;
 
-	
-	
+    
+    
     /**
      * @var     string      additional detailed debug message
      */
@@ -123,7 +123,8 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
      * @return  integer   DEPRECATED: optional error code, see EXCP_* class constants (currently: 1=DATABASE ERR, 2=CONFIG ERR, 3=INTERNAL ERR, 4=AUTH ERR, 5=WEBSERVICE ERR) - DEPRECATED for public usage: use special exception classes in res/objects/exceptions/ instead!
      * @param   string    optional detailed debug message (not used for frontend display). For database errors (error code 1) the last TYPO3 DB SQL error is set to the debug message by default. To suppress this or to trace another DB object's SQL error use the third param to replace this default.
      */
-    public function __construct($errMsg='', $errCode=0, $debugMsg='') {
+    public function __construct($errMsg='', $errCode=0, $debugMsg='')
+    {
         $this->debugMsg = $debugMsg;
         
         // handle different error types ("old" switch structure remains for backwards compatibility)
@@ -151,14 +152,14 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
         // write to devlog
         if (TYPO3_DLOG) {
             GeneralUtility::devLog(
-                $this->getMessage(), 
-                'pt_extbase', 
+                $this->getMessage(),
+                'pt_extbase',
                 1, // "notice"
                 array(
-                    'exceptionClass' => get_class($this), 
-                    'debugMsg' => $this->debugMsg, 
-                    'file' => $this->getFile(), 
-                    'line' => $this->getLine(), 
+                    'exceptionClass' => get_class($this),
+                    'debugMsg' => $this->debugMsg,
+                    'file' => $this->getFile(),
+                    'line' => $this->getLine(),
                     'code' => $this->getCode(),
                     'trace' => $this->getTraceAsString(),
                 )
@@ -167,7 +168,6 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
         
         // call parent constructor to make sure everything is assigned properly
         parent::__construct($errMsg, $errCode);
-        
     }
     
     
@@ -178,11 +178,10 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
      * @param   void       
      * @return  string      Error type and error display message
      */
-    public function __toString() {
-        
+    public function __toString()
+    {
         $displayString = '[' . $this->errType.(!empty($this->message) ? ': '.$this->message : '!') . ']';
         return $displayString;
-        
     }
     
     
@@ -193,46 +192,46 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
      * @param   void       
      * @return  void
      */
-	public function handle() {
+    public function handle()
+    {
+        $traceString =
+            'Error Type     : '.$this->errType.chr(10).
+            'Exception Class: '.get_class($this).chr(10).
+            'Error Message  : '.$this->getMessage().chr(10).
+            (!empty($this->debugMsg) ? 'Debug Message  : '.$this->debugMsg.chr(10) : '').
+            'Stack Trace    : '.chr(10).$this->getTraceAsString().chr(10).chr(10)
+        ;
 
-		$traceString =
-			'Error Type     : '.$this->errType.chr(10).
-			'Exception Class: '.get_class($this).chr(10).
-			'Error Message  : '.$this->getMessage().chr(10).
-			(!empty($this->debugMsg) ? 'Debug Message  : '.$this->debugMsg.chr(10) : '').
-			'Stack Trace    : '.chr(10).$this->getTraceAsString().chr(10).chr(10)
-		;
+        // write to TYPO3 devlog
+        if (TYPO3_DLOG) {
+            GeneralUtility::devLog(
+                $this->getMessage(),
+                'pt_extbase',
+                3, // "error"
+                array(
+                    'exceptionClass' => get_class($this),
+                    'debugMsg' => $this->debugMsg,
+                    'file' => $this->getFile(),
+                    'line' => $this->getLine(),
+                    'code' => $this->getCode(),
+                    'trace' => $this->getTraceAsString(),
+                )
+            );
+        }
 
-		// write to TYPO3 devlog
-		if (TYPO3_DLOG) {
-			GeneralUtility::devLog(
-				$this->getMessage(),
-				'pt_extbase',
-				3, // "error"
-				array(
-					'exceptionClass' => get_class($this),
-					'debugMsg' => $this->debugMsg,
-					'file' => $this->getFile(),
-					'line' => $this->getLine(),
-					'code' => $this->getCode(),
-					'trace' => $this->getTraceAsString(),
-				)
-			);
-		}
+        // write to TYPO3 syslog
+        $debugMsg = $this->debugMsg ? ': '.$this->debugMsg : '';
+        GeneralUtility::sysLog(
+            $this->getMessage().' ['.get_class($this) . $debugMsg.']',
+            'pt_extbase',
+            3 // "error"
+        );
 
-		// write to TYPO3 syslog
-		$debugMsg = $this->debugMsg ? ': '.$this->debugMsg : '';
-		GeneralUtility::sysLog(
-			$this->getMessage().' ['.get_class($this) . $debugMsg.']',
-			'pt_extbase',
-			3 // "error"
-		);
-
-		// write to TS log if appropriate
-		if ($GLOBALS['TT'] instanceof \TYPO3\CMS\Core\TimeTracker\TimeTracker) {
-			$GLOBALS['TT']->setTSlogMessage($this->getMessage() . '['.get_class($this).': '.$this->debugMsg.']', 3);
-		}
-	}
+        // write to TS log if appropriate
+        if ($GLOBALS['TT'] instanceof \TYPO3\CMS\Core\TimeTracker\TimeTracker) {
+            $GLOBALS['TT']->setTSlogMessage($this->getMessage() . '['.get_class($this).': '.$this->debugMsg.']', 3);
+        }
+    }
     
     
     
@@ -242,10 +241,9 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
      * @param   void
      * @return  string
      */
-    public function getErrType() {
-        
+    public function getErrType()
+    {
         return $this->errType;
-        
     }
     
     
@@ -256,10 +254,9 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
      * @param   void
      * @return  string
      */
-    public function getDebugMsg() {
-        
+    public function getDebugMsg()
+    {
         return $this->debugMsg;
-        
     }
     
     
@@ -269,10 +266,9 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
      * @param   void
      * @return  bool
      */
-    public function isPermanent() {
-        
+    public function isPermanent()
+    {
         return $this->permanent;
-        
     }
     
     
@@ -283,12 +279,8 @@ class Tx_PtExtbase_Exception_Exception extends Exception {
      * @param   bool    permanent status
      * @return  void
      */
-    public function setPermanent($permament = true) {
-        
+    public function setPermanent($permament = true)
+    {
         $this->permanent = $permament;
-        
     }
-    
 }
-
-?>

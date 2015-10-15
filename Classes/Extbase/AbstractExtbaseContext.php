@@ -30,158 +30,167 @@
  * @author Daniel Lienert
  * @author Michael Knoll
  */
-abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS\Core\SingletonInterface {
-
-	/**
-	 * @var \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext
-	 */
-	protected $controllerContext;
-
-
-	/**
-	 * @var bool isInCachedMode
-	 */
-	protected $isInCachedMode = false;
+abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * @var \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext
+     */
+    protected $controllerContext;
 
 
-	/**
-	 * Namepsace of current Extension
-	 *
-	 * @var string
-	 */
-	protected $extensionName;
+    /**
+     * @var bool isInCachedMode
+     */
+    protected $isInCachedMode = false;
 
 
-	/**
-	 * @var string
-	 */
-	protected $extensionNameSpace;
+    /**
+     * Namepsace of current Extension
+     *
+     * @var string
+     */
+    protected $extensionName;
 
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-	 */
-	protected $objectManager;
+    /**
+     * @var string
+     */
+    protected $extensionNameSpace;
+
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+     */
+    protected $objectManager;
 
 
 
-	/**
-	 * Flexform selected ListIdentifier
-	 * @var string
-	 */
-	protected $currentListIdentifier;
+    /**
+     * Flexform selected ListIdentifier
+     * @var string
+     */
+    protected $currentListIdentifier;
 
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-	 */
-	protected $configurationManager;
+    /**
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     */
+    protected $configurationManager;
 
 
-	/**
-	 * Initialize the object (called by objectManager)
-	 *
-	 */
-	public function initializeObject() {
+    /**
+     * Initialize the object (called by objectManager)
+     *
+     */
+    public function initializeObject()
+    {
+        $frameWorkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
-		$frameWorkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+        $this->extensionName = $frameWorkConfiguration['extensionName'];
+        $this->setExtensionNamespace($frameWorkConfiguration['extensionName'], $frameWorkConfiguration['pluginName']);
 
-		$this->extensionName = $frameWorkConfiguration['extensionName'];
-		$this->setExtensionNamespace($frameWorkConfiguration['extensionName'], $frameWorkConfiguration['pluginName']);
+        $this->isInCachedMode = $frameWorkConfiguration['pluginName'] == 'Cached' ? true : false;
 
-		$this->isInCachedMode = $frameWorkConfiguration['pluginName'] == 'Cached' ? TRUE : FALSE;
+        $this->currentListIdentifier = $frameWorkConfiguration['settings']['listIdentifier'];
 
-		$this->currentListIdentifier = $frameWorkConfiguration['settings']['listIdentifier'];
-
-		unset($frameWorkConfiguration);
-	}
-
-
-	/**
-	 * Allows manual overwriting of extension name and plugin name AFTER initialization
-	 *
-	 * @param $extensionName
-	 * @param $pluginName
-	 */
-	public function setExtensionNamespace($extensionName, $pluginName) {
-		$this->extensionName = $extensionName;
-		$this->extensionNameSpace = $this->objectManager->get('TYPO3\CMS\Extbase\Service\ExtensionService')->getPluginNamespace($extensionName, $pluginName);
-	}
+        unset($frameWorkConfiguration);
+    }
 
 
-	/**
-	 * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
-	 */
-	public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager) {
-		$this->configurationManager = $configurationManager;
-	}
+    /**
+     * Allows manual overwriting of extension name and plugin name AFTER initialization
+     *
+     * @param $extensionName
+     * @param $pluginName
+     */
+    public function setExtensionNamespace($extensionName, $pluginName)
+    {
+        $this->extensionName = $extensionName;
+        $this->extensionNameSpace = $this->objectManager->get('TYPO3\CMS\Extbase\Service\ExtensionService')->getPluginNamespace($extensionName, $pluginName);
+    }
 
 
-	/**
-	 * inject the objectManager
-	 *
-	 * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManager $objectManager) {
-		$this->objectManager = $objectManager;
-	}
-
-	/**
-	 * Set the Controller Context
-	 *
-	 * @param \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
-	 */
-	public function setControllerContext(\TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext) {
-		$this->controllerContext = $controllerContext;
-	}
+    /**
+     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+     */
+    public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager)
+    {
+        $this->configurationManager = $configurationManager;
+    }
 
 
-	/**
-	 * @return \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
-	 */
-	public function getControllerContext() {
-		return $this->controllerContext;
-	}
+    /**
+     * inject the objectManager
+     *
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager
+     * @return void
+     */
+    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManager $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
+
+    /**
+     * Set the Controller Context
+     *
+     * @param \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
+     */
+    public function setControllerContext(\TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext)
+    {
+        $this->controllerContext = $controllerContext;
+    }
 
 
-	/**
-	 * @return bool
-	 */
-	public function isInCachedMode() {
-		return $this->isInCachedMode;
-	}
+    /**
+     * @return \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
+     */
+    public function getControllerContext()
+    {
+        return $this->controllerContext;
+    }
 
 
-	/**
-	 * @param bool $isInCachedMode
-	 */
-	public function setInCachedMode($isInCachedMode) {
-		$this->isInCachedMode = $isInCachedMode;
-	}
+    /**
+     * @return bool
+     */
+    public function isInCachedMode()
+    {
+        return $this->isInCachedMode;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getExtensionNamespace() {
-		return $this->extensionNameSpace;
-	}
+    /**
+     * @param bool $isInCachedMode
+     */
+    public function setInCachedMode($isInCachedMode)
+    {
+        $this->isInCachedMode = $isInCachedMode;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getCurrentListIdentifier() {
-		return $this->currentListIdentifier;
-	}
+    /**
+     * @return string
+     */
+    public function getExtensionNamespace()
+    {
+        return $this->extensionNameSpace;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getExtensionName() {
-		return $this->extensionName;
-	}
+    /**
+     * @return string
+     */
+    public function getCurrentListIdentifier()
+    {
+        return $this->currentListIdentifier;
+    }
 
+
+    /**
+     * @return string
+     */
+    public function getExtensionName()
+    {
+        return $this->extensionName;
+    }
 }

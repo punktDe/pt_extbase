@@ -20,40 +20,41 @@
  * GNU General Public License for more details.
  * 
  * This copyright notice MUST APPEAR in all copies of the script!
- */ 
-class Tx_PtExtbase_ViewHelpers_ErrorMessagesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
+ */
+class Tx_PtExtbase_ViewHelpers_ErrorMessagesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
+{
+    /**
+     * @var \TYPO3\CMS\Extbase\Utility\LocalizationUtility
+     * @inject
+     */
+    protected $localization;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Utility\LocalizationUtility
-	 * @inject
-	 */
-	protected $localization;
+    /**
+     * @param string $extension
+     * @param string $file
+     *
+     * @return mixed
+     */
+    public function render($extension, $file = 'errors.xlf')
+    {
+        $validationResults = $this->controllerContext->getRequest()->getOriginalRequestMappingResults()->getFlattenedErrors();
 
-	/**
-	 * @param string $extension
-	 * @param string $file
-	 *
-	 * @return mixed
-	 */
-	public function render($extension, $file = 'errors.xlf') {
-		$validationResults = $this->controllerContext->getRequest()->getOriginalRequestMappingResults()->getFlattenedErrors();
+        $output = '';
 
-		$output = '';
+        foreach ($validationResults as $propertyError) {
+            foreach ($propertyError as $error) { /** @var \TYPO3\CMS\Extbase\Validation\Error $error */
+                $translatedMessage = $this->localization->translate('LLL:EXT:' . $extension . '/Resources/Private/Language/' . $file . ':' . $error->getMessage(), $extension);
 
-		foreach ($validationResults as $propertyError) {
-			foreach ($propertyError as $error) { /** @var \TYPO3\CMS\Extbase\Validation\Error $error */
-				$translatedMessage = $this->localization->translate('LLL:EXT:' . $extension . '/Resources/Private/Language/' . $file . ':' . $error->getMessage(), $extension);
+                if (empty($translatedMessage)) {
+                    $translatedMessage = $error->getMessage();
+                }
 
-				if (empty($translatedMessage)) {
-					$translatedMessage = $error->getMessage();
-				}
+                $this->templateVariableContainer->add('errorMessage', $translatedMessage);
+                $output .= $this->renderChildren();
+                $this->templateVariableContainer->remove('errorMessage');
+            }
+        }
 
-				$this->templateVariableContainer->add('errorMessage', $translatedMessage);
-				$output .= $this->renderChildren();
-				$this->templateVariableContainer->remove('errorMessage');
-			}
-		}
-
-		return $output;
-	}
+        return $output;
+    }
 }

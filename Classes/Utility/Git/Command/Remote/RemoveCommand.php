@@ -28,33 +28,33 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command\Remote
  */
-class RemoveCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'name' => '%s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'name' => ''
-	);
+class RemoveCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'name' => '%s'
+    );
 
 
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function setName($name) {
-		$this->arguments['name'] = $name;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'name' => ''
+    );
 
+
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->arguments['name'] = $name;
+        return $this;
+    }
 }

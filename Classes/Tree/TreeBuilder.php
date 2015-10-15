@@ -36,14 +36,14 @@
  * @author Daniel Lienert <daniel@lienert.cc>
  * @author Joachim Mathes <joachim_mathes@web.de>
  */
-class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInterface {
-
-	/**
-	 * Holds an instance of node repository
-	 *
-	 * @var Tx_PtExtbase_Tree_NodeRepositoryInterface
-	 */
-	protected $nodeRepository;
+class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInterface
+{
+    /**
+     * Holds an instance of node repository
+     *
+     * @var Tx_PtExtbase_Tree_NodeRepositoryInterface
+     */
+    protected $nodeRepository;
 
 
 
@@ -69,23 +69,24 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
     protected $restrictedDepth;
 
 
-	
-	/**
-	 * @var array
-	 */
-	protected $treeCache;
+    
+    /**
+     * @var array
+     */
+    protected $treeCache;
 
 
 
 
-	/**
-	 * Constructor for treebuilder. Requires node repository as parameter.
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository
-	 */
-	public function __construct(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository) {
-		$this->nodeRepository = $nodeRepository;
-	}
+    /**
+     * Constructor for treebuilder. Requires node repository as parameter.
+     *
+     * @param Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository
+     */
+    public function __construct(Tx_PtExtbase_Tree_NodeRepositoryInterface $nodeRepository)
+    {
+        $this->nodeRepository = $nodeRepository;
+    }
 
 
 
@@ -96,120 +97,127 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
      * @param string $rootLabel Label for root node
      * @return Tx_PtExtbase_Tree_Tree Empty tree object.
      */
-    public function getEmptyTree($namespace, $rootLabel = '') {
+    public function getEmptyTree($namespace, $rootLabel = '')
+    {
         return Tx_PtExtbase_Tree_Tree::getEmptyTree($namespace, $rootLabel);
     }
 
 
 
-	/**
-	 * @param string $namespace
-	 * @return Tx_PtExtbase_Tree_Tree
-	 */
-	public function buildTreeForNamespaceWithoutInaccessibleSubtrees($namespace) {
-		if (empty($this->treeCache[$namespace])) {
-			$this->treeCache[$namespace] = $this->buildTreeForNamespace($namespace);
-		}
+    /**
+     * @param string $namespace
+     * @return Tx_PtExtbase_Tree_Tree
+     */
+    public function buildTreeForNamespaceWithoutInaccessibleSubtrees($namespace)
+    {
+        if (empty($this->treeCache[$namespace])) {
+            $this->treeCache[$namespace] = $this->buildTreeForNamespace($namespace);
+        }
 
-		$tree = $this->treeCache[$namespace];
-		$root = $tree->getRoot();
+        $tree = $this->treeCache[$namespace];
+        $root = $tree->getRoot();
 
-		if ($root->isAccessible()) {
-			$clonedRoot = $this->getClonedNode($root);
-			$this->buildAccessRestrictedTreeRecursively($root, $clonedRoot);
-		}
+        if ($root->isAccessible()) {
+            $clonedRoot = $this->getClonedNode($root);
+            $this->buildAccessRestrictedTreeRecursively($root, $clonedRoot);
+        }
 
-		$clonedTree = NULL;
-		$clonedTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($clonedRoot);
-		$clonedTree->setRestrictedDepth($this->restrictedDepth);
-		$clonedTree->setRespectRestrictedDepth($this->respectRestrictedDepth);
+        $clonedTree = null;
+        $clonedTree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($clonedRoot);
+        $clonedTree->setRestrictedDepth($this->restrictedDepth);
+        $clonedTree->setRespectRestrictedDepth($this->respectRestrictedDepth);
 
-		return $clonedTree;
-	}
-
-
-
-	/**
-	 * @param Tx_PtExtbase_Tree_Node $originalNode
-	 * @param Tx_PtExtbase_Tree_Node $clonedNode
-	 */
-	protected function buildAccessRestrictedTreeRecursively($originalNode, $clonedNode) {
-		foreach ($originalNode->getChildren() as $child) {
-			if ($child->isAccessible()) {
-				$clonedChild = $this->getClonedNode($child);
-				$clonedChild->setParent($clonedNode);
-				$this->buildAccessRestrictedTreeRecursively($child, $clonedChild);
-			}
-		}
-	}
+        return $clonedTree;
+    }
 
 
 
-	/**
-	 * @param Tx_PtExtbase_Tree_Node $node
-	 * @return Tx_PtExtbase_Tree_Node
-	 */
-	protected function getClonedNode(Tx_PtExtbase_Tree_Node $node) {
-		$clonedNode = clone $node;
-		$clonedNode->clearRelatives();
-		return $clonedNode;
-	}
+    /**
+     * @param Tx_PtExtbase_Tree_Node $originalNode
+     * @param Tx_PtExtbase_Tree_Node $clonedNode
+     */
+    protected function buildAccessRestrictedTreeRecursively($originalNode, $clonedNode)
+    {
+        foreach ($originalNode->getChildren() as $child) {
+            if ($child->isAccessible()) {
+                $clonedChild = $this->getClonedNode($child);
+                $clonedChild->setParent($clonedNode);
+                $this->buildAccessRestrictedTreeRecursively($child, $clonedChild);
+            }
+        }
+    }
 
 
 
-	/**
-	 * Builds a tree for given namespace.
-	 *
-	 * If there are no nodes for given namespace, a new, empty tree with a single root node will be returned.
-	 *
-	 * @param $namespace
-	 * @return Tx_PtExtbase_Tree_Tree
-	 * @throws Exception
-	 */
-	public function buildTreeForNamespace($namespace) {
-		$nodes = $this->nodeRepository->findByNamespace($namespace);
+    /**
+     * @param Tx_PtExtbase_Tree_Node $node
+     * @return Tx_PtExtbase_Tree_Node
+     */
+    protected function getClonedNode(Tx_PtExtbase_Tree_Node $node)
+    {
+        $clonedNode = clone $node;
+        $clonedNode->clearRelatives();
+        return $clonedNode;
+    }
 
-		// We have no nodes for given namespace, so we return empty tree with single root node
-		if ($nodes->count() == 0) {
-			return $this->getEmptyTree($namespace);
-		}
 
-		$stack = new Tx_PtExtbase_Tree_Stack();
-		$prevLft = PHP_INT_MAX;
 
-		foreach ($nodes as $node) {
-			/* @var $node Tx_PtExtbase_Tree_Node */
-			/* Assertion: Nodes must be given in descending left-value order. */
-			if ($node->getLft() > $prevLft) throw new Exception('Nodes must be given in descending left-value order', 1307861852);
+    /**
+     * Builds a tree for given namespace.
+     *
+     * If there are no nodes for given namespace, a new, empty tree with a single root node will be returned.
+     *
+     * @param $namespace
+     * @return Tx_PtExtbase_Tree_Tree
+     * @throws Exception
+     */
+    public function buildTreeForNamespace($namespace)
+    {
+        $nodes = $this->nodeRepository->findByNamespace($namespace);
 
-			$prevLft = $node->getLft();
-			#echo "<br><br>Knoten: " . $node->toString();
+        // We have no nodes for given namespace, so we return empty tree with single root node
+        if ($nodes->count() == 0) {
+            return $this->getEmptyTree($namespace);
+        }
 
-			if ($stack->isEmpty() || $stack->top()->getRgt() > $node->getRgt()) {
-				$stack->push($node);
-				#echo "Pushed on stack:" . $stack->toString();
-			} else {
-				#echo "Adding children:";
-				while (!$stack->isEmpty() && $stack->top()->getRgt() < $node->getRgt()) {
-					#echo "In while - current node " . $node->toString() . " current topStack: " . $stack->top()->toString();
-					$stack->top()->setParent($node, false);
-					$node->addChild($stack->top(), false);
-					$stack->pop();
-					#echo "After while-iteration: ". $stack->toString();
-				}
-				$stack->push($node);
-				#echo "After pushing after while: <ul>" . $stack->toString() . "</ul>";
-			}
-		}
+        $stack = new Tx_PtExtbase_Tree_Stack();
+        $prevLft = PHP_INT_MAX;
 
-		$tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($stack->top());
+        foreach ($nodes as $node) {
+            /* @var $node Tx_PtExtbase_Tree_Node */
+            /* Assertion: Nodes must be given in descending left-value order. */
+            if ($node->getLft() > $prevLft) {
+                throw new Exception('Nodes must be given in descending left-value order', 1307861852);
+            }
 
-		$tree->setRestrictedDepth($this->restrictedDepth);
-		$tree->setRespectRestrictedDepth($this->respectRestrictedDepth);
+            $prevLft = $node->getLft();
+            #echo "<br><br>Knoten: " . $node->toString();
 
-		#echo "Finished tree: " . $tree->toString();
-		return $tree;
-	}
+            if ($stack->isEmpty() || $stack->top()->getRgt() > $node->getRgt()) {
+                $stack->push($node);
+                #echo "Pushed on stack:" . $stack->toString();
+            } else {
+                #echo "Adding children:";
+                while (!$stack->isEmpty() && $stack->top()->getRgt() < $node->getRgt()) {
+                    #echo "In while - current node " . $node->toString() . " current topStack: " . $stack->top()->toString();
+                    $stack->top()->setParent($node, false);
+                    $node->addChild($stack->top(), false);
+                    $stack->pop();
+                    #echo "After while-iteration: ". $stack->toString();
+                }
+                $stack->push($node);
+                #echo "After pushing after while: <ul>" . $stack->toString() . "</ul>";
+            }
+        }
+
+        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($stack->top());
+
+        $tree->setRestrictedDepth($this->restrictedDepth);
+        $tree->setRespectRestrictedDepth($this->respectRestrictedDepth);
+
+        #echo "Finished tree: " . $tree->toString();
+        return $tree;
+    }
 
 
 
@@ -220,7 +228,8 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
      *
      * @param integer $restrictedDepth
      */
-    public function setRestrictedDepth($restrictedDepth) {
+    public function setRestrictedDepth($restrictedDepth)
+    {
         $this->restrictedDepth = $restrictedDepth;
     }
 
@@ -234,8 +243,8 @@ class Tx_PtExtbase_Tree_TreeBuilder implements Tx_PtExtbase_Tree_TreeBuilderInte
      *
      * @param bool $respectRestrictedDepth
      */
-    public function setRespectRestrictedDepth($respectRestrictedDepth = TRUE) {
+    public function setRespectRestrictedDepth($respectRestrictedDepth = true)
+    {
         $this->respectRestrictedDepth = $respectRestrictedDepth;
     }
 }
-?>

@@ -28,21 +28,20 @@
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_ShortLinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_ShortLinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * @param integer $length
+     * @param string $indexScriptUrl
+     *
+     * @return string
+     */
+    public function render($length = 0, $indexScriptUrl = '')
+    {
+        $link = $this->renderChildren();
 
-	/**
-	 * @param integer $length
-	 * @param string $indexScriptUrl
-	 *
-	 * @return string
-	 */
-	public function render($length = 0, $indexScriptUrl = '') {
-		$link = $this->renderChildren();
+        $shortLink = \TYPO3\CMS\Core\Utility\GeneralUtility::makeRedirectUrl($link, $length, $indexScriptUrl);
 
-		$shortLink = \TYPO3\CMS\Core\Utility\GeneralUtility::makeRedirectUrl($link, $length, $indexScriptUrl);
-
-		return $shortLink;
-
-	}
-
+        return $shortLink;
+    }
 }

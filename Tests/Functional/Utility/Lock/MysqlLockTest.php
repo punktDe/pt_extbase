@@ -1,7 +1,7 @@
 <?php
 namespace PunktDe\PtExtbase\Tests\Functional\Utility\Lock;
 
- /***************************************************************
+/***************************************************************
  *  Copyright notice
  *
  *  (c) 2015 Daniel Lienert <lienert@punkt.de>
@@ -34,68 +34,75 @@ use PunktDe\PtExtbase\Utility\Lock\Lock;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Functional\Utility\Wget
  */
-class MysqlLockTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class MysqlLockTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var Lock
+     */
+    protected $mysqlLock;
 
-	/**
-	 * @var Lock
-	 */
-	protected $mysqlLock;
+    /**
+     *
+     */
+    public function setUp()
+    {
+        $this->mysqlLock = $this->objectManager->get('PunktDe\\PtExtbase\\Utility\\Lock\\Lock', 'lockTest');
+    }
 
-	/**
-	 *
-	 */
-	public function setUp() {
-		$this->mysqlLock = $this->objectManager->get('PunktDe\\PtExtbase\\Utility\\Lock\\Lock', 'lockTest');
-	}
+    public function tearDown()
+    {
+        $this->mysqlLock->release();
+    }
 
-	public function tearDown() {
-		$this->mysqlLock->release();
-	}
+    /**
+     * @test
+     * @expectedException Exception
+     * @expectedExceptionCode 1429016835
+     */
+    public function acquiringSharedLockThrowsException()
+    {
+        $this->mysqlLock->release();
+        $this->objectManager->get('PunktDe\\PtExtbase\\Utility\\Lock\\Lock', 'lockTest', 'PunktDe\\PtExtbase\\Utility\\Lock\\MySqlLockStrategy', false);
+    }
 
-	/**
-	 * @test
-	 * @expectedException Exception
-	 * @expectedExceptionCode 1429016835
-	 */
-	public function acquiringSharedLockThrowsException() {
-		$this->mysqlLock->release();
-		$this->objectManager->get('PunktDe\\PtExtbase\\Utility\\Lock\\Lock', 'lockTest', 'PunktDe\\PtExtbase\\Utility\\Lock\\MySqlLockStrategy', FALSE);
-	}
+    /**
+     * @test
+     */
+    public function constructAcquiresLock()
+    {
+        $returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
+        $this->assertEquals(0, $returnValue);
+    }
 
-	/**
-	 * @test
-	 */
-	public function constructAcquiresLock() {
-		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
-		$this->assertEquals(0, $returnValue);
-	}
+    /**
+     * @test
+     */
+    public function afterReleaseLockIsFree()
+    {
+        $released = $this->mysqlLock->release();
 
-	/**
-	 * @test
-	 */
-	public function afterReleaseLockIsFree() {
-		$released = $this->mysqlLock->release();
+        $this->assertTrue($released);
 
-		$this->assertTrue($released);
+        $returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
+        $this->assertEquals(1, $returnValue);
+    }
 
-		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
-		$this->assertEquals(1, $returnValue);
-	}
-
-	/**
-	 * @test
-	 */
-	public function acquiringLockASecondTimeIsNotPossible() {
-		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest acquireExclusiveLock');
-		$this->assertEquals(0, $returnValue);
-	}
+    /**
+     * @test
+     */
+    public function acquiringLockASecondTimeIsNotPossible()
+    {
+        $returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest acquireExclusiveLock');
+        $this->assertEquals(0, $returnValue);
+    }
 
 
-	/**
-	 * @test
-	 */
-	public function freeingLockIsNotPossibleBySecondClient() {
-		$returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest freeLock');
-		$this->assertEquals(0, $returnValue);
-	}
+    /**
+     * @test
+     */
+    public function freeingLockIsNotPossibleBySecondClient()
+    {
+        $returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest freeLock');
+        $this->assertEquals(0, $returnValue);
+    }
 }

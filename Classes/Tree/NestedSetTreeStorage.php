@@ -29,14 +29,14 @@
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeStorageInterface {
-
-	/**
-	 * Holds an instance of node repository
-	 *
-	 * @var Tx_PtExtbase_Tree_NodeRepository
-	 */
-	protected $nodeRepository;
+class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeStorageInterface
+{
+    /**
+     * Holds an instance of node repository
+     *
+     * @var Tx_PtExtbase_Tree_NodeRepository
+     */
+    protected $nodeRepository;
 
 
 
@@ -46,29 +46,30 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
      * @var Tx_PtExtbase_Tree_NestedSetTreeWalker
      */
     protected $nestedSetTreeWalker;
-	
-	
-	
-	/**
-	 * Constructor for nested set tree storage
+    
+    
+    
+    /**
+     * Constructor for nested set tree storage
      *
      * @param Tx_PtExtbase_Tree_NodeRepository $nodeRepository Node repository to store nodes in
-	 */
-	public function __construct(Tx_PtExtbase_Tree_NodeRepository $nodeRepository) {
+     */
+    public function __construct(Tx_PtExtbase_Tree_NodeRepository $nodeRepository)
+    {
         $this->nodeRepository = $nodeRepository;
         // TODO put this into creation method
         $this->nestedSetTreeWalker = Tx_PtExtbase_Tree_NestedSetTreeWalker::getInstance();
-	}
+    }
 
 
-	/**
-	 * Saves a tree to storage
-	 *
-	 * @param Tx_PtExtbase_Tree_TreeInterface $tree
-	 * @throws Exception
-	 */
-    public function saveTree(Tx_PtExtbase_Tree_TreeInterface $tree) {
-
+    /**
+     * Saves a tree to storage
+     *
+     * @param Tx_PtExtbase_Tree_TreeInterface $tree
+     * @throws Exception
+     */
+    public function saveTree(Tx_PtExtbase_Tree_TreeInterface $tree)
+    {
         if (!is_a($tree, Tx_PtExtbase_Tree_NestedSetTreeInterface)) {
             throw new Exception('Tx_PtExtbase_Tree_NestedSetTreeStorage can only persist trees that implement Tx_PtExtbase_Tree_NestedSetTreeInterface! 1327695444');
         }
@@ -84,7 +85,6 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
 
         $this->setTreeNamespaceOnNode($tree, $tree->getRoot());
         $this->nodeRepository->updateOrAdd($tree->getRoot());
-
     }
 
 
@@ -94,7 +94,8 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
      *
      * @param Tx_PtExtbase_Tree_NestedSetTreeInterface $tree Tree whose deleted nodes should be removed from repository
      */
-    protected function removeDeletedNodesOfGivenTree(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree) {
+    protected function removeDeletedNodesOfGivenTree(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree)
+    {
         foreach ($tree->getDeletedNodes() as $deletedNode) {
             $this->nodeRepository->remove($deletedNode);
         }
@@ -109,7 +110,8 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
      * @param Tx_PtExtbase_Tree_NodeInterface $node
      * @throws Exception
      */
-    protected function setTreeNamespaceOnNode(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree, Tx_PtExtbase_Tree_NodeInterface $node) {
+    protected function setTreeNamespaceOnNode(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree, Tx_PtExtbase_Tree_NodeInterface $node)
+    {
         $namespace = $tree->getNamespace();
         if ($namespace !== null && $namespace !== '') {
             $node->setNamespace($namespace);
@@ -117,6 +119,4 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
             throw new Exception('Trying to store a node of a tree that has no namespace set! Namespace is required on a tree to be stored! 1327756309');
         }
     }
-
 }
-?>

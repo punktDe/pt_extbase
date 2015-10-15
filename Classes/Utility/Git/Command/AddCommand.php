@@ -28,46 +28,47 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class AddCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'all' => '--all',
-		'path' => '%s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'path' => '',
-		'all' => FALSE
-	);
+class AddCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'all' => '--all',
+        'path' => '%s'
+    );
 
 
-
-	/**
-	 * @param boolean $path
-	 * @return $this
-	 */
-	public function setPath($path) {
-		$this->arguments['path'] = $path;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'path' => '',
+        'all' => false
+    );
 
 
-	/**
-	 * @param boolean $all
-	 * @return $this
-	 */
-	public function setAll($all) {
-		$this->arguments['all'] = $all;
-		return $this;
-	}
 
+    /**
+     * @param boolean $path
+     * @return $this
+     */
+    public function setPath($path)
+    {
+        $this->arguments['path'] = $path;
+        return $this;
+    }
+
+
+    /**
+     * @param boolean $all
+     * @return $this
+     */
+    public function setAll($all)
+    {
+        $this->arguments['all'] = $all;
+        return $this;
+    }
 }

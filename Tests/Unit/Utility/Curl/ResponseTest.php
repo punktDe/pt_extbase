@@ -30,46 +30,48 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package pt_extbase
  * @subpackage Tests\Unit\Domain\Utlity
  */
-class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase {
-
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Curl\Response
-	 */
-	protected $curlResponse;
-
-
-	public function setUp() {
-		$curlRequest = GeneralUtility::makeInstance('\PunktDe\PtExtbase\Utility\Curl\Request');
-
-		$proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Curl\Response');
-		$this->curlResponse = GeneralUtility::makeInstance($proxyClass, curl_init(), $curlRequest, '');
-	}
+class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+{
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Curl\Response
+     */
+    protected $curlResponse;
 
 
-	public function proxyHeaderDataProvider() {
-		return array(
-			'Proxy Header found' => array(
-				'original' => "HTTP/1.1 200 Connection established\r\n\r\nHTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC",
-				'expected' => "HTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC"
-			),
-			'No Proxy Header found' => array(
-				'original' => "HTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC",
-				'expected' => "HTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC"
-			),
-		);
-	}
+    public function setUp()
+    {
+        $curlRequest = GeneralUtility::makeInstance('\PunktDe\PtExtbase\Utility\Curl\Request');
+
+        $proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Curl\Response');
+        $this->curlResponse = GeneralUtility::makeInstance($proxyClass, curl_init(), $curlRequest, '');
+    }
 
 
-	/**
-	 * @test
-	 * @dataProvider proxyHeaderDataProvider
-	 *
-	 * @param $original
-	 * @param $expected
-	 */
-	public function stripProxyHeader($original, $expected) {
-		$actual = $this->callInaccessibleMethod($this->curlResponse, 'stripProxyHeader', $original);
-		$this->assertEquals($expected, $actual);
-	}
+    public function proxyHeaderDataProvider()
+    {
+        return array(
+            'Proxy Header found' => array(
+                'original' => "HTTP/1.1 200 Connection established\r\n\r\nHTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC",
+                'expected' => "HTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC"
+            ),
+            'No Proxy Header found' => array(
+                'original' => "HTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC",
+                'expected' => "HTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC"
+            ),
+        );
+    }
 
+
+    /**
+     * @test
+     * @dataProvider proxyHeaderDataProvider
+     *
+     * @param $original
+     * @param $expected
+     */
+    public function stripProxyHeader($original, $expected)
+    {
+        $actual = $this->callInaccessibleMethod($this->curlResponse, 'stripProxyHeader', $original);
+        $this->assertEquals($expected, $actual);
+    }
 }

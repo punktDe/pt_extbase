@@ -28,31 +28,33 @@
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_TwoClickShareViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_TwoClickShareViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * @var \TYPO3\CMS\Extbase\Mvc\Request
+     */
+    protected $request;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Mvc\Request
-	 */
-	protected $request;
+    /**
+     * Initialize arguments
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('options', 'string', 'The options for the javascript call', false);
+    }
 
-	/**
-	 * Initialize arguments
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('options', 'string', 'The options for the javascript call', FALSE);
-	}
+    /**
+     * Render
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $shareDiv = '<div id="two-click-share"></div>';
 
-	/**
-	 * Render
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$shareDiv = '<div id="two-click-share"></div>';
-
-		$javascriptCode = '
+        $javascriptCode = '
 jQuery(document).ready(function($){
 	if($("#two-click-share").length > 0) {
 		if(jQuery.fn.socialSharePrivacy !== undefined) {
@@ -63,9 +65,8 @@ jQuery(document).ready(function($){
 	}
 });';
 
-		$html = $shareDiv . "\n" . '<script type="text/javascript">' . $javascriptCode . '</script>';
+        $html = $shareDiv . "\n" . '<script type="text/javascript">' . $javascriptCode . '</script>';
 
-		return $html;
-	}
-
+        return $html;
+    }
 }

@@ -28,87 +28,92 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Varnish\Command
  */
-class VarnishAdministrationCommand extends GenericShellCommand {
-
-	/**
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'secretFile' => '-S %s',
-		'address' => '%s',
-		'port' => '%s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'secretFile' => '',
-		'address' => '',
-		'port' => ''
-	);
+class VarnishAdministrationCommand extends GenericShellCommand
+{
+    /**
+     * @var array
+     */
+    protected $argumentMap = array(
+        'secretFile' => '-S %s',
+        'address' => '%s',
+        'port' => '%s'
+    );
 
 
-
-	/**
-	 * @param string $secretFile
-	 * @return $this
-	 */
-	public function setSecretFile($secretFile) {
-		$this->arguments['secretFile'] = $secretFile;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'secretFile' => '',
+        'address' => '',
+        'port' => ''
+    );
 
 
 
-	/**
-	 * @param string $address
-	 * @return $this
-	 */
-	public function setAddress($address) {
-		$this->arguments['address'] = $address;
-		return $this;
-	}
+    /**
+     * @param string $secretFile
+     * @return $this
+     */
+    public function setSecretFile($secretFile)
+    {
+        $this->arguments['secretFile'] = $secretFile;
+        return $this;
+    }
 
 
 
-	/**
-	 * @param string $port
-	 * @return $this
-	 */
-	public function setPort($port) {
-		$this->arguments['portMode'] = $port;
-		return $this;
-	}
+    /**
+     * @param string $address
+     * @return $this
+     */
+    public function setAddress($address)
+    {
+        $this->arguments['address'] = $address;
+        return $this;
+    }
 
 
 
-	/**
-	 * @return BanUrlCommand
-	 */
-	public function add() {
-		$command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Varnish\Command\Remote\BanUrlCommand');
-		$command->attachCommand($this);
-		return $command;
-	}
+    /**
+     * @param string $port
+     * @return $this
+     */
+    public function setPort($port)
+    {
+        $this->arguments['portMode'] = $port;
+        return $this;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		return sprintf("%s", $this->buildCommand());
-	}
+    /**
+     * @return BanUrlCommand
+     */
+    public function add()
+    {
+        $command = $this->objectManager->get('PunktDe\PtExtbase\Utility\Varnish\Command\Remote\BanUrlCommand');
+        $command->attachCommand($this);
+        return $command;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getCommandName() {
-		return 'varnishadm';
-	}
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        return sprintf("%s", $this->buildCommand());
+    }
 
+
+
+    /**
+     * @return string
+     */
+    public function getCommandName()
+    {
+        return 'varnishadm';
+    }
 }

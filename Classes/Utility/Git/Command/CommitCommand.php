@@ -28,47 +28,48 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class CommitCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'allowEmpty' => '--allow-empty',
-		'message' => '--message %s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'allowEmpty' => FALSE,
-		'message' => ''
-	);
+class CommitCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'allowEmpty' => '--allow-empty',
+        'message' => '--message %s'
+    );
 
 
-
-	/**
-	 * @param boolean $allowEmpty
-	 * @return $this
-	 */
-	public function setAllowEmpty($allowEmpty) {
-		$this->arguments['allowEmpty'] = $allowEmpty;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'allowEmpty' => false,
+        'message' => ''
+    );
 
 
 
-	/**
-	 * @param string $message
-	 * @return $this
-	 */
-	public function setMessage($message) {
-		$this->arguments['message'] = sprintf("\"%s\"", $message);
-		return $this;
-	}
+    /**
+     * @param boolean $allowEmpty
+     * @return $this
+     */
+    public function setAllowEmpty($allowEmpty)
+    {
+        $this->arguments['allowEmpty'] = $allowEmpty;
+        return $this;
+    }
 
+
+
+    /**
+     * @param string $message
+     * @return $this
+     */
+    public function setMessage($message)
+    {
+        $this->arguments['message'] = sprintf("\"%s\"", $message);
+        return $this;
+    }
 }
