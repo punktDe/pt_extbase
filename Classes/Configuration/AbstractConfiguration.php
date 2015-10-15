@@ -23,6 +23,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Configuration\ConfigurationInterface;
+
 /**
  * Class implements an abstract configuration object
  *
@@ -31,7 +33,7 @@
  * @author Michael Knoll
  * @author Daniel Lienert
  */
-abstract class Tx_PtExtbase_Configuration_AbstractConfiguration {
+abstract class Tx_PtExtbase_Configuration_AbstractConfiguration implements ConfigurationInterface{
 
 	/**
 	 * Holds an instance of configuration builder

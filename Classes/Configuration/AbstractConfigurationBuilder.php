@@ -23,6 +23,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Configuration\ConfigurationBuilderInterface;
+
 /**
  * Class implements abstract configuration builder
  *
@@ -30,7 +32,7 @@
  * @author Michael Knoll 
  * @author Daniel Lienert 
  */
-abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
+abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder implements ConfigurationBuilderInterface {
 
 	/**
 	 * Holds configuration for plugin / extension
