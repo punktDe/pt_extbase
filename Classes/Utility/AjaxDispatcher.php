@@ -250,8 +250,11 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
         $this->initTsfe($this->pageUid)
             ->initFeUser()
             ->initTca()
-            ->determineId()
-            ->initTypoScript();
+            ->determineId();
+
+        if ($this->getRenderTyposcriptFromConfiguration()) {
+            $this->initTypoScript();
+        }
 
         return $this;
     }
@@ -318,10 +321,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      */
     public function initTypoScript()
     {
-        if ($this->getRenderTyposcriptFromConfiguration()) {
-            $GLOBALS['TSFE']->initTemplate();
-            $GLOBALS['TSFE']->getConfigArray();
-        }
+        $GLOBALS['TSFE']->initTemplate();
+        $GLOBALS['TSFE']->getConfigArray();
 
         return $this;
     }

@@ -46,7 +46,6 @@ require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_ext
 // Init TSFE for database access
 $GLOBALS['TSFE'] = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $TYPO3_CONF_VARS, 0, 0, true);
 $GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
-$GLOBALS['TSFE']->initFEuser();
 $dispatcher = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_AjaxDispatcher'); /** @var $dispatcher Tx_PtExtbase_Utility_AjaxDispatcher */
 
 
