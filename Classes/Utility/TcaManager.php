@@ -29,86 +29,81 @@
  * @package pt_extbase
  * @subpackage Utility
  */
-class Tx_PtExtbase_Utility_TcaManager implements \TYPO3\CMS\Core\SingletonInterface {
-
-
-	/**
-	 * @var array
-	 */
-	protected $deletedColumnConfiguration = array(
-		'deleted' => array(
-			'config' => array(
-				'type' => 'passthrough',
-			),
-		),
-	);
-
-
-
-	/**
-	 * returns the value of [TCA][$tableName][ctrl][delete] to reset the field later on with the activateDeletedFlag
-	 *
-	 * @param $tableName
-	 * @param null $columnConfiguration
-	 *
-	 * @return string
-	 */
-	public function deactivateDeletedFlag($tableName) {
-
-		$deleteField = $GLOBALS['TCA'][$tableName]['ctrl']['delete'];
-		$GLOBALS['TCA'][$tableName]['ctrl']['delete'] = '';
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($tableName, $this->deletedColumnConfiguration, 1);
-
-		return $deleteField;
-	}
+class Tx_PtExtbase_Utility_TcaManager implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * @var array
+     */
+    protected $deletedColumnConfiguration = array(
+        'deleted' => array(
+            'config' => array(
+                'type' => 'passthrough',
+            ),
+        ),
+    );
 
 
 
-	/**
-	 *
-	 *
-	 * @param $tableName
-	 * @param $deleteField
-	 */
-	public function activateDeletedFlag($tableName, $deleteField) {
+    /**
+     * returns the value of [TCA][$tableName][ctrl][delete] to reset the field later on with the activateDeletedFlag
+     *
+     * @param $tableName
+     * @param null $columnConfiguration
+     *
+     * @return string
+     */
+    public function deactivateDeletedFlag($tableName)
+    {
+        $deleteField = $GLOBALS['TCA'][$tableName]['ctrl']['delete'];
+        $GLOBALS['TCA'][$tableName]['ctrl']['delete'] = '';
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($tableName, $this->deletedColumnConfiguration, 1);
 
-		$GLOBALS['TCA'][$tableName]['ctrl']['delete'] = $deleteField;
-
-	}
-
-
-
-	/**
-	 * @param $tableName
-	 * @param $enableColumns
-	 *
-	 * @return array
-	 */
-	public function deactivateEnableColumns($tableName, $enableColumns) {
-
-		$enableColumnsAndValues = array();
-
-		foreach ($enableColumns as $column) {
-			$enableColumnsAndValues[$column] = $GLOBALS['TCA'][$tableName]['ctrl']['enablecolumns'][$column];
-			$GLOBALS['TCA'][$tableName]['ctrl']['enablecolumns'][$column] = '';
-		}
-
-		return $enableColumnsAndValues;
-	}
+        return $deleteField;
+    }
 
 
 
-	/**
-	 * @param $tableName
-	 * @param $enableColumns
-	 */
-	public function setEnableColumns($tableName, $enableColumns) {
+    /**
+     *
+     *
+     * @param $tableName
+     * @param $deleteField
+     */
+    public function activateDeletedFlag($tableName, $deleteField)
+    {
+        $GLOBALS['TCA'][$tableName]['ctrl']['delete'] = $deleteField;
+    }
 
-		foreach ($enableColumns as $column => $value) {
-			$GLOBALS['TCA'][$tableName]['ctrl']['enablecolumns'][$column] = $value;
-		}
-
-	}
 
 
+    /**
+     * @param $tableName
+     * @param $enableColumns
+     *
+     * @return array
+     */
+    public function deactivateEnableColumns($tableName, $enableColumns)
+    {
+        $enableColumnsAndValues = array();
+
+        foreach ($enableColumns as $column) {
+            $enableColumnsAndValues[$column] = $GLOBALS['TCA'][$tableName]['ctrl']['enablecolumns'][$column];
+            $GLOBALS['TCA'][$tableName]['ctrl']['enablecolumns'][$column] = '';
+        }
+
+        return $enableColumnsAndValues;
+    }
+
+
+
+    /**
+     * @param $tableName
+     * @param $enableColumns
+     */
+    public function setEnableColumns($tableName, $enableColumns)
+    {
+        foreach ($enableColumns as $column => $value) {
+            $GLOBALS['TCA'][$tableName]['ctrl']['enablecolumns'][$column] = $value;
+        }
+    }
 }

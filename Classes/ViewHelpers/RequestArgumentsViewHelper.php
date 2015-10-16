@@ -28,38 +28,40 @@
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_RequestArgumentsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_RequestArgumentsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * @var \TYPO3\CMS\Extbase\Mvc\Request
+     */
+    protected $request;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Mvc\Request
-	 */
-	protected $request;
+    /**
+     * Initialize arguments
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('key', 'string', 'The argument name', true);
+    }
 
-	/**
-	 * Initialize arguments
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('key', 'string', 'The argument name', TRUE);
-	}
+    /**
+     * Initialize ViewHelper
+     *
+     * @return void
+     */
+    public function initialize()
+    {
+        $this->request = $this->controllerContext->getRequest();
+    }
 
-	/**
-	 * Initialize ViewHelper
-	 *
-	 * @return void
-	 */
-	public function initialize() {
-		$this->request = $this->controllerContext->getRequest();
-	}
-
-	/**
-	 * Render
-	 *
-	 * @return string
-	 */
-	public function render() {
-		return $this->request->getArgument($this->arguments['key']);
-	}
-	
+    /**
+     * Render
+     *
+     * @return string
+     */
+    public function render()
+    {
+        return $this->request->getArgument($this->arguments['key']);
+    }
 }

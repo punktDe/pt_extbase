@@ -29,18 +29,18 @@
  * @subpackage Repository
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Domain_Repository_SysLanguageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
-
-	/**
-	 * Constructor of the repository.
-	 * Sets the respect storage page to false.
-	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
-	 */
-	public function __construct(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
-		 parent::__construct($objectManager);
-		 $this->defaultQuerySettings = new \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings();
-		 $this->defaultQuerySettings->setRespectStoragePage(FALSE);
-		 $this->defaultQuerySettings->setRespectSysLanguage(FALSE);
-	}
-
+class Tx_PtExtbase_Domain_Repository_SysLanguageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+{
+    /**
+     * Constructor of the repository.
+     * Sets the respect storage page to false.
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     */
+    public function __construct(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager)
+    {
+        parent::__construct($objectManager);
+        $this->defaultQuerySettings = new \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings();
+        $this->defaultQuerySettings->setRespectStoragePage(false);
+        $this->defaultQuerySettings->setRespectSysLanguage(false);
+    }
 }

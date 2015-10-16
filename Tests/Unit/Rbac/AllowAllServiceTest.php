@@ -28,15 +28,14 @@
 /**
  * Class implements testcase for rbac allowAllService
  */
-class Tx_PtExtbase_Tests_Unit_Rbac_AllowAllServiceTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-
-	/** @test */
-	public function loggedInUserHasAccessReturnsTrueOnArbitraryRequests() {
-		$allowAllService = new Tx_PtExtbase_Rbac_AllowAllService();
-		$this->assertTrue($allowAllService->loggedInUserHasAccess('pt_extbase', 'test', 'test'));
-		$this->assertTrue($allowAllService->loggedInUserHasAccess('yag', 'test', 'test'));
-		$this->assertTrue($allowAllService->loggedInUserHasAccess('yag', 'album', 'delete'));
-	}
-
+class Tx_PtExtbase_Tests_Unit_Rbac_AllowAllServiceTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /** @test */
+    public function loggedInUserHasAccessReturnsTrueOnArbitraryRequests()
+    {
+        $allowAllService = new Tx_PtExtbase_Rbac_AllowAllService();
+        $this->assertTrue($allowAllService->loggedInUserHasAccess('pt_extbase', 'test', 'test'));
+        $this->assertTrue($allowAllService->loggedInUserHasAccess('yag', 'test', 'test'));
+        $this->assertTrue($allowAllService->loggedInUserHasAccess('yag', 'album', 'delete'));
+    }
 }
-?>

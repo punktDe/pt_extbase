@@ -28,32 +28,33 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Initialize arguments
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('string', 'string', 'The string to remove the linebreaks', false);
+    }
 
-	/**
-	 * Initialize arguments
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('string', 'string', 'The string to remove the linebreaks', FALSE);
-	}
+    /**
+     *  Render
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $input = $this->arguments['string'];
+        if ($input === null) {
+            $input = $this->renderChildren();
+        }
+        if (is_string($input)) {
+            $result = preg_replace("/\n\r|\r\n|\n|\r/", "", $input);
+        }
 
-	/**
-	 *  Render
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$input = $this->arguments['string'];
-		if ($input === NULL) {
-			$input = $this->renderChildren();
-		}
-		if (is_string($input)) {
-			$result = preg_replace("/\n\r|\r\n|\n|\r/", "", $input);
-		}
-
-		return $result;
-	}
-	
+        return $result;
+    }
 }

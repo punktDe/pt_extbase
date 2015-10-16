@@ -28,59 +28,61 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class PushCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'tags' => '--tags',
-		'remote' => '%s',
-		'refspec' => '%s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'tags' => FALSE,
-		'remote' => '',
-		'refspec' => ''
-	);
+class PushCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'tags' => '--tags',
+        'remote' => '%s',
+        'refspec' => '%s'
+    );
 
 
-
-	/**
-	 * @return $this
-	 */
-	public function setTags() {
-		$this->arguments['tags'] = TRUE;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'tags' => false,
+        'remote' => '',
+        'refspec' => ''
+    );
 
 
 
-	/**
-	 * @param string $remote
-	 * @return $this
-	 */
-	public function setRemote($remote) {
-		$this->arguments['remote'] = $remote;
-		return $this;
-	}
+    /**
+     * @return $this
+     */
+    public function setTags()
+    {
+        $this->arguments['tags'] = true;
+        return $this;
+    }
 
 
 
-	/**
-	 * @param string $refspec
-	 * @return $this
-	 */
-	public function setRefspec($refspec) {
-		$this->arguments['refspec'] = $refspec;
-		return $this;
-	}
+    /**
+     * @param string $remote
+     * @return $this
+     */
+    public function setRemote($remote)
+    {
+        $this->arguments['remote'] = $remote;
+        return $this;
+    }
 
+
+
+    /**
+     * @param string $refspec
+     * @return $this
+     */
+    public function setRefspec($refspec)
+    {
+        $this->arguments['refspec'] = $refspec;
+        return $this;
+    }
 }

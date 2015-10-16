@@ -31,8 +31,6 @@ namespace PunktDe\PtExtbase\Domain\Repository;
  * @subpackage FileSystem
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository {
-
+class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository
+{
 }
-
-?>

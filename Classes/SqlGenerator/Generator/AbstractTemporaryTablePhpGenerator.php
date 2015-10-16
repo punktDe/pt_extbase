@@ -28,6 +28,7 @@
  ***************************************************************/
 
 namespace PunktDe\PtExtbase\SqlGenerator\Generator;
+
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
@@ -37,165 +38,173 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  * @subpackage Domain\SqlGenerator\AbstractSqlGenerator
  */
 
-abstract class AbstractTemporaryTablePhpGenerator implements \Tx_PtExtbase_SqlGenerator_SqlGeneratorInterface {
+abstract class AbstractTemporaryTablePhpGenerator implements \Tx_PtExtbase_SqlGenerator_SqlGeneratorInterface
+{
+    /**
+     * @const TEMP_PREFIX
+     */
+    const TEMP_PREFIX = 'zzzz_temp_';
 
-	/**
-	 * @const TEMP_PREFIX
-	 */
-	const TEMP_PREFIX = 'zzzz_temp_';
+    /**
+     * @const BACKUP_PREFIX
+     */
+    const BACKUP_PREFIX = 'zzzz_bck_';
 
-	/**
-	 * @const BACKUP_PREFIX
-	 */
-	const BACKUP_PREFIX = 'zzzz_bck_';
+    /**
+     * @var ObjectManager
+     */
+    protected $objectManager;
 
-	/**
-	 * @var ObjectManager
-	 */
-	protected $objectManager;
+    /**
+     * @var string
+     */
+    protected $extensionName = '';
 
-	/**
-	 * @var string
-	 */
-	protected $extensionName = '';
+    /**
+     * @var string
+     */
+    protected $tableName;
 
-	/**
-	 * @var string
-	 */
-	protected $tableName;
+    /**
+     * @var string
+     */
+    protected $temporaryTableName = '';
 
-	/**
-	 * @var string
-	 */
-	protected $temporaryTableName = '';
+    /**
+     * @var string
+     */
+    protected $backupTableName = '';
 
-	/**
-	 * @var string
-	 */
-	protected $backupTableName = '';
+    /**
+     * @var string
+     */
+    protected $columnDefinitions;
 
-	/**
-	 * @var string
-	 */
-	protected $columnDefinitions;
-
-	/**
-	 * @var string
-	 */
-	protected $dropTableQueryTemplate = "
+    /**
+     * @var string
+     */
+    protected $dropTableQueryTemplate = "
 		DROP TABLE IF EXISTS %s;
 	";
 
-	/**
-	 * @var string
-	 */
-	protected $tableCreationQueryTemplate = "
+    /**
+     * @var string
+     */
+    protected $tableCreationQueryTemplate = "
 		CREATE TABLE IF NOT EXISTS `%s` (
 			`uid` integer(11) NOT NULL AUTO_INCREMENT,
 			%s
 		) ENGINE=MyISAM  DEFAULT CHARSET=utf8;";
 
-	/**
-	 * @var string
-	 */
-	protected $switchTablesQueryTemplate = "RENAME TABLE %s TO %s, %s TO %s;";
+    /**
+     * @var string
+     */
+    protected $switchTablesQueryTemplate = "RENAME TABLE %s TO %s, %s TO %s;";
 
-	/**
-	 * @param ObjectManager $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(ObjectManager $objectManager) {
-		$this->objectManager = $objectManager;
-	}
+    /**
+     * @param ObjectManager $objectManager
+     * @return void
+     */
+    public function injectObjectManager(ObjectManager $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
-	/**
-	 * @return void
- 	 */
-	public function initializeObject() {
-		if ($this->extensionName === '') {
-			throw new \Exception('Please provide an extension name in the generator', 1388661061);
-		}
-		$this->initializeExtbase();
-		$this->setTableNames();
-	}
+    /**
+     * @return void
+     */
+    public function initializeObject()
+    {
+        if ($this->extensionName === '') {
+            throw new \Exception('Please provide an extension name in the generator', 1388661061);
+        }
+        $this->initializeExtbase();
+        $this->setTableNames();
+    }
 
-	/**
-	 * @return void
-	 */
-	protected function initializeExtbase() {
-		$configuration['extensionName'] = $this->extensionName;
-		$configuration['pluginName'] = 'dummy';
-		$extbaseBootstrap = $this->objectManager->get('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
-		$extbaseBootstrap->initialize($configuration);
-	}
+    /**
+     * @return void
+     */
+    protected function initializeExtbase()
+    {
+        $configuration['extensionName'] = $this->extensionName;
+        $configuration['pluginName'] = 'dummy';
+        $extbaseBootstrap = $this->objectManager->get('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
+        $extbaseBootstrap->initialize($configuration);
+    }
 
-	/**
-	 * @return void
-	 */
-	protected function setTableNames() {
-		$this->temporaryTableName = self::TEMP_PREFIX . $this->tableName;
-		$this->backupTableName = self::BACKUP_PREFIX . $this->tableName;
-	}
+    /**
+     * @return void
+     */
+    protected function setTableNames()
+    {
+        $this->temporaryTableName = self::TEMP_PREFIX . $this->tableName;
+        $this->backupTableName = self::BACKUP_PREFIX . $this->tableName;
+    }
 
-	/**
-	 * @return string
- 	 */
-	protected function buildCreateTableSql() {
-		return sprintf($this->tableCreationQueryTemplate, $this->tableName, $this->columnDefinitions);
-	}
+    /**
+     * @return string
+     */
+    protected function buildCreateTableSql()
+    {
+        return sprintf($this->tableCreationQueryTemplate, $this->tableName, $this->columnDefinitions);
+    }
 
-	/**
-	 * @return string
-	 */
-	protected function buildDropTemporaryTableSql() {
-		return sprintf($this->dropTableQueryTemplate, $this->temporaryTableName);
-	}
+    /**
+     * @return string
+     */
+    protected function buildDropTemporaryTableSql()
+    {
+        return sprintf($this->dropTableQueryTemplate, $this->temporaryTableName);
+    }
 
-	/**
-	 * @return string
- 	 */
-	protected function buildDropBackupTableSql() {
-		return sprintf($this->dropTableQueryTemplate, $this->backupTableName);
-	}
+    /**
+     * @return string
+     */
+    protected function buildDropBackupTableSql()
+    {
+        return sprintf($this->dropTableQueryTemplate, $this->backupTableName);
+    }
 
-	/**
-	 * @return string
- 	 */
-	protected function buildSwitchTableSql() {
-		return sprintf($this->switchTablesQueryTemplate, $this->tableName, $this->backupTableName, $this->temporaryTableName, $this->tableName);
-	}
+    /**
+     * @return string
+     */
+    protected function buildSwitchTableSql()
+    {
+        return sprintf($this->switchTablesQueryTemplate, $this->tableName, $this->backupTableName, $this->temporaryTableName, $this->tableName);
+    }
 
-	/**
-	 * @return string
- 	 */
-	protected function buildCreateTemporaryTableSql() {
-		return sprintf($this->tableCreationQueryTemplate, $this->temporaryTableName, $this->columnDefinitions);
-	}
+    /**
+     * @return string
+     */
+    protected function buildCreateTemporaryTableSql()
+    {
+        return sprintf($this->tableCreationQueryTemplate, $this->temporaryTableName, $this->columnDefinitions);
+    }
 
-	/**
-	 * @return array
-	 */
-	public function generate() {
-		$sqls = array();
-		$this->columnDefinitions = $this->buildColumnDefinitions();
-		$sqls[] = $this->buildCreateTableSql();
-		$sqls[] = $this->buildDropTemporaryTableSql();
-		$sqls[] = $this->buildCreateTemporaryTableSql();
-		$sqls[] = $this->buildFillTemporaryTableSqls();
-		$sqls[] = $this->buildDropBackupTableSql();
-		$sqls[] = $this->buildSwitchTableSql();
-		return $sqls;
-	}
+    /**
+     * @return array
+     */
+    public function generate()
+    {
+        $sqls = array();
+        $this->columnDefinitions = $this->buildColumnDefinitions();
+        $sqls[] = $this->buildCreateTableSql();
+        $sqls[] = $this->buildDropTemporaryTableSql();
+        $sqls[] = $this->buildCreateTemporaryTableSql();
+        $sqls[] = $this->buildFillTemporaryTableSqls();
+        $sqls[] = $this->buildDropBackupTableSql();
+        $sqls[] = $this->buildSwitchTableSql();
+        return $sqls;
+    }
 
-	/**
-	 * @return string
-	 */
-	abstract protected function buildColumnDefinitions();
+    /**
+     * @return string
+     */
+    abstract protected function buildColumnDefinitions();
 
-	/**
-	 * @return string
-	 */
-	abstract protected function buildFillTemporaryTableSqls();
-
+    /**
+     * @return string
+     */
+    abstract protected function buildFillTemporaryTableSqls();
 }
-?>

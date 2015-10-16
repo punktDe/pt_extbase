@@ -30,85 +30,88 @@
  * @subpackage Model
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Domain_Model_Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
+class Tx_PtExtbase_Domain_Model_Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+{
+    /**
+     * @var string the module key
+     */
+    protected $module;
 
-	/**
-	 * @var string the module key
-	 */
-	protected $module;
+    /**
+     * @var string page title
+     */
+    protected $title;
 
-	/**
-	 * @var string page title
-	 */
-	protected $title;
+    /**
+     * @var integer
+     */
+    protected $sorting;
 
-	/**
-	 * @var integer
-	 */
-	protected $sorting;
+    /**
+     * @var integer
+     */
+    protected $doktype;
 
-	/**
-	 * @var integer
-	 */
-	protected $doktype;
+    /**
+     * @param string $module
+     */
+    public function setModule($module)
+    {
+        $this->module = $module;
+    }
+    /**
+     * @return string
+     */
+    public function getModule()
+    {
+        return $this->module;
+    }
 
-	/**
-	 * @param string $module
-	 */
-	public function setModule($module) {
-		$this->module = $module;
-	}
-	/**
-	 * @return string
-	 */
-	public function getModule() {
-		return $this->module;
-	}
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
-	/**
-	 * @param string $title
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * @param integer $sorting
+     */
+    public function setSorting($sorting)
+    {
+        $this->sorting = $sorting;
+    }
 
-	/**
-	 * @param integer $sorting
-	 */
-	public function setSorting($sorting) {
-		$this->sorting = $sorting;
-	}
+    /**
+     * @return integer
+     */
+    public function getSorting()
+    {
+        return $this->sorting;
+    }
 
-	/**
-	 * @return integer
-	 */
-	public function getSorting() {
-		return $this->sorting;
-	}
+    /**
+     * @param integer $doktype
+     */
+    public function setDoktype($doktype)
+    {
+        $this->doktype = $doktype;
+    }
 
-	/**
-	 * @param integer $doktype
-	 */
-	public function setDoktype($doktype) {
-		$this->doktype = $doktype;
-	}
-
-	/**
-	 * @return integer
-	 */
-	public function getDoktype() {
-		return $this->doktype;
-	}
-
-
-
-
-
+    /**
+     * @return integer
+     */
+    public function getDoktype()
+    {
+        return $this->doktype;
+    }
 }

@@ -31,49 +31,51 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @subpackage Utility
  * @author Daniel Lienert 
  */
-class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    public function setUp()
+    {
+        unset($GLOBALS['TSFE']);
+    }
 
 
-	public function setUp() {
-		unset($GLOBALS['TSFE']);
-	}
-
-
-	/**
-	 * @test
-	 */
-	public function classExists() {
-		$this->assertTrue(class_exists('Tx_PtExtbase_Utility_FakeFrontendFactory'));
-	}
+    /**
+     * @test
+     */
+    public function classExists()
+    {
+        $this->assertTrue(class_exists('Tx_PtExtbase_Utility_FakeFrontendFactory'));
+    }
 
 
 
-	/**
-	 * @test
-	 */
-	public function fakeFrontendCreatesGlobalsTsfe() {
-		$this->assertNull($GLOBALS['TSFE']);
+    /**
+     * @test
+     */
+    public function fakeFrontendCreatesGlobalsTsfe()
+    {
+        $this->assertNull($GLOBALS['TSFE']);
 
-		/** @var $fakeFrontend Tx_PtExtbase_Utility_FakeFrontendFactory */
-		$fakeFrontend = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
-		$fakeFrontend->createFakeFrontEnd(1);
+        /** @var $fakeFrontend Tx_PtExtbase_Utility_FakeFrontendFactory */
+        $fakeFrontend = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
+        $fakeFrontend->createFakeFrontEnd(1);
 
-		$this->assertInstanceOf('tslib_fe', $GLOBALS['TSFE']);
-	}
+        $this->assertInstanceOf('tslib_fe', $GLOBALS['TSFE']);
+    }
 
 
-	/**
-	 * @test
-	 */
-	public function fakeFrontendContainsCObj() {
-		$this->assertNull($GLOBALS['TSFE']);
+    /**
+     * @test
+     */
+    public function fakeFrontendContainsCObj()
+    {
+        $this->assertNull($GLOBALS['TSFE']);
 
-		/** @var $fakeFrontend Tx_PtExtbase_Utility_FakeFrontendFactory */
-		$fakeFrontend = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
-		$fakeFrontend->createFakeFrontEnd(1);
+        /** @var $fakeFrontend Tx_PtExtbase_Utility_FakeFrontendFactory */
+        $fakeFrontend = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
+        $fakeFrontend->createFakeFrontEnd(1);
 
-		$this->assertNotNull($GLOBALS['TSFE']->cObj, 'No Cobject in faked frontend.');
-		$this->assertInstanceOf('tslib_cObj', $GLOBALS['TSFE']->cObj);
-	}
-	
+        $this->assertNotNull($GLOBALS['TSFE']->cObj, 'No Cobject in faked frontend.');
+        $this->assertInstanceOf('tslib_cObj', $GLOBALS['TSFE']->cObj);
+    }
 }

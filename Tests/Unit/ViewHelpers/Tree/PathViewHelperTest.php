@@ -30,112 +30,112 @@
  * @subpackage Tests\ViewHelpers\Tree
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var string
+     */
+    protected $accessibleProxyClass;
 
-	/**
-	 * @var string
-	 */
-	protected $accessibleProxyClass;
-
-	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper
-	 */
-	protected $accessibleProxy;
-
-
-	public function setUp() {
-		$this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper');
-		$this->accessibleProxy = new $this->accessibleProxyClass();
-	}
-
-	public function tearDown() {
-		unset($this->accessibleProxy);
-	}
-
-	/**
-	 * @test
-	 */
-	public function classExists() {
-		$this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper'));
-	}
+    /**
+     * @var Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper
+     */
+    protected $accessibleProxy;
 
 
+    public function setUp()
+    {
+        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper');
+        $this->accessibleProxy = new $this->accessibleProxyClass();
+    }
 
-	/**
-	 * @test
-	 */
-	public function getPathFromRootToNodeWithRoot() {
+    public function tearDown()
+    {
+        unset($this->accessibleProxy);
+    }
 
-		$arguments = array (
-			'node' => 2,
-			'skipRoot' => FALSE,
-		);
-		
-		$tree = $this->getTreeMock();
-
-		$nodePathBuilder = new Tx_PtExtbase_Tree_NodePathBuilder();
-		$nodePathBuilder->setTree($tree);
-		$this->accessibleProxy->injectNodePathBuilder($nodePathBuilder);
-
-		$this->accessibleProxy->_set('arguments', $arguments);
-		$result = $this->accessibleProxy->_call('getPathFromRootToNode', $tree);
-
-
-		$this->assertEquals(2, count($result));
-		$this->assertEquals('root', $result[0]->getLabel());
-		$this->assertEquals('firstSubNode', $result[1]->getLabel());
-	}
-
-
-	/**
-	 * @test
-	 */
-	public function getPathFromRootToNodeWithoutRoot() {
-
-		$arguments = array (
-			'node' => 2,
-			'skipRoot' => TRUE,
-		);
-
-		$tree = $this->getTreeMock();
-
-		$nodePathBuilder = new Tx_PtExtbase_Tree_NodePathBuilder();
-		$nodePathBuilder->setTree($tree);
-		$this->accessibleProxy->injectNodePathBuilder($nodePathBuilder);
-
-		$this->accessibleProxy->_set('arguments', $arguments);
-		$result = $this->accessibleProxy->_call('getPathFromRootToNode', $tree);
+    /**
+     * @test
+     */
+    public function classExists()
+    {
+        $this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper'));
+    }
 
 
 
-		$this->assertEquals(1, count($result));
-		$this->assertEquals('firstSubNode', $result[0]->getLabel());
-	}
+    /**
+     * @test
+     */
+    public function getPathFromRootToNodeWithRoot()
+    {
+        $arguments = array(
+            'node' => 2,
+            'skipRoot' => false,
+        );
+        
+        $tree = $this->getTreeMock();
+
+        $nodePathBuilder = new Tx_PtExtbase_Tree_NodePathBuilder();
+        $nodePathBuilder->setTree($tree);
+        $this->accessibleProxy->injectNodePathBuilder($nodePathBuilder);
+
+        $this->accessibleProxy->_set('arguments', $arguments);
+        $result = $this->accessibleProxy->_call('getPathFromRootToNode', $tree);
 
 
-	/**
-	 * @return PHPUnit_Framework_MockObject_MockObject
-	 */
-	protected function getTreeMock() {
+        $this->assertEquals(2, count($result));
+        $this->assertEquals('root', $result[0]->getLabel());
+        $this->assertEquals('firstSubNode', $result[1]->getLabel());
+    }
 
-		$root = new Tx_PtExtbase_Tree_Node('root');
-		$subNode = new Tx_PtExtbase_Tree_Node('firstSubNode');
-		$root->addChild($subNode);
 
-		$treeMock = $this->getMockBuilder('Tx_PtExtbase_Tree_Tree')
-				->setMethods(array('getNodeByUid', 'getRoot'))
-				->getMock();
+    /**
+     * @test
+     */
+    public function getPathFromRootToNodeWithoutRoot()
+    {
+        $arguments = array(
+            'node' => 2,
+            'skipRoot' => true,
+        );
 
-		$treeMock->expects($this->once())
-				->method('getNodeByUid')->with(2)
-				->will($this->returnValue($subNode));
+        $tree = $this->getTreeMock();
 
-		$treeMock->expects($this->any())
-						->method('getRoot')
-						->will($this->returnValue($root));
-		return $treeMock;
-	}
+        $nodePathBuilder = new Tx_PtExtbase_Tree_NodePathBuilder();
+        $nodePathBuilder->setTree($tree);
+        $this->accessibleProxy->injectNodePathBuilder($nodePathBuilder);
 
+        $this->accessibleProxy->_set('arguments', $arguments);
+        $result = $this->accessibleProxy->_call('getPathFromRootToNode', $tree);
+
+
+
+        $this->assertEquals(1, count($result));
+        $this->assertEquals('firstSubNode', $result[0]->getLabel());
+    }
+
+
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getTreeMock()
+    {
+        $root = new Tx_PtExtbase_Tree_Node('root');
+        $subNode = new Tx_PtExtbase_Tree_Node('firstSubNode');
+        $root->addChild($subNode);
+
+        $treeMock = $this->getMockBuilder('Tx_PtExtbase_Tree_Tree')
+                ->setMethods(array('getNodeByUid', 'getRoot'))
+                ->getMock();
+
+        $treeMock->expects($this->once())
+                ->method('getNodeByUid')->with(2)
+                ->will($this->returnValue($subNode));
+
+        $treeMock->expects($this->any())
+                        ->method('getRoot')
+                        ->will($this->returnValue($root));
+        return $treeMock;
+    }
 }
-
-?>

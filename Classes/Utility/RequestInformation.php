@@ -32,13 +32,13 @@ use \TYPO3\CMS\Core\Core\Bootstrap;
  *
  * @package PunktDe\PtExtbase\Utility
  */
-class RequestInformation implements SingletonInterface {
-
-	/**
-	 * @return string
-	 */
-	public function getCurrentRequestId() {
-		return Bootstrap::getInstance()->getRequestId();
-	}
-
+class RequestInformation implements SingletonInterface
+{
+    /**
+     * @return string
+     */
+    public function getCurrentRequestId()
+    {
+        return Bootstrap::getInstance()->getRequestId();
+    }
 }

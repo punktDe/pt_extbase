@@ -27,35 +27,36 @@ use TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper;
  *
  * @package PunktDe\PtMalBase\ViewHelpers
  */
-class SliderViewHelper extends TextfieldViewHelper {
+class SliderViewHelper extends TextfieldViewHelper
+{
+    /**
+     * @param boolean $required If the field is required or not
+     * @param string $type The field type, e.g. "text", "email", "url" etc.
+     * @param integer $sliderMin
+     * @param integer $sliderMax
+     * @param integer $sliderStep
+     *
+     * @return string
+     */
+    public function render($required = null, $type = 'text', $sliderMin = 0, $sliderMax = 10, $sliderStep = 1)
+    {
+        $inputString = parent::render($required, $type);
 
-	/**
-	 * @param boolean $required If the field is required or not
-	 * @param string $type The field type, e.g. "text", "email", "url" etc.
-	 * @param integer $sliderMin
-	 * @param integer $sliderMax
-	 * @param integer $sliderStep
-	 *
-	 * @return string
-	 */
-	public function render($required = NULL, $type = 'text', $sliderMin = 0, $sliderMax = 10, $sliderStep = 1) {
-		$inputString = parent::render($required, $type);
+        $id = $this->arguments['id'];
 
-		$id = $this->arguments['id'];
-
-		if (empty($id)) {
-			return 'Please add an id to the slider';
-		}
+        if (empty($id)) {
+            return 'Please add an id to the slider';
+        }
 
 
-		$value = $sliderMin;
-		if ($this->getValue() > $value) {
-			$value = $this->getValue();
-		}
+        $value = $sliderMin;
+        if ($this->getValue() > $value) {
+            $value = $this->getValue();
+        }
 
-		$sliderElementTemplate = '<div class="slider-element-wrap">%s<div class="slider-bar-wrap"><div class="slider-element" id="slider-' . $id . '"></div></div><div class="slider-input-wrap">%s</div></div>';
+        $sliderElementTemplate = '<div class="slider-element-wrap">%s<div class="slider-bar-wrap"><div class="slider-element" id="slider-' . $id . '"></div></div><div class="slider-input-wrap">%s</div></div>';
 
-		$javascriptCode = '<script type="text/javascript">
+        $javascriptCode = '<script type="text/javascript">
 $(function() {
 	if (jQuery.ui) {
 		jQuery("#slider-' . $id . '").slider({
@@ -78,8 +79,6 @@ $(function() {
 });
 </script>';
 
-		return sprintf($sliderElementTemplate, $javascriptCode, $inputString);
-
-	}
-
+        return sprintf($sliderElementTemplate, $javascriptCode, $inputString);
+    }
 }

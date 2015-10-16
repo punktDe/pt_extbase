@@ -28,24 +28,24 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_ViewHelpers_Format_CssNameViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Format_CssNameViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Render
+     * 
+     * Renders a valid CSS class/id name
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $name = $this->renderChildren();
 
-	/**
-	 * Render
-	 * 
-	 * Renders a valid CSS class/id name
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$name = $this->renderChildren();
+        $name = trim($name);
+        $name = \TYPO3\CMS\Core\Utility\GeneralUtility::camelCaseToLowerCaseUnderscored($name);
+        $name = strtolower($name);
+        $name = str_replace(array(' ', '_'), '-', $name);
 
-		$name = trim($name);
-		$name = \TYPO3\CMS\Core\Utility\GeneralUtility::camelCaseToLowerCaseUnderscored($name);
-		$name = strtolower($name);
-		$name = str_replace(array(' ', '_'), '-', $name);
-
-		return $name;
-	}
-	
+        return $name;
+    }
 }

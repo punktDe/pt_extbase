@@ -1,8 +1,8 @@
 <?php
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-if (!defined ('TYPO3_MODE')) {
-	die ('Access denied.');
+if (!defined('TYPO3_MODE')) {
+    die('Access denied.');
 }
 
 
@@ -10,14 +10,14 @@ if (!defined ('TYPO3_MODE')) {
 /**
 // Define state cache, if not already defined
 if (!is_array($TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'])) {
-	$TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'] = array(
-		'frontend' => 't3lib_cache_frontend_VariableFrontend',
-		'backend' => 't3lib_cache_backend_DbBackend',
-		'options' => array(
-			'cacheTable' => 'tx_ptextbase_cache_state',
-			'tagsTable'  => 'tx_ptextbase_cache_state_tags',
-		)
-	);
+    $TYPO3_CONF_VARS['SYS']['caching']['cacheConfigurations']['tx_ptextbase'] = array(
+        'frontend' => 't3lib_cache_frontend_VariableFrontend',
+        'backend' => 't3lib_cache_backend_DbBackend',
+        'options' => array(
+            'cacheTable' => 'tx_ptextbase_cache_state',
+            'tagsTable'  => 'tx_ptextbase_cache_state_tags',
+        )
+    );
 }
 */
 
@@ -43,14 +43,14 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_PtExtbase_Sc
     'extension' => $_EXTKEY,
     'title' => 'SQL Runner',
     'description' => 'Runs an SQL file.',
-	'additionalFields' => 'Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields'
+    'additionalFields' => 'Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields'
 );
 
 /*
  * Test Scheduler Task
  */
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['PunktDe\PtExtbase\Tests\Functional\Scheduler\TestTask'] = array(
-	'extension' => $_EXTKEY,
-	'title' => 'Pt_Extbase Test Abstract Scheduler Task',
-	'description' => 'This Task is for Testing, do not run this task in Production Environment',
+    'extension' => $_EXTKEY,
+    'title' => 'Pt_Extbase Test Abstract Scheduler Task',
+    'description' => 'This Task is for Testing, do not run this task in Production Environment',
 );

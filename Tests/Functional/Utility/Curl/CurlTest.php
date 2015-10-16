@@ -28,62 +28,64 @@ use PunktDe\PtExtbase\Utility\Files;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Functional\Utility\Curl
  */
-class CurlTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class CurlTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Curl\Request
+     */
+    protected $curlRequest;
 
 
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Curl\Request
-	 */
-	protected $curlRequest;
-
-
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		$this->curlRequest = $this->objectManager->get('PunktDe\PtExtbase\Utility\Curl\Request');
-	}
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        $this->curlRequest = $this->objectManager->get('PunktDe\PtExtbase\Utility\Curl\Request');
+    }
 
 
 
-	/**
-	 * @return void
-	 */
-	public function tearDown() {
-
-	}
-
-
-	/**
-	 * @test
-	 */
-	public function successfulPostRequestGeneratesResponse() {
-		$response = $this->curlRequest->setUrl('http://localhost')->post();
-
-		$this->assertInstanceOf('\PunktDe\PtExtbase\Utility\Curl\Response', $response);
-
-		$this->assertTrue($response->isRequestSucceeded());
-		$this->assertEquals('200', $response->getHttpCode());
-		$this->assertEquals(0, $response->getErrorNumber());
-
-		$this->assertFalse(stristr($response->getBody(), 'HTTP/1.1 200 OK'));
-
-		$this->assertTrue(is_array($response->getHeader()));
-		$this->assertEquals('HTTP/1.1 200 OK', $response->getHeader('http_code'));
-		$this->assertEquals('text/html', $response->getHeader('Content-Type'));
-	}
+    /**
+     * @return void
+     */
+    public function tearDown()
+    {
+    }
 
 
-	/**
-	 * @test
-	 */
-	public function postRequestToNotExistingDomain() {
-		$response = $this->curlRequest->setUrl('http://nonExistent.url')->post();
+    /**
+     * @test
+     */
+    public function successfulPostRequestGeneratesResponse()
+    {
+        $response = $this->curlRequest->setUrl('http://localhost')->post();
 
-		$this->assertInstanceOf('\PunktDe\PtExtbase\Utility\Curl\Response', $response);
+        $this->assertInstanceOf('\PunktDe\PtExtbase\Utility\Curl\Response', $response);
 
-		$this->assertFalse($response->isRequestSucceeded());
-		$this->assertEquals(0, $response->getHttpCode());
-		$this->assertEquals(6, $response->getErrorNumber());
-	}
+        $this->assertTrue($response->isRequestSucceeded());
+        $this->assertEquals('200', $response->getHttpCode());
+        $this->assertEquals(0, $response->getErrorNumber());
+
+        $this->assertFalse(stristr($response->getBody(), 'HTTP/1.1 200 OK'));
+
+        $this->assertTrue(is_array($response->getHeader()));
+        $this->assertEquals('HTTP/1.1 200 OK', $response->getHeader('http_code'));
+        $this->assertEquals('text/html', $response->getHeader('Content-Type'));
+    }
+
+
+    /**
+     * @test
+     */
+    public function postRequestToNotExistingDomain()
+    {
+        $response = $this->curlRequest->setUrl('http://nonExistent.url')->post();
+
+        $this->assertInstanceOf('\PunktDe\PtExtbase\Utility\Curl\Response', $response);
+
+        $this->assertFalse($response->isRequestSucceeded());
+        $this->assertEquals(0, $response->getHttpCode());
+        $this->assertEquals(6, $response->getErrorNumber());
+    }
 }

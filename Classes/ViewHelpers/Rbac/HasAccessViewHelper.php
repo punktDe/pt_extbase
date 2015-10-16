@@ -63,107 +63,114 @@
  * @author Michael Knoll <knoll@punkt.de>
  * @author Daniel Lienert <lienert@punkt.de>
  */
-class Tx_PtExtbase_ViewHelpers_Rbac_HasAccessViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper {
-
-	/**
-	 * Holds instance of rbac service
-	 *
-	 * @var Tx_PtExtbase_Rbac_RbacServiceInterface
-	 */
-	protected $rbacService;
-
-
-	/**
-	 * Injects rbac service
-	 *
-	 * @param Tx_PtExtbase_Rbac_RbacServiceInterface $rbacService
-	 */
-	public function injectRbacService(Tx_PtExtbase_Rbac_RbacServiceInterface $rbacService) {
-		$this->rbacService = $rbacService;
-	}
+class Tx_PtExtbase_ViewHelpers_Rbac_HasAccessViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+{
+    /**
+     * Holds instance of rbac service
+     *
+     * @var Tx_PtExtbase_Rbac_RbacServiceInterface
+     */
+    protected $rbacService;
 
 
-	/**
-	 * Initialize arguments
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('object', 'string', 'Object to check if user has access rights for', FALSE);
-		$this->registerArgument('action', 'string', 'Action to check if user has access rights for', FALSE);
-		$this->registerArgument('hasAny', 'array', 'Check if user has access rights for any of these object:action combinations', FALSE);
-		$this->registerArgument('hasAll', 'array', 'Check if user has access rights for all of these object:action combinations', FALSE);
-	}
+    /**
+     * Injects rbac service
+     *
+     * @param Tx_PtExtbase_Rbac_RbacServiceInterface $rbacService
+     */
+    public function injectRbacService(Tx_PtExtbase_Rbac_RbacServiceInterface $rbacService)
+    {
+        $this->rbacService = $rbacService;
+    }
 
 
-	/**
-	 * Renders hasAccess viewhelper
-	 *
-	 * @return string Rendered hasAccess ViewHelper
-	 */
-	public function render() {
-
-		$access = FALSE;
-
-		if (is_array($this->arguments['hasAny'])) {
-			$access = $this->checkOnAny($this->arguments['hasAny']);
-		}
+    /**
+     * Initialize arguments
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('object', 'string', 'Object to check if user has access rights for', false);
+        $this->registerArgument('action', 'string', 'Action to check if user has access rights for', false);
+        $this->registerArgument('hasAny', 'array', 'Check if user has access rights for any of these object:action combinations', false);
+        $this->registerArgument('hasAll', 'array', 'Check if user has access rights for all of these object:action combinations', false);
+    }
 
 
-		if (is_array($this->arguments['hasAll'])) {
-			$access = $this->checkOnAll($this->arguments['hasAll']);
-		}
+    /**
+     * Renders hasAccess viewhelper
+     *
+     * @return string Rendered hasAccess ViewHelper
+     */
+    public function render()
+    {
+        $access = false;
+
+        if (is_array($this->arguments['hasAny'])) {
+            $access = $this->checkOnAny($this->arguments['hasAny']);
+        }
 
 
-		if ($this->arguments['object'] && $this->arguments['action']) {
-			$access = $this->hasAccess($this->arguments['object'], $this->arguments['action']);
-		}
-
-		if ($access === TRUE) {
-			return $this->renderThenChild();
-		} else {
-			return $this->renderElseChild();
-		}
-	}
+        if (is_array($this->arguments['hasAll'])) {
+            $access = $this->checkOnAll($this->arguments['hasAll']);
+        }
 
 
-	/**
-	 * @param $objectActionArray
-	 * @return bool
-	 */
-	protected function checkOnAll($objectActionArray) {
-		foreach ($objectActionArray as $key => $objectActionPair) {
-			list($object, $action) = implode('.', $objectActionPair);
-			if (!$this->hasAccess($object, $action)) return FALSE;
-		}
+        if ($this->arguments['object'] && $this->arguments['action']) {
+            $access = $this->hasAccess($this->arguments['object'], $this->arguments['action']);
+        }
 
-		return TRUE;
-	}
+        if ($access === true) {
+            return $this->renderThenChild();
+        } else {
+            return $this->renderElseChild();
+        }
+    }
 
 
-	/**
-	 * @param $objectActionArray
-	 * @return bool
-	 */
-	protected function checkOnAny($objectActionArray) {
+    /**
+     * @param $objectActionArray
+     * @return bool
+     */
+    protected function checkOnAll($objectActionArray)
+    {
+        foreach ($objectActionArray as $key => $objectActionPair) {
+            list($object, $action) = implode('.', $objectActionPair);
+            if (!$this->hasAccess($object, $action)) {
+                return false;
+            }
+        }
 
-		foreach ($objectActionArray as $key => $objectActionPair) {
-			list($object, $action) = explode('.', $objectActionPair);
-			if ($this->hasAccess($object, $action)) return TRUE;
-		}
-
-		return FALSE;
-	}
+        return true;
+    }
 
 
-	/**
-	 * @param string $object
-	 * @param string $action
-	 * @return bool
-	 */
-	protected function hasAccess($object, $action) {
-		return $this->rbacService->loggedInUserHasAccess(
-			$this->controllerContext->getRequest()->getControllerExtensionName(),
-			$object,
-			$action);
-	}
+    /**
+     * @param $objectActionArray
+     * @return bool
+     */
+    protected function checkOnAny($objectActionArray)
+    {
+        foreach ($objectActionArray as $key => $objectActionPair) {
+            list($object, $action) = explode('.', $objectActionPair);
+            if ($this->hasAccess($object, $action)) {
+                return true;
+            }
+        }
 
+        return false;
+    }
+
+
+    /**
+     * @param string $object
+     * @param string $action
+     * @return bool
+     */
+    protected function hasAccess($object, $action)
+    {
+        return $this->rbacService->loggedInUserHasAccess(
+            $this->controllerContext->getRequest()->getControllerExtensionName(),
+            $object,
+            $action);
+    }
 }

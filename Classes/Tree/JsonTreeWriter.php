@@ -29,46 +29,49 @@
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tree_JsonTreeWriter extends Tx_PtExtbase_Tree_ArrayTreeWriter {
+class Tx_PtExtbase_Tree_JsonTreeWriter extends Tx_PtExtbase_Tree_ArrayTreeWriter
+{
+    /**
+     * Creates a new instance of json writer
+     *
+     * @param array $visitors
+     * @return Tx_PtExtbase_Tree_JsonTreeWriter
+     */
+    public static function getInstance(array $visitors = array())
+    {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
-	/**
-	 * Creates a new instance of json writer
-	 *
-	 * @param array $visitors
-	 * @return Tx_PtExtbase_Tree_JsonTreeWriter
-	 */
-	public static function getInstance(array $visitors = array()) {
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $arrayWriterVisitor = $objectManager->get('Tx_PtExtbase_Tree_ArrayWriterVisitor');
+        /** @var Tx_PtExtbase_Tree_ArrayWriterVisitor $arrayWriterVisitor */
 
-		$arrayWriterVisitor = $objectManager->get('Tx_PtExtbase_Tree_ArrayWriterVisitor');
-		/** @var Tx_PtExtbase_Tree_ArrayWriterVisitor $arrayWriterVisitor */
-
-		$visitors[] = $arrayWriterVisitor;
-		$jsonTreeWriter = $objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', $visitors, $arrayWriterVisitor);
-		return $jsonTreeWriter;
-	}
-
-
-	/**
-	 * Constructor for array tree writer
-	 *
-	 * @param array $visitors
-	 * @param \Tx_PtExtbase_Tree_ArrayWriterVisitor|\Tx_PtExtbase_Tree_TreeWalkerVisitorInterface $arrayWriterVisitor
-	 */
-	public function __construct(array $visitors, Tx_PtExtbase_Tree_TreeWalkerVisitorInterface $arrayWriterVisitor) {
-		parent::__construct($visitors, $arrayWriterVisitor);
-	}
+        $visitors[] = $arrayWriterVisitor;
+        $jsonTreeWriter = $objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', $visitors, $arrayWriterVisitor);
+        return $jsonTreeWriter;
+    }
 
 
-	/**
-	 * Returns JSON notation of given tree
-	 *
-	 * @param Tx_PtExtbase_Tree_TreeInterface $tree
-	 * @return string JSON encoding of tree
-	 */
-	public function writeTree(Tx_PtExtbase_Tree_TreeInterface $tree) {
-		$nodeArray = parent::writeTree($tree);
+    /**
+     * Constructor for array tree writer
+     *
+     * @param array $visitors
+     * @param \Tx_PtExtbase_Tree_ArrayWriterVisitor|\Tx_PtExtbase_Tree_TreeWalkerVisitorInterface $arrayWriterVisitor
+     */
+    public function __construct(array $visitors, Tx_PtExtbase_Tree_TreeWalkerVisitorInterface $arrayWriterVisitor)
+    {
+        parent::__construct($visitors, $arrayWriterVisitor);
+    }
 
-		return '[' . json_encode($nodeArray) . ']';
-	}
+
+    /**
+     * Returns JSON notation of given tree
+     *
+     * @param Tx_PtExtbase_Tree_TreeInterface $tree
+     * @return string JSON encoding of tree
+     */
+    public function writeTree(Tx_PtExtbase_Tree_TreeInterface $tree)
+    {
+        $nodeArray = parent::writeTree($tree);
+
+        return '[' . json_encode($nodeArray) . ']';
+    }
 }

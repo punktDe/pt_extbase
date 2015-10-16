@@ -28,18 +28,18 @@
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_MergeArgumentsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
-	/**
-	 * Render
-	 *
-	 * @param array $argument1
-	 * @param array $argument2
-	 * @return string
-	 */
-	public function render($argument1, $argument2) {
-		$result = array_merge_recursive($argument1, $argument2);
-		return $result;
-	}
-
+class Tx_PtExtbase_ViewHelpers_MergeArgumentsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Render
+     *
+     * @param array $argument1
+     * @param array $argument2
+     * @return string
+     */
+    public function render($argument1, $argument2)
+    {
+        $result = array_merge_recursive($argument1, $argument2);
+        return $result;
+    }
 }

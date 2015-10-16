@@ -26,6 +26,6 @@ namespace PunktDe\PtExtbase\Utility\Varnish;
  *
  * @package PunktDe\PtExtbase\Utility\Git
  */
-class VarnishAdministrationException extends \Exception {
-
-} 
+class VarnishAdministrationException extends \Exception
+{
+}

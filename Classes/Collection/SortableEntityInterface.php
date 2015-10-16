@@ -30,12 +30,10 @@
  * @package pt_extbase
  * @subpackaga Collection
  */
-interface Tx_PtExtbase_Collection_SortableEntityInterface {
-
-	/**
-	 * @return integer Sorting value
-	 */
-	public function getSortingValue();
-
+interface Tx_PtExtbase_Collection_SortableEntityInterface
+{
+    /**
+     * @return integer Sorting value
+     */
+    public function getSortingValue();
 }
-?>

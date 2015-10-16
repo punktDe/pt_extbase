@@ -30,8 +30,8 @@
  * @package Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-interface Tx_PtExtbase_Tree_TreeBuilderInterface {
-
+interface Tx_PtExtbase_Tree_TreeBuilderInterface
+{
     /**
      * Returns an empty tree with root node labeled by given label
      *
@@ -40,16 +40,14 @@ interface Tx_PtExtbase_Tree_TreeBuilderInterface {
      * @return Tx_PtExtbase_Tree_Tree Empty tree object.
      */
     public function getEmptyTree($namespace, $rootLabel = '');
-	
-	
-	
-	/**
-	 * Builds a tree for given namespace.
-	 *
-	 * @param string $namespace Namespace to build tree for
-	 * @return Tx_PtExtbase_Tree_Tree
-	 */
-	public function buildTreeForNamespace($namespace);
-
+    
+    
+    
+    /**
+     * Builds a tree for given namespace.
+     *
+     * @param string $namespace Namespace to build tree for
+     * @return Tx_PtExtbase_Tree_Tree
+     */
+    public function buildTreeForNamespace($namespace);
 }
-?>

@@ -33,87 +33,90 @@ require_once ExtensionManagementUtility::extPath('realurl') . 'class.tx_realurl_
  *
  * @package PunktDe\PtExtbase\Utility
  */
-class RealUrl implements SingletonInterface {
-
-	/**
-	 * @inject
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
-
-
-	/**
-	 * @inject
-	 * @var \tx_realurl
-	 */
-	protected $realUrl;
+class RealUrl implements SingletonInterface
+{
+    /**
+     * @inject
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     */
+    protected $objectManager;
 
 
-	/**
-	 * @inject
-	 * @var \tx_realurl_advanced
-	 */
-	protected $realUrlAdvanced;
+    /**
+     * @inject
+     * @var \tx_realurl
+     */
+    protected $realUrl;
 
 
-
-	/**
-	 * Map path to page ID
-	 *
-	 * Path is the URL
-	 * - without domain
-	 * - without file suffix
-	 * - separated by slash
-	 *
-	 * E.g.:
-	 * - URL: http://www.kubrick.co.uk/film/aclockworkorange.html
-	 * - Path: film/aclockworkorange
-	 *
-	 * @param string $path
-	 * @return integer
-	 */
-	public function mapPathToPageId($path) {
-		$this->initializeFrontendToMakeRealUrlWork();
-		$parameters['mode'] = 'decode';
-		$parameters['pathParts'] = GeneralUtility::trimExplode('/', $path);
-		$result = $this->realUrlAdvanced->main($parameters, $this->realUrl);
-		return $result[0];
-	}
+    /**
+     * @inject
+     * @var \tx_realurl_advanced
+     */
+    protected $realUrlAdvanced;
 
 
 
-	/**
-	 * @return void
-	 */
-	protected function initializeFrontendToMakeRealUrlWork() {
-		$GLOBALS['TSFE'] = $this->objectManager->get('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], 0, 0);
-	}
+    /**
+     * Map path to page ID
+     *
+     * Path is the URL
+     * - without domain
+     * - without file suffix
+     * - separated by slash
+     *
+     * E.g.:
+     * - URL: http://www.kubrick.co.uk/film/aclockworkorange.html
+     * - Path: film/aclockworkorange
+     *
+     * @param string $path
+     * @return integer
+     */
+    public function mapPathToPageId($path)
+    {
+        $this->initializeFrontendToMakeRealUrlWork();
+        $parameters['mode'] = 'decode';
+        $parameters['pathParts'] = GeneralUtility::trimExplode('/', $path);
+        $result = $this->realUrlAdvanced->main($parameters, $this->realUrl);
+        return $result[0];
+    }
 
 
 
-	/**
-	 * Map URL to page ID
-	 *
-	 * URL can be
-	 * 1. with scheme: http://www.kubrick.co.uk/film/aclockworkorange.html
-	 * 2. without scheme: www.kubrick.co.uk/film/aclockworkorange.html
-	 *
-	 * @param string $url
-	 * @return integer
-	 */
-	public function mapUrlToPageId($url) {
-		return $this->mapPathToPageId($this->filterPathFromUrl($url));
-	}
+    /**
+     * @return void
+     */
+    protected function initializeFrontendToMakeRealUrlWork()
+    {
+        $GLOBALS['TSFE'] = $this->objectManager->get('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], 0, 0);
+    }
 
 
 
-	/**
-	 * @param string $url
-	 * @return string
-	 */
-	public function filterPathFromUrl($url) {
-		preg_match('|^(?:[a-z][a-z0-9+\-.]*:(?://[^/?#]+)?)?(?:[^/]+)?([a-z0-9\-._~!$&()*+,;=:@/]*?)\.html?|', $url, $matches);
-		return ltrim($matches[1], "/");
-	}
+    /**
+     * Map URL to page ID
+     *
+     * URL can be
+     * 1. with scheme: http://www.kubrick.co.uk/film/aclockworkorange.html
+     * 2. without scheme: www.kubrick.co.uk/film/aclockworkorange.html
+     *
+     * @param string $url
+     * @return integer
+     */
+    public function mapUrlToPageId($url)
+    {
+        return $this->mapPathToPageId($this->filterPathFromUrl($url));
+    }
 
-} 
+
+
+    /**
+     * @param string $url
+     * @return string
+     */
+    public function filterPathFromUrl($url)
+    {
+        preg_match('|^(?:[a-z][a-z0-9+\-.]*:(?://[^/?#]+)?)?(?:[^/]+)?([a-z0-9\-._~!$&()*+,;=:@/]*?)\.html?|', $url, $matches);
+        return ltrim($matches[1], "/");
+    }
+}

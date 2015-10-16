@@ -32,13 +32,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
 
-class Tx_PtExtbase_Utility_AbstractTcaWidget {
-
+class Tx_PtExtbase_Utility_AbstractTcaWidget
+{
     /**
      * Fluid Renderer
      * @var \TYPO3\CMS\Fluid\View\TemplateView
      */
-    protected $fluidRenderer = NULL;
+    protected $fluidRenderer = null;
 
 
 
@@ -143,7 +143,8 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      * @param array $parameters Parameters passed by TCA rendering call
      * @param t3lib_TCEforms $fobj t3lib_TCEforms object passed by TCA rendering call
      */
-    protected function init(array $params = array(), \TYPO3\CMS\Backend\Form\FormEngine $fobj = null) {
+    protected function init(array $params = array(), \TYPO3\CMS\Backend\Form\FormEngine $fobj = null)
+    {
         $this->tcaParameters = $params;
         $this->tceForms = $fobj;
         $this->initPropertiesFromParamsArray();
@@ -158,7 +159,8 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
     /**
      * Initializes properties from params array
      */
-    protected function initPropertiesFromParamsArray() {
+    protected function initPropertiesFromParamsArray()
+    {
         $this->throwExceptionIfFiedConfigParametersAreNotSet();
 
         $fieldConfigParameters = $this->tcaParameters['fieldConf']['config']['parameters'];
@@ -195,7 +197,8 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      *
      * @throws Exception
      */
-    protected function throwExceptionIfFiedConfigParametersAreNotSet() {
+    protected function throwExceptionIfFiedConfigParametersAreNotSet()
+    {
         if (!array_key_exists('fieldConf', $this->tcaParameters)) {
             throw new Exception('Cannot use ' . get_class($this) . ' without having fieldConfig set in corresponding TCA configuration! 1328299642');
         }
@@ -214,18 +217,20 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
     /**
      * Initializes Extbase object manager
      */
-    protected function initFrameWork() {
-		 $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-		 $bootstrap = $this->objectManager->get('TYPO3\CMS\Extbase\Core\Bootstrap');
-		 $bootstrap->initialize(array('extensionName' => $this->extensionName, 'pluginName' => $this->pluginName));
+    protected function initFrameWork()
+    {
+        $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $bootstrap = $this->objectManager->get('TYPO3\CMS\Extbase\Core\Bootstrap');
+        $bootstrap->initialize(array('extensionName' => $this->extensionName, 'pluginName' => $this->pluginName));
     }
 
 
     /**
      * Initialize Fluid Renderer (which is a Fluid view)
      */
-    protected function initFluidRenderer() {
-        if(!$this->fluidRenderer) {
+    protected function initFluidRenderer()
+    {
+        if (!$this->fluidRenderer) {
             $request = $this->objectManager->get('TYPO3\CMS\Extbase\Mvc\Request'); /* @var $request \TYPO3\CMS\Extbase\Mvc\Request */
             $request->setControllerExtensionName($this->extensionName);
             $request->setPluginName($this->pluginName);
@@ -248,7 +253,8 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
      *
      * @return array
      */
-    protected function getSelectedValues() {
+    protected function getSelectedValues()
+    {
         $listOfValues = explode(',', $this->formFieldValue);
         $selectedValuesArray = array();
         foreach ($listOfValues as $singleValue) {
@@ -263,7 +269,8 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
     /**
      * Initializes Template in Fluid renderer
      */
-    protected function initTemplate() {
+    protected function initTemplate()
+    {
         $fullQualifiedTemplatePath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($this->templatePath);
         $this->fluidRenderer->setTemplatePathAndFilename($fullQualifiedTemplatePath);
     }
@@ -276,12 +283,12 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget {
     *
     * @return template $doc
     */
-    protected function getDocInstance() {
+    protected function getDocInstance()
+    {
         if (!isset($GLOBALS['SOBE']->doc)) {
             $GLOBALS['SOBE']->doc = GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
             $GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
         }
         return $GLOBALS['SOBE']->doc;
     }
-
 }

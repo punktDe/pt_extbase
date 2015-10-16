@@ -31,117 +31,126 @@
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
-class Tx_PtExtbase_Testing_FixtureFramework_Credentials {
+class Tx_PtExtbase_Testing_FixtureFramework_Credentials
+{
+    /**
+     * @var string
+     */
+    protected $dsn;
 
-	/**
-	 * @var string
-	 */
-	protected $dsn;
+    /**
+     * @var string
+     */
+    protected $hostname;
 
-	/**
-	 * @var string
-	 */
-	protected $hostname;
+    /**
+     * @var string
+     */
+    protected $username;
 
-	/**
-	 * @var string
-	 */
-	protected $username;
+    /**
+     * @var string
+     */
+    protected $password;
 
-	/**
-	 * @var string
-	 */
-	protected $password;
+    /**
+     * @var string
+     */
+    protected $schema;
 
-	/**
-	 * @var string
-	 */
-	protected $schema;
+    /**
+     * @param string $dsn
+     * @param string $hostname
+     * @param string $username
+     * @param string $password
+     * @param string $schema
+     */
+    public function __construct($dsn, $hostname, $username, $password, $schema)
+    {
+        $this->setDsn($dsn);
+        $this->setHostname($hostname);
+        $this->setUsername($username);
+        $this->setPassword($password);
+        $this->setSchema($schema);
+    }
 
-	/**
-	 * @param string $dsn
-	 * @param string $hostname
-	 * @param string $username
-	 * @param string $password
-	 * @param string $schema
-	 */
-	public function __construct($dsn, $hostname, $username, $password, $schema) {
-		$this->setDsn($dsn);
-		$this->setHostname($hostname);
-		$this->setUsername($username);
-		$this->setPassword($password);
-		$this->setSchema($schema);
-	}
+    /**
+     * @param string $dsn
+     */
+    public function setDsn($dsn)
+    {
+        $this->dsn = $dsn;
+    }
 
-	/**
-	 * @param string $dsn
-	 */
-	public function setDsn($dsn) {
-		$this->dsn = $dsn;
-	}
+    /**
+     * @return string
+     */
+    public function getDsn()
+    {
+        return $this->dsn;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getDsn() {
-		return $this->dsn;
-	}
+    /**
+     * @param string $hostname
+     */
+    public function setHostname($hostname)
+    {
+        $this->hostname = $hostname;
+    }
 
-	/**
-	 * @param string $hostname
-	 */
-	public function setHostname($hostname) {
-		$this->hostname = $hostname;
-	}
+    /**
+     * @return string
+     */
+    public function getHostname()
+    {
+        return $this->hostname;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getHostname() {
-		return $this->hostname;
-	}
+    /**
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
 
-	/**
-	 * @param string $password
-	 */
-	public function setPassword($password) {
-		$this->password = $password;
-	}
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getPassword() {
-		return $this->password;
-	}
+    /**
+     * @param string $schema
+     */
+    public function setSchema($schema)
+    {
+        $this->schema = $schema;
+    }
 
-	/**
-	 * @param string $schema
-	 */
-	public function setSchema($schema) {
-		$this->schema = $schema;
-	}
+    /**
+     * @return string
+     */
+    public function getSchema()
+    {
+        return $this->schema;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getSchema() {
-		return $this->schema;
-	}
+    /**
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
 
-	/**
-	 * @param string $username
-	 */
-	public function setUsername($username) {
-		$this->username = $username;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUsername() {
-		return $this->username;
-	}
-
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
 }
-?>

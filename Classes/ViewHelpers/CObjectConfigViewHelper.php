@@ -28,34 +28,35 @@
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_CObjectConfigViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_CObjectConfigViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Initialize arguments
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+    }
 
-	/**
-	 * Initialize arguments
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
 
-	}
+    /**
+     * Renders a cObject form an extbase formatted config
+     *
+     * @param mixed $config
+     * @param array $data
+     * @return string
+     */
+    public function render($config, $data = array())
+    {
+        if (!is_array($config)) {
+            return $config;
+        }
 
+        if ($data) {
+            Tx_PtExtbase_Div::getCobj()->start($data);
+        }
 
-	/**
-	 * Renders a cObject form an extbase formatted config
-	 *
-	 * @param mixed $config
-	 * @param array $data
-	 * @return string
-	 */
-	public function render($config, $data = array()) {
-
-		if(!is_array($config)) return $config;
-
-		if($data) {
-			Tx_PtExtbase_Div::getCobj()->start($data);
-		}
-
-		return Tx_PtExtbase_Div::getCobj()->cObjGetSingle($config['_typoScriptNodeValue'], Tx_Extbase_Service_TypoScriptService::convertPlainArrayToTypoScriptArray($config));
-	}
-	
+        return Tx_PtExtbase_Div::getCobj()->cObjGetSingle($config['_typoScriptNodeValue'], Tx_Extbase_Service_TypoScriptService::convertPlainArrayToTypoScriptArray($config));
+    }
 }

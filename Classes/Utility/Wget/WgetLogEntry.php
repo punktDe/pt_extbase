@@ -26,149 +26,161 @@
 
 namespace PunktDe\PtExtbase\Utility\Wget;
 
-
-class WgetLogEntry {
-
-
-	/**
-	 * Defines which status codes are errors
-	 *
-	 * @var array
-	 */
-	protected $errorStatusPattern = '[4,5]..';
+class WgetLogEntry
+{
+    /**
+     * Defines which status codes are errors
+     *
+     * @var array
+     */
+    protected $errorStatusPattern = '[4,5]..';
 
 
-	/**
-	 * @var \DateTime
-	 */
-	protected $fetchDate;
+    /**
+     * @var \DateTime
+     */
+    protected $fetchDate;
 
 
-	/**
-	 * @var string
-	 */
-	protected $url;
+    /**
+     * @var string
+     */
+    protected $url;
 
 
-	/**
-	 * @var integer
-	 */
-	protected $status;
+    /**
+     * @var integer
+     */
+    protected $status;
 
 
-	/**
-	 * @var string
-	 */
-	protected $contentType;
+    /**
+     * @var string
+     */
+    protected $contentType;
 
 
-	/**
-	 * @var integer
-	 */
-	protected $contentLength;
+    /**
+     * @var integer
+     */
+    protected $contentLength;
 
-	/**
-	 * @return int
-	 */
-	public function getContentLength() {
-		return $this->contentLength;
-	}
+    /**
+     * @return int
+     */
+    public function getContentLength()
+    {
+        return $this->contentLength;
+    }
 
-	/**
-	 * @param int $contentLength
-	 */
-	public function setContentLength($contentLength) {
-		$this->contentLength = $contentLength;
-	}
+    /**
+     * @param int $contentLength
+     */
+    public function setContentLength($contentLength)
+    {
+        $this->contentLength = $contentLength;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getContentType() {
-		return $this->contentType;
-	}
+    /**
+     * @return string
+     */
+    public function getContentType()
+    {
+        return $this->contentType;
+    }
 
-	/**
-	 * @param string $contentType
-	 */
-	public function setContentType($contentType) {
-		$this->contentType = $contentType;
-	}
+    /**
+     * @param string $contentType
+     */
+    public function setContentType($contentType)
+    {
+        $this->contentType = $contentType;
+    }
 
-	/**
-	 * @return \DateTime
-	 */
-	public function getFetchDate() {
-		return $this->fetchDate;
-	}
+    /**
+     * @return \DateTime
+     */
+    public function getFetchDate()
+    {
+        return $this->fetchDate;
+    }
 
-	/**
-	 * @param \DateTime $fetchDate
-	 */
-	public function setFetchDate($fetchDate) {
-		$this->fetchDate = $fetchDate;
-	}
+    /**
+     * @param \DateTime $fetchDate
+     */
+    public function setFetchDate($fetchDate)
+    {
+        $this->fetchDate = $fetchDate;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getStatus() {
-		return $this->status;
-	}
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 
-	/**
-	 * @param string $status
-	 */
-	public function setStatus($status) {
-		$this->status = $status;
-	}
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getUrl() {
-		return $this->url;
-	}
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
 
-	/**
-	 * @param string $url
-	 */
-	public function setUrl($url) {
-		$this->url = $url;
-	}
+    /**
+     * @param string $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getErrorStatusPattern() {
-		return $this->errorStatusPattern;
-	}
+    /**
+     * @return array
+     */
+    public function getErrorStatusPattern()
+    {
+        return $this->errorStatusPattern;
+    }
 
-	/**
-	 * @param array $errorStatusPatterns
-	 */
-	public function setErrorStatusPattern($errorStatusPatterns) {
-		$this->errorStatusPattern = $errorStatusPatterns;
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function isError() {
-		return preg_match(sprintf('/%s/', $this->errorStatusPattern), (string) $this->status) != 0 ?: FALSE;
-	}
+    /**
+     * @param array $errorStatusPatterns
+     */
+    public function setErrorStatusPattern($errorStatusPatterns)
+    {
+        $this->errorStatusPattern = $errorStatusPatterns;
+    }
 
 
-	/**
-	 * @return array
-	 */
-	public function toArray() {
-		return array(
-			'date' => $this->getFetchDate(),
-			'url' => $this->getUrl(),
-			'status' => $this->getStatus(),
-			'length' => $this->getContentLength()
-		);
-	}
-} 
+    /**
+     * @return bool
+     */
+    public function isError()
+    {
+        return preg_match(sprintf('/%s/', $this->errorStatusPattern), (string) $this->status) != 0 ?: false;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return array(
+            'date' => $this->getFetchDate(),
+            'url' => $this->getUrl(),
+            'status' => $this->getStatus(),
+            'length' => $this->getContentLength()
+        );
+    }
+}

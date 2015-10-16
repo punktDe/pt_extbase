@@ -32,21 +32,22 @@
  * @package     State
  * @subpackage  Session\Storage
  */
-class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtExtbase_State_Session_Storage_AdapterInterface {
-	
+class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtExtbase_State_Session_Storage_AdapterInterface
+{
     /**
      * Holds singleton instance of this class
      *
      * @var Tx_PtExtbase_StorageAdapter_StorageAdapter
      */
-    private static $uniqueInstance = NULL;
+    private static $uniqueInstance = null;
 
 
 
     /**
      * Class constructor: must not be called directly in order to use getInstance() to get the unique instance of the object
      */
-    protected function __construct() {
+    protected function __construct()
+    {
     }
 
     
@@ -57,15 +58,14 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      * @param   void
      * @return  Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter      unique instance of the object (Singleton)
      */
-    public static function getInstance() {
-
-        if (self::$uniqueInstance === NULL) {
+    public static function getInstance()
+    {
+        if (self::$uniqueInstance === null) {
             $className = __CLASS__;
             self::$uniqueInstance = new $className();
         }
 
         return self::$uniqueInstance;
-
     }
 
     
@@ -75,10 +75,9 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      * @param   void
      * @return  void
      */
-    public final function __clone() {
-
+    final public function __clone()
+    {
         throw new Exception('Clone is not allowed for '.get_class($this).' (Singleton)');
-
     }
     
     
@@ -92,19 +91,20 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      * @author  Rainer Kuhn <kuhn@punkt.de>
      * @since   2005-09-23
      */
-    public function read($key) { 
-        
+    public function read($key)
+    {
         Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, 'tslib_feUserAuth', array('message' => 'No valid frontend user found!'));
         
         $val = $GLOBALS['TSFE']->fe_user->getKey('user', $key);
-        if (TYPO3_DLOG) \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(sprintf('Reading "%s" from FE user session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
+        if (TYPO3_DLOG) {
+            \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(sprintf('Reading "%s" from FE user session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
+        }
         
         if (is_string($val) && unserialize($val) != false) {
             $val = unserialize($val);
         }
         
         return $val;
-        
     }
     
     /**
@@ -117,8 +117,8 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      * @author  Rainer Kuhn <kuhn@punkt.de>
      * @since   2005-09-23
      */
-    public function store($key, $val) { 
-        
+    public function store($key, $val)
+    {
         Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, 'tslib_feUserAuth', array('message' => 'No valid frontend user found!'));
         
         if (is_object($val) || is_array($val)) {
@@ -128,7 +128,9 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
         $GLOBALS['TSFE']->fe_user->setKey('user', $key, $val);
         $GLOBALS['TSFE']->fe_user->userData_change = 1;
         $GLOBALS['TSFE']->fe_user->storeSessionData();
-        if (TYPO3_DLOG) \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(sprintf('Storing "%s" into FE user session using "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
+        if (TYPO3_DLOG) {
+            \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(sprintf('Storing "%s" into FE user session using "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
+        }
     }
     
     /**
@@ -140,14 +142,15 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      * @author  Rainer Kuhn <kuhn@punkt.de>
      * @since   2005-09-23
      */
-    public function delete($key) { 
-        
+    public function delete($key)
+    {
         Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, 'tslib_feUserAuth', array('message' => 'No valid frontend user found!'));
         
         unset($GLOBALS['TSFE']->fe_user->uc[$key]);
         $GLOBALS['TSFE']->fe_user->userData_change = 1;
         $GLOBALS['TSFE']->fe_user->storeSessionData();
-        if (TYPO3_DLOG) \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(sprintf('Deleting "%s" from FE user session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
-        
+        if (TYPO3_DLOG) {
+            \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(sprintf('Deleting "%s" from FE user session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
+        }
     }
 }

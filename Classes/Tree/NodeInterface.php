@@ -31,172 +31,171 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_PtExtbase_Tree_NodeInterface extends \TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface {
+interface Tx_PtExtbase_Tree_NodeInterface extends \TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface
+{
+    /*********************************************************************************************************
+     * Getters and setters for advanced domain logic. NOT USED FOR PERSISTENCE!
+     *********************************************************************************************************/
 
-	/*********************************************************************************************************
-	 * Getters and setters for advanced domain logic. NOT USED FOR PERSISTENCE!
-	 *********************************************************************************************************/
-
-	/**
-	 * Setter for parent node
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 */
-	public function setParent(Tx_PtExtbase_Tree_NodeInterface $node);
-
-
-	/**
-	 * Getter for parent node
-	 *
-	 * @return Tx_PtExtbase_Tree_NodeInterface
-	 */
-	public function getParent();
+    /**
+     * Setter for parent node
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     */
+    public function setParent(Tx_PtExtbase_Tree_NodeInterface $node);
 
 
-	/**
-	 * Getter for child nodes
-	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
-	 */
-	public function getChildren();
+    /**
+     * Getter for parent node
+     *
+     * @return Tx_PtExtbase_Tree_NodeInterface
+     */
+    public function getParent();
 
 
-	/**
-	 * Get count of children recursively
-	 *
-	 * TODO is this really necessary for this interface?
-	 *
-	 * @return integer
-	 */
-	public function getChildrenCount();
+    /**
+     * Getter for child nodes
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getChildren();
 
 
-	/**
-	 * Returns level of node (0 if node is root).
-	 *
-	 * Level is equal to depth
-	 * of node in tree where root has depth 0.
-	 *
-	 * @return integer
-	 */
-	public function getLevel();
+    /**
+     * Get count of children recursively
+     *
+     * TODO is this really necessary for this interface?
+     *
+     * @return integer
+     */
+    public function getChildrenCount();
 
 
-	/**
-	 * Indicates if this node is accessible by the user
-	 * and should therefore be visited by a visitor (and rendered)
-	 *
-	 * @abstract
-	 *
-	 * @return boolean
-	 */
-	public function isAccessible();
+    /**
+     * Returns level of node (0 if node is root).
+     *
+     * Level is equal to depth
+     * of node in tree where root has depth 0.
+     *
+     * @return integer
+     */
+    public function getLevel();
 
 
-	/**
-	 * Returns sub-nodes in a flat list. The result is ordered
-	 * in such a way that it reflects the structure of the tree (dfs):
-	 *
-	 * cat 1
-	 * - cat 1.1
-	 * -- cat 1.1.1
-	 * -- cat 1.1.2
-	 * - cat 1.2
-	 * -- cat 1.2.1
-	 * -- cat 1.2.2
-	 *
-	 * Will return
-	 *
-	 * cat 1
-	 * cat 1.1
-	 * cat 1.1.1
-	 * cat 1.1.2
-	 * cat 1.2
-	 * cat 1.2.1
-	 * cat 1.2.2
-	 *
-	 * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
-	 */
-	public function getSubNodes();
+    /**
+     * Indicates if this node is accessible by the user
+     * and should therefore be visited by a visitor (and rendered)
+     *
+     * @abstract
+     *
+     * @return boolean
+     */
+    public function isAccessible();
 
 
-	/*********************************************************************************************************
-	 * Domain logic
-	 *********************************************************************************************************/
-
-	/**
-	 * Adds a child node to children at end of children
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 */
-	public function addChild(Tx_PtExtbase_Tree_NodeInterface $node);
-
-
-	/**
-	 * Adds a new child node after a given child node
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
-	 * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter
-	 */
-	public function addChildAfter(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter);
-
-
-	/**
-	 * Adds a new child node before a given child node
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
-	 * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore
-	 * @param bool $updateLeftRight
-	 */
-	public function addChildBefore(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore);
+    /**
+     * Returns sub-nodes in a flat list. The result is ordered
+     * in such a way that it reflects the structure of the tree (dfs):
+     *
+     * cat 1
+     * - cat 1.1
+     * -- cat 1.1.1
+     * -- cat 1.1.2
+     * - cat 1.2
+     * -- cat 1.2.1
+     * -- cat 1.2.2
+     *
+     * Will return
+     *
+     * cat 1
+     * cat 1.1
+     * cat 1.1.1
+     * cat 1.1.2
+     * cat 1.2
+     * cat 1.2.1
+     * cat 1.2.2
+     *
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage
+     */
+    public function getSubNodes();
 
 
-	/**
-	 * Removes given child node
-	 *
-	 * @param Tx_PtExtbase_Tree_NodeInterface $node
-	 * @param bool $updateLeftRight
-	 */
-	public function removeChild(Tx_PtExtbase_Tree_NodeInterface $node);
+    /*********************************************************************************************************
+     * Domain logic
+     *********************************************************************************************************/
+
+    /**
+     * Adds a child node to children at end of children
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     */
+    public function addChild(Tx_PtExtbase_Tree_NodeInterface $node);
 
 
-	/**
-	 * Returns true, if node has children
-	 *
-	 * @return bool
-	 */
-	public function hasChildren();
+    /**
+     * Adds a new child node after a given child node
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
+     * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter
+     */
+    public function addChildAfter(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter);
 
 
-	/**
-	 * Returns true, if node has a parent
-	 *
-	 * @return bool True, if node has parent node
-	 */
-	public function hasParent();
+    /**
+     * Adds a new child node before a given child node
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
+     * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore
+     * @param bool $updateLeftRight
+     */
+    public function addChildBefore(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore);
 
 
-	/**
-	 * Returns true, if node is root
-	 *
-	 * @return boolean True, if node is root
-	 */
-	public function isRoot();
+    /**
+     * Removes given child node
+     *
+     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param bool $updateLeftRight
+     */
+    public function removeChild(Tx_PtExtbase_Tree_NodeInterface $node);
 
 
-	/**
-	 * Sets namespace of node
-	 *
-	 * @param $namespace
-	 */
-	public function setNamespace($namespace);
+    /**
+     * Returns true, if node has children
+     *
+     * @return bool
+     */
+    public function hasChildren();
 
 
-	/**
-	 * Returns namespace of node
-	 *
-	 * @return string Namespace of node
-	 */
-	public function getNamespace();
+    /**
+     * Returns true, if node has a parent
+     *
+     * @return bool True, if node has parent node
+     */
+    public function hasParent();
 
+
+    /**
+     * Returns true, if node is root
+     *
+     * @return boolean True, if node is root
+     */
+    public function isRoot();
+
+
+    /**
+     * Sets namespace of node
+     *
+     * @param $namespace
+     */
+    public function setNamespace($namespace);
+
+
+    /**
+     * Returns namespace of node
+     *
+     * @return string Namespace of node
+     */
+    public function getNamespace();
 }

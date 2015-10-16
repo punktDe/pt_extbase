@@ -31,124 +31,134 @@
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
-class Tx_PtExtbase_Testing_FixtureFramework_Fixture {
+class Tx_PtExtbase_Testing_FixtureFramework_Fixture
+{
+    /**
+     * @var Tx_PtExtbase_Testing_FixtureFramework_Credentials
+     */
+    protected $credentials;
 
-	/**
-	 * @var Tx_PtExtbase_Testing_FixtureFramework_Credentials
-	 */
-	protected $credentials;
+    /**
+     * @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     */
+    protected $connection;
 
-	/**
-	 * @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
-	 */
-	protected $connection;
+    /**
+     * @var PHPUnit_Extensions_Database_DataSet_IDataSet
+     */
+    protected $dataSet;
 
-	/**
-	 * @var PHPUnit_Extensions_Database_DataSet_IDataSet
-	 */
-	protected $dataSet;
+    /**
+     * @var PHPUnit_Extensions_Database_Operation_IDatabaseOperation
+     */
+    protected $setUpOperation;
 
-	/**
-	 * @var PHPUnit_Extensions_Database_Operation_IDatabaseOperation
-	 */
-	protected $setUpOperation;
+    /**
+     * @var string
+     */
+    protected $schemaFilePath;
 
-	/**
-	 * @var string
-	 */
-	protected $schemaFilePath;
+    /**
+     * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
+     */
+    public function __construct()
+    {
+        $this->setUpOperation = PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
+    }
 
-	/**
-	 * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
-	 */
-	public function __construct() {
-		$this->setUpOperation = PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
-	}
+    /**
+     * Returns the test database connection.
+     *
+     * @return PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     */
+    public function getConnection()
+    {
+        return $this->connection;
+    }
 
-	/**
-	 * Returns the test database connection.
-	 *
-	 * @return PHPUnit_Extensions_Database_DB_IDatabaseConnection
-	 */
-	public function getConnection() {
-		return $this->connection;
-	}
+    /**
+     * @param PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection
+     * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
+     */
+    public function setConnection($connection)
+    {
+        $this->connection = $connection;
+        return $this;
+    }
 
-	/**
-	 * @param PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection
-	 * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
-	 */
-	public function setConnection($connection) {
-		$this->connection = $connection;
-		return $this;
-	}
+    /**
+     * Returns the test dataset.
+     *
+     * @return PHPUnit_Extensions_Database_DataSet_IDataSet
+     */
+    public function getDataSet()
+    {
+        return $this->dataSet;
+    }
 
-	/**
-	 * Returns the test dataset.
-	 *
-	 * @return PHPUnit_Extensions_Database_DataSet_IDataSet
-	 */
-	public function getDataSet() {
-		return $this->dataSet;
-	}
+    /**
+     * @param PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet
+     * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
+     */
+    public function setDataSet($dataSet)
+    {
+        $this->dataSet = $dataSet;
+        return $this;
+    }
 
-	/**
-	 * @param PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet
-	 * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
-	 */
-	public function setDataSet($dataSet) {
-		$this->dataSet = $dataSet;
-		return $this;
-	}
+    /**
+     * Returns the database operation executed in test setup.
+     *
+     * @return PHPUnit_Extensions_Database_Operation_IDatabaseOperation
+     */
+    public function getSetUpOperation()
+    {
+        return $this->setUpOperation;
+    }
 
-	/**
-	 * Returns the database operation executed in test setup.
-	 *
-	 * @return PHPUnit_Extensions_Database_Operation_IDatabaseOperation
-	 */
-	public function getSetUpOperation() {
-		return $this->setUpOperation;
-	}
+    /**
+     * @param PHPUnit_Extensions_Database_Operation_IDatabaseOperation $setUpOperation
+     * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
+     */
+    public function setSetUpOperation($setUpOperation)
+    {
+        $this->setUpOperation = $setUpOperation;
+        return $this;
+    }
 
-	/**
-	 * @param PHPUnit_Extensions_Database_Operation_IDatabaseOperation $setUpOperation
-	 * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
-	 */
-	public function setSetUpOperation($setUpOperation) {
-		$this->setUpOperation = $setUpOperation;
-		return $this;
-	}
+    /**
+     * @return string
+     */
+    public function getSchemaFilePath()
+    {
+        return $this->schemaFilePath;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getSchemaFilePath() {
-		return $this->schemaFilePath;
-	}
+    /**
+     * @param string $schemaFilePath
+     * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
+     */
+    public function setSchemaFilePath($schemaFilePath)
+    {
+        $this->schemaFilePath = $schemaFilePath;
+        return $this;
+    }
 
-	/**
-	 * @param string $schemaFilePath
-	 * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
-	 */
-	public function setSchemaFilePath($schemaFilePath) {
-		$this->schemaFilePath = $schemaFilePath;
-		return $this;
-	}
+    /**
+     * @return \Tx_PtExtbase_Testing_FixtureFramework_Credentials
+     */
+    public function getCredentials()
+    {
+        return $this->credentials;
+    }
 
-	/**
-	 * @return \Tx_PtExtbase_Testing_FixtureFramework_Credentials
-	 */
-	public function getCredentials() {
-		return $this->credentials;
-	}
-
-	/**
-	 * @param \Tx_PtExtbase_Testing_FixtureFramework_Credentials $credentials
-	 * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
-	 */
-	public function setCredentials($credentials) {
-		$this->credentials = $credentials;
-		return $this;
-	}
-
+    /**
+     * @param \Tx_PtExtbase_Testing_FixtureFramework_Credentials $credentials
+     * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
+     */
+    public function setCredentials($credentials)
+    {
+        $this->credentials = $credentials;
+        return $this;
+    }
 }

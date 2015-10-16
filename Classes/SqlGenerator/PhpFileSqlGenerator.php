@@ -33,65 +33,68 @@
  * @package pt_extbase
  * @subpackage SqlGenerator
  */
-class Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator implements Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface {
+class Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator implements Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface
+{
+    /**
+     * @var array
+     */
+    protected $classNames;
 
-	/**
-	 * @var array
-	 */
-	protected $classNames;
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     */
+    protected $objectManager;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
+    /**
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     * @return void
+     */
+    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
-	/**
-	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
-		$this->objectManager = $objectManager;
-	}
+    /**
+     * @param string $filePath
+     * @return array
+     */
+    public function generate($filePath)
+    {
+        $this->getClassNames($filePath);
+        return $this->generateSqls();
+    }
 
-	/**
-	 * @param string $filePath
-	 * @return array
-	 */
-	public function generate($filePath) {
-		$this->getClassNames($filePath);
-		return $this->generateSqls();
-	}
+    /**
+     * @param $filePath
+     * @return void
+     */
+    protected function getClassNames($filePath)
+    {
+        $this->classNames = array();
+        $tokens = token_get_all(file_get_contents($filePath));
+        $classToken = false;
+        foreach ($tokens as $token) {
+            if (is_array($token)) {
+                if ($token[0] == T_CLASS) {
+                    $classToken = true;
+                } elseif ($classToken && $token[0] == T_STRING) {
+                    $classToken = false;
+                    $this->classNames[] = $token[1];
+                }
+            }
+        }
+    }
 
-	/**
-	 * @param $filePath
-	 * @return void
-	 */
-	protected function getClassNames($filePath) {
-		$this->classNames = array();
-		$tokens = token_get_all(file_get_contents($filePath));
-		$classToken = FALSE;
-		foreach ($tokens as $token) {
-			if (is_array($token)) {
-				if ($token[0] == T_CLASS) {
-					$classToken = TRUE;
-				} else if ($classToken && $token[0] == T_STRING) {
-					$classToken = FALSE;
-					$this->classNames[] = $token[1];
-				}
-			}
-		}
-	}
-
-	/**
-	 * @return array
-	 */
-	protected function generateSqls() {
-		$sqls = array();
-		foreach ($this->classNames as $className) {
-			$sqlGenerator = $this->objectManager->get($className); /** @var Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface $sqlGenerator */
-			$sqls = array_merge($sqls, $sqlGenerator->generate());
-		}
-		return $sqls;
-	}
-
+    /**
+     * @return array
+     */
+    protected function generateSqls()
+    {
+        $sqls = array();
+        foreach ($this->classNames as $className) {
+            $sqlGenerator = $this->objectManager->get($className); /** @var Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface $sqlGenerator */
+            $sqls = array_merge($sqls, $sqlGenerator->generate());
+        }
+        return $sqls;
+    }
 }

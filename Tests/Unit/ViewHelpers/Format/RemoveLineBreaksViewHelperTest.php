@@ -28,63 +28,65 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_RemoveLineBreaksViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_RemoveLineBreaksViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper
+     */
+    protected $accessibleProxyClass;
 
-	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper
-	 */
-	protected $accessibleProxyClass;
-
-	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper
-	 */
-	protected $accessibleProxy;
-
-
-	public function setUp() {
-		$this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper');
-		$this->accessibleProxy = new $this->accessibleProxyClass();
-	}
-
-	public function tearDown() {
-		unset($this->accessibleProxy);
-	}
-
-	/**
-	 * @test
-	 */
-	public function classExists() {
-		$this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper'));
-	}
+    /**
+     * @var Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper
+     */
+    protected $accessibleProxy;
 
 
-	/**
-	 * @return array
-	 */
-	public function stringDataProvider() {
+    public function setUp()
+    {
+        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper');
+        $this->accessibleProxy = new $this->accessibleProxyClass();
+    }
 
-		return array(
-			'\n\r' => array('input' => "Hier mal ein \n\rUmbruch", 'expected' => 'Hier mal ein Umbruch'),
-			'\r\n' => array('input' => "Hier mal ein \r\nUmbruch", 'expected' => 'Hier mal ein Umbruch'),
-			'\n' => array('input' => "Hier mal ein \nUmbruch", 'expected' => 'Hier mal ein Umbruch'),
-			'\r' => array('input' => "Hier mal ein \rUmbruch", 'expected' => 'Hier mal ein Umbruch')
-		);
-	}
+    public function tearDown()
+    {
+        unset($this->accessibleProxy);
+    }
+
+    /**
+     * @test
+     */
+    public function classExists()
+    {
+        $this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper'));
+    }
 
 
-	/**
-	 * @param $input
-	 * @param $expected
-	 *
-	 * @test
-	 * @dataProvider stringDataProvider
-	 */
-	public function renderTest($input, $expected) {
+    /**
+     * @return array
+     */
+    public function stringDataProvider()
+    {
+        return array(
+            '\n\r' => array('input' => "Hier mal ein \n\rUmbruch", 'expected' => 'Hier mal ein Umbruch'),
+            '\r\n' => array('input' => "Hier mal ein \r\nUmbruch", 'expected' => 'Hier mal ein Umbruch'),
+            '\n' => array('input' => "Hier mal ein \nUmbruch", 'expected' => 'Hier mal ein Umbruch'),
+            '\r' => array('input' => "Hier mal ein \rUmbruch", 'expected' => 'Hier mal ein Umbruch')
+        );
+    }
 
-		$this->accessibleProxy->_set('arguments', array('string' => $input));
-		$result = $this->accessibleProxy->render();
 
-		$this->assertEquals($expected, $result);
-	}
+    /**
+     * @param $input
+     * @param $expected
+     *
+     * @test
+     * @dataProvider stringDataProvider
+     */
+    public function renderTest($input, $expected)
+    {
+        $this->accessibleProxy->_set('arguments', array('string' => $input));
+        $result = $this->accessibleProxy->render();
 
+        $this->assertEquals($expected, $result);
+    }
 }

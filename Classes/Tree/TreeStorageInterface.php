@@ -31,14 +31,12 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_PtExtbase_Tree_TreeStorageInterface {
-
+interface Tx_PtExtbase_Tree_TreeStorageInterface
+{
     /**
      * Saves a tree to storage
      *
      * @param Tx_PtExtbase_Tree_TreeInterface $tree
      */
     public function saveTree(Tx_PtExtbase_Tree_TreeInterface $tree);
-
 }
-?>

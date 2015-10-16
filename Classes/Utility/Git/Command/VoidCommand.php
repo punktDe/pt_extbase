@@ -28,43 +28,44 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class VoidCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'version' => '--version',
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'version' => FALSE
-	);
+class VoidCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'version' => '--version',
+    );
 
 
-
-	/**
-	 * @param boolean $version
-	 * @return $this
-	 */
-	public function setVersion($version) {
-		$this->arguments['version'] = $version;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'version' => false
+    );
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getCommandName() {
-		return '';
-	}
+    /**
+     * @param boolean $version
+     * @return $this
+     */
+    public function setVersion($version)
+    {
+        $this->arguments['version'] = $version;
+        return $this;
+    }
 
+
+
+    /**
+     * @return string
+     */
+    public function getCommandName()
+    {
+        return '';
+    }
 }

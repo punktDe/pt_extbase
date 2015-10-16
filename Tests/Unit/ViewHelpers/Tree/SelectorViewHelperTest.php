@@ -30,35 +30,35 @@
  * @subpackage Tests\ViewHelpers\Tree
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_SelectorViewhelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_SelectorViewhelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var Tx_PtExtbase_ViewHelpers_Javascript_SelectorViewHelper
+     */
+    protected $accessibleProxyClass;
 
-	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Javascript_SelectorViewHelper
-	 */
-	protected $accessibleProxyClass;
-
-	/**
-	 * @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper
-	 */
-	protected $accessibleProxy;
+    /**
+     * @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper
+     */
+    protected $accessibleProxy;
 
 
-	public function setUp() {
-		$this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper');
-		$this->accessibleProxy = new $this->accessibleProxyClass();
-	}
+    public function setUp()
+    {
+        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper');
+        $this->accessibleProxy = new $this->accessibleProxyClass();
+    }
 
-	public function tearDown() {
-		unset($this->accessibleProxy);
-	}
+    public function tearDown()
+    {
+        unset($this->accessibleProxy);
+    }
 
-	/**
-	 * @test
-	 */
-	public function classExists() {
-		$this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper'));
-	}
-
+    /**
+     * @test
+     */
+    public function classExists()
+    {
+        $this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper'));
+    }
 }
-
-?>

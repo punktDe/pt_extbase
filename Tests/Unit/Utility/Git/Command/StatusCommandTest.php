@@ -29,59 +29,62 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
  *
  * @package PunktDe\PtExtbase\Tests\Utility\Git\Command
  */
-class StatusCommandTest extends UnitTestCase {
-
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Git\Command\StatusCommand
-	 */
-	protected $statusCommand;
-
-
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		$this->statusCommand = new StatusCommand();
-	}
+class StatusCommandTest extends UnitTestCase
+{
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Git\Command\StatusCommand
+     */
+    protected $statusCommand;
 
 
-
-	/**
-	 * @test
-	 */
-	public function checkIfStatusCommandIsExtractedFromClassName() {
-		$expected = "status";
-		$actual = $this->statusCommand->getCommandName();
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        $this->statusCommand = new StatusCommand();
+    }
 
 
 
-	/**
-	 * @test
-	 */
-	public function getResultClassNameReturnsValidClassName() {
-		$expected = 'PunktDe\PtExtbase\Utility\Git\Result\StatusResult';
-		$actual = $this->statusCommand->getResultType();
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @test
+     */
+    public function checkIfStatusCommandIsExtractedFromClassName()
+    {
+        $expected = "status";
+        $actual = $this->statusCommand->getCommandName();
+        $this->assertSame($expected, $actual);
+    }
 
 
 
-	/**
-	 * @test
-	 */
-	public function getResultClassNameReturnsBaseResultClassIfNoDedicatedResultClassExists() {
-		$commandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand')
-			->setMethods(array('getClass'))
-			->getMock();
-		$commandMock->expects($this->any())
-			->method('getClass')
-			->will($this->returnValue('PunktDe\PtExtbase\Utility\Git\Command\FooCommand'));
+    /**
+     * @test
+     */
+    public function getResultClassNameReturnsValidClassName()
+    {
+        $expected = 'PunktDe\PtExtbase\Utility\Git\Result\StatusResult';
+        $actual = $this->statusCommand->getResultType();
+        $this->assertSame($expected, $actual);
+    }
 
-		$expected = 'PunktDe\PtExtbase\Utility\Git\Result\Result';
-		$actual = $commandMock->getResultType();
-		$this->assertSame($expected, $actual);
-	}
 
+
+    /**
+     * @test
+     */
+    public function getResultClassNameReturnsBaseResultClassIfNoDedicatedResultClassExists()
+    {
+        $commandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand')
+            ->setMethods(array('getClass'))
+            ->getMock();
+        $commandMock->expects($this->any())
+            ->method('getClass')
+            ->will($this->returnValue('PunktDe\PtExtbase\Utility\Git\Command\FooCommand'));
+
+        $expected = 'PunktDe\PtExtbase\Utility\Git\Result\Result';
+        $actual = $commandMock->getResultType();
+        $this->assertSame($expected, $actual);
+    }
 }

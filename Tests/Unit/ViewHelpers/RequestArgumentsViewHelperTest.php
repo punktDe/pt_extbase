@@ -28,42 +28,44 @@
  * @package pt_extbase
  * @subpackage Tests\ViewHelpers
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_RequestArgumnetsViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_RequestArgumnetsViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    protected $proxyClass;
 
-	protected $proxyClass;
+    protected $proxy;
 
-	protected $proxy;
+    public function setUp()
+    {
+        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_RequestArgumentsViewHelper');
+        $this->proxy = new $this->proxyClass();
+    }
 
-	public function setUp() {
-		$this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_RequestArgumentsViewHelper');
-		$this->proxy = new $this->proxyClass();
-	}
+    public function tearDown()
+    {
+        unset($this->proxy);
+    }
 
-	public function tearDown() {
-		unset($this->proxy);
-	}
+    /**
+     * @test
+     */
+    public function renderReturnsValidArgumentIfArgumentExists()
+    {
+        $viewHelperArguments = array(
+            'key' => 'uid'
+        );
+        $expected = '35';
 
-	/**
-	 * @test
-	 */
-	public function renderReturnsValidArgumentIfArgumentExists() {
-		$viewHelperArguments = array(
-			'key' => 'uid'
-		);
-		$expected = '35';
+        $requestMock = $this->getMockBuilder('\TYPO3\CMS\Extbase\Mvc\Request')
+                ->setMethods(array('getArgument'))
+                ->getMock();
+        $requestMock->expects($this->once())
+            ->method('getArgument')
+            ->will($this->returnValue($expected));
 
-		$requestMock = $this->getMockBuilder('\TYPO3\CMS\Extbase\Mvc\Request')
-				->setMethods(array('getArgument'))
-				->getMock();
-		$requestMock->expects($this->once())
-			->method('getArgument')
-			->will($this->returnValue($expected));
+        $this->proxy->_set('arguments', $viewHelperArguments);
+        $this->proxy->_set('request', $requestMock);
 
-		$this->proxy->_set('arguments', $viewHelperArguments);
-		$this->proxy->_set('request', $requestMock);
-
-		$actual = $this->proxy->render();
-		$this->assertEquals($expected, $actual);
-	}
-
+        $actual = $this->proxy->render();
+        $this->assertEquals($expected, $actual);
+    }
 }

@@ -31,28 +31,30 @@
  * @author Michael Knoll
  */
 
-class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerFactoryTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-	
-	/** @test */
-	public function classExists() {
-		$this->assertTrue(class_exists('Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory'));
-	}
+class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerFactoryTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /** @test */
+    public function classExists()
+    {
+        $this->assertTrue(class_exists('Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory'));
+    }
 
-	
-	
-	/**  @test */
-	public function getInstanceReturnsSingletonInstance() {
-		$firstInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
-		$secondInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
-		$this->assertEquals($firstInstance, $secondInstance);
-	}
-	
-	
-	
-	/** @test */
-	public function getInstanceReturnsInstanceOfSessionPersistenceManager() {
-		$firstInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
-		$this->assertTrue(is_a($firstInstance, Tx_PtExtbase_State_Session_SessionPersistenceManager));
-	}
-	
+    
+    
+    /**  @test */
+    public function getInstanceReturnsSingletonInstance()
+    {
+        $firstInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
+        $secondInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
+        $this->assertEquals($firstInstance, $secondInstance);
+    }
+    
+    
+    
+    /** @test */
+    public function getInstanceReturnsInstanceOfSessionPersistenceManager()
+    {
+        $firstInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
+        $this->assertTrue(is_a($firstInstance, Tx_PtExtbase_State_Session_SessionPersistenceManager));
+    }
 }

@@ -34,61 +34,63 @@
  * @package pt_extbase
  * @subpackage Parser\Sql
  */
-class Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser {
+class Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser
+{
+    /**
+     * @param string $filePath
+     * @return array of queries
+     */
+    public function parse($filePath)
+    {
+        $queries = array();
+        $lines = $this->loadSqlFile($filePath);
+        $query = '';
+        foreach ($lines as $line) {
+            if ($this->isValidLine($line)) {
+                $query .= $line;
+                if ($this->isEndOfQuery($query)) {
+                    $queries[] = $query;
+                    $query = '';
+                }
+            }
+        }
+        return $queries;
+    }
 
-	/**
-	 * @param string $filePath
-	 * @return array of queries
-	 */
-	public function parse($filePath) {
-		$queries = array();
-		$lines = $this->loadSqlFile($filePath);
-		$query = '';
-		foreach($lines as $line){
-			if($this->isValidLine($line)) {
-				$query .= $line;
-				if ($this->isEndOfQuery($query)) {
-					$queries[] = $query;
-					$query = '';
-				}
-			}
-		}
-		return $queries;
-	}
+    /**
+     * @param string $filePath
+     * @return array
+     * @throws Exception
+     */
+    protected function loadSqlFile($filePath)
+    {
+        if (is_file($filePath)) {
+            return file($filePath);
+        }
+        throw new Exception('Not a valid file: ' . $filePath . '! 1347035058');
+    }
 
-	/**
-	 * @param string $filePath
-	 * @return array
-	 * @throws Exception
-	 */
-	protected function loadSqlFile($filePath) {
-		if (is_file($filePath)) {
-			return file($filePath);
-		}
-		throw new Exception('Not a valid file: ' . $filePath . '! 1347035058');
-	}
+    /**
+     * @param string $line
+     * @return boolean
+     */
+    protected function isValidLine($line)
+    {
+        if (trim($line) != '' && strpos($line, '--') === false) {
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * @param string $line
-	 * @return boolean
-	 */
-	protected function isValidLine($line) {
-		if (trim($line) != '' && strpos($line, '--') === FALSE) {
-			return TRUE;
-		}
-		return FALSE;
-	}
-
-	/**
-	 * @param string $query
-	 * @return boolean
-	 */
-	protected function isEndOfQuery($query) {
-		if (substr(rtrim($query), -1) == ';') {
-			return TRUE;
-		}
-		return FALSE;
-	}
-
+    /**
+     * @param string $query
+     * @return boolean
+     */
+    protected function isEndOfQuery($query)
+    {
+        if (substr(rtrim($query), -1) == ';') {
+            return true;
+        }
+        return false;
+    }
 }
-?>

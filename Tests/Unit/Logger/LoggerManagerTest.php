@@ -27,216 +27,223 @@ namespace PunktDe\PtExtbase\Tests\Unit\Logger;
  *
  * @package pt_extbase
  */
-class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-
-	/**
-	 * @var \PunktDe\PtExtbase\Logger\LoggerManager
-	 */
- 	protected $proxy;
-
-
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		$proxyClass = $this->buildAccessibleProxy('PunktDe\\PtExtbase\\Logger\\LoggerManager');
-		$this->proxy = new $proxyClass();
-	}
+class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var \PunktDe\PtExtbase\Logger\LoggerManager
+     */
+    protected $proxy;
 
 
-
-	/**
-	 * @return array
-	 */
-	public function unifyComponentNameUnifiesComponentNameDataProvider() {
-		return array(
-			'deprecatedClassName' => array(
-				'componentName' => 'Tx_Acme_Utility_ToonDrawer',
-				'expected' => 'Tx.Acme.Utility.ToonDrawer'
-			),
-			'namespacedClassName' => array(
-				'componentName' => 'Acme\\Utility\\ToonDrawer',
-				'expected' => 'Acme.Utility.ToonDrawer'
-			),
-			'dotSeparatedComponentName' => array(
-				'componentName' => 'acme.utility.toondrawer',
-				'expected' => 'acme.utility.toondrawer'
-			),
-			'componentNameWithoutSeparator' => array(
-				'componentName' => 'AcmeUtilityToonDrawer',
-				'expected' => 'AcmeUtilityToonDrawer'
-			),
-		);
-	}
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        $proxyClass = $this->buildAccessibleProxy('PunktDe\\PtExtbase\\Logger\\LoggerManager');
+        $this->proxy = new $proxyClass();
+    }
 
 
 
-	/**
-	 * @test
-	 * @dataProvider unifyComponentNameUnifiesComponentNameDataProvider
-	 *
-	 * @param string $componentName
-	 * @param string $expected
-	 */
-	public function unifyComponentNameUnifiesComponentName($componentName, $expected) {
-		$actual = $this->proxy->_call('unifyComponentName', $componentName);
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @return array
+     */
+    public function unifyComponentNameUnifiesComponentNameDataProvider()
+    {
+        return array(
+            'deprecatedClassName' => array(
+                'componentName' => 'Tx_Acme_Utility_ToonDrawer',
+                'expected' => 'Tx.Acme.Utility.ToonDrawer'
+            ),
+            'namespacedClassName' => array(
+                'componentName' => 'Acme\\Utility\\ToonDrawer',
+                'expected' => 'Acme.Utility.ToonDrawer'
+            ),
+            'dotSeparatedComponentName' => array(
+                'componentName' => 'acme.utility.toondrawer',
+                'expected' => 'acme.utility.toondrawer'
+            ),
+            'componentNameWithoutSeparator' => array(
+                'componentName' => 'AcmeUtilityToonDrawer',
+                'expected' => 'AcmeUtilityToonDrawer'
+            ),
+        );
+    }
 
 
 
-	/**
-	 * @return array
-	 */
-	public function evaluateIndexNameByComponentNameDataProvider() {
-		return array(
-			'noConfigurationAvailable' => array(
-				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-				'loggerConfigurationConfiguration' => array(
-				),
-				'expected' => 'PTEXTBASE'
-			),
-			'onlyWriterConfigurationAvailable' => array(
-				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-				'loggerConfigurationConfiguration' => array(
-					'Tx' => array(
-						'writerConfiguration' => array(
-							'Duffy', 'Duck'
-						)
-					)
-				),
-				'expected' => 'PTEXTBASE.Tx'
-			),
-			'onlyProcessorConfigurationAvailable' => array(
-				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-				'loggerConfiguration' => array(
-					'Tx' => array(
-						'processorConfiguration' => array(
-							'Duffy', 'Duck'
-						)
-					)
-				),
-				'expected' => 'PTEXTBASE.Tx'
-			),
-			'levelTwoConfigurationAvailable' => array(
-				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-				'loggerConfiguration' => array(
-					'Tx' => array(
-						'Acme' => array(
-							'processorConfiguration' => array(
-								'Duffy', 'Duck'
-							)
-						)
-					)
-				),
-				'expected' => 'PTEXTBASE.Tx.Acme'
-			),
-			'maximumSpecificConfigurationAvailable' => array(
-				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-				'loggerConfiguration' => array(
-					'Tx' => array(
-						'Acme' => array(
-							'Utility' => array(
-								'ToonDrawer' => array(
-									'processorConfiguration' => array(
-										'Duffy', 'Duck'
-									)
-								)
-							)
-						)
-					)
-				),
-				'expected' => 'PTEXTBASE.Tx.Acme.Utility.ToonDrawer'
-			),
-			'writerAndProcessorWithConfigurationOfUnequalSpecificityAvailable' => array(
-				'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-				'loggerConfiguration' => array(
-					'Tx' => array(
-						'Acme' => array(
-							'Utility' => array(
-								'ToonDrawer' => array(
-									'processorConfiguration' => array(
-										'Duffy', 'Duck'
-									)
-								)
-							)
-						),
-						'writerConfiguration' => array(
-							'Bugs', 'Bunny'
-						)
-					)
-				),
-				'expected' => 'PTEXTBASE.Tx.Acme.Utility.ToonDrawer'
-			)
-		);
-	}
+    /**
+     * @test
+     * @dataProvider unifyComponentNameUnifiesComponentNameDataProvider
+     *
+     * @param string $componentName
+     * @param string $expected
+     */
+    public function unifyComponentNameUnifiesComponentName($componentName, $expected)
+    {
+        $actual = $this->proxy->_call('unifyComponentName', $componentName);
+        $this->assertSame($expected, $actual);
+    }
 
 
 
-	/**
-	 * @test
-	 * @dataProvider evaluateIndexNameByComponentNameDataProvider
-	 *
-	 * @param string $componentName
-	 * @param array $loggerConfiguration
-	 * @param string $expected
-	 */
-	public function evaluateIndexNameByComponentName($componentName, $loggerConfiguration, $expected) {
-		$this->proxy->_set('loggerConfiguration', $loggerConfiguration);
-		$actual = $this->proxy->_call('evaluateIndexNameByComponentName', $componentName);
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @return array
+     */
+    public function evaluateIndexNameByComponentNameDataProvider()
+    {
+        return array(
+            'noConfigurationAvailable' => array(
+                'componentName' => 'Tx.Acme.Utility.ToonDrawer',
+                'loggerConfigurationConfiguration' => array(
+                ),
+                'expected' => 'PTEXTBASE'
+            ),
+            'onlyWriterConfigurationAvailable' => array(
+                'componentName' => 'Tx.Acme.Utility.ToonDrawer',
+                'loggerConfigurationConfiguration' => array(
+                    'Tx' => array(
+                        'writerConfiguration' => array(
+                            'Duffy', 'Duck'
+                        )
+                    )
+                ),
+                'expected' => 'PTEXTBASE.Tx'
+            ),
+            'onlyProcessorConfigurationAvailable' => array(
+                'componentName' => 'Tx.Acme.Utility.ToonDrawer',
+                'loggerConfiguration' => array(
+                    'Tx' => array(
+                        'processorConfiguration' => array(
+                            'Duffy', 'Duck'
+                        )
+                    )
+                ),
+                'expected' => 'PTEXTBASE.Tx'
+            ),
+            'levelTwoConfigurationAvailable' => array(
+                'componentName' => 'Tx.Acme.Utility.ToonDrawer',
+                'loggerConfiguration' => array(
+                    'Tx' => array(
+                        'Acme' => array(
+                            'processorConfiguration' => array(
+                                'Duffy', 'Duck'
+                            )
+                        )
+                    )
+                ),
+                'expected' => 'PTEXTBASE.Tx.Acme'
+            ),
+            'maximumSpecificConfigurationAvailable' => array(
+                'componentName' => 'Tx.Acme.Utility.ToonDrawer',
+                'loggerConfiguration' => array(
+                    'Tx' => array(
+                        'Acme' => array(
+                            'Utility' => array(
+                                'ToonDrawer' => array(
+                                    'processorConfiguration' => array(
+                                        'Duffy', 'Duck'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+                'expected' => 'PTEXTBASE.Tx.Acme.Utility.ToonDrawer'
+            ),
+            'writerAndProcessorWithConfigurationOfUnequalSpecificityAvailable' => array(
+                'componentName' => 'Tx.Acme.Utility.ToonDrawer',
+                'loggerConfiguration' => array(
+                    'Tx' => array(
+                        'Acme' => array(
+                            'Utility' => array(
+                                'ToonDrawer' => array(
+                                    'processorConfiguration' => array(
+                                        'Duffy', 'Duck'
+                                    )
+                                )
+                            )
+                        ),
+                        'writerConfiguration' => array(
+                            'Bugs', 'Bunny'
+                        )
+                    )
+                ),
+                'expected' => 'PTEXTBASE.Tx.Acme.Utility.ToonDrawer'
+            )
+        );
+    }
 
 
 
-	/**
-	 * @return array
-	 */
-	public function getLoggerCreatesValidIndexOfLoggersAndReturnsLoggerWithCorrectComponentNameDataProvider() {
-		return array(
-			array(
-				'loggerNames' => array(
-					'Tx.Acme.Utility.ToonDrawer',
-					'Tx.Acme.Utility',
-					'Tx.Acme',
-					'Tx.Roadrunner',
-				),
-				'loggerConfiguration' => array(
-					'Tx' => array(
-						'Acme' => array(
-							'processorConfiguration' => array(
-								'Duffy', 'Duck'
-							)
-						)
-					)
-				),
-				'expectedLoggerIndexKeys' => array(
-					'',
-					'PTEXTBASE.Tx.Acme',
-					'PTEXTBASE.Tx',
-				)
-			),
-		);
-	}
+    /**
+     * @test
+     * @dataProvider evaluateIndexNameByComponentNameDataProvider
+     *
+     * @param string $componentName
+     * @param array $loggerConfiguration
+     * @param string $expected
+     */
+    public function evaluateIndexNameByComponentName($componentName, $loggerConfiguration, $expected)
+    {
+        $this->proxy->_set('loggerConfiguration', $loggerConfiguration);
+        $actual = $this->proxy->_call('evaluateIndexNameByComponentName', $componentName);
+        $this->assertSame($expected, $actual);
+    }
 
 
 
-	/**
-	 * @test
-	 * @dataProvider getLoggerCreatesValidIndexOfLoggersAndReturnsLoggerWithCorrectComponentNameDataProvider
-	 *
-	 * @param array $loggerNames
-	 * @param array $loggerConfiguration
-	 * @param array $expectedLoggerIndexKeys
-	 */
-	public function getLoggerCreatesValidIndexOfLoggersAndReturnsLoggerWithCorrectComponentName($loggerNames, $loggerConfiguration, $expectedLoggerIndexKeys) {
-		$this->proxy->_set('loggerConfiguration', $loggerConfiguration);
+    /**
+     * @return array
+     */
+    public function getLoggerCreatesValidIndexOfLoggersAndReturnsLoggerWithCorrectComponentNameDataProvider()
+    {
+        return array(
+            array(
+                'loggerNames' => array(
+                    'Tx.Acme.Utility.ToonDrawer',
+                    'Tx.Acme.Utility',
+                    'Tx.Acme',
+                    'Tx.Roadrunner',
+                ),
+                'loggerConfiguration' => array(
+                    'Tx' => array(
+                        'Acme' => array(
+                            'processorConfiguration' => array(
+                                'Duffy', 'Duck'
+                            )
+                        )
+                    )
+                ),
+                'expectedLoggerIndexKeys' => array(
+                    '',
+                    'PTEXTBASE.Tx.Acme',
+                    'PTEXTBASE.Tx',
+                )
+            ),
+        );
+    }
 
-		foreach($loggerNames as $loggerName) {
-			$logger = $this->proxy->getLogger($loggerName);
-		}
 
-		$actualLoggerIndexKeys = $this->proxy->getLoggerNames();
-		$this->assertSame($expectedLoggerIndexKeys, $actualLoggerIndexKeys, 'Expected and actual logger index keys are not equal');
-	}
+
+    /**
+     * @test
+     * @dataProvider getLoggerCreatesValidIndexOfLoggersAndReturnsLoggerWithCorrectComponentNameDataProvider
+     *
+     * @param array $loggerNames
+     * @param array $loggerConfiguration
+     * @param array $expectedLoggerIndexKeys
+     */
+    public function getLoggerCreatesValidIndexOfLoggersAndReturnsLoggerWithCorrectComponentName($loggerNames, $loggerConfiguration, $expectedLoggerIndexKeys)
+    {
+        $this->proxy->_set('loggerConfiguration', $loggerConfiguration);
+
+        foreach ($loggerNames as $loggerName) {
+            $logger = $this->proxy->getLogger($loggerName);
+        }
+
+        $actualLoggerIndexKeys = $this->proxy->getLoggerNames();
+        $this->assertSame($expectedLoggerIndexKeys, $actualLoggerIndexKeys, 'Expected and actual logger index keys are not equal');
+    }
 }

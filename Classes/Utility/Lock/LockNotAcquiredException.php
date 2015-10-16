@@ -26,7 +26,6 @@
 
 namespace PunktDe\PtExtbase\Utility\Lock;
 
-
-class LockNotAcquiredException extends \Exception {
-
+class LockNotAcquiredException extends \Exception
+{
 }

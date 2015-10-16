@@ -30,29 +30,33 @@
  * @package Tests
  * @subpackage Controllers
  */
-class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-
-	/** @test */
-	public function constructorReturnsControllerInstance() {
-		$lifeCycleManagerMock = $this->getMock('Tx_PtExtbase_Lifecycle_Manager', array(), array(), '', FALSE); /* @var $lifeCycleManagerMock Tx_PtExtbase_Lifecycle_Manager */
-		$ptExtbaseAbstractActionController = new Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest_ControllerMock($lifeCycleManagerMock);
-		$this->assertTrue(is_a($ptExtbaseAbstractActionController, 'Tx_PtExtbase_Controller_AbstractActionController'));
-		
-	}
-	
-	
-	/** @test */
-	public function constructedControllerHoldsLifecycleManager() {
-		$lifeCycleManagerMock = $this->getMock('Tx_PtExtbase_Lifecycle_Manager', array(), array(), '', FALSE); /* @var $lifeCycleManagerMock Tx_PtExtbase_Lifecycle_Manager */
-		$ptExtbaseAbstractActionController = new Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest_ControllerMock($lifeCycleManagerMock);
-		$this->assertTrue(is_a($ptExtbaseAbstractActionController->getLM(), 'Tx_PtExtbase_Lifecycle_Manager'));
-	}
-	
+class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /** @test */
+    public function constructorReturnsControllerInstance()
+    {
+        $lifeCycleManagerMock = $this->getMock('Tx_PtExtbase_Lifecycle_Manager', array(), array(), '', false); /* @var $lifeCycleManagerMock Tx_PtExtbase_Lifecycle_Manager */
+        $ptExtbaseAbstractActionController = new Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest_ControllerMock($lifeCycleManagerMock);
+        $this->assertTrue(is_a($ptExtbaseAbstractActionController, 'Tx_PtExtbase_Controller_AbstractActionController'));
+    }
+    
+    
+    /** @test */
+    public function constructedControllerHoldsLifecycleManager()
+    {
+        $lifeCycleManagerMock = $this->getMock('Tx_PtExtbase_Lifecycle_Manager', array(), array(), '', false); /* @var $lifeCycleManagerMock Tx_PtExtbase_Lifecycle_Manager */
+        $ptExtbaseAbstractActionController = new Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest_ControllerMock($lifeCycleManagerMock);
+        $this->assertTrue(is_a($ptExtbaseAbstractActionController->getLM(), 'Tx_PtExtbase_Lifecycle_Manager'));
+    }
 }
 
 require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase').'Classes/Controller/AbstractActionController.php';
 
 // Private class for testing abstract action controller
-class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest_ControllerMock extends Tx_PtExtbase_Controller_AbstractActionController {
-	public function getLM() {return $this->lifecycleManager; }
+class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest_ControllerMock extends Tx_PtExtbase_Controller_AbstractActionController
+{
+    public function getLM()
+    {
+        return $this->lifecycleManager;
+    }
 }

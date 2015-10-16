@@ -33,58 +33,61 @@
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
-abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends PHPUnit_Extensions_Selenium2TestCase {
+abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends PHPUnit_Extensions_Selenium2TestCase
+{
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface The object manager
+     */
+    protected $objectManager;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface The object manager
-	 */
-	protected $objectManager;
+    /**
+     * Injects an untainted clone of the object manager and all its referencing
+     * objects for every test.
+     *
+     * @return void
+     */
+    public function runBare()
+    {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $this->objectManager =  clone $objectManager;
+        parent::runBare();
+    }
 
-	/**
-	 * Injects an untainted clone of the object manager and all its referencing
-	 * objects for every test.
-	 *
-	 * @return void
-	 */
-	public function runBare() {
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-		$this->objectManager =  clone $objectManager;
-		parent::runBare();
-	}
-
-	/**
-	 * Returns a mock object which allows for calling protected methods and access
-	 * of protected properties.
-	 *
-	 * @param $originalClassName
-	 * @param array $methods
-	 * @param array $arguments
-	 * @param string $mockClassName
-	 * @param boolean $callOriginalConstructor
-	 * @param boolean $callOriginalClone
-	 * @param boolean $callAutoload
-	 * @internal param string $className Full qualified name of the original class
-	 * @return object
-	 * @author Robert Lemke <robert@typo3.org>
-	 * @api
-	 */
-	protected function getAccessibleMock($originalClassName, $methods = array(), array $arguments = array(), $mockClassName = '', $callOriginalConstructor = TRUE, $callOriginalClone = TRUE, $callAutoload = TRUE) {
-		return $this->getMock($this->buildAccessibleProxy($originalClassName), $methods, $arguments, $mockClassName, $callOriginalConstructor, $callOriginalClone, $callAutoload);
-	}
+    /**
+     * Returns a mock object which allows for calling protected methods and access
+     * of protected properties.
+     *
+     * @param $originalClassName
+     * @param array $methods
+     * @param array $arguments
+     * @param string $mockClassName
+     * @param boolean $callOriginalConstructor
+     * @param boolean $callOriginalClone
+     * @param boolean $callAutoload
+     * @internal param string $className Full qualified name of the original class
+     * @return object
+     * @author Robert Lemke <robert@typo3.org>
+     * @api
+     */
+    protected function getAccessibleMock($originalClassName, $methods = array(), array $arguments = array(), $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true)
+    {
+        return $this->getMock($this->buildAccessibleProxy($originalClassName), $methods, $arguments, $mockClassName, $callOriginalConstructor, $callOriginalClone, $callAutoload);
+    }
 
 
-	/**
-	 * Creates a proxy class of the specified class which allows
-	 * for calling even protected methods and access of protected properties.
-	 *
-	 * @param string $className Full qualified name of the original class
-	 * @return string Full qualified name of the built class
-	 */
-	protected function buildAccessibleProxy($className) {
-		$accessibleClassName = uniqid('AccessibleTestProxy');
-		$class = new ReflectionClass($className);
-		$abstractModifier = $class->isAbstract() ? 'abstract ' : '';
-		eval('
+    /**
+     * Creates a proxy class of the specified class which allows
+     * for calling even protected methods and access of protected properties.
+     *
+     * @param string $className Full qualified name of the original class
+     * @return string Full qualified name of the built class
+     */
+    protected function buildAccessibleProxy($className)
+    {
+        $accessibleClassName = uniqid('AccessibleTestProxy');
+        $class = new ReflectionClass($className);
+        $abstractModifier = $class->isAbstract() ? 'abstract ' : '';
+        eval('
 			' . $abstractModifier . 'class ' . $accessibleClassName . ' extends ' . $className . ' {
 				public function _call($methodName) {
 					$args = func_get_args();
@@ -115,20 +118,20 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends P
 				}
 			}
 		');
-		return $accessibleClassName;
-	}
+        return $accessibleClassName;
+    }
 
-	/**
-	 * @return void
-	 */
-	protected function setUp() {
-		$fixtureImporter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
-		$fixtureImporter->import($this->getFixtures());
-	}
+    /**
+     * @return void
+     */
+    protected function setUp()
+    {
+        $fixtureImporter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
+        $fixtureImporter->import($this->getFixtures());
+    }
 
-	/**
-	 * @return array
-	 */
-	abstract protected function getFixtures();
-
+    /**
+     * @return array
+     */
+    abstract protected function getFixtures();
 }

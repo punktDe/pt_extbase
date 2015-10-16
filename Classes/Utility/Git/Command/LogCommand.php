@@ -28,60 +28,62 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class LogCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'nameOnly' => '--name-only',
-		'format' => '--pretty="%s"',
-		'maxCount' => '--max-count=%s'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'nameOnly' => FALSE,
-		'format' => '',
-		'maxCount' => ''
-	);
+class LogCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'nameOnly' => '--name-only',
+        'format' => '--pretty="%s"',
+        'maxCount' => '--max-count=%s'
+    );
 
 
-
-	/**
-	 * @param boolean $nameOnly
-	 * @return $this
-	 */
-	public function setNameOnly($nameOnly) {
-		$this->arguments['nameOnly'] = $nameOnly;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'nameOnly' => false,
+        'format' => '',
+        'maxCount' => ''
+    );
 
 
 
-	/**
-	 * @param string $format
-	 * @return $this
-	 */
-	public function setFormat($format) {
-		$this->arguments['format'] = $format;
-		return $this;
-	}
+    /**
+     * @param boolean $nameOnly
+     * @return $this
+     */
+    public function setNameOnly($nameOnly)
+    {
+        $this->arguments['nameOnly'] = $nameOnly;
+        return $this;
+    }
 
 
 
-	/**
-	 * @param integer $maxCount
-	 * @return $this
-	 */
-	public function setMaxCount($maxCount) {
-		$this->arguments['maxCount'] = $maxCount;
-		return $this;
-	}
+    /**
+     * @param string $format
+     * @return $this
+     */
+    public function setFormat($format)
+    {
+        $this->arguments['format'] = $format;
+        return $this;
+    }
 
+
+
+    /**
+     * @param integer $maxCount
+     * @return $this
+     */
+    public function setMaxCount($maxCount)
+    {
+        $this->arguments['maxCount'] = $maxCount;
+        return $this;
+    }
 }

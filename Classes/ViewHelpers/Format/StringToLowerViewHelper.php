@@ -28,31 +28,32 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_ViewHelpers_Format_StringToLowerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Format_StringToLowerViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Initialize arguments
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('string', 'string', 'The array key of a config items array', false);
+    }
 
-	/**
-	 * Initialize arguments
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('string', 'string', 'The array key of a config items array', FALSE);
-	}
-
-	/**
-	 * Render
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$result = $this->arguments['string'];
-		if ($result === NULL) {
-			$result = $this->renderChildren();
-		}
-		if (is_string($result)) {
-			$result = strtolower($result);
-		}
-		return $result;
-	}
-	
+    /**
+     * Render
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $result = $this->arguments['string'];
+        if ($result === null) {
+            $result = $this->renderChildren();
+        }
+        if (is_string($result)) {
+            $result = strtolower($result);
+        }
+        return $result;
+    }
 }

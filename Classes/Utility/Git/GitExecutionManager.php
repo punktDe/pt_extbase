@@ -30,34 +30,35 @@ use PunktDe\PtExtbase\Utility\Git\Command;
  *
  * @package PunktDe\PtExtbase\Utility\Git
  */
-class GitExecutionManager extends ExecutionManager {
-
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Git\GitRepository
-	 */
-	protected $repository;
-
-
-	/**
-	 * @var string
-	 */
-	protected $commandLine = '';
+class GitExecutionManager extends ExecutionManager
+{
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Git\GitRepository
+     */
+    protected $repository;
 
 
-	/**
-	 * @return string
-	 */
-	protected function renderCommand() {
-		$this->commandLine = sprintf('cd %s; %s --git-dir=%s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), Files::concatenatePaths(array($this->repository->getRepositoryRootPath(), '.git')), $this->command->render());
+    /**
+     * @var string
+     */
+    protected $commandLine = '';
+
+
+    /**
+     * @return string
+     */
+    protected function renderCommand()
+    {
+        $this->commandLine = sprintf('cd %s; %s --git-dir=%s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), Files::concatenatePaths(array($this->repository->getRepositoryRootPath(), '.git')), $this->command->render());
     }
 
 
 
-	/**
-	 * @param \PunktDe\PtExtbase\Utility\Git\GitRepository $repository
-	 */
-	public function setRepository($repository) {
-		$this->repository = $repository;
-	}
-
+    /**
+     * @param \PunktDe\PtExtbase\Utility\Git\GitRepository $repository
+     */
+    public function setRepository($repository)
+    {
+        $this->repository = $repository;
+    }
 }

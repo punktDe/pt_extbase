@@ -30,93 +30,91 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Category
  */
-class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * @var Tx_PtExtbase_Tree_NodePathBuilder
+     */
+    protected $nodePathBuilder;
 
 
-	/**
-	 * @var Tx_PtExtbase_Tree_NodePathBuilder
-	 */
-	protected $nodePathBuilder;
+    /**
+     * @param Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder
+     */
+    public function injectNodePathBuilder(Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder)
+    {
+        $this->nodePathBuilder = $nodePathBuilder;
+    }
 
 
-	/**
-	 * @param Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder
-	 */
-	public function injectNodePathBuilder(Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder) {
-		$this->nodePathBuilder = $nodePathBuilder;
-	}
+    /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('repository', 'string', 'Specifies the node repository', true);
+        $this->registerArgument('namespace', 'string', 'Specifies the tree namespace', true);
+        $this->registerArgument('node', 'integer', 'The node uid', true);
+        $this->registerArgument('skipRoot', 'boolean', 'Skip the root node', false, false);
+        $this->registerArgument('startIndex', 'integer', 'Start at Node', false, 0);
+        $this->registerArgument('length', 'integer', 'Length of path', false, 1000);
+    }
 
 
-	/**
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('repository', 'string', 'Specifies the node repository', TRUE);
-		$this->registerArgument('namespace', 'string', 'Specifies the tree namespace', TRUE);
-		$this->registerArgument('node', 'integer', 'The node uid', TRUE);
-		$this->registerArgument('skipRoot', 'boolean', 'Skip the root node', FALSE, FALSE);
-		$this->registerArgument('startIndex', 'integer', 'Start at Node', FALSE, 0);
-		$this->registerArgument('length', 'integer', 'Length of path', FALSE, 1000);
-	}
+    /**
+     * Checks, if the given frontend user has access
+     *
+     * @return string The output
+     */
+    public function render()
+    {
+        $this->nodePathBuilder = Tx_PtExtbase_Tree_NodePathBuilder::getInstanceByRepositoryAndNamespace(
+            $this->arguments['repository'], $this->arguments['namespace']
+        );
 
+        $nodes = $this->getPathFromRootToNode();
+        $firstNode = true;
 
-	/**
-	 * Checks, if the given frontend user has access
-	 *
-	 * @return string The output
-	 */
-	public function render() {
+        if (!$nodes) {
+            $result = 'The node with the id ' . $this->arguments['node'] . ' could not be found in the given tree.';
+        } else {
+            $result = '';
 
-		$this->nodePathBuilder = Tx_PtExtbase_Tree_NodePathBuilder::getInstanceByRepositoryAndNamespace(
-			$this->arguments['repository'], $this->arguments['namespace']
-		);
+            foreach ($nodes as $node) {
+                $this->templateVariableContainer->add('node', $node);
+                $this->templateVariableContainer->add('firstNode', $firstNode);
 
-		$nodes = $this->getPathFromRootToNode();
-		$firstNode = TRUE;
+                $result .= $this->renderChildren();
 
-		if(!$nodes) {
-			$result = 'The node with the id ' . $this->arguments['node'] . ' could not be found in the given tree.';
-		} else {
+                $this->templateVariableContainer->remove('node');
+                $this->templateVariableContainer->remove('firstNode');
 
-			$result = '';
+                $firstNode = false;
+            }
+        }
 
-			foreach($nodes as $node) {
-				$this->templateVariableContainer->add('node', $node);
-				$this->templateVariableContainer->add('firstNode', $firstNode);
-
-				$result .= $this->renderChildren();
-
-				$this->templateVariableContainer->remove('node');
-				$this->templateVariableContainer->remove('firstNode');
-
-				$firstNode = FALSE;
-			}
-		}
-
-		return $result;
-	}
+        return $result;
+    }
 
 
 
-	/**
-	 * @return array nodes in the path from root to node
-	 */
-	protected function getPathFromRootToNode() {
+    /**
+     * @return array nodes in the path from root to node
+     */
+    protected function getPathFromRootToNode()
+    {
+        $node = $this->arguments['node'];
+        $length = $this->arguments['length'];
 
-		$node = $this->arguments['node'];
-		$length = $this->arguments['length'];
-
-		if($this->arguments['skipRoot']) {
-			$startIndex = 1;
-		} else {
-			$startIndex = $this->arguments['startIndex'];
-		}
+        if ($this->arguments['skipRoot']) {
+            $startIndex = 1;
+        } else {
+            $startIndex = $this->arguments['startIndex'];
+        }
 
 
-		$nodes = $this->nodePathBuilder->getPathFromRootToNode($node, $startIndex, $length);
+        $nodes = $this->nodePathBuilder->getPathFromRootToNode($node, $startIndex, $length);
 
-		return $nodes;
-	}
-
+        return $nodes;
+    }
 }
-?>

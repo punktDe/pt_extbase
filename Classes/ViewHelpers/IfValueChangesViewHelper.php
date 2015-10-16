@@ -87,51 +87,49 @@
  * @package ViewHelpers
  * @see Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest
  */
-class Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper {
-
-	/**
-	 * @var null
-	 */
-	protected static $lastValue = NULL;
-
-
-
-	/**
-	 * Holds an array of key / value pairs if store change values with a key.
-	 *
-	 * @var array
-	 */
-	protected static $lastValuesArray = array();
+class Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+{
+    /**
+     * @var null
+     */
+    protected static $lastValue = null;
 
 
 
-	/**
-	 * @param string $value Value to be checked for changes
-	 * @param string $key (optional) A key for which to check, whether the value has changed
-	 * @return string
-	 */
-	public function render($value, $key = NULL) {
+    /**
+     * Holds an array of key / value pairs if store change values with a key.
+     *
+     * @var array
+     */
+    protected static $lastValuesArray = array();
 
-		if ($key === NULL) {
 
-			// We are in "SINGLE VALUE MODE"
-			if ($value != self::$lastValue) {
-				self::$lastValue = $value;
-				return $this->renderThenChild();
-			} else {
-				return $this->renderElseChild();
-			}
 
-		} else {
+    /**
+     * @param string $value Value to be checked for changes
+     * @param string $key (optional) A key for which to check, whether the value has changed
+     * @return string
+     */
+    public function render($value, $key = null)
+    {
+        if ($key === null) {
 
-			// We are in "MULTI VALUE MODE"
-			if (empty(self::$lastValuesArray[$key]) || $value != self::$lastValuesArray[$key]) {
-				self::$lastValuesArray[$key] = $value;
-				return $this->renderThenChild();
-			} else {
-				return $this->renderElseChild();
-			}
+            // We are in "SINGLE VALUE MODE"
+            if ($value != self::$lastValue) {
+                self::$lastValue = $value;
+                return $this->renderThenChild();
+            } else {
+                return $this->renderElseChild();
+            }
+        } else {
 
-		}
-	}
+            // We are in "MULTI VALUE MODE"
+            if (empty(self::$lastValuesArray[$key]) || $value != self::$lastValuesArray[$key]) {
+                self::$lastValuesArray[$key] = $value;
+                return $this->renderThenChild();
+            } else {
+                return $this->renderElseChild();
+            }
+        }
+    }
 }

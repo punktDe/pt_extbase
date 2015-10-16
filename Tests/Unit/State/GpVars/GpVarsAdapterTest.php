@@ -31,115 +31,122 @@
  * @author Michael Knoll
  * @see Tx_PtExtbase_State_GpVars_GpVarsAdapter
  */
-class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-	
-	/**
-	 * Holds an array of get vars for testing
-	 *
-	 * @var array
-	 */
-	protected $getVars;
-	
-	
-	
-	/**
-	 * Hols an array of post vars for testing
-	 *
-	 * @var array
-	 */
-	protected $postVars;
-	
-	
-	
-	/**
-	 * Instance of getPostVar Adapger
-	 *
-	 * @var Tx_PtExtbase_State_GpVars_GpVarsAdapter
-	 */
-	protected $gpVarAdapter;
+class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * Holds an array of get vars for testing
+     *
+     * @var array
+     */
+    protected $getVars;
+    
+    
+    
+    /**
+     * Hols an array of post vars for testing
+     *
+     * @var array
+     */
+    protected $postVars;
+    
+    
+    
+    /**
+     * Instance of getPostVar Adapger
+     *
+     * @var Tx_PtExtbase_State_GpVars_GpVarsAdapter
+     */
+    protected $gpVarAdapter;
 
 
 
-	/**
-	 * @var string
-	 */
-	protected $extensionNamespace = 'tx_ptextbase';
-	
-	
-	
-	/**
-	 * Sets up the testcase and its test data
-	 */
-	public function setup() {
-		$this->getVars = array('key1' => array(
-		    'key2' => array(
-		        'key3' => array(
-		            'key4' => 'value1',
-		            'key5' => 'value2'		
-		         )
-		    )
-		)
-		);
-
-		$this->postVars = array('key1' => array(
+    /**
+     * @var string
+     */
+    protected $extensionNamespace = 'tx_ptextbase';
+    
+    
+    
+    /**
+     * Sets up the testcase and its test data
+     */
+    public function setup()
+    {
+        $this->getVars = array('key1' => array(
             'key2' => array(
                 'key3' => array(
-                    'key4' => 'value3',
-                    'key5' => 'value4'      
+                    'key4' => 'value1',
+                    'key5' => 'value2'
                  )
             )
         )
         );
-	
+
+        $this->postVars = array('key1' => array(
+            'key2' => array(
+                'key3' => array(
+                    'key4' => 'value3',
+                    'key5' => 'value4'
+                 )
+            )
+        )
+        );
+    
         $this->gpVarAdapter = new Tx_PtExtbase_State_GpVars_GpVarsAdapter($this->extensionNamespace);
-	    $this->gpVarAdapter->_injectGetVars($this->getVars);
-	    $this->gpVarAdapter->_injectPostVars($this->postVars);
-	}
-	
-	
-	
-	/** @test */
-	public function requiredClassesExist() {
-		$this->assertTrue(class_exists('Tx_PtExtbase_State_GpVars_GpVarsAdapter'));
-		$this->assertTrue(class_exists('Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject'));
-	}
-	
-	
-	
-	/** @test */
-	public function getGetVarsByNamespaceReturnsCorrectValues() {
-		$extractedValue = $this->gpVarAdapter->getGetVarsByNamespace('key1.key2.key3.key4');
-		$this->assertEquals($extractedValue, 'value1');
-	}
-	
-	
-	
-	/** @test */
-	public function getPostVarsByNamespaceReturnsCorrectValues() {
-		$extractedValue = $this->gpVarAdapter->getPostVarsByNamespace('key1.key2.key3.key4');
-		$this->assertEquals($extractedValue, 'value3');
-	}
-	
-	
-	
-	/** @test */
-	public function getGpVarsByNamespaceReturnsCorrectValues() {
-		$extractedValue = $this->gpVarAdapter->extractGpVarsByNamespace('key1.key2.key3.key4');
-		$this->assertEquals($extractedValue, 'value1');
-	}
-	
-	
-	
-	/** @test */
-	public function getPgVarsByNamespaceReturnsCorrectValue() {
-		$extractedValue = $this->gpVarAdapter->extractPgVarsByNamespace('key1.key2.key3.key4');
+        $this->gpVarAdapter->_injectGetVars($this->getVars);
+        $this->gpVarAdapter->_injectPostVars($this->postVars);
+    }
+    
+    
+    
+    /** @test */
+    public function requiredClassesExist()
+    {
+        $this->assertTrue(class_exists('Tx_PtExtbase_State_GpVars_GpVarsAdapter'));
+        $this->assertTrue(class_exists('Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject'));
+    }
+    
+    
+    
+    /** @test */
+    public function getGetVarsByNamespaceReturnsCorrectValues()
+    {
+        $extractedValue = $this->gpVarAdapter->getGetVarsByNamespace('key1.key2.key3.key4');
+        $this->assertEquals($extractedValue, 'value1');
+    }
+    
+    
+    
+    /** @test */
+    public function getPostVarsByNamespaceReturnsCorrectValues()
+    {
+        $extractedValue = $this->gpVarAdapter->getPostVarsByNamespace('key1.key2.key3.key4');
         $this->assertEquals($extractedValue, 'value3');
-	}
-	
-	
-	
-	/** @test */
-    public function getPgVarsByNamespaceReturnsCorrectArray() {
+    }
+    
+    
+    
+    /** @test */
+    public function getGpVarsByNamespaceReturnsCorrectValues()
+    {
+        $extractedValue = $this->gpVarAdapter->extractGpVarsByNamespace('key1.key2.key3.key4');
+        $this->assertEquals($extractedValue, 'value1');
+    }
+    
+    
+    
+    /** @test */
+    public function getPgVarsByNamespaceReturnsCorrectValue()
+    {
+        $extractedValue = $this->gpVarAdapter->extractPgVarsByNamespace('key1.key2.key3.key4');
+        $this->assertEquals($extractedValue, 'value3');
+    }
+    
+    
+    
+    /** @test */
+    public function getPgVarsByNamespaceReturnsCorrectArray()
+    {
         $extractedValue = $this->gpVarAdapter->extractPgVarsByNamespace('key1.key2.key3');
         $this->assertEquals($extractedValue, $this->postVars['key1']['key2']['key3']);
     }
@@ -147,7 +154,8 @@ class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends Tx_PtExtbase_Tests
     
     
     /** @test */
-    public function getGpVarsByNamespaceReturnsCorrectArray() {
+    public function getGpVarsByNamespaceReturnsCorrectArray()
+    {
         $extractedValue = $this->gpVarAdapter->extractGpVarsByNamespace('key1.key2.key3');
         $this->assertEquals($extractedValue, $this->getVars['key1']['key2']['key3']);
     }
@@ -155,16 +163,15 @@ class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends Tx_PtExtbase_Tests
     
     
     /** @test */
-    public function parametersCanBeInjectedIntoObject() {
-
-    	$object = new Tx_PtExtbase_Tests_Unit_State_Stubs_GetPostVarObject();
-    	$object->setObjectNamespace('key1.key2.key3');
-    	
-    	
-    	$this->gpVarAdapter->injectParametersInObject($object);
-    	
-    	$injectedValues = $object->getValues();
-    	$this->assertEquals($injectedValues, $this->postVars['key1']['key2']['key3']);
+    public function parametersCanBeInjectedIntoObject()
+    {
+        $object = new Tx_PtExtbase_Tests_Unit_State_Stubs_GetPostVarObject();
+        $object->setObjectNamespace('key1.key2.key3');
+        
+        
+        $this->gpVarAdapter->injectParametersInObject($object);
+        
+        $injectedValues = $object->getValues();
+        $this->assertEquals($injectedValues, $this->postVars['key1']['key2']['key3']);
     }
-	
 }

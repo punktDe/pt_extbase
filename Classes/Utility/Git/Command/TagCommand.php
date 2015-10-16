@@ -28,80 +28,84 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class TagCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'sign' => '-s',
-		'annotate' => '-a',
-		'message' => '-m "%s"'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'sign' => 'FALSE'
-	);
+class TagCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'sign' => '-s',
+        'annotate' => '-a',
+        'message' => '-m "%s"'
+    );
 
 
-
-	/**
-	 * @param boolean $sign
-	 * @return $this
-	 */
-	public function setSign($sign) {
-		$this->arguments['sign'] = $sign;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'sign' => 'FALSE'
+    );
 
 
 
-	/**
-	 * @param boolean $annotate
-	 * @return $this
-	 */
-	public function setAnnotate($annotate) {
-		$this->arguments['annotate'] = $annotate;
-		return $this;
-	}
+    /**
+     * @param boolean $sign
+     * @return $this
+     */
+    public function setSign($sign)
+    {
+        $this->arguments['sign'] = $sign;
+        return $this;
+    }
 
 
 
-	/**
-	 * @param string $message
-	 * @return $this
-	 */
-	public function setMessage($message) {
-		$this->arguments['message'] = $message;
-		return $this;
-	}
+    /**
+     * @param boolean $annotate
+     * @return $this
+     */
+    public function setAnnotate($annotate)
+    {
+        $this->arguments['annotate'] = $annotate;
+        return $this;
+    }
 
 
 
-	/**
-	 * @param string $name
-	 * @return $this
-	 */
-	public function setName($name) {
-		$this->arguments['name'] = $name;
-		return $this;
-	}
+    /**
+     * @param string $message
+     * @return $this
+     */
+    public function setMessage($message)
+    {
+        $this->arguments['message'] = $message;
+        return $this;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function render() {
-		$command[] = $this->buildCommand();
-		$command[] = $this->arguments['name'];
-		return implode(' ', $command);
-	}
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->arguments['name'] = $name;
+        return $this;
+    }
 
+
+
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $command[] = $this->buildCommand();
+        $command[] = $this->arguments['name'];
+        return implode(' ', $command);
+    }
 }

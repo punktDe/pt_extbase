@@ -31,8 +31,8 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_PtExtbase_Tree_NestedSetTreeInterface extends Tx_PtExtbase_Tree_TreeInterface {
-
+interface Tx_PtExtbase_Tree_NestedSetTreeInterface extends Tx_PtExtbase_Tree_TreeInterface
+{
     /**
      * Returns deleted nodes of a tree
      *
@@ -57,6 +57,4 @@ interface Tx_PtExtbase_Tree_NestedSetTreeInterface extends Tx_PtExtbase_Tree_Tre
      * @param string $namespace
      */
     public function setNamespace($namespace);
-
 }
-?>

@@ -30,75 +30,82 @@
  * @package Tests
  * @subpackage Lifecycle
  */
-class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-	
-	/** @test */
-	public function constructorInitializesUndefinedState() {
-		$lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
-		$this->assertEquals($lifecycleManager->getState(), Tx_PtExtbase_Lifecycle_Manager::UNDEFINED);
-	}
-	
-	
-	
-	/** @test */
-	public function getStateReturnsStateSetBefore() {
-		$lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
-		$lifecycleManager->updateState(300);
-		$this->assertEquals($lifecycleManager->getState(), 300);
-	}
-	
-	
-	
-	/** @test */
-	public function observerCanBeRegistered() {
-		$lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
-		$observeableObject = new Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock();
-		$lifecycleManager->register($observeableObject);
-	}
-	
-	
-	
-	/** @test */
-	public function observerGetsUpadteWhenRegisteredWithUpdating() {
-		$lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
-		$lifecycleManager->updateState(321);
-		$observeableObject = new Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock();
-		$lifecycleManager->registerAndUpdateStateOnRegisteredObject($observeableObject);
-		$this->assertEquals($observeableObject->state, 321);
-	}
-	
-	
-	
-	/** @test */
-	public function lifecycleManagerDoesNotUpdateStateIfNotBiggerThanBefore() {
-		$lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
+class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /** @test */
+    public function constructorInitializesUndefinedState()
+    {
+        $lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
+        $this->assertEquals($lifecycleManager->getState(), Tx_PtExtbase_Lifecycle_Manager::UNDEFINED);
+    }
+    
+    
+    
+    /** @test */
+    public function getStateReturnsStateSetBefore()
+    {
+        $lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
+        $lifecycleManager->updateState(300);
+        $this->assertEquals($lifecycleManager->getState(), 300);
+    }
+    
+    
+    
+    /** @test */
+    public function observerCanBeRegistered()
+    {
+        $lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
+        $observeableObject = new Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock();
+        $lifecycleManager->register($observeableObject);
+    }
+    
+    
+    
+    /** @test */
+    public function observerGetsUpadteWhenRegisteredWithUpdating()
+    {
+        $lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
+        $lifecycleManager->updateState(321);
+        $observeableObject = new Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock();
+        $lifecycleManager->registerAndUpdateStateOnRegisteredObject($observeableObject);
+        $this->assertEquals($observeableObject->state, 321);
+    }
+    
+    
+    
+    /** @test */
+    public function lifecycleManagerDoesNotUpdateStateIfNotBiggerThanBefore()
+    {
+        $lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
         $lifecycleManager->updateState(321);
         $this->assertEquals($lifecycleManager->getState(), 321);
         $lifecycleManager->updateState(300);
         $this->assertEquals($lifecycleManager->getState(), 321);
-	}
-	
-	
-	
-	/** @test */
-	public function nonStaticObserverCanBeRegisteredMultipleTimes() {
-		$lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
-		$observeableObject1 = new Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock();
-		$observeableObject1->state = 2;
-		$observeableObject2 = new Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock();
-		$observeableObject2->state = 2;
-		$lifecycleManager->registerAndUpdateStateOnRegisteredObject($observeableObject1, false);
-		$lifecycleManager->registerAndUpdateStateOnRegisteredObject($observeableObject2, false);
-		$lifecycleManager->updateState(30);
-		$this->assertEquals($observeableObject1->state, 30);
-		$this->assertEquals($observeableObject2->state, 30);
-	}
-	
-	
-	
-	/** @test */
-	public function staticObserverCanBeRegisteredOnlyOnce() {
-		$lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
+    }
+    
+    
+    
+    /** @test */
+    public function nonStaticObserverCanBeRegisteredMultipleTimes()
+    {
+        $lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
+        $observeableObject1 = new Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock();
+        $observeableObject1->state = 2;
+        $observeableObject2 = new Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock();
+        $observeableObject2->state = 2;
+        $lifecycleManager->registerAndUpdateStateOnRegisteredObject($observeableObject1, false);
+        $lifecycleManager->registerAndUpdateStateOnRegisteredObject($observeableObject2, false);
+        $lifecycleManager->updateState(30);
+        $this->assertEquals($observeableObject1->state, 30);
+        $this->assertEquals($observeableObject2->state, 30);
+    }
+    
+    
+    
+    /** @test */
+    public function staticObserverCanBeRegisteredOnlyOnce()
+    {
+        $lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
         $observeableObject1 = new Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock();
         $observeableObject1->state = 2;
         $observeableObject2 = new Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock();
@@ -108,8 +115,7 @@ class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest extends Tx_PtExtbase_Tests_U
         $lifecycleManager->updateState(30);
         $this->assertEquals($observeableObject1->state, Tx_PtExtbase_Lifecycle_Manager::UNDEFINED);
         $this->assertEquals($observeableObject2->state, 30);
-	}
-	
+    }
 }
 
 
@@ -118,12 +124,12 @@ class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest extends Tx_PtExtbase_Tests_U
  * Class implements a mock for testing lifecycle manager
  */
 require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Lifecycle/EventInterface.php';
-class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock implements Tx_PtExtbase_Lifecycle_EventInterface {
-	
-	public $state;
-	
-	public function lifecycleUpdate($state) {
-		$this->state = $state;
-	}
-	
+class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock implements Tx_PtExtbase_Lifecycle_EventInterface
+{
+    public $state;
+    
+    public function lifecycleUpdate($state)
+    {
+        $this->state = $state;
+    }
 }

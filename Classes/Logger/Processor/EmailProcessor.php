@@ -26,109 +26,112 @@ use \TYPO3\CMS\Core\Log\LogRecord;
 /**
  * Logger Email Processor
  */
-class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Processor\AbstractProcessor {
+class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Processor\AbstractProcessor
+{
+    /**
+     * @var string
+     */
+    protected $receivers;
 
 
-	/**
-	 * @var string
-	 */
-	protected $receivers;
+    /**
+     * @var LogRecord
+     */
+    protected $logRecord;
 
 
-	/**
-	 * @var LogRecord
-	 */
-	protected $logRecord;
+    /**
+     * @var Tx_PtExtbase_Utility_ServerInformation
+     */
+    protected $serverInformation;
 
 
-	/**
-	 * @var Tx_PtExtbase_Utility_ServerInformation
-	 */
-	protected $serverInformation;
+    /**
+     * @var \PunktDe\PtExtbase\Utility\RequestInformation
+     */
+    protected $requestInformation;
 
 
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\RequestInformation
-	 */
-	protected $requestInformation;
+    /**
+     * @var Tx_PtExtbase_Utility_UserAgent
+     */
+    protected $userAgent;
 
 
-	/**
-	 * @var Tx_PtExtbase_Utility_UserAgent
-	 */
-	protected $userAgent;
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     */
+    protected $objectManager;
 
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
-
-
-	/**
-	 * @param array $options
-	 */
-	public function __construct(array $options = array()) {
-		parent::__construct($options);
-		$this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-		$this->serverInformation = $this->objectManager->get('Tx_PtExtbase_Utility_ServerInformation');
-		$this->requestInformation = $this->objectManager->get('PunktDe\PtExtbase\Utility\RequestInformation');
-		$this->userAgent = $this->objectManager->get('Tx_PtExtbase_Utility_UserAgent');
-	}
-
-
-
-	/**
-	 * @param LogRecord $logRecord
-	 * @return LogRecord
-	 */
-	public function processLogRecord(LogRecord $logRecord) {
-		$this->logRecord = $logRecord;
-
-		try {
-			$mail = $this->objectManager->get('TYPO3\CMS\Core\Mail\MailMessage');
-			/** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
-			$mail->setFrom(array("noreply@punkt.de" => "noreply@punkt.de"));
-			$mail->setTo($this->receivers);
-			$mail->setSubject(sprintf('%s: Error on system %s', $this->getNamespaceOfLogComponent(), $this->serverInformation->getServerHostName()));
-			$mail->setBody($this->renderViewForMail());
-			$mail->send();
-		} catch (\Exception $exception) {
-			error_log('The error mail could not be sent!');
-		}
-		return $logRecord;
-	}
+    /**
+     * @param array $options
+     */
+    public function __construct(array $options = array())
+    {
+        parent::__construct($options);
+        $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $this->serverInformation = $this->objectManager->get('Tx_PtExtbase_Utility_ServerInformation');
+        $this->requestInformation = $this->objectManager->get('PunktDe\PtExtbase\Utility\RequestInformation');
+        $this->userAgent = $this->objectManager->get('Tx_PtExtbase_Utility_UserAgent');
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	protected function renderViewForMail() {
-		$view = new StandaloneView();
-		$view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Templates/Logger/ErrorEmail.html'));
-		$view->assign('logRecord', $this->logRecord);
-		$view->assign('serverInformation', $this->serverInformation);
-		$view->assign('userAgent', $this->userAgent);
-		$view->assign('requestId', $this->requestInformation->getCurrentRequestId());
-		return $view->render();
-	}
+    /**
+     * @param LogRecord $logRecord
+     * @return LogRecord
+     */
+    public function processLogRecord(LogRecord $logRecord)
+    {
+        $this->logRecord = $logRecord;
+
+        try {
+            $mail = $this->objectManager->get('TYPO3\CMS\Core\Mail\MailMessage');
+            /** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
+            $mail->setFrom(array("noreply@punkt.de" => "noreply@punkt.de"));
+            $mail->setTo($this->receivers);
+            $mail->setSubject(sprintf('%s: Error on system %s', $this->getNamespaceOfLogComponent(), $this->serverInformation->getServerHostName()));
+            $mail->setBody($this->renderViewForMail());
+            $mail->send();
+        } catch (\Exception $exception) {
+            error_log('The error mail could not be sent!');
+        }
+        return $logRecord;
+    }
 
 
-	/**
-	 * @param string $receivers
-	 */
-	public function setReceivers($receivers) {
-		$this->receivers = $receivers;
-	}
 
-	/**
-	 * @return string
-	 */
-	protected function getNamespaceOfLogComponent() {
-		$componentParts = explode('.', $this->logRecord->getComponent());
+    /**
+     * @return string
+     */
+    protected function renderViewForMail()
+    {
+        $view = new StandaloneView();
+        $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Templates/Logger/ErrorEmail.html'));
+        $view->assign('logRecord', $this->logRecord);
+        $view->assign('serverInformation', $this->serverInformation);
+        $view->assign('userAgent', $this->userAgent);
+        $view->assign('requestId', $this->requestInformation->getCurrentRequestId());
+        return $view->render();
+    }
 
-		return $componentParts[1];
-	}
 
+    /**
+     * @param string $receivers
+     */
+    public function setReceivers($receivers)
+    {
+        $this->receivers = $receivers;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getNamespaceOfLogComponent()
+    {
+        $componentParts = explode('.', $this->logRecord->getComponent());
+
+        return $componentParts[1];
+    }
 }

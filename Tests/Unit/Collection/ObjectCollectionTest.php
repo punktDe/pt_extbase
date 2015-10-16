@@ -33,8 +33,8 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * @package Tests
  * @subpackage Collection
  */
-class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-
+class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
     /**
      * @var Tx_PtExtbase_Tests_Unit_Collection_ObjectCollectionMock
      */
@@ -46,7 +46,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
      * Setting up the fixture for the tests.
      * This will be called before each single test
      */
-    protected function setUp() {
+    protected function setUp()
+    {
         $this->fixture = new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollectionMock();
     }
 
@@ -55,14 +56,16 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     /**
      * Cleaning up after each single test
      */
-    protected function tearDown() {
+    protected function tearDown()
+    {
         unset($this->fixture);
     }
     
     
     
-    /** @test */    
-    public function addingAnObjectOfTheCorrectType() {
+    /** @test */
+    public function addingAnObjectOfTheCorrectType()
+    {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock, 1);
         $this->assertTrue($this->fixture->count() === 1, 'Collection does not contain 1 item!');
         $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(1), 'Object has not the right type!');
@@ -71,7 +74,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function addingAnObjectOfTheWrongTypeThrowsException() {
+    public function addingAnObjectOfTheWrongTypeThrowsException()
+    {
         $this->setExpectedException('Tx_PtExtbase_Exception_Exception');
         $this->fixture->addItem(new StdClass('hello', 'world'));
     }
@@ -79,7 +83,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_appendingAnObjectWithArrayAccess() {
+    public function test_appendingAnObjectWithArrayAccess()
+    {
         $this->fixture[1] = new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock();
         $this->assertTrue($this->fixture->count() === 1, 'Collection does not contain 1 item!');
         $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(1), 'Object has not the right type!');
@@ -88,7 +93,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_setNonExistingIdAsSelected() {
+    public function test_setNonExistingIdAsSelected()
+    {
         $this->setExpectedException('Tx_PtExtbase_Exception_Exception');
         $this->fixture->setSelectedId(5);
     }
@@ -96,7 +102,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_setExistingIdAsSelected() {
+    public function test_setExistingIdAsSelected()
+    {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 5);
         $this->fixture->setSelectedId(5);
         $this->assertTrue($this->fixture->getSelectedId() === 5);
@@ -105,7 +112,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_pushAndPopAnObject() {
+    public function test_pushAndPopAnObject()
+    {
         $this->fixture->push(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock());
         $this->assertTrue($this->fixture->count() === 1, 'Collection does not contain 1 item!');
         $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->pop(), 'Object has not the right type!');
@@ -114,7 +122,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_unshiftAndShiftAnObject() {
+    public function test_unshiftAndShiftAnObject()
+    {
         $this->fixture->unshift(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock());
         $this->assertTrue($this->fixture->count() === 1, 'Collection does not contain 1 item!');
         $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->shift(), 'Object has not the right type!');
@@ -123,7 +132,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_integerishIdsChangeAfterShift() {
+    public function test_integerishIdsChangeAfterShift()
+    {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 5);
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
@@ -135,7 +145,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_integerishIdsDoNotChangeAfterPop() {
+    public function test_integerishIdsDoNotChangeAfterPop()
+    {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 5);
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
@@ -147,7 +158,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_integerishIdsChangeAfterUnshift() {
+    public function test_integerishIdsChangeAfterUnshift()
+    {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->fixture->unshift(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock());
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
@@ -158,7 +170,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_integerishIdsDoNotChangeAfterPush() {
+    public function test_integerishIdsDoNotChangeAfterPush()
+    {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->fixture->push(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock());
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
@@ -169,7 +182,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_seletectedIdIsClearedWhenSelectedItemIsPopped() {
+    public function test_seletectedIdIsClearedWhenSelectedItemIsPopped()
+    {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->fixture->setSelectedId(6);
         $this->fixture->pop();
@@ -179,7 +193,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_seletectedIdIsClearedWhenSelectedItemIsShifted() {
+    public function test_seletectedIdIsClearedWhenSelectedItemIsShifted()
+    {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->fixture->setSelectedId(6);
         $this->fixture->shift();
@@ -189,7 +204,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_integerishIdsDoNotChangeAfterShiftWithParameterTrue() {
+    public function test_integerishIdsDoNotChangeAfterShiftWithParameterTrue()
+    {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 5);
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
@@ -201,7 +217,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
     
     
     /** @test */
-    public function test_integerishIdsDoNotChangeAfterUnshiftWithSecondParameterTrue() {
+    public function test_integerishIdsDoNotChangeAfterUnshiftWithSecondParameterTrue()
+    {
         $this->fixture->addItem(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), 6);
         $this->fixture->unshift(new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock(), true);
         $this->assertTrue($this->fixture->count() === 2, 'Collection does not contain 2 items!');
@@ -215,7 +232,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends Tx_PtExtbase_Tests_Un
 /**
  * Simple test object
  */
-class Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock {
+class Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock
+{
 }
 
 
@@ -227,11 +245,12 @@ require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Collec
 /**
  * Test collection, because Tx_PtExtbase_Collection_ObjectCollection is an abstract class
  */
-class Tx_PtExtbase_Tests_Unit_Collection_ObjectCollectionMock extends Tx_PtExtbase_Collection_ObjectCollection {
-    
+class Tx_PtExtbase_Tests_Unit_Collection_ObjectCollectionMock extends Tx_PtExtbase_Collection_ObjectCollection
+{
     protected $restrictedClassName = 'Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock';
     
-    public function get_itemsArr() {
+    public function get_itemsArr()
+    {
         return $this->itemsArr;
     }
 }

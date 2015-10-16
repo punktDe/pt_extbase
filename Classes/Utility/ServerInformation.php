@@ -28,18 +28,18 @@
  * @package pt_extbase
  * @subpackage Classes\Utility
  */
-class Tx_PtExtbase_Utility_ServerInformation implements \TYPO3\CMS\Core\SingletonInterface {
-
-	/**
-	 * @return string
-	 */
-	public function getServerHostName() {
-		foreach (array('HOSTNAME', 'HTTP_HOST') as $key) {
-			if (array_key_exists($key, $_SERVER)) {
-				return $_SERVER[$key];
-			}
-		}
-		return '';
-	}
-
+class Tx_PtExtbase_Utility_ServerInformation implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * @return string
+     */
+    public function getServerHostName()
+    {
+        foreach (array('HOSTNAME', 'HTTP_HOST') as $key) {
+            if (array_key_exists($key, $_SERVER)) {
+                return $_SERVER[$key];
+            }
+        }
+        return '';
+    }
 }

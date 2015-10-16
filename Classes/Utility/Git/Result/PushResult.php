@@ -26,5 +26,6 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-class PushResult extends Result {
+class PushResult extends Result
+{
 }

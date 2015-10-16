@@ -36,47 +36,49 @@ require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Config
  * @subpackage Configuration
  * @author Michael Knoll 
  */
-class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilderTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-
-	/**
-	 * Holds an array of settings for testing
-	 *
-	 * @var array
-	 */
-	protected $settings = array(
-		'testKey' => array('key1' => 'value1'),
-		'cobjSetting' => array(
-			'_typoScriptNodeValue' => 'TEXT',
-			'value' => 'TEST',
-			'wrap' => 'x|x'
-		),
-		'key2' => 'val2'
-	);
-	
-	
-	
-	/**
-	 * Holds a dummy implementation of abstract configuration builder for testing
-	 *
-	 * @var Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub
-	 */
-	protected $fixture;
-	
-	
-	
-	/** @test */
-	public function setUp() {
-		$this->fixture = new Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub($this->settings);
-	}
-	
-	
-	
-	/** @test */
-	public function genericCallReturnsConfigurationObjectForGivenConfiguration() {
-		$configurationObject = $this->fixture->buildDummyConfiguration();
-		$this->assertTrue(is_a($configurationObject, 'Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject'));
-		$this->assertEquals($configurationObject->getSettings(), $this->settings['testKey']);
-	}
+class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilderTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * Holds an array of settings for testing
+     *
+     * @var array
+     */
+    protected $settings = array(
+        'testKey' => array('key1' => 'value1'),
+        'cobjSetting' => array(
+            '_typoScriptNodeValue' => 'TEXT',
+            'value' => 'TEST',
+            'wrap' => 'x|x'
+        ),
+        'key2' => 'val2'
+    );
+    
+    
+    
+    /**
+     * Holds a dummy implementation of abstract configuration builder for testing
+     *
+     * @var Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub
+     */
+    protected $fixture;
+    
+    
+    
+    /** @test */
+    public function setUp()
+    {
+        $this->fixture = new Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub($this->settings);
+    }
+    
+    
+    
+    /** @test */
+    public function genericCallReturnsConfigurationObjectForGivenConfiguration()
+    {
+        $configurationObject = $this->fixture->buildDummyConfiguration();
+        $this->assertTrue(is_a($configurationObject, 'Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject'));
+        $this->assertEquals($configurationObject->getSettings(), $this->settings['testKey']);
+    }
 }
 
 
@@ -84,21 +86,18 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilderTest ext
 /**
  * Stub implementation of configuration builder for testing
  */
-class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub extends Tx_PtExtbase_Configuration_AbstractConfigurationBuilder {
-	
-	/**
-	 * Set up configuration array for abstract configuration builder
-	 *
-	 * @var array
-	 */
+class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub extends Tx_PtExtbase_Configuration_AbstractConfigurationBuilder
+{
+    /**
+     * Set up configuration array for abstract configuration builder
+     *
+     * @var array
+     */
     protected $configurationObjectSettings = array(
         'dummy' => array(
             'factory' => 'Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_DummyConfigurationObjectfactory',
         )
     );
-    
-
-	
 }
 
 
@@ -106,8 +105,8 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub ex
 /**
  * Stub implementation of a configuration object
  */
-class Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject extends Tx_PtExtbase_Configuration_AbstractConfiguration {
-	
+class Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject extends Tx_PtExtbase_Configuration_AbstractConfiguration
+{
 }
 
 
@@ -115,9 +114,11 @@ class Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject extends Tx_
 /**
  * Stub implementation of a configuration object factory
  */
-class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_DummyConfigurationObjectfactory {
-	public function getInstance(Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub $configurationBuilder) {
-		$configObject = new Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject($configurationBuilder, array('key1' => 'value1'));
-		return $configObject;
-	}
+class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_DummyConfigurationObjectfactory
+{
+    public function getInstance(Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub $configurationBuilder)
+    {
+        $configObject = new Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject($configurationBuilder, array('key1' => 'value1'));
+        return $configObject;
+    }
 }

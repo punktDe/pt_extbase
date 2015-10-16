@@ -30,18 +30,15 @@
  * @subpackage StateAdapter
  * @author Michael Knoll 
  */
-interface Tx_PtExtbase_State_IdentifiableInterface {
-	
-	/**
-	 * Generates an unique namespace for an object to be used
-	 * for addressing object specific session data and gp variables.
-	 * 
-	 * Expected notation: ns1.ns2.ns3.(...)
-	 *
-	 * @return String Unique namespace for object
-	 */
+interface Tx_PtExtbase_State_IdentifiableInterface
+{
+    /**
+     * Generates an unique namespace for an object to be used
+     * for addressing object specific session data and gp variables.
+     * 
+     * Expected notation: ns1.ns2.ns3.(...)
+     *
+     * @return String Unique namespace for object
+     */
     public function getObjectNamespace();
-	
 }
-
-?>

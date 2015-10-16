@@ -31,21 +31,18 @@
  * @package pt_extbase
  * @subpackage Testing\Selenium\FixtureFramework
  */
-class Tx_PtExtbase_Testing_Selenium_FixtureFramework_FixtureImporter {
-
-	/**
-	 * @param array $fixtures
-	 * @return void
-	 */
-	public function import($fixtures) {
-
-		foreach ($fixtures as $fixture) { /** @var Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture $fixture */
-			if($fixture instanceof Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture) {
-				$fixture->getSetUpOperation()->execute($fixture->getConnection(), $fixture->getDataSet());
-			}
-		}
-
-	}
+class Tx_PtExtbase_Testing_Selenium_FixtureFramework_FixtureImporter
+{
+    /**
+     * @param array $fixtures
+     * @return void
+     */
+    public function import($fixtures)
+    {
+        foreach ($fixtures as $fixture) { /** @var Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture $fixture */
+            if ($fixture instanceof Tx_PtExtbase_Testing_Selenium_FixtureFramework_Fixture) {
+                $fixture->getSetUpOperation()->execute($fixture->getConnection(), $fixture->getDataSet());
+            }
+        }
+    }
 }
-
-?>

@@ -29,93 +29,96 @@ use \TYPO3\CMS\Core\Tests\UnitTestCase;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Unit\Utility\Git
  */
-class VarnishAdministrationTest extends UnitTestCase {
-
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Varnish\VarnishAdministration
-	 */
-	protected $proxy;
-
-
-	/**
-	 * @var string
-	 */
-	protected $pathToGitCommand = '';
+class VarnishAdministrationTest extends UnitTestCase
+{
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Varnish\VarnishAdministration
+     */
+    protected $proxy;
 
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\Container\Container
-	 */
-	protected $objectContainer;
+    /**
+     * @var string
+     */
+    protected $pathToGitCommand = '';
 
 
-	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
-	 */
-	protected $shellCommandServiceMock;
-
-	
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		$this->prepareProxy();
-	}
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\Container\Container
+     */
+    protected $objectContainer;
 
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $shellCommandServiceMock;
 
-	/**
-	 * @return void
-	 */
-	protected function prepareProxy() {
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-
-		$this->objectContainer = $objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container'); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $objectContainer */
-
-		$this->getMockBuilder('\Tx_PtExtbase_Logger_Logger')
-			->setMockClassName('LoggerMock')
-			->getMock();
-		$objectManager->get('LoggerMock'); /** @var  $loggerMock \PHPUnit_Framework_MockObject_MockObject */
-		$this->objectContainer->registerImplementation('\Tx_PtExtbase_Logger_Logger', 'LoggerMock');
-
-		$this->getMockBuilder('PunktDe\PtExtbase\Utility\ShellCommandService')
-			->setMethods(array('execute'))
-			->setMockClassName('ShellCommandServiceMock')
-			->getMock();
-		$this->shellCommandServiceMock = $objectManager->get('ShellCommandServiceMock'); /** @var  $shellCommandServiceMock \PHPUnit_Framework_MockObject_MockObject */
-		$this->objectContainer->registerImplementation('PunktDe\PtExtbase\Utility\ShellCommandService', 'ShellCommandServiceMock');
-
-		$proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Varnish\VarnishAdministration');
-
-		$this->proxy = $objectManager->get($proxyClass, '/usr/bin/varnishadm');
-	}
+    
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        $this->prepareProxy();
+    }
 
 
 
-	/**
-	 * @test
-	 */
-	public function validCommandIsRendered() {
-		$this->prepareShellCommandExpectations();
+    /**
+     * @return void
+     */
+    protected function prepareProxy()
+    {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
-		$this->proxy->setSecretFile('/home/spencer/varnish-secret')
-			->setAddressAndPort('127.0.0.1:6082')
-			->banUrl()
-			->setUrl('spencer\.it/films.*')
-			->execute();
-	}
+        $this->objectContainer = $objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container'); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $objectContainer */
+
+        $this->getMockBuilder('\Tx_PtExtbase_Logger_Logger')
+            ->setMockClassName('LoggerMock')
+            ->getMock();
+        $objectManager->get('LoggerMock'); /** @var  $loggerMock \PHPUnit_Framework_MockObject_MockObject */
+        $this->objectContainer->registerImplementation('\Tx_PtExtbase_Logger_Logger', 'LoggerMock');
+
+        $this->getMockBuilder('PunktDe\PtExtbase\Utility\ShellCommandService')
+            ->setMethods(array('execute'))
+            ->setMockClassName('ShellCommandServiceMock')
+            ->getMock();
+        $this->shellCommandServiceMock = $objectManager->get('ShellCommandServiceMock'); /** @var  $shellCommandServiceMock \PHPUnit_Framework_MockObject_MockObject */
+        $this->objectContainer->registerImplementation('PunktDe\PtExtbase\Utility\ShellCommandService', 'ShellCommandServiceMock');
+
+        $proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Varnish\VarnishAdministration');
+
+        $this->proxy = $objectManager->get($proxyClass, '/usr/bin/varnishadm');
+    }
 
 
 
-	/**
-	 * @return void
-	 */
-	protected function prepareShellCommandExpectations() {
-		$this->shellCommandServiceMock->expects($this->any())
-			->method('execute')
-			->withConsecutive(
-				array($this->equalTo('/usr/bin/varnishadm -S /home/spencer/varnish-secret -T 127.0.0.1:6082 "ban.url spencer\.it/films.*"'))
-			);
-	}
+    /**
+     * @test
+     */
+    public function validCommandIsRendered()
+    {
+        $this->prepareShellCommandExpectations();
 
+        $this->proxy->setSecretFile('/home/spencer/varnish-secret')
+            ->setAddressAndPort('127.0.0.1:6082')
+            ->banUrl()
+            ->setUrl('spencer\.it/films.*')
+            ->execute();
+    }
+
+
+
+    /**
+     * @return void
+     */
+    protected function prepareShellCommandExpectations()
+    {
+        $this->shellCommandServiceMock->expects($this->any())
+            ->method('execute')
+            ->withConsecutive(
+                array($this->equalTo('/usr/bin/varnishadm -S /home/spencer/varnish-secret -T 127.0.0.1:6082 "ban.url spencer\.it/films.*"'))
+            );
+    }
 }

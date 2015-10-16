@@ -30,53 +30,55 @@
  * @package pt_extbase
  * @subpackage Testing\Database
  */
-class Tx_PtExtbase_Testing_Database_Bootstrap {
+class Tx_PtExtbase_Testing_Database_Bootstrap
+{
+    /**
+     * @return string
+     */
+    public function getTestDatabaseDsn()
+    {
+        if (isset($GLOBALS['TEST_DATABASE_DSN'])) {
+            return $GLOBALS['TEST_DATABASE_DSN'];
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTestDatabaseDsn() {
-		if (isset($GLOBALS['TEST_DATABASE_DSN'])) {
-			return $GLOBALS['TEST_DATABASE_DSN'];
-		}
-	}
+    /**
+     * @return string
+     */
+    public function getTestDatabaseHostname()
+    {
+        if (isset($GLOBALS['TEST_DATABASE_HOSTNAME'])) {
+            return $GLOBALS['TEST_DATABASE_HOSTNAME'];
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTestDatabaseHostname() {
-		if (isset($GLOBALS['TEST_DATABASE_HOSTNAME'])) {
-			return $GLOBALS['TEST_DATABASE_HOSTNAME'];
-		}
-	}
+    /**
+     * @return string
+     */
+    public function getTestDatabaseUsername()
+    {
+        if (isset($GLOBALS['TEST_DATABASE_USERNAME'])) {
+            return $GLOBALS['TEST_DATABASE_USERNAME'];
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTestDatabaseUsername() {
-		if (isset($GLOBALS['TEST_DATABASE_USERNAME'])) {
-			return $GLOBALS['TEST_DATABASE_USERNAME'];
-		}
-	}
+    /**
+     * @return string
+     */
+    public function getTestDatabasePassword()
+    {
+        if (isset($GLOBALS['TEST_DATABASE_PASSWORD'])) {
+            return $GLOBALS['TEST_DATABASE_PASSWORD'];
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTestDatabasePassword() {
-		if (isset($GLOBALS['TEST_DATABASE_PASSWORD'])) {
-			return $GLOBALS['TEST_DATABASE_PASSWORD'];
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getTestDatabaseSchema() {
-		if (isset($GLOBALS['TEST_DATABASE_SCHEMA'])) {
-			return $GLOBALS['TEST_DATABASE_SCHEMA'];
-		}
-	}
-
+    /**
+     * @return string
+     */
+    public function getTestDatabaseSchema()
+    {
+        if (isset($GLOBALS['TEST_DATABASE_SCHEMA'])) {
+            return $GLOBALS['TEST_DATABASE_SCHEMA'];
+        }
+    }
 }
-
-?>

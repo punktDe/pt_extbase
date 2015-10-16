@@ -26,37 +26,38 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @api
  */
-class Tx_PtExtbase_ViewHelpers_Form_SelectViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\SelectViewHelper {
+class Tx_PtExtbase_ViewHelpers_Form_SelectViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\SelectViewHelper
+{
+    /**
+     * Initialize arguments.
+     *
+     * @return void
+     * @author Sebastian Kurfürst <sebastian@typo3.org>
+     * @api
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('emptyOption', 'string', 'Additional option with empty value', false, false);
+    }
 
-	/**
-	 * Initialize arguments.
-	 *
-	 * @return void
-	 * @author Sebastian Kurfürst <sebastian@typo3.org>
-	 * @api
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('emptyOption', 'string', 'Additional option with empty value', FALSE, FALSE);
-	}
-
-	/**
-	 * Render the option tags.
-	 *
-	 * @return array an associative array of options, key will be the value of the option tag
-	 * @author Michael Knoll <knoll@punkt.de>
-	 */
-	protected function getOptions() {
-		$options = parent::getOptions();
-		if ($this->arguments['emptyOption']) {
-			$newOptions = array();
-			$newOptions[0] = $this->arguments['emptyOption'];
-			foreach($options as $key => $value) {
-				$newOptions[$key] = $value;
-			}
-			$options = $newOptions;
-		}
-		return $options;
-	}
-
+    /**
+     * Render the option tags.
+     *
+     * @return array an associative array of options, key will be the value of the option tag
+     * @author Michael Knoll <knoll@punkt.de>
+     */
+    protected function getOptions()
+    {
+        $options = parent::getOptions();
+        if ($this->arguments['emptyOption']) {
+            $newOptions = array();
+            $newOptions[0] = $this->arguments['emptyOption'];
+            foreach ($options as $key => $value) {
+                $newOptions[$key] = $value;
+            }
+            $options = $newOptions;
+        }
+        return $options;
+    }
 }

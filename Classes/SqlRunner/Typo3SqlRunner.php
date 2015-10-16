@@ -33,46 +33,48 @@
  * @package pt_extbase
  * @subpackage SqlRunner
  */
-class Tx_PtExtbase_SqlRunner_Typo3SqlRunner implements Tx_PtExtbase_SqlRunner_SqlRunnerInterface {
+class Tx_PtExtbase_SqlRunner_Typo3SqlRunner implements Tx_PtExtbase_SqlRunner_SqlRunnerInterface
+{
+    /**
+     * @var \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected $connection;
 
-	/**
-	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected $connection;
+    /**
+     * @var array
+     */
+    protected $queries;
 
-	/**
-	 * @var array
-	 */
-	protected $queries;
+    /**
+     * @return void
+     */
+    public function initializeObject()
+    {
+        $this->connection = $GLOBALS['TYPO3_DB'];
+    }
 
-	/**
-	 * @return void
-	 */
-	public function initializeObject() {
-		$this->connection = $GLOBALS['TYPO3_DB'];
-	}
+    /**
+     * @param array $sqls
+     * @return void
+     */
+    public function runSqls($sqls)
+    {
+        $this->queries = $sqls;
+        $this->runQueries();
+    }
 
-	/**
-	 * @param array $sqls
-	 * @return void
-	 */
-	public function runSqls($sqls) {
-		$this->queries = $sqls;
-		$this->runQueries();
-	}
-
-	/**
-	 * Run queries
-	 *
-	 * Since this method is mainly used without SQL SELECTs, there is no PHP resource available
-	 * and thus no mysql_free_result() is necessary.
-	 *
-	 * @return void
-	 */
-	protected function runQueries() {
-		foreach ($this->queries as $query) {
-			$this->connection->sql_query($query);
-		}
-	}
-
+    /**
+     * Run queries
+     *
+     * Since this method is mainly used without SQL SELECTs, there is no PHP resource available
+     * and thus no mysql_free_result() is necessary.
+     *
+     * @return void
+     */
+    protected function runQueries()
+    {
+        foreach ($this->queries as $query) {
+            $this->connection->sql_query($query);
+        }
+    }
 }

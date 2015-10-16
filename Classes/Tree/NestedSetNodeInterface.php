@@ -31,69 +31,67 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_NodeInterface {
-
-	/**
-	 * Getter for root node uid
-	 *
-	 * @return integer
-	 */
-	public function getRoot();
-
-
-	/**
-	 * Setter for root node uid
-	 *
-	 * @param integer $root
-	 */
-	public function setRoot($root);
+interface Tx_PtExtbase_Tree_NestedSetNodeInterface extends Tx_PtExtbase_Tree_NodeInterface
+{
+    /**
+     * Getter for root node uid
+     *
+     * @return integer
+     */
+    public function getRoot();
 
 
-	/**
-	 * @abstract
-	 *
-	 * @return string Label
-	 */
-	public function getLabel();
+    /**
+     * Setter for root node uid
+     *
+     * @param integer $root
+     */
+    public function setRoot($root);
 
 
-	/**
-	 * @abstract
-	 * @param string $label
-	 */
-	public function setLabel($label);
+    /**
+     * @abstract
+     *
+     * @return string Label
+     */
+    public function getLabel();
 
 
-	/**
-	 * Getter for nested sets right number in tree
-	 *
-	 * @return integer
-	 */
-	public function getRgt();
+    /**
+     * @abstract
+     * @param string $label
+     */
+    public function setLabel($label);
 
 
-	/**
-	 * Setter for nested sets right number in tree
-	 *
-	 * @param integer $rgt
-	 */
-	public function setRgt($rgt);
+    /**
+     * Getter for nested sets right number in tree
+     *
+     * @return integer
+     */
+    public function getRgt();
 
 
-	/**
-	 * Getter for nested sets left number tree
-	 *
-	 * @return integer
-	 */
-	public function getLft();
+    /**
+     * Setter for nested sets right number in tree
+     *
+     * @param integer $rgt
+     */
+    public function setRgt($rgt);
 
 
-	/**
-	 * Setter for nested sets right number in tree
-	 *
-	 * @param integer $lft
-	 */
-	public function setLft($lft);
+    /**
+     * Getter for nested sets left number tree
+     *
+     * @return integer
+     */
+    public function getLft();
 
+
+    /**
+     * Setter for nested sets right number in tree
+     *
+     * @param integer $lft
+     */
+    public function setLft($lft);
 }
-?>

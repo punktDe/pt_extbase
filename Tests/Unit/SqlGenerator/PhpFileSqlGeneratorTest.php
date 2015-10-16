@@ -30,31 +30,34 @@
  * @package pt_extbase
  * @subpackage Tests\Unit\Parser\Sql
  */
-class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    protected $proxyClass;
 
-	protected $proxyClass;
+    /**
+     * @var Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator
+     */
+    protected $proxy;
 
-	/**
-	 * @var Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator
-	 */
-	protected $proxy;
+    public function setUp()
+    {
+        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator');
+        $this->proxy = new $this->proxyClass();
+        vfsStreamWrapper::register();
+        vfsStreamWrapper::setRoot(new vfsStreamDirectory('Foo'));
+    }
 
-	public function setUp() {
-		$this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator');
-		$this->proxy = new $this->proxyClass();
-		vfsStreamWrapper::register();
-		vfsStreamWrapper::setRoot(new vfsStreamDirectory('Foo'));
-	}
+    public function tearDown()
+    {
+        unset($this->proxy);
+    }
 
-	public function tearDown() {
-		unset($this->proxy);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getClassNamesReturnsClassNamesOfPhpFileAs() {
-		$fileContents = "
+    /**
+     * @test
+     */
+    public function getClassNamesReturnsClassNamesOfPhpFileAs()
+    {
+        $fileContents = "
 		<?php\n
 		class Tx_PtWhatEver_Domain_Sql_SqlGenerator implements Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface {\n
 			public function generate() {\n
@@ -67,67 +70,67 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends Tx_Pt
 			}\n
 		}\n
 		?>";
-		file_put_contents("vfs://Foo/Bar.php", $fileContents);
+        file_put_contents("vfs://Foo/Bar.php", $fileContents);
 
-		$expected = array(
-			'Tx_PtWhatEver_Domain_Sql_SqlGenerator',
-			'Tx_PtWhatEver_Domain_Sql_SuperSqlGenerator'
-		);
+        $expected = array(
+            'Tx_PtWhatEver_Domain_Sql_SqlGenerator',
+            'Tx_PtWhatEver_Domain_Sql_SuperSqlGenerator'
+        );
 
-		$this->proxy->_call('getClassNames', 'vfs://Foo/Bar.php');
-		$actual = $this->proxy->_get('classNames');
-		$this->assertEquals($expected, $actual);
-	}
+        $this->proxy->_call('getClassNames', 'vfs://Foo/Bar.php');
+        $actual = $this->proxy->_get('classNames');
+        $this->assertEquals($expected, $actual);
+    }
 
-	/**
-	 * @test
-	 */
-	public function generateSqls() {
-		$sql1 = array(
-			'SELECT * FROM foo;',
-			'SELECT * FROM bar;',
-		);
-		$sql2 = array(
-			'SELECT * FROM bar;',
-			'SELECT * FROM baz;',
-		);
+    /**
+     * @test
+     */
+    public function generateSqls()
+    {
+        $sql1 = array(
+            'SELECT * FROM foo;',
+            'SELECT * FROM bar;',
+        );
+        $sql2 = array(
+            'SELECT * FROM bar;',
+            'SELECT * FROM baz;',
+        );
 
-		$expected = array(
-			'SELECT * FROM foo;',
-			'SELECT * FROM bar;',
-			'SELECT * FROM bar;',
-			'SELECT * FROM baz;'
-		);
+        $expected = array(
+            'SELECT * FROM foo;',
+            'SELECT * FROM bar;',
+            'SELECT * FROM bar;',
+            'SELECT * FROM baz;'
+        );
 
-		$sqlGenerator1 = $this->getMock('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator', array('generate'), array(), '', FALSE);
-		$sqlGenerator1->expects($this->once())
-			->method('generate')
-			->will($this->returnValue($sql1));
+        $sqlGenerator1 = $this->getMock('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator', array('generate'), array(), '', false);
+        $sqlGenerator1->expects($this->once())
+            ->method('generate')
+            ->will($this->returnValue($sql1));
 
-		$sqlGenerator2 = $this->getMock('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator', array('generate'), array(), '', FALSE);
-		$sqlGenerator2->expects($this->once())
-				->method('generate')
-				->will($this->returnValue($sql2));
+        $sqlGenerator2 = $this->getMock('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator', array('generate'), array(), '', false);
+        $sqlGenerator2->expects($this->once())
+                ->method('generate')
+                ->will($this->returnValue($sql2));
 
-		$classNames = array(
-			'Tx_PtExtbase_SqlGenerator_PhpFileGenerator' => $sqlGenerator1,
-			'Tx_PtExtbase_SqlGenerator_SuperPhpFileGenerator' => $sqlGenerator2
-		);
+        $classNames = array(
+            'Tx_PtExtbase_SqlGenerator_PhpFileGenerator' => $sqlGenerator1,
+            'Tx_PtExtbase_SqlGenerator_SuperPhpFileGenerator' => $sqlGenerator2
+        );
 
-		$objectManagerMock = $this->getMockBuilder('\TYPO3\CMS\Extbase\Object\ObjectManager')
-				->setMethods(array('get'))
-				->getMock();
-		$objectManagerMock->expects($this->exactly(2))
-				->method('get')
-			->will($this->returnCallback(
-			function ($className) use ($classNames) {
-				return $classNames[$className];
-			}));
+        $objectManagerMock = $this->getMockBuilder('\TYPO3\CMS\Extbase\Object\ObjectManager')
+                ->setMethods(array('get'))
+                ->getMock();
+        $objectManagerMock->expects($this->exactly(2))
+                ->method('get')
+            ->will($this->returnCallback(
+            function ($className) use ($classNames) {
+                return $classNames[$className];
+            }));
 
-		$this->proxy->_set('classNames', array_keys($classNames));
-		$this->proxy->_set('objectManager', $objectManagerMock);
-		$actual = $this->proxy->_call('generateSqls');
-		$this->assertEquals($expected, $actual);
-	}
-
+        $this->proxy->_set('classNames', array_keys($classNames));
+        $this->proxy->_set('objectManager', $objectManagerMock);
+        $actual = $this->proxy->_call('generateSqls');
+        $this->assertEquals($expected, $actual);
+    }
 }

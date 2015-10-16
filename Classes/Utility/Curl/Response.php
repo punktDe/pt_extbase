@@ -26,202 +26,211 @@
 
 namespace PunktDe\PtExtbase\Utility\Curl;
 
-
-class Response {
-
-	/**
-	 * @var integer
-	 */
-	protected $httpCode;
-
-
-	/**
-	 * Defines which status codes are errors
-	 *
-	 * @var array
-	 */
-	protected $errorStatusPattern = '[4,5]..';
+class Response
+{
+    /**
+     * @var integer
+     */
+    protected $httpCode;
 
 
-	/**
-	 * @var string
-	 */
-	protected $body;
+    /**
+     * Defines which status codes are errors
+     *
+     * @var array
+     */
+    protected $errorStatusPattern = '[4,5]..';
 
 
-	/**
-	 * @var string
-	 */
-	protected $header = array();
+    /**
+     * @var string
+     */
+    protected $body;
 
 
-	/**
-	 * @var integer
-	 */
-	protected $headerSize;
+    /**
+     * @var string
+     */
+    protected $header = array();
 
 
-	/**
-	 * @var boolean
-	 */
-	protected $requestSucceeded = FALSE;
+    /**
+     * @var integer
+     */
+    protected $headerSize;
 
 
-	/**
-	 * @var integer
-	 */
-	protected $errorNumber;
+    /**
+     * @var boolean
+     */
+    protected $requestSucceeded = false;
 
 
-	/**
-	 * @var string
-	 */
-	protected $errorMessage;
+    /**
+     * @var integer
+     */
+    protected $errorNumber;
 
 
-	/**
-	 * @var integer
-	 */
-	protected $requestTime;
-
-	/**
-	 * @var Request
-	 */
-	protected $request;
+    /**
+     * @var string
+     */
+    protected $errorMessage;
 
 
-	/**
-	 * @param $requestHandle
-	 * @param Request $request
-	 * @param $resultData
-	 */
-	public function __construct($requestHandle, Request $request, $resultData) {
+    /**
+     * @var integer
+     */
+    protected $requestTime;
 
-		$this->request = $request;
-
-		$this->errorNumber = curl_errno($requestHandle);
-		$this->errorMessage = curl_error($requestHandle);
-
-		$this->httpCode = (int) curl_getinfo($requestHandle, CURLINFO_HTTP_CODE);
-		$this->headerSize = (int) curl_getinfo($requestHandle, CURLINFO_HEADER_SIZE);
-		$this->requestTime = (int) (curl_getinfo($requestHandle, CURLINFO_TOTAL_TIME) * 1000);
-
-		if($this->errorNumber > 0 || preg_match(sprintf('/%s/', $this->errorStatusPattern), (string) $this->httpCode) != 0) {
-			$this->requestSucceeded = FALSE;
-		} else {
-			$this->requestSucceeded = TRUE;
-		}
-
-		$this->processResult($resultData);
-
-		curl_close($requestHandle);
-	}
+    /**
+     * @var Request
+     */
+    protected $request;
 
 
-	/**
-	 * @param $resultData
-	 */
-	protected function processResult($resultData) {
+    /**
+     * @param $requestHandle
+     * @param Request $request
+     * @param $resultData
+     */
+    public function __construct($requestHandle, Request $request, $resultData)
+    {
+        $this->request = $request;
 
-		if($this->request->getCurlOptions(CURLOPT_PROXY) !== NULL) {
-			$this->stripProxyHeader($resultData);
-		}
+        $this->errorNumber = curl_errno($requestHandle);
+        $this->errorMessage = curl_error($requestHandle);
 
-		list($headerText, $this->body) = explode("\r\n\r\n", $resultData, 2);
+        $this->httpCode = (int) curl_getinfo($requestHandle, CURLINFO_HTTP_CODE);
+        $this->headerSize = (int) curl_getinfo($requestHandle, CURLINFO_HEADER_SIZE);
+        $this->requestTime = (int) (curl_getinfo($requestHandle, CURLINFO_TOTAL_TIME) * 1000);
 
-		foreach (explode("\r\n", $headerText) as $i => $headerLine) {
-			if ($i === 0) {
-				$this->header['http_code'] = $headerLine;
-			} else {
-				list ($key, $value) = explode(': ', $headerLine);
-				$this->header[$key] = $value;
-			}
-		}
-	}
+        if ($this->errorNumber > 0 || preg_match(sprintf('/%s/', $this->errorStatusPattern), (string) $this->httpCode) != 0) {
+            $this->requestSucceeded = false;
+        } else {
+            $this->requestSucceeded = true;
+        }
 
+        $this->processResult($resultData);
 
-	/**
-	 * @param string $resultData
-	 * @return string
-	 */
-	protected function stripProxyHeader(&$resultData) {
-		// cURL automatically handles Proxy rewrites, remove the "HTTP/X.X *" string
-		$resultData = preg_replace("/HTTP\/\d.\d\s.*\r\n\r\n/", '', $resultData);
-		return $resultData;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getErrorNumber() {
-		return $this->errorNumber;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getErrorMessage() {
-		return $this->errorMessage;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getHttpCode() {
-		return $this->httpCode;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getRequestTime() {
-		return $this->requestTime;
-	}
+        curl_close($requestHandle);
+    }
 
 
-	/**
-	 * @param string $key
-	 * @return string|array
-	 */
-	public function getHeader($key = '') {
-		if($key === '') {
-			return $this->header;
-		} else {
-			if(array_key_exists($key, $this->header)) {
-				return $this->header[$key];
-			}
-		}
+    /**
+     * @param $resultData
+     */
+    protected function processResult($resultData)
+    {
+        if ($this->request->getCurlOptions(CURLOPT_PROXY) !== null) {
+            $this->stripProxyHeader($resultData);
+        }
 
-		return '';
-	}
+        list($headerText, $this->body) = explode("\r\n\r\n", $resultData, 2);
 
-
-	/**
-	 * @return string
-	 */
-	public function getBody() {
-		return $this->body;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isRequestSucceeded() {
-		return $this->requestSucceeded;
-	}
-
-	/**
-	 * @param Request $request
-	 */
-	public function setRequest($request) {
-		$this->request = $request;
-	}
+        foreach (explode("\r\n", $headerText) as $i => $headerLine) {
+            if ($i === 0) {
+                $this->header['http_code'] = $headerLine;
+            } else {
+                list($key, $value) = explode(': ', $headerLine);
+                $this->header[$key] = $value;
+            }
+        }
+    }
 
 
-	/**
-	 * @return Request
-	 */
-	public function getRequest() {
-		return $this->request;
-	}
+    /**
+     * @param string $resultData
+     * @return string
+     */
+    protected function stripProxyHeader(&$resultData)
+    {
+        // cURL automatically handles Proxy rewrites, remove the "HTTP/X.X *" string
+        $resultData = preg_replace("/HTTP\/\d.\d\s.*\r\n\r\n/", '', $resultData);
+        return $resultData;
+    }
+
+    /**
+     * @return int
+     */
+    public function getErrorNumber()
+    {
+        return $this->errorNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->errorMessage;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHttpCode()
+    {
+        return $this->httpCode;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRequestTime()
+    {
+        return $this->requestTime;
+    }
+
+
+    /**
+     * @param string $key
+     * @return string|array
+     */
+    public function getHeader($key = '')
+    {
+        if ($key === '') {
+            return $this->header;
+        } else {
+            if (array_key_exists($key, $this->header)) {
+                return $this->header[$key];
+            }
+        }
+
+        return '';
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequestSucceeded()
+    {
+        return $this->requestSucceeded;
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function setRequest($request)
+    {
+        $this->request = $request;
+    }
+
+
+    /**
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
 }

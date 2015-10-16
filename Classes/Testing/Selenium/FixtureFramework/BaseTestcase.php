@@ -31,22 +31,20 @@
  * @package pt_extbase
  * @subpackage Testing\Selenium\FixtureFramework
  */
-abstract class Tx_PtExtbase_Testing_Selenium_FixtureFramework_SeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase {
+abstract class Tx_PtExtbase_Testing_Selenium_FixtureFramework_SeleniumTestCase extends PHPUnit_Extensions_SeleniumTestCase
+{
+    /**
+     * @return array
+     */
+    abstract public function getFixtures();
 
-	/**
-	 * @return array
-	 */
-	abstract function getFixtures();
-
-	/**
-	 * @return void
-	 */
-	protected function setUp() {
-		parent::setUp();
-		$fixtureImporter = new Tx_PtExtbase_Testing_Selenium_FixtureFramework_FixtureImporter();
-		$fixtureImporter->import($this->getFixtures());
-	}
-
+    /**
+     * @return void
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $fixtureImporter = new Tx_PtExtbase_Testing_Selenium_FixtureFramework_FixtureImporter();
+        $fixtureImporter->import($this->getFixtures());
+    }
 }
-
-?>

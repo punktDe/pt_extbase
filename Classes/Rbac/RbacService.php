@@ -27,23 +27,20 @@
 
 
 
-class Tx_PtExtbase_Rbac_RbacService implements Tx_PtExtbase_Rbac_RbacServiceInterface {
-
-
-	/**
-	 * This is currently only a dummy implementation,
-	 * which is used if no other service was configured.
-	 * It just returns false on every request
-	 *
-	 * @param string $extension Extension to grant access to
-	 * @param string $object Object to grant access to
-	 * @param string $action Action to grant access to
-	 * @return bool
-	 */
-	public function loggedInUserHasAccess($extension, $object, $action) {
-
-		return false;
-
-	}
+class Tx_PtExtbase_Rbac_RbacService implements Tx_PtExtbase_Rbac_RbacServiceInterface
+{
+    /**
+     * This is currently only a dummy implementation,
+     * which is used if no other service was configured.
+     * It just returns false on every request
+     *
+     * @param string $extension Extension to grant access to
+     * @param string $object Object to grant access to
+     * @param string $action Action to grant access to
+     * @return bool
+     */
+    public function loggedInUserHasAccess($extension, $object, $action)
+    {
+        return false;
+    }
 }
-?>

@@ -33,29 +33,29 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package Viewhelpers
  * @subpackage Uri
  */
-class Tx_PtExtbase_ViewHelpers_Uri_CurrentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Uri_CurrentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
+     * can decode the text's entities.
+     *
+     * @var boolean
+     */
+    protected $escapingInterceptorEnabled = false;
 
-	/**
-	 * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
-	 * can decode the text's entities.
-	 *
-	 * @var boolean
-	 */
-	protected $escapingInterceptorEnabled = FALSE;
+    /**
+     * @param bool $absolute
+     * @param array $additionalParams
+     * @return string
+     */
+    public function render($absolute = true, $additionalParams = array())
+    {
+        if ($absolute === true) {
+            $uri = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL');
+        } else {
+            $uri = GeneralUtility::getIndpEnv('REQUEST_URI');
+        }
 
-	/**
-	 * @param bool $absolute
-	 * @param array $additionalParams
-	 * @return string
-	 */
-	public function render($absolute = TRUE, $additionalParams = array()) {
-
-		if($absolute === TRUE) {
-			$uri = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL');
-		} else {
-			$uri = GeneralUtility::getIndpEnv('REQUEST_URI');
-		}
-
-		return $uri;
-	}
+        return $uri;
+    }
 }

@@ -34,23 +34,23 @@ use \TYPO3\CMS\Core\Log\Processor\AbstractProcessor;
  *
  * @package pt_extbase
  */
-class ReplaceComponentProcessor extends AbstractProcessor {
+class ReplaceComponentProcessor extends AbstractProcessor
+{
+    /**
+     * @param LogRecord $logRecord
+     * @return LogRecord
+     */
+    public function processLogRecord(LogRecord $logRecord)
+    {
+        $data = $logRecord->getData();
 
-	/**
-	 * @param LogRecord $logRecord
-	 * @return LogRecord
-	 */
-	public function processLogRecord(LogRecord $logRecord) {
-		$data = $logRecord->getData();
+        if (array_key_exists('loggerComponent', $data)) {
+            $logRecord->setComponent($data['loggerComponent']);
+            unset($data['loggerComponent']);
+        }
 
-		if (array_key_exists('loggerComponent', $data)) {
-			$logRecord->setComponent($data['loggerComponent']);
-			unset($data['loggerComponent']);
-		}
+        $logRecord->setData($data);
 
-		$logRecord->setData($data);
-
-		return $logRecord;
-	}
-
+        return $logRecord;
+    }
 }

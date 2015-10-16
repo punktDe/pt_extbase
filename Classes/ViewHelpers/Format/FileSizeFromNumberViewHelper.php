@@ -32,55 +32,56 @@
  * @package ViewHelpers
  * @subpackage Format
  */
-class Tx_PtExtbase_ViewHelpers_Format_FileSizeFromNumberViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_Format_FileSizeFromNumberViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Renders the file size from a given size.
+     *
+     * @param integer $size The file size we want to format
+     * @param string $unit The unit in which file size is given. One of B | KB | MB | GB
+     * @param bool $upperCase If set to true, unit label is printed in uppercase
+     * @return string The formatted file size
+     */
+    public function render($size, $unit = 'B', $upperCase = true)
+    {
+        if ($unit == 'KB') {
+            $size = $size * 1024;
+        } elseif ($unit == 'MB') {
+            $size = $size * 1024 * 1024;
+        } elseif ($unit == 'GB') {
+            $size = $size * 1024 * 1024 * 1024;
+        }
 
-	/**
-	 * Renders the file size from a given size.
-	 *
-	 * @param integer $size The file size we want to format
-	 * @param string $unit The unit in which file size is given. One of B | KB | MB | GB
-	 * @param bool $upperCase If set to true, unit label is printed in uppercase
-	 * @return string The formatted file size
-	 */
-	public function render($size, $unit = 'B', $upperCase = TRUE) {
-		if ($unit == 'KB') {
-			$size = $size * 1024;
-		} else if ($unit == 'MB') {
-			$size = $size * 1024 * 1024;
-		} else if ($unit == 'GB') {
-			$size = $size * 1024 * 1024 * 1024;
-		}
+        $label = $this->size($size);
+        if ($upperCase) {
+            $label = strtoupper($label);
+        } else {
+            strtolower($label);
+        }
 
-		$label = $this->size($size);
-		if ($upperCase) {
-			$label = strtoupper($label);
-		} else {
-			strtolower($label);
-		}
-
-		return $label;
-	}
+        return $label;
+    }
 
 
 
-	/**
-	 * Formats given bytes. Returns formatted file size string.
-	 *
-	 * @param $bytes
-	 * @return string
-	 */
-	protected function size($bytes) {
-		$bytes = (double)$bytes;
-	    if ($bytes > 0) {
-	        $unit = intval(log($bytes, 1024));
-	        $units = array('B', 'KB', 'MB', 'GB');
+    /**
+     * Formats given bytes. Returns formatted file size string.
+     *
+     * @param $bytes
+     * @return string
+     */
+    protected function size($bytes)
+    {
+        $bytes = (double)$bytes;
+        if ($bytes > 0) {
+            $unit = intval(log($bytes, 1024));
+            $units = array('B', 'KB', 'MB', 'GB');
 
-	        if (array_key_exists($unit, $units) === true) {
-	            return sprintf('%d %s', $bytes / pow(1024, $unit), $units[$unit]);
-	        }
-	    }
+            if (array_key_exists($unit, $units) === true) {
+                return sprintf('%d %s', $bytes / pow(1024, $unit), $units[$unit]);
+            }
+        }
 
-	    return $bytes;
-	}
-
+        return $bytes;
+    }
 }

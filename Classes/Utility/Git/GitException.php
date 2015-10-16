@@ -26,6 +26,6 @@ namespace PunktDe\PtExtbase\Utility\Git;
  *
  * @package PunktDe\PtExtbase\Utility\Git
  */
-class GitException extends \Exception {
-
-} 
+class GitException extends \Exception
+{
+}

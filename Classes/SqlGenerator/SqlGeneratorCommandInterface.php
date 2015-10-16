@@ -33,14 +33,12 @@
  * @package pt_extbase
  * @subpackage SqlGenerator
  */
-interface Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface {
-
-	/**
-	 * @abstract
-	 * @param string $filePath
-	 * @return array of single SQL commands
-	 */
-	public function generate($filePath);
-
+interface Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface
+{
+    /**
+     * @abstract
+     * @param string $filePath
+     * @return array of single SQL commands
+     */
+    public function generate($filePath);
 }
-?>

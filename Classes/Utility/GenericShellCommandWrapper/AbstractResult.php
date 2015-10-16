@@ -28,131 +28,138 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-abstract class AbstractResult {
-
-	/**
-	 * @inject
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
-
-
-	/**
-	 * @inject
-	 * @var \Tx_PtExtbase_Logger_Logger
-	 */
-	protected $logger;
+abstract class AbstractResult
+{
+    /**
+     * @inject
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     */
+    protected $objectManager;
 
 
-	/**
-	 * @inject
-	 * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ExecutionManager
-	 */
-	protected $executionManager;
+    /**
+     * @inject
+     * @var \Tx_PtExtbase_Logger_Logger
+     */
+    protected $logger;
 
 
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand
-	 */
-	protected $command;
+    /**
+     * @inject
+     * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ExecutionManager
+     */
+    protected $executionManager;
 
 
-	/**
-	 * @var integer
-	 */
-	protected $exitCode;
+    /**
+     * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand
+     */
+    protected $command;
 
 
-	/**
-	 * @var string
-	 */
-	protected $rawResult = '';
+    /**
+     * @var integer
+     */
+    protected $exitCode;
 
 
-	/**
-	 * @var ResultObjectStorage
-	 */
-	protected $result;
+    /**
+     * @var string
+     */
+    protected $rawResult = '';
 
 
-	/**
-	 * @param \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand $command
-	 */
-	public function __construct($command) {
-		$this->command = $command;
-	}
+    /**
+     * @var ResultObjectStorage
+     */
+    protected $result;
 
 
-	/**
-	 * @return void
-	 */
-	public function initializeObject() {
-		$this->result = $this->objectManager->get('PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ResultObjectStorage');
-		list($this->rawResult, $this->exitCode) = $this->executionManager->execute($this->command);
-	}
+    /**
+     * @param \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand $command
+     */
+    public function __construct($command)
+    {
+        $this->command = $command;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getExitCode() {
-		return $this->exitCode;
-	}
+    /**
+     * @return void
+     */
+    public function initializeObject()
+    {
+        $this->result = $this->objectManager->get('PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ResultObjectStorage');
+        list($this->rawResult, $this->exitCode) = $this->executionManager->execute($this->command);
+    }
 
 
-
-	/**
-	 * @param int $exitCode
-	 */
-	public function setExitCode($exitCode) {
-		$this->exitCode = $exitCode;
-	}
+    /**
+     * @return int
+     */
+    public function getExitCode()
+    {
+        return $this->exitCode;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getRawResult() {
-		return $this->rawResult;
-	}
+    /**
+     * @param int $exitCode
+     */
+    public function setExitCode($exitCode)
+    {
+        $this->exitCode = $exitCode;
+    }
 
 
 
-	/**
-	 * @param string $rawResult
-	 */
-	public function setRawResult($rawResult) {
-		$this->rawResult = $rawResult;
-	}
+    /**
+     * @return string
+     */
+    public function getRawResult()
+    {
+        return $this->rawResult;
+    }
 
 
 
-	/**
-	 * @return ObjectStorage
-	 */
-	public function getResult() {
-		if (count($this->result) === 0) {
-			$this->logger->info(sprintf("Command result size is %s bytes", strlen($this->rawResult)), __CLASS__);
-			$this->buildResult();
-		}
-		return $this->result;
-	}
+    /**
+     * @param string $rawResult
+     */
+    public function setRawResult($rawResult)
+    {
+        $this->rawResult = $rawResult;
+    }
 
 
 
-	/**
-	 * @return void
-	 */
-	public function __string() {
-		echo $this->rawResult;
-	}
+    /**
+     * @return ObjectStorage
+     */
+    public function getResult()
+    {
+        if (count($this->result) === 0) {
+            $this->logger->info(sprintf("Command result size is %s bytes", strlen($this->rawResult)), __CLASS__);
+            $this->buildResult();
+        }
+        return $this->result;
+    }
 
 
 
-	/**
-	 * @return ObjectStorage
-	 */
-	abstract protected function buildResult();
+    /**
+     * @return void
+     */
+    public function __string()
+    {
+        echo $this->rawResult;
+    }
 
+
+
+    /**
+     * @return ObjectStorage
+     */
+    abstract protected function buildResult();
 }

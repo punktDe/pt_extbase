@@ -32,83 +32,85 @@
  * @package Viewhelpers
  * @subpackage Content/Head
  */
-class Tx_PtExtbase_ViewHelpers_Head_MetaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper {
+class Tx_PtExtbase_ViewHelpers_Head_MetaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
+{
+    /**
+     * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
+     * can decode the text's entities.
+     *
+     * @var boolean
+     */
+    protected $escapingInterceptorEnabled = false;
 
 
-	/**
-	 * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
-	 * can decode the text's entities.
-	 *
-	 * @var boolean
-	 */
-	protected $escapingInterceptorEnabled = FALSE;
+    /**
+     * @var	string
+     */
+    protected $tagName = 'meta';
 
 
-	/**
-	 * @var	string
-	 */
-	protected $tagName = 'meta';
+    /**
+     * @var t3lib_PageRenderer
+     */
+    protected $pageRenderer;
 
 
-	/**
-	 * @var t3lib_PageRenderer
-	 */
-	protected $pageRenderer;
-
-
-	/**
-	 * Arguments initialization
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerTagAttribute('property', 'string', 'Property key');
-		$this->registerTagAttribute('name', 'string', 'Name property of meta tag');
-		$this->registerTagAttribute('http-equiv', 'string', 'Property: http-equiv');
-		$this->registerTagAttribute('scheme', 'string', 'Property: scheme');
-		$this->registerTagAttribute('lang', 'string', 'Property: lang');
-		$this->registerTagAttribute('dir', 'string', 'Property: dir');
-		$this->registerTagAttribute('content', 'string', 'Content of meta tag');
-	}
-
-
-
-	/**
-	 * Initialize ViewHelper
-	 */
-	public function initialize() {
-		parent::initialize();
-
-		if (TYPO3_MODE === 'FE' && $GLOBALS['TSFE']) {
-			$this->pageRenderer = $GLOBALS['TSFE']->getPageRenderer();
-		}
-	}
+    /**
+     * Arguments initialization
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerTagAttribute('property', 'string', 'Property key');
+        $this->registerTagAttribute('name', 'string', 'Name property of meta tag');
+        $this->registerTagAttribute('http-equiv', 'string', 'Property: http-equiv');
+        $this->registerTagAttribute('scheme', 'string', 'Property: scheme');
+        $this->registerTagAttribute('lang', 'string', 'Property: lang');
+        $this->registerTagAttribute('dir', 'string', 'Property: dir');
+        $this->registerTagAttribute('content', 'string', 'Content of meta tag');
+    }
 
 
 
-	/**
-	 * @param array $unEscapedTags
-	 */
-	public function render($unEscapedTags = array()) {
-		$this->markAsUnEscaped($unEscapedTags);
+    /**
+     * Initialize ViewHelper
+     */
+    public function initialize()
+    {
+        parent::initialize();
 
-		if($this->pageRenderer != NULL) {
-			$metaTag = $this->tag->render();
-			$this->pageRenderer->addMetaTag($this->tag->render($metaTag));
-		}
-	}
+        if (TYPO3_MODE === 'FE' && $GLOBALS['TSFE']) {
+            $this->pageRenderer = $GLOBALS['TSFE']->getPageRenderer();
+        }
+    }
 
 
 
-	/**
-	 * @param $tagNames
-	 */
-	protected function markAsUnEscaped($tagNames) {
-		foreach($tagNames as $tagName) {
-			if($this->hasArgument($tagName)) {
-				$this->tag->addAttribute($tagName, $this->arguments[$tagName],FALSE);
-			}
-		}
-	}
+    /**
+     * @param array $unEscapedTags
+     */
+    public function render($unEscapedTags = array())
+    {
+        $this->markAsUnEscaped($unEscapedTags);
 
+        if ($this->pageRenderer != null) {
+            $metaTag = $this->tag->render();
+            $this->pageRenderer->addMetaTag($this->tag->render($metaTag));
+        }
+    }
+
+
+
+    /**
+     * @param $tagNames
+     */
+    protected function markAsUnEscaped($tagNames)
+    {
+        foreach ($tagNames as $tagName) {
+            if ($this->hasArgument($tagName)) {
+                $this->tag->addAttribute($tagName, $this->arguments[$tagName], false);
+            }
+        }
+    }
 }

@@ -29,119 +29,127 @@
  * @subpackage Tests\Unit\Utility
  * @see Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper
  */
-class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
+class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var string
+     */
+    protected $proxyClass;
 
-	/**
-	 * @var string
-	 */
-	protected $proxyClass;
+    /**
+     * @var Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper
+     */
+    protected $proxy;
 
-	/**
-	 * @var Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper
-	 */
-	protected $proxy;
+    public function setUp()
+    {
+        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapperMock');
+        $this->proxy = new $this->proxyClass();
+    }
 
-	public function setUp() {
-		$this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapperMock');
-		$this->proxy = new $this->proxyClass();
-	}
+    public function tearDown()
+    {
+        unset($this->proxy);
+    }
 
-	public function tearDown() {
-		unset($this->proxy);
-	}
+    /**
+     * @test
+     */
+    public function originalSpeakingNameToConstantMappingIsValid()
+    {
+        $expected = array(
+            'FOO_BAR' => 6
+        );
+        $actual = $this->proxy->_get('originalSpeakingNameToConstantMapping');
+        $this->assertSame($expected, $actual);
+    }
 
-	/**
-	 * @test
-	 */
-	public function originalSpeakingNameToConstantMappingIsValid() {
-		$expected = array(
-			'FOO_BAR' => 6
-		);
-		$actual = $this->proxy->_get('originalSpeakingNameToConstantMapping');
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @test
+     */
+    public function getSpeakingNameToConstantMapReturnsValidMap()
+    {
+        $speakingNameToConstantMap = array(
+            'FOO_BAR' => 6
+        );
+        $expected = $speakingNameToConstantMap;
 
-	/**
-	 * @test
-	 */
-	public function getSpeakingNameToConstantMapReturnsValidMap() {
-		$speakingNameToConstantMap = array(
-			'FOO_BAR' => 6
-		);
-		$expected = $speakingNameToConstantMap;
+        $this->proxy->_set('speakingNameToConstantMap', $speakingNameToConstantMap);
 
-		$this->proxy->_set('speakingNameToConstantMap', $speakingNameToConstantMap);
+        $actual = $this->proxy->getSpeakingNameToConstantMap();
+        $this->assertSame($expected, $actual);
+    }
 
-		$actual = $this->proxy->getSpeakingNameToConstantMap();
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @test
+     */
+    public function getConstantToSpeakingNameMapReturnsValidMap()
+    {
+        $constantToSpeakingNameMap = array(
+            6 => 'FOO_BAR'
+        );
+        $expected = $constantToSpeakingNameMap;
 
-	/**
-	 * @test
-	 */
-	public function getConstantToSpeakingNameMapReturnsValidMap() {
-		$constantToSpeakingNameMap = array(
-			6 => 'FOO_BAR'
-		);
-		$expected = $constantToSpeakingNameMap;
+        $this->proxy->_set('constantToSpeakingNameMap', $constantToSpeakingNameMap);
 
-		$this->proxy->_set('constantToSpeakingNameMap', $constantToSpeakingNameMap);
+        $actual = $this->proxy->getConstantToSpeakingNameMap();
+        $this->assertSame($expected, $actual);
+    }
 
-		$actual = $this->proxy->getConstantToSpeakingNameMap();
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @test
+     */
+    public function getConstantFromSpeakingNameReturnsValidConstant()
+    {
+        $speakingNameToConstantMap = array(
+            'FOO_BAR' => 6
+        );
 
-	/**
-	 * @test
-	 */
-	public function getConstantFromSpeakingNameReturnsValidConstant() {
-		$speakingNameToConstantMap = array(
-			'FOO_BAR' => 6
-		);
+        $this->proxy->_set('speakingNameToConstantMap', $speakingNameToConstantMap);
 
-		$this->proxy->_set('speakingNameToConstantMap', $speakingNameToConstantMap);
+        $expected = 6;
+        $actual = $this->proxy->getConstantFromSpeakingName('FOO_BAR');
+        $this->assertSame($expected, $actual);
+    }
 
-		$expected = 6;
-		$actual = $this->proxy->getConstantFromSpeakingName('FOO_BAR');
-		$this->assertSame($expected, $actual);
-	}
+    /**
+     * @test
+     */
+    public function getSpeakingNameFromConstantReturnsValidSpeakingName()
+    {
+        $constantToSpeakingNameMap = array(
+            6 => 'FOO_BAR'
+        );
 
-	/**
-	 * @test
-	 */
-	public function getSpeakingNameFromConstantReturnsValidSpeakingName() {
-		$constantToSpeakingNameMap = array(
-			6 => 'FOO_BAR'
-		);
+        $this->proxy->_set('constantToSpeakingNameMap', $constantToSpeakingNameMap);
 
-		$this->proxy->_set('constantToSpeakingNameMap', $constantToSpeakingNameMap);
-
-		$expected = 'FOO_BAR';
-		$actual = $this->proxy->getSpeakingNameFromConstant(6);
-		$this->assertSame($expected, $actual);
-	}
-
-
+        $expected = 'FOO_BAR';
+        $actual = $this->proxy->getSpeakingNameFromConstant(6);
+        $this->assertSame($expected, $actual);
+    }
 }
 
 
 
-class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapperMock extends Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper {
+class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapperMock extends Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper
+{
+    protected function getClassName()
+    {
+        return 'Tx_PtExtbase_Tests_Unit_Utility_ConstantTestInterface';
+    }
 
-	protected function getClassName() {
-		return 'Tx_PtExtbase_Tests_Unit_Utility_ConstantTestInterface';
-	}
+    protected function buildSpeakingNameToConstantMap()
+    {
+    }
 
-	protected function buildSpeakingNameToConstantMap() {
-	}
-
-	protected function buildConstantToSpeakingNameMap() {
-	}
-
+    protected function buildConstantToSpeakingNameMap()
+    {
+    }
 }
 
 
 
-interface Tx_PtExtbase_Tests_Unit_Utility_ConstantTestInterface {
-	const FOO_BAR = 6;
+interface Tx_PtExtbase_Tests_Unit_Utility_ConstantTestInterface
+{
+    const FOO_BAR = 6;
 }

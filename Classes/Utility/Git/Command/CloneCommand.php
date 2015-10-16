@@ -28,73 +28,76 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class CloneCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'branch' => '--branch %s',
-		'depth' => '--depth %s',
-		'repository' => '%s',
-		'directory' => '%s',
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'branch' => '',
-		'depth' => '',
-		'repository' => '',
-		'directory' => ''
-	);
+class CloneCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'branch' => '--branch %s',
+        'depth' => '--depth %s',
+        'repository' => '%s',
+        'directory' => '%s',
+    );
 
 
-
-	/**
-	 * @param string $branch
-	 * @return $this
-	 */
-	public function setBranch($branch) {
-		$this->arguments['branch'] = $branch;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'branch' => '',
+        'depth' => '',
+        'repository' => '',
+        'directory' => ''
+    );
 
 
 
-	/**
-	 * @param integer $depth
-	 * @return $this
-	 */
-	public function setDepth($depth) {
-		$this->arguments['depth'] = $depth;
-		return $this;
-	}
+    /**
+     * @param string $branch
+     * @return $this
+     */
+    public function setBranch($branch)
+    {
+        $this->arguments['branch'] = $branch;
+        return $this;
+    }
 
 
 
-	/**
-	 * @param string $repository
-	 * @return $this
-	 */
-	public function setRepository($repository) {
-		$this->arguments['repository'] = $repository;
-		return $this;
-	}
+    /**
+     * @param integer $depth
+     * @return $this
+     */
+    public function setDepth($depth)
+    {
+        $this->arguments['depth'] = $depth;
+        return $this;
+    }
 
 
 
-	/**
-	 * @param string $directory
-	 * @return $this
-	 */
-	public function setDirectory($directory) {
-		$this->arguments['directory'] = $directory;
-		return $this;
-	}
+    /**
+     * @param string $repository
+     * @return $this
+     */
+    public function setRepository($repository)
+    {
+        $this->arguments['repository'] = $repository;
+        return $this;
+    }
 
+
+
+    /**
+     * @param string $directory
+     * @return $this
+     */
+    public function setDirectory($directory)
+    {
+        $this->arguments['directory'] = $directory;
+        return $this;
+    }
 }

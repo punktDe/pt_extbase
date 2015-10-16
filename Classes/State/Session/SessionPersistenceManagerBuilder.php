@@ -36,88 +36,91 @@
  * @subpackage State\Session
  * @see Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerBuilderTest
  */
-class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TYPO3\CMS\Core\SingletonInterface {
-
-	/**
-	 * Holds context in which builder is called
-	 *
-	 * @var Tx_PtExtbase_Context
-	 */
-	protected $context;
-
-
-
-	/**
-	 * Holds singleton instance of session persistence manager once it's been instantiated
-	 *
-	 * @var Tx_PtExtbase_State_Session_SessionPersistenceManager
-	 */
-	protected $sessionPersistenceManagerInstance;
+class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * Holds context in which builder is called
+     *
+     * @var Tx_PtExtbase_Context
+     */
+    protected $context;
 
 
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-	 */
-	protected $objectManager;
+    /**
+     * Holds singleton instance of session persistence manager once it's been instantiated
+     *
+     * @var Tx_PtExtbase_State_Session_SessionPersistenceManager
+     */
+    protected $sessionPersistenceManagerInstance;
 
 
 
-	/**
-	 * Constructor takes context as required dependency to be injected via DI
-	 *
-	 * @param Tx_PtExtbase_Context $context
-	 * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
-	 */
-	public function __construct(Tx_PtExtbase_Context $context, \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager) {
-		$this->context = $context;
-		$this->objectManager = $objectManager;
-	}
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     */
+    protected $objectManager;
 
 
 
-	/**
-	 * Returns instance of session persistence manager for given session storage adapter.
-	 * If no storage adapter is given, injected context is used to determine which adapter
-	 * to use in current context.
-	 *
-	 * @param Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionStorageAdapter
-	 * @return Tx_PtExtbase_State_Session_SessionPersistenceManager
-	 */
-	public function getInstance(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionStorageAdapter = NULL) {
-		if ($this->sessionPersistenceManagerInstance === NULL) {
-			$this->createInstance($sessionStorageAdapter);
-		}
-
-		return $this->sessionPersistenceManagerInstance;
-	}
+    /**
+     * Constructor takes context as required dependency to be injected via DI
+     *
+     * @param Tx_PtExtbase_Context $context
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     */
+    public function __construct(Tx_PtExtbase_Context $context, \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager)
+    {
+        $this->context = $context;
+        $this->objectManager = $objectManager;
+    }
 
 
 
-	/**
-	 * Creates local instance of session persistence manager
-	 *
-	 * @param $sessionStorageAdapter
-	 */
-	protected function createInstance($sessionStorageAdapter) {
-		if ($sessionStorageAdapter === NULL) {
-			$exception = new Exception();
-			$sessionStorageAdapter = $this->determineSessionStorageAdapterForGivenContext();
-		}
-		$this->sessionPersistenceManagerInstance = $this->objectManager->get('Tx_PtExtbase_State_Session_SessionPersistenceManager', $sessionStorageAdapter);
-	}
+    /**
+     * Returns instance of session persistence manager for given session storage adapter.
+     * If no storage adapter is given, injected context is used to determine which adapter
+     * to use in current context.
+     *
+     * @param Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionStorageAdapter
+     * @return Tx_PtExtbase_State_Session_SessionPersistenceManager
+     */
+    public function getInstance(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionStorageAdapter = null)
+    {
+        if ($this->sessionPersistenceManagerInstance === null) {
+            $this->createInstance($sessionStorageAdapter);
+        }
+
+        return $this->sessionPersistenceManagerInstance;
+    }
 
 
 
-	/**
-	 * Method determines which session storage adapter to use depending on injected context.
-	 */
-	protected function determineSessionStorageAdapterForGivenContext() {
-		if ($this->context->isInCachedMode()) {
-			return Tx_PtExtbase_State_Session_Storage_DBAdapterFactory::getInstance();
-		} else {
-			return Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance();
-		}
-	}
+    /**
+     * Creates local instance of session persistence manager
+     *
+     * @param $sessionStorageAdapter
+     */
+    protected function createInstance($sessionStorageAdapter)
+    {
+        if ($sessionStorageAdapter === null) {
+            $exception = new Exception();
+            $sessionStorageAdapter = $this->determineSessionStorageAdapterForGivenContext();
+        }
+        $this->sessionPersistenceManagerInstance = $this->objectManager->get('Tx_PtExtbase_State_Session_SessionPersistenceManager', $sessionStorageAdapter);
+    }
 
+
+
+    /**
+     * Method determines which session storage adapter to use depending on injected context.
+     */
+    protected function determineSessionStorageAdapterForGivenContext()
+    {
+        if ($this->context->isInCachedMode()) {
+            return Tx_PtExtbase_State_Session_Storage_DBAdapterFactory::getInstance();
+        } else {
+            return Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance();
+        }
+    }
 }

@@ -41,235 +41,246 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * extKey: Extension Key
  * pluginNamespace: Plugin Namespace for GET/POST parameters
  */
-class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
-
-	/**
-	 * @inject
-	 * @var \TYPO3\CMS\Extbase\Service\ExtensionService
-	 */
-	protected $extensionService;
-
-
-	/**
-	 * Relative extpath to the extension (eg typo3conf/ext/pt_extbase/)
-	 *
-	 * @var string
-	 */
-	protected $relExtPath;
+class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * @inject
+     * @var \TYPO3\CMS\Extbase\Service\ExtensionService
+     */
+    protected $extensionService;
 
 
-	/**
-	 * @var string
-	 */
-	protected $typo3Path;
+    /**
+     * Relative extpath to the extension (eg typo3conf/ext/pt_extbase/)
+     *
+     * @var string
+     */
+    protected $relExtPath;
 
 
-	/**
-	 * Absolute ExtPath
-	 *
-	 * @var string
-	 */
-	protected $extPath;
+    /**
+     * @var string
+     */
+    protected $typo3Path;
 
 
-	/**
-	 * Extension key
-	 *
-	 * @var string
-	 */
-	protected $extKey;
+    /**
+     * Absolute ExtPath
+     *
+     * @var string
+     */
+    protected $extPath;
 
 
-	/**
-	 * ViewHelper marker arguments
-	 * @var array
-	 */
-	protected $arguments = array();
+    /**
+     * Extension key
+     *
+     * @var string
+     */
+    protected $extKey;
 
 
-	/**
-	 * Initialize ViewHelper
-	 *
-	 * @return void
-	 */
-	public function initialize() {
-
-		if ($this->controllerContext instanceof \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext) {
-			$this->extKey = $this->controllerContext->getRequest()->getControllerExtensionKey();
-		} else {
-			$this->extKey = 'pt_extbase';
-		}
-
-		$this->extPath = ExtensionManagementUtility::extPath($this->extKey);
-		$this->relExtPath = ExtensionManagementUtility::siteRelPath($this->extKey);
-
-		if (TYPO3_MODE === 'BE') {
-			$this->initializeBackend();
-		} else {
-			$this->initializeFrontend();
-		}
-	}
+    /**
+     * ViewHelper marker arguments
+     * @var array
+     */
+    protected $arguments = array();
 
 
-	/**
-	 * Initialize Backend specific variables
-	 *
-	 * @return void
-	 */
-	protected function initializeBackend() {
-		$this->relExtPath = '../' . $this->relExtPath;
-		$this->typo3Path = $GLOBALS['BACK_PATH'];
-	}
+    /**
+     * Initialize ViewHelper
+     *
+     * @return void
+     */
+    public function initialize()
+    {
+        if ($this->controllerContext instanceof \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext) {
+            $this->extKey = $this->controllerContext->getRequest()->getControllerExtensionKey();
+        } else {
+            $this->extKey = 'pt_extbase';
+        }
+
+        $this->extPath = ExtensionManagementUtility::extPath($this->extKey);
+        $this->relExtPath = ExtensionManagementUtility::siteRelPath($this->extKey);
+
+        if (TYPO3_MODE === 'BE') {
+            $this->initializeBackend();
+        } else {
+            $this->initializeFrontend();
+        }
+    }
 
 
-	/**
-	 * Initialize Frontend specific variables
-	 *
-	 * @return void
-	 */
-	protected function initializeFrontend() {
-		$this->typo3Path = '/' . $GLOBALS['TSFE']->absRefPrefix . 'typo3/';
-	}
+    /**
+     * Initialize Backend specific variables
+     *
+     * @return void
+     */
+    protected function initializeBackend()
+    {
+        $this->relExtPath = '../' . $this->relExtPath;
+        $this->typo3Path = $GLOBALS['BACK_PATH'];
+    }
 
 
-	/**
-	 * View helper for showing debug information for a given object
-	 *
-	 * @param string $templatePath Template path
-	 * @param array|string $arguments Arguments
-	 * @param boolean $addToHead Add to head section or return it a the place the viewhelper is
-	 * @param boolean $compress
-	 * @throws Exception
-	 * @return string
-	 */
-	public function render($templatePath, $arguments = '', $addToHead = true, $compress = true) {
-		$this->arguments = $arguments;
-		$this->addGenericArguments();
-
-		$absoluteFileName = GeneralUtility::getFileAbsFileName($templatePath);
-		if (!file_exists($absoluteFileName)) throw new Exception('No JSTemplate found with path ' . $absoluteFileName . '. 1296554335');
-
-		if ($addToHead) {
-			GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')
-				->get('Tx_PtExtbase_Utility_HeaderInclusion')
-				->addJsInlineCode($templatePath, $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments), $compress);
-		} else {
-			$jsOutput = "<script type=\"text/javascript\">\n";
-			$jsOutput .= $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments);
-			$jsOutput .= "\n</script>\n";
-
-			return $jsOutput;
-		}
-	}
+    /**
+     * Initialize Frontend specific variables
+     *
+     * @return void
+     */
+    protected function initializeFrontend()
+    {
+        $this->typo3Path = '/' . $GLOBALS['TSFE']->absRefPrefix . 'typo3/';
+    }
 
 
-	/**
-	 * Add some generic arguments that might be useful
-	 *
-	 * @return void
-	 */
-	protected function addGenericArguments() {
-		$this->arguments['veriCode'] = $this->generateVeriCode();
-		$this->arguments['extPath'] = $this->relExtPath;
-		$this->arguments['typo3Path'] = $this->typo3Path;
-		$this->arguments['extKey'] = $this->extKey;
+    /**
+     * View helper for showing debug information for a given object
+     *
+     * @param string $templatePath Template path
+     * @param array|string $arguments Arguments
+     * @param boolean $addToHead Add to head section or return it a the place the viewhelper is
+     * @param boolean $compress
+     * @throws Exception
+     * @return string
+     */
+    public function render($templatePath, $arguments = '', $addToHead = true, $compress = true)
+    {
+        $this->arguments = $arguments;
+        $this->addGenericArguments();
 
-		if (is_object($this->controllerContext)) {
-			$this->arguments['pluginNamespace'] =  $this->extensionService->getPluginNamespace(
-				$this->controllerContext->getRequest()->getControllerExtensionName(),
-				$this->controllerContext->getRequest()->getPluginName()
-			);
-		}
-	}
+        $absoluteFileName = GeneralUtility::getFileAbsFileName($templatePath);
+        if (!file_exists($absoluteFileName)) {
+            throw new Exception('No JSTemplate found with path ' . $absoluteFileName . '. 1296554335');
+        }
 
+        if ($addToHead) {
+            GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')
+                ->get('Tx_PtExtbase_Utility_HeaderInclusion')
+                ->addJsInlineCode($templatePath, $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments), $compress);
+        } else {
+            $jsOutput = "<script type=\"text/javascript\">\n";
+            $jsOutput .= $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments);
+            $jsOutput .= "\n</script>\n";
 
-	/**
-	 * Generates a veri code for session (see t3lib_userauth)
-	 *
-	 * @return string
-	 */
-	protected function generateVeriCode() {
-		$sessionId = null;
-		if (TYPO3_MODE === 'BE') {
-			global $BE_USER;
-			$sessionId = $BE_USER->id;
-		} else {
-			$sessionId = $GLOBALS['TSFE']->fe_user->id;
-		}
-		return substr(md5($sessionId . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']), 0, 10);
-	}
+            return $jsOutput;
+        }
+    }
 
 
-	/**
-	 * Load JavaScript code from file
-	 *
-	 * @param string $absoluteFileName The absolute file name
-	 * @throws Exception
-	 * @return string JsCodeTemplate
-	 */
-	protected function loadJsCodeFromFile($absoluteFileName) {
-		$data = file_get_contents($absoluteFileName);
+    /**
+     * Add some generic arguments that might be useful
+     *
+     * @return void
+     */
+    protected function addGenericArguments()
+    {
+        $this->arguments['veriCode'] = $this->generateVeriCode();
+        $this->arguments['extPath'] = $this->relExtPath;
+        $this->arguments['typo3Path'] = $this->typo3Path;
+        $this->arguments['extKey'] = $this->extKey;
 
-		if ($data === FALSE) {
-			throw new Exception('Could not read the file content of file ' . $absoluteFileName . '! 1300865874');
-		}
-
-		return $data;
-	}
-
-
-	/**
-	 * Substitute Markers in Code
-	 *
-	 * @param string $jsCode JavaScript code
-	 * @param array $arguments ViewHelper arguments
-	 * @return string
-	 */
-	protected function substituteMarkers($jsCode, $arguments) {
-		$markers = $this->prepareMarkers($arguments);
-		$this->addTranslationMarkers($jsCode, $markers);
-		return str_replace(array_keys($markers), array_values($markers), $jsCode);
-	}
+        if (is_object($this->controllerContext)) {
+            $this->arguments['pluginNamespace'] =  $this->extensionService->getPluginNamespace(
+                $this->controllerContext->getRequest()->getControllerExtensionName(),
+                $this->controllerContext->getRequest()->getPluginName()
+            );
+        }
+    }
 
 
-	/**
-	 * Find LLL markers in the jsCode and arguments for them
-	 *
-	 * @param string $jsCode JavaScript code
-	 * @param array markers Markers
-	 */
-	protected function addTranslationMarkers($jsCode, &$markers) {
-		$matches = array();
-		$pattern = '/\#\#\#LLL:.*\#\#\#/';
-		preg_match_all($pattern, $jsCode, $matches);
-		foreach ($matches[0] as $match) {
-			$translateKey = substr($match, 7, -3);
-			$markers[$match] = $this->translate($translateKey);
-		}
-	}
+    /**
+     * Generates a veri code for session (see t3lib_userauth)
+     *
+     * @return string
+     */
+    protected function generateVeriCode()
+    {
+        $sessionId = null;
+        if (TYPO3_MODE === 'BE') {
+            global $BE_USER;
+            $sessionId = $BE_USER->id;
+        } else {
+            $sessionId = $GLOBALS['TSFE']->fe_user->id;
+        }
+        return substr(md5($sessionId . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']), 0, 10);
+    }
 
 
-	/**
-	 * @param $translateKey
-	 * @return string The value from LOCAL_LANG or NULL if no translation was found.
-	 */
-	protected function translate($translateKey) {
-		return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($translateKey, $this->extKey);
-	}
+    /**
+     * Load JavaScript code from file
+     *
+     * @param string $absoluteFileName The absolute file name
+     * @throws Exception
+     * @return string JsCodeTemplate
+     */
+    protected function loadJsCodeFromFile($absoluteFileName)
+    {
+        $data = file_get_contents($absoluteFileName);
+
+        if ($data === false) {
+            throw new Exception('Could not read the file content of file ' . $absoluteFileName . '! 1300865874');
+        }
+
+        return $data;
+    }
 
 
-	/**
-	 * Prepare the markers
-	 *
-	 * @param array $arguments
-	 * @return array
-	 */
-	protected function prepareMarkers($arguments) {
-		$markers = array();
-		foreach ($arguments as $key => $value) {
-			$markers['###' . $key . '###'] = $value;
-		}
-		return $markers;
-	}
+    /**
+     * Substitute Markers in Code
+     *
+     * @param string $jsCode JavaScript code
+     * @param array $arguments ViewHelper arguments
+     * @return string
+     */
+    protected function substituteMarkers($jsCode, $arguments)
+    {
+        $markers = $this->prepareMarkers($arguments);
+        $this->addTranslationMarkers($jsCode, $markers);
+        return str_replace(array_keys($markers), array_values($markers), $jsCode);
+    }
 
+
+    /**
+     * Find LLL markers in the jsCode and arguments for them
+     *
+     * @param string $jsCode JavaScript code
+     * @param array markers Markers
+     */
+    protected function addTranslationMarkers($jsCode, &$markers)
+    {
+        $matches = array();
+        $pattern = '/\#\#\#LLL:.*\#\#\#/';
+        preg_match_all($pattern, $jsCode, $matches);
+        foreach ($matches[0] as $match) {
+            $translateKey = substr($match, 7, -3);
+            $markers[$match] = $this->translate($translateKey);
+        }
+    }
+
+
+    /**
+     * @param $translateKey
+     * @return string The value from LOCAL_LANG or NULL if no translation was found.
+     */
+    protected function translate($translateKey)
+    {
+        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($translateKey, $this->extKey);
+    }
+
+
+    /**
+     * Prepare the markers
+     *
+     * @param array $arguments
+     * @return array
+     */
+    protected function prepareMarkers($arguments)
+    {
+        $markers = array();
+        foreach ($arguments as $key => $value) {
+            $markers['###' . $key . '###'] = $value;
+        }
+        return $markers;
+    }
 }

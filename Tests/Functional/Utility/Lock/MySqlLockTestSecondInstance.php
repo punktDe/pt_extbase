@@ -3,7 +3,7 @@
 
 namespace PunktDe\PtExtbase\Tests\Functional\Utility\Lock;
 
- /***************************************************************
+/***************************************************************
  *  Copyright notice
  *
  *  (c) 2015 Daniel Lienert <lienert@punkt.de>
@@ -28,79 +28,84 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Lock;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class MySqlLockTestSecondInstance {
-
-	/**
-	 * @var \PDO
-	 */
-	protected $mySQLConnection;
-
-
-	public function __construct() {
-		$this->connect();
-	}
-
-	protected function connect() {
-
-		// Load system specific configuration for Apache mode
-		if (!isset($_SERVER['HTTP_HOST'])) $_SERVER['HTTP_HOST'] = $_SERVER['HOSTNAME'];
-		$dpppConfiguration = __DIR__ . '/../../../../../../configurations/' . $_SERVER['HTTP_HOST'] . '.php';
-
-		if (file_exists($dpppConfiguration)) {
-			@include($dpppConfiguration);
-		}
-
-		$credentials = $GLOBALS['TYPO3_CONF_VARS']['DB'];
-
-		$this->mySQLConnection = new \PDO('mysql:host=' . $credentials['host'] . ';dbname=' . $credentials['database'], $credentials['username'], $credentials['password']);
-
-	}
+class MySqlLockTestSecondInstance
+{
+    /**
+     * @var \PDO
+     */
+    protected $mySQLConnection;
 
 
-	public function test() {
+    public function __construct()
+    {
+        $this->connect();
+    }
 
-		if(!isset($_SERVER['argv']['1']) || !isset($_SERVER['argv']['2'])) {
-			throw new \Exception('You have to specify the lock identifier and the testType', 1428853716);
-		}
+    protected function connect()
+    {
 
-		$lockIdentifier = $_SERVER['argv']['1'];
-		$testType = $_SERVER['argv']['2'];
-		$timeout = $_SERVER['argv']['3'] ? $_SERVER['argv']['3'] : 0;
+        // Load system specific configuration for Apache mode
+        if (!isset($_SERVER['HTTP_HOST'])) {
+            $_SERVER['HTTP_HOST'] = $_SERVER['HOSTNAME'];
+        }
+        $dpppConfiguration = __DIR__ . '/../../../../../../configurations/' . $_SERVER['HTTP_HOST'] . '.php';
 
-		switch($testType) {
-			case 'acquireExclusiveLock':
-				$this->testAcquireExclusiveLock($lockIdentifier, $timeout);
-				break;
-			case 'freeLock':
-				$this->freeLock($lockIdentifier);
-				break;
-			case 'testIfLockIsFree':
-				$this->testIfLockIsFree($lockIdentifier);
-					break;
-			default:
-				throw new \Exception('No testMethod defined for ' . $testType);
-		}
+        if (file_exists($dpppConfiguration)) {
+            @include($dpppConfiguration);
+        }
 
-	}
+        $credentials = $GLOBALS['TYPO3_CONF_VARS']['DB'];
 
-	public function testIfLockIsFree($lockIndentifier) {
-		$lockResult = $this->mySQLConnection->query(sprintf('SELECT IS_FREE_LOCK("%s") as res', $lockIndentifier))->fetch();
-		echo $lockResult['res'];
-	}
+        $this->mySQLConnection = new \PDO('mysql:host=' . $credentials['host'] . ';dbname=' . $credentials['database'], $credentials['username'], $credentials['password']);
+    }
 
-	public function testAcquireExclusiveLock($lockIdentifier, $timeout) {
-		$lockResult = $this->mySQLConnection->query(sprintf('SELECT GET_LOCK("%s", %d) as res', $lockIdentifier, $timeout))->fetch();
-		echo $lockResult['res'];
-	}
 
-	public function freeLock($lockIdentifier) {
-		$res = $this->mySQLConnection->query(sprintf('SELECT FREE_LOCK("%s") as res', $lockIdentifier));
-		if($res) {
-			$lockResult = $res->fetch();
-			echo $lockResult['res'];
-		}
-		echo 0;
-	}
+    public function test()
+    {
+        if (!isset($_SERVER['argv']['1']) || !isset($_SERVER['argv']['2'])) {
+            throw new \Exception('You have to specify the lock identifier and the testType', 1428853716);
+        }
+
+        $lockIdentifier = $_SERVER['argv']['1'];
+        $testType = $_SERVER['argv']['2'];
+        $timeout = $_SERVER['argv']['3'] ? $_SERVER['argv']['3'] : 0;
+
+        switch ($testType) {
+            case 'acquireExclusiveLock':
+                $this->testAcquireExclusiveLock($lockIdentifier, $timeout);
+                break;
+            case 'freeLock':
+                $this->freeLock($lockIdentifier);
+                break;
+            case 'testIfLockIsFree':
+                $this->testIfLockIsFree($lockIdentifier);
+                    break;
+            default:
+                throw new \Exception('No testMethod defined for ' . $testType);
+        }
+    }
+
+    public function testIfLockIsFree($lockIndentifier)
+    {
+        $lockResult = $this->mySQLConnection->query(sprintf('SELECT IS_FREE_LOCK("%s") as res', $lockIndentifier))->fetch();
+        echo $lockResult['res'];
+    }
+
+    public function testAcquireExclusiveLock($lockIdentifier, $timeout)
+    {
+        $lockResult = $this->mySQLConnection->query(sprintf('SELECT GET_LOCK("%s", %d) as res', $lockIdentifier, $timeout))->fetch();
+        echo $lockResult['res'];
+    }
+
+    public function freeLock($lockIdentifier)
+    {
+        $res = $this->mySQLConnection->query(sprintf('SELECT FREE_LOCK("%s") as res', $lockIdentifier));
+        if ($res) {
+            $lockResult = $res->fetch();
+            echo $lockResult['res'];
+        }
+        echo 0;
+    }
 }
 
 $secondInstance = new MySqlLockTestSecondInstance();

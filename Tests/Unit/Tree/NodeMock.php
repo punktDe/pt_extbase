@@ -32,42 +32,43 @@
  * @subpackage Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tests_Unit_Tree_NodeMock extends Tx_PtExtbase_Tree_Node {
-
-	/**
-	 * Helper method to create a node mock object
-	 *
-	 * @param $uid
-	 * @param integer $lft
-	 * @param integer $rgt
-	 * @param integer $root
-	 * @param string $label
-	 * @param string $namespace
-	 * @param bool $accessible
-	 * @return Tx_PtExtbase_Tree_Node
-	 */
-    public static function createNode($uid, $lft, $rgt, $root, $label = '', $namespace = '', $accessible = TRUE) {
+class Tx_PtExtbase_Tests_Unit_Tree_NodeMock extends Tx_PtExtbase_Tree_Node
+{
+    /**
+     * Helper method to create a node mock object
+     *
+     * @param $uid
+     * @param integer $lft
+     * @param integer $rgt
+     * @param integer $root
+     * @param string $label
+     * @param string $namespace
+     * @param bool $accessible
+     * @return Tx_PtExtbase_Tree_Node
+     */
+    public static function createNode($uid, $lft, $rgt, $root, $label = '', $namespace = '', $accessible = true)
+    {
         $node = new Tx_PtExtbase_Tests_Unit_Tree_NodeMock($uid, $label, $namespace);
         $node->setLft($lft);
         $node->setRgt($rgt);
         $node->setRoot($root);
-	    $node->setAccessible($accessible);
+        $node->setAccessible($accessible);
         return $node;
     }
 
 
 
-	public function __construct($uid = null, $label = null, $namespace = null) {
-		parent::__construct($label);
-		$this->uid = $uid;
+    public function __construct($uid = null, $label = null, $namespace = null)
+    {
+        parent::__construct($label);
+        $this->uid = $uid;
         $this->setNamespace($namespace);
-	}
+    }
 
 
 
-	public function setUid($uid) {
-		$this->uid = $uid;
-	}
-
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+    }
 }
-?>

@@ -54,109 +54,117 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ComponentInterface;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-class PathStatus implements ComponentInterface {
-
-	/**
-	 * @var string
-	 */
-	protected $indexStatus = '';
-
-
-	/**
-	 * @var string
-	 */
-	protected $workTreeStatus = '';
+class PathStatus implements ComponentInterface
+{
+    /**
+     * @var string
+     */
+    protected $indexStatus = '';
 
 
-	/**
-	 * @var string
-	 */
-	protected $path = '';
+    /**
+     * @var string
+     */
+    protected $workTreeStatus = '';
 
 
-	/**
-	 * @var string
-	 */
-	protected $correspondingPath = '';
+    /**
+     * @var string
+     */
+    protected $path = '';
 
 
-	/**
-	 * @return string
-	 */
-	public function getCorrespondingPath() {
-		return $this->correspondingPath;
-	}
+    /**
+     * @var string
+     */
+    protected $correspondingPath = '';
 
 
-
-	/**
-	 * @param string $correspondingPath
-	 */
-	public function setCorrespondingPath($correspondingPath) {
-		$this->correspondingPath = $correspondingPath;
-	}
+    /**
+     * @return string
+     */
+    public function getCorrespondingPath()
+    {
+        return $this->correspondingPath;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getIndexStatus() {
-		return $this->indexStatus;
-	}
+    /**
+     * @param string $correspondingPath
+     */
+    public function setCorrespondingPath($correspondingPath)
+    {
+        $this->correspondingPath = $correspondingPath;
+    }
 
 
 
-	/**
-	 * @param string $indexStatus
-	 */
-	public function setIndexStatus($indexStatus) {
-		$this->indexStatus = $indexStatus;
-	}
+    /**
+     * @return string
+     */
+    public function getIndexStatus()
+    {
+        return $this->indexStatus;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getPath() {
-		return $this->path;
-	}
+    /**
+     * @param string $indexStatus
+     */
+    public function setIndexStatus($indexStatus)
+    {
+        $this->indexStatus = $indexStatus;
+    }
 
 
 
-	/**
-	 * @param string $path
-	 */
-	public function setPath($path) {
-		$this->path = $path;
-	}
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
 
 
 
-	/**
-	 * @return string
-	 */
-	public function getWorkTreeStatus() {
-		return $this->workTreeStatus;
-	}
+    /**
+     * @param string $path
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+    }
 
 
 
-	/**
-	 * @param string $workTreeStatus
-	 */
-	public function setWorkTreeStatus($workTreeStatus) {
-		$this->workTreeStatus = $workTreeStatus;
-	}
+    /**
+     * @return string
+     */
+    public function getWorkTreeStatus()
+    {
+        return $this->workTreeStatus;
+    }
 
 
 
-	/**
-	 * @return array
-	 */
-	public function toArray() {
-		return array_values(get_object_vars($this));
-	}
+    /**
+     * @param string $workTreeStatus
+     */
+    public function setWorkTreeStatus($workTreeStatus)
+    {
+        $this->workTreeStatus = $workTreeStatus;
+    }
 
+
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_values(get_object_vars($this));
+    }
 }

@@ -31,33 +31,39 @@
  * @package pt_extbase
  * @subpackaga Collection
  */
-abstract class Tx_PtExtbase_Collection_SortableObjectCollection extends Tx_PtExtbase_Collection_ObjectCollection {
+abstract class Tx_PtExtbase_Collection_SortableObjectCollection extends Tx_PtExtbase_Collection_ObjectCollection
+{
+    /**
+     * Sort items in decreasing order with respect to sorting value
+     *
+     * @return void
+     */
+    public function sort()
+    {
+        usort($this->itemsArr, array('self', 'compareItems'));
+    }
 
-	/**
-	 * Sort items in decreasing order with respect to sorting value
-	 *
-	 * @return void
-	 */
-	public function sort() {
-		usort($this->itemsArr, array('self', 'compareItems'));
-	}
-
-	/**
-	 * Compare two objects which implement SortableItemInterface
-	 *
-	 * Callable method for usort()
-	 *
-	 * @param Tx_PtExtbase_Collection_SortableEntityInterface $a
-	 * @param Tx_PtExtbase_Collection_SortableEntityInterface $b
-	 * @return integer -1, 0 or 1
-	 */
-	public static function compareItems(Tx_PtExtbase_Collection_SortableEntityInterface $a, Tx_PtExtbase_Collection_SortableEntityInterface $b) {
-		$sortingValueA = $a->getSortingValue();
-		$sortingValueB = $b->getSortingValue();
-		if ($sortingValueA > $sortingValueB) return 1;
-		if ($sortingValueA == $sortingValueB) return 0;
-		if ($sortingValueA < $sortingValueB) return -1;
-	}
-
+    /**
+     * Compare two objects which implement SortableItemInterface
+     *
+     * Callable method for usort()
+     *
+     * @param Tx_PtExtbase_Collection_SortableEntityInterface $a
+     * @param Tx_PtExtbase_Collection_SortableEntityInterface $b
+     * @return integer -1, 0 or 1
+     */
+    public static function compareItems(Tx_PtExtbase_Collection_SortableEntityInterface $a, Tx_PtExtbase_Collection_SortableEntityInterface $b)
+    {
+        $sortingValueA = $a->getSortingValue();
+        $sortingValueB = $b->getSortingValue();
+        if ($sortingValueA > $sortingValueB) {
+            return 1;
+        }
+        if ($sortingValueA == $sortingValueB) {
+            return 0;
+        }
+        if ($sortingValueA < $sortingValueB) {
+            return -1;
+        }
+    }
 }
-?>

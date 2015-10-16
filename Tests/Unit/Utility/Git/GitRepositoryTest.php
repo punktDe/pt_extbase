@@ -29,206 +29,209 @@ use \TYPO3\CMS\Core\Tests\UnitTestCase;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Unit\Utility\Git
  */
-class GitRepositoryTest extends UnitTestCase {
-
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Git\GitRepository
-	 */
-	protected $proxy;
-
-
-	/**
-	 * @var string
-	 */
-	protected $pathToGitCommand = '';
+class GitRepositoryTest extends UnitTestCase
+{
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Git\GitRepository
+     */
+    protected $proxy;
 
 
-	/**
-	 * @var boolean
-	 */
-	protected $gitCommandForTestingExists = FALSE;
+    /**
+     * @var string
+     */
+    protected $pathToGitCommand = '';
 
 
-	/**
-	 * @var string
-	 */
- 	protected $repositoryRootPath = '';
+    /**
+     * @var boolean
+     */
+    protected $gitCommandForTestingExists = false;
 
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Object\Container\Container
-	 */
-	protected $objectContainer;
+    /**
+     * @var string
+     */
+    protected $repositoryRootPath = '';
 
 
-	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
-	 */
-	protected $shellCommandServiceMock;
-
-	
-	/**
-	 * @return void
-	 */
-	public function setUp() {
-		$this->prepareProxy();
-	}
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\Container\Container
+     */
+    protected $objectContainer;
 
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $shellCommandServiceMock;
 
-	/**
-	 * @return void
-	 */
-	protected function prepareProxy() {
-		$objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-
-		$this->objectContainer = $objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container'); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $objectContainer */
-
-		$this->getMockBuilder('\Tx_PtExtbase_Logger_Logger')
-			->setMockClassName('LoggerMock')
-			->getMock();
-		$objectManager->get('LoggerMock'); /** @var  $loggerMock \PHPUnit_Framework_MockObject_MockObject */
-		$this->objectContainer->registerImplementation('\Tx_PtExtbase_Logger_Logger', 'LoggerMock');
-
-		$this->getMockBuilder('PunktDe\PtExtbase\Utility\ShellCommandService')
-			->setMethods(array('execute'))
-			->setMockClassName('ShellCommandServiceMock')
-			->getMock();
-		$this->shellCommandServiceMock = $objectManager->get('ShellCommandServiceMock'); /** @var  $shellCommandServiceMock \PHPUnit_Framework_MockObject_MockObject */
-		$this->objectContainer->registerImplementation('PunktDe\PtExtbase\Utility\ShellCommandService', 'ShellCommandServiceMock');
-
-		$proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Git\GitRepository');
-
-		$this->getMockBuilder($proxyClass)
-			->setMethods(array('initializeObject'))
-			->setMockClassName('GitRepositoryMock')
-			->getMock();
-		$this->proxy = $objectManager->get('GitRepositoryMock', '/usr/bin/git', '~');
-	}
+    
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        $this->prepareProxy();
+    }
 
 
 
-	/**
-	 * @test
-	 */
-	public function commandRendersValidCommand() {
-		$this->prepareShellCommandExpectations();
+    /**
+     * @return void
+     */
+    protected function prepareProxy()
+    {
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
-		$this->proxy->cloneRepository()
-			->setRepository('file:///path/to/a/repository/of/chocolate.git')
-			->setDirectory('/path/to/checked/out/chocolate/')
-			->execute();
+        $this->objectContainer = $objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container'); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $objectContainer */
 
-		$this->proxy->cloneRepository()
-			->setRepository('file:///path/to/a/repository/of/chocolate.git')
-			->setDirectory('/path/to/checked/out/chocolate/')
-			->setDepth(1)
-			->setBranch('YummyTag')
-			->execute();
+        $this->getMockBuilder('\Tx_PtExtbase_Logger_Logger')
+            ->setMockClassName('LoggerMock')
+            ->getMock();
+        $objectManager->get('LoggerMock'); /** @var  $loggerMock \PHPUnit_Framework_MockObject_MockObject */
+        $this->objectContainer->registerImplementation('\Tx_PtExtbase_Logger_Logger', 'LoggerMock');
 
-		$this->proxy->checkout()
-			->setForce(TRUE)
-			->setQuiet(TRUE)
-			->setCommit('c0ca3ae2f34ef4dc024093f92547b43a4d9bd58a')
-			->execute();
+        $this->getMockBuilder('PunktDe\PtExtbase\Utility\ShellCommandService')
+            ->setMethods(array('execute'))
+            ->setMockClassName('ShellCommandServiceMock')
+            ->getMock();
+        $this->shellCommandServiceMock = $objectManager->get('ShellCommandServiceMock'); /** @var  $shellCommandServiceMock \PHPUnit_Framework_MockObject_MockObject */
+        $this->objectContainer->registerImplementation('PunktDe\PtExtbase\Utility\ShellCommandService', 'ShellCommandServiceMock');
 
-		$this->proxy->log()
-			->setMaxCount(10)
-			->execute();
+        $proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Git\GitRepository');
 
-		$this->proxy->log()
-			->setFormat('%H')
-			->execute();
-
-		$this->proxy->config()
-			->setGlobal(TRUE)
-			->setUserName('Bud Spencer')
-			->execute();
-
-		$this->proxy->config()
-			->setGlobal(TRUE)
-			->setEmail('bud@spencer.it')
-			->execute();
-
-		$this->proxy->remote()
-			->remove()
-			->setName('origin')
-			->execute();
-
-		$this->proxy->remote()
-			->add()
-			->setName('origin')
-			->setUrl('file:///tmp/punktde.git')
-			->execute();
-
-		$this->proxy->init()
-			->setBare(TRUE)
-			->setShared(TRUE)
-			->execute();
-
-		$this->proxy->push()
-			->setTags()
-			->setRemote('origin')
-			->setRefspec('master')
-			->execute();
-
-		$this->proxy->tag()
-			->setName('v1.2.3')
-			->setSign(TRUE)
-			->setAnnotate(TRUE)
-			->setMessage('Release')
-			->execute();
-
-		$this->proxy->commit()
-			->setAllowEmpty(TRUE)
-			->setMessage('This is a very empty commit!')
-			->execute();
-
-		$this->proxy->commit()
-			->setMessage('This is a very cool message!')
-			->execute();
-
-		$this->proxy->add()
-			->setPath('.')
-			->setAll(TRUE)
-			->execute();
-
-		$this->proxy->status()
-			->setShort(TRUE)
-			->execute();
-
-		$this->proxy->log()
-			->setNameOnly(TRUE)
-			->execute();
-	}
+        $this->getMockBuilder($proxyClass)
+            ->setMethods(array('initializeObject'))
+            ->setMockClassName('GitRepositoryMock')
+            ->getMock();
+        $this->proxy = $objectManager->get('GitRepositoryMock', '/usr/bin/git', '~');
+    }
 
 
 
-	/**
-	 * @return void
-	 */
-	protected function prepareShellCommandExpectations() {
-		$this->shellCommandServiceMock->expects($this->any())
-			->method('execute')
-			->withConsecutive(
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git clone file:///path/to/a/repository/of/chocolate.git /path/to/checked/out/chocolate/')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git clone --branch YummyTag --depth 1 file:///path/to/a/repository/of/chocolate.git /path/to/checked/out/chocolate/')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git checkout --force --quiet c0ca3ae2f34ef4dc024093f92547b43a4d9bd58a')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --max-count=10')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --pretty="%H"')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config --global user.name "Bud Spencer"')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config --global user.email "bud@spencer.it"')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote remove origin')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote add origin file:///tmp/punktde.git')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git init --bare --shared')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git push --tags origin master')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag -s -a -m "Release" v1.2.3')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --allow-empty --message "This is a very empty commit!"')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --message "This is a very cool message!"')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add --all .')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short --untracked-files=all')),
-				array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --name-only'))
-			);
-	}
+    /**
+     * @test
+     */
+    public function commandRendersValidCommand()
+    {
+        $this->prepareShellCommandExpectations();
 
+        $this->proxy->cloneRepository()
+            ->setRepository('file:///path/to/a/repository/of/chocolate.git')
+            ->setDirectory('/path/to/checked/out/chocolate/')
+            ->execute();
+
+        $this->proxy->cloneRepository()
+            ->setRepository('file:///path/to/a/repository/of/chocolate.git')
+            ->setDirectory('/path/to/checked/out/chocolate/')
+            ->setDepth(1)
+            ->setBranch('YummyTag')
+            ->execute();
+
+        $this->proxy->checkout()
+            ->setForce(true)
+            ->setQuiet(true)
+            ->setCommit('c0ca3ae2f34ef4dc024093f92547b43a4d9bd58a')
+            ->execute();
+
+        $this->proxy->log()
+            ->setMaxCount(10)
+            ->execute();
+
+        $this->proxy->log()
+            ->setFormat('%H')
+            ->execute();
+
+        $this->proxy->config()
+            ->setGlobal(true)
+            ->setUserName('Bud Spencer')
+            ->execute();
+
+        $this->proxy->config()
+            ->setGlobal(true)
+            ->setEmail('bud@spencer.it')
+            ->execute();
+
+        $this->proxy->remote()
+            ->remove()
+            ->setName('origin')
+            ->execute();
+
+        $this->proxy->remote()
+            ->add()
+            ->setName('origin')
+            ->setUrl('file:///tmp/punktde.git')
+            ->execute();
+
+        $this->proxy->init()
+            ->setBare(true)
+            ->setShared(true)
+            ->execute();
+
+        $this->proxy->push()
+            ->setTags()
+            ->setRemote('origin')
+            ->setRefspec('master')
+            ->execute();
+
+        $this->proxy->tag()
+            ->setName('v1.2.3')
+            ->setSign(true)
+            ->setAnnotate(true)
+            ->setMessage('Release')
+            ->execute();
+
+        $this->proxy->commit()
+            ->setAllowEmpty(true)
+            ->setMessage('This is a very empty commit!')
+            ->execute();
+
+        $this->proxy->commit()
+            ->setMessage('This is a very cool message!')
+            ->execute();
+
+        $this->proxy->add()
+            ->setPath('.')
+            ->setAll(true)
+            ->execute();
+
+        $this->proxy->status()
+            ->setShort(true)
+            ->execute();
+
+        $this->proxy->log()
+            ->setNameOnly(true)
+            ->execute();
+    }
+
+
+
+    /**
+     * @return void
+     */
+    protected function prepareShellCommandExpectations()
+    {
+        $this->shellCommandServiceMock->expects($this->any())
+            ->method('execute')
+            ->withConsecutive(
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git clone file:///path/to/a/repository/of/chocolate.git /path/to/checked/out/chocolate/')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git clone --branch YummyTag --depth 1 file:///path/to/a/repository/of/chocolate.git /path/to/checked/out/chocolate/')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git checkout --force --quiet c0ca3ae2f34ef4dc024093f92547b43a4d9bd58a')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --max-count=10')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --pretty="%H"')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config --global user.name "Bud Spencer"')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config --global user.email "bud@spencer.it"')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote remove origin')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote add origin file:///tmp/punktde.git')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git init --bare --shared')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git push --tags origin master')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag -s -a -m "Release" v1.2.3')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --allow-empty --message "This is a very empty commit!"')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --message "This is a very cool message!"')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add --all .')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short --untracked-files=all')),
+                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --name-only'))
+            );
+    }
 }

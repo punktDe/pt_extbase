@@ -34,39 +34,40 @@
  * You can use the upperCase-parameter to return the key in complete upper case (DE, EN...)
  *
  */
-class Tx_PtExtbase_ViewHelpers_LanguageKeyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class Tx_PtExtbase_ViewHelpers_LanguageKeyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Get the language key for the current language
+     *
+     * @return string
+     */
+    protected function getLanguage()
+    {
+        if (TYPO3_MODE === 'FE') {
+            if (isset($GLOBALS['TSFE']->config['config']['language'])) {
+                return $GLOBALS['TSFE']->config['config']['language'];
+            }
+        } elseif (strlen($GLOBALS['BE_USER']->uc['lang']) > 0) {
+            return $GLOBALS['BE_USER']->uc['lang'];
+        }
+        return 'en'; //default
+    }
 
-	/**
-	 * Get the language key for the current language
-	 *
-	 * @return string
-	 */
-	protected function getLanguage() {
-		if (TYPO3_MODE === 'FE') {
-			if (isset($GLOBALS['TSFE']->config['config']['language'])) {
-				return $GLOBALS['TSFE']->config['config']['language'];
-			}
-		} elseif (strlen($GLOBALS['BE_USER']->uc['lang']) > 0) {
-			return $GLOBALS['BE_USER']->uc['lang'];
-		}
-		return 'en'; //default
-	}
+    /**
+     * Return language key
+     *
+     * can be upper case by giving the upperCase-parameter
+     *
+     * @param bool $upperCase
+     * @return string
+     */
+    public function render($upperCase = false)
+    {
+        $languageKey = $this->getLanguage();
+        if ($upperCase) {
+            $languageKey = strtoupper($languageKey);
+        }
 
-	/**
-	 * Return language key
-	 *
-	 * can be upper case by giving the upperCase-parameter
-	 *
-	 * @param bool $upperCase
-	 * @return string
-	 */
-	public function render($upperCase = FALSE) {
-		$languageKey = $this->getLanguage();
-		if ($upperCase) {
-			$languageKey = strtoupper($languageKey);
-		}
-
-		return $languageKey;
-	}
-
+        return $languageKey;
+    }
 }

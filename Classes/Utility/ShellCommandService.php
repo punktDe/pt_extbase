@@ -28,229 +28,242 @@ use TYPO3\CMS\Core\SingletonInterface;
  *
  * @package \PunktDe\PtExtbase\Utility
  */
-class ShellCommandService implements SingletonInterface {
-
-	/**
-	 * @inject
-	 * @var \Tx_PtExtbase_Logger_Logger
-	 */
-	protected $logger;
-
-
-	/**
-	 * @var string
-	 */
-	protected $username = '';
+class ShellCommandService implements SingletonInterface
+{
+    /**
+     * @inject
+     * @var \Tx_PtExtbase_Logger_Logger
+     */
+    protected $logger;
 
 
-	/**
-	 * @var string
-	 */
-	protected $hostname = 'localhost';
+    /**
+     * @var string
+     */
+    protected $username = '';
 
 
-	/**
-	 * @var string
-	 */
-	protected $command = '';
+    /**
+     * @var string
+     */
+    protected $hostname = 'localhost';
 
 
-	/**
-	 * @var integer
-	 */
-	protected $exitCode = 0;
+    /**
+     * @var string
+     */
+    protected $command = '';
 
 
-	/**
-	 * @var string
-	 */
-	protected $returnedOutput = '';
+    /**
+     * @var integer
+     */
+    protected $exitCode = 0;
 
 
-	/**
-	 * @var boolean
-	 */
-	protected $redirectStandardErrorToStandardOut = FALSE;
+    /**
+     * @var string
+     */
+    protected $returnedOutput = '';
 
 
-	/**
-	 * @var boolean
-	 */
-	protected $simulateMode = FALSE;
+    /**
+     * @var boolean
+     */
+    protected $redirectStandardErrorToStandardOut = false;
 
 
-	/**
-	 * @param mixed $command The shell command to execute, either string or array of commands
-	 * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code and $ignoreErrors was enabled.
-	 */
-	public function execute($command) {
-		$this->command = $command;
-		if ($this->simulateMode === TRUE) {
-			return $this->returnedOutput;
-		}
-		return $this->executeCommand($command);
-	}
+    /**
+     * @var boolean
+     */
+    protected $simulateMode = false;
 
 
-
-	/**
-	 * @param string $command
-	 * @return string
-	 */
-	protected function executeCommand($command) {
-		if ($this->hostname === 'localhost') {
-			list($this->exitCode, $this->returnedOutput) = $this->executeLocalCommand();
-		} else {
-			list($this->exitCode, $this->returnedOutput) = $this->executeRemoteCommand();
-		}
-		$this->checkResult();
-		return $this->returnedOutput;
-
-	}
+    /**
+     * @param mixed $command The shell command to execute, either string or array of commands
+     * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code and $ignoreErrors was enabled.
+     */
+    public function execute($command)
+    {
+        $this->command = $command;
+        if ($this->simulateMode === true) {
+            return $this->returnedOutput;
+        }
+        return $this->executeCommand($command);
+    }
 
 
 
-	/**
-	 * @return array
-	 */
-	protected function executeLocalCommand() {
-		return $this->executeProcess($this->command);
-	}
+    /**
+     * @param string $command
+     * @return string
+     */
+    protected function executeCommand($command)
+    {
+        if ($this->hostname === 'localhost') {
+            list($this->exitCode, $this->returnedOutput) = $this->executeLocalCommand();
+        } else {
+            list($this->exitCode, $this->returnedOutput) = $this->executeRemoteCommand();
+        }
+        $this->checkResult();
+        return $this->returnedOutput;
+    }
 
 
 
-	/**
-	 * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code
-	 */
-	protected function executeRemoteCommand() {
-		$sshOptions = array();
-		$sshCommand = 'ssh ' . implode(' ', $sshOptions) . ' ' . escapeshellarg($this->username . '@' . $this->hostname) . ' ' . escapeshellarg($this->command) . ' 2>&1';
-		return $this->executeProcess($sshCommand);
-	}
+    /**
+     * @return array
+     */
+    protected function executeLocalCommand()
+    {
+        return $this->executeProcess($this->command);
+    }
 
 
 
-	/**
-	 * Open a process with popen and process each line by logging and
-	 * collecting its output.
-	 *
-	 * @param string $command
-	 * @param string $logPrefix
-	 * @return array The exit code of the command and the returned output
-	 */
-	protected function executeProcess($command, $logPrefix = '') {
-		$returnedOutput = '';
-		$fp = popen($this->prepareCommand($command), 'r');
-
-		while (($line = fgets($fp)) !== FALSE) {
-			$this->logger->debug($logPrefix . rtrim($line), __CLASS__);
-			$returnedOutput .= $line;
-		}
-		$exitCode = pclose($fp);
-
-		return array($exitCode, $returnedOutput);
-	}
+    /**
+     * @return mixed The output of the shell command or FALSE if the command returned a non-zero exit code
+     */
+    protected function executeRemoteCommand()
+    {
+        $sshOptions = array();
+        $sshCommand = 'ssh ' . implode(' ', $sshOptions) . ' ' . escapeshellarg($this->username . '@' . $this->hostname) . ' ' . escapeshellarg($this->command) . ' 2>&1';
+        return $this->executeProcess($sshCommand);
+    }
 
 
 
-	/**
-	 * @param string $command
-	 * @return string
-	 */
-	protected function prepareCommand($command) {
-		if ($this->redirectStandardErrorToStandardOut) {
-			return sprintf("%s 2>&1", $command);
-		}
-		return $command;
-	}
+    /**
+     * Open a process with popen and process each line by logging and
+     * collecting its output.
+     *
+     * @param string $command
+     * @param string $logPrefix
+     * @return array The exit code of the command and the returned output
+     */
+    protected function executeProcess($command, $logPrefix = '')
+    {
+        $returnedOutput = '';
+        $fp = popen($this->prepareCommand($command), 'r');
+
+        while (($line = fgets($fp)) !== false) {
+            $this->logger->debug($logPrefix . rtrim($line), __CLASS__);
+            $returnedOutput .= $line;
+        }
+        $exitCode = pclose($fp);
+
+        return array($exitCode, $returnedOutput);
+    }
 
 
 
-	/**
-	 * @return void
-	 */
-	protected function checkResult() {
-		if ($this->exitCode !== 0) {
-			$this->logger->error(sprintf("Shell command \"%s\" returned exist status %s", $this->command, $this->exitCode), __CLASS__);
-		}
-	}
+    /**
+     * @param string $command
+     * @return string
+     */
+    protected function prepareCommand($command)
+    {
+        if ($this->redirectStandardErrorToStandardOut) {
+            return sprintf("%s 2>&1", $command);
+        }
+        return $command;
+    }
 
 
 
-	/**
-	 * @param string $username
-	 */
-	public function setUsername($username) {
-		$this->username = $username;
-	}
+    /**
+     * @return void
+     */
+    protected function checkResult()
+    {
+        if ($this->exitCode !== 0) {
+            $this->logger->error(sprintf("Shell command \"%s\" returned exist status %s", $this->command, $this->exitCode), __CLASS__);
+        }
+    }
 
 
 
-	/**
-	 * @param string $hostname
-	 */
-	public function setHostname($hostname) {
-		$this->hostname = $hostname;
-	}
+    /**
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
 
 
 
-	/**
-	 * @param boolean $redirectStandardErrorToStandardOut
-	 */
-	public function setRedirectStandardErrorToStandardOut($redirectStandardErrorToStandardOut) {
-		$this->redirectStandardErrorToStandardOut = $redirectStandardErrorToStandardOut;
-	}
+    /**
+     * @param string $hostname
+     */
+    public function setHostname($hostname)
+    {
+        $this->hostname = $hostname;
+    }
 
 
 
-	/**
-	 * @return integer
-	 */
-	public function getExitCode() {
-		return $this->exitCode;
-	}
+    /**
+     * @param boolean $redirectStandardErrorToStandardOut
+     */
+    public function setRedirectStandardErrorToStandardOut($redirectStandardErrorToStandardOut)
+    {
+        $this->redirectStandardErrorToStandardOut = $redirectStandardErrorToStandardOut;
+    }
 
 
 
-	/**
-	 * @param boolean $simulateMode
-	 */
-	public function setSimulateMode($simulateMode) {
-		$this->simulateMode = $simulateMode;
-	}
+    /**
+     * @return integer
+     */
+    public function getExitCode()
+    {
+        return $this->exitCode;
+    }
 
 
 
-	/**
-	 * Used for tests
-	 *
-	 * @return string
-	 */
-	public function getCommand() {
-		return $this->command;
-	}
+    /**
+     * @param boolean $simulateMode
+     */
+    public function setSimulateMode($simulateMode)
+    {
+        $this->simulateMode = $simulateMode;
+    }
 
 
 
-	/**
-	 * Used for tests
-	 *
-	 * @param integer $simulatedExitCode
-	 */
-	public function setSimulatedExitCode($simulatedExitCode) {
-		$this->exitCode = $simulatedExitCode;
-	}
+    /**
+     * Used for tests
+     *
+     * @return string
+     */
+    public function getCommand()
+    {
+        return $this->command;
+    }
 
 
 
-	/**
-	 * Used for tests
-	 *
-	 * @param string $simulatedReturnedOutput
-	 */
-	public function setSimulatedReturnedOutput($simulatedReturnedOutput) {
-		$this->returnedOutput = $simulatedReturnedOutput;
-	}
+    /**
+     * Used for tests
+     *
+     * @param integer $simulatedExitCode
+     */
+    public function setSimulatedExitCode($simulatedExitCode)
+    {
+        $this->exitCode = $simulatedExitCode;
+    }
 
+
+
+    /**
+     * Used for tests
+     *
+     * @param string $simulatedReturnedOutput
+     */
+    public function setSimulatedReturnedOutput($simulatedReturnedOutput)
+    {
+        $this->returnedOutput = $simulatedReturnedOutput;
+    }
 }

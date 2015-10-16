@@ -33,70 +33,76 @@
  * @author Christoph Ehscheidt 
  * @author Michael Knoll 
  */
-class Tx_PtExtbase_Utility_NameSpace {
-	
+class Tx_PtExtbase_Utility_NameSpace
+{
+    /**
+     * Returns part of an array according to given namespace
+     *
+     * @param array $returnArray
+     * @param string $namespace
+     * @return array
+     */
+    public static function getArrayContentByArrayAndNamespace($returnArray, $namespace)
+    {
+        if (!$namespace) {
+            return $returnArray;
+        }
+        if (!is_array($returnArray)) {
+            return array();
+        }
+        
+        $namespaceArray = self::getNamespaceArrayByNamespaceString($namespace);
+        
+        foreach ($namespaceArray as $namespaceChunk) {
+            if (is_array($returnArray) && array_key_exists($namespaceChunk, $returnArray)) {
+                $returnArray = $returnArray[$namespaceChunk];
+            } else {
+                return array();
+            }
+        }
+        
+        return $returnArray;
+    }
+    
+    
+    
+    /**
+     * Converts a namespace string into a array of namespace chunks
+     *
+     * @param string $namespaceString
+     * @return array
+     */
+    protected static function getNamespaceArrayByNamespaceString($namespaceString)
+    {
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('.', $namespaceString);
+    }
+    
+    
+    
+    /**
+     * Save a value on an array position identified by namespace
+     *
+     * @param string $namespaceString (Namespace identifier - dot separated)
+     * @param array $array array to save the data in
+     * @param mixed $data
+     * @return array
+     */
+    public static function saveDataInNamespaceTree($namespaceString, array $array, $data)
+    {
+        $nameSpaceChunks = self::getNamespaceArrayByNamespaceString($namespaceString);
 
-	/**
-	 * Returns part of an array according to given namespace
-	 *
-	 * @param array $returnArray
-	 * @param string $namespace
-	 * @return array
-	 */
-	public static function getArrayContentByArrayAndNamespace($returnArray, $namespace) {
-		if(!$namespace) return $returnArray;
-		if(!is_array($returnArray)) return array();
-		
-		$namespaceArray = self::getNamespaceArrayByNamespaceString($namespace);
-		
-		foreach($namespaceArray as $namespaceChunk) {
-			if (is_array($returnArray) && array_key_exists($namespaceChunk, $returnArray)) {
-			    $returnArray = $returnArray[$namespaceChunk];
-			} else {
-			    return array();
-			}
-		}
-		
-		return $returnArray;
-	}
-	
-	
-	
-	/**
-	 * Converts a namespace string into a array of namespace chunks
-	 *
-	 * @param string $namespaceString
-	 * @return array
-	 */
-	protected static function getNamespaceArrayByNamespaceString($namespaceString) {
-	    return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('.', $namespaceString);
-	}
-	
-	
-	
-	/**
-	 * Save a value on an array position identified by namespace
-	 *
-	 * @param string $namespaceString (Namespace identifier - dot separated)
-	 * @param array $array array to save the data in
-	 * @param mixed $data
-	 * @return array
-	 */
-	public static function saveDataInNamespaceTree($namespaceString, array $array, $data) {
-		$nameSpaceChunks = self::getNamespaceArrayByNamespaceString($namespaceString);
+        $key = array_pop($nameSpaceChunks);
+        $pointer = &$array;
 
-		$key = array_pop($nameSpaceChunks);
-		$pointer = &$array;
+        foreach ($nameSpaceChunks as $chunk) {
+            $pointer = &$pointer[$chunk];
+        }
 
-		foreach ($nameSpaceChunks as $chunk) {
-			$pointer = &$pointer[$chunk];
-		}
+        $pointer[$key] = $data;
 
-		$pointer[$key] = $data;
-
-		//return self::arrayFilterRecursive($array);
-		return $array;
-	}
+        //return self::arrayFilterRecursive($array);
+        return $array;
+    }
     
     
     
@@ -105,56 +111,58 @@ class Tx_PtExtbase_Utility_NameSpace {
      * 
      * @param string $namespaceString namespace path to the key to remove
      * @param array $array data array
-	  * @return array
+      * @return array
      */
-	public static function removeDataFromNamespaceTree($namespaceString, $array) {
-		$nameSpaceChunks = self::getNamespaceArrayByNamespaceString($namespaceString);
+    public static function removeDataFromNamespaceTree($namespaceString, $array)
+    {
+        $nameSpaceChunks = self::getNamespaceArrayByNamespaceString($namespaceString);
 
-		if (!is_array($nameSpaceChunks) || !is_array($array)) return;
+        if (!is_array($nameSpaceChunks) || !is_array($array)) {
+            return;
+        }
 
-		$key = array_pop($nameSpaceChunks);
-		$pointer = &$array;
+        $key = array_pop($nameSpaceChunks);
+        $pointer = &$array;
 
-		foreach ($nameSpaceChunks as $chunk) {
-			if(array_key_exists($chunk, $pointer)) {
-				$pointer = &$pointer[$chunk];
-			}
-		}
+        foreach ($nameSpaceChunks as $chunk) {
+            if (array_key_exists($chunk, $pointer)) {
+                $pointer = &$pointer[$chunk];
+            }
+        }
 
-		unset($pointer[$key]);
+        unset($pointer[$key]);
 
-		return $array;
-	}
-	
-	
-	
-	/**
-	 * Recursively removes null-values from array
-	 *
-	 * @param array $input
-	 * @return array
-	 */
-	protected static function arrayFilterRecursive($input) {
-		foreach ($input as &$value) {
-			if (is_array($value)) {
-			    $value = self::arrayFilterRecursive($value);
-			}
-		}
-		return array_filter($input, 'Tx_PtExtbase_Utility_NameSpace::valueIsGiven');
+        return $array;
     }
-	
-	    
+    
+    
+    
+    /**
+     * Recursively removes null-values from array
+     *
+     * @param array $input
+     * @return array
+     */
+    protected static function arrayFilterRecursive($input)
+    {
+        foreach ($input as &$value) {
+            if (is_array($value)) {
+                $value = self::arrayFilterRecursive($value);
+            }
+        }
+        return array_filter($input, 'Tx_PtExtbase_Utility_NameSpace::valueIsGiven');
+    }
+    
+        
     
     /**
      * Returns true in case the values is present or is the integer Value 0
      * 
      * @param mixed $element
-	  * @return boolean
+      * @return boolean
      */
-    protected static function valueIsGiven($element) {
+    protected static function valueIsGiven($element)
+    {
         return (is_array($element) || (!empty($element) && $element !== 0 && $element !== ''));
     }
-	 	
 }
-
-?>

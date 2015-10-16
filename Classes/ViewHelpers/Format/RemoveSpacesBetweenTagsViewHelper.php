@@ -20,34 +20,35 @@
  * GNU General Public License for more details.
  * 
  * This copyright notice MUST APPEAR in all copies of the script!
- */ 
-class Tx_PtExtbase_ViewHelpers_Format_RemoveSpacesBetweenTagsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+ */
+class Tx_PtExtbase_ViewHelpers_Format_RemoveSpacesBetweenTagsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
+    /**
+     * Initialize arguments
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('string', 'string', 'The string to remove the linebreaks', false);
+    }
 
-	/**
-	 * Initialize arguments
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('string', 'string', 'The string to remove the linebreaks', FALSE);
-	}
+    /**
+     *  Render
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $input = $this->arguments['string'];
+        if ($input === null) {
+            $input = $this->renderChildren();
+        }
+        if (is_string($input)) {
+            $result = preg_replace('~>\s*<~', '><', $input);
+        }
 
-	/**
-	 *  Render
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$input = $this->arguments['string'];
-		if ($input === NULL) {
-			$input = $this->renderChildren();
-		}
-		if (is_string($input)) {
-			$result = preg_replace('~>\s*<~', '><', $input);
-		}
-
-		return $result;
-	}
-
+        return $result;
+    }
 }
 ?> 

@@ -28,18 +28,16 @@
 /**
  * Interface for RBAC access control services
  */
-interface Tx_PtExtbase_Rbac_RbacServiceInterface extends \TYPO3\CMS\Core\SingletonInterface {
-
-	/**
-	 * Returns TRUE, if currently logged in user (frontend or backend) has
-	 * access for given object and action.
-	 *
-	 * @param string $extension Name of extension to grant access
-	 * @param string $object Object to grant access to
-	 * @param string $action Action to grant access to
-	 * @return bool TRUE, if access is granted
-	 */
-	public function loggedInUserHasAccess($extension, $object, $action);
-
+interface Tx_PtExtbase_Rbac_RbacServiceInterface extends \TYPO3\CMS\Core\SingletonInterface
+{
+    /**
+     * Returns TRUE, if currently logged in user (frontend or backend) has
+     * access for given object and action.
+     *
+     * @param string $extension Name of extension to grant access
+     * @param string $object Object to grant access to
+     * @param string $action Action to grant access to
+     * @return bool TRUE, if access is granted
+     */
+    public function loggedInUserHasAccess($extension, $object, $action);
 }
-?>

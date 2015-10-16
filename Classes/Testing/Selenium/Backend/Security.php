@@ -28,67 +28,73 @@
  * @package Pt_Extbase
  * @subpackage Testing\Selenium\Backend
  */
-class Tx_PtExtbase_Testing_Selenium_Backend_Security {
+class Tx_PtExtbase_Testing_Selenium_Backend_Security
+{
+    public $testClass;
 
-	public $testClass;
+    public function __construct(PHPUnit_Extensions_SeleniumTestCase $testClass)
+    {
+        $this->testClass = $testClass;
+    }
 
-	public function __construct(PHPUnit_Extensions_SeleniumTestCase $testClass) {
-		$this->testClass = $testClass;
-	}
+    /**
+     * @param string $username
+     * @param string $password
+     */
+    public function backendLogin($username, $password)
+    {
+        $this->testClass->open($GLOBALS['SeleniumUrl']);
+        $this->testClass->waitForPageToLoad();
 
-	/**
-	 * @param string $username
-	 * @param string $password
-	 */
-	public function backendLogin($username, $password) {
-		$this->testClass->open($GLOBALS['SeleniumUrl']);
-		$this->testClass->waitForPageToLoad();
+        $this->testClass->open($GLOBALS['SeleniumUrl']."/typo3/");
+        $this->testClass->waitForPageToLoad();
+        
+        $this->checkForLogoutButton();
+        
+        $this->testClass->open($GLOBALS['SeleniumUrl']."/typo3/");
+        $this->testClass->waitForPageToLoad();
 
-		$this->testClass->open($GLOBALS['SeleniumUrl']."/typo3/");
-		$this->testClass->waitForPageToLoad();
-		
-		$this->checkForLogoutButton();
-		
-		$this->testClass->open($GLOBALS['SeleniumUrl']."/typo3/");
-		$this->testClass->waitForPageToLoad();
+        for ($second = 0; ; $second++) {
+            if ($second >= 60) {
+                $this->testClass->fail("timeout");
+            }
+            try {
+                if ($this->testClass->isElementPresent("id=t3-username")) {
+                    break;
+                }
+            } catch (Exception $e) {
+            }
+            sleep(1);
+        }
 
-		for ($second = 0; ; $second++) {
-			if ($second >= 60) $this->testClass->fail("timeout");
-			try {
-				if ($this->testClass->isElementPresent("id=t3-username")) break;
-			} catch (Exception $e) {}
-			sleep(1);
-		}
+        $this->testClass->type("id=t3-username", $username);
+        $this->testClass->type("id=t3-password", $password);
+        $this->testClass->click("id=t3-login-submit");
+        $this->testClass->waitForPageToLoad("30000");
+        try {
+            $this->testClass->assertTrue($this->testClass->isTextPresent($username));
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            $this->testClass->fail('No login possible in backend');
+        }
+    }
+    
+    protected function checkForLogoutButton()
+    {
+        if ($this->testClass->isElementPresent("//div[@id='logout-button']")) {
+            $this->testClass->clickAndWait("//div[@id='logout-button']/form/input");
+        }
+    }
 
-		$this->testClass->type("id=t3-username", $username);
-		$this->testClass->type("id=t3-password", $password);
-		$this->testClass->click("id=t3-login-submit");
-		$this->testClass->waitForPageToLoad("30000");
-		try {
-			$this->testClass->assertTrue($this->testClass->isTextPresent($username));
-		} catch (PHPUnit_Framework_AssertionFailedError $e) {
-			$this->testClass->fail('No login possible in backend');
-		}
-	}
-	
-	protected function checkForLogoutButton() {
-		if ($this->testClass->isElementPresent("//div[@id='logout-button']")) {
-			$this->testClass->clickAndWait("//div[@id='logout-button']/form/input");
-		}
-	}
-
-	public function backendLogout() {
-		$this->testClass->selectFrame("relative=top");
-		$this->testClass->click("//div[@id='logout-button']/form/input");
-		$this->testClass->waitForPageToLoad("30000");
-		try {
-			$this->testClass->assertTrue($this->testClass->isElementPresent("id=t3-username"));
-			$this->testClass->assertTrue($this->testClass->isElementPresent("id=t3-password"));
-		} catch (PHPUnit_Framework_AssertionFailedError $e) {
-			$this->testClass->fail('No logout possible in backend');
-		}
-	}
-
+    public function backendLogout()
+    {
+        $this->testClass->selectFrame("relative=top");
+        $this->testClass->click("//div[@id='logout-button']/form/input");
+        $this->testClass->waitForPageToLoad("30000");
+        try {
+            $this->testClass->assertTrue($this->testClass->isElementPresent("id=t3-username"));
+            $this->testClass->assertTrue($this->testClass->isElementPresent("id=t3-password"));
+        } catch (PHPUnit_Framework_AssertionFailedError $e) {
+            $this->testClass->fail('No logout possible in backend');
+        }
+    }
 }
-
-?>

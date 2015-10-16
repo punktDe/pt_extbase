@@ -29,72 +29,75 @@ namespace PunktDe\PtExtbase\Tests\Utility\Wget;
 use PunktDe\PtExtbase\Utility\Files;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class WgetLogTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase {
-
-	/**
-	 * @var \PunktDe\PtExtbase\Utility\Wget\WgetLog
-	 */
-	protected $wgetLog;
-
-
-	public function setUp() {
-		$wgetLogProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\Utility\Wget\WgetLog');
-		$this->wgetLog = $this->objectManager->get($wgetLogProxyClass);
-	}
+class WgetLogTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+{
+    /**
+     * @var \PunktDe\PtExtbase\Utility\Wget\WgetLog
+     */
+    protected $wgetLog;
 
 
-	public function tearDown() {
-
-	}
-
-
-	public function logEntryDataProvider() {
-		return array(
-			'sandwich400' => array('codes' => array(200,404,200), 'hasError' => TRUE),
-			'sandwich500' => array('codes' => array(200,503,200), 'hasError' => TRUE),
-			'twoErrors' => array('codes' => array(200,503,400), 'hasError' => TRUE),
-			'noErrors' => array('codes' => array(200,200), 'hasError' => FALSE)
-		);
-	}
+    public function setUp()
+    {
+        $wgetLogProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\Utility\Wget\WgetLog');
+        $this->wgetLog = $this->objectManager->get($wgetLogProxyClass);
+    }
 
 
-	/**
-	 * @test
-	 * @dataProvider logEntryDataProvider
-	 *
-	 * @param $codes
-	 * @param $hasErrors
-	 */
-	public function hasErrors($codes, $hasErrors) {
-
-		foreach($codes as $code) {
-			$logEntry = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetLogEntry'); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
-			$logEntry->setStatus($code);
-			$this->wgetLog->addLogEntry($logEntry);
-		}
-
-		$this->assertEquals($hasErrors, $this->wgetLog->hasErrors());
-	}
+    public function tearDown()
+    {
+    }
 
 
-	/**
-	 * @test
-	 * @dataProvider logEntryDataProvider
-	 *
-	 * @param $codes
-	 * @param $hasErrors
-	 */
-	public function getErrors($codes, $hasErrors) {
-		foreach($codes as $code) {
-			$logEntry = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetLogEntry'); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
-			$logEntry->setStatus($code);
-			$this->wgetLog->addLogEntry($logEntry);
-		}
+    public function logEntryDataProvider()
+    {
+        return array(
+            'sandwich400' => array('codes' => array(200,404,200), 'hasError' => true),
+            'sandwich500' => array('codes' => array(200,503,200), 'hasError' => true),
+            'twoErrors' => array('codes' => array(200,503,400), 'hasError' => true),
+            'noErrors' => array('codes' => array(200,200), 'hasError' => false)
+        );
+    }
 
-		$logEntries = $this->wgetLog->getErrors();
 
-		foreach($logEntries as $logEntry) {
-			$this->assertTrue($logEntry->isError());
-		}
-	}
+    /**
+     * @test
+     * @dataProvider logEntryDataProvider
+     *
+     * @param $codes
+     * @param $hasErrors
+     */
+    public function hasErrors($codes, $hasErrors)
+    {
+        foreach ($codes as $code) {
+            $logEntry = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetLogEntry'); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
+            $logEntry->setStatus($code);
+            $this->wgetLog->addLogEntry($logEntry);
+        }
+
+        $this->assertEquals($hasErrors, $this->wgetLog->hasErrors());
+    }
+
+
+    /**
+     * @test
+     * @dataProvider logEntryDataProvider
+     *
+     * @param $codes
+     * @param $hasErrors
+     */
+    public function getErrors($codes, $hasErrors)
+    {
+        foreach ($codes as $code) {
+            $logEntry = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetLogEntry'); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
+            $logEntry->setStatus($code);
+            $this->wgetLog->addLogEntry($logEntry);
+        }
+
+        $logEntries = $this->wgetLog->getErrors();
+
+        foreach ($logEntries as $logEntry) {
+            $this->assertTrue($logEntry->isError());
+        }
+    }
 }

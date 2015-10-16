@@ -28,19 +28,19 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\AbstractResult;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Result
  */
-class Result extends AbstractResult {
+class Result extends AbstractResult
+{
+    /**
+     * @inject
+     * @var \PunktDe\PtExtbase\Utility\Git\GitExecutionManager
+     */
+    protected $executionManager;
 
-	/**
-	 * @inject
-	 * @var \PunktDe\PtExtbase\Utility\Git\GitExecutionManager
-	 */
-	protected $executionManager;
 
-
-	/**
-	 * @return void
-	 */
-	protected function buildResult() {
-	}
-
+    /**
+     * @return void
+     */
+    protected function buildResult()
+    {
+    }
 }

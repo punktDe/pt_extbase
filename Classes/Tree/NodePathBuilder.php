@@ -29,126 +29,129 @@
  * @package Tree
  * @author Daniel Lienert <lienert@punkt.de>
  */
-class Tx_PtExtbase_Tree_NodePathBuilder  {
+class Tx_PtExtbase_Tree_NodePathBuilder
+{
+    /**
+     * @var <array>Tx_PtExtbase_Tree_NodePathBuilder
+     */
+    protected static $instances = array();
 
-	/**
-	 * @var <array>Tx_PtExtbase_Tree_NodePathBuilder
-	 */
-	protected static $instances = array();
-
-	/**
-	 * @var Tx_PtExtbase_Tree_Tree
-	 */
-	protected $tree;
-
-
-	/**
-	 * @var array
-	 */
-	protected $nodePathCache = array();
+    /**
+     * @var Tx_PtExtbase_Tree_Tree
+     */
+    protected $tree;
 
 
-	/**
-	 * @static
-	 * @param $repository
-	 * @param $nameSpace
-	 * @return Tx_PtExtbase_Tree_NodePathBuilder
-	 */
-	public static function getInstanceByRepositoryAndNamespace($repository, $nameSpace) {
-		if(!self::$instances[$repository.$nameSpace]) {
-			$instance = new Tx_PtExtbase_Tree_NodePathBuilder();
-			$instance->setTree($instance->buildTree($repository, $nameSpace));
-			self::$instances[$repository.$nameSpace] = $instance;
-		}
-
-		return self::$instances[$repository.$nameSpace];
-	}
+    /**
+     * @var array
+     */
+    protected $nodePathCache = array();
 
 
+    /**
+     * @static
+     * @param $repository
+     * @param $nameSpace
+     * @return Tx_PtExtbase_Tree_NodePathBuilder
+     */
+    public static function getInstanceByRepositoryAndNamespace($repository, $nameSpace)
+    {
+        if (!self::$instances[$repository.$nameSpace]) {
+            $instance = new Tx_PtExtbase_Tree_NodePathBuilder();
+            $instance->setTree($instance->buildTree($repository, $nameSpace));
+            self::$instances[$repository.$nameSpace] = $instance;
+        }
 
-	public function __construct(){}
+        return self::$instances[$repository.$nameSpace];
+    }
 
 
 
-	/**
-	 * @param $repository
-	 * @param $nameSpace
-	 * @return Tx_PtExtbase_Tree_Tree
-	 */
-	public function buildTree($repository, $nameSpace) {
-		$treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
-		$treeRepositoryBuilder->setNodeRepositoryClassName($repository);
-		$treeRepository = $treeRepositoryBuilder->buildTreeRepository();
-
-		return $treeRepository->loadTreeByNamespace($nameSpace);
-	}
+    public function __construct()
+    {
+    }
 
 
 
-	/**
-	 * @param integer $nodeUid
-	 * @param integer $startIndex
-	 * @param integer $length
-	 * @return array nodes as plain array
-	 */
-	public function getPathFromRootToNode($nodeUid, $startIndex = 0, $length = 1000) {
-		$reversedArray = array_reverse($this->buildPathFromNodeToRoot($nodeUid));
-		return array_slice($reversedArray, $startIndex, $length);
-	}
+    /**
+     * @param $repository
+     * @param $nameSpace
+     * @return Tx_PtExtbase_Tree_Tree
+     */
+    public function buildTree($repository, $nameSpace)
+    {
+        $treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
+        $treeRepositoryBuilder->setNodeRepositoryClassName($repository);
+        $treeRepository = $treeRepositoryBuilder->buildTreeRepository();
+
+        return $treeRepository->loadTreeByNamespace($nameSpace);
+    }
 
 
 
-	/**
-	 * @param integer $nodeUid
-	 * @param integer $startIndex
-	 * @param integer $length
-	 * @return array nodes as plain array
-	 */
-	public function getPathFromNodeToRoot($nodeUid, $startIndex = 0, $length = 1000) {
-		$slicedArray = array_slice($this->buildPathFromNodeToRoot($nodeUid), $startIndex, $length);
-		return $slicedArray;
-	}
+    /**
+     * @param integer $nodeUid
+     * @param integer $startIndex
+     * @param integer $length
+     * @return array nodes as plain array
+     */
+    public function getPathFromRootToNode($nodeUid, $startIndex = 0, $length = 1000)
+    {
+        $reversedArray = array_reverse($this->buildPathFromNodeToRoot($nodeUid));
+        return array_slice($reversedArray, $startIndex, $length);
+    }
 
 
 
-	/**
-	 * @param integer $nodeUid
-	 * @return array|null
-	 */
-	protected function buildPathFromNodeToRoot($nodeUid) {
-
-		if(!array_key_exists($nodeUid, $this->nodePathCache)) {
-
-			$node = $this->tree->getNodeByUid($nodeUid);
-
-			$pathFromNodeToRoot = array();
-
-			if($node instanceof Tx_PtExtbase_Tree_Node) {
-
-				$pathFromNodeToRoot[] = $node;
-
-				while($node != $this->tree->getRoot()) {
-					$node = $node->getParent();
-					$pathFromNodeToRoot[] = $node;
-				}
-
-				$this->nodePathCache[$nodeUid] = $pathFromNodeToRoot;
-
-			} else {
-				$this->nodePathCache[$nodeUid] = NULL;
-			}
-		}
-
-		return $this->nodePathCache[$nodeUid];
-	}
+    /**
+     * @param integer $nodeUid
+     * @param integer $startIndex
+     * @param integer $length
+     * @return array nodes as plain array
+     */
+    public function getPathFromNodeToRoot($nodeUid, $startIndex = 0, $length = 1000)
+    {
+        $slicedArray = array_slice($this->buildPathFromNodeToRoot($nodeUid), $startIndex, $length);
+        return $slicedArray;
+    }
 
 
 
-	/**
-	 * @param \Tx_PtExtbase_Tree_Tree $tree
-	 */
-	public function setTree($tree) {
-		$this->tree = $tree;
-	}
+    /**
+     * @param integer $nodeUid
+     * @return array|null
+     */
+    protected function buildPathFromNodeToRoot($nodeUid)
+    {
+        if (!array_key_exists($nodeUid, $this->nodePathCache)) {
+            $node = $this->tree->getNodeByUid($nodeUid);
+
+            $pathFromNodeToRoot = array();
+
+            if ($node instanceof Tx_PtExtbase_Tree_Node) {
+                $pathFromNodeToRoot[] = $node;
+
+                while ($node != $this->tree->getRoot()) {
+                    $node = $node->getParent();
+                    $pathFromNodeToRoot[] = $node;
+                }
+
+                $this->nodePathCache[$nodeUid] = $pathFromNodeToRoot;
+            } else {
+                $this->nodePathCache[$nodeUid] = null;
+            }
+        }
+
+        return $this->nodePathCache[$nodeUid];
+    }
+
+
+
+    /**
+     * @param \Tx_PtExtbase_Tree_Tree $tree
+     */
+    public function setTree($tree)
+    {
+        $this->tree = $tree;
+    }
 }
-?>

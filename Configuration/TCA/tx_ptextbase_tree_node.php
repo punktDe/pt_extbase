@@ -1,21 +1,21 @@
 <?php
 return array(
-    'ctrl' =>  array (
-		'title'             => 'TreeNode',
-		'label'             => 'label',
-		'tstamp'            => 'tstamp',
-		'crdate'            => 'crdate',
-		'origUid'           => 't3_origuid',
-		'languageField'     => 'sys_language_uid',
-		'transOrigPointerField'     => 'l18n_parent',
-		'transOrigDiffSourceField'  => 'l18n_diffsource',
-		'delete'            => 'deleted',
-		'enablecolumns'     => array(
-			'disabled' => 'hidden'
-		),
-		'iconfile'          => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('pt_extbase') . 'Resources/Public/Icons/icon_tx_ptextbase_tree_node.png',
-		'hideTable' => 1
-	),
+    'ctrl' =>  array(
+        'title'             => 'TreeNode',
+        'label'             => 'label',
+        'tstamp'            => 'tstamp',
+        'crdate'            => 'crdate',
+        'origUid'           => 't3_origuid',
+        'languageField'     => 'sys_language_uid',
+        'transOrigPointerField'     => 'l18n_parent',
+        'transOrigDiffSourceField'  => 'l18n_diffsource',
+        'delete'            => 'deleted',
+        'enablecolumns'     => array(
+            'disabled' => 'hidden'
+        ),
+        'iconfile'          => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('pt_extbase') . 'Resources/Public/Icons/icon_tx_ptextbase_tree_node.png',
+        'hideTable' => 1
+    ),
     'interface' => array(
         'showRecordFieldList'   => 'label',
     ),

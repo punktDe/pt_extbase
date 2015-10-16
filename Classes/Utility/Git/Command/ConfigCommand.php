@@ -28,59 +28,61 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
  *
  * @package PunktDe\PtExtbase\Utility\Git\Command
  */
-class ConfigCommand extends GenericShellCommand {
-
-	/**
-	 * A list of allowed git command options
-	 *
-	 * @var array
-	 */
-	protected $argumentMap = array(
-		'global' => '--global',
-		'username' => 'user.name "%s"',
-		'email' => 'user.email "%s"'
-	);
-
-
-	/**
-	 * @var array
-	 */
-	protected $arguments = array(
-		'global' => FALSE,
-		'username' => '',
-		'email' => ''
-	);
+class ConfigCommand extends GenericShellCommand
+{
+    /**
+     * A list of allowed git command options
+     *
+     * @var array
+     */
+    protected $argumentMap = array(
+        'global' => '--global',
+        'username' => 'user.name "%s"',
+        'email' => 'user.email "%s"'
+    );
 
 
-	/**
-	 * @param boolean $global
-	 * @return $this
-	 */
-	public function setGlobal($global) {
-		$this->arguments['global'] = $global;
-		return $this;
-	}
+    /**
+     * @var array
+     */
+    protected $arguments = array(
+        'global' => false,
+        'username' => '',
+        'email' => ''
+    );
 
 
-
-	/**
-	 * @param string $username
-	 * @return $this
-	 */
-	public function setUserName($username) {
-		$this->arguments['username'] = $username;
-		return $this;
-	}
+    /**
+     * @param boolean $global
+     * @return $this
+     */
+    public function setGlobal($global)
+    {
+        $this->arguments['global'] = $global;
+        return $this;
+    }
 
 
 
-	/**
-	 * @param string $email
-	 * @return $this
-	 */
-	public function setEmail($email) {
-		$this->arguments['email'] = $email;
-		return $this;
-	}
+    /**
+     * @param string $username
+     * @return $this
+     */
+    public function setUserName($username)
+    {
+        $this->arguments['username'] = $username;
+        return $this;
+    }
 
+
+
+    /**
+     * @param string $email
+     * @return $this
+     */
+    public function setEmail($email)
+    {
+        $this->arguments['email'] = $email;
+        return $this;
+    }
 }

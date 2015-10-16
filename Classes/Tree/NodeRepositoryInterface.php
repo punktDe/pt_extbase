@@ -31,17 +31,17 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-interface Tx_PtExtbase_Tree_NodeRepositoryInterface {
-
-	/**
-	 * Returns nodes for a given namespace
-	 * 
-	 * Nodes are ordered by left-value 
-	 *
-	 * @param string $namespace
+interface Tx_PtExtbase_Tree_NodeRepositoryInterface
+{
+    /**
+     * Returns nodes for a given namespace
+     * 
+     * Nodes are ordered by left-value 
+     *
+     * @param string $namespace
      * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_PtExtbase_Tree_NodeInterface>
-	 */
-	public function findByNamespace($namespace);
+     */
+    public function findByNamespace($namespace);
 
 
 
@@ -52,5 +52,4 @@ interface Tx_PtExtbase_Tree_NodeRepositoryInterface {
      * @param Tx_PtExtbase_Tree_NodeInterface $node
      */
     public function updateOrAdd(Tx_PtExtbase_Tree_NodeInterface $node);
-
 }

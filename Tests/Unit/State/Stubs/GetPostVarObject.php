@@ -28,47 +28,50 @@
  *
  * @package Tests
  * @subpackage State/Stubs
- */   
-class Tx_PtExtbase_Tests_Unit_State_Stubs_GetPostVarObject implements Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface {
-	
-	protected $values;
-	
-	
-	
-	protected $namespace;
-	
-	
-	
-	public function getValues() {
-		return $this->values;
-	}
-	
-	
-	
-	/**
-	 * Returns namespace of object to store data in session with
-	 *
-	 * @return String Namespace as key to store session data with
-	 */
-    public function getObjectNamespace() {
-    	return $this->namespace;
+ */
+class Tx_PtExtbase_Tests_Unit_State_Stubs_GetPostVarObject implements Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface
+{
+    protected $values;
+    
+    
+    
+    protected $namespace;
+    
+    
+    
+    public function getValues()
+    {
+        return $this->values;
     }
     
     
     
-    public function setObjectNamespace($namespace) {
-    	$this->namespace = $namespace;
+    /**
+     * Returns namespace of object to store data in session with
+     *
+     * @return String Namespace as key to store session data with
+     */
+    public function getObjectNamespace()
+    {
+        return $this->namespace;
+    }
+    
+    
+    
+    public function setObjectNamespace($namespace)
+    {
+        $this->namespace = $namespace;
     }
 
 
 
-	/**
-	 * Injects GetPost Vars into object
-	 *
-	 * @param array $GPVars GP Var data to be injected into the object
-	 */
-	public function _injectGPVars($GPVars) {
-		$this->values = $GPVars;
-	}
-
+    /**
+     * Injects GetPost Vars into object
+     *
+     * @param array $GPVars GP Var data to be injected into the object
+     */
+    public function _injectGPVars($GPVars)
+    {
+        $this->values = $GPVars;
+    }
 }
