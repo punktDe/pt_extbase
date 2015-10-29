@@ -506,7 +506,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
     /**
      * @return integer
      */
-    protected function getPageUidFromConfiguration()
+    public function getPageUidFromConfiguration()
     {
         $nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'startingPoint'));
         return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
