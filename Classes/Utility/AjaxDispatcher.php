@@ -220,7 +220,9 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      */
     protected function checkAllowedControllerActions()
     {
-        if (!$this->extensionName || !$this->controllerName || !$this->actionName) throw new \Exception('Either extension, controller or action is undefined.', 1391146166);
+        if (!$this->extensionName) throw new \Exception(sprintf('The extension name was not defined..'), 1391146166);
+        if (!$this->controllerName) throw new \Exception(sprintf('The controller name was not defined.'), 1391146167);
+        if (!$this->actionName) throw new \Exception(sprintf('The action name was not defined.'), 1391146168);
 
         $nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'allowedControllerActions'));
         $allowedControllerActions = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
