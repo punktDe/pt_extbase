@@ -251,8 +251,11 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
 
         $this->initTsfe($this->pageUid)
             ->initFeUser()
-            ->initTca()
-            ->determineId();
+            ->initTca();
+
+        if (TYPO3_MODE == 'FE') {
+            $this->determineId();
+        }
 
         if ($this->getRenderTyposcriptFromConfiguration()) {
             $this->initTypoScript();
