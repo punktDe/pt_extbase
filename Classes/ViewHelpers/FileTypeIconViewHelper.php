@@ -20,6 +20,7 @@ namespace PunktDe\PtExtbase\ViewHelpers;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use PunktDe\PtExtbase\Utility\Files;
 
 /**
  * Class fileTypeIcon
@@ -34,6 +35,12 @@ class FileTypeIconViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTa
     protected $tagName = 'img';
 
     /**
+     * @var \PunktDe\PtExtbase\Utility\Files
+     * @inject
+     */
+    protected $fileUtility;
+
+    /**
      * @param string $fileExtension
      * @param string $iconBaseDirectory
      * @param string $iconExtension
@@ -42,10 +49,10 @@ class FileTypeIconViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTa
     public function render($fileExtension, $iconBaseDirectory = '', $iconExtension = 'gif')
     {
         if ($iconBaseDirectory === '') {
-            $iconBaseDirectory = TYPO3_mainDir . 'gfx/fileicons/';
+            $iconBaseDirectory = $this->fileUtility->concatenatePaths(array(TYPO3_mainDir, 'gfx/fileicons/'));
         }
 
-        $iconPath = $iconBaseDirectory . $fileExtension . '.' . $iconExtension;
+        $iconPath = $this->fileUtility->concatenatePaths(array($iconBaseDirectory, $fileExtension . '.' . $iconExtension));
 
         if (file_exists($iconPath)) {
             $this->tag->addAttribute('src', $iconPath);
