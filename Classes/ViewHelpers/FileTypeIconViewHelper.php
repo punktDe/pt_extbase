@@ -54,13 +54,30 @@ class FileTypeIconViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTa
 
         $iconPath = $this->fileUtility->concatenatePaths(array($iconBaseDirectory, $fileExtension . '.' . $iconExtension));
 
-        if (file_exists($iconPath)) {
+        if ($this->validateFileIsImage($iconPath)) {
             $this->tag->addAttribute('src', $iconPath);
             return $this->tag->render();
         } else {
             return null;
         }
 
+    }
+
+    /**
+     * @param string $pathToFile
+     * @return boolean
+     */
+    protected function validateFileIsImage($pathToFile)
+    {
+        if (!is_file($pathToFile)) {
+            return FALSE;
+        }
+        $finfo = new \finfo();
+        $mimeType = $finfo->file($pathToFile, FILEINFO_MIME_TYPE);
+        if (strncmp($mimeType, 'image/', 6) === 0) {
+            return TRUE;
+        }
+        return FALSE;
     }
 
 }
