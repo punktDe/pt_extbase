@@ -23,8 +23,8 @@
     }
   },
   "replace": {
-    "ptextbase": "self.version",
-    "typo3-ter/ptextbase": "self.version"
+    "pt_extbase": "self.version",
+    "typo3-ter/pt_extbase": "self.version"
   },
   "extra": {
     "typo3/cms": {
