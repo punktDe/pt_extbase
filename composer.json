@@ -1,5 +1,5 @@
 {
-  "name": "punktde/ptextbase",
+  "name": "punktde/pt_extbase",
   "type": "typo3-cms-extension",
   "description": "Collection of tools for Extbase Extension development",
   "keywords": [
