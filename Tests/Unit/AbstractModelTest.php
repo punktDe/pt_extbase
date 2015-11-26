@@ -71,6 +71,9 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractModelTestcase extends Tx_PtExtbas
                 case 'float':
                     $testValue = 0 + mt_rand() / mt_getrandmax() * 20;
                     break;
+
+                case 'DateTime':
+                    $testValue = new \DateTime();
             }
 
             $testName = 'Test setter and getter for Attribute ' . $attribute;
@@ -101,7 +104,7 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractModelTestcase extends Tx_PtExtbas
 
         $this->assertSame($testValue,
             $this->proxy->$getterName(),
-            'TestValue ' . $testValue . ' was set, but ' . $this->proxy->$getterName() . ' was returned from the model.'
+            'TestValue ' . print_r($testValue, true) . ' was set, but ' . print_r($this->proxy->$getterName(),true) . ' was returned from the model.'
         );
     }
 }
