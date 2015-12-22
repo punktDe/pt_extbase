@@ -288,17 +288,16 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
     }
 
 
-
     /**
      * Writes information about the given exception into the log.
      *
      * @param \Exception $exception The exception to log
      * @param null $logComponent
      * @param array $additionalData Additional data to log
-     * @return void
+     * @param int|LogLevel $logLevel
      * @api
      */
-    public function logException(\Exception $exception, $logComponent = null, array $additionalData = array())
+    public function logException(\Exception $exception, $logComponent = null, array $additionalData = array(), $logLevel = LogLevel::CRITICAL)
     {
         $backTrace = $exception->getTrace();
         $message = $this->getExceptionLogMessage($exception);
@@ -320,7 +319,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
             $this->warning(sprintf('Could not write exception backtrace into %s because the directory could not be created or is not writable.', $this->exceptionDirectory), $logComponent, array());
         }
 
-        $this->critical($message, $logComponent, $additionalData);
+        $this->log($logLevel, $message, $logComponent, $additionalData);
     }
 
 
