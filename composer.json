@@ -20,7 +20,10 @@
   "autoload": {
     "psr-4": {
       "PunktDe\\PtExtbase\\": "Classes"
-    }
+    },
+    "classmap": [
+      "Classes/"
+    ]
   },
   "replace": {
     "pt_extbase": "self.version",
