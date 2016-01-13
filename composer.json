@@ -23,6 +23,9 @@
     },
     "classmap": [
       "Classes/"
+    ],
+    "files": [
+      "Tests/Unit/AbstractBaseTest.php"
     ]
   },
   "replace": {
