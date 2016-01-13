@@ -50,16 +50,26 @@ class Tx_PtExtbase_Utility_ExtensionSettings implements \TYPO3\CMS\Core\Singleto
      * @param string $key
      * @return string
      * @throws Exception
-     *
-     * TODO: this method returns a value not a key ....
      */
-    public function getKeyFromExtensionSettings($extensionKey, $key)
+    public function getValueFromExtensionSettingsByKey($extensionKey, $key)
     {
         $settings = $this->getExtensionSettings($extensionKey);
         if (!isset($settings[$key])) {
             throw new Exception('No key ' . $key . ' set in extension ' . $extensionKey . '! 1334406600');
         }
         return $settings[$key];
+    }
+
+    /**
+     * @param string $extensionKey
+     * @param string $key
+     * @return string
+     * @throws Exception
+     * @deprecated
+     */
+    public function getKeyFromExtensionSettings($extensionKey, $key)
+    {
+        return $this->getValueFromExtensionSettingsByKey($extensionKey, $key);
     }
 
     /**
