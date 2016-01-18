@@ -22,8 +22,10 @@
       "PunktDe\\PtExtbase\\": "Classes"
     },
     "classmap": [
-      "Classes/"
-    ],
+       "Classes/"
+    ]
+  },
+  "autoload-dev": {
     "files": [
       "Tests/Unit/AbstractBaseTest.php"
     ]
