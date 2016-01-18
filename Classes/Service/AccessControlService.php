@@ -22,6 +22,7 @@ namespace PunktDe\PtExtbase\Service;
  ***************************************************************/
 
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
@@ -107,6 +108,20 @@ class AccessControlService implements SingletonInterface
         } else {
             throw new \Exception('The property ' . $attribute . ' does not exist in user object.', 1452519829);
         }
+    }
+
+
+
+    /**
+     * @return array
+     */
+    public function getUserGroupsUids()
+    {
+        $userGroupUids = [];
+        if (isset($this->typoScriptFrontend->gr_list) && is_string($this->typoScriptFrontend->gr_list)) {
+            $userGroupUids = GeneralUtility::trimExplode(',', $this->typoScriptFrontend->gr_list);
+        }
+        return $userGroupUids;
     }
 
 }
