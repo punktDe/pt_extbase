@@ -123,5 +123,4 @@ class AccessControlService implements SingletonInterface
         }
         return $userGroupUids;
     }
-
 }

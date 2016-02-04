@@ -104,7 +104,7 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractModelTestcase extends Tx_PtExtbas
 
         $this->assertSame($testValue,
             $this->proxy->$getterName(),
-            'TestValue ' . print_r($testValue, true) . ' was set, but ' . print_r($this->proxy->$getterName(),true) . ' was returned from the model.'
+            'TestValue ' . print_r($testValue, true) . ' was set, but ' . print_r($this->proxy->$getterName(), true) . ' was returned from the model.'
         );
     }
 }

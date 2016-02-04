@@ -33,7 +33,7 @@
 final class Tx_PtExtbase_Registry_Registry extends Tx_PtExtbase_Collection_Collection
 {
     /**
-     * @var 	Unique instance of this class
+     * @var Unique instance of this class
      */
     private static $uniqueInstance = null;
     
@@ -44,7 +44,6 @@ final class Tx_PtExtbase_Registry_Registry extends Tx_PtExtbase_Collection_Colle
      * 
      * @param   void
      * @return  Tx_PtExtbase_Registry_Registry      unique instance of the Singleton object
-     * @author 	Fabrizio Branca <mail@fabrizio-branca.de>
      */
     public static function getInstance()
     {
@@ -58,9 +57,6 @@ final class Tx_PtExtbase_Registry_Registry extends Tx_PtExtbase_Collection_Colle
     
     /**
      * Final method to prevent object cloning (using 'clone'), in order to use only the unique instance of the Singleton object.
-     * 
-     * @param   void
-     * @return  void
      */
     final public function __clone()
     {
