@@ -108,6 +108,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter
     public function _injectPostVars(array $postVars = array())
     {
         $this->postVars = $postVars;
+        $this->resetMergedVars();
     }
     
     
@@ -120,6 +121,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter
     public function _injectGetVars(array $getVars = array())
     {
         $this->getVars = $getVars;
+        $this->resetMergedVars();
     }
     
     
@@ -297,5 +299,11 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter
         } else {
             return false;
         }
+    }
+
+    public function resetMergedVars()
+    {
+        unset($this->getPostVars);
+        unset($this->postGetVars);
     }
 }
