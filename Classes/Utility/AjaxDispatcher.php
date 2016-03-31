@@ -267,6 +267,10 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
             $this->initTypoScript();
         }
 
+        if ($this->getLoadLanguagesFromConfiguration()) {
+            $this->loadLanguages();
+        }
+
         return $this;
     }
 
@@ -337,6 +341,17 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
         return $this;
     }
 
+    /**
+     * @return Tx_PtExtbase_Utility_AjaxDispatcher
+     */
+    public function loadLanguages()
+    {
+        $GLOBALS['TSFE']->settingLanguage();
+        $GLOBALS['TSFE']->settingLocale();
+
+        return $this;
+
+    }
 
     /**
      * @return void
@@ -534,6 +549,15 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
     protected function getRenderTyposcriptFromConfiguration()
     {
         $nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'renderTyposcript'));
+        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
+    }
+
+    /**
+     * @return boolean
+     */
+    protected function getLoadLanguagesFromConfiguration()
+    {
+        $nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'loadLanguages'));
         return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
     }
 }
