@@ -500,6 +500,22 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
     }
 
     /**
+     * @return string
+     */
+    public function getActionName()
+    {
+        return $this->actionName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getControllerName()
+    {
+        return $this->controllerName;
+    }
+    
+    /**
      * @throws Exception
      */
     protected function checkLegacyAllowedControllerActions()
