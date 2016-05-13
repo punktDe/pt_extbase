@@ -1,8 +1,10 @@
 <?php
+namespace PunktDe\PtExtbase\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2011-2015 punkt.de GmbH <extensions@punkt.de>
+ *  (c) 2011-2016 punkt.de GmbH <extensions@punkt.de>
  *  Authors: Ursula Klinger, Joachim Mathes, Peter Bolch
  *  All rights reserved
  *
@@ -23,26 +25,20 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-/**
- * TCA Manager
- *
- * @package pt_extbase
- * @subpackage Utility
- */
-class Tx_PtExtbase_Utility_TcaManager implements \TYPO3\CMS\Core\SingletonInterface
+use TYPO3\CMS\Core\SingletonInterface;
+
+class TcaManager implements SingletonInterface
 {
     /**
      * @var array
      */
-    protected $deletedColumnConfiguration = array(
-        'deleted' => array(
-            'config' => array(
+    protected $deletedColumnConfiguration = [
+        'deleted' => [
+            'config' =>[
                 'type' => 'passthrough',
-            ),
-        ),
-    );
-
-
+            ],
+        ],
+    ];
 
     /**
      * returns the value of [TCA][$tableName][ctrl][delete] to reset the field later on with the activateDeletedFlag

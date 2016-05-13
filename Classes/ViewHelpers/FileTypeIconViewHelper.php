@@ -60,7 +60,6 @@ class FileTypeIconViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTa
         } else {
             return null;
         }
-
     }
 
     /**
@@ -70,14 +69,13 @@ class FileTypeIconViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTa
     protected function validateFileIsImage($pathToFile)
     {
         if (!is_file($pathToFile)) {
-            return FALSE;
+            return false;
         }
         $finfo = new \finfo();
         $mimeType = $finfo->file($pathToFile, FILEINFO_MIME_TYPE);
         if (strncmp($mimeType, 'image/', 6) === 0) {
-            return TRUE;
+            return true;
         }
-        return FALSE;
+        return false;
     }
-
 }

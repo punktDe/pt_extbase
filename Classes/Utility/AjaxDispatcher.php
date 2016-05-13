@@ -57,7 +57,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Tx_PtExtbase_Utility_AjaxDispatcher
 {
-
     /**
      * Array of all request Arguments
      *
@@ -164,14 +163,15 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      */
     public function dispatch()
     {
-
         $this->dispatchCallArguments = func_get_args();
         $this->checkModuleAccessIfInBackend();
         $this->checkAllowedControllerActions();
 
         $configuration['extensionName'] = $this->extensionName;
         $configuration['pluginName'] = $this->pluginName;
-        if ($this->vendorName) $configuration['vendorName'] = $this->vendorName;
+        if ($this->vendorName) {
+            $configuration['vendorName'] = $this->vendorName;
+        }
 
         $bootstrap = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Core\Bootstrap');
         $bootstrap->initialize($configuration);
@@ -202,12 +202,14 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
         if (TYPO3_MODE === 'BE') {
             if (is_array($this->dispatchCallArguments) && $this->dispatchCallArguments[1] instanceof \TYPO3\CMS\Core\Http\AjaxRequestHandler) {
                 $ajaxId = $this->dispatchCallArguments[1]->getAjaxID();
-                if (!stristr($ajaxId, '::')) throw new \Exception('Please name the ajaxId the following way: TargetModuleSignature::IndividualAJAXIdentifier. The current ajax ID is: ' . $ajaxId, 1391143615);
+                if (!stristr($ajaxId, '::')) {
+                    throw new \Exception('Please name the ajaxId the following way: TargetModuleSignature::IndividualAJAXIdentifier. The current ajax ID is: ' . $ajaxId, 1391143615);
+                }
                 list($moduleSignature) = explode('::', $ajaxId);
 
                 $backendUser = $GLOBALS['BE_USER'];
                 /** @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication $backendUser */
-                $backendUser->modAccess(array('name' => $moduleSignature, 'access' => array('user', 'group')), TRUE);
+                $backendUser->modAccess(array('name' => $moduleSignature, 'access' => array('user', 'group')), true);
             }
         }
     }
@@ -220,9 +222,15 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      */
     protected function checkAllowedControllerActions()
     {
-        if (!$this->extensionName) throw new \Exception(sprintf('The extension name was not defined..'), 1391146166);
-        if (!$this->controllerName) throw new \Exception(sprintf('The controller name was not defined.'), 1391146167);
-        if (!$this->actionName) throw new \Exception(sprintf('The action name was not defined.'), 1391146168);
+        if (!$this->extensionName) {
+            throw new \Exception(sprintf('The extension name was not defined..'), 1391146166);
+        }
+        if (!$this->controllerName) {
+            throw new \Exception(sprintf('The controller name was not defined.'), 1391146167);
+        }
+        if (!$this->actionName) {
+            throw new \Exception(sprintf('The action name was not defined.'), 1391146168);
+        }
 
         $nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'allowedControllerActions'));
         $allowedControllerActions = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
@@ -230,8 +238,6 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
         if (!(in_array($this->actionName, $allowedControllerActions) || $this->checkLegacyAllowedControllerActions())) {
             throw new \Exception('The requested controller / action is not allowed to be called via ajax / eId. You have to grant the access with the configuration: $GLOBALS[\'' . str_replace('.', "']['", $nameSpace) . "'][] = '" . $this->actionName . "'; in your ext_localconf.php", 1391145113);
         }
-
-
     }
 
 
@@ -261,6 +267,10 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
             $this->initTypoScript();
         }
 
+        if ($this->getLoadLanguagesFromConfiguration()) {
+            $this->loadLanguages();
+        }
+
         return $this;
     }
 
@@ -280,9 +290,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      * @param $pageUid
      * @return $this
      */
-    public function initTsfe($pageUid = NULL)
+    public function initTsfe($pageUid = null)
     {
-
         $GLOBALS['TSFE'] = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, '0', 1, '', '', '', '');
         $GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
 
@@ -332,6 +341,17 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
         return $this;
     }
 
+    /**
+     * @return Tx_PtExtbase_Utility_AjaxDispatcher
+     */
+    public function loadLanguages()
+    {
+        $GLOBALS['TSFE']->settingLanguage();
+        $GLOBALS['TSFE']->settingLocale();
+
+        return $this;
+
+    }
 
     /**
      * @return void
@@ -385,7 +405,9 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
         $this->actionName = $this->actionName ?: $this->requestArguments['actionName'];
 
         $this->arguments = $this->requestArguments['arguments'];
-        if (!is_array($this->arguments)) $this->arguments = array();
+        if (!is_array($this->arguments)) {
+            $this->arguments = array();
+        }
 
         return $this;
     }
@@ -393,12 +415,12 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
 
     protected function setVendorAndExtensionName()
     {
-        $vendorName = NULL;
+        $vendorName = null;
 
         $this->extensionName = $this->extensionName ?: $this->requestArguments['extensionName'];
 
         $delimiterPosition = strrpos($this->extensionName, '.');
-        if ($delimiterPosition !== FALSE) {
+        if ($delimiterPosition !== false) {
             $this->vendorName = str_replace('.', '\\', substr($this->extensionName, 0, $delimiterPosition));
             $this->extensionName = substr($this->extensionName, $delimiterPosition + 1);
         }
@@ -426,7 +448,9 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
     {
         $validArguments = array('extensionName', 'pluginName', 'controllerName', 'actionName', 'arguments');
         foreach ($validArguments as $argument) {
-            if (GeneralUtility::_GP($argument)) $this->requestArguments[$argument] = GeneralUtility::_GP($argument);
+            if (GeneralUtility::_GP($argument)) {
+                $this->requestArguments[$argument] = GeneralUtility::_GP($argument);
+            }
         }
     }
 
@@ -438,7 +462,9 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      */
     public function setExtensionName($extensionName)
     {
-        if (!$extensionName) throw new Exception('No extension name set for extbase request.', 1327583056);
+        if (!$extensionName) {
+            throw new Exception('No extension name set for extbase request.', 1327583056);
+        }
 
         $this->extensionName = $extensionName;
         return $this;
@@ -500,22 +526,6 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
     }
 
     /**
-     * @return string
-     */
-    public function getActionName()
-    {
-        return $this->actionName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getControllerName()
-    {
-        return $this->controllerName;
-    }
-    
-    /**
      * @throws Exception
      */
     protected function checkLegacyAllowedControllerActions()
@@ -542,4 +552,12 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
         return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
     }
 
+    /**
+     * @return boolean
+     */
+    protected function getLoadLanguagesFromConfiguration()
+    {
+        $nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'loadLanguages'));
+        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
+    }
 }

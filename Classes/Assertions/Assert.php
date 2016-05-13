@@ -21,6 +21,8 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
+use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -37,7 +39,7 @@ class Tx_PtExtbase_Assertions_Assert
     /**
      * Holds instance of t3lib_DB that can be mocked and injected for testing
      *
-     * @var t3lib_DB
+     * @var DatabaseConnection
      */
     public static $dbObj = null;
 
@@ -640,7 +642,7 @@ class Tx_PtExtbase_Assertions_Assert
         if (is_null($dbObj)) {
             $dbObj = $GLOBALS['TYPO3_DB'];
         }
-        self::isInstanceOf($dbObj, 't3lib_DB', $info);
+        self::isInstanceOf($dbObj, '\TYPO3\CMS\Core\Database\DatabaseConnection', $info);
         
         // append sql_error to info array
         $info['sql_error'] = $dbObj->sql_error();

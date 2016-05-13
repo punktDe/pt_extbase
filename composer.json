@@ -1,5 +1,5 @@
 {
-  "name": "punktde/ptextbase",
+  "name": "punktde/pt_extbase",
   "type": "typo3-cms-extension",
   "description": "Collection of tools for Extbase Extension development",
   "keywords": [
@@ -20,11 +20,19 @@
   "autoload": {
     "psr-4": {
       "PunktDe\\PtExtbase\\": "Classes"
-    }
+    },
+    "classmap": [
+       "Classes/"
+    ]
+  },
+  "autoload-dev": {
+    "files": [
+      "Tests/Unit/AbstractBaseTest.php"
+    ]
   },
   "replace": {
-    "ptextbase": "self.version",
-    "typo3-ter/ptextbase": "self.version"
+    "pt_extbase": "self.version",
+    "typo3-ter/pt_extbase": "self.version"
   },
   "extra": {
     "typo3/cms": {
