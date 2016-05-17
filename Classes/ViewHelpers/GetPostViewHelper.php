@@ -4,7 +4,7 @@ namespace PunktDe\PtExtbase\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2012 Joachim Mathes <mathes@punkt.de>
+ *  (c) 2016 el_equipo <el_equipo@punkt.de>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
