@@ -21,16 +21,15 @@ namespace PunktDe\PtExtbase\Tests\Unit\Logger;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use PunktDe\PtExtbase\Logger\LoggerManager;
 
 /**
  * Logger Manager Testcase
- *
- * @package pt_extbase
  */
 class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
 {
     /**
-     * @var \PunktDe\PtExtbase\Logger\LoggerManager
+     * @var LoggerManager
      */
     protected $proxy;
 
@@ -40,7 +39,7 @@ class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
      */
     public function setUp()
     {
-        $proxyClass = $this->buildAccessibleProxy('PunktDe\\PtExtbase\\Logger\\LoggerManager');
+        $proxyClass = $this->buildAccessibleProxy(LoggerManager::class);
         $this->proxy = new $proxyClass();
     }
 

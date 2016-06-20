@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Logger;
+
 /***************************************************************
  *  Copyright (C) 2014 punkt.de GmbH
  *  Authors: el_equipo <opiuqe_le@punkt.de>
@@ -19,18 +21,17 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use PunktDe\PtExtbase\Logger\Processor\ReplaceComponentProcessor;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Log\LogLevel;
 
 /**
  * A Logger
- *
- * @package pt_extbase
  */
-class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
+class Logger implements SingletonInterface
 {
     /**
-     * @var \PunktDe\PtExtbase\Logger\LoggerManager
+     * @var LoggerManager
      */
     protected $loggerManager;
 
@@ -55,7 +56,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
 
     /**
      * @inject
-     * @var Tx_PtExtbase_Logger_LoggerConfiguration
+     * @var \PunktDe\PtExtbase\Logger\LoggerConfiguration
      */
     protected $loggerConfiguration;
 
@@ -65,19 +66,16 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected $defaultLogComponent;
 
-
-    /**
-     * @return Tx_PtExtbase_Logger_Logger
-     */
+    
     public function __construct()
     {
         $this->defaultLogComponent = __CLASS__;
     }
 
     /**
-     * @param \PunktDe\PtExtbase\Logger\LoggerManager $loggerManager
+     * @param LoggerManager $loggerManager
      */
-    public function injectLoggerManager(\PunktDe\PtExtbase\Logger\LoggerManager $loggerManager)
+    public function injectLoggerManager(LoggerManager $loggerManager)
     {
         $this->loggerManager = $loggerManager;
     }
@@ -120,7 +118,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
         );
 
         $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][LogLevel::DEBUG] = array(
-            'PunktDe\\PtExtbase\\Logger\\Processor\\ReplaceComponentProcessor' => array()
+            ReplaceComponentProcessor::class => []
         );
 
         if ($this->loggerConfiguration->weHaveAnyEmailReceivers()) {
@@ -153,7 +151,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      * @param array $data Additional data to log
      * @param string $logComponent
      */
-    public function emergency($message, $logComponent = null, array $data = array())
+    public function emergency($message, $logComponent = null, array $data = [])
     {
         $this
             ->enrichLogDataByComponent($data, $logComponent)
@@ -169,7 +167,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      * @param array $data Additional data to log
      * @param string $logComponent
      */
-    public function alert($message, $logComponent = null, array $data = array())
+    public function alert($message, $logComponent = null, array $data = [])
     {
         $this
             ->enrichLogDataByComponent($data, $logComponent)
@@ -185,7 +183,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      * @param array $data Additional data to log
      * @param string $logComponent
      */
-    public function critical($message, $logComponent = null, array $data = array())
+    public function critical($message, $logComponent = null, array $data = [])
     {
         $this
             ->enrichLogDataByComponent($data, $logComponent)
@@ -201,7 +199,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      * @param array $data Additional data to log
      * @param string $logComponent
      */
-    public function error($message, $logComponent = null, array $data = array())
+    public function error($message, $logComponent = null, array $data = [])
     {
         $this
             ->enrichLogDataByComponent($data, $logComponent)
@@ -217,7 +215,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      * @param array $data Additional data to log
      * @param string $logComponent
      */
-    public function warning($message, $logComponent = null, array $data = array())
+    public function warning($message, $logComponent = null, array $data = [])
     {
         $this
             ->enrichLogDataByComponent($data, $logComponent)
@@ -233,7 +231,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      * @param array $data Additional data to log
      * @param string $logComponent
      */
-    public function notice($message, $logComponent = null, array $data = array())
+    public function notice($message, $logComponent = null, array $data = [])
     {
         $this
             ->enrichLogDataByComponent($data, $logComponent)
@@ -249,7 +247,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      * @param array $data Additional data to log
      * @param string $logComponent
      */
-    public function info($message, $logComponent = null, array $data = array())
+    public function info($message, $logComponent = null, array $data = [])
     {
         $this
             ->enrichLogDataByComponent($data, $logComponent)
@@ -265,7 +263,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      * @param array $data Additional data to log
      * @param string $logComponent
      */
-    public function debug($message, $logComponent = null, array $data = array())
+    public function debug($message, $logComponent = null, array $data = [])
     {
         $this
             ->enrichLogDataByComponent($data, $logComponent)
@@ -280,12 +278,13 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      * @param array $data
      * @param string $logComponent
      */
-    public function log($level, $message, $logComponent = null, array $data = array())
+    public function log($level, $message, $logComponent = null, array $data = [])
     {
         $this
             ->enrichLogDataByComponent($data, $logComponent)
             ->getLogger($logComponent)->log($level, $message, $data);
     }
+
 
 
     /**
@@ -294,10 +293,10 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      * @param \Exception $exception The exception to log
      * @param string $logComponent
      * @param array $additionalData Additional data to log
-     * @param int|LogLevel $logLevel
+     * @return void
      * @api
      */
-    public function logException(\Exception $exception, $logComponent = null, array $additionalData = array(), $logLevel = LogLevel::CRITICAL)
+    public function logException(\Exception $exception, $logComponent = null, array $additionalData = [])
     {
         $backTrace = $exception->getTrace();
         $message = $this->getExceptionLogMessage($exception);
@@ -312,14 +311,14 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
 
         if (file_exists($this->exceptionDirectory) && is_dir($this->exceptionDirectory) && is_writable($this->exceptionDirectory)) {
             $referenceCode = ($exception->getCode() > 0 ? $exception->getCode() . '.' : '') . date('YmdHis', $_SERVER['REQUEST_TIME']) . substr(md5(rand()), 0, 6);
-            $exceptionDumpPathAndFilename = Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->exceptionDirectory,  $referenceCode . '.txt'));
+            $exceptionDumpPathAndFilename = \Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->exceptionDirectory,  $referenceCode . '.txt'));
             file_put_contents($exceptionDumpPathAndFilename, $message . PHP_EOL . PHP_EOL . $this->getBacktraceCode($backTrace, 1));
             $message .= ' - See also: ' . basename($exceptionDumpPathAndFilename);
         } else {
-            $this->warning(sprintf('Could not write exception backtrace into %s because the directory could not be created or is not writable.', $this->exceptionDirectory), $logComponent, array());
+            $this->warning(sprintf('Could not write exception backtrace into %s because the directory could not be created or is not writable.', $this->exceptionDirectory), $logComponent, []);
         }
 
-        $this->log($logLevel, $message, $logComponent, $additionalData);
+        $this->critical($message, $logComponent, $additionalData);
     }
 
 
