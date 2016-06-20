@@ -19,13 +19,12 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Logger\LoggerConfiguration;
+use TYPO3\CMS\Core\Log\LogLevel;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\Flow\Utility\Files;
 
-/**
- * Test case for class Tx_PtExtbase_Logger_Logger
- *
- * @package pt_extbase
- */
+
 class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
 {
     /**
@@ -41,7 +40,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests
 
 
     /**
-     * @var Tx_PtDpppEsales_Logger_Logger
+     * @var \PunktDe\PtExtbase\Logger\Logger
      */
     protected $logger;
 
@@ -63,7 +62,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests
      */
     public function setUp()
     {
-        $this->objectContainer = $this->objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container');
+        $this->objectContainer = $this->objectManager->get(\TYPO3\CMS\Extbase\Object\Container\Container::class);
 
         $this->prepareWorkingDirectories();
         $this->prepareMailMessageMock();
@@ -92,7 +91,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests
      */
     protected function prepareMailMessageMock()
     {
-        $this->objectContainer->registerImplementation('TYPO3\CMS\Core\Mail\MailMessage', 'Tx_PtTest_Mock_SwiftMessage');
+        $this->objectContainer->registerImplementation(\TYPO3\CMS\Core\Mail\MailMessage::class, 'Tx_PtTest_Mock_SwiftMessage');
     }
 
 
@@ -102,17 +101,17 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests
      */
     protected function prepareLoggerConfigurationMock()
     {
-        $this->getMockBuilder('Tx_PtExtbase_Logger_LoggerConfiguration')
+        $this->getMockBuilder(LoggerConfiguration::class)
             ->setMockClassName('Tx_PtExtbase_Logger_LoggerConfigurationMock')
             ->setMethods(array('getLogLevelThreshold', 'getEmailLogLevelThreshold', 'weHaveAnyEmailReceivers', 'getEmailReceivers'))
             ->getMock();
         $loggerConfigurationMock = $this->objectManager->get('Tx_PtExtbase_Logger_LoggerConfigurationMock');
         $loggerConfigurationMock->expects($this->any())
             ->method('getLogLevelThreshold')
-            ->will($this->returnValue(\TYPO3\CMS\Core\Log\LogLevel::DEBUG));
+            ->will($this->returnValue(LogLevel::DEBUG));
         $loggerConfigurationMock->expects($this->any())
             ->method('getEmailLogLevelThreshold')
-            ->will($this->returnValue(\TYPO3\CMS\Core\Log\LogLevel::INFO));
+            ->will($this->returnValue(LogLevel::INFO));
         $loggerConfigurationMock->expects($this->any())
             ->method('weHaveAnyEmailReceivers')
             ->will($this->returnValue(true));
@@ -120,7 +119,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests
             ->method('getEmailReceivers')
             ->will($this->returnValue('ry28@hugo10.intern.punkt.de'));
 
-        $this->objectContainer->registerImplementation('Tx_PtExtbase_Logger_LoggerConfiguration', 'Tx_PtExtbase_Logger_LoggerConfigurationMock');
+        $this->objectContainer->registerImplementation(LoggerConfiguration::class, 'Tx_PtExtbase_Logger_LoggerConfigurationMock');
     }
 
 
@@ -187,7 +186,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests
      */
     protected function prepareLogger()
     {
-        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Logger_Logger');
+        $this->proxyClass = $this->buildAccessibleProxy(\PunktDe\PtExtbase\Logger\Logger::class);
         $this->logger = $this->objectManager->get($this->proxyClass);
         $this->logger->configureLogger($this->logFilePath, $this->logExceptionsPath);
     }
@@ -291,6 +290,6 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests
 
         $mail = $mailerMock->getFirstMail();
 
-        $this->assertEquals(file_get_contents(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Tests/Functional/Logger/ExpectedErrorMail.txt'), $mail->getBody());
+        $this->assertEquals(file_get_contents(ExtensionManagementUtility::extPath('pt_extbase') . 'Tests/Functional/Logger/ExpectedErrorMail.txt'), $mail->getBody());
     }
 }

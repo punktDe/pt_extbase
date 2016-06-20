@@ -23,6 +23,11 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Logger\LoggerConfiguration;
+use PunktDe\PtExtbase\Logger\LoggerManager;
+use PunktDe\PtExtbase\Logger\Processor\ReplaceComponentProcessor;
+use TYPO3\CMS\Core\Log\LogLevel;
+
 /**
  * Logger Testcase
  *
@@ -37,7 +42,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_
 
 
     /**
-     * @var Tx_PtExtbase_Logger_Logger
+     * @var \PunktDe\PtExtbase\Logger\Logger
      */
     protected $proxy;
 
@@ -47,7 +52,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_
      */
     public function setUp()
     {
-        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Logger_Logger');
+        $this->proxyClass = $this->buildAccessibleProxy(\PunktDe\PtExtbase\Logger\Logger::class);
         $this->proxy = $this->objectManager->get($this->proxyClass);
     }
 
@@ -59,11 +64,11 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_
     public function configureLoggerPropertiesSetsValidConfiguration()
     {
         $expectedLogPath = '/var/apache/partnerportal/log/EsalesLog';
-        $expectedLogLevelThreshold = \TYPO3\CMS\Core\Log\LogLevel::INFO;
-        $expectedEmailLogLevelThreshold = \TYPO3\CMS\Core\Log\LogLevel::CRITICAL;
+        $expectedLogLevelThreshold = LogLevel::INFO;
+        $expectedEmailLogLevelThreshold = LogLevel::CRITICAL;
         $expectedEmailReceivers = 'bud@spencer.it,terence@hill.de';
 
-        $loggerConfigurationMock = $this->getMockBuilder('Tx_PtExtbase_Logger_LoggerConfiguration')
+        $loggerConfigurationMock = $this->getMockBuilder(LoggerConfiguration::class)
             ->setMethods(array('getLogLevelThreshold', 'getEmailLogLevelThreshold', 'weHaveAnyEmailReceivers', 'getEmailReceivers'))
             ->getMock();
         $loggerConfigurationMock->expects($this->once())
@@ -87,8 +92,8 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_
         $this->assertSame($expectedLogPath, $GLOBALS['TYPO3_CONF_VARS']['LOG']['writerConfiguration'][$expectedLogLevelThreshold]['Tx_PtExtbase_Logger_Writer_FileWriter']['logFile']);
         $this->assertArrayHasKey($expectedEmailLogLevelThreshold, $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration']);
         $this->assertSame(array('receivers' => $expectedEmailReceivers), $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][$expectedEmailLogLevelThreshold]['Tx_PtExtbase_Logger_Processor_EmailProcessor']);
-        $this->assertArrayHasKey(\TYPO3\CMS\Core\Log\LogLevel::DEBUG, $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration']);
-        $this->assertArrayHasKey('PunktDe\\PtExtbase\\Logger\\Processor\\ReplaceComponentProcessor', $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][\TYPO3\CMS\Core\Log\LogLevel::DEBUG]);
+        $this->assertArrayHasKey(LogLevel::DEBUG, $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration']);
+        $this->assertArrayHasKey(ReplaceComponentProcessor::class, $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][LogLevel::DEBUG]);
     }
 
     /**
@@ -96,14 +101,14 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_
      */
     public function enrichLogDataByComponentCallsLoggerSpecificMethod()
     {
-        $loggerMock = $this->getMockBuilder('Tx_PtExtbase_Logger_Logger')
+        $loggerMock = $this->getMockBuilder(\PunktDe\PtExtbase\Logger\Logger::class)
             ->setMethods(array('enrichLoggerSpecificDataByComponent'))
             ->getMock();
         $loggerMock->expects($this->once())
             ->method('enrichLoggerSpecificDataByComponent');
         /** @var $loggerMock Tx_PtExtbase_Logger_Logger */
         
-        $loggerManager = $this->objectManager->get('PunktDe\\PtExtbase\\Logger\\LoggerManager');
+        $loggerManager = $this->objectManager->get(LoggerManager::class);
         $loggerMock->injectLoggerManager($loggerManager);
 
         $data = array();

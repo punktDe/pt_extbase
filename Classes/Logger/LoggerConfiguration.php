@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Logger;
+
 /***************************************************************
  *  Copyright (C) 2014 punkt.de GmbH
  *  Authors: el_equipo <opiuqe_le@punkt.de>
@@ -25,12 +27,12 @@ use \TYPO3\CMS\Core\SingletonInterface;
 /**
  * Logger Configuration
  */
-class Tx_PtExtbase_Logger_LoggerConfiguration implements SingletonInterface
+class LoggerConfiguration implements SingletonInterface
 {
     /**
      * @var array
      */
-    protected $extensionConfiguration = array();
+    protected $extensionConfiguration = [];
 
 
     /**
@@ -63,13 +65,9 @@ class Tx_PtExtbase_Logger_LoggerConfiguration implements SingletonInterface
     protected $emailReceivers = '';
 
 
-    /**
-     * @return Tx_PtExtbase_Logger_LoggerConfiguration
-     * @throws Tx_PtExtbase_Exception_Exception
-     */
     public function __construct()
     {
-        $this->extensionConfiguration = Tx_PtExtbase_Div::returnExtConfArray('pt_extbase');
+        $this->extensionConfiguration = \Tx_PtExtbase_Div::returnExtConfArray('pt_extbase');
         $this->evaluateLogFilePath();
         $this->evaluateExceptionDirectory();
         $this->setLogLevelThresholdByExtensionConfigurationProperty('logLevelThreshold');
@@ -87,7 +85,7 @@ class Tx_PtExtbase_Logger_LoggerConfiguration implements SingletonInterface
         if (array_key_exists('logFilePath', $this->extensionConfiguration)) {
             $this->logFilePath = $this->extensionConfiguration['logFilePath'];
         } else {
-            $this->logFilePath = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, '/typo3temp/application.log'));
+            $this->logFilePath = \Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, '/typo3temp/application.log'));
         }
 
         if (!file_exists($this->logFilePath)) {
@@ -105,8 +103,8 @@ class Tx_PtExtbase_Logger_LoggerConfiguration implements SingletonInterface
         if (!$this->exceptionDirectory) {
             $path_parts = pathinfo($this->logFilePath);
 
-            $this->exceptionDirectory = Tx_PtExtbase_Utility_Files::concatenatePaths(array(realpath($path_parts['dirname']), 'Exceptions'));
-            Tx_PtExtbase_Utility_Files::createDirectoryRecursively($this->exceptionDirectory);
+            $this->exceptionDirectory = \Tx_PtExtbase_Utility_Files::concatenatePaths(array(realpath($path_parts['dirname']), 'Exceptions'));
+            \Tx_PtExtbase_Utility_Files::createDirectoryRecursively($this->exceptionDirectory);
         }
     }
 
@@ -119,7 +117,7 @@ class Tx_PtExtbase_Logger_LoggerConfiguration implements SingletonInterface
     protected function setLogLevelThresholdByExtensionConfigurationProperty($property)
     {
         if (array_key_exists($property, $this->extensionConfiguration)) {
-            TYPO3\CMS\Core\Log\LogLevel::validateLevel($this->extensionConfiguration[$property]);
+            LogLevel::validateLevel($this->extensionConfiguration[$property]);
             $this->$property =  (integer) $this->extensionConfiguration[$property];
         }
     }
