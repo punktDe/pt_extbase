@@ -292,7 +292,7 @@ class Tx_PtExtbase_Logger_Logger implements \TYPO3\CMS\Core\SingletonInterface
      * Writes information about the given exception into the log.
      *
      * @param \Exception $exception The exception to log
-     * @param null $logComponent
+     * @param string $logComponent
      * @param array $additionalData Additional data to log
      * @param int|LogLevel $logLevel
      * @api
