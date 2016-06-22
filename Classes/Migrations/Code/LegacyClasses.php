@@ -21,4 +21,10 @@ class Tx_PtExtbase_Logger_LoggerConfiguration extends \PunktDe\PtExtbase\Logger\
 {
 }
 
+/**
+ * @deprecated
+ */
+class Tx_PtExtbase_Utility_ExtensionSettings extends \PunktDe\PtExtbase\Utility\ExtensionSettings
+{
+}
 

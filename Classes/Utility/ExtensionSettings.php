@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,13 +24,12 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\SingletonInterface;
+
 /**
  * Extension Settings
- *
- * @package pt_extbase
- * @subpackage Classes\Utility
  */
-class Tx_PtExtbase_Utility_ExtensionSettings implements \TYPO3\CMS\Core\SingletonInterface
+class ExtensionSettings implements SingletonInterface
 {
     /**
      * @var array
