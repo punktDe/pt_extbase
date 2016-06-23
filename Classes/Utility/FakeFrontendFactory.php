@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,18 +24,15 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
 * Utility to create a fake frontend
 * Used by pt_extlist to use cObj for rendering
-*
-*
-* @package pt_extbase
-* @subpackage Utility
-* @author Daniel Lienert <daniel@lienert.cc>
 */
-class Tx_PtExtbase_Utility_FakeFrontendFactory implements \TYPO3\CMS\Core\SingletonInterface
+class FakeFrontendFactory implements SingletonInterface
 {
     /**
      * @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
@@ -46,7 +45,7 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements \TYPO3\CMS\Core\Single
      *
      * @param integer $pageUid
      * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function createFakeFrontEnd($pageUid = 0)
     {
@@ -55,7 +54,7 @@ class Tx_PtExtbase_Utility_FakeFrontendFactory implements \TYPO3\CMS\Core\Single
         }
 
         if ($pageUid < 0) {
-            throw new InvalidArgumentException('$pageUid must be >= 0.');
+            throw new \InvalidArgumentException('$pageUid must be >= 0.');
         }
 
         $GLOBALS['TT'] = GeneralUtility::makeInstance('TYPO3\CMS\Core\TimeTracker\NullTimeTracker');

@@ -28,3 +28,9 @@ class Tx_PtExtbase_Utility_ExtensionSettings extends \PunktDe\PtExtbase\Utility\
 {
 }
 
+/**
+ * @deprecated
+ */
+class Tx_PtExtbase_Utility_FakeFrontendFactory extends \PunktDe\PtExtbase\Utility\FakeFrontendFactory
+{
+}

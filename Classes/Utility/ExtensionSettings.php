@@ -91,7 +91,7 @@ class ExtensionSettings implements SingletonInterface
      */
     protected function loadExtensionSettings($extensionKey)
     {
-        $settings = Tx_PtExtbase_Div::returnExtConfArray($extensionKey);
+        $settings = \Tx_PtExtbase_Div::returnExtConfArray($extensionKey);
         return $settings;
     }
 
