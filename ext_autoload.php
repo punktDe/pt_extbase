@@ -55,7 +55,7 @@ return array(
     'tx_ptextbase_tests_unit_state_stubs_sessionadaptermock' => $unitTestsDir . 'State/Stubs/SessionAdapterMock.php',
     'tx_ptextbase_tests_unit_state_stubs_persistableobject' => $unitTestsDir . 'State/Stubs/PersistableObject.php',
     'tx_ptextbase_tests_unit_state_stubs_getpostvarobject' => $unitTestsDir . 'State/Stubs/GetPostVarObject.php',
-    'tx_ptextbase_tests_unit_abstractbasetestcase' => $unitTestsDir . 'AbstractBaseTest.php',
+    \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase::class => $unitTestsDir . 'AbstractBaseTest.php',
     'tx_ptextbase_tests_unit_abstractmodeltestcase' => $unitTestsDir . 'AbstractModelTest.php',
     'tx_ptextbase_tests_unit_tree_nodemock' => $unitTestsDir . 'Tree/NodeMock.php',
 

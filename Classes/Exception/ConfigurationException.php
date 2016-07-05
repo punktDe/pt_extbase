@@ -1,8 +1,10 @@
 <?php
+namespace PunktDe\PtExtbase\Exception;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012-2013 punkt.de GmbH - Karlsruhe, Germany - http://www.punkt.de
+*  (c) 2012-2016 punkt.de GmbH - Karlsruhe, Germany - http://www.punkt.de
 *  Authors: Daniel Lienert
 *  All rights reserved
 *
@@ -18,13 +20,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
-/** 
- * Configuration exception class
- *
- * @author      Daniel Lienert
- * @package     Exception
- */
-class Tx_PtExtbase_Exception_ConfigurationException extends Exception
+class ConfigurationException extends \Exception
 {
 }

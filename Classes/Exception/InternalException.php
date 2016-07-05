@@ -1,8 +1,10 @@
 <?php
+namespace PunktDe\PtExtbase\Exception;
+
 /***************************************************************
 *  Copyright notice
 *  
-*  (c) 2005-2011 Rainer Kuhn, Fabrizio Branca, Michael Knoll
+*  (c) 2005-2016
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is 
@@ -24,13 +26,8 @@
 
 /** 
  * "Internal error" exception class
- *
- * @author      Rainer Kuhn
- * @author      Fabrizio Branca 
- * @author      Michael Knoll
- * @package     Exception
  */
-class Tx_PtExtbase_Exception_Internal extends Tx_PtExtbase_Exception_Exception
+class InternalException extends Exception
 {
     /**
      * Class constructor

@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Configuration;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,27 +24,19 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
-use PunktDe\PtExtbase\Configuration\ConfigurationInterface;
+use PunktDe\PtExtbase\Utility\NamespaceUtility;
 
 /**
  * Class implements an abstract configuration object
- *
- * @package Domain
- * @subpackage Configuration
- * @author Michael Knoll
- * @author Daniel Lienert
  */
-abstract class Tx_PtExtbase_Configuration_AbstractConfiguration implements ConfigurationInterface
+abstract class AbstractConfiguration implements ConfigurationInterface
 {
     /**
      * Holds an instance of configuration builder
      *
-     * @var Tx_PtExtbase_Configuration_AbstractConfigurationBuilder
+     * @var AbstractConfigurationBuilder
      */
     protected $configurationBuilder;
-
-
 
     /**
      * Holds an array of settings for configuration object
@@ -51,22 +45,18 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration implements Confi
      */
     protected $settings;
 
-
-
     /**
      * Constructor for configuration object
      *
-     * @param Tx_PtExtbase_Configuration_AbstractConfigurationBuilder $configurationBuilder
+     * @param AbstractConfigurationBuilder $configurationBuilder
      * @param array $settings
      */
-    public function __construct(Tx_PtExtbase_Configuration_AbstractConfigurationBuilder $configurationBuilder = null, array $settings = array())
+    public function __construct(AbstractConfigurationBuilder $configurationBuilder = null, array $settings = [])
     {
         $this->configurationBuilder = $configurationBuilder;
         $this->settings = $settings;
         $this->init();
     }
-
-
 
     /**
      * Template method for initializing configuration object.
@@ -77,8 +67,6 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration implements Confi
     protected function init()
     {
     }
-
-
 
     /**
      * Returns sub array of settings for given array namespace
@@ -94,24 +82,21 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration implements Confi
     public function getSettings($key = '')
     {
         if ($key != '') {
-            return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->settings, $key);
+            return NamespaceUtility::getArrayContentByArrayAndNamespace($this->settings, $key);
         } else {
             return $this->settings;
         }
     }
 
-
     /**
      * Returns a reference to the configurationbuilder
      *
-     * @return Tx_PtExtbase_Configuration_AbstractConfigurationBuilder
+     * @return AbstractConfigurationBuilder
      */
     public function getConfigurationBuilder()
     {
         return $this->configurationBuilder;
     }
-
-
 
     /**
      * Set the internal property from the given tsKey if the key exists
@@ -126,8 +111,6 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration implements Confi
             $this->$property = $this->settings[$tsKey];
         }
     }
-
-
 
     /**
      * Set the internal property from the given tsKey if the key exists, and is not nothing
@@ -187,14 +170,14 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfiguration implements Confi
      * @param string $tsKey with the value to copy to the internal property
      * @param string $errorMessageIfNotExists
      * @param string $internalPropertyName optional property name if it is different from the tsKey
-     * @throws Exception
+     * @throws \Exception
      */
     protected function setRequiredValue($tsKey, $errorMessageIfNotExists, $internalPropertyName = null)
     {
         if (!array_key_exists($tsKey, $this->settings)
             || (is_array($this->settings[$tsKey]) && empty($this->settings[$tsKey]))
             || (!is_array($this->settings[$tsKey]) && (strlen(trim($this->settings[$tsKey])) === 0))) {
-            throw new Exception($errorMessageIfNotExists, 1415701115);
+            throw new \Exception($errorMessageIfNotExists, 1415701115);
         }
 
         $property = $internalPropertyName ? $internalPropertyName : $tsKey;

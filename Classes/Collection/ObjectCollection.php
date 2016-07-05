@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Collection;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -26,14 +28,8 @@
 /**
  * Abstract object collection class. Object collection can be restricted to contain
  * only a certain type of objects.
- *
- * @author      Rainer Kuhn
- * @author      Wolfgang Zenker
- * @author      Fabrizio Branca
- * @author      Michael Knoll
- * @package     Collection
  */
-abstract class Tx_PtExtbase_Collection_ObjectCollection extends Tx_PtExtbase_Collection_Collection
+abstract class ObjectCollection extends Collection
 {
     /**
      * if set, added objects will be type checked against this classname -
@@ -42,7 +38,6 @@ abstract class Tx_PtExtbase_Collection_ObjectCollection extends Tx_PtExtbase_Col
      * @var     string
      */
     protected $restrictedClassName = null;
-
 
     /**
      * Checks if the type of an item object matches the restrictedClassName

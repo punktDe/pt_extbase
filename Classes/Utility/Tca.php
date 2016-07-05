@@ -21,6 +21,8 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use PunktDe\PtExtbase\Utility\NamespaceUtility;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 /**
@@ -29,7 +31,7 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
  * @package pt_extbase
  * @subpackage Utility
  */
-class Tx_PtExtbase_Utility_Tca implements \TYPO3\CMS\Core\SingletonInterface
+class Tx_PtExtbase_Utility_Tca implements SingletonInterface
 {
     /**
      * Extension Name
@@ -49,8 +51,6 @@ class Tx_PtExtbase_Utility_Tca implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected $configurationManager;
 
-
-
      /**
      * @param ConfigurationManagerInterface $configurationManager
      * @return void
@@ -59,8 +59,6 @@ class Tx_PtExtbase_Utility_Tca implements \TYPO3\CMS\Core\SingletonInterface
     {
         $this->configurationManager = $configurationManager;
     }
-
-
 
     /**
      * Initialize the object (called by objectManager)
@@ -74,8 +72,6 @@ class Tx_PtExtbase_Utility_Tca implements \TYPO3\CMS\Core\SingletonInterface
        $this->includeTcaForFrontend();
    }
 
-
-
     /**
      * Set the extension namespace
      *
@@ -87,7 +83,6 @@ class Tx_PtExtbase_Utility_Tca implements \TYPO3\CMS\Core\SingletonInterface
         $this->extensionName = $extensionName;
         return $this;
     }
-
 
     /**
      * Set the according table
@@ -104,8 +99,6 @@ class Tx_PtExtbase_Utility_Tca implements \TYPO3\CMS\Core\SingletonInterface
         return $this;
     }
 
-
-
     /**
      * Get the TCA settings by namespace
      *
@@ -118,12 +111,10 @@ class Tx_PtExtbase_Utility_Tca implements \TYPO3\CMS\Core\SingletonInterface
         if ($table) {
             $this->setTable($table);
         }
-        $settings = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS['TCA'][$this->table], $nameSpace);
+        $settings = NamespaceUtility::getArrayContentByArrayAndNamespace($GLOBALS['TCA'][$this->table], $nameSpace);
 
         return $settings;
     }
-    
-
 
     /**
      * Include TCA for the frontend
