@@ -22,14 +22,11 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use PunktDe\PtExtbase\Utility\NamespaceUtility;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /**
  * Persistence manager to store objects to session and reload objects from session.
- *
- * @package State
- * @subpackage Session
- * @author Daniel Lienert
- * @author Michael Knoll
  */
 class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtbase_Lifecycle_EventInterface
 {
@@ -41,8 +38,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     const STORAGE_ADAPTER_FEUSER_SESSION = 'Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter';
     const STORAGE_ADAPTER_BROWSER_SESSION = 'Tx_PtExtbase_State_Session_Storage_SessionAdapter';
 
-
-
     /**
      * Holds an instance for a session adapter to store data to session
      *
@@ -50,15 +45,12 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
      */
     private $sessionAdapter = null;
 
-
-
     /**
      * Holds cached session data.
      *
      * @var array
      */
-    protected $sessionData = array();
-
+    protected $sessionData = [];
 
 
     /**
@@ -69,14 +61,12 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     protected $sessionHash = null;
 
 
-
     /**
      * Holds an array of objects that should be persisted when lifecycle ends
      *
      * @var array<Tx_PtExtbase_State_Session_SessionPersistableInterface>
      */
-    protected $objectsToPersist = array();
-
+    protected $objectsToPersist = [];
 
 
     /**
@@ -86,14 +76,12 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     protected $sessionAdapaterClass;
 
 
-
     /**
      * Set to true, if session persistence manager had been initialized before
      *
      * @var bool
      */
     protected $isInitialized = false;
-
 
 
     /**
@@ -106,7 +94,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
         $this->sessionAdapter = $sessionAdapter;
         $this->sessionAdapaterClass = get_class($sessionAdapter);
     }
-
 
 
     /**
@@ -122,7 +109,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     }
 
 
-
     /**
      * Persists a given object to session
      *
@@ -134,34 +120,33 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
         $sessionNamespace = $object->getObjectNamespace();
 
         if ($this->sessionAdapaterClass == self::STORAGE_ADAPTER_DB
-                && $this->sessionHash != null && $this->sessionHash != md5(serialize($this->sessionData))
+            && $this->sessionHash != null && $this->sessionHash != md5(serialize($this->sessionData))
         ) {
             throw new Exception('Session Hash already calculated and current sessiondata changed!! 1293004344' . $sessionNamespace . ': Calc:' . $this->sessionHash . ' NEW: ' . md5(serialize($this->sessionData)));
         }
 
-        Tx_PtExtbase_Assertions_Assert::isNotEmptyString($sessionNamespace, array('message' => 'Object namespace must not be empty! 1278436822'));
+        Tx_PtExtbase_Assertions_Assert::isNotEmptyString($sessionNamespace, ['message' => 'Object namespace must not be empty! 1278436822']);
         $objectData = $object->_persistToSession();
 
         if ($this->sessionData == null) {
-            $this->sessionData = array();
+            $this->sessionData = [];
         }
 
         if ($objectData) {
-            $this->sessionData = Tx_PtExtbase_Utility_NameSpace::saveDataInNamespaceTree($sessionNamespace, $this->sessionData, $objectData);
+            $this->sessionData = NamespaceUtility::saveDataInNamespaceTree($sessionNamespace, $this->sessionData, $objectData);
         }
 
         // Remove session values, if object data is null or empty array
         if ($objectData === null || count($objectData) == 0) {
-            $this->sessionData = Tx_PtExtbase_Utility_NameSpace::removeDataFromNamespaceTree($sessionNamespace, $this->sessionData);
+            $this->sessionData = NamespaceUtility::removeDataFromNamespaceTree($sessionNamespace, $this->sessionData);
         }
     }
-
 
 
     /**
      * Loads session data into given object
      *
-     * @param Tx_PtExtbase_State_Session_SessionPersistableInterface $object   Object to inject session data into
+     * @param Tx_PtExtbase_State_Session_SessionPersistableInterface $object Object to inject session data into
      */
     public function loadFromSession(Tx_PtExtbase_State_Session_SessionPersistableInterface $object)
     {
@@ -172,7 +157,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     }
 
 
-
     /**
      * Get the session data for object
      *
@@ -181,10 +165,9 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
      */
     public function getSessionDataForObjectNamespace($objectNamespace)
     {
-        Tx_PtExtbase_Assertions_Assert::isNotEmptyString($objectNamespace, array('message' => 'object namespace must not be empty! 1278436823'));
-        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->sessionData, $objectNamespace);
+        Tx_PtExtbase_Assertions_Assert::isNotEmptyString($objectNamespace, ['message' => 'object namespace must not be empty! 1278436823']);
+        return NamespaceUtility::getArrayContentByArrayAndNamespace($this->sessionData, $objectNamespace);
     }
-
 
 
     /**
@@ -198,7 +181,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     }
 
 
-
     /**
      * Read the session data into the cache.
      */
@@ -206,7 +188,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     {
         $this->sessionData = $this->sessionAdapter->read('pt_extbase.cached.session');
     }
-
 
 
     /**
@@ -229,7 +210,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     }
 
 
-
     /**
      * Returns data from session for given namespace
      *
@@ -238,9 +218,8 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
      */
     public function getSessionDataByNamespace($objectNamespace)
     {
-        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->sessionData, $objectNamespace);
+        return NamespaceUtility::getArrayContentByArrayAndNamespace($this->sessionData, $objectNamespace);
     }
-
 
 
     /**
@@ -250,9 +229,8 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
      */
     public function removeSessionDataByNamespace($namespaceString)
     {
-        $this->sessionData = Tx_PtExtbase_Utility_NameSpace::removeDataFromNamespaceTree($namespaceString, $this->sessionData);
+        $this->sessionData = NamespaceUtility::removeDataFromNamespaceTree($namespaceString, $this->sessionData);
     }
-
 
 
     /**
@@ -271,7 +249,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     }
 
 
-
     /**
      * Loads and registers an object on session manager
      *
@@ -282,7 +259,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
         $this->loadFromSession($object);
         $this->registerObjectForSessionPersistence($object);
     }
-
 
 
     /**
@@ -296,7 +272,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
             $this->objectsToPersist[spl_object_hash($object)] = $object;
         }
     }
-
 
 
     /**
@@ -314,7 +289,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     }
 
 
-
     /**
      * Add arguments to url if we cannot use session.
      *
@@ -326,7 +300,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     public function addSessionRelatedArguments(&$argumentArray)
     {
         if (!is_array($argumentArray)) {
-            $argumentArray = array();
+            $argumentArray = [];
         }
 
         if ($this->sessionAdapaterClass === self::STORAGE_ADAPTER_DB) {
@@ -334,11 +308,10 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
         } elseif ($this->sessionAdapaterClass === self::STORAGE_ADAPTER_NULL) {
             $this->lifecycleUpdate(Tx_PtExtbase_Lifecycle_Manager::END);
             $sessionArguments = $this->array_filter_recursive($this->sessionData);
-            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($sessionArguments, $argumentArray);
+            ArrayUtility::mergeRecursiveWithOverrule($sessionArguments, $argumentArray);
             $argumentArray = $sessionArguments;
         }
     }
-
 
 
     /**
@@ -361,7 +334,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     }
 
 
-
     /**
      * Resets session data
      *
@@ -371,10 +343,9 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     public function resetSessionDataOnEmptyGpVars(Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager)
     {
         if ($gpVarManager->isEmptySubmit()) {
-            $this->sessionData = array();
+            $this->sessionData = [];
         }
     }
-
 
 
     /**
@@ -384,7 +355,6 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     {
         return $this->sessionData;
     }
-
 
 
     /**
@@ -397,9 +367,8 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     }
 
 
-
     public function resetSessionData()
     {
-        $this->sessionData = array();
+        $this->sessionData = [];
     }
 }

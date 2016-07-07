@@ -1,28 +1,32 @@
 <?php
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2012 Michael Knoll <knoll@punkt.de>, punkt.de GmbH
-*
-*
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2012 Michael Knoll <knoll@punkt.de>, punkt.de GmbH
+ *
+ *
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+use PunktDe\PtExtbase\Utility\NamespaceUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Service\TypoScriptService;
 
 
 /**
@@ -34,141 +38,140 @@
  *
  * See following example:
  *
-plugin.tx_ptextbase.settings.rbac {
-
-    ## We should be able to set up rbac privileges for
-    ## multiple extensions, hence we need namespace for each extension here
-    extensions {
-
-        yag {
-
-            ## We define objects and corresponding actions since we later
-            ## want to define rules like
-            ## "role A is granted all privileges on object B" via B.*
-            ## which we can only do by defining objects and actions first,
-            ## what might seem to be redundant on first sight.
-            objects {
-
-                album {
-                    actions {
-                        10 = create
-                        20 = delete
-                        30 = edit
-                    }
-                }
-
-
-                gallery {
-                    actions {
-                        10 = create
-                        20 = delete
-                        30 = edit
-                    }
-                }
-
-
-                item {
-                    actions {
-                        10 = create
-                        20 = delete
-                        30 = edit
-                    }
-                }
-
-            }
-
-
-
-            ## Roles can combine privileges on arbitrary objects with arbitrary actions.
-            ## Use "*" as wildcard for all actions which are defined on an object.
-            roles {
-
-                admin {
-                    privileges {
-                        10 = album.*
-                        20 = gallery.*
-                        30 = item.*
-                    }
-                }
-
-
-                editor {
-                    privileges {
-                        10 = album.create
-                        11 = album.edit
-
-                        20 = gallery.create
-                        21 = gallery.edit
-
-                        30 = item.create
-                        31 = item.edit
-                    }
-                }
-
-
-                albumManager {
-                    privileges {
-                        10 = album.*
-                    }
-                }
-
-
-                galleryManager {
-                    privileges {
-                        10 = gallery.*
-                    }
-                }
-
-
-                itemManager {
-                    privileges {
-                        10 = item.*
-                    }
-                }
-
-            }
-
-
-
-            ## RBAC service can be used in frontend and in backend environment,
-            ## but we have different UIDs for user groups so we need to define
-            ## privileges for frontend and backend separately
-            feGroups {
-
-                1 {
-                    10 = admin
-                }
-
-                3 {
-                    10 = editor
-                }
-
-                4 {
-                    10 = albumManager
-                }
-
-                ## Any logged in user has this role
-                any {
-                    10 = editor
-                } 
-
-            }
-
-
-
-            beGroups {
-
-                ## Use this, if backend users should be able to do everything
-                __grantAllPrivileges = 1
-
-            }
-
-        }
-
-    }
-
-}
-
+ * plugin.tx_ptextbase.settings.rbac {
+ *
+ * ## We should be able to set up rbac privileges for
+ * ## multiple extensions, hence we need namespace for each extension here
+ * extensions {
+ *
+ * yag {
+ *
+ * ## We define objects and corresponding actions since we later
+ * ## want to define rules like
+ * ## "role A is granted all privileges on object B" via B.*
+ * ## which we can only do by defining objects and actions first,
+ * ## what might seem to be redundant on first sight.
+ * objects {
+ *
+ * album {
+ * actions {
+ * 10 = create
+ * 20 = delete
+ * 30 = edit
+ * }
+ * }
+ *
+ *
+ * gallery {
+ * actions {
+ * 10 = create
+ * 20 = delete
+ * 30 = edit
+ * }
+ * }
+ *
+ *
+ * item {
+ * actions {
+ * 10 = create
+ * 20 = delete
+ * 30 = edit
+ * }
+ * }
+ *
+ * }
+ *
+ *
+ *
+ * ## Roles can combine privileges on arbitrary objects with arbitrary actions.
+ * ## Use "*" as wildcard for all actions which are defined on an object.
+ * roles {
+ *
+ * admin {
+ * privileges {
+ * 10 = album.*
+ * 20 = gallery.*
+ * 30 = item.*
+ * }
+ * }
+ *
+ *
+ * editor {
+ * privileges {
+ * 10 = album.create
+ * 11 = album.edit
+ *
+ * 20 = gallery.create
+ * 21 = gallery.edit
+ *
+ * 30 = item.create
+ * 31 = item.edit
+ * }
+ * }
+ *
+ *
+ * albumManager {
+ * privileges {
+ * 10 = album.*
+ * }
+ * }
+ *
+ *
+ * galleryManager {
+ * privileges {
+ * 10 = gallery.*
+ * }
+ * }
+ *
+ *
+ * itemManager {
+ * privileges {
+ * 10 = item.*
+ * }
+ * }
+ *
+ * }
+ *
+ *
+ *
+ * ## RBAC service can be used in frontend and in backend environment,
+ * ## but we have different UIDs for user groups so we need to define
+ * ## privileges for frontend and backend separately
+ * feGroups {
+ *
+ * 1 {
+ * 10 = admin
+ * }
+ *
+ * 3 {
+ * 10 = editor
+ * }
+ *
+ * 4 {
+ * 10 = albumManager
+ * }
+ *
+ * ## Any logged in user has this role
+ * any {
+ * 10 = editor
+ * }
+ *
+ * }
+ *
+ *
+ *
+ * beGroups {
+ *
+ * ## Use this, if backend users should be able to do everything
+ * __grantAllPrivileges = 1
+ *
+ * }
+ *
+ * }
+ *
+ * }
+ *
+ * }
  */
 class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacServiceInterface
 {
@@ -180,14 +183,12 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     protected $typoScriptRbacSettings;
 
 
-
     /**
      * Holds instance of configuration manager
      *
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @var ConfigurationManagerInterface
      */
     protected $configurationManager;
-
 
 
     /**
@@ -198,7 +199,6 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     protected $feBeModeDetector;
 
 
-
     /**
      * Holds user detector
      *
@@ -207,20 +207,19 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     protected $userDetector;
 
 
-
     /**
      * Holds an array, that represents rbac privileges for each group.
      *
      * Array has the form
      *
      * array (
-     * 		$extension => array (
-     * 			$groupUid1 => array (
-     *	 			$object1 => array($right1, $right2, ... $rightxy),
-     * 				$object2 => array($rightyz ...)
-     * 			)
-     * 		),
-     * 		...
+     *        $extension => array (
+     *            $groupUid1 => array (
+     *                $object1 => array($right1, $right2, ... $rightxy),
+     *                $object2 => array($rightyz ...)
+     *            )
+     *        ),
+     *        ...
      * )
      *
      * @var array
@@ -228,14 +227,12 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     protected $groupsToObjectAndActionsArray;
 
 
-
     /**
      * Array of extensions to grant all privileges for
      *
      * @var array
      */
-    protected $extensionsToGrantAllPrivileges = array();
-
+    protected $extensionsToGrantAllPrivileges = [];
 
 
     /**
@@ -246,7 +243,6 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     private $_currentExtensionName;
 
 
-
     /**
      * Helper for initializing rbac settings
      *
@@ -255,17 +251,15 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     private $_currentGroupUid;
 
 
-
     /**
      * Injects configuration manager from which we get TS configuration
      *
-     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+     * @param ConfigurationManagerInterface $configurationManager
      */
-    public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager)
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
     {
         $this->configurationManager = $configurationManager;
     }
-
 
 
     /**
@@ -279,7 +273,6 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     }
 
 
-
     /**
      * Injects user detector
      *
@@ -291,17 +284,15 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     }
 
 
-
     /**
      * Initializes TS rbac service (invoked from objectManager)
      */
     public function initializeObject()
     {
-        $fullTypoScript = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService')->convertTypoScriptArrayToPlainArray($this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT));
-        $this->typoScriptRbacSettings = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($fullTypoScript, 'plugin.tx_ptextbase.settings.rbac');
+        $fullTypoScript = GeneralUtility::makeInstance(TypoScriptService::class)->convertTypoScriptArrayToPlainArray($this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT));
+        $this->typoScriptRbacSettings = NamespaceUtility::getArrayContentByArrayAndNamespace($fullTypoScript, 'plugin.tx_ptextbase.settings.rbac');
         $this->initGroupsToObjectAndActionsArray();
     }
-
 
 
     /**
@@ -328,14 +319,14 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
 
             foreach ($userGroups as $userGroup) {
                 if (is_array($this->groupsToObjectAndActionsArray[strtolower($extension)][$userGroup][$object]) &&
-                    in_array($action, $this->groupsToObjectAndActionsArray[strtolower($extension)][$userGroup][$object])) {
+                    in_array($action, $this->groupsToObjectAndActionsArray[strtolower($extension)][$userGroup][$object])
+                ) {
                     $userHasPrivileges = true;
                 }
             }
         }
         return $userHasPrivileges;
     }
-
 
 
     /**
@@ -352,7 +343,6 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     }
 
 
-
     protected function initRbacSettingsForGivenExtensionSettings($extensionRbacSettings)
     {
         if ($this->feBeModeDetector->getMode() == 'BE') {
@@ -363,7 +353,6 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
             $this->initRolePrivilegesForGivenRolesAndRbacSettings($extensionRbacSettings['feGroups'], $extensionRbacSettings);
         }
     }
-
 
 
     protected function initRolePrivilegesForGivenRolesAndRbacSettings($groupUids, $rbacSettings)
@@ -380,7 +369,6 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     }
 
 
-
     protected function initRolePrivilegesForCurrentGroupAndRbacSettings($groupUidPrivileges, $rbacSettings)
     {
         foreach ($groupUidPrivileges as $key => $assignedRole) {
@@ -391,13 +379,13 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
                 /**
                  *
                  * $objectActionPrivileges = array(
-                 * 		$object1 => array(
-                 * 			10 => $action1,
-                 * 			20 => $action2,
-                 * 			...
-                 * 			$actionxy
-                 * 		),
-                 * 		...
+                 *        $object1 => array(
+                 *            10 => $action1,
+                 *            20 => $action2,
+                 *            ...
+                 *            $actionxy
+                 *        ),
+                 *        ...
                  * )
                  *
                  */
@@ -411,11 +399,10 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     }
 
 
-
     protected function getRolePrivilegesByRole($role, $rbacSettings)
     {
         $roles = $rbacSettings['roles'];
-        $privileges = array();
+        $privileges = [];
         if (array_key_exists($role, $roles)) {
             if (array_key_exists('privileges', $rbacSettings['roles'][$role])) {
                 foreach ($rbacSettings['roles'][$role]['privileges'] as $key => $privilege) {
@@ -431,15 +418,14 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     }
 
 
-
     protected function getObjectActionPrivilegesByPrivilegeIdentifier($privilegeIdentifier, $rbacSettings)
     {
         if (array_key_exists('objects', $rbacSettings)) {
             list($object, $action) = explode('.', $privilegeIdentifier);
             if ($action == '*') {
-                return array($object => $this->getAllActionsForObject($object, $rbacSettings));
+                return [$object => $this->getAllActionsForObject($object, $rbacSettings)];
             } else {
-                return array($object => $this->getActionForObject($action, $object, $rbacSettings));
+                return [$object => $this->getActionForObject($action, $object, $rbacSettings)];
             }
         } else {
             throw new Exception('You have no section "objects" within rbac settings for extension ' . $this->_currentExtensionName, 1334831366);
@@ -447,10 +433,9 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     }
 
 
-
     protected function getAllActionsForObject($object, $rbacSettings)
     {
-        $actions = array();
+        $actions = [];
         $objectsSettings = $rbacSettings['objects'];
 
         if (array_key_exists($object, $objectsSettings)) {
@@ -465,13 +450,12 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
     }
 
 
-
     protected function getActionForObject($action, $object, $rbacSettings)
     {
         if (array_key_exists($object, $rbacSettings['objects'])) {
             foreach ($rbacSettings['objects'][$object]['actions'] as $key => $configuredAction) {
                 if ($configuredAction == $action) {
-                    return array($action);
+                    return [$action];
                 }
             }
             // If we get here, we have a action set up in a privilege rule which is not configured within object section --> Exception
@@ -480,7 +464,6 @@ class Tx_PtExtbase_Rbac_TypoScriptRbacService implements Tx_PtExtbase_Rbac_RbacS
             throw new Exception('You have no object configuration for object ' . $object . ' within objects section of your rbac configuration! 1334831368');
         }
     }
-
 
 
     protected function addObjectActionPrivilegeForCurrentGroupAndCurrentExtension($object, $action)

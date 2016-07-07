@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Utility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -23,17 +25,12 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Utility for namespace related static functions
- * 
- * TODO write UNIT Tests for this stuff!
- *
- * @package Utility
- * @author Daniel Lienert 
- * @author Christoph Ehscheidt 
- * @author Michael Knoll 
  */
-class Tx_PtExtbase_Utility_NameSpace
+class NamespaceUtility
 {
     /**
      * Returns part of an array according to given namespace
@@ -74,7 +71,7 @@ class Tx_PtExtbase_Utility_NameSpace
      */
     protected static function getNamespaceArrayByNamespaceString($namespaceString)
     {
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode('.', $namespaceString);
+        return GeneralUtility::trimExplode('.', $namespaceString);
     }
     
     
@@ -100,7 +97,6 @@ class Tx_PtExtbase_Utility_NameSpace
 
         $pointer[$key] = $data;
 
-        //return self::arrayFilterRecursive($array);
         return $array;
     }
     

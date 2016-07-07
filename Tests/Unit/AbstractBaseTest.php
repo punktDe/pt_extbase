@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Tests\Unit;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -23,15 +25,16 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Tests\UnitTestCase;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Fluid\View\TemplateView;
 
 
 /**
  * Class implements a base testcase for pt_extbase testcases
- *
- * @package Tests\Unit
- * @author Michael Knoll <knoll@punkt.de>
  */
-abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\Core\Tests\UnitTestCase
+abstract class AbstractBaseTestcase extends UnitTestCase
 {
     /**
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface The object manager
@@ -47,7 +50,7 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\C
      */
     public function runBare()
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->objectManager =  clone $objectManager;
         parent::runBare();
     }
@@ -62,7 +65,7 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\C
      */
     protected function getSimpleMock($className)
     {
-        return $this->getMock($className, array(), array(), '', false);
+        return $this->getMock($className, [], [], '', false);
     }
 
 
@@ -103,11 +106,11 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\C
     /**
      * Returns a mocked \TYPO3\CMS\Fluid\View\TemplateView object with a mocked assign method.
      *
-     * @return \TYPO3\CMS\Fluid\View\TemplateView The mocked view class
+     * @return TemplateView The mocked view class
      */
     public function getViewMockWithMockedAssignMethod()
     {
-        return $this->getMock('\TYPO3\CMS\Fluid\View\TemplateView', array('assign'), array(), '', false);
+        return $this->getMock(TemplateView::class, ['assign'], [], '', false);
     }
 
     /**
@@ -116,7 +119,7 @@ abstract class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \TYPO3\CMS\C
      */
     protected function assertErrorCodes(array $expectedErrorCodes, array $actualErrors)
     {
-        $actualErrorCodes = array();
+        $actualErrorCodes = [];
 
         foreach ($actualErrors as $actualError) { /** @var \TYPO3\CMS\Extbase\Error\Error $actualError */
             $actualErrorCodes[] = $actualError->getCode();

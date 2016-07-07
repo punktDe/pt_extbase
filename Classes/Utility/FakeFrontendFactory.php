@@ -26,7 +26,10 @@ namespace PunktDe\PtExtbase\Utility;
  ***************************************************************/
 
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
 * Utility to create a fake frontend
@@ -35,7 +38,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class FakeFrontendFactory implements SingletonInterface
 {
     /**
-     * @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+     * @var TypoScriptFrontendController
      */
     protected $fakeFrontend = null;
 
@@ -44,7 +47,7 @@ class FakeFrontendFactory implements SingletonInterface
      * Create a fake frontend
      *
      * @param integer $pageUid
-     * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
+     * @return TypoScriptFrontendController
      * @throws \InvalidArgumentException
      */
     public function createFakeFrontEnd($pageUid = 0)
@@ -57,16 +60,16 @@ class FakeFrontendFactory implements SingletonInterface
             throw new \InvalidArgumentException('$pageUid must be >= 0.');
         }
 
-        $GLOBALS['TT'] = GeneralUtility::makeInstance('TYPO3\CMS\Core\TimeTracker\NullTimeTracker');
+        $GLOBALS['TT'] = GeneralUtility::makeInstance(NullTimeTracker::class);
 
         /** @var $this->fakeFrontend \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController */
-        $this->fakeFrontend = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
+        $this->fakeFrontend = GeneralUtility::makeInstance(TypoScriptFrontendController::class, $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
 
         // simulates a normal FE without any logged-in FE or BE user
         $this->fakeFrontend->beUserLogin = false;
         $this->fakeFrontend->workspacePreview = '';
         $this->fakeFrontend->initFEuser();
-        $this->fakeFrontend->sys_page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+        $this->fakeFrontend->sys_page = GeneralUtility::makeInstance(PageRepository::class);
         $this->fakeFrontend->page = $pageUid;
         $this->fakeFrontend->initTemplate();
         $this->fakeFrontend->config = array();

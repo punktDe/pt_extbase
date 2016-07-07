@@ -1,9 +1,11 @@
 <?php
+namespace PunktDe\PtExtbase\Collection;
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005-2011 Rainer Kuhn, Wolfgang Zenker, 
-*                Fabrizio Branca, Michael Knoll
+*  (c) 2005-2016 punkt.de
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,63 +24,34 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+use PunktDe\PtExtbase\Exception\InternalException;
 
 /**
  * Abstract item collection class
- *
- * @author      Rainer Kuhn 
- * @author      Wolfgang Zenker 
- * @author      Fabrizio Branca
- * @author      Michael Knoll
- * @package     Collection
  */
-abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, Countable, ArrayAccess
+abstract class Collection implements \IteratorAggregate, \Countable, \ArrayAccess
 {
     /**
      * @var     array   array containing items as values
      */
-    protected $itemsArr = array();
-
-    
+    protected $itemsArr = [];
     
     /**
      * @var     integer     uid of last selected collection item
      */
     protected $selectedId;
 
-
-
-    /***************************************************************************
-     *   CONSTRUCTOR
-     **************************************************************************/
-
-    /**
-     * Implement the constructor in your inheriting class if you need one
-     */
-    
-    
-    
-    /***************************************************************************
-     *   IMPLEMENTED METHODS: IteratorAggregate INTERFACE API METHODS
-     **************************************************************************/
-
     /**
      * Defined by IteratorAggregate interface: returns an iterator for the object
      *
      * @param   void
-     * @return  ArrayIterator     object of type ArrayIterator: Iterator for items within this collection
+     * @return  \ArrayIterator     object of type ArrayIterator: Iterator for items within this collection
      */
     public function getIterator()
     {
-        $itemIterator = new ArrayIterator($this->itemsArr);
+        $itemIterator = new \ArrayIterator($this->itemsArr);
         return $itemIterator;
     }
-
-
-
-    /***************************************************************************
-     *   IMPLEMENTED METHODS: Countable INTERFACE API METHODS
-     **************************************************************************/
 
     /**
      * Defined by Countable interface: Returns the number of items
@@ -90,12 +63,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     {
         return count($this->itemsArr);
     }
-
-
-
-    /***************************************************************************
-     *   IMPLEMENTED METHODS: ArrayAccess INTERFACE API METHODS
-     **************************************************************************/
 
     /**
      * Checks if an offset is in the array
@@ -139,17 +106,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     {
         $this->deleteItem($offset);
     }
-    
-    
-
-    /***************************************************************************
-     *  IMPLEMENTED METHODS: array_{shift|unshift|pop|push|keys} equivalents
-     **************************************************************************/
-    /*
-     * array_{shift|unshift|pop|push|keys} functions do not work on objects
-     * (even if - like this - they implement the ArrayAccess Interface)
-     * Here are the equivalent methods:
-     */
 
     /**
      * Shift an element off the beginning of the collection
@@ -175,8 +131,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
         }
     }
 
-    
-    
     /**
      * Pop the element off the end of the collection
      *
@@ -223,9 +177,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
         }
         return $this->count();
     }
-    
-    
-    
+
     /**
      * Push one or more elements onto the end of collection
      * Multiple elements (like in array_push) are not supported!
@@ -240,9 +192,7 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
         array_push($this->itemsArr, $element);
         return $this->count();
     }
-    
-    
-    
+
     /**
      * Return all the ids of this collection
      *
@@ -260,19 +210,13 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
         return $result;
     }
 
-
-
-    /***************************************************************************
-     *   GENERAL METHODS
-     **************************************************************************/
-
     /**
      * Adds one item to the collection
      *
      * @param   mixed   $itemObj item to add
      * @param   mixed   $id (optional) array key
      * @return  void
-     * @throws  Tx_PtExtbase_Exception_Internal   if item to add to collection is of wrong type
+     * @throws  InternalException   if item to add to collection is of wrong type
      */
     public function addItem($itemObj, $id = 0)
     {
@@ -285,18 +229,16 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
             }
         } else {
             // throw exception if item type is not validated
-            throw new Tx_PtExtbase_Exception_Internal('Item to add to collection is of wrong type (' . get_class($itemObj) . '). 1316764449');
+            throw new InternalException('Item to add to collection is of wrong type (' . get_class($itemObj) . '). 1316764449');
         }
     }
-    
-    
 
     /**
      * Deletes one item from the collection
      *
      * @param   mixed   $id of item to remove
      * @return  void
-     * @throws  Tx_PtExtbase_Exception_Internal    if trying to delete invalid id
+     * @throws  InternalException    if trying to delete invalid id
      */
     public function deleteItem($id)
     {
@@ -306,11 +248,9 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
         if ($this->hasItem($id)) {
             unset($this->itemsArr[$id]);
         } else {
-            throw new Tx_PtExtbase_Exception_Internal('Trying to delete invalid id');
+            throw new InternalException('Trying to delete invalid id');
         }
     }
-    
-    
 
     /**
      * Clears all items of the collection
@@ -321,10 +261,8 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     public function clearItems()
     {
         $this->clearSelectedId();
-        $this->itemsArr = array();
+        $this->itemsArr = [];
     }
-    
-    
 
     /**
      * Checks if item exists in collection
@@ -336,26 +274,22 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     {
         return array_key_exists($id, $this->itemsArr);
     }
-    
-    
 
     /**
      * Get item from collection by Id
      *
      * @param   integer     $id of Collection Item
      * @return  mixed       item that has been requested
-     * @throws  Tx_PtExtbase_Exception_Internal    if requesting an invalid id
+     * @throws  InternalException    if requesting an invalid id
      */
     public function &getItemById($id)
     {
         if ($this->hasItem($id)) {
             return $this->itemsArr[$id];
         } else {
-            throw new Tx_PtExtbase_Exception_Internal(sprintf('Trying to get an invalid id "%s"', $id));
+            throw new InternalException(sprintf('Trying to get an invalid id "%s"', $id));
         }
     }
-    
-    
 
     /**
      * Get item from collection by Index
@@ -363,14 +297,14 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
      * @param   integer     $idx index (position in array) of Collection Item
      * @return  mixed       item that has been requested
      * @remarks index starts with 0 for first element
-     * @throws  Tx_PtExtbase_Exception_Internal if idx is invalid
+     * @throws  InternalException if idx is invalid
      */
     public function &getItemByIndex($idx)
     {
         // check parameters
         $idx = intval($idx);
         if (($idx < 0) || ($idx >= $this->count())) {
-            throw new Tx_PtExtbase_Exception_Internal("Invalid index $idx");
+            throw new InternalException("Invalid index $idx");
         }
         $itemArr = array_values($this->itemsArr);
 
@@ -389,12 +323,6 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     {
         return true;
     }
-    
-    
-    
-    /***************************************************************************
-     *   PROPERTY GETTER/SETTER METHODS
-     **************************************************************************/
 
     /**
      * Returns the property value
@@ -406,26 +334,22 @@ abstract class Tx_PtExtbase_Collection_Collection implements IteratorAggregate, 
     {
         return $this->selectedId;
     }
-    
-    
 
     /**
      * Sets the property value
      *
      * @param   integer		$selectedId
      * @return  void
-     * @throws  Tx_PtExtbase_Exception_Internal    when parameter is not a valid item id
+     * @throws  InternalException    when parameter is not a valid item id
      */
     public function setSelectedId($selectedId)
     {
         if ($this->hasItem($selectedId)) {
             $this->selectedId = $selectedId;
         } else {
-            throw new Tx_PtExtbase_Exception_Internal('Invalid id to set');
+            throw new InternalException('Invalid id to set');
         }
     }
-    
-    
 
     /**
      * Clears the property value

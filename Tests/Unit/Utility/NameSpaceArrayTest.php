@@ -23,13 +23,10 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\NamespaceUtility;
+
 /**
  * Class implements a testcase for namespace utility class
- *
- * @package Tests
- * @subpackage Utility
- * @author Daniel Lienert 
- * @author Michael Knoll
  */
 class Tx_PtExtbase_Tests_Unit_Utility_NameSpaceArrayTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
 {
@@ -39,98 +36,93 @@ class Tx_PtExtbase_Tests_Unit_Utility_NameSpaceArrayTest extends Tx_PtExtbase_Te
      * @var array
      */
     protected $varArray;
-    
-    
-    
+
+
     /** @test */
     public function setUp()
     {
-        $this->varArray = array('key1' => array(
-            'key2' => array(
-                'key3' => array(
-                    'key4' => 'value1',
-                    'key5' => 'value2'
-                 )
-            )
-        )
-        );
+        $this->varArray = [
+            'key1' => [
+                'key2' => [
+                    'key3' => [
+                        'key4' => 'value1',
+                        'key5' => 'value2'
+                    ]
+                ]
+            ]
+        ];
     }
-    
-    
-    
+
+
     /** @test */
     public function extractingArrayContentByNamespaceReturnsCorrectValue()
     {
-        $extractedValue = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->varArray, 'key1.key2.key3.key4');
+        $extractedValue = NamespaceUtility::getArrayContentByArrayAndNamespace($this->varArray, 'key1.key2.key3.key4');
         $this->assertEquals($extractedValue, 'value1', 'The extracted Value should be Value 1');
     }
-    
-    
-    
+
+
     /** @test */
     public function extractingNamespaceOnEmptyArrayReturnsEmptyArray()
     {
-        $extractedValue = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace(array(), 'key1.key2.key3.key4');
-        $this->assertEquals($extractedValue, array(), 'The method should return an empty array');
+        $extractedValue = NamespaceUtility::getArrayContentByArrayAndNamespace([], 'key1.key2.key3.key4');
+        $this->assertEquals($extractedValue, [], 'The method should return an empty array');
     }
-    
-    
-    
+
+
     /** @test */
     public function extractingNamespaceWithEmptyNamespaceReturnsWholeArray()
     {
-        $extractedValue = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->varArray, '');
+        $extractedValue = NamespaceUtility::getArrayContentByArrayAndNamespace($this->varArray, '');
         $this->assertEquals($extractedValue, $this->varArray, 'The method should return teh complete var array');
     }
-    
-    
-    
+
+
     /** @test */
     public function storingDataInArrayByNamespaceAndArrayOverwritesExistingValues()
     {
         $testArray['key1']['key2']['key3'] = 'test';
         $testArray2['key1']['key2']['key4'] = 'test4';
-        
-        $testArray = Tx_PtExtbase_Utility_NameSpace::saveDataInNamespaceTree('key1.key2.key3', $testArray, 'test2');
-        
+
+        $testArray = NamespaceUtility::saveDataInNamespaceTree('key1.key2.key3', $testArray, 'test2');
+
         $refArray['key1']['key2']['key3'] = 'test2';
         $refArray2['key1']['key2']['key4'] = 'test4';
         $this->assertEquals($testArray, $refArray);
         $this->assertEquals($testArray2, $refArray2);
     }
-    
-    
-    
+
+
     /** @test */
     public function storingDataInEmptyArrayByNamespaceSetsData()
     {
-        $testArray = array();
-        $testArray = Tx_PtExtbase_Utility_NameSpace::saveDataInNamespaceTree('key1.key2.key3', $testArray, 'test2');
-        
+        $testArray = [];
+        $testArray = NamespaceUtility::saveDataInNamespaceTree('key1.key2.key3', $testArray, 'test2');
+
         $refArray['key1']['key2']['key3'] = 'test2';
         $this->assertEquals($testArray, $refArray);
     }
 
-    
-    
+
     /** @test */
     public function removeDataFromNamespaceTree()
     {
-        $sampleArray = array('key1' => array(
-                                'key2' => array(
-                                    'key3' => 'testData1',
-                                    'key4' => 'testData2'
-                                ),
-                                'key5' => 'testData3'
-                            )
-                        );
-        
+        $sampleArray = [
+            'key1' => [
+                'key2' => [
+                    'key3' => 'testData1',
+                    'key4' => 'testData2'
+                ],
+                'key5' => 'testData3'
+            ]
+        ];
+
         $testArray = $sampleArray;
         unset($testArray['key1']['key2']['key3']);
-                        
+
         $nameSpaceString = 'key1.key2.key3';
-        $alteredArray = Tx_PtExtbase_Utility_NameSpace::removeDataFromNamespaceTree($nameSpaceString, $sampleArray);
-        
+        $alteredArray = NamespaceUtility::removeDataFromNamespaceTree($nameSpaceString, $sampleArray);
+
         $this->assertEquals($alteredArray, $testArray);
     }
 }

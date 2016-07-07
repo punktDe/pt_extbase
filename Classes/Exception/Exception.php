@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Exception;
+
 /***************************************************************
 *  Copyright notice
 *  
@@ -21,91 +23,49 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
+use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * General exception class derived from PHP's default Exception class
- *
- * @author      Rainer Kuhn
- * @author      Fabrizio Branca 
- * @author      Michael Knoll
- * @package     Exception
  */
-class Tx_PtExtbase_Exception_Exception extends Exception
+class Exception extends \Exception
 {
-    /*
-    // Dev Info: Class structure of parent class (PHP5's default Exception):
-    
-    class Exception {
-        protected $message = 'Unknown exception';   // exception message
-        protected $code = 0;                        // user defined exception code
-        protected $file;                            // source filename of exception
-        protected $line;                            // source line of exception
-    
-        function __construct($message = null, $code = 0);
-    
-        final function getMessage();                // message of exception 
-        final function getCode();                   // code of exception
-        final function getFile();                   // source filename
-        final function getLine();                   // source line
-        final function getTrace();                  // an array of the backtrace()
-        final function getTraceAsString();          // formated string of trace
-    
-        // Overrideable
-        function __toString();                      // formatted string for display
-    }
-    */
-    
-    
-    
-    /**
+     /**
      * @const   integer     constant for database error exception
      */
     const EXCP_DATABASE = 1;
-    
-    
     
     /**
      * @const   integer     constant for configuration error exception
      */
     const EXCP_CONFIG = 2;
     
-    
-    
     /**
      * @const   integer     constant for internal error exception
      */
     const EXCP_INTERNAL = 3;
-
-    
     
     /**
      * @const   integer     constant for authentication error exception
      */
     const EXCP_AUTH = 4;
     
-    
-    
     /**
      * @const   integer     constant for webservice error exception
      */
     const EXCP_WEBSERVICE = 5;
-
-    
     
     /**
      * @var     string      additional detailed debug message
      */
     protected $debugMsg = '';
     
-    
-    
     /**
      * @var     string      error type name (depending on error code param passed to constructor)
      */
     protected $errType = '';
-    
-    
     
     /**
      * @var     bool        If this exception is permanent you can set this property. 
@@ -113,15 +73,15 @@ class Tx_PtExtbase_Exception_Exception extends Exception
      *                      bots to retry accessing this page  
      */
     protected $permanent = false;
-    
-    
-     
+
     /**
      * Class constructor: sets internal properties and calls the parent constructor (Exception::__construct(...)
-     * 
-     * @param   string    optional error message (used for frontend/enduser display, too)    
-     * @return  integer   DEPRECATED: optional error code, see EXCP_* class constants (currently: 1=DATABASE ERR, 2=CONFIG ERR, 3=INTERNAL ERR, 4=AUTH ERR, 5=WEBSERVICE ERR) - DEPRECATED for public usage: use special exception classes in res/objects/exceptions/ instead!
-     * @param   string    optional detailed debug message (not used for frontend display). For database errors (error code 1) the last TYPO3 DB SQL error is set to the debug message by default. To suppress this or to trace another DB object's SQL error use the third param to replace this default.
+     *
+     * @param string $errMsg
+     * @param int $errCode
+     * @param string $debugMsg
+     * @internal param optional $string error message (used for frontend/enduser display, too)
+     * @internal param optional $string detailed debug message (not used for frontend display). For database errors (error code 1) the last TYPO3 DB SQL error is set to the debug message by default. To suppress this or to trace another DB object's SQL error use the third param to replace this default.
      */
     public function __construct($errMsg='', $errCode=0, $debugMsg='')
     {
@@ -228,7 +188,7 @@ class Tx_PtExtbase_Exception_Exception extends Exception
         );
 
         // write to TS log if appropriate
-        if ($GLOBALS['TT'] instanceof \TYPO3\CMS\Core\TimeTracker\TimeTracker) {
+        if ($GLOBALS['TT'] instanceof TimeTracker) {
             $GLOBALS['TT']->setTSlogMessage($this->getMessage() . '['.get_class($this).': '.$this->debugMsg.']', 3);
         }
     }

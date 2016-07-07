@@ -1,6 +1,8 @@
 <?php
+namespace PunktDe\PtExtbase\Exception;
+
 /***************************************************************
- *  Copyright (C) 2014 punkt.de GmbH
+ *  Copyright (C) 2014-2016 punkt.de GmbH
  *  Authors: el_equipo <opiuqe_le@punkt.de>
  *
  *  This script is free software: you can redistribute it and/or modify
@@ -21,12 +23,8 @@
 
 use TYPO3\CMS\Core\Log\LogLevel;
 
-/**
- * InfoLoggerException
- *
- * @package pt_dppp_esales
- */
-class Tx_PtExtbase_Exception_LoggerException extends Exception
+
+class LoggerException extends \Exception
 {
     /**
      * @var integer
@@ -37,11 +35,11 @@ class Tx_PtExtbase_Exception_LoggerException extends Exception
 
     /**
      * @param string $message
-     * @param integer $code
+     * @param int $code
      * @param \Exception|int $logLevel
-     * @param \Exception $previous
+     * @param \Exception|null $previous
      */
-    public function __construct($message = "", $code = 0, $logLevel = LogLevel::ERROR, Exception $previous = null)
+    public function __construct($message = "", $code = 0, $logLevel = LogLevel::ERROR, \Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
         if (LogLevel::isValidLevel($logLevel)) {
@@ -50,8 +48,7 @@ class Tx_PtExtbase_Exception_LoggerException extends Exception
             $this->logLevel = LogLevel::ERROR;
         }
     }
-
-
+    
     /**
      * @return integer
      */

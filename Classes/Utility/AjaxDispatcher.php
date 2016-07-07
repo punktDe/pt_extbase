@@ -22,7 +22,10 @@
  *
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use PunktDe\PtExtbase\Utility\NamespaceUtility;
+use TYPO3\CMS\Core\Http\AjaxRequestHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\ArrayUtility;
 
 /**
  * Utility to include defined frontend libraries as jQuery and related CSS
@@ -52,8 +55,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  *
  * @package Utility
- * @author Daniel Lienert <daniel@lienert.cc>
- * @author Michael Knoll <mimi@kaktusteam.de>
  */
 class Tx_PtExtbase_Utility_AjaxDispatcher
 {
@@ -62,7 +63,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      *
      * @var array
      */
-    protected $requestArguments = array();
+    protected /** @noinspection PhpTraditionalSyntaxArrayLiteralInspection */
+        $requestArguments = [];
 
 
     /**
@@ -105,7 +107,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
     /**
      * @var array
      */
-    protected $arguments = array();
+    protected $arguments = [];
 
 
     /**
@@ -200,7 +202,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
     protected function checkModuleAccessIfInBackend()
     {
         if (TYPO3_MODE === 'BE') {
-            if (is_array($this->dispatchCallArguments) && $this->dispatchCallArguments[1] instanceof \TYPO3\CMS\Core\Http\AjaxRequestHandler) {
+            if (is_array($this->dispatchCallArguments) && $this->dispatchCallArguments[1] instanceof AjaxRequestHandler) {
                 $ajaxId = $this->dispatchCallArguments[1]->getAjaxID();
                 if (!stristr($ajaxId, '::')) {
                     throw new \Exception('Please name the ajaxId the following way: TargetModuleSignature::IndividualAJAXIdentifier. The current ajax ID is: ' . $ajaxId, 1391143615);
@@ -209,7 +211,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
 
                 $backendUser = $GLOBALS['BE_USER'];
                 /** @var \TYPO3\CMS\Core\Authentication\BackendUserAuthentication $backendUser */
-                $backendUser->modAccess(array('name' => $moduleSignature, 'access' => array('user', 'group')), true);
+                $backendUser->modAccess(['name' => $moduleSignature, 'access' => ['user', 'group']], true);
             }
         }
     }
@@ -232,8 +234,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
             throw new \Exception(sprintf('The action name was not defined.'), 1391146168);
         }
 
-        $nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'allowedControllerActions'));
-        $allowedControllerActions = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
+        $nameSpace = implode('.', ['TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'allowedControllerActions']);
+        $allowedControllerActions = NamespaceUtility::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
 
         if (!(in_array($this->actionName, $allowedControllerActions) || $this->checkLegacyAllowedControllerActions())) {
             throw new \Exception('The requested controller / action is not allowed to be called via ajax / eId. You have to grant the access with the configuration: $GLOBALS[\'' . str_replace('.', "']['", $nameSpace) . "'][] = '" . $this->actionName . "'; in your ext_localconf.php", 1391145113);
@@ -406,7 +408,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
 
         $this->arguments = $this->requestArguments['arguments'];
         if (!is_array($this->arguments)) {
-            $this->arguments = array();
+            $this->arguments = [];
         }
 
         return $this;
@@ -436,7 +438,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
     {
         $requestArray = json_decode($request, true);
         if (is_array($requestArray)) {
-            \TYPO3\CMS\Extbase\Utility\ArrayUtility::mergeRecursiveWithOverrule($this->requestArguments, $requestArray);
+            ArrayUtility::mergeRecursiveWithOverrule($this->requestArguments, $requestArray);
         }
     }
 
@@ -446,7 +448,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      */
     protected function setRequestArgumentsFromGetPost()
     {
-        $validArguments = array('extensionName', 'pluginName', 'controllerName', 'actionName', 'arguments');
+        $validArguments = ['extensionName', 'pluginName', 'controllerName', 'actionName', 'arguments'];
         foreach ($validArguments as $argument) {
             if (GeneralUtility::_GP($argument)) {
                 $this->requestArguments[$argument] = GeneralUtility::_GP($argument);
@@ -530,8 +532,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      */
     protected function checkLegacyAllowedControllerActions()
     {
-        $nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.allowedControllerActions', $this->extensionName, $this->controllerName, $this->actionName));
-        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
+        $nameSpace = implode('.', ['TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.allowedControllerActions', $this->extensionName, $this->controllerName, $this->actionName]);
+        return NamespaceUtility::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
     }
 
     /**
@@ -539,8 +541,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      */
     public function getPageUidFromConfiguration()
     {
-        $nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'startingPoint'));
-        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
+        $nameSpace = implode('.', ['TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'startingPoint']);
+        return NamespaceUtility::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
     }
 
     /**
@@ -548,8 +550,8 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      */
     protected function getRenderTyposcriptFromConfiguration()
     {
-        $nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'renderTyposcript'));
-        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
+        $nameSpace = implode('.', ['TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'renderTyposcript']);
+        return NamespaceUtility::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
     }
 
     /**
@@ -557,7 +559,7 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
      */
     protected function getLoadLanguagesFromConfiguration()
     {
-        $nameSpace = implode('.', array('TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'loadLanguages'));
-        return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
+        $nameSpace = implode('.', ['TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'loadLanguages']);
+        return NamespaceUtility::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
     }
 }

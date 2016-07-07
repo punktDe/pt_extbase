@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Configuration;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -23,33 +25,26 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Configuration\ConfigurationBuilderInterface;
+use PunktDe\PtExtbase\Utility\NamespaceUtility;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /**
  * Class implements abstract configuration builder
- *
- * @package ConfigurationBuilder
- * @author Michael Knoll 
- * @author Daniel Lienert 
  */
-abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder implements ConfigurationBuilderInterface
+abstract class AbstractConfigurationBuilder implements ConfigurationBuilderInterface
 {
     /**
      * Holds configuration for plugin / extension
      *
      * @var array
      */
-    protected $settings = array();
-
-
+    protected $settings = [];
 
     /**
      * Prototype settings for ts-configurable objects
      * @var array
      */
-    protected $prototypeSettings = array();
-
-
+    protected $prototypeSettings = [];
 
     /**
      * Holds definition of configuration object instances
@@ -61,30 +56,24 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder implement
      *
      * @var array
      */
-    protected $configurationObjectSettings = array();
-
-    
+    protected $configurationObjectSettings = [];
 
     /**
      * Chache for all configuration Objects
      *
      * @var array TODO: define a interface
      */
-    protected $configurationObjectInstances = array();
+    protected $configurationObjectInstances = [];
 
-
-    
     /**
      * Constructor for configuration builder.
      *
      * @param array $settings Configuration settings
      */
-    public function __construct(array $settings = array())
+    public function __construct(array $settings = [])
     {
         $this->settings = $settings;
     }
-
-
 
     /**
      * Magic functions
@@ -92,11 +81,11 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder implement
      * @param string $functionName Name of method called
      * @param array $arguments Arguments passed to called method
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
     public function __call($functionName, $arguments)
     {
-        $matches = array();
+        $matches = [];
         $pattern = '/(get|build)(.+)Config(uration)?/is';
         preg_match($pattern, $functionName, $matches);
 
@@ -108,10 +97,8 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder implement
             }
             return $this->buildConfigurationGeneric($matches[2]);
         }
-        throw new Exception('The method configurationBuilder::' . $functionName . ' could not be found or handled by magic function.', 1289407912);
+        throw new \Exception('The method configurationBuilder::' . $functionName . ' could not be found or handled by magic function.', 1289407912);
     }
-
-
     
     /**
      * Generic factory method for configuration objects
@@ -119,44 +106,40 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder implement
      * @param string $configurationName
      * @param mixed $parameters
      * @return mixed
-     * @throws Exception
+     * @throws \Exception
      */
-    protected function buildConfigurationGeneric($configurationName, $parameters = array())
+    protected function buildConfigurationGeneric($configurationName, $parameters = [])
     {
         if (!$this->configurationObjectInstances[$configurationName]) {
             if (!array_key_exists($configurationName, $this->configurationObjectSettings)) {
-                throw new Exception('No Configuration Object with name ' . $configurationName . ' defined in ConfigurationBuilder', 1289397150);
+                throw new \Exception('No Configuration Object with name ' . $configurationName . ' defined in ConfigurationBuilder', 1289397150);
             }
 
             $factoryClass = $this->configurationObjectSettings[$configurationName]['factory'];
 
             if (!class_exists($factoryClass)) {
-                throw new Exception('Factory class for configuration ' . $configurationName . ': ' . $factoryClass .  'not found!', 1293416866);
+                throw new \Exception('Factory class for configuration ' . $configurationName . ': ' . $factoryClass .  'not found!', 1293416866);
             }
             
             $this->configurationObjectInstances[$configurationName] = call_user_func(array($factoryClass, 'getInstance'), $this, $parameters); // Avoid :: notation in PHP < 5.3
         }
         return $this->configurationObjectInstances[$configurationName];
     }
-    
-
 
     /**
-     *
-     *
      * @param string $configurationName
      * @return array
-     * @throws Exception
+     * @throws \Exception
      */
     public function getSettingsForConfigObject($configurationName)
     {
         if (!array_key_exists($configurationName, $this->configurationObjectSettings)) {
-            throw new Exception('No Configuration Object with name ' . $configurationName . ' defined in ConfigurationBuilder', 1289397150);
+            throw new \Exception('No Configuration Object with name ' . $configurationName . ' defined in ConfigurationBuilder', 1289397150);
         }
 
         $tsKey = array_key_exists('tsKey', $this->configurationObjectSettings[$configurationName]) ? $this->configurationObjectSettings[$configurationName]['tsKey'] : $configurationName;
         if ($tsKey) {
-            $settings = array_key_exists($tsKey, $this->settings) ? $this->settings[$tsKey] : array();
+            $settings = array_key_exists($tsKey, $this->settings) ? $this->settings[$tsKey] : [];
         } else {
             $settings = $this->settings;
         }
@@ -168,8 +151,6 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder implement
         return $settings;
     }
     
-
-
     /**
      * Return the specific settings merged with prototype settings
      *
@@ -182,17 +163,15 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder implement
         // TODO cache this!
 
         if (!is_array($overwriteSettings)) {
-            $overwriteSettings = array();
+            $overwriteSettings = [];
         }
 
         $mergedSettings = $this->getPrototypeSettingsForObject($objectPath);
 
-        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($mergedSettings, $overwriteSettings);
+        ArrayUtility::mergeRecursiveWithOverrule($mergedSettings, $overwriteSettings);
 
         return $mergedSettings;
     }
-
-
 
     /**
      * return a slice from the prototype arrray for the given objectPath
@@ -202,16 +181,14 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder implement
      */
     public function getPrototypeSettingsForObject($objectPath)
     {
-        $prototypeSettings = Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->prototypeSettings, $objectPath);
+        $prototypeSettings = NamespaceUtility::getArrayContentByArrayAndNamespace($this->prototypeSettings, $objectPath);
 
         if (!is_array($prototypeSettings)) {
-            $prototypeSettings = array();
+            $prototypeSettings = [];
         }
 
         return $prototypeSettings;
     }
-
-
 
     /**
      * Returns array of settings for current list configuration
@@ -222,7 +199,7 @@ abstract class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder implement
     public function getSettings($key = '')
     {
         if ($key != '') {
-            return Tx_PtExtbase_Utility_NameSpace::getArrayContentByArrayAndNamespace($this->settings, $key);
+            return NamespaceUtility::getArrayContentByArrayAndNamespace($this->settings, $key);
         } else {
             return $this->settings;
         }

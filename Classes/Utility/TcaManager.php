@@ -26,6 +26,7 @@ namespace PunktDe\PtExtbase\Utility;
  ***************************************************************/
 
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 class TcaManager implements SingletonInterface
 {
@@ -44,7 +45,6 @@ class TcaManager implements SingletonInterface
      * returns the value of [TCA][$tableName][ctrl][delete] to reset the field later on with the activateDeletedFlag
      *
      * @param $tableName
-     * @param null $columnConfiguration
      *
      * @return string
      */
@@ -52,12 +52,10 @@ class TcaManager implements SingletonInterface
     {
         $deleteField = $GLOBALS['TCA'][$tableName]['ctrl']['delete'];
         $GLOBALS['TCA'][$tableName]['ctrl']['delete'] = '';
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($tableName, $this->deletedColumnConfiguration, 1);
+        ExtensionManagementUtility::addTCAcolumns($tableName, $this->deletedColumnConfiguration, 1);
 
         return $deleteField;
     }
-
-
 
     /**
      *
@@ -69,8 +67,6 @@ class TcaManager implements SingletonInterface
     {
         $GLOBALS['TCA'][$tableName]['ctrl']['delete'] = $deleteField;
     }
-
-
 
     /**
      * @param $tableName
@@ -89,8 +85,6 @@ class TcaManager implements SingletonInterface
 
         return $enableColumnsAndValues;
     }
-
-
 
     /**
      * @param $tableName
