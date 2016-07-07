@@ -98,13 +98,3 @@ class Tx_PtExtbase_Collection_ObjectCollection extends \PunktDe\PtExtbase\Collec
 {
 }
 
-/**
- * @deprecated
- */
-if (class_exists(\PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase::class)) {
-    class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
-    {
-    }
-}
-
-
