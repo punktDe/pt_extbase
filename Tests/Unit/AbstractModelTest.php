@@ -22,15 +22,14 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase;
 
 /**
  * Class implements a base testcase for pt_extbase testcases
  *
  * @package Tests
- * @author Daniel Lienert
- * @author Michael Knoll
  */
-abstract class Tx_PtExtbase_Tests_Unit_AbstractModelTestcase extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+abstract class Tx_PtExtbase_Tests_Unit_AbstractModelTestcase extends AbstractBaseTestcase
 {
     /**
      * Holds the (accessible proxy-) object, which will be tested.
