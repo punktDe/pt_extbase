@@ -28,7 +28,7 @@
  * @package pt_extbase
  * @subpackage Tests\ViewHelpers\Format
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_StringToLowerViewHelperTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_StringToLowerViewHelperTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     protected $stringToLowerViewHelperProxyClass;
 

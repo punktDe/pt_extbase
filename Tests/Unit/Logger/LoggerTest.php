@@ -33,7 +33,7 @@ use TYPO3\CMS\Core\Log\LogLevel;
  *
  * @subpackage Tests\Unit\Service
  */
-class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var string

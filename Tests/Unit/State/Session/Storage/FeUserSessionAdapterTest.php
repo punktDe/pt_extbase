@@ -30,7 +30,7 @@
  * @subpackage State\Session\Storage
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Unit_State_Session_Storage_FeUserSessionAdapterTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_State_Session_Storage_FeUserSessionAdapterTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function getInstanceReturnsSingletonInstanceOfSessionAdapter()

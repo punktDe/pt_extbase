@@ -30,7 +30,7 @@
  * @package pt_extbase
  * @subpackage Tests\Unit\Parser\Sql
  */
-class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     protected $proxyClass;
 

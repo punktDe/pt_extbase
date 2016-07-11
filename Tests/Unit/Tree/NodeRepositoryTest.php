@@ -31,7 +31,7 @@
  * @subpackage Tree
  * @author Daniel Lienert <lienert@punkt.de>
  */
-class Tx_PtExtbase_Tests_Unit_Tree_NodeRepositoryTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Tree_NodeRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var Tx_PtExtbase_Tree_NodeRepository

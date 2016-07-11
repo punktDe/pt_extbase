@@ -33,7 +33,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * @package Tests
  * @subpackage Collection
  */
-class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var Tx_PtExtbase_Tests_Unit_Collection_ObjectCollectionMock

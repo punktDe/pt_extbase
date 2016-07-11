@@ -58,13 +58,7 @@ return array(
     'tx_ptextbase_tests_unit_state_stubs_sessionadaptermock' => $unitTestsDir . 'State/Stubs/SessionAdapterMock.php',
     'tx_ptextbase_tests_unit_state_stubs_persistableobject' => $unitTestsDir . 'State/Stubs/PersistableObject.php',
     'tx_ptextbase_tests_unit_state_stubs_getpostvarobject' => $unitTestsDir . 'State/Stubs/GetPostVarObject.php',
-    
-    \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase::class => $unitTestsDir . 'AbstractBaseTestcase.php',
-    Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase::class => $legacyClassesFile,
-    
-    'tx_ptextbase_tests_unit_abstractmodeltestcase' => $unitTestsDir . 'AbstractModelTestcase.php',
     'tx_ptextbase_tests_unit_tree_nodemock' => $unitTestsDir . 'Tree/NodeMock.php',
-
 
     // External files which are not auto-loaded by their respective extension
     'tx_fluid_core_widget_abstractwidgetviewhelper' => ExtensionManagementUtility::extPath('fluid') . 'Classes/Core/Widget/AbstractWidgetViewHelper.php',

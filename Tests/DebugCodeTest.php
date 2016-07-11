@@ -32,7 +32,7 @@
  * @author Daniel Lienert 
  * @package Tests
  */
-class Tx_PtExtbase_Tests_DebugCodeTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_DebugCodeTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var string Put the extension name here

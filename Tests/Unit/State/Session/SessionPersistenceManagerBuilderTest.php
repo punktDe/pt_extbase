@@ -31,7 +31,7 @@
  * @subpackage State\Session
  * @see Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder
  */
-class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerBuilderTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerBuilderTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function getInstanceReturnsSingletonInstanceOfSessionPersistenceManager()

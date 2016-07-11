@@ -28,7 +28,7 @@ use PunktDe\PtExtbase\Utility\NamespaceUtility;
 /**
  * Class implements a testcase for namespace utility class
  */
-class Tx_PtExtbase_Tests_Unit_Utility_NameSpaceArrayTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Utility_NameSpaceArrayTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * Holds some sample data for testing

@@ -30,7 +30,7 @@
  * @author Daniel Lienert
  * @see Tx_PtExtbase_Service_HashFileSystemService
  */
-class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var string

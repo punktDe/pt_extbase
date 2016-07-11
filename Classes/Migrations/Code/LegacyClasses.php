@@ -98,3 +98,18 @@ class Tx_PtExtbase_Collection_ObjectCollection extends \PunktDe\PtExtbase\Collec
 {
 }
 
+/**
+ * @deprecated
+ */
+class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+{
+}
+
+/**
+ * @deprecated
+ */
+class Tx_PtExtbase_Tests_Unit_AbstractModelTestcase extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+{
+}
+
+

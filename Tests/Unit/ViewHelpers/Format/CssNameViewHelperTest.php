@@ -31,7 +31,7 @@
 * @author Daniel Lienert
 */
 
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_CssNameViewHelperTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_CssNameViewHelperTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      *

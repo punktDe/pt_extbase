@@ -28,7 +28,7 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_RemoveLineBreaksViewHelperTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_RemoveLineBreaksViewHelperTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper

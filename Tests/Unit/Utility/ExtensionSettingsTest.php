@@ -28,7 +28,7 @@
  * @package pt_extbase
  * @subpackage Tests\Unit\Utility
  */
-class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     protected $proxyClass;
 

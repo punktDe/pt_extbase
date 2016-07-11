@@ -30,7 +30,7 @@
  * @subpackage Tests\ViewHelpers\Tree
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_SelectorViewhelperTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_SelectorViewhelperTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var Tx_PtExtbase_ViewHelpers_Javascript_SelectorViewHelper

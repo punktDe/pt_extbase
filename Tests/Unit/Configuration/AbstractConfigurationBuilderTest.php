@@ -36,7 +36,7 @@ require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Config
  * @subpackage Configuration
  * @author Michael Knoll 
  */
-class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilderTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilderTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * Holds an array of settings for testing

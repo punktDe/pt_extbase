@@ -29,7 +29,7 @@ namespace PunktDe\PtExtbase\Tests\Utility\Wget;
 use PunktDe\PtExtbase\Utility\Files;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class WgetLogTest extends \\PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class WgetLogTest extends \\PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var \PunktDe\PtExtbase\Utility\Wget\WgetLog

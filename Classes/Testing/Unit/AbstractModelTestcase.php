@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Testing\Unit;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,14 +24,14 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase;
+use PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase;
 
 /**
  * Class implements a base testcase for pt_extbase testcases
  *
  * @package Tests
  */
-abstract class Tx_PtExtbase_Tests_Unit_AbstractModelTestcase extends AbstractBaseTestcase
+abstract class AbstractModelTestcase extends AbstractBaseTestcase
 {
     /**
      * Holds the (accessible proxy-) object, which will be tested.

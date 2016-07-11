@@ -25,13 +25,6 @@
        "Classes/"
     ]
   },
-  "autoload-dev": {
-    "files": [
-      "Tests/Unit/AbstractBaseTestcase.php",
-      "Tests/Unit/AbstractModelTestcase.php",
-      "Tests/Migrations/Code/LegacyClasses.php"
-    ]
-  },
   "replace": {
     "pt_extbase": "self.version",
     "typo3-ter/pt_extbase": "self.version"

@@ -32,7 +32,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package Tests
  * @subpackage Unit\Rbac
  */
-class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function configurationManagerCanBeInjected()
