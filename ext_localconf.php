@@ -3,11 +3,6 @@
 $extensionClassesPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/';
 require_once($extensionClassesPath . 'Migrations/Code/LegacyClasses.php');
 
-$extensionTestClassesPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Tests/';
-if (file_exists($extensionTestClassesPath)) {
-    require_once($extensionTestClassesPath . 'Migrations/Code/LegacyClasses.php');
-}
-
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }

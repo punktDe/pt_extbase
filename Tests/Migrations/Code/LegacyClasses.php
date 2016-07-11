@@ -3,6 +3,6 @@
 /**
  * @deprecated
  */
-class \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
 }

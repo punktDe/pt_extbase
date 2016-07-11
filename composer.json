@@ -27,7 +27,8 @@
   },
   "autoload-dev": {
     "files": [
-      "Tests/Unit/AbstractBaseTest.php"
+      "Tests/Unit/AbstractBaseTestcase.php",
+      "Tests/Migrations/Code/LegacyClasses.php"
     ]
   },
   "replace": {
