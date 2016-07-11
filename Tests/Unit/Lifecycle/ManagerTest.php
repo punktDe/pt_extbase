@@ -30,7 +30,7 @@
  * @package Tests
  * @subpackage Lifecycle
  */
-class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function constructorInitializesUndefinedState()

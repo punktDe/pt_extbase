@@ -31,7 +31,7 @@
  * @subpackage Functional\Tree
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Functional_Tree_JsonTreeWalkerTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function jsonTreeWriterWritesExpectedJsonForGivenTree()

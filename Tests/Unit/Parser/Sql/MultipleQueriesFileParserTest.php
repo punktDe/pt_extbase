@@ -30,7 +30,7 @@
  * @package pt_extbase
  * @subpackage Tests\Unit\Parser\Sql
  */
-class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     protected $proxyClass;
 

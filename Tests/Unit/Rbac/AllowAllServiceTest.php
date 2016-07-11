@@ -28,7 +28,7 @@
 /**
  * Class implements testcase for rbac allowAllService
  */
-class Tx_PtExtbase_Tests_Unit_Rbac_AllowAllServiceTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Rbac_AllowAllServiceTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function loggedInUserHasAccessReturnsTrueOnArbitraryRequests()

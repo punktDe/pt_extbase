@@ -30,7 +30,7 @@
  * @subpackage Tests\Unit\Assertions
  * @see Tx_PtExtbase_Assertions_Assert
  */
-class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /**
      * Holds temporary instance of dbObj in Assert class.

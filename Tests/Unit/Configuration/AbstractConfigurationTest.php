@@ -32,7 +32,7 @@ require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_ext
  * @subpackage Configuration
  * @author Michael Knoll 
  */
-class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /**
      * Some settings for testing

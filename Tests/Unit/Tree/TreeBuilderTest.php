@@ -31,7 +31,7 @@
  * @subpackage Tree
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function classExists()

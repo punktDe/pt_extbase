@@ -31,7 +31,7 @@
  * @subpackage Unit\ViewHelpers
  * @see Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function renderCallsExpectedSubpartsInSingleValueMode()

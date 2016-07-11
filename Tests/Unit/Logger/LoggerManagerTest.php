@@ -26,7 +26,7 @@ use PunktDe\PtExtbase\Logger\LoggerManager;
 /**
  * Logger Manager Testcase
  */
-class LoggerManagerTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class LoggerManagerTest extends \\PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /**
      * @var LoggerManager

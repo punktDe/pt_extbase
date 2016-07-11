@@ -31,7 +31,7 @@
  * @subpackage Domain\Model
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /**
      * @var Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor

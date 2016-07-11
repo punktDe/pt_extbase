@@ -31,7 +31,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @subpackage Utility
  * @author Daniel Lienert 
  */
-class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     public function setUp()
     {

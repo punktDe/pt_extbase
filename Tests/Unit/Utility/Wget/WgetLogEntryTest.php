@@ -26,7 +26,7 @@
 
 namespace PunktDe\PtExtbase\Tests\Utility\Wget;
 
-class WgetLogEntryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class WgetLogEntryTest extends \\PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /**
      * @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry

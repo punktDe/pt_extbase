@@ -31,7 +31,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package Tests
  * @subpackage Lifecycle
  */
-class Tx_PtExtbase_Tests_Unit_Lifecycle_HookManagerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Lifecycle_HookManagerTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function updateEndFiresUpdateOnSingletonLifecycleManager()

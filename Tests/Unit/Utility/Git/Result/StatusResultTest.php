@@ -27,7 +27,7 @@ namespace PunktDe\PtExtbase\Tests\Unit\Utility\Git;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Unit\Utility\Git
  */
-class StatusResultTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class StatusResultTest extends \\PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /**
      * @var \PunktDe\PtExtbase\Utility\Git\Result\StatusResult

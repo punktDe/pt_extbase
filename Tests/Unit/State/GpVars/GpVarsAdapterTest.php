@@ -31,7 +31,7 @@
  * @author Michael Knoll
  * @see Tx_PtExtbase_State_GpVars_GpVarsAdapter
  */
-class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /**
      * Holds an array of get vars for testing

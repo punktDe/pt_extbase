@@ -31,7 +31,7 @@
  * @author Daniel Lienert <daniel@lienert.cc>
  * @author Joachim Mathes <mathes@punkt.de>
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     protected $accessibleProxyClass;
 

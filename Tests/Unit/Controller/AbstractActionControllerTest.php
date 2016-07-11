@@ -30,7 +30,7 @@
  * @package Tests
  * @subpackage Controllers
  */
-class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function constructorReturnsControllerInstance()

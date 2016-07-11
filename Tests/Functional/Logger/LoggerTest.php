@@ -25,7 +25,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\Flow\Utility\Files;
 
 
-class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /**
      * @var string

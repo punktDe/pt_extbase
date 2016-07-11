@@ -28,7 +28,7 @@
  * @package pt_extbase
  * @subpackage Tests\ViewHelpers
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_RequestArgumnetsViewHelperTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_RequestArgumnetsViewHelperTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     protected $proxyClass;
 

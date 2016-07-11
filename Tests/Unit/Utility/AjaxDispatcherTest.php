@@ -29,7 +29,7 @@ use \TYPO3\CMS\Core\Tests\UnitTestCase;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Unit\Utility
  */
-class AjaxDispatcherTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class AjaxDispatcherTest extends \\PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /**
      * @var \Tx_PtExtbase_Utility_AjaxDispatcher

@@ -29,7 +29,7 @@ use PunktDe\PtExtbase\Utility\Files;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Functional\Utility\Git
  */
-class GitRepositoryTest extends \Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class GitRepositoryTest extends \\PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /**
      * @var \PunktDe\PtExtbase\Utility\Git\GitRepository

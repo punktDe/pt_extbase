@@ -31,7 +31,7 @@
  * @subpackage Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tests_Unit_Tree_NestedSetVisitorTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Tree_NestedSetVisitorTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function visitorSetsLeftAndRightValuesCorrectly()
