@@ -62,7 +62,7 @@ return array(
     \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase::class => $unitTestsDir . 'AbstractBaseTestcase.php',
     Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase::class => $legacyClassesFile,
     
-    'tx_ptextbase_tests_unit_abstractmodeltestcase' => $unitTestsDir . 'AbstractModelTest.php',
+    'tx_ptextbase_tests_unit_abstractmodeltestcase' => $unitTestsDir . 'AbstractModelTestcase.php',
     'tx_ptextbase_tests_unit_tree_nodemock' => $unitTestsDir . 'Tree/NodeMock.php',
 
 

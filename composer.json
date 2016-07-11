@@ -28,6 +28,7 @@
   "autoload-dev": {
     "files": [
       "Tests/Unit/AbstractBaseTestcase.php",
+      "Tests/Unit/AbstractModelTestcase.php",
       "Tests/Migrations/Code/LegacyClasses.php"
     ]
   },
