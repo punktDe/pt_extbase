@@ -28,7 +28,7 @@ use PunktDe\PtExtbase\Utility\Files;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Functional\Utility\Wget
  */
-class WgetTest extends \\PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class WgetTest extends \\PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var string

@@ -34,7 +34,7 @@ use PunktDe\PtExtbase\Utility\Lock\Lock;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Functional\Utility\Wget
  */
-class MysqlLockTest extends \\PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class MysqlLockTest extends \\PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var Lock

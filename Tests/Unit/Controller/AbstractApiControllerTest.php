@@ -30,7 +30,7 @@
  * @package Tests
  * @subpackage Controllers
  */
-class Tx_PtExtbase_Tests_Unit_Controller_AbstractApiControllerTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Controller_AbstractApiControllerTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var Tx_PtExtbase_Controller_AbstractApiController

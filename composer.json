@@ -25,11 +25,6 @@
        "Classes/"
     ]
   },
-  "autoload-dev": {
-    "files": [
-      "Tests/Unit/AbstractBaseTest.php"
-    ]
-  },
   "replace": {
     "pt_extbase": "self.version",
     "typo3-ter/pt_extbase": "self.version"

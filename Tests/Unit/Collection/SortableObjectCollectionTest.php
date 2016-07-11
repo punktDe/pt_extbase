@@ -29,7 +29,7 @@
  * @package pt_extbase
  * @subpackage Tests\Collection
  */
-class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends \PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     protected $sortableObjectCollectionProxyClass;
 

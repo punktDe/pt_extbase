@@ -1,5 +1,5 @@
 <?php
-namespace PunktDe\PtExtbase\Tests\Unit;
+namespace PunktDe\PtExtbase\Testing\Unit;
 
 /***************************************************************
  *  Copyright notice
@@ -61,7 +61,7 @@ abstract class AbstractBaseTestcase extends UnitTestCase
      * Shortcut for creating a mock with no mocked methods, no constructor call and no changed class name
      *
      * @param string $className Class name of mock to be created
-     * @return PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
     protected function getSimpleMock($className)
     {

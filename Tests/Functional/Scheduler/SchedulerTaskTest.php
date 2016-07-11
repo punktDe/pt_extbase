@@ -32,7 +32,7 @@ use TYPO3\Flow\Utility\Files;
  *
  * @package pt_extbase
  */
-class SchedulerTaskTest extends \\PunktDe\PtExtbase\Tests\Unit\AbstractBaseTestcase
+class SchedulerTaskTest extends \\PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var string
