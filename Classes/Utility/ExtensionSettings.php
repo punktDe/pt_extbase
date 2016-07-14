@@ -50,13 +50,13 @@ class ExtensionSettings implements SingletonInterface
      * @param string $extensionKey
      * @param string $key
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     public function getValueFromExtensionSettingsByKey($extensionKey, $key)
     {
         $settings = $this->getExtensionSettings($extensionKey);
         if (!isset($settings[$key])) {
-            throw new Exception('No key ' . $key . ' set in extension ' . $extensionKey . '! 1334406600');
+            throw new \Exception('No key ' . $key . ' set in extension ' . $extensionKey . '! 1334406600');
         }
         return $settings[$key];
     }
@@ -65,7 +65,6 @@ class ExtensionSettings implements SingletonInterface
      * @param string $extensionKey
      * @param string $key
      * @return string
-     * @throws Exception
      * @deprecated
      */
     public function getKeyFromExtensionSettings($extensionKey, $key)

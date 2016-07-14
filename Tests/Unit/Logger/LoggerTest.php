@@ -33,7 +33,7 @@ use TYPO3\CMS\Core\Log\LogLevel;
  *
  * @subpackage Tests\Unit\Service
  */
-class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase
 {
     /**
      * @var string
@@ -124,12 +124,12 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
             'noUserNoComponent' => array(
                 'userId' => null,
                 'component' => '',
-                'expected' => array('loggerComponent' => 'Tx.PtExtbase.Logger.Logger')
+                'expected' => array('loggerComponent' => 'PunktDe.PtExtbase.Logger.Logger')
             ),
             'givenUserNoComponent' => array(
                 'userId' => 86,
                 'component' => '',
-                'expected' => array('UserID' => 86, 'loggerComponent' => 'Tx.PtExtbase.Logger.Logger')
+                'expected' => array('UserID' => 86, 'loggerComponent' => 'PunktDe.PtExtbase.Logger.Logger')
             ),
             'noUserGivenComponent' => array(
                 'userId' => null,
