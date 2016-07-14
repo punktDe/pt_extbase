@@ -21,15 +21,13 @@ namespace PunktDe\PtExtbase\Tests\Unit\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \TYPO3\CMS\Core\Tests\UnitTestCase;
-
 /**
  * Real URL Test Case
  *
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Unit\Utility
  */
-class AjaxDispatcherTest extends \\PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+class AjaxDispatcherTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var \Tx_PtExtbase_Utility_AjaxDispatcher

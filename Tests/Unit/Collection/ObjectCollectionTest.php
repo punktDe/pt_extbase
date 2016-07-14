@@ -76,7 +76,7 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
     /** @test */
     public function addingAnObjectOfTheWrongTypeThrowsException()
     {
-        $this->setExpectedException('Tx_PtExtbase_Exception_Exception');
+        $this->setExpectedException(PunktDe\PtExtbase\Exception\Exception::class);
         $this->fixture->addItem(new StdClass('hello', 'world'));
     }
     
@@ -95,7 +95,7 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
     /** @test */
     public function test_setNonExistingIdAsSelected()
     {
-        $this->setExpectedException('Tx_PtExtbase_Exception_Exception');
+        $this->setExpectedException(PunktDe\PtExtbase\Exception\Exception::class);
         $this->fixture->setSelectedId(5);
     }
     

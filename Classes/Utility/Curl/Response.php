@@ -140,10 +140,12 @@ class Response
 
 
     /**
+     * @internal Only public for tests. Not part of the API!!
+     *
      * @param string $resultData
      * @return string
      */
-    protected function stripProxyHeader(&$resultData)
+    public function stripProxyHeader(&$resultData)
     {
         // cURL automatically handles Proxy rewrites, remove the "HTTP/X.X *" string
         $resultData = preg_replace("/HTTP\/\d.\d\s.*\r\n\r\n/", '', $resultData);

@@ -28,7 +28,7 @@ use PunktDe\PtExtbase\Utility\Files;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Functional\Utility\Curl
  */
-class CurlTest extends \\PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+class CurlTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      * @var \PunktDe\PtExtbase\Utility\Curl\Request

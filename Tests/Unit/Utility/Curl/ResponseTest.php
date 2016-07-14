@@ -1,6 +1,6 @@
 <?php
 
-namespace PunktDe\PtExtbase\Tests\Utility\Wget;
+namespace PunktDe\PtExtbase\Tests\Unit\Utility\Curl;
 
 /***************************************************************
  *  Copyright notice
@@ -71,7 +71,7 @@ class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
      */
     public function stripProxyHeader($original, $expected)
     {
-        $actual = $this->callInaccessibleMethod($this->curlResponse, 'stripProxyHeader', $original);
+        $actual = $this->curlResponse->stripProxyHeader($original);
         $this->assertEquals($expected, $actual);
     }
 }
