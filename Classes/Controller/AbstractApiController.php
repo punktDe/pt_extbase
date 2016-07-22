@@ -32,16 +32,16 @@ use TYPO3\CMS\Extbase\Error\Error;
 class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
     /**
-     * @var Tx_PtExtbase_Logger_Logger
+     * @var \PunktDe\PtExtbase\Logger\Logger
      */
     protected $logger;
 
 
     /**
-     * @param Tx_PtExtbase_Logger_Logger $logger
+     * @param \PunktDe\PtExtbase\Logger\Logger $logger
      * @return void
      */
-    public function injectLogger(Tx_PtExtbase_Logger_Logger $logger)
+    public function injectLogger(\PunktDe\PtExtbase\Logger\Logger $logger)
     {
         $this->logger = $logger;
     }

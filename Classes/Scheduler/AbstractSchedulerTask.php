@@ -35,7 +35,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 abstract class AbstractSchedulerTask extends AbstractTask
 {
     /**
-     * @var \Tx_PtExtbase_Logger_Logger
+     * @var \PunktDe\PtExtbase\Logger\Logger
      */
     protected $logger;
 
@@ -86,7 +86,7 @@ abstract class AbstractSchedulerTask extends AbstractTask
      */
     protected function initializeLogger()
     {
-        $this->logger = $this->objectManager->get('Tx_PtExtbase_Logger_Logger');
+        $this->logger = $this->objectManager->get(\PunktDe\PtExtbase\Logger\Logger::class);
     }
 
 

@@ -384,7 +384,7 @@ class Logger implements SingletonInterface
     /**
      * @param array $data
      * @param string $component
-     * @return \Tx_PtExtbase_Logger_Logger
+     * @return \PunktDe\PtExtbase\Logger\Logger
      */
     public function enrichLogDataByComponent(&$data, $component)
     {

@@ -62,7 +62,7 @@ class WgetCommand
 
 
     /**
-     * @var \Tx_PtExtbase_Logger_Logger
+     * @var \PunktDe\PtExtbase\Logger\Logger
      * @inject
      */
     protected $logger;

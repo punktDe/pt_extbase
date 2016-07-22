@@ -106,7 +106,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
             ->getMock();
         $loggerMock->expects($this->once())
             ->method('enrichLoggerSpecificDataByComponent');
-        /** @var $loggerMock Tx_PtExtbase_Logger_Logger */
+        /** @var $loggerMock \PunktDe\PtExtbase\Logger\Logger */
         
         $loggerManager = $this->objectManager->get(LoggerManager::class);
         $loggerMock->injectLoggerManager($loggerManager);

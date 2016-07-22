@@ -40,7 +40,7 @@ class GitRepository
 
     /**
      * @inject
-     * @var \Tx_PtExtbase_Logger_Logger
+     * @var \PunktDe\PtExtbase\Logger\Logger
      */
     protected $logger;
 

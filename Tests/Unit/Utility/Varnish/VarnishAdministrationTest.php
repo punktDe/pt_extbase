@@ -74,11 +74,11 @@ class VarnishAdministrationTest extends UnitTestCase
 
         $this->objectContainer = $objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container'); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $objectContainer */
 
-        $this->getMockBuilder('\Tx_PtExtbase_Logger_Logger')
+        $this->getMockBuilder(\PunktDe\PtExtbase\Logger\Logger::class)
             ->setMockClassName('LoggerMock')
             ->getMock();
         $objectManager->get('LoggerMock'); /** @var  $loggerMock \PHPUnit_Framework_MockObject_MockObject */
-        $this->objectContainer->registerImplementation('\Tx_PtExtbase_Logger_Logger', 'LoggerMock');
+        $this->objectContainer->registerImplementation(\PunktDe\PtExtbase\Logger\Logger::class, 'LoggerMock');
 
         $this->getMockBuilder('PunktDe\PtExtbase\Utility\ShellCommandService')
             ->setMethods(array('execute'))
