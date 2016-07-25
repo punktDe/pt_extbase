@@ -21,6 +21,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use PunktDe\PtExtbase\Utility\TcaManager;
 
 /**
  * TCA Manager test case
@@ -38,7 +39,7 @@ class Tx_PtExtBase_Utility_TcaManagerTest extends \TYPO3\CMS\Core\Tests\UnitTest
 
     public function setUp()
     {
-        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_TcaManager');
+        $this->proxyClass = $this->buildAccessibleProxy(TcaManager::class);
         $this->proxy = new $this->proxyClass();
         $this->pagesTca = $GLOBALS['TCA']['pages'];
     }
