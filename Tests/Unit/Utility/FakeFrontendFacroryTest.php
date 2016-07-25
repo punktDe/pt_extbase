@@ -22,14 +22,12 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use PunktDe\PtExtbase\Utility\FakeFrontendFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class implements a testcase for the fake frontend creation
- *
- * @package Tests
- * @subpackage Utility
- * @author Daniel Lienert 
  */
 class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
@@ -38,16 +36,13 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends \PunktDe\P
         unset($GLOBALS['TSFE']);
     }
 
-
     /**
      * @test
      */
     public function classExists()
     {
-        $this->assertTrue(class_exists('Tx_PtExtbase_Utility_FakeFrontendFactory'));
+        $this->assertTrue(class_exists(FakeFrontendFactory::class));
     }
-
-
 
     /**
      * @test
@@ -56,13 +51,12 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends \PunktDe\P
     {
         $this->assertNull($GLOBALS['TSFE']);
 
-        /** @var $fakeFrontend Tx_PtExtbase_Utility_FakeFrontendFactory */
-        $fakeFrontend = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
+        /** @var $fakeFrontend FakeFrontendFactory */
+        $fakeFrontend = GeneralUtility::makeInstance(FakeFrontendFactory::class);
         $fakeFrontend->createFakeFrontEnd(1);
 
         $this->assertInstanceOf('tslib_fe', $GLOBALS['TSFE']);
     }
-
 
     /**
      * @test
@@ -71,8 +65,8 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends \PunktDe\P
     {
         $this->assertNull($GLOBALS['TSFE']);
 
-        /** @var $fakeFrontend Tx_PtExtbase_Utility_FakeFrontendFactory */
-        $fakeFrontend = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory');
+        /** @var $fakeFrontend FakeFrontendFactory */
+        $fakeFrontend = GeneralUtility::makeInstance(FakeFrontendFactory::class);
         $fakeFrontend->createFakeFrontEnd(1);
 
         $this->assertNotNull($GLOBALS['TSFE']->cObj, 'No Cobject in faked frontend.');

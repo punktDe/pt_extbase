@@ -86,7 +86,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilderTest ext
 /**
  * Stub implementation of configuration builder for testing
  */
-class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub extends Tx_PtExtbase_Configuration_AbstractConfigurationBuilder
+class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub extends \PunktDe\PtExtbase\Configuration\AbstractConfigurationBuilder
 {
     /**
      * Set up configuration array for abstract configuration builder
@@ -105,7 +105,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub ex
 /**
  * Stub implementation of a configuration object
  */
-class Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject extends Tx_PtExtbase_Configuration_AbstractConfiguration
+class Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject extends \PunktDe\PtExtbase\Configuration\AbstractConfiguration
 {
 }
 

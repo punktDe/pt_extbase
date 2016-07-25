@@ -95,7 +95,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends \P
     /** @test */
     public function configurationForTestIsWorking()
     {
-        $this->assertTrue(is_a($this->concreteConfiguration, 'Tx_PtExtbase_Configuration_AbstractConfiguration'));
+        $this->assertTrue(is_a($this->concreteConfiguration, \PunktDe\PtExtbase\Configuration\AbstractConfiguration::class));
     }
     
     
@@ -251,7 +251,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends \P
 /**
  * Stub implementation of configuration for testing
  */
-class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfiguration_Stub extends Tx_PtExtbase_Configuration_AbstractConfiguration
+class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfiguration_Stub extends \PunktDe\PtExtbase\Configuration\AbstractConfiguration
 {
     public $value1;
     
@@ -323,6 +323,6 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfiguration_Stub extends T
 
 
 
-class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder_Stub extends Tx_PtExtbase_Configuration_AbstractConfigurationBuilder
+class Tx_PtExtbase_Configuration_AbstractConfigurationBuilder_Stub extends \PunktDe\PtExtbase\Configuration\AbstractConfigurationBuilder
 {
 }

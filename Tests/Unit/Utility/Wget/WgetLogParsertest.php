@@ -189,7 +189,7 @@ WARNUNG: Kann das Zertifikat von »das-partnerportal.deutschepost.de« nicht pr�
 
     /**
      * @test
-     * @throws \Tx_PtExtbase_Exception_Internal
+     * @throws \PunktDe\PtExtbase\Exception\InternalException
      */
     public function parseLogWithErrors()
     {

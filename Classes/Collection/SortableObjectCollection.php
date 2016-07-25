@@ -31,7 +31,7 @@
  * @package pt_extbase
  * @subpackaga Collection
  */
-abstract class Tx_PtExtbase_Collection_SortableObjectCollection extends Tx_PtExtbase_Collection_ObjectCollection
+abstract class Tx_PtExtbase_Collection_SortableObjectCollection extends \PunktDe\PtExtbase\Collection\ObjectCollection
 {
     /**
      * Sort items in decreasing order with respect to sorting value
