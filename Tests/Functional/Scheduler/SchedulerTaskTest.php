@@ -52,7 +52,7 @@ class SchedulerTaskTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
     protected $schedulerTaskId = '';
 
     /**
-     * @var \Tx_PtExtbase_Logger_LoggerConfiguration
+     * @var \PunktDe\PtExtbase\Logger\LoggerConfiguration
      */
     protected $loggerConfiguration;
 
@@ -86,7 +86,7 @@ class SchedulerTaskTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
     {
         $this->testFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths(array(__DIR__, 'WorkingDirectory'));
 
-        $this->loggerConfiguration = $this->objectManager->get('Tx_PtExtbase_Logger_LoggerConfiguration');
+        $this->loggerConfiguration = $this->objectManager->get(\PunktDe\PtExtbase\Logger\LoggerConfiguration::class);
         $this->logFilePath = $this->loggerConfiguration->getLogFilePath();
     }
 

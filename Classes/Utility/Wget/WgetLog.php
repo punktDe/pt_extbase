@@ -26,7 +26,7 @@
 
 namespace PunktDe\PtExtbase\Utility\Wget;
 
-class WgetLog extends \Tx_PtExtbase_Collection_ObjectCollection
+class WgetLog extends \PunktDe\PtExtbase\Collection\ObjectCollection
 {
     /**
      * @var string
@@ -36,7 +36,7 @@ class WgetLog extends \Tx_PtExtbase_Collection_ObjectCollection
 
     /**
      * @param WgetLogEntry $wgetLogEntry
-     * @throws \Tx_PtExtbase_Exception_Internal
+     * @throws \PunktDe\PtExtbase\Exception\InternalException
      */
     public function addLogEntry(WgetLogEntry $wgetLogEntry)
     {

@@ -784,7 +784,7 @@ class Tx_PtExtbase_Assertions_Assert
      */
     public static function isNotEmptyObjectCollection($object, array $info = array())
     {
-        self::isInstanceOf($object, 'Tx_PtExtbase_Collection_ObjectCollection');
+        self::isInstanceOf($object, \PunktDe\PtExtbase\Collection\ObjectCollection::class);
         
         return self::test(count($object) > 0, true, $info);
     }

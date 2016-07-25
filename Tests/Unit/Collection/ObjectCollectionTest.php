@@ -243,9 +243,9 @@ require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Collec
 
 
 /**
- * Test collection, because Tx_PtExtbase_Collection_ObjectCollection is an abstract class
+ * Test collection, because \PunktDe\PtExtbase\Collection\ObjectCollection is an abstract class
  */
-class Tx_PtExtbase_Tests_Unit_Collection_ObjectCollectionMock extends Tx_PtExtbase_Collection_ObjectCollection
+class Tx_PtExtbase_Tests_Unit_Collection_ObjectCollectionMock extends \PunktDe\PtExtbase\Collection\ObjectCollection
 {
     protected $restrictedClassName = 'Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock';
     

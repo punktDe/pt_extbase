@@ -23,7 +23,7 @@ The abstract configuration can be used for implementing your extension configura
 The following example shows an implementation of the AbstractConfiguration. The variable ``useSession`` is define ind the header and set to a default value. Within the init section this is value is set to a true boolean value with the utility function ``setBooleanIfExistsAndNotNothing`` which only sets the variable if it is set in the settings.::
 
 	class Tx_PtExtlist_Domain_Configuration_Base_BaseConfig
-		extends Tx_PtExtbase_Configuration_AbstractConfiguration {
+		extends \PunktDe\PtExtbase\Configuration\AbstractConfiguration {
 
 
     	/**

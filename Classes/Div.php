@@ -116,7 +116,7 @@ class Tx_PtExtbase_Div
      * @param   string          name of the function you want to call / hook key
      * @global  array           $TYPO3_CONF_VARS
      * @return  object|bool     hook object or false if no hook was registered
-     * @throws  Tx_PtExtbase_Exception_Exception    if hook method registered, but not found
+     * @throws  \PunktDe\PtExtbase\Exception\Exception    if hook method registered, but not found
      * @author  Rainer Kuhn , based on tx_indexedsearch::hookRequest() by Kasper Sk�rh�j/Christian Jul Jensen
      */
     public static function hookRequest($extKey, $hookArrayKey, $functionName)
@@ -134,7 +134,7 @@ class Tx_PtExtbase_Div
                 $hookObj->pObj = self;
                 return $hookObj;
             } else {
-                throw new Tx_PtExtbase_Exception_Exception('Hook method not found!', 3,
+                throw new \PunktDe\PtExtbase\Exception\Exception('Hook method not found!', 3,
                                                'HOOK ERROR: method '.$functionName.' not found or no hook object returned');
             }
         }
@@ -237,7 +237,7 @@ class Tx_PtExtbase_Div
      * @param   string  pid or alias
      * @param   bool    (optional) allow "0" as pid, default: false
      * @return  integer     pid
-     * @throws  Tx_PtExtbase_Exception_Exception     if pid or alias does not exist, if query fails or if pid == 0 and allowPidZero is false
+     * @throws  \PunktDe\PtExtbase\Exception\Exception     if pid or alias does not exist, if query fails or if pid == 0 and allowPidZero is false
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      */
     public static function getPid($pidOrAlias, $allowZeroAsPid=false)
@@ -254,7 +254,7 @@ class Tx_PtExtbase_Div
             } else {
                 // might be a pid, check if the page exists
                 if (!$allowZeroAsPid && intval($pidOrAlias) == 0) {
-                    throw new Tx_PtExtbase_Exception_Exception('PID "0" is not allowed here');
+                    throw new \PunktDe\PtExtbase\Exception\Exception('PID "0" is not allowed here');
                 }
                 $where = 'uid = '.intval($pidOrAlias);
             }
@@ -266,13 +266,13 @@ class Tx_PtExtbase_Div
             // exec query using TYPO3 DB API
             $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($select, $from, $where, $groupBy, $orderBy, $limit);
             if ($res == false) {
-                throw new Tx_PtExtbase_Exception_Exception('Query failed', 1, $GLOBALS['TYPO3_DB']->sql_error());
+                throw new \PunktDe\PtExtbase\Exception\Exception('Query failed', 1, $GLOBALS['TYPO3_DB']->sql_error());
             }
             $a_row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
     
             if ($a_row == false) {
-                throw new Tx_PtExtbase_Exception_Exception('PID "'.$pidOrAlias.'" not found');
+                throw new \PunktDe\PtExtbase\Exception\Exception('PID "'.$pidOrAlias.'" not found');
             }
     
             $cache[$cacheKey] = $a_row['uid'];
@@ -318,14 +318,14 @@ class Tx_PtExtbase_Div
      *
      * @param   mixed
      * @return  void
-     * @throws  Tx_PtExtbase_Exception_Exception    if parameter is not valid
+     * @throws  \PunktDe\PtExtbase\Exception\Exception    if parameter is not valid
      * @author  Fabrizio Branca <mail@fabrizio-branca.de>
      * @see     t3lib_TCEmain::clear_cacheCmd
      */
     public static function clearCache($cacheCmd = 'all')
     {
         if (!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($cacheCmd) && !in_array($cacheCmd, array('pages', 'all', 'temp_CACHED'))) {
-            throw new Tx_PtExtbase_Exception_Exception('Parameter must be "pages", "all", "temp_CACHED" or numeric');
+            throw new \PunktDe\PtExtbase\Exception\Exception('Parameter must be "pages", "all", "temp_CACHED" or numeric');
         }
 
         $tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler'); /* @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
@@ -594,7 +594,7 @@ class Tx_PtExtbase_Div
                     $result = $round ? round($result) : intval($result);
                     break;
                 default:
-                    throw new Tx_PtExtbase_Exception_Internal('unknown unit');
+                    throw new \PunktDe\PtExtbase\Exception\InternalException('unknown unit');
             }
         }
 
@@ -645,7 +645,7 @@ class Tx_PtExtbase_Div
                 // as the function readLLfile is protected in the latest TYPO3 version we read the ll file directly
                 $llArray = GeneralUtility::readLLfile($llFile, $GLOBALS['LANG']->lang, $GLOBALS['LANG']->charSet);
             } else {
-                throw new Tx_PtExtbase_Exception_Exception('No valid TSFE or LANG object found!');
+                throw new \PunktDe\PtExtbase\Exception\Exception('No valid TSFE or LANG object found!');
             }
 
         return $llArray;
@@ -716,7 +716,7 @@ class Tx_PtExtbase_Div
                     $GLOBALS['TSFE']->newCObj();
                 }
             } else {
-                GeneralUtility::makeInstance('Tx_PtExtbase_Utility_FakeFrontendFactory')->createFakeFrontend();
+                GeneralUtility::makeInstance(\PunktDe\PtExtbase\Utility\FakeFrontendFactory::class)->createFakeFrontend();
             }
             self::$cObj = $GLOBALS['TSFE']->cObj;
         }
@@ -737,7 +737,7 @@ class Tx_PtExtbase_Div
      * @param   bool        (optional) if true the method won't throw an exception if no configuration is found, default: false
      * @global  array       $TYPO3_CONF_VARS
      * @return  array       basic extension configuration data from localconf.php
-     * @throws  Tx_PtExtbase_Exception_Exception   if no basic extension configuration is found in localconf.php or if extKey is empty
+     * @throws  \PunktDe\PtExtbase\Exception\Exception   if no basic extension configuration is found in localconf.php or if extKey is empty
      * @author  Rainer Kuhn 
      */
     public static function returnExtConfArray($extKey, $noExceptionIfNoConfigFound=false)
@@ -755,7 +755,7 @@ class Tx_PtExtbase_Div
             if ($noExceptionIfNoConfigFound == true) {
                 $baseConfArr = array();
             } else {
-                throw new Tx_PtExtbase_Exception_Exception('Extension configuration in localconf.php for extension "'.$extKey.'" not found!', 2,
+                throw new \PunktDe\PtExtbase\Exception\Exception('Extension configuration in localconf.php for extension "'.$extKey.'" not found!', 2,
                     '$TYPO3_CONF_VARS["EXT"]["extConf"]["'.$extKey.'"] not found in localconf.php.');
             }
         }
@@ -814,7 +814,7 @@ class Tx_PtExtbase_Div
                     Tx_PtExtbase_Assertions_Assert::isValidUid($pageUid, false, array('message' => 'No valid pageUid found under "'.$extConfKey.'" in extension configuration for extKey "'.$extKey.'"'));
                     $confArray = self::returnTyposcriptSetup($pageUid, $tsConfigKey);
                 } else {
-                    throw new Tx_PtExtbase_Exception_Exception('You have to define either a "pageUid" or a "extKey" and a "extConfKey" when not in frontend context.');
+                    throw new \PunktDe\PtExtbase\Exception\Exception('You have to define either a "pageUid" or a "extKey" and a "extConfKey" when not in frontend context.');
                 }
             }
 
@@ -832,7 +832,7 @@ class Tx_PtExtbase_Div
      * @param   integer     (optional) page UID of the page to extract its TS setup (default=1)
      * @param   string      (optional) TS config key string to retrieve its value ('.' at each subkey's end means retrieve array, no '.' means retrieve single value, e.g. 'config.tx_ptgsashop.' for array or 'config.tx_ptgsashop.currencyCode' for single value
      * @return  mixed       array or single value - depending on 2nd param $tsConfigKey. If 2nd param is not set: multidimensional array of the given page's TS setup (this may be used read e.g. $returnArr['plugin.']['tx_EXTENSION_pi1.'])
-     * @throws  Tx_PtExtbase_Exception_Exception   if no TS setup could be found/created
+     * @throws  \PunktDe\PtExtbase\Exception\Exception   if no TS setup could be found/created
      * @author  Rainer Kuhn , based on an idea of Fabian Koenig (http://lists.netfielders.de/pipermail/typo3-german/2007-May/032473.html)
      */
     public static function returnTyposcriptSetup($pageUid=1, $tsConfigKey='')
@@ -861,7 +861,7 @@ class Tx_PtExtbase_Div
         // retrieve complete TS setup
         $returnVal = $TSObj->setup;  // multidimensional TS array here - this may be used read e.g. $returnVal['plugin.']['tx_EXTENSION_pi1.']
         if (!is_array($returnVal)) {
-            throw new Tx_PtExtbase_Exception_Exception('TS configuration retrieval error!', 2,
+            throw new \PunktDe\PtExtbase\Exception\Exception('TS configuration retrieval error!', 2,
                                            __METHOD__.' failed to retrieve the TS configuration of page'.$pageUid);
         }
 
@@ -885,7 +885,7 @@ class Tx_PtExtbase_Div
      * @return  mixed       typoscript array or single value
      * @throws    Tx_PtExtbase_Exception_Assertion     if no tsArray is given and not being in a frontend context
      * @throws    Tx_PtExtbase_Exception_Assertion     if tsPath is not valid
-     * @throws    Tx_PtExtbase_Exception_Exception            if subKey was not found
+     * @throws    \PunktDe\PtExtbase\Exception\Exception            if subKey was not found
      * @author  Rainer Kuhn , Fabrizio Branca <mail@fabrizio-branca.de>
      */
     public static function getTS($tsPath, array $tsArray = array())
@@ -923,8 +923,7 @@ class Tx_PtExtbase_Div
      * @param   mixed    plugin object, e.g. "tslib_pibase" or any other object (needs a "tslib_cObj" at ->cObj, an array at ->conf and callable methods "pi_getFFvalue()" and "pi_initPIflexForm()")
      * @param   bool     (optional) if true the method won't throw an exception if no flexform data is found, default: false
      * @return  void
-     * @throws  Tx_PtExtbase_Exception_Exception    if no flexform data was found
-     * @author  Fabrizio Branca <mail@fabrizio-branca.de>
+     * @throws  \PunktDe\PtExtbase\Exception\Exception    if no flexform data was found
      */
     public static function mergeConfAndFlexform($pObj, $noExceptionIfNoFlexform = false)
     {
@@ -932,10 +931,10 @@ class Tx_PtExtbase_Div
         Tx_PtExtbase_Assertions_Assert::isInstanceOf($pObj->cObj, 'tslib_cObj', array('message' => '"$pObj->cObj" is no instance of "tslib_cObj".'));
         Tx_PtExtbase_Assertions_Assert::isArray($pObj->conf, array('message' => '"$pObj->conf" is no array.'));
         if (!is_callable(array($pObj, 'pi_initPIflexForm'))) {
-            throw new Tx_PtExtbase_Exception_Exception('"$pObj needs a callable method "pi_initPIflexForm()"');
+            throw new \PunktDe\PtExtbase\Exception\Exception('"$pObj needs a callable method "pi_initPIflexForm()"');
         }
         if (!is_callable(array($pObj, 'pi_getFFvalue'))) {
-            throw new Tx_PtExtbase_Exception_Exception('"$pObj needs a callable method "pi_getFFvalue()"');
+            throw new \PunktDe\PtExtbase\Exception\Exception('"$pObj needs a callable method "pi_getFFvalue()"');
         }
 
         $pObj->pi_initPIflexForm();
@@ -954,7 +953,7 @@ class Tx_PtExtbase_Div
                 }
             }
         } elseif (!$noExceptionIfNoFlexform) {
-            throw new Tx_PtExtbase_Exception_Exception('No plugin configuration found!', 0, 'No flexform data found. Please update your plugin configuration!');
+            throw new \PunktDe\PtExtbase\Exception\Exception('No plugin configuration found!', 0, 'No flexform data found. Please update your plugin configuration!');
         }
     }
 
@@ -1085,7 +1084,7 @@ class Tx_PtExtbase_Div
         static $loopCounter = 0;
          $loopCounter += 1;
          if ($loopCounter > 99) {
-             throw new Tx_PtExtbase_Exception_Internal('Recursion break', 'Max. recursion depth of 99 exceeded in '.__METHOD__);
+             throw new \PunktDe\PtExtbase\Exception\InternalException('Recursion break', 'Max. recursion depth of 99 exceeded in '.__METHOD__);
          }
 
          $filteredObject = clone($arrayObject);
@@ -1494,7 +1493,7 @@ class Tx_PtExtbase_Div
      * @param   string      database table name to check
      * @param   DatabaseConnection    database object of type \TYPO3\CMS\Core\Database\DatabaseConnection to use (e.g. $GLOBALS['TYPO3_DB'] to use TYPO3 default database)
      * @return  boolean     TRUE if table exists in specified database, FALSE if not
-     * @throws  Tx_PtExtbase_Exception_Exception   if the SHOW TABLES query fails/returns false
+     * @throws  \PunktDe\PtExtbase\Exception\Exception   if the SHOW TABLES query fails/returns false
      * @author  Rainer Kuhn 
      */
     public static function dbTableExists($table, DatabaseConnection $dbObj)
@@ -1505,7 +1504,7 @@ class Tx_PtExtbase_Div
         // exec query using TYPO3 DB API
         $res = $dbObj->sql_query($query);
         if ($res == false) {
-            throw new Tx_PtExtbase_Exception_Exception('Query failed', 1, $dbObj->sql_error());
+            throw new \PunktDe\PtExtbase\Exception\Exception('Query failed', 1, $dbObj->sql_error());
         }
 
         // store all tables in an array
@@ -1532,8 +1531,7 @@ class Tx_PtExtbase_Div
      * @param   string      database name of the table to check
      * @param   DatabaseConnection    database object of type \TYPO3\CMS\Core\Database\DatabaseConnection to use (e.g. $GLOBALS['TYPO3_DB'] to use TYPO3 default database)
      * @return  boolean     TRUE if specified table contains record rows, FALSE if not
-     * @throws  Tx_PtExtbase_Exception_Exception   if the SHOW TABLE STATUS query fails/returns false
-     * @author  Rainer Kuhn 
+     * @throws  \PunktDe\PtExtbase\Exception\Exception   if the SHOW TABLE STATUS query fails/returns false
      */
     public static function dbTableHasRecords($table, $dbName, DatabaseConnection $dbObj)
     {
@@ -1543,7 +1541,7 @@ class Tx_PtExtbase_Div
         // exec query using TYPO3 DB API
         $res = $dbObj->sql_query($query);
         if ($res == false) {
-            throw new Tx_PtExtbase_Exception_Exception('Query failed', 1, $dbObj->sql_error());
+            throw new \PunktDe\PtExtbase\Exception\Exception('Query failed', 1, $dbObj->sql_error());
         }
         $a_row = $dbObj->sql_fetch_assoc($res);
         $dbObj->sql_free_result($res);

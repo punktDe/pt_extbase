@@ -29,7 +29,7 @@
  * @author      Michael Knoll
  * @package     Exception
  */
-class Tx_PtExtbase_Exception_Assertion extends Tx_PtExtbase_Exception_Exception
+class Tx_PtExtbase_Exception_Assertion extends \PunktDe\PtExtbase\Exception\Exception
 {
     /**
      * Class constructor
