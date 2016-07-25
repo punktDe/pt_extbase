@@ -108,7 +108,7 @@ class Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase extends \PunktDe\PtExtbase\Te
 /**
  * @deprecated
  */
-class Tx_PtExtbase_Tests_Unit_AbstractModelTestcase extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_AbstractModelTestcase extends \PunktDe\PtExtbase\Testing\Unit\AbstractModelTestcase
 {
 }
 

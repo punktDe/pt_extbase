@@ -70,8 +70,6 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends \PunktDe\PtExtbase\Tes
     {
         $tree = $this->createDemoTree();
         
-        # echo "Testtree: " . $tree->toString();
-
         $visitorMock = $this->createVisitorMock();
         $treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
         
