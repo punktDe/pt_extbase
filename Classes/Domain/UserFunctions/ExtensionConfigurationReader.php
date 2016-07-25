@@ -31,7 +31,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class ExtensionConfigurationReader implements SingletonInterface
 {
     /**
-     * @var \Tx_PtExtbase_Utility_ExtensionSettings
+     * @var \PunktDe\PtExtbase\Utility\ExtensionSettings
      */
     protected $extensionSettings;
 
@@ -44,7 +44,7 @@ class ExtensionConfigurationReader implements SingletonInterface
      */
     public function getValueFromExtensionSettings($content = '', $conf = array())
     {
-        $this->extensionSettings = GeneralUtility::makeInstance('Tx_PtExtbase_Utility_ExtensionSettings');
+        $this->extensionSettings = GeneralUtility::makeInstance(\PunktDe\PtExtbase\Utility\ExtensionSettings::class);
 
 
         $conf = $conf['userFunc.'];
@@ -56,6 +56,6 @@ class ExtensionConfigurationReader implements SingletonInterface
             throw new \Exception('You need to provide extensionName and settingName in the userFunc settings!', 1439383004);
         }
 
-        return $this->extensionSettings->getKeyFromExtensionSettings($extensionName, $settingName);
+        return $this->extensionSettings->getValueFromExtensionSettingsByKey($extensionName, $settingName);
     }
 }

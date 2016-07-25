@@ -36,7 +36,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends \PunktDe\PtE
 
     public function setUp()
     {
-        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_ExtensionSettings');
+        $this->proxyClass = $this->buildAccessibleProxy(\PunktDe\PtExtbase\Utility\ExtensionSettings::class);
         $this->proxy = new $this->proxyClass();
     }
 
