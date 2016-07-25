@@ -148,12 +148,8 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeTest extends \PunktDe\PtExtbase\Testing\U
         
         $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-        echo 'Before move: ' . $tree->toString();
-        
         $tree->moveNode($thirdChild, $rootNode); // We want to move 3rdChild into root node
 
-        echo 'After move: ' . $tree->toString();
-        
         $this->assertFalse($firstChild->getChildren()->contains($thirdChild));
         $this->assertTrue($rootNode->getChildren()->contains($thirdChild));
         $this->assertTrue($thirdChild->getParent() == $rootNode);
@@ -177,12 +173,8 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeTest extends \PunktDe\PtExtbase\Testing\U
                 
         $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-        echo 'Before move: ' . $tree->toString();
-        
         $tree->moveNodeBeforeNode($fourthChild, $firstChild); // We want to move 4th child before 1st child
 
-        echo 'After move: ' . $tree->toString();
-        
         $this->assertEquals($fourthChild->getParent(), $rootNode);
         $rootsChildren = $rootNode->getChildren()->toArray();
         $this->assertEquals($rootsChildren[0], $fourthChild);
@@ -208,12 +200,8 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeTest extends \PunktDe\PtExtbase\Testing\U
         
         $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
         
-        echo 'Before move: ' . $tree->toString();
-        
         $tree->moveNodeAfterNode($fourthChild, $firstChild); // We want to move 4th child before 1st child
 
-        echo 'After move: ' . $tree->toString();
-        
         $this->assertEquals($fourthChild->getParent(), $rootNode);
         $rootsChildren = $rootNode->getChildren()->toArray();
         $this->assertEquals($rootsChildren[1], $fourthChild);

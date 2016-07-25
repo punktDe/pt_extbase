@@ -81,8 +81,6 @@ class Tx_PtExtbase_Tests_Unit_Tree_NestedSetVisitorTest extends \PunktDe\PtExtba
         $treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitor));
         $treeWalker->traverseTreeDfs($tree);
         
-        echo $tree->toString();
-        
         $this->assertEquals($node1->getLft(), 1);
         $this->assertEquals($node1->getRgt(), 12);
         $this->assertEquals($node2->getLft(), 2);

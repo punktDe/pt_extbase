@@ -69,8 +69,6 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends \PunktDe\PtExtbase\Te
 
         $this->assertTrue(is_a($tree, Tx_PtExtbase_Tree_Tree));
 
-        echo $tree->toString();
-
         // Assertions, that build tree is correct
         $this->assertEquals($tree->getRoot(), $nodesArray[5], 'Root node of tree is not root of given set of nodes');
         $this->assertTrue($tree->getRoot()->getChildren()->contains($tree->getNodeByUid(2)), 'Root node of tree does not contain child of given set of nodes');
@@ -100,8 +98,6 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends \PunktDe\PtExtbase\Te
         $tree = $treeBuilder->buildTreeForNamespaceWithoutInaccessibleSubtrees('no_matter_what_namespace');
 
         $this->assertTrue(is_a($tree, Tx_PtExtbase_Tree_Tree));
-
-        echo $tree->toString();
 
         // Assertions, that build tree is correct
         $this->assertEquals($nodesArray[5]->getUid(), $tree->getRoot()->getUid(), 'Root node of tree is not root of given set of nodes');

@@ -15,6 +15,6 @@ return [
     'Tx_PtExtbase_Collection_Collection' => 'PunktDe\\PtExtbase\\Collection\\Collection',
     'Tx_PtExtbase_Collection_ObjectCollection' => 'PunktDe\\PtExtbase\\Collection\\ObjectCollection',
     'Tx_PtExtbase_Tests_Unit_AbstractBaseTestcase' => 'PunktDe\\PtExtbase\\Testing\\Unit\\AbstractBaseTestcase',
-    'Tx_PtExtbase_Tests_Unit_AbstractModelTestcase' => 'PunktDe\\PtExtbase\\Testing\\Unit\\AbstractBaseTestcase',
+    'Tx_PtExtbase_Tests_Unit_AbstractModelTestcase' => 'PunktDe\\PtExtbase\\Testing\\Unit\\AbstractModelTestcase',
 
 ];
