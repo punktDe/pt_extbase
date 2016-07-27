@@ -146,7 +146,7 @@ class NamespaceUtility
                 $value = self::arrayFilterRecursive($value);
             }
         }
-        return array_filter($input, 'Tx_PtExtbase_Utility_NameSpace::valueIsGiven');
+        return array_filter($input, '\\PunktDe\\PtExtbase\\Utility\\NamespaceUtility::valueIsGiven');
     }
     
         
