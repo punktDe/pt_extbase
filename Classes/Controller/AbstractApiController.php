@@ -64,7 +64,7 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
 
             $this->response->setContent($exception->getCode());
 
-            if ($exception instanceof Tx_PtExtbase_Exception_LoggerException) {
+            if ($exception instanceof \PunktDe\PtExtbase\Exception\LoggerException) {
                 $this->logger->log($exception->getLogLevel(), sprintf('%s (%s)', $exception->getMessage(), $exception->getCode()), get_class($this));
             } else {
                 $this->logger->error(sprintf('%s (%s)', $exception->getMessage(), $exception->getCode()), get_class($this));

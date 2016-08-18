@@ -30,7 +30,7 @@
  * @author  Michael Knoll
  * @see 	http://www.patternsforphp.com/wiki/Registry
  */
-final class Tx_PtExtbase_Registry_Registry extends Tx_PtExtbase_Collection_Collection
+final class Tx_PtExtbase_Registry_Registry extends PunktDe\PtExtbase\Collection\Collection
 {
     /**
      * @var Unique instance of this class
