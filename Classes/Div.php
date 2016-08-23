@@ -749,7 +749,11 @@ class Tx_PtExtbase_Div
 
             $baseConfArr = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$extKey]);
         } else {
-            $baseConfArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey]);
+            if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey])) {
+                $baseConfArr = $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey];
+            } else {
+                $baseConfArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey]);
+            }
         }
         if (!is_array($baseConfArr)) {
             if ($noExceptionIfNoConfigFound == true) {
