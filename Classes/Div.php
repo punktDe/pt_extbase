@@ -742,28 +742,28 @@ class Tx_PtExtbase_Div
      */
     public static function returnExtConfArray($extKey, $noExceptionIfNoConfigFound=false)
     {
-        if (file_exists(PATH_typo3conf.'localconf.php')) {
-            require(PATH_typo3conf.'localconf.php');  // don't use require_once here!
-
-            Tx_PtExtbase_Assertions_Assert::isNotEmptyString($extKey);
-
-            $baseConfArr = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$extKey]);
-        } else {
-            if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey])) {
-                $baseConfArr = $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey];
-            } else {
-                $baseConfArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey]);
-            }
-        }
-        if (!is_array($baseConfArr)) {
+        if (!array_key_exists($extKey, $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'])) {
             if ($noExceptionIfNoConfigFound == true) {
-                $baseConfArr = array();
+                return array();
             } else {
-                throw new \PunktDe\PtExtbase\Exception\Exception('Extension configuration in localconf.php for extension "'.$extKey.'" not found!', 2,
-                    '$TYPO3_CONF_VARS["EXT"]["extConf"]["'.$extKey.'"] not found in localconf.php.');
+                throw new \PunktDe\PtExtbase\Exception\Exception('Extension configuration in localconf.php for extension "' . $extKey . '" not found!', 1473087212,
+                    '$TYPO3_CONF_VARS["EXT"]["extConf"]["' . $extKey . '"] not found in localconf.php.');
             }
         }
-        return $baseConfArr;
+
+        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey])) {
+            return $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey];
+        } else {
+            $baseConfArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey]);
+
+            if (!is_array($baseConfArr)) {
+                throw new \PunktDe\PtExtbase\Exception\Exception('Extension configuration of extension "' . $extKey . '" could not be read!', 1473087238,
+                    '$TYPO3_CONF_VARS["EXT"]["extConf"]["' . $extKey . '"] is not an array after unserializing');
+            }
+
+            return $baseConfArr;
+        }
+
     }
     
     
