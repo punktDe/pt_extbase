@@ -24,6 +24,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Database Test Case
@@ -45,6 +46,15 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
     protected $allowedDomains = array();
 
     /**
+     * This array contains strings of TYPO3_CONTEXTs, which are allowed to run database tests on.
+     * The TYPO3_CONTEXT should be used to choose the configuration to be loaded. Thus a dedicated
+     * database connection can be loaded.
+     *
+     * @var array
+     */
+    protected $allowedApplicationContexts = array();
+
+    /**
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface The object manager
      */
     protected $objectManager;
@@ -63,11 +73,12 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
      */
     protected function setUp()
     {
-        if (!(in_array($_SERVER['HOSTNAME'], $this->allowedDomains)
+        if (!(in_array(GeneralUtility::getApplicationContext(), $this->allowedApplicationContexts)
+                || in_array($_SERVER['HOSTNAME'], $this->allowedDomains)
                 || in_array($_SERVER['HTTP_HOST'], $this->allowedDomains))) {
-            $this->markTestSkipped('This test is only allowed on domains: ' . implode(', ', $this->allowedDomains));
+            $this->markTestSkipped(sprintf('This test is only allowed in contexts "%s" or on domains "%s"', implode(', ', $this->allowedApplicationContexts),  implode(', ', $this->allowedDomains)));
         }
-        $fixtureImporter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
+        $fixtureImporter = GeneralUtility::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
         $fixtureImporter->import($this->getFixtures());
     }
 
@@ -79,7 +90,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
      */
     public function runBare()
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
         $this->objectManager =  clone $objectManager;
         parent::runBare();
     }

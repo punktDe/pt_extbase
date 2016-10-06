@@ -3,6 +3,8 @@
 
 namespace PunktDe\PtExtbase\Tests\Functional\Utility\Lock;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -45,10 +47,7 @@ class MySqlLockTestSecondInstance
     {
 
         // Load system specific configuration for Apache mode
-        if (!isset($_SERVER['HTTP_HOST'])) {
-            $_SERVER['HTTP_HOST'] = $_SERVER['HOSTNAME'];
-        }
-        $dpppConfiguration = __DIR__ . '/../../../../../../configurations/' . $_SERVER['HTTP_HOST'] . '.php';
+        $dpppConfiguration = __DIR__ . '/../../../../../../configurations/' . GeneralUtility::getApplicationContext() . '/AdditionalConfiguration.php';
 
         if (file_exists($dpppConfiguration)) {
             @include($dpppConfiguration);
