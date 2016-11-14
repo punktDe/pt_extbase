@@ -30,11 +30,6 @@ use \TYPO3\CMS\Core\Messaging\FlashMessage;
 use \TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use PunktDe\PtExtbase\Utility\Files;
 
-/**
- * Class IndexTask
- *
- * @package PunktDe\PtDpppFis\Scheduler
- */
 class TestTask extends AbstractSchedulerTask
 {
     /**
