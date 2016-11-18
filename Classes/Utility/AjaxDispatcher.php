@@ -562,4 +562,22 @@ class Tx_PtExtbase_Utility_AjaxDispatcher
         $nameSpace = implode('.', ['TYPO3_CONF_VARS.EXTCONF.pt_extbase.ajaxDispatcher.apiConfiguration', $this->extensionName, $this->controllerName, 'loadLanguages']);
         return NamespaceUtility::getArrayContentByArrayAndNamespace($GLOBALS, $nameSpace);
     }
+
+    /**
+     * @return string
+     */
+    public function getControllerName()
+    {
+        return $this->controllerName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActionName()
+    {
+        return $this->actionName;
+    }
+
+
 }
