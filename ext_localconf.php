@@ -16,7 +16,9 @@ $TYPO3_CONF_VARS['FE']['eID_include']['ptxAjax'] = \TYPO3\CMS\Core\Utility\Exten
 /**
  * Include the ajax dispatcher in Backend environment
  */
-$TYPO3_CONF_VARS['BE']['AJAX']['ptxAjax'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Utility/AjaxDispatcher.php:Tx_PtExtbase_Utility_AjaxDispatcher->initAndDispatch';
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler(
+    'ptxAjax', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Utility/AjaxDispatcher.php:Tx_PtExtbase_Utility_AjaxDispatcher->initAndDispatch', FALSE
+);
 
 // Scheduler Tasks
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask'] = [

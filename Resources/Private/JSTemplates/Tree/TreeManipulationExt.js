@@ -10,7 +10,7 @@ Ext.onReady(function(){
     // base URL is set depending on FE or BE environment in widget controller for tree
     var baseURL = '###baseUrl###';
     var baseRequest = {
-        extensionName:'ptExtbase',
+        extensionName:'PtExtbase',
         pluginName:'ptx',
         controllerName:'Tree'
     };

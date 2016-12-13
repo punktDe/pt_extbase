@@ -10,10 +10,11 @@
 		dbNodeTable = '###dbNodeTable###',
 		moduleUrl = '###moduleUrl###',
 		treeDiv = '#ptExtbaseTreeDiv',
+		editRecordUrl = '###editRecord###',
 		debug = false,
 		jsTreeInstance = undefined,
 		baseRequest = {
-			extensionName: 'ptExtbase',
+			extensionName: 'PtExtbase',
 			pluginName: 'ptx',
 			controllerName: 'Tree',
 			actionName: '',
@@ -75,7 +76,7 @@
 	 * Opens a new window to edit the record
 	 */
 	function editRecord(table, id, returnUrl) {
-		var editUrl = "alt_doc.php?edit["+table+"]["+id+"]=edit&returnUrl=" + escape(returnUrl);
+		var editUrl = editRecordUrl + "&edit["+table+"]["+id+"]=edit&returnUrl=" + escape(returnUrl);
 		self.location.href = editUrl;
 	}
 
