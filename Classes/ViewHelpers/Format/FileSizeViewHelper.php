@@ -23,6 +23,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * @package ViewHelpers
  */
@@ -30,11 +32,16 @@ class Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper extends \TYPO3\CMS\Flui
 {
     /**
      * @param string $labels Labels in format  "B| KB| MB| GB"
+     * @param string $useIecLabels
      * @return string The formated filesize
      */
-    public function render($labels = '')
+    public function render($labels = '', $useIecLabels = false)
     {
         $numberToFormat = (int) trim($this->renderChildren());
-        return \TYPO3\CMS\Core\Utility\GeneralUtility::formatSize($numberToFormat, $labels);
+        $value = GeneralUtility::formatSize($numberToFormat, $labels);
+        if (!$useIecLabels && substr($value, -1) === 'i') {
+            $value = substr($value, 0, -1);
+        }
+        return $value;
     }
 }

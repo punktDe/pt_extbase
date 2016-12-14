@@ -61,9 +61,9 @@ class Tx_PtExtbase_Tests_Unit_State_Session_Storage_FeUserSessionAdapterTest ext
     /** @test */
     public function readReturnsExpectedValueFromFeUserSession()
     {
-        $feUserSessionMock = $this->getMock(tslib_feUserAuth, array(), array('getKey'), '', false, false);
+        $feUserSessionMock = $this->getMock(\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class, array(), array('getKey'), '', false, false);
         $feUserSessionMock->expects($this->once())
-            ->method(getKey)
+            ->method('getKey')
             ->with($this->equalTo('user'), $this->equalTo('keyxy'))
             ->will($this->returnValue('valuexy'));
         $tmp = $GLOBALS['TSFE']->fe_user;
@@ -94,12 +94,12 @@ class Tx_PtExtbase_Tests_Unit_State_Session_Storage_FeUserSessionAdapterTest ext
     /** @test */
     public function storeStoresGivenValueWithGivenKeyInFrontendUserSession()
     {
-        $feUserSessionMock = $this->getMock(tslib_feUserAuth, array(), array('setKey', 'storeSessionData'), '', false, false);
+        $feUserSessionMock = $this->getMock(\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class, array(), array('setKey', 'storeSessionData'), '', false, false);
         $feUserSessionMock->expects($this->once())
-            ->method(setKey)
+            ->method('setKey')
             ->with($this->equalTo('user'), $this->equalTo('keyxy'), $this->equalTo('valuexy'));
         $feUserSessionMock->expects($this->once())
-            ->method(storeSessionData);
+            ->method('storeSessionData');
         $tmp = $GLOBALS['TSFE']->fe_user;
         $GLOBALS['TSFE']->fe_user = $feUserSessionMock;
         $feSessionAdapter = Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter::getInstance();

@@ -22,7 +22,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
+use \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
  * Session Storage Adapter class for TYPO3 FRONTEND _user_ sessions 
@@ -37,7 +37,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
     /**
      * Holds singleton instance of this class
      *
-     * @var Tx_PtExtbase_StorageAdapter_StorageAdapter
+     * @var Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter
      */
     private static $uniqueInstance = null;
 
@@ -48,6 +48,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      */
     protected function __construct()
     {
+
     }
 
     
@@ -93,7 +94,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      */
     public function read($key)
     {
-        Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, 'tslib_feUserAuth', array('message' => 'No valid frontend user found!'));
+        Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, FrontendUserAuthentication::class, array('message' => 'No valid frontend user found!'));
         
         $val = $GLOBALS['TSFE']->fe_user->getKey('user', $key);
         if (TYPO3_DLOG) {
@@ -119,7 +120,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      */
     public function store($key, $val)
     {
-        Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, 'tslib_feUserAuth', array('message' => 'No valid frontend user found!'));
+        Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, FrontendUserAuthentication::class, array('message' => 'No valid frontend user found!'));
         
         if (is_object($val) || is_array($val)) {
             $val = serialize($val);
@@ -144,7 +145,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      */
     public function delete($key)
     {
-        Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, 'tslib_feUserAuth', array('message' => 'No valid frontend user found!'));
+        Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, FrontendUserAuthentication::class, array('message' => 'No valid frontend user found!'));
         
         unset($GLOBALS['TSFE']->fe_user->uc[$key]);
         $GLOBALS['TSFE']->fe_user->userData_change = 1;

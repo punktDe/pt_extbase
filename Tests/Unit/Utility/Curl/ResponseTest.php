@@ -25,6 +25,8 @@ namespace PunktDe\PtExtbase\Tests\Unit\Utility\Curl;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use PunktDe\PtExtbase\Utility\Curl\Request;
+use PunktDe\PtExtbase\Utility\Curl\Response;
 
 /**
  * @package pt_extbase
@@ -40,9 +42,9 @@ class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 
     public function setUp()
     {
-        $curlRequest = GeneralUtility::makeInstance('\PunktDe\PtExtbase\Utility\Curl\Request');
+        $curlRequest = GeneralUtility::makeInstance(Request::class);
 
-        $proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Curl\Response');
+        $proxyClass = $this->buildAccessibleProxy(Response::class);
         $this->curlResponse = GeneralUtility::makeInstance($proxyClass, curl_init(), $curlRequest, '');
     }
 

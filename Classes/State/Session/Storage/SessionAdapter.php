@@ -23,6 +23,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 
 /**
  * Session Storage Adapter class for TYPO3 Frontend _browser_ sessions and Backend user sessions
@@ -37,7 +38,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
     /**
      * Holds singleton instance of this class
      *
-     * @var Tx_PtExtbase_StorageAdapter_StorageAdapter
+     * @var Tx_PtExtbase_State_Session_Storage_SessionAdapter
      */
     private static $uniqueInstance = null;
 
@@ -102,7 +103,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 
             // TYPO3 Backend mode
         } else {
-            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], '\TYPO3\CMS\Core\Authentication\BackendUserAuthentication', array('message' => 'No valid backend user found!'));
+            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, array('message' => 'No valid backend user found!'));
 
             $val = $GLOBALS['BE_USER']->getSessionData($key);
             if (TYPO3_DLOG) {
@@ -168,7 +169,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 
             // TYPO3 Backend mode
         } else {
-            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], '\TYPO3\CMS\Core\Authentication\BackendUserAuthentication', array('message' => 'No valid backend user found!'));
+            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, array('message' => 'No valid backend user found!'));
 
             $GLOBALS['BE_USER']->setAndSaveSessionData($key, $val);
             if (TYPO3_DLOG) {
@@ -201,7 +202,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 
             // TYPO3 Backend mode
         } else {
-            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], 't3lib_userAuth', array('message' => 'No valid backend user found!'));
+            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, array('message' => 'No valid backend user found!'));
 
             $sesDat = unserialize($GLOBALS['BE_USER']->user['ses_data']);
 

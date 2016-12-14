@@ -25,6 +25,8 @@
 
 use PunktDe\PtExtbase\Utility\FakeFrontendFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Class implements a testcase for the fake frontend creation
@@ -55,7 +57,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends \PunktDe\P
         $fakeFrontend = GeneralUtility::makeInstance(FakeFrontendFactory::class);
         $fakeFrontend->createFakeFrontEnd(1);
 
-        $this->assertInstanceOf('tslib_fe', $GLOBALS['TSFE']);
+        $this->assertInstanceOf(TypoScriptFrontendController::class, $GLOBALS['TSFE']);
     }
 
     /**
@@ -70,6 +72,6 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends \PunktDe\P
         $fakeFrontend->createFakeFrontEnd(1);
 
         $this->assertNotNull($GLOBALS['TSFE']->cObj, 'No Cobject in faked frontend.');
-        $this->assertInstanceOf('tslib_cObj', $GLOBALS['TSFE']->cObj);
+        $this->assertInstanceOf(ContentObjectRenderer::class, $GLOBALS['TSFE']->cObj);
     }
 }

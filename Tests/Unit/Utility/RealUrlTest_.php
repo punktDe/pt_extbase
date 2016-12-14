@@ -81,6 +81,7 @@ class RealUrlTest extends UnitTestCase
      */
     public function filterPathFromUrlReturnsValidPath($url, $expected)
     {
+
         $actual = $this->proxy->filterPathFromUrl($url);
         $this->assertSame($expected, $actual);
     }
