@@ -26,6 +26,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+
 /**
  * Class implements a widget viewhelper for rendering trees that can be manipulated using ajax requests
  *
@@ -82,7 +84,8 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Flu
             array(
                 'baseUrl' => $this->getBaseURL(),
                 'dbNodeTable' => 'tx_ptcertification_domain_model_category',
-                'moduleUrl' => $moduleUrl
+                'moduleUrl' => $moduleUrl,
+                'editRecord' => BackendUtility::getModuleUrl('record_edit')
             ), false, false
         );
     }
@@ -122,7 +125,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Flu
     protected function getBaseURL()
     {
         if (TYPO3_MODE == 'BE') {
-            $baseUrl = 'ajax.php?ajaxID=ptxAjax';
+            $baseUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getAjaxUrl('ptxAjax');
         } elseif (TYPO3_MODE == 'FE') {
             $baseUrl = 'index.php?eID=ptxAjax';
         }
