@@ -187,7 +187,7 @@ abstract class AbstractTemporaryTablePhpGenerator implements \Tx_PtExtbase_SqlGe
      */
     public function generate()
     {
-        $sqls = array();
+        $sqls = [];
         $this->columnDefinitions = $this->buildColumnDefinitions();
         $sqls[] = $this->buildCreateTableSql();
         $sqls[] = $this->buildDropTemporaryTableSql();

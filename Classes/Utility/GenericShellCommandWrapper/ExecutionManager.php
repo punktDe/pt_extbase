@@ -64,7 +64,7 @@ class ExecutionManager implements SingletonInterface
     {
         $this->command = $command;
         $this->renderCommand();
-        return array($this->executeCommandLineOnShell(), $this->shellCommandService->getExitCode());
+        return [$this->executeCommandLineOnShell(), $this->shellCommandService->getExitCode()];
     }
 
 

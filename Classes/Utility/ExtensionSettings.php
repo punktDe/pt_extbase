@@ -34,7 +34,7 @@ class ExtensionSettings implements SingletonInterface
     /**
      * @var array
      */
-    protected $extensionSettings = array();
+    protected $extensionSettings = [];
 
     /**
      * @param string $extensionKey
@@ -79,7 +79,7 @@ class ExtensionSettings implements SingletonInterface
     protected function cacheExtensionSettings($extensionKey)
     {
         if (!array_key_exists($extensionKey, $this->extensionSettings) && !is_array($this->extensionSettings[$extensionKey])) {
-            $this->extensionSettings[$extensionKey] = array();
+            $this->extensionSettings[$extensionKey] = [];
             $this->extensionSettings[$extensionKey] = $this->loadExtensionSettings($extensionKey);
         }
     }

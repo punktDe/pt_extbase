@@ -92,7 +92,7 @@ class WgetLog extends \PunktDe\PtExtbase\Collection\ObjectCollection
      */
     public function toArray()
     {
-        $logArray = array();
+        $logArray = [];
 
         foreach ($this->itemsArr as $logEntry) { /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
             $logArray[] = $logEntry->toArray();

@@ -81,7 +81,7 @@ class VarnishAdministrationTest extends UnitTestCase
         $this->objectContainer->registerImplementation(\PunktDe\PtExtbase\Logger\Logger::class, 'LoggerMock');
 
         $this->getMockBuilder('PunktDe\PtExtbase\Utility\ShellCommandService')
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->setMockClassName('ShellCommandServiceMock')
             ->getMock();
         $this->shellCommandServiceMock = $objectManager->get('ShellCommandServiceMock'); /** @var  $shellCommandServiceMock \PHPUnit_Framework_MockObject_MockObject */
@@ -118,7 +118,7 @@ class VarnishAdministrationTest extends UnitTestCase
         $this->shellCommandServiceMock->expects($this->any())
             ->method('execute')
             ->withConsecutive(
-                array($this->equalTo('/usr/bin/varnishadm -S /home/spencer/varnish-secret -T 127.0.0.1:6082 "ban.url spencer\.it/films.*"'))
+                [$this->equalTo('/usr/bin/varnishadm -S /home/spencer/varnish-secret -T 127.0.0.1:6082 "ban.url spencer\.it/films.*"')]
             );
     }
 }

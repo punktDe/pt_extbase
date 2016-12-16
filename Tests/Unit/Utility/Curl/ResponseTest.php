@@ -51,16 +51,16 @@ class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 
     public function proxyHeaderDataProvider()
     {
-        return array(
-            'Proxy Header found' => array(
+        return [
+            'Proxy Header found' => [
                 'original' => "HTTP/1.1 200 Connection established\r\n\r\nHTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC",
                 'expected' => "HTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC"
-            ),
-            'No Proxy Header found' => array(
+            ],
+            'No Proxy Header found' => [
                 'original' => "HTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC",
                 'expected' => "HTTP/1.1 204 No Content\r\nDate: Tue, 07 Apr 2015 09:05:44 GMT\r\nX-Powered-By: Servlet/3.0\r\nX-CSRFTOKEN: tfFJ1bMcEhLR2T1Zo2h9wKC"
-            ),
-        );
+            ],
+        ];
     }
 
 

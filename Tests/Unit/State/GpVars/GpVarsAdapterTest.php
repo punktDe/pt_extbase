@@ -72,25 +72,25 @@ class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends \PunktDe\PtExtbase
      */
     public function setup()
     {
-        $this->getVars = array('key1' => array(
-            'key2' => array(
-                'key3' => array(
+        $this->getVars = ['key1' => [
+            'key2' => [
+                'key3' => [
                     'key4' => 'value1',
                     'key5' => 'value2'
-                 )
-            )
-        )
-        );
+                ]
+            ]
+        ]
+        ];
 
-        $this->postVars = array('key1' => array(
-            'key2' => array(
-                'key3' => array(
+        $this->postVars = ['key1' => [
+            'key2' => [
+                'key3' => [
                     'key4' => 'value3',
                     'key5' => 'value4'
-                 )
-            )
-        )
-        );
+                ]
+            ]
+        ]
+        ];
     
         $this->gpVarAdapter = new Tx_PtExtbase_State_GpVars_GpVarsAdapter($this->extensionNamespace);
         $this->gpVarAdapter->_injectGetVars($this->getVars);

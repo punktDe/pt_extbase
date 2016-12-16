@@ -51,16 +51,16 @@ class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends \PunktDe\PtE
     public function cacheExtensionSettingsCachesIfNecessary()
     {
         $key = 'pt_rem';
-        $settings = array(
-            $key => array(
+        $settings = [
+            $key => [
                 'Michael' => 'Stipe',
                 'Peter' => 'Buck',
                 'Mike' => 'Mills'
-            )
-        );
+            ]
+        ];
 
         $proxyMock = $this->getMockBuilder($this->proxyClass)
-                ->setMethods(array('loadExtensionSettings'))
+                ->setMethods(['loadExtensionSettings'])
                 ->getMock();
         $proxyMock->expects($this->once())
                 ->method('loadExtensionSettings')
@@ -79,16 +79,16 @@ class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends \PunktDe\PtE
     public function cacheExtensionSettingsDoesNotCacheIfNotNecessary()
     {
         $key = 'pt_rem';
-        $settings = array(
-            $key => array(
+        $settings = [
+            $key => [
                 'Michael' => 'Stipe',
                 'Peter' => 'Buck',
                 'Mike' => 'Mills'
-            )
-        );
+            ]
+        ];
 
         $proxyMock = $this->getMockBuilder($this->proxyClass)
-                ->setMethods(array('loadExtensionSettings'))
+                ->setMethods(['loadExtensionSettings'])
                 ->getMock();
         $proxyMock->expects($this->never())
                 ->method('loadExtensionSettings');
@@ -103,16 +103,16 @@ class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends \PunktDe\PtE
     public function getExtensionSettingsReturnsSettings()
     {
         $key = 'pt_rem';
-        $settings = array(
-            $key => array(
+        $settings = [
+            $key => [
                 'Michael' => 'Stipe',
                 'Peter' => 'Buck',
                 'Mike' => 'Mills'
-            )
-        );
+            ]
+        ];
 
         $proxyMock = $this->getMockBuilder($this->proxyClass)
-                ->setMethods(array('cacheExtensionSettings'))
+                ->setMethods(['cacheExtensionSettings'])
                 ->getMock();
         $proxyMock->expects($this->once())
                 ->method('cacheExtensionSettings')
@@ -132,16 +132,16 @@ class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends \PunktDe\PtE
     {
         $extensionKey = 'pt_rem';
         $key = 'Michael';
-        $settings = array(
-            $extensionKey => array(
+        $settings = [
+            $extensionKey => [
                 $key => 'Stipe',
                 'Peter' => 'Buck',
                 'Mike' => 'Mills'
-            )
-        );
+            ]
+        ];
 
         $proxyMock = $this->getMockBuilder($this->proxyClass)
-                ->setMethods(array('cacheExtensionSettings'))
+                ->setMethods(['cacheExtensionSettings'])
                 ->getMock();
         $proxyMock->expects($this->once())
                 ->method('cacheExtensionSettings')
@@ -161,15 +161,15 @@ class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends \PunktDe\PtE
     {
         $extensionKey = 'pt_rem';
         $key = 'Michael';
-        $settings = array(
-            $extensionKey => array(
+        $settings = [
+            $extensionKey => [
                 'Peter' => 'Buck',
                 'Mike' => 'Mills'
-            )
-        );
+            ]
+        ];
 
         $proxyMock = $this->getMockBuilder($this->proxyClass)
-                ->setMethods(array('cacheExtensionSettings'))
+                ->setMethods(['cacheExtensionSettings'])
                 ->getMock();
         $proxyMock->expects($this->once())
                 ->method('cacheExtensionSettings')

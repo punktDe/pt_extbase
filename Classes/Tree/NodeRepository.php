@@ -99,7 +99,7 @@ class Tx_PtExtbase_Tree_NodeRepository
     {
         $query = $this->createQuery();
         $query->matching($query->equals('root', $rootUid))
-            ->setOrderings(array('lft' => \TYPO3\CMS\Extbase\Persistence\Generic\Query::ORDER_DESCENDING));
+            ->setOrderings(['lft' => \TYPO3\CMS\Extbase\Persistence\Generic\Query::ORDER_DESCENDING]);
         return $query->execute();
     }
 
@@ -131,7 +131,7 @@ class Tx_PtExtbase_Tree_NodeRepository
      */
     protected function markNodesAccessible(&$nodes, $accessibleNodes)
     {
-        $accessibleNodeUidArray = array();
+        $accessibleNodeUidArray = [];
         foreach ($accessibleNodes as $accessibleNode) {
             $accessibleNodeUidArray[$accessibleNode->getUid()] = $accessibleNode->getUid();
         }
@@ -178,7 +178,7 @@ class Tx_PtExtbase_Tree_NodeRepository
             $query->matching($nameSpaceConstraint);
         }
 
-        $query->setOrderings(array('lft' => \TYPO3\CMS\Extbase\Persistence\Generic\Query::ORDER_DESCENDING));
+        $query->setOrderings(['lft' => \TYPO3\CMS\Extbase\Persistence\Generic\Query::ORDER_DESCENDING]);
 
         return $query->execute();
     }

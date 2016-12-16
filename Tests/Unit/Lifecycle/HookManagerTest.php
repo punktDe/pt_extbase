@@ -39,7 +39,7 @@ class Tx_PtExtbase_Tests_Unit_Lifecycle_HookManagerTest extends \PunktDe\PtExtba
         $hookManager = GeneralUtility::makeInstance('tx_PtExtbase_Lifecycle_HookManager');
         $lifecycleManager = GeneralUtility::makeInstance('Tx_PtExtbase_Lifecycle_Manager');
         $lifecycleManager->updateState(-1000); // we set a state that makes no sense
-        $fakeArray = array(); // we need a variable for passing parameter by reference
+        $fakeArray = []; // we need a variable for passing parameter by reference
         $hookManager->updateEnd($fakeArray, $fakeArray);
         $this->assertEquals($lifecycleManager->getState(), Tx_PtExtbase_Lifecycle_Manager::END);
     }

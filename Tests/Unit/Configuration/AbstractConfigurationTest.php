@@ -39,14 +39,14 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends \P
      *
      * @var array
      */
-    protected $settings = array(
-        'key1' => array(
+    protected $settings = [
+        'key1' => [
             'key1-1' => 'value1-1',
             'key1-2' => 'value1-2',
-            'key1-3' => array(
+            'key1-3' => [
                 'key1-3-1' => 'value1-3-1'
-            )
-        ),
+            ]
+        ],
         'key2' => 'value2',
         'key3' => '',
         'key4' => 'value4',
@@ -54,12 +54,12 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends \P
         'key7' => '1',
         'key8' => 'value8',
         'key9' => '0',
-        'cobjSetting' => array(
+        'cobjSetting' => [
                 '_typoScriptNodeValue' => 'TEXT',
                 'value' => 'TEST',
                 'wrap' => 'x|x'
-            ),
-    );
+        ],
+    ];
     
     
     
@@ -127,7 +127,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends \P
     /** @test */
     public function getSettingsReturnsEmptyArrayIfKeyDoesNotExist()
     {
-        $this->assertEquals($this->concreteConfiguration->getSettings('hurzdieburz'), array());
+        $this->assertEquals($this->concreteConfiguration->getSettings('hurzdieburz'), []);
     }
     
     

@@ -35,7 +35,7 @@ class ResultObjectStorage extends ObjectStorage implements ComponentInterface
      */
     public function toArray()
     {
-        $array = array();
+        $array = [];
         $storage = array_values($this->storage);
         foreach ($storage as $item) {
             $object =  $item['obj'];  /** @var ComponentInterface $object */

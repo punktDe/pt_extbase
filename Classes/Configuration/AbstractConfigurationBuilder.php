@@ -121,7 +121,7 @@ abstract class AbstractConfigurationBuilder implements ConfigurationBuilderInter
                 throw new \Exception('Factory class for configuration ' . $configurationName . ': ' . $factoryClass .  'not found!', 1293416866);
             }
             
-            $this->configurationObjectInstances[$configurationName] = call_user_func(array($factoryClass, 'getInstance'), $this, $parameters); // Avoid :: notation in PHP < 5.3
+            $this->configurationObjectInstances[$configurationName] = call_user_func([$factoryClass, 'getInstance'], $this, $parameters); // Avoid :: notation in PHP < 5.3
         }
         return $this->configurationObjectInstances[$configurationName];
     }

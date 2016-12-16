@@ -59,7 +59,7 @@ class TestTask extends AbstractSchedulerTask
                     true
                 );
             FlashMessageQueue::addMessage($flashMessage);
-            $executeTestFilePath = Files::concatenatePaths(array($this->testPath, 'testTaskExecution.txt'));
+            $executeTestFilePath = Files::concatenatePaths([$this->testPath, 'testTaskExecution.txt']);
             file_put_contents($executeTestFilePath, '1428924570');
 
             return true;
@@ -76,9 +76,9 @@ class TestTask extends AbstractSchedulerTask
      */
     public function initializeObject()
     {
-        $this->testPath = Files::concatenatePaths(array(__DIR__, '/WorkingDirectory'));
+        $this->testPath = Files::concatenatePaths([__DIR__, '/WorkingDirectory']);
 
-        $testInitializeObjectFilePath = Files::concatenatePaths(array($this->testPath, 'testTaskObjectInitialization.txt'));
+        $testInitializeObjectFilePath = Files::concatenatePaths([$this->testPath, 'testTaskObjectInitialization.txt']);
         file_put_contents($testInitializeObjectFilePath, '1428924552');
     }
 

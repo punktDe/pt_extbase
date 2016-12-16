@@ -35,21 +35,21 @@ class CheckoutCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'force' => '--force',
         'quiet' => '--quiet',
         'commitHash' => '%s'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'force' => 'FALSE',
         'quiet' => 'FALSE',
         'commitHash' => ''
-    );
+    ];
 
 
 

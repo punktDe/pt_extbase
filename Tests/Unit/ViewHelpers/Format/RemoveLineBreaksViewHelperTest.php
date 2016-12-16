@@ -66,12 +66,12 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_RemoveLineBreaksViewHelperTest 
      */
     public function stringDataProvider()
     {
-        return array(
-            '\n\r' => array('input' => "Hier mal ein \n\rUmbruch", 'expected' => 'Hier mal ein Umbruch'),
-            '\r\n' => array('input' => "Hier mal ein \r\nUmbruch", 'expected' => 'Hier mal ein Umbruch'),
-            '\n' => array('input' => "Hier mal ein \nUmbruch", 'expected' => 'Hier mal ein Umbruch'),
-            '\r' => array('input' => "Hier mal ein \rUmbruch", 'expected' => 'Hier mal ein Umbruch')
-        );
+        return [
+            '\n\r' => ['input' => "Hier mal ein \n\rUmbruch", 'expected' => 'Hier mal ein Umbruch'],
+            '\r\n' => ['input' => "Hier mal ein \r\nUmbruch", 'expected' => 'Hier mal ein Umbruch'],
+            '\n' => ['input' => "Hier mal ein \nUmbruch", 'expected' => 'Hier mal ein Umbruch'],
+            '\r' => ['input' => "Hier mal ein \rUmbruch", 'expected' => 'Hier mal ein Umbruch']
+        ];
     }
 
 
@@ -84,7 +84,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_RemoveLineBreaksViewHelperTest 
      */
     public function renderTest($input, $expected)
     {
-        $this->accessibleProxy->_set('arguments', array('string' => $input));
+        $this->accessibleProxy->_set('arguments', ['string' => $input]);
         $result = $this->accessibleProxy->render();
 
         $this->assertEquals($expected, $result);

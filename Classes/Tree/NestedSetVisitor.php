@@ -36,7 +36,7 @@ class Tx_PtExtbase_Tree_NestedSetVisitor implements Tx_PtExtbase_Tree_TreeWalker
      *
      * @var array<Tx_PtExtbase_Tree_NestedSetNodeInterface>
      */
-    protected $visitedNodes = array();
+    protected $visitedNodes = [];
 
 
 

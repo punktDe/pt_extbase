@@ -56,7 +56,7 @@ class Tx_PtExtbase_Service_HashFileSystemService
     public function storeFile($astId, $filePath, $destinationFileName = '')
     {
         $destinationFileName = trim($destinationFileName) ? trim($destinationFileName) : basename($filePath);
-        $targetPath = Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($astId, true), $destinationFileName));
+        $targetPath = Tx_PtExtbase_Utility_Files::concatenatePaths([$this->getHashPath($astId, true), $destinationFileName]);
         copy($filePath, $targetPath);
     }
 
@@ -68,7 +68,7 @@ class Tx_PtExtbase_Service_HashFileSystemService
      */
     public function getFilePath($astId, $fileName)
     {
-        return Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($astId, true), $fileName));
+        return Tx_PtExtbase_Utility_Files::concatenatePaths([$this->getHashPath($astId, true), $fileName]);
     }
 
 
@@ -80,7 +80,7 @@ class Tx_PtExtbase_Service_HashFileSystemService
      */
     public function fileExists($astId, $fileName)
     {
-        return file_exists(Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($astId), $fileName)));
+        return file_exists(Tx_PtExtbase_Utility_Files::concatenatePaths([$this->getHashPath($astId), $fileName]));
     }
 
 
@@ -133,7 +133,7 @@ class Tx_PtExtbase_Service_HashFileSystemService
         $level1 = $astId % 10;
         $level2 = $astId % 100;
 
-        $hashPath = Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->rootDirectory, $level1, $level2, $astId));
+        $hashPath = Tx_PtExtbase_Utility_Files::concatenatePaths([$this->rootDirectory, $level1, $level2, $astId]);
 
         if ($createDirectory) {
             Tx_PtExtbase_Utility_Files::createDirectoryRecursively($hashPath);

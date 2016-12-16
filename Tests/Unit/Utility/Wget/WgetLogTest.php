@@ -51,12 +51,12 @@ class WgetLogTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 
     public function logEntryDataProvider()
     {
-        return array(
-            'sandwich400' => array('codes' => array(200,404,200), 'hasError' => true),
-            'sandwich500' => array('codes' => array(200,503,200), 'hasError' => true),
-            'twoErrors' => array('codes' => array(200,503,400), 'hasError' => true),
-            'noErrors' => array('codes' => array(200,200), 'hasError' => false)
-        );
+        return [
+            'sandwich400' => ['codes' => [200,404,200], 'hasError' => true],
+            'sandwich500' => ['codes' => [200,503,200], 'hasError' => true],
+            'twoErrors' => ['codes' => [200,503,400], 'hasError' => true],
+            'noErrors' => ['codes' => [200,200], 'hasError' => false]
+        ];
     }
 
 

@@ -35,17 +35,17 @@ class BanUrlCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'url' => '%s'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'url' => '',
-    );
+    ];
 
 
 
@@ -78,7 +78,7 @@ class BanUrlCommand extends GenericShellCommand
     {
         $arguments = $this->buildArguments();
         array_unshift($arguments, $this->getCommandName());
-        $arguments = array(sprintf("\"%s\"", implode(' ', $arguments)));
+        $arguments = [sprintf("\"%s\"", implode(' ', $arguments))];
         if ($this->subCommand instanceof GenericShellCommand) {
             array_unshift($arguments, $this->subCommand->render());
         }

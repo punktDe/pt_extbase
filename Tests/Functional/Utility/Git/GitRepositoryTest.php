@@ -394,8 +394,8 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
             ->setUrl(sprintf("file://%s", $this->remoteRepositoryRootPath))
             ->execute();
 
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "2001 - A Space Odyssey");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film01.txt"]), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film02.txt"]), "2001 - A Space Odyssey");
 
         $this->proxy
             ->add()
@@ -416,10 +416,10 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
 
         $this->assertRegExp('/[a-z0-9]{40}/', $expectedCommitHash);
 
-        unlink(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")));
+        unlink(Files::concatenatePaths([$this->repositoryRootPath, "film02.txt"]));
 
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Lolita");
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film03.txt")), "A Clockwork Orange");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film01.txt"]), "Lolita");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film03.txt"]), "A Clockwork Orange");
 
         $this->proxy
             ->add()
@@ -431,11 +431,11 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
             ->setMessage("[CHG] Change film texts")
             ->execute();
 
-        $this->assertFileExists(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")));
-        $this->assertFileNotExists(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")));
-        $this->assertFileExists(Files::concatenatePaths(array($this->repositoryRootPath, "film03.txt")));
+        $this->assertFileExists(Files::concatenatePaths([$this->repositoryRootPath, "film01.txt"]));
+        $this->assertFileNotExists(Files::concatenatePaths([$this->repositoryRootPath, "film02.txt"]));
+        $this->assertFileExists(Files::concatenatePaths([$this->repositoryRootPath, "film03.txt"]));
 
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "Paths Of Glory");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film02.txt"]), "Paths Of Glory");
 
         $this->proxy
             ->checkout()
@@ -454,11 +454,11 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
         $this->assertRegExp('/[a-z0-9]{40}/', $actualCommitHash);
         $this->assertSame($expectedCommitHash, $actualCommitHash);
 
-        $this->assertFileExists(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")));
-        $this->assertStringEqualsFile(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
-        $this->assertFileExists(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")));
-        $this->assertStringEqualsFile(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "2001 - A Space Odyssey");
-        $this->assertFileNotExists(Files::concatenatePaths(array($this->repositoryRootPath, "film03.txt")));
+        $this->assertFileExists(Files::concatenatePaths([$this->repositoryRootPath, "film01.txt"]));
+        $this->assertStringEqualsFile(Files::concatenatePaths([$this->repositoryRootPath, "film01.txt"]), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+        $this->assertFileExists(Files::concatenatePaths([$this->repositoryRootPath, "film02.txt"]));
+        $this->assertStringEqualsFile(Files::concatenatePaths([$this->repositoryRootPath, "film02.txt"]), "2001 - A Space Odyssey");
+        $this->assertFileNotExists(Files::concatenatePaths([$this->repositoryRootPath, "film03.txt"]));
     }
 
 
@@ -474,8 +474,8 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
             ->init()
             ->execute();
 
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "2001 - A Space Odyssey");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film01.txt"]), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film02.txt"]), "2001 - A Space Odyssey");
 
         $this->proxy
             ->add()
@@ -494,10 +494,10 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
             ->execute()
             ->getRawResult();
 
-        unlink(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")));
+        unlink(Files::concatenatePaths([$this->repositoryRootPath, "film02.txt"]));
 
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Lolita");
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film03.txt")), "A Clockwork Orange");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film01.txt"]), "Lolita");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film03.txt"]), "A Clockwork Orange");
 
         $this->proxy
             ->add()
@@ -540,8 +540,8 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
             ->init()
             ->execute();
 
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "2001 - A Space Odyssey");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film01.txt"]), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film02.txt"]), "2001 - A Space Odyssey");
 
         $this->proxy
             ->add()
@@ -567,10 +567,10 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
             ->getRawResult();
         $expectedFirstCommitHash = trim($expectedFirstCommitHash);
 
-        unlink(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")));
+        unlink(Files::concatenatePaths([$this->repositoryRootPath, "film02.txt"]));
 
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Lolita");
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film03.txt")), "A Clockwork Orange");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film01.txt"]), "Lolita");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film03.txt"]), "A Clockwork Orange");
 
         $this->proxy
             ->add()
@@ -636,8 +636,8 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
             ->init()
             ->execute();
 
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film01.txt")), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
-        file_put_contents(Files::concatenatePaths(array($this->repositoryRootPath, "film02.txt")), "2001 - A Space Odyssey");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film01.txt"]), "Dr. Strangelove Or How I Stopped Worrying And Love The Bomb");
+        file_put_contents(Files::concatenatePaths([$this->repositoryRootPath, "film02.txt"]), "2001 - A Space Odyssey");
 
         $this->proxy
             ->add()

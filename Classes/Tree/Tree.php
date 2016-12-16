@@ -47,7 +47,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
      *
      * @var array
      */
-    protected $treeMap = array();
+    protected $treeMap = [];
 
     
     
@@ -56,7 +56,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
      *
      * @var array
      */
-    protected $deletedNodes = array();
+    protected $deletedNodes = [];
 
 
 
@@ -308,7 +308,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
      */
     protected function initTreeMap()
     {
-        $this->treeMap = array();
+        $this->treeMap = [];
         if ($this->rootNode !== null) {
             $this->addNodeToTreeMap($this->rootNode);
             foreach ($this->rootNode->getSubNodes() as $node) {

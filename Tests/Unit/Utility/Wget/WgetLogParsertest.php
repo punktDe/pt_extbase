@@ -100,7 +100,7 @@ EOD;
     /**
      * @var array
      */
-    protected $testWgetLogEntrySplitted1 = array('status' => 'HTTP/1.1 200 OK',
+    protected $testWgetLogEntrySplitted1 = ['status' => 'HTTP/1.1 200 OK',
         'body' => 'Server: Apache/2.4.6 (Red Hat)
   Last-Modified: Mon, 14 Apr 2014 13:44:20 GMT
   Vary: Accept-Encoding,User-Agent
@@ -115,7 +115,7 @@ EOD;
   Connection: keep-alive
   2015-01-26 17:50:43 URL:https://test.de/index.php?id=login&logintype=logout [6285/6285] -> "2014-11-28-0958/test.de/login/hdl/helpdesklogin/4092341/23589310/a9dc685506e98630/104" [1]
 WARNUNG: Kann das Zertifikat von »das-partnerportal.deutschepost.de« nicht prüfen, ausgestellt von »»/C=DE/ST=Nordrhein-Westfalen/L=Bonn/O=Deutsche Post/CN=DPDHL TLS SHA2 CA I3««:.
-  Ein selbst-signiertes Zertifikat gefunden.');
+  Ein selbst-signiertes Zertifikat gefunden.'];
 
 
     /**
@@ -126,9 +126,9 @@ WARNUNG: Kann das Zertifikat von »das-partnerportal.deutschepost.de« nicht pr�
         $logInput = $this->testWgetLogEntry1 . "\n" . $this->testWgetLogEntry2;
         $actualLogEntryArray = $this->wgetLogParser->_call('splitLogFileEntries', $logInput);
 
-        $expectedLogEntryArray = array(
+        $expectedLogEntryArray = [
             0 => $this->testWgetLogEntrySplitted1,
-            2 => array('status' => 'HTTP/1.1 200 OK',
+            2 => ['status' => 'HTTP/1.1 200 OK',
                         'body' =>'Server: Apache/2.4.6 (Red Hat)
   Last-Modified: Fri, 09 Jan 2015 09:04:44 GMT
   Vary: Accept-Encoding,User-Agent
@@ -142,8 +142,8 @@ WARNUNG: Kann das Zertifikat von »das-partnerportal.deutschepost.de« nicht pr�
   Via: 1.1 varnish
   Connection: keep-alive
   2015-01-26 17:50:43 URL:https://test.de/typo3temp/stylesheet_c89de9523c.1422025907.css [9169/9169] -> "2014-11-28-0958/test.de/typo3temp/stylesheet_c89de9523c.1422025907.css" [1]'
-)
-        );
+            ]
+        ];
 
         $this->assertEquals($expectedLogEntryArray[0], $actualLogEntryArray[0], 'First log entry differs');
         $this->assertEquals($expectedLogEntryArray[2], $actualLogEntryArray[2], 'Second log entry differs');
@@ -193,7 +193,7 @@ WARNUNG: Kann das Zertifikat von »das-partnerportal.deutschepost.de« nicht pr�
      */
     public function parseLogWithErrors()
     {
-        $logOutPutFile = Files::concatenatePaths(array(__DIR__, 'TestData/WgetTest.log'));
+        $logOutPutFile = Files::concatenatePaths([__DIR__, 'TestData/WgetTest.log']);
 
         $wgetCommand = new \PunktDe\PtExtbase\Utility\Wget\WgetCommand();
         $wgetCommand->setNoVerbose(true)->setOutputFile($logOutPutFile);
@@ -204,46 +204,46 @@ WARNUNG: Kann das Zertifikat von »das-partnerportal.deutschepost.de« nicht pr�
 
         // Case 200
 
-        $logFileEntry1 = array(
+        $logFileEntry1 = [
             'date' => date_create_from_format('Y-m-d H:i:s', '2015-02-26 11:50:40'),
             'url' => 'https://test.de/data-ok.html',
             'status' => 200,
             'length' => 3951
-        );
+        ];
 
         $this->assertEquals($logFileEntry1, $logFileEntries->getItemByIndex(0)->toArray());
 
 
         // Case 404
 
-        $logFileEntry2 = array(
+        $logFileEntry2 = [
             'date' => date_create_from_format('Y-m-d H:i:s', '2015-02-26 11:50:57'),
             'url' => 'https://test.de/typo3conf/jquery.selectBox-arrow.gif',
             'status' => 404,
             'length' => 275
-        );
+        ];
 
         $this->assertEquals($logFileEntry2, $logFileEntries->getItemByIndex(1)->toArray());
 
         // Case 200 after 404
 
-        $logFileEntry3 = array(
+        $logFileEntry3 = [
             'date' => date_create_from_format('Y-m-d H:i:s', '2015-02-26 11:50:40'),
             'url' => 'https://test.de/data-ok2.html',
             'status' => 200,
             'length' => 1000
-        );
+        ];
 
         $this->assertEquals($logFileEntry3, $logFileEntries->getItemByIndex(2)->toArray());
 
         // Case 404 on last line
 
-        $logFileEntry4 = array(
+        $logFileEntry4 = [
             'date' => date_create_from_format('Y-m-d H:i:s', '2015-02-27 12:07:49'),
             'url' => 'http://partnerportal.dpppa.dev.punkt.de/typo3conf/ext/pt_dppp_base/Resources/Public/Styles/jquery.selectBox-arrow.gif',
             'status' => 404,
             'length' => 275
-        );
+        ];
 
         $this->assertEquals($logFileEntry4, $logFileEntries->getItemByIndex(3)->toArray());
     }
@@ -256,12 +256,12 @@ WARNUNG: Kann das Zertifikat von »das-partnerportal.deutschepost.de« nicht pr�
     {
         $wgetLog = $this->wgetLogParser->_call('buildLogFileEntryArray', $this->testWgetLogEntry2); /** @var $wgetLog WgetLog */
 
-        $expected = array(
+        $expected = [
             'date' => date_create_from_format('Y-m-d H:i:s', '2015-01-26 17:50:43'),
             'url' => 'https://test.de/typo3temp/stylesheet_c89de9523c.1422025907.css',
             'status' => 200,
             'length' => 360
-        );
+        ];
 
         $this->assertEquals(1, $wgetLog->count());
         $this->assertEquals($expected, $wgetLog->getItemByIndex(0)->toArray());

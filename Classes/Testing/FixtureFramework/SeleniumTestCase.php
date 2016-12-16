@@ -69,7 +69,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_SeleniumTestCase extends PH
      * @author Robert Lemke <robert@typo3.org>
      * @api
      */
-    protected function getAccessibleMock($originalClassName, $methods = array(), array $arguments = array(), $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true)
+    protected function getAccessibleMock($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true)
     {
         return $this->getMock($this->buildAccessibleProxy($originalClassName), $methods, $arguments, $mockClassName, $callOriginalConstructor, $callOriginalClone, $callAutoload);
     }

@@ -36,7 +36,7 @@ class Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject implements Tx_PtExtb
      *
      * @var array
      */
-    public $dummyData = array();
+    public $dummyData = [];
     
     
     
@@ -47,7 +47,7 @@ class Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject implements Tx_PtExtb
      */
     public function initSomeData()
     {
-        $this->dummyData = array('testkey1' => 'testvalue1', 'testkey2' => 'testvalue2');
+        $this->dummyData = ['testkey1' => 'testvalue1', 'testkey2' => 'testvalue2'];
     }
     
     

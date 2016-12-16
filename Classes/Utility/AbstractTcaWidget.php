@@ -143,7 +143,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget
      * @param array $parameters Parameters passed by TCA rendering call
      * @param t3lib_TCEforms $fobj t3lib_TCEforms object passed by TCA rendering call
      */
-    protected function init(array $params = array(), \TYPO3\CMS\Backend\Form\FormEngine $fobj = null)
+    protected function init(array $params = [], \TYPO3\CMS\Backend\Form\FormEngine $fobj = null)
     {
         $this->tcaParameters = $params;
         $this->tceForms = $fobj;
@@ -221,7 +221,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget
     {
         $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
         $bootstrap = $this->objectManager->get('TYPO3\CMS\Extbase\Core\Bootstrap');
-        $bootstrap->initialize(array('extensionName' => $this->extensionName, 'pluginName' => $this->pluginName));
+        $bootstrap->initialize(['extensionName' => $this->extensionName, 'pluginName' => $this->pluginName]);
     }
 
 
@@ -256,7 +256,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget
     protected function getSelectedValues()
     {
         $listOfValues = explode(',', $this->formFieldValue);
-        $selectedValuesArray = array();
+        $selectedValuesArray = [];
         foreach ($listOfValues as $singleValue) {
             list($uid, $label) = explode('|', $singleValue);
             $selectedValuesArray[$uid] = urldecode($label);

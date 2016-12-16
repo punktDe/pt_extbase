@@ -76,13 +76,13 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
 
     public function setSelectionDataProvider()
     {
-        return array(
-            'singleNotSelected' => array('multiple' => false, 'selection' => null, 'expected' => array()),
-            'singleSelected' => array('multiple' => false, 'selection' => 1, 'expected' => array('cls' => 'selectedNode')),
-            'multipleButNotChecked' => array('multiple' => true, 'selection' => array(), 'expected' => array('checked' => false)),
-            'multipleAndChecked' => array('multiple' => true, 'selection' => array(1), 'expected' => array('checked' => true)),
-            'multipleButNotChecked' => array('multiple' => true, 'selection' => array(), 'expected' => array('checked' => false)),
-        );
+        return [
+            'singleNotSelected' => ['multiple' => false, 'selection' => null, 'expected' => []],
+            'singleSelected' => ['multiple' => false, 'selection' => 1, 'expected' => ['cls' => 'selectedNode']],
+            'multipleButNotChecked' => ['multiple' => true, 'selection' => [], 'expected' => ['checked' => false]],
+            'multipleAndChecked' => ['multiple' => true, 'selection' => [1], 'expected' => ['checked' => true]],
+            'multipleButNotChecked' => ['multiple' => true, 'selection' => [], 'expected' => ['checked' => false]],
+        ];
     }
 
 
@@ -100,7 +100,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
 
         $node = Tx_PtExtbase_Tests_Unit_Tree_NodeMock::createNode('1', 0, 0, 1, '1');
 
-        $nodeArray = array();
+        $nodeArray = [];
         $this->accessibleProxy->_callRef('setSelectionOnNodeArray', $node, $nodeArray);
 
         $this->assertEquals($expected, $nodeArray);
@@ -129,7 +129,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
         $visitors[] = $this->accessibleProxy;
 
         $this->accessibleProxy->setMultipleSelect(true);
-        $this->accessibleProxy->setSelection(array(1, 5));
+        $this->accessibleProxy->setSelection([1, 5]);
         
         $arrayTreeWriter = new Tx_PtExtbase_Tree_ArrayTreeWriter($visitors, $this->accessibleProxy);
 
@@ -162,14 +162,14 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
 
     public function callBackSetterDataProvider()
     {
-        return array(
-            'noObject' => array('target' => '', 'method' => 'callBackSetterDataProvider', 'throwsException' => true),
-            'noMethod' => array('target' => $this, 'method' => '', 'throwsException' => true),
-            'correctObjectAndMethod' => array('target' => $this, 'method' => 'callBackSetterDataProvider', 'throwsException' => false),
-            'correctObjectIncorrectMethod' => array('target' => $this, 'method' => 'notAvailable', 'throwsException' => true),
-            'correctClassName' => array('target' => 'Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest', 'method' => 'callBackSetterDataProvider', 'throwsException' => false),
-            'inCorrectClassName' => array('target' => 'foo', 'method' => 'foo', 'throwsException' => true),
-        );
+        return [
+            'noObject' => ['target' => '', 'method' => 'callBackSetterDataProvider', 'throwsException' => true],
+            'noMethod' => ['target' => $this, 'method' => '', 'throwsException' => true],
+            'correctObjectAndMethod' => ['target' => $this, 'method' => 'callBackSetterDataProvider', 'throwsException' => false],
+            'correctObjectIncorrectMethod' => ['target' => $this, 'method' => 'notAvailable', 'throwsException' => true],
+            'correctClassName' => ['target' => 'Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest', 'method' => 'callBackSetterDataProvider', 'throwsException' => false],
+            'inCorrectClassName' => ['target' => 'foo', 'method' => 'foo', 'throwsException' => true],
+        ];
     }
 
 
@@ -242,7 +242,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
         $node = new Tx_PtExtbase_Tree_Node('test');
 
         $callBackObject = $this->getMockBuilder('Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest_CallBackObject')
-                        ->setMethods(array('callBackMethod'))
+                        ->setMethods(['callBackMethod'])
                         ->getMock();
         $callBackObject->expects($this->once())->method('callBackMethod');
 
@@ -261,7 +261,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
         $node = new Tx_PtExtbase_Tree_Node('test');
 
         $callBackObject = $this->getMockBuilder('Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest_CallBackObject')
-                        ->setMethods(array('callBackMethod'))
+                        ->setMethods(['callBackMethod'])
                         ->getMock();
         $callBackObject->expects($this->once())->method('callBackMethod');
 

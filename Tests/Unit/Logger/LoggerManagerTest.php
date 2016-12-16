@@ -50,24 +50,24 @@ class LoggerManagerTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
      */
     public function unifyComponentNameUnifiesComponentNameDataProvider()
     {
-        return array(
-            'deprecatedClassName' => array(
+        return [
+            'deprecatedClassName' => [
                 'componentName' => 'Tx_Acme_Utility_ToonDrawer',
                 'expected' => 'Tx.Acme.Utility.ToonDrawer'
-            ),
-            'namespacedClassName' => array(
+            ],
+            'namespacedClassName' => [
                 'componentName' => 'Acme\\Utility\\ToonDrawer',
                 'expected' => 'Acme.Utility.ToonDrawer'
-            ),
-            'dotSeparatedComponentName' => array(
+            ],
+            'dotSeparatedComponentName' => [
                 'componentName' => 'acme.utility.toondrawer',
                 'expected' => 'acme.utility.toondrawer'
-            ),
-            'componentNameWithoutSeparator' => array(
+            ],
+            'componentNameWithoutSeparator' => [
                 'componentName' => 'AcmeUtilityToonDrawer',
                 'expected' => 'AcmeUtilityToonDrawer'
-            ),
-        );
+            ],
+        ];
     }
 
 
@@ -92,86 +92,86 @@ class LoggerManagerTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
      */
     public function evaluateIndexNameByComponentNameDataProvider()
     {
-        return array(
-            'noConfigurationAvailable' => array(
+        return [
+            'noConfigurationAvailable' => [
                 'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-                'loggerConfigurationConfiguration' => array(
-                ),
+                'loggerConfigurationConfiguration' => [
+                ],
                 'expected' => 'PTEXTBASE'
-            ),
-            'onlyWriterConfigurationAvailable' => array(
+            ],
+            'onlyWriterConfigurationAvailable' => [
                 'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-                'loggerConfigurationConfiguration' => array(
-                    'Tx' => array(
-                        'writerConfiguration' => array(
+                'loggerConfigurationConfiguration' => [
+                    'Tx' => [
+                        'writerConfiguration' => [
                             'Duffy', 'Duck'
-                        )
-                    )
-                ),
+                        ]
+                    ]
+                ],
                 'expected' => 'PTEXTBASE.Tx'
-            ),
-            'onlyProcessorConfigurationAvailable' => array(
+            ],
+            'onlyProcessorConfigurationAvailable' => [
                 'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-                'loggerConfiguration' => array(
-                    'Tx' => array(
-                        'processorConfiguration' => array(
+                'loggerConfiguration' => [
+                    'Tx' => [
+                        'processorConfiguration' => [
                             'Duffy', 'Duck'
-                        )
-                    )
-                ),
+                        ]
+                    ]
+                ],
                 'expected' => 'PTEXTBASE.Tx'
-            ),
-            'levelTwoConfigurationAvailable' => array(
+            ],
+            'levelTwoConfigurationAvailable' => [
                 'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-                'loggerConfiguration' => array(
-                    'Tx' => array(
-                        'Acme' => array(
-                            'processorConfiguration' => array(
+                'loggerConfiguration' => [
+                    'Tx' => [
+                        'Acme' => [
+                            'processorConfiguration' => [
                                 'Duffy', 'Duck'
-                            )
-                        )
-                    )
-                ),
+                            ]
+                        ]
+                    ]
+                ],
                 'expected' => 'PTEXTBASE.Tx.Acme'
-            ),
-            'maximumSpecificConfigurationAvailable' => array(
+            ],
+            'maximumSpecificConfigurationAvailable' => [
                 'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-                'loggerConfiguration' => array(
-                    'Tx' => array(
-                        'Acme' => array(
-                            'Utility' => array(
-                                'ToonDrawer' => array(
-                                    'processorConfiguration' => array(
+                'loggerConfiguration' => [
+                    'Tx' => [
+                        'Acme' => [
+                            'Utility' => [
+                                'ToonDrawer' => [
+                                    'processorConfiguration' => [
                                         'Duffy', 'Duck'
-                                    )
-                                )
-                            )
-                        )
-                    )
-                ),
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
                 'expected' => 'PTEXTBASE.Tx.Acme.Utility.ToonDrawer'
-            ),
-            'writerAndProcessorWithConfigurationOfUnequalSpecificityAvailable' => array(
+            ],
+            'writerAndProcessorWithConfigurationOfUnequalSpecificityAvailable' => [
                 'componentName' => 'Tx.Acme.Utility.ToonDrawer',
-                'loggerConfiguration' => array(
-                    'Tx' => array(
-                        'Acme' => array(
-                            'Utility' => array(
-                                'ToonDrawer' => array(
-                                    'processorConfiguration' => array(
+                'loggerConfiguration' => [
+                    'Tx' => [
+                        'Acme' => [
+                            'Utility' => [
+                                'ToonDrawer' => [
+                                    'processorConfiguration' => [
                                         'Duffy', 'Duck'
-                                    )
-                                )
-                            )
-                        ),
-                        'writerConfiguration' => array(
+                                    ]
+                                ]
+                            ]
+                        ],
+                        'writerConfiguration' => [
                             'Bugs', 'Bunny'
-                        )
-                    )
-                ),
+                        ]
+                    ]
+                ],
                 'expected' => 'PTEXTBASE.Tx.Acme.Utility.ToonDrawer'
-            )
-        );
+            ]
+        ];
     }
 
 
@@ -198,30 +198,30 @@ class LoggerManagerTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
      */
     public function getLoggerCreatesValidIndexOfLoggersAndReturnsLoggerWithCorrectComponentNameDataProvider()
     {
-        return array(
-            array(
-                'loggerNames' => array(
+        return [
+            [
+                'loggerNames' => [
                     'Tx.Acme.Utility.ToonDrawer',
                     'Tx.Acme.Utility',
                     'Tx.Acme',
                     'Tx.Roadrunner',
-                ),
-                'loggerConfiguration' => array(
-                    'Tx' => array(
-                        'Acme' => array(
-                            'processorConfiguration' => array(
+                ],
+                'loggerConfiguration' => [
+                    'Tx' => [
+                        'Acme' => [
+                            'processorConfiguration' => [
                                 'Duffy', 'Duck'
-                            )
-                        )
-                    )
-                ),
-                'expectedLoggerIndexKeys' => array(
+                            ]
+                        ]
+                    ]
+                ],
+                'expectedLoggerIndexKeys' => [
                     '',
                     'PTEXTBASE.Tx.Acme',
                     'PTEXTBASE.Tx',
-                )
-            ),
-        );
+                ]
+            ],
+        ];
     }
 
 

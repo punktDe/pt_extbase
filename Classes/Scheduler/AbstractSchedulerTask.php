@@ -109,7 +109,7 @@ abstract class AbstractSchedulerTask extends AbstractTask
      * @param array $loggerData
      * @return array
      */
-    protected function addTaskLoggerData(&$loggerData = array())
+    protected function addTaskLoggerData(&$loggerData = [])
     {
         $loggerData['time'] =  TimeTracker::stop('SchedulerTaskMeasure');
 
@@ -176,7 +176,7 @@ abstract class AbstractSchedulerTask extends AbstractTask
      */
     protected function logToApplicationLog()
     {
-        $data = array();
+        $data = [];
         $this->addTaskLoggerData($data);
         $this->logger->info(sprintf('Scheduler Task "%s" completed.', trim($this->getTaskTitle())), get_class($this), $data);
     }

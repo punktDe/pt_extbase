@@ -42,7 +42,7 @@ class Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser
      */
     public function parse($filePath)
     {
-        $queries = array();
+        $queries = [];
         $lines = $this->loadSqlFile($filePath);
         $query = '';
         foreach ($lines as $line) {

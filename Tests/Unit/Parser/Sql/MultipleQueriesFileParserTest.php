@@ -54,7 +54,7 @@ class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends \P
     {
         $input = 'tables.sql';
 
-        $sql = array(
+        $sql = [
             "-- CREATE TABLE",
             "CREATE TABLE IF NOT EXISTS tx_ptextbase_domain_model_category (",
                 "uid integer(11) NOT NULL AUTO_INCREMENT,",
@@ -64,15 +64,15 @@ class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends \P
             ") ENGINE=MyISAM DEFAULT CHARACTER SET utf8;",
             "-- DROP TABLE",
             "DROP TABLE IF EXISTS tx_ptextbase_domain_model_category;"
-        );
+        ];
 
-        $expected = array(
+        $expected = [
             "CREATE TABLE IF NOT EXISTS tx_ptextbase_domain_model_category (uid integer(11) NOT NULL AUTO_INCREMENT,title varchar(255) DEFAULT '' NOT NULL,PRIMARY KEY (uid),KEY(category_title)) ENGINE=MyISAM DEFAULT CHARACTER SET utf8;",
             "DROP TABLE IF EXISTS tx_ptextbase_domain_model_category;"
-        );
+        ];
 
         $proxyMock = $this->getMockBuilder($this->proxyClass)
-                ->setMethods(array('loadSqlFile'))
+                ->setMethods(['loadSqlFile'])
                 ->getMock();
         $proxyMock->expects($this->once())
             ->method('loadSqlFile')

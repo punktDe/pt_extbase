@@ -77,7 +77,7 @@ class StatusCommandTest extends UnitTestCase
     public function getResultClassNameReturnsBaseResultClassIfNoDedicatedResultClassExists()
     {
         $commandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand')
-            ->setMethods(array('getClass'))
+            ->setMethods(['getClass'])
             ->getMock();
         $commandMock->expects($this->any())
             ->method('getClass')

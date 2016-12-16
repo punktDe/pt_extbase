@@ -49,7 +49,7 @@ class GitExecutionManager extends ExecutionManager
      */
     protected function renderCommand()
     {
-        $this->commandLine = sprintf('cd %s; %s --git-dir=%s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), Files::concatenatePaths(array($this->repository->getRepositoryRootPath(), '.git')), $this->command->render());
+        $this->commandLine = sprintf('cd %s; %s --git-dir=%s %s', $this->repository->getRepositoryRootPath(), $this->repository->getCommandPath(), Files::concatenatePaths([$this->repository->getRepositoryRootPath(), '.git']), $this->command->render());
     }
 
 

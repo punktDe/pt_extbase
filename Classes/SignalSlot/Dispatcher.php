@@ -49,7 +49,7 @@ class Tx_PtExtbase_SignalSlot_Dispatcher implements \TYPO3\CMS\Core\SingletonInt
      * array of information about the slot
      * @var array
      */
-    protected $slots = array();
+    protected $slots = [];
 
     /**
      * Injects the object manager
@@ -90,12 +90,12 @@ class Tx_PtExtbase_SignalSlot_Dispatcher implements \TYPO3\CMS\Core\SingletonInt
             $method = $slotMethodName;
         }
 
-        $slot = array(
+        $slot = [
             'class' => $class,
             'method' => $method,
             'object' => $object,
             'omitSignalInformation' => ($omitSignalInformation === true)
-        );
+        ];
 
         if (!is_array($this->slots[$signalClassName][$signalName]) || !in_array($slot, $this->slots[$signalClassName][$signalName])) {
             $this->slots[$signalClassName][$signalName][] = $slot;
@@ -112,7 +112,7 @@ class Tx_PtExtbase_SignalSlot_Dispatcher implements \TYPO3\CMS\Core\SingletonInt
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException if the slot is not valid
      * @api
      */
-    public function dispatch($signalClassName, $signalName, array $signalArguments = array())
+    public function dispatch($signalClassName, $signalName, array $signalArguments = [])
     {
         if (!isset($this->slots[$signalClassName][$signalName])) {
             return;
@@ -136,7 +136,7 @@ class Tx_PtExtbase_SignalSlot_Dispatcher implements \TYPO3\CMS\Core\SingletonInt
             if (!method_exists($object, $slotInformation['method'])) {
                 throw new \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException('The slot method ' . get_class($object) . '->' . $slotInformation['method'] . '() does not exist.', 1245673368);
             }
-            call_user_func_array(array($object, $slotInformation['method']), $slotArguments);
+            call_user_func_array([$object, $slotInformation['method']], $slotArguments);
         }
     }
 
@@ -150,6 +150,6 @@ class Tx_PtExtbase_SignalSlot_Dispatcher implements \TYPO3\CMS\Core\SingletonInt
      */
     public function getSlots($signalClassName, $signalName)
     {
-        return (isset($this->slots[$signalClassName][$signalName])) ? $this->slots[$signalClassName][$signalName] : array();
+        return (isset($this->slots[$signalClassName][$signalName])) ? $this->slots[$signalClassName][$signalName] : [];
     }
 }

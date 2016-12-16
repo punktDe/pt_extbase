@@ -86,7 +86,7 @@ namespace PunktDe\PtExtbase\Utility {
          * @throws \Exception
          * @return array Filenames including full path
          */
-        public static function readDirectoryRecursively($path, $suffix = null, $returnRealPath = false, $returnDotFiles = false, &$filenames = array())
+        public static function readDirectoryRecursively($path, $suffix = null, $returnRealPath = false, $returnDotFiles = false, &$filenames = [])
         {
             if (!is_dir($path)) {
                 throw new \Exception('"' . $path . '" is no directory.', 1207253462);
@@ -237,7 +237,7 @@ namespace PunktDe\PtExtbase\Utility {
             foreach ($sourceFilenames as $filename) {
                 $relativeFilename = str_replace($sourceDirectory, '', $filename);
                 self::createDirectoryRecursively($targetDirectory . dirname($relativeFilename));
-                $targetPathAndFilename = self::concatenatePaths(array($targetDirectory, $relativeFilename));
+                $targetPathAndFilename = self::concatenatePaths([$targetDirectory, $relativeFilename]);
                 if ($keepExistingFiles === false || !file_exists($targetPathAndFilename)) {
                     copy($filename, $targetPathAndFilename);
                 }

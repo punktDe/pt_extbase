@@ -71,13 +71,13 @@ class Tx_PtExtBase_Utility_TcaManagerTest extends \TYPO3\CMS\Core\Tests\UnitTest
      */
     public function deactivateAndSetEnableColumns()
     {
-        $enableColumnsArray = array('test1'=>'TEST1','test2'=>'TEST2','test3'=>'TEST3');
+        $enableColumnsArray = ['test1'=>'TEST1','test2'=>'TEST2','test3'=>'TEST3'];
         $mergedEnableColumns = $GLOBALS['TCA']['pages']['ctrl']['enablecolumns'] = array_merge($GLOBALS['TCA']['pages']['ctrl']['enablecolumns'], $enableColumnsArray);
-        $toDeactivate = array('test1','test2');
+        $toDeactivate = ['test1','test2'];
 
         $proxyMock = $this->getMockBuilder($this->proxyClass)->setMethods(null)->getMock();
 
-        $this->assertEquals(array('test1'=>'TEST1', 'test2'=>'TEST2'), $reEnableColumns = $proxyMock->deactivateEnableColumns('pages', $toDeactivate));
+        $this->assertEquals(['test1'=>'TEST1', 'test2'=>'TEST2'], $reEnableColumns = $proxyMock->deactivateEnableColumns('pages', $toDeactivate));
         $this->assertEquals('TEST3', $GLOBALS['TCA']['pages']['ctrl']['enablecolumns']['test3']);
 
         $proxyMock->setEnableColumns('pages', $reEnableColumns);

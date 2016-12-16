@@ -51,7 +51,7 @@ class Tx_PtExtbase_ViewHelpers_Form_SelectViewHelper extends \TYPO3\CMS\Fluid\Vi
     {
         $options = parent::getOptions();
         if ($this->arguments['emptyOption']) {
-            $newOptions = array();
+            $newOptions = [];
             $newOptions[0] = $this->arguments['emptyOption'];
             foreach ($options as $key => $value) {
                 $newOptions[$key] = $value;

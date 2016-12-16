@@ -42,7 +42,7 @@ class StatusResultTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
     {
         $proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Git\Result\StatusResult');
         $this->proxy = $this->getMockBuilder($proxyClass)
-            ->setMethods(array('foo'))
+            ->setMethods(['foo'])
             ->disableOriginalConstructor()
             ->getMock();
         $this->proxy->_set('logger', $this->getSimpleMock(\PunktDe\PtExtbase\Logger\Logger::class));
@@ -55,76 +55,76 @@ class StatusResultTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
      */
     public function buildResultBuildsValidResultDataProvider()
     {
-        return array(
-            'ModifiedDeletedUntracked' => array(
+        return [
+            'ModifiedDeletedUntracked' => [
                 'rawResult' => " M file01.txt\n D file02.txt\n?? file03.txt\n",
-                'parsedResult' => array(
-                    array(
+                'parsedResult' => [
+                    [
                         'indexStatus' => '',
                         'worktreeStatus' => 'M',
                         'path' => 'file01.txt',
                         'correspondingPath' => ''
-                    ),
-                    array(
+                    ],
+                    [
                         'indexStatus' => '',
                         'worktreeStatus' => 'D',
                         'path' => 'file02.txt',
                         'correspondingPath' => ''
-                    ),
-                    array(
+                    ],
+                    [
                         'indexStatus' => '?',
                         'worktreeStatus' => '?',
                         'path' => 'file03.txt',
                         'correspondingPath' => ''
-                    ),
-                ),
-            ),
-            'Rename' => array(
+                    ],
+                ],
+            ],
+            'Rename' => [
                 'rawResult' => "R  file01.txt -> file02.txt",
-                'parsedResult' => array(
-                    array(
+                'parsedResult' => [
+                    [
                         'indexStatus' => 'R',
                         'worktreeStatus' => '',
                         'path' => 'file01.txt',
                         'correspondingPath' => 'file02.txt'
-                    )
-                )
-            ),
-            'RenameFilesWithWhitespace' => array(
+                    ]
+                ]
+            ],
+            'RenameFilesWithWhitespace' => [
                 'rawResult' => "R  \"file 01.txt\" -> \"file 02.txt\"\nR  file03.txt -> \"file 04.txt\"\nR  \"file 05.txt\" -> file06.txt",
-                'parsedResult' => array(
-                    array(
+                'parsedResult' => [
+                    [
                         'indexStatus' => 'R',
                         'worktreeStatus' => '',
                         'path' => 'file 01.txt',
                         'correspondingPath' => 'file 02.txt'
-                    ),
-                    array(
+                    ],
+                    [
                         'indexStatus' => 'R',
                         'worktreeStatus' => '',
                         'path' => 'file03.txt',
                         'correspondingPath' => 'file 04.txt'
-                    ),
-                    array(
+                    ],
+                    [
                         'indexStatus' => 'R',
                         'worktreeStatus' => '',
                         'path' => 'file 05.txt',
                         'correspondingPath' => 'file06.txt'
-                    )
-                ),
-            ),
-            'DirectorySeperatorInFileName' => array(
+                    ]
+                ],
+            ],
+            'DirectorySeperatorInFileName' => [
                 'rawResult' => "R  Data/file01.txt -> Data/file02.txt",
-                'parsedResult' => array(
-                    array(
+                'parsedResult' => [
+                    [
                         'indexStatus' => 'R',
                         'worktreeStatus' => '',
                         'path' => 'Data/file01.txt',
                         'correspondingPath' => 'Data/file02.txt'
-                    )
-                )
-            ),
-        );
+                    ]
+                ]
+            ],
+        ];
     }
 
 
@@ -139,7 +139,7 @@ class StatusResultTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
     public function buildResultBuildsValidResult($rawResult, $parsedResult)
     {
         $statusCommandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand')
-            ->setMethods(array('isShort'))
+            ->setMethods(['isShort'])
             ->getMock();
         $statusCommandMock->expects($this->once())
             ->method('isShort')
@@ -170,31 +170,31 @@ class StatusResultTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
      */
     public function resultCanBeConvertedToArrayDataProvider()
     {
-        return array(
-            'ModifiedDeletedUntracked' => array(
+        return [
+            'ModifiedDeletedUntracked' => [
                 'rawResult' => " M file01.txt\n D file02.txt\n?? file03.txt\n",
-                'expected' => array(
-                    array(
+                'expected' => [
+                    [
                         'indexStatus' => '',
                         'worktreeStatus' => 'M',
                         'path' => 'file01.txt',
                         'correspondingPath' => ''
-                    ),
-                    array(
+                    ],
+                    [
                         'indexStatus' => '',
                         'worktreeStatus' => 'D',
                         'path' => 'file02.txt',
                         'correspondingPath' => ''
-                    ),
-                    array(
+                    ],
+                    [
                         'indexStatus' => '?',
                         'worktreeStatus' => '?',
                         'path' => 'file03.txt',
                         'correspondingPath' => ''
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
 
@@ -209,7 +209,7 @@ class StatusResultTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
     public function resultCanBeConvertedToArray($rawResult, $expected)
     {
         $statusCommandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand')
-            ->setMethods(array('isShort'))
+            ->setMethods(['isShort'])
             ->getMock();
         $statusCommandMock->expects($this->once())
             ->method('isShort')

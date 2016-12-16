@@ -194,6 +194,6 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeBuilderTest extends \PunktDe\PtExtbase\Te
      */
     protected function buildRepositoryMock()
     {
-        return $this->getMock('Tx_PtExtbase_Tree_NodeRepository', array('findByNamespace'), array(), '', false);
+        return $this->getMock('Tx_PtExtbase_Tree_NodeRepository', ['findByNamespace'], [], '', false);
     }
 }

@@ -53,7 +53,7 @@ class Tx_PtExtbase_Tree_Stack
      */
     public function __construct()
     {
-        $this->elements = array();
+        $this->elements = [];
     }
     
     

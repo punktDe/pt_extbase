@@ -124,7 +124,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CM
      */
     protected function runCommand($command, $returnOutput = false)
     {
-        $output = array();
+        $output = [];
         if ($returnOutput === true) {
             exec($command, $output, $returnValue);
         } else {

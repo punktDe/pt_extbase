@@ -45,10 +45,10 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
     /**
      * @var array
      */
-    protected $configuration = array(
+    protected $configuration = [
         'id' => 'tx_ptextbase_sqlfile',
         'label' => 'SQL file'
-    );
+    ];
 
     /**
      * @var string
@@ -68,7 +68,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
     public function getAdditionalFields(array &$taskInfo, $task,  \TYPO3\CMS\Scheduler\Controller\SchedulerModuleController $schedulerModule)
     {
         $configuration = $this->configuration;
-        $additionalFields = array();
+        $additionalFields = [];
 
         $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
@@ -85,10 +85,10 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
         $view->assign('value', $taskInfo[$configuration['id']]);
         $view->assign('sqlFilePaths', $this->getSqlFilePaths());
 
-        $additionalFields[$configuration['id']] = array(
+        $additionalFields[$configuration['id']] = [
             'code'     => $view->render(),
             'label'    => $configuration['label']
-        );
+        ];
 
         return $additionalFields;
     }
@@ -114,7 +114,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
     protected function getSqlFilePaths()
     {
         $extensions = $this->getLoadedExtensions();
-        $sqlFilePaths = array();
+        $sqlFilePaths = [];
         foreach ($extensions as $extension) {
             $sqlFilePaths = array_merge($sqlFilePaths, $this->getSqlFilePathsOfExtension($extension));
         }
@@ -128,7 +128,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
      */
     protected function getLoadedExtensions()
     {
-        $loadedExtensions = array();
+        $loadedExtensions = [];
 
         $listUtility = $this->objectManager->get('TYPO3\\CMS\\Extensionmanager\\Utility\\ListUtility'); /** @var $listUtility \TYPO3\CMS\Extensionmanager\Utility\ListUtility */
         $availableExtensions = $listUtility->getAvailableExtensions();
@@ -151,7 +151,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
      */
     protected function getSqlFilePathsOfExtension($extension)
     {
-        $pathNameShortCuts = array();
+        $pathNameShortCuts = [];
         $filePaths = $this->getFilePathsOfPath($extension, 'Resources/Private/Sql/');
         $filePaths = array_merge($filePaths, $this->getFilePathsOfPath($extension, 'Classes/Domain/SqlGenerator/'));
         foreach ($filePaths as $filePath) {
@@ -171,7 +171,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
     protected function getFilePathsOfPath($extension, $path)
     {
         $path = ExtensionManagementUtility::extPath($extension, $path);
-        return GeneralUtility::getAllFilesAndFoldersInPath(array(), $path, $this->fileExtensionList);
+        return GeneralUtility::getAllFilesAndFoldersInPath([], $path, $this->fileExtensionList);
     }
 
 

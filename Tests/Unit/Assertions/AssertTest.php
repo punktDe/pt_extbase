@@ -45,7 +45,7 @@ class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends \PunktDe\PtExtbase\T
     public function isAThrowsNoExceptionIfAssertionHolds()
     {
         // This test should pass without an Exception being thrown
-        Tx_PtExtbase_Assertions_Assert::isA($this, __CLASS__, array('message' => 'Message that shows if assertion does not hold.'));
+        Tx_PtExtbase_Assertions_Assert::isA($this, __CLASS__, ['message' => 'Message that shows if assertion does not hold.']);
     }
 
 
@@ -55,7 +55,7 @@ class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends \PunktDe\PtExtbase\T
     {
         // This test should throw an exception
         try {
-            Tx_PtExtbase_Assertions_Assert::isA($this, 'Tx_PtExtbase_Tests_Unit_Assertion_AssertTestFakeInterface', array('message' => 'This throws an exception'));
+            Tx_PtExtbase_Assertions_Assert::isA($this, 'Tx_PtExtbase_Tests_Unit_Assertion_AssertTestFakeInterface', ['message' => 'This throws an exception']);
         } catch (Exception $e) {
             return;
         }
@@ -68,7 +68,7 @@ class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends \PunktDe\PtExtbase\T
     public function classExistsThrowsNoExceptionIfAssertionHolds()
     {
         // This test should pass without an Exception being thrown
-        Tx_PtExtbase_Assertions_Assert::classExists(__CLASS__, array('message' => 'Message that shows if assertion does not hold'));
+        Tx_PtExtbase_Assertions_Assert::classExists(__CLASS__, ['message' => 'Message that shows if assertion does not hold']);
     }
 
 
@@ -77,7 +77,7 @@ class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends \PunktDe\PtExtbase\T
     public function classExistsThrowsAnExceptionIfAssertionDoesNotHold()
     {
         try {
-            Tx_PtExtbase_Assertions_Assert::classExists('Tx_PtExtbase_Tests_Unit_Assertion_AssertTestNONEXISTING', array('message' => 'This throws an exception'));
+            Tx_PtExtbase_Assertions_Assert::classExists('Tx_PtExtbase_Tests_Unit_Assertion_AssertTestNONEXISTING', ['message' => 'This throws an exception']);
         } catch (Exception $e) {
             return;
         }
@@ -89,8 +89,8 @@ class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends \PunktDe\PtExtbase\T
     /** @test */
     public function tableExistsThrowsNoExceptionIfTableExists()
     {
-        $dbObjMock = $this->getMock('t3lib_DB', array('admin_get_tables'), array(), '', false);
-        $dbObjMock->expects($this->any())->method('admin_get_tables')->will($this->returnValue(array('pages' => array())));
+        $dbObjMock = $this->getMock('t3lib_DB', ['admin_get_tables'], [], '', false);
+        $dbObjMock->expects($this->any())->method('admin_get_tables')->will($this->returnValue(['pages' => []]));
         $this->saveDbObjInAssertClass();
         Tx_PtExtbase_Assertions_Assert::$dbObj = $dbObjMock;
         Tx_PtExtbase_Assertions_Assert::tableExists('pages');
@@ -102,8 +102,8 @@ class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends \PunktDe\PtExtbase\T
     /** @test */
     public function tableExistsThrowsExceptionIfTableDoesNotExist()
     {
-        $dbObjMock = $this->getMock('t3lib_DB', array('admin_get_tables'), array(), '', false);
-        $dbObjMock->expects($this->any())->method('admin_get_tables')->will($this->returnValue(array()));
+        $dbObjMock = $this->getMock('t3lib_DB', ['admin_get_tables'], [], '', false);
+        $dbObjMock->expects($this->any())->method('admin_get_tables')->will($this->returnValue([]));
         $this->saveDbObjInAssertClass();
         Tx_PtExtbase_Assertions_Assert::$dbObj = $dbObjMock;
         try {
@@ -123,8 +123,8 @@ class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends \PunktDe\PtExtbase\T
     /** @test */
     public function tableAndFieldExistThrowsNoExceptionIfFieldExistsInTable()
     {
-        $dbMockObj = $this->getMock('t3lib_DB', array('admin_get_fields'), array(), '', false);
-        $dbMockObj->expects($this->any())->method('admin_get_fields')->with('table')->will($this->returnValue(array('fieldname' => array())));
+        $dbMockObj = $this->getMock('t3lib_DB', ['admin_get_fields'], [], '', false);
+        $dbMockObj->expects($this->any())->method('admin_get_fields')->with('table')->will($this->returnValue(['fieldname' => []]));
         $this->saveDbObjInAssertClass();
         Tx_PtExtbase_Assertions_Assert::$dbObj = $dbMockObj;
         Tx_PtExtbase_Assertions_Assert::tableAndFieldExist('table', 'fieldname');

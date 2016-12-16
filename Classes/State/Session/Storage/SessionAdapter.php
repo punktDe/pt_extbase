@@ -103,7 +103,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 
             // TYPO3 Backend mode
         } else {
-            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, array('message' => 'No valid backend user found!'));
+            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, ['message' => 'No valid backend user found!']);
 
             $val = $GLOBALS['BE_USER']->getSessionData($key);
             if (TYPO3_DLOG) {
@@ -155,11 +155,11 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
                 $sessionData[$key] = $val;
 
                 // write sessionData back to database
-                $insertFields = array(
+                $insertFields = [
                     'hash' => $foreignSessionId,
                     'content' => serialize($sessionData),
                     'tstamp' => time()
-                );
+                ];
                 $GLOBALS['TYPO3_DB']->exec_DELETEquery('fe_session_data', 'hash=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($foreignSessionId, 'fe_session_data'));
                 $GLOBALS['TYPO3_DB']->exec_INSERTquery('fe_session_data', $insertFields);
                 if (TYPO3_DLOG) {
@@ -169,7 +169,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 
             // TYPO3 Backend mode
         } else {
-            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, array('message' => 'No valid backend user found!'));
+            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, ['message' => 'No valid backend user found!']);
 
             $GLOBALS['BE_USER']->setAndSaveSessionData($key, $val);
             if (TYPO3_DLOG) {
@@ -202,7 +202,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 
             // TYPO3 Backend mode
         } else {
-            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, array('message' => 'No valid backend user found!'));
+            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, ['message' => 'No valid backend user found!']);
 
             $sesDat = unserialize($GLOBALS['BE_USER']->user['ses_data']);
 
@@ -212,7 +212,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
                 // this is adapted from t3lib_userAuth::setAndSaveSessionData()
                 $GLOBALS['TYPO3_DB']->exec_UPDATEquery($GLOBALS['BE_USER']->session_table,
                     'ses_id=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($GLOBALS['BE_USER']->user['ses_id'], $GLOBALS['BE_USER']->session_table),
-                    array('ses_data' => $GLOBALS['BE_USER']->user['ses_data'])
+                    ['ses_data' => $GLOBALS['BE_USER']->user['ses_data']]
                 );
                 if (TYPO3_DLOG) {
                     GeneralUtility::devLog(sprintf('Deleting "%s" from BE user in "$GLOBALS[\'BE_USER\']"', $key), 'pt_extbase');

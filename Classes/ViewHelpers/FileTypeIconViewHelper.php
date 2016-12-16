@@ -49,10 +49,10 @@ class FileTypeIconViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTa
     public function render($fileExtension, $iconBaseDirectory = '', $iconExtension = 'gif')
     {
         if ($iconBaseDirectory === '') {
-            $iconBaseDirectory = $this->fileUtility->concatenatePaths(array(TYPO3_mainDir, 'gfx/fileicons/'));
+            $iconBaseDirectory = $this->fileUtility->concatenatePaths([TYPO3_mainDir, 'gfx/fileicons/']);
         }
 
-        $iconPath = $this->fileUtility->concatenatePaths(array($iconBaseDirectory, $fileExtension . '.' . $iconExtension));
+        $iconPath = $this->fileUtility->concatenatePaths([$iconBaseDirectory, $fileExtension . '.' . $iconExtension]);
 
         if ($this->validateFileIsImage($iconPath)) {
             $this->tag->addAttribute('src', $iconPath);

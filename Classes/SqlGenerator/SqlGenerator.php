@@ -59,10 +59,10 @@ class Tx_PtExtbase_SqlGenerator_SqlGenerator implements Tx_PtExtbase_SqlGenerato
      */
     public function initializeObject()
     {
-        $this->sqlGenerators = array(
+        $this->sqlGenerators = [
             'php' =>  $this->objectManager->get('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator'),
             'sql' => $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlFileSqlGenerator'),
-        );
+        ];
     }
 
     /**

@@ -115,14 +115,14 @@ class Exception extends \Exception
                 $this->getMessage(),
                 'pt_extbase',
                 1, // "notice"
-                array(
+                [
                     'exceptionClass' => get_class($this),
                     'debugMsg' => $this->debugMsg,
                     'file' => $this->getFile(),
                     'line' => $this->getLine(),
                     'code' => $this->getCode(),
                     'trace' => $this->getTraceAsString(),
-                )
+                ]
             );
         }
         
@@ -168,14 +168,14 @@ class Exception extends \Exception
                 $this->getMessage(),
                 'pt_extbase',
                 3, // "error"
-                array(
+                [
                     'exceptionClass' => get_class($this),
                     'debugMsg' => $this->debugMsg,
                     'file' => $this->getFile(),
                     'line' => $this->getLine(),
                     'code' => $this->getCode(),
                     'trace' => $this->getTraceAsString(),
-                )
+                ]
             );
         }
 

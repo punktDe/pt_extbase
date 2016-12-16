@@ -54,32 +54,32 @@ class Tx_PtExtbase_Utility_ServerInformationTest extends \PunktDe\PtExtbase\Test
      */
     public function getServerHostNameReturnsExpectedValuesDataProvider()
     {
-        return array(
-            array(
-                'server' => array(
+        return [
+            [
+                'server' => [
                     'HOSTNAME' => 'Jupiter',
                     'HTTP_HOST' => 'Saturn'
-                ),
+                ],
                 'expected' => 'Jupiter'
-            ),
-            array(
-                'server' => array(
+            ],
+            [
+                'server' => [
                     'HTTP_HOST' => 'Saturn'
-                ),
+                ],
                 'expected' => 'Saturn'
-            ),
-            array(
-                'server' => array(
+            ],
+            [
+                'server' => [
                     'HOSTNAME' => 'Jupiter'
-                ),
+                ],
                 'expected' => 'Jupiter'
-            ),
-            array(
-                'server' => array(
-                ),
+            ],
+            [
+                'server' => [
+                ],
                 'expected' => ''
-            )
-        );
+            ]
+        ];
     }
 
     /**

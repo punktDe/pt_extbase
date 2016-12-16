@@ -37,7 +37,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\Pt
     /** @test */
     public function configurationManagerCanBeInjected()
     {
-        $configurationManagerMock = $this->getMock('\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface', array(), array(), '', false);
+        $configurationManagerMock = $this->getMock('\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface', [], [], '', false);
         $tsRbacService = new Tx_PtExtbase_Rbac_TypoScriptRbacService();
         $tsRbacService->injectConfigurationManager($configurationManagerMock);
     }
@@ -152,7 +152,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\Pt
         $typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
 
         // Set up rbac service for admin user
-        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(1)));
+        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, [1]));
         $typoScriptRbacService->initializeObject();
 
         $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
@@ -163,7 +163,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\Pt
         $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
 
         // Set up rbac service for editor user
-        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(2)));
+        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, [2]));
         $typoScriptRbacService->initializeObject();
 
         $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
@@ -237,7 +237,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\Pt
         $typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
 
         // Set up rbac service for admin user
-        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(1)));
+        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, [1]));
         $typoScriptRbacService->initializeObject();
 
         $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
@@ -248,7 +248,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\Pt
         $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'gallery', 'delete'));
 
         // Set up rbac service for editor user
-        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(2)));
+        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, [2]));
         $typoScriptRbacService->initializeObject();
 
         $this->assertTrue($typoScriptRbacService->loggedInUserHasAccess('yag', 'album', 'create'));
@@ -515,7 +515,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\Pt
         $typoScriptRbacService->injectFeBeModeDetector($this->getFeBeModeDetectorMockReturningGivenMode('BE'));
 
         // Set up rbac service for admin user
-        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, array(1)));
+        $typoScriptRbacService->injectUserDetector($this->getUserDetectorMockReturningGivenUserUidAndGroupUids(1, [1]));
         $typoScriptRbacService->initializeObject();
     }
 
@@ -544,7 +544,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\Pt
      */
     protected function getConfigurationManagerMockReturningGivenTypoScriptConfiguration($tsConfiguration)
     {
-        $configurationManagerMock = $this->getMock('\TYPO3\CMS\Extbase\Configuration\ConfigurationManager', array('getConfiguration'), array(), '', false);
+        $configurationManagerMock = $this->getMock('\TYPO3\CMS\Extbase\Configuration\ConfigurationManager', ['getConfiguration'], [], '', false);
         $configurationManagerMock->expects($this->any())->method('getConfiguration')->will($this->returnValue($tsConfiguration));
         return $configurationManagerMock;
     }
@@ -559,7 +559,7 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\Pt
      */
     protected function getFeBeModeDetectorMockReturningGivenMode($mode)
     {
-        $feBeModeDetectorMock = $this->getMock('Tx_PtExtbase_Utility_FeBeModeDetector', array('getMode'), array(), '', false);
+        $feBeModeDetectorMock = $this->getMock('Tx_PtExtbase_Utility_FeBeModeDetector', ['getMode'], [], '', false);
         $feBeModeDetectorMock->expects($this->any())->method('getMode')->will($this->returnValue($mode));
         return $feBeModeDetectorMock;
     }
@@ -573,9 +573,9 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\Pt
      * @param array $groupUids
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getUserDetectorMockReturningGivenUserUidAndGroupUids($userUid, $groupUids = array())
+    protected function getUserDetectorMockReturningGivenUserUidAndGroupUids($userUid, $groupUids = [])
     {
-        $userDetectorMock = $this->getMock('Tx_PtExtbase_Utility_UserDetector', array('getUserUid', 'getUserGroupUids'), array(), '', false);
+        $userDetectorMock = $this->getMock('Tx_PtExtbase_Utility_UserDetector', ['getUserUid', 'getUserGroupUids'], [], '', false);
         $userDetectorMock->expects($this->any())->method('getUserUid')->will($this->returnValue($userUid));
         $userDetectorMock->expects($this->any())->method('getUserGroupUids')->will($this->returnValue($groupUids));
         return $userDetectorMock;

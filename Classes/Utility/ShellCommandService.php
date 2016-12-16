@@ -126,7 +126,7 @@ class ShellCommandService implements SingletonInterface
      */
     protected function executeRemoteCommand()
     {
-        $sshOptions = array();
+        $sshOptions = [];
         $sshCommand = 'ssh ' . implode(' ', $sshOptions) . ' ' . escapeshellarg($this->username . '@' . $this->hostname) . ' ' . escapeshellarg($this->command) . ' 2>&1';
         return $this->executeProcess($sshCommand);
     }
@@ -152,7 +152,7 @@ class ShellCommandService implements SingletonInterface
         }
         $exitCode = pclose($fp);
 
-        return array($exitCode, $returnedOutput);
+        return [$exitCode, $returnedOutput];
     }
 
 

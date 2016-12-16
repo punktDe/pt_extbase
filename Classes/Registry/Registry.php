@@ -76,7 +76,7 @@ final class Tx_PtExtbase_Registry_Registry extends PunktDe\PtExtbase\Collection\
      */
     public function addItem($object, $label, $overwrite = false)
     {
-        Tx_PtExtbase_Assertions_Assert::isNotEmpty($label, array('message' => 'Registry keys cannot be empty!'));
+        Tx_PtExtbase_Assertions_Assert::isNotEmpty($label, ['message' => 'Registry keys cannot be empty!']);
         
         if (!$this->hasItem($label) || $overwrite == true) {
             

@@ -60,13 +60,13 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_SqlGeneratorTest extends \PunktDe\PtE
         $expected = 'SELECT * FROM foo;';
 
         $sqlGeneratorMock = $this->getMockBuilder('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator')
-                ->setMethods(array('generate'))
+                ->setMethods(['generate'])
                 ->getMock();
         $sqlGeneratorMock->expects($this->once())
             ->method('generate')
             ->will($this->returnValue($expected));
 
-        $this->proxy->_set('sqlGenerators', array('php' => $sqlGeneratorMock));
+        $this->proxy->_set('sqlGenerators', ['php' => $sqlGeneratorMock]);
 
         $filePath = 'vfs://Foo/Bar.php';
         file_put_contents($filePath, 'foobar');
@@ -85,7 +85,7 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_SqlGeneratorTest extends \PunktDe\PtE
         $sqlGeneratorMock = $this->getMockBuilder('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator')
                 ->getMock();
 
-        $this->proxy->_set('sqlGenerators', array('php' => $sqlGeneratorMock));
+        $this->proxy->_set('sqlGenerators', ['php' => $sqlGeneratorMock]);
 
         $filePath = 'vfs://Foo/Bar.sql';
         file_put_contents($filePath, 'foobar');

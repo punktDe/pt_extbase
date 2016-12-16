@@ -37,7 +37,7 @@ class Tx_PtExtbase_Tree_JsonTreeWriter extends Tx_PtExtbase_Tree_ArrayTreeWriter
      * @param array $visitors
      * @return Tx_PtExtbase_Tree_JsonTreeWriter
      */
-    public static function getInstance(array $visitors = array())
+    public static function getInstance(array $visitors = [])
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 

@@ -43,7 +43,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
      *
      * @var array
      */
-    protected $allowedDomains = array();
+    protected $allowedDomains = [];
 
     /**
      * This array contains strings of TYPO3_CONTEXTs, which are allowed to run database tests on.
@@ -52,7 +52,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
      *
      * @var array
      */
-    protected $allowedApplicationContexts = array();
+    protected $allowedApplicationContexts = [];
 
     /**
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface The object manager
@@ -62,7 +62,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
     /**
      * @var array
      */
-    protected $fixtures = array();
+    protected $fixtures = [];
 
     /**
      * Set up
@@ -111,7 +111,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
      * @author Robert Lemke <robert@typo3.org>
      * @api
      */
-    protected function getAccessibleMock($originalClassName, $methods = array(), array $arguments = array(), $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true)
+    protected function getAccessibleMock($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true)
     {
         return $this->getMock($this->buildAccessibleProxy($originalClassName), $methods, $arguments, $mockClassName, $callOriginalConstructor, $callOriginalClone, $callAutoload);
     }

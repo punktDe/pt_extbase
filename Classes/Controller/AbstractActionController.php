@@ -312,7 +312,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
      */
     public function convertTransientObjectToArray(\TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject $object)
     {
-        $result = array();
+        $result = [];
         foreach ($object->_getProperties() as $propertyName => $propertyValue) {
             if ($propertyValue instanceof \TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject) {
                 if ($propertyValue->getUid() !== null) {

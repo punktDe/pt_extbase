@@ -192,7 +192,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\
         $arrayWriterVisitor->setMultipleSelect($this->arguments['multiple']);
         $arrayWriterVisitor->setSelection($this->getSelection());
 
-        $jsonTreeWriter = $this->objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', array($arrayWriterVisitor), $arrayWriterVisitor);
+        $jsonTreeWriter = $this->objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', [$arrayWriterVisitor], $arrayWriterVisitor);
 
         return $jsonTreeWriter->writeTree($tree);
     }
@@ -230,12 +230,12 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\
         $treeViewHelper->initialize();
 
         return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
-            array(
+            [
                 'nodeJSON' => $treeNodes,
                 'multiple' => $this->multiple ? 'true': 'false',
                 'fieldId' => $this->arguments['id'],
                 'expand' => $this->arguments['expand'],
-            ), false, false
+            ], false, false
         );
     }
 

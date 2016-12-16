@@ -35,23 +35,23 @@ class CloneCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'branch' => '--branch %s',
         'depth' => '--depth %s',
         'repository' => '%s',
         'directory' => '%s',
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'branch' => '',
         'depth' => '',
         'repository' => '',
         'directory' => ''
-    );
+    ];
 
 
 

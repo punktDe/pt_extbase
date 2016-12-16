@@ -45,10 +45,10 @@ class Tx_PtExtbase_Tests_DebugCodeTest extends \PunktDe\PtExtbase\Testing\Unit\A
      */
     public function debugStringDataProvider()
     {
-        return array(
-            'Search for print_r in code!' => array('debugCommand' => 'print_r'),
-            'Search for var_dump in code!' => array('debugCommand' => 'var_dump'),
-        );
+        return [
+            'Search for print_r in code!' => ['debugCommand' => 'print_r'],
+            'Search for var_dump in code!' => ['debugCommand' => 'var_dump'],
+        ];
     }
 
     /**
@@ -91,7 +91,7 @@ class Tx_PtExtbase_Tests_DebugCodeTest extends \PunktDe\PtExtbase\Testing\Unit\A
         $printRArgumentTemp = explode(')', $printRArgumentTemp[1]);
         $printRArgumentTemp = explode(',', $printRArgumentTemp[0]);
         
-        if (in_array(trim(strtolower($printRArgumentTemp[1])), array('1', 'true'))) {
+        if (in_array(trim(strtolower($printRArgumentTemp[1])), ['1', 'true'])) {
             return true;
         }
 

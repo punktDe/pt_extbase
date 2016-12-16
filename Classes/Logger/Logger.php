@@ -109,22 +109,22 @@ class Logger implements SingletonInterface
      */
     protected function configureLoggerProperties()
     {
-        $GLOBALS['TYPO3_CONF_VARS']['LOG']['writerConfiguration'] = array(
-            $this->loggerConfiguration->getLogLevelThreshold() => array(
-                'Tx_PtExtbase_Logger_Writer_FileWriter' => array(
+        $GLOBALS['TYPO3_CONF_VARS']['LOG']['writerConfiguration'] = [
+            $this->loggerConfiguration->getLogLevelThreshold() => [
+                'Tx_PtExtbase_Logger_Writer_FileWriter' => [
                     'logFile' => $this->logFilePath
-                )
-            ),
-        );
+                ]
+            ],
+        ];
 
-        $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][LogLevel::DEBUG] = array(
+        $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][LogLevel::DEBUG] = [
             ReplaceComponentProcessor::class => []
-        );
+        ];
 
         if ($this->loggerConfiguration->weHaveAnyEmailReceivers()) {
-            $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][$this->loggerConfiguration->getEmailLogLevelThreshold()]['Tx_PtExtbase_Logger_Processor_EmailProcessor'] = array(
+            $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][$this->loggerConfiguration->getEmailLogLevelThreshold()]['Tx_PtExtbase_Logger_Processor_EmailProcessor'] = [
                 'receivers' => $this->loggerConfiguration->getEmailReceivers()
-            );
+            ];
         }
     }
 
@@ -311,7 +311,7 @@ class Logger implements SingletonInterface
 
         if (file_exists($this->exceptionDirectory) && is_dir($this->exceptionDirectory) && is_writable($this->exceptionDirectory)) {
             $referenceCode = ($exception->getCode() > 0 ? $exception->getCode() . '.' : '') . date('YmdHis', $_SERVER['REQUEST_TIME']) . substr(md5(rand()), 0, 6);
-            $exceptionDumpPathAndFilename = \Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->exceptionDirectory,  $referenceCode . '.txt'));
+            $exceptionDumpPathAndFilename = \Tx_PtExtbase_Utility_Files::concatenatePaths([$this->exceptionDirectory,  $referenceCode . '.txt']);
             file_put_contents($exceptionDumpPathAndFilename, $message . PHP_EOL . PHP_EOL . $this->getBacktraceCode($backTrace, 1));
             $message .= ' - See also: ' . basename($exceptionDumpPathAndFilename);
         } else {

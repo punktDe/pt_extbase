@@ -36,7 +36,7 @@ class WgetCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'noCheckCertificate' => '--no-check-certificate',
         'convertLinks' => '--convert-links',
         'saveCookies' => '--save-cookies=%s',
@@ -58,7 +58,7 @@ class WgetCommand
         'recursive' => '--recursive',
         'noParent' => '--no-parent',
         'noProxy' => '--no-proxy'
-    );
+    ];
 
 
     /**
@@ -437,7 +437,7 @@ class WgetCommand
      */
     public function setPostDataAsArray(array $postData)
     {
-        $keyValues = array();
+        $keyValues = [];
 
         foreach ($postData as $key => $value) {
             $keyValues[] = "$key=$value";
@@ -525,7 +525,7 @@ class WgetCommand
      */
     protected function buildCommand()
     {
-        $arguments = array();
+        $arguments = [];
 
         foreach ($this->argumentMap as $propertyName => $argumentTemplate) {
             if (property_exists($this, $propertyName) && !empty($this->$propertyName) && $this->$propertyName !== false) {
@@ -564,7 +564,7 @@ class WgetCommand
 
         exec($command, $outputLines, $returnVar);
 
-        $this->logger->debug('Called WGet command returned status ' . $returnVar, __CLASS__, array('time' => TimeTracker::stop($command)));
+        $this->logger->debug('Called WGet command returned status ' . $returnVar, __CLASS__, ['time' => TimeTracker::stop($command)]);
 
         return implode('\n', $outputLines);
     }

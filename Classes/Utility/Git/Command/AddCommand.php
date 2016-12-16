@@ -35,19 +35,19 @@ class AddCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'all' => '--all',
         'path' => '%s'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'path' => '',
         'all' => false
-    );
+    ];
 
 
 

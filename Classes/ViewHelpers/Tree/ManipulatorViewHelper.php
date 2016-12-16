@@ -81,12 +81,12 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Flu
         }
 
         return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/ManipulationTree.js',
-            array(
+            [
                 'baseUrl' => $this->getBaseURL(),
                 'dbNodeTable' => 'tx_ptcertification_domain_model_category',
                 'moduleUrl' => $moduleUrl,
                 'editRecord' => BackendUtility::getModuleUrl('record_edit')
-            ), false, false
+            ], false, false
         );
     }
 
@@ -107,11 +107,11 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Flu
      */
     protected function saveTreeSettingsToSession()
     {
-        $treeSettings = array(
+        $treeSettings = [
             'repository' => $this->arguments['repository'],
             'namespace' => $this->arguments['namespace'],
             'respectEnableFields' => $this->arguments['respectEnableFields'],
-        );
+        ];
 
         Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->store('Tx_PtExtbase_Tree_Configuration', $treeSettings);
     }

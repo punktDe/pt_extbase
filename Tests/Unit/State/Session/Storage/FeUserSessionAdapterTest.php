@@ -61,7 +61,7 @@ class Tx_PtExtbase_Tests_Unit_State_Session_Storage_FeUserSessionAdapterTest ext
     /** @test */
     public function readReturnsExpectedValueFromFeUserSession()
     {
-        $feUserSessionMock = $this->getMock(\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class, array(), array('getKey'), '', false, false);
+        $feUserSessionMock = $this->getMock(\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class, [], ['getKey'], '', false, false);
         $feUserSessionMock->expects($this->once())
             ->method('getKey')
             ->with($this->equalTo('user'), $this->equalTo('keyxy'))
@@ -94,7 +94,7 @@ class Tx_PtExtbase_Tests_Unit_State_Session_Storage_FeUserSessionAdapterTest ext
     /** @test */
     public function storeStoresGivenValueWithGivenKeyInFrontendUserSession()
     {
-        $feUserSessionMock = $this->getMock(\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class, array(), array('setKey', 'storeSessionData'), '', false, false);
+        $feUserSessionMock = $this->getMock(\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class, [], ['setKey', 'storeSessionData'], '', false, false);
         $feUserSessionMock->expects($this->once())
             ->method('setKey')
             ->with($this->equalTo('user'), $this->equalTo('keyxy'), $this->equalTo('valuexy'));

@@ -55,7 +55,7 @@ class Tx_PtExtbase_State_Session_Storage_NullStorageAdapter implements Tx_PtExtb
      */
     public function read($key)
     {
-        return array();
+        return [];
     }
     
     

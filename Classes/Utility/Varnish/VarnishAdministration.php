@@ -40,19 +40,19 @@ class VarnishAdministration extends GenericShellCommand
     /**
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'secretFile' => '-S %s',
         'addressAndPort' => '-T %s'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'secretFile' => '',
         'addressAndPort' => ''
-    );
+    ];
 
 
     /**

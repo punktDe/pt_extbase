@@ -37,7 +37,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory implements \TYPO3\CMS\Core\
      *
      * @var array<Tx_PtExtbase_State_GpVars_GpVarsAdapter>
      */
-    private $instances = array();
+    private $instances = [];
     
     
     
@@ -72,7 +72,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory implements \TYPO3\CMS\Core\
     {
         $extractedVars = $vars[$extensionNameSpace];
         if (!is_array($extractedVars)) {
-            $extractedVars = array();
+            $extractedVars = [];
         }
         
         return $extractedVars;

@@ -25,12 +25,12 @@
 
 class Tx_PtExtbase_Logger_FormatProcessor extends TYPO3\CMS\Core\Log\Processor\AbstractProcessor
 {
-    protected $formatTokens = array(
+    protected $formatTokens = [
         '.h1' => 'formatH1',
         '.h2' => 'formatH2',
         '.h3' => 'formatH3',
         '.h5' => 'formatH5',
-    );
+    ];
 
 
     /**

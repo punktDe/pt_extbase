@@ -91,7 +91,7 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter
      * @return void
      */
     protected function importExtensions(
-        array $extensions, $importDependencies = false, array &$skipDependencies = array()
+        array $extensions, $importDependencies = false, array &$skipDependencies = []
     ) {
         $this->useTestDatabase();
 
@@ -105,7 +105,7 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter
                 continue;
             }
 
-            $skipDependencies = array_merge($skipDependencies, array($extensionName));
+            $skipDependencies = array_merge($skipDependencies, [$extensionName]);
 
             if ($importDependencies) {
                 $dependencies = $this->findDependencies($extensionName);
@@ -177,7 +177,7 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter
         $diff = $install->getDatabaseExtra($fieldDefinitionsFile, $fieldDefinitionsDatabase);
         $updateStatements = $install->getUpdateSuggestions($diff);
 
-        $updateTypes = array('add', 'change', 'create_table');
+        $updateTypes = ['add', 'change', 'create_table'];
 
         foreach ($updateTypes as $updateType) {
             if (array_key_exists($updateType, $updateStatements)) {
@@ -263,11 +263,11 @@ class Tx_PtExtbase_Selenium_FixtureFramework_SchemaImporter
     {
         $xml = simplexml_load_file($path);
         $db = $this->useTestDatabase();
-        $foreignKeys = array();
+        $foreignKeys = [];
 
         /** @var $table SimpleXMLElement */
         foreach ($xml->children() as $table) {
-            $insertArray = array();
+            $insertArray = [];
 
             /** @var $column SimpleXMLElement */
             foreach ($table->children() as $column) {

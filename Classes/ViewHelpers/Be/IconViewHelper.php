@@ -61,6 +61,6 @@ class Tx_PtExtbase_ViewHelpers_Be_IconViewHelper extends \TYPO3\CMS\Fluid\ViewHe
      */
     public function render($icon = 'actions-document-close', $title = '')
     {
-        return \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($icon, array('title' => $title));
+        return \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($icon, ['title' => $title]);
     }
 }

@@ -35,21 +35,21 @@ class ConfigCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'global' => '--global',
         'username' => 'user.name "%s"',
         'email' => 'user.email "%s"'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'global' => false,
         'username' => '',
         'email' => ''
-    );
+    ];
 
 
     /**

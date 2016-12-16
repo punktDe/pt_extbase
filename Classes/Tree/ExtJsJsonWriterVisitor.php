@@ -34,7 +34,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
     /**
      * @var array
      */
-    protected $nodeArray = array();
+    protected $nodeArray = [];
 
 
     /**
@@ -99,18 +99,18 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
      */
     public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
     {
-        $arrayForNode = array(
+        $arrayForNode = [
             'id' => $node->getUid(),
             'text' => $node->getLabel(),
-            'children' => array(),
+            'children' => [],
             'leaf' => !$node->hasChildren(),
             'cls' => $node->isAccessible() ? '' : 'disabled',
-        );
+        ];
 
         $this->setSelectionOnNodeArray($node, $arrayForNode);
 
         if ($this->firstVisitCallback) {
-            $return = call_user_func(array($this->firstVisitCallback['target'], $this->firstVisitCallback['method']), $node, $arrayForNode);
+            $return = call_user_func([$this->firstVisitCallback['target'], $this->firstVisitCallback['method']], $node, $arrayForNode);
             if ($return === false) {
                 throw new Exception('It was not possible to call '.  get_class($this->firstVisitCallback['target']) . '::' . $this->firstVisitCallback['method'], 1328468070);
             } else {
@@ -157,7 +157,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
         $this->nodeStack->pop();
 
         if ($this->lastVisitCallback) {
-            $currentNode = call_user_func(array($this->lastVisitCallback['target'], $this->lastVisitCallback['method']), $node, $currentNode);
+            $currentNode = call_user_func([$this->lastVisitCallback['target'], $this->lastVisitCallback['method']], $node, $currentNode);
         }
 
         if (!$this->nodeStack->isEmpty()) {
@@ -220,10 +220,10 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
     {
         $this->checkCallBack('firstVisitCallBack', $target, $method);
 
-        $this->firstVisitCallback = array(
+        $this->firstVisitCallback = [
             'target' => $target,
             'method' => $method
-        );
+        ];
     }
 
 
@@ -235,10 +235,10 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
     {
         $this->checkCallBack('lastVisitCallBack', $target, $method);
 
-        $this->lastVisitCallback = array(
+        $this->lastVisitCallback = [
             'target' => $target,
             'method' => $method
-        );
+        ];
     }
 
 
@@ -251,7 +251,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
     protected function checkCallBack($type, $target, $method)
     {
         if (is_object($target)) {
-            if (!method_exists($target, $method) || !is_callable(array($target, $method))) {
+            if (!method_exists($target, $method) || !is_callable([$target, $method])) {
                 throw new Exception('The method ' . $method . ' is not accessible on object of type ' . get_class($target) . ' for use as ' . $type, 1328462239);
             }
         } else {

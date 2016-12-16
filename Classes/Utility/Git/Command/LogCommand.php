@@ -35,21 +35,21 @@ class LogCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'nameOnly' => '--name-only',
         'format' => '--pretty="%s"',
         'maxCount' => '--max-count=%s'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'nameOnly' => false,
         'format' => '',
         'maxCount' => ''
-    );
+    ];
 
 
 

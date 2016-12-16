@@ -91,7 +91,7 @@ class LoggerManager extends LogManager
      */
     protected function evaluateIndexNameByComponentName($componentName)
     {
-        $indexNameParts = array(self::LOGGER_INDEX_PREFIX);
+        $indexNameParts = [self::LOGGER_INDEX_PREFIX];
 
         $explodedName = explode('.', $componentName);
         $configuration = $this->loggerConfiguration;
@@ -116,7 +116,7 @@ class LoggerManager extends LogManager
      */
     public function unifyComponentName($componentName)
     {
-        $separators = array('_', '\\');
+        $separators = ['_', '\\'];
         return str_replace($separators, '.', $componentName);
     }
 }

@@ -48,7 +48,7 @@ class Tx_PtExtbase_ViewHelpers_Uri_CurrentViewHelper extends \TYPO3\CMS\Fluid\Co
      * @param array $additionalParams
      * @return string
      */
-    public function render($absolute = true, $additionalParams = array())
+    public function render($absolute = true, $additionalParams = [])
     {
         if ($absolute === true) {
             $uri = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL');

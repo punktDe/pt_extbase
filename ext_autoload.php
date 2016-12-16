@@ -9,7 +9,7 @@ $unitTestsDir = ExtensionManagementUtility::extPath('pt_extbase') . 'Tests/Unit/
 $legacyClassesFile = ExtensionManagementUtility::extPath('pt_extbase') . 'Tests/Migrations/Code/LegacyClasses.php';
 
 
-return array(
+return [
     'tx_ptextbase_context' => $extensionClassesPath . 'Context.php',
     'tx_ptextbase_contextinterface' => $extensionClassesPath . 'ContextInterface.php',
     'tx_ptextbase_div' => $extensionClassesPath . 'Div.php',
@@ -62,4 +62,4 @@ return array(
 
     // External files which are not auto-loaded by their respective extension
     'tx_fluid_core_widget_abstractwidgetviewhelper' => ExtensionManagementUtility::extPath('fluid') . 'Classes/Core/Widget/AbstractWidgetViewHelper.php',
-);
+];

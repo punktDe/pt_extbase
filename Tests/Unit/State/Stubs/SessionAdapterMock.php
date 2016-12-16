@@ -40,6 +40,6 @@ class Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock extends Tx_PtExtbas
     
     public function read($string)
     {
-        return array('test1' => array('test2' => array('test3' => 'value')));
+        return ['test1' => ['test2' => ['test3' => 'value']]];
     }
 }

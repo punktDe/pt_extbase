@@ -35,19 +35,19 @@ class TagCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'sign' => '-s',
         'annotate' => '-a',
         'message' => '-m "%s"'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'sign' => 'FALSE'
-    );
+    ];
 
 
 

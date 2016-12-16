@@ -53,14 +53,14 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest exte
 
     public function testPrepareMarkersBuildsArrayWithPrefixedAndPostfixedKeys()
     {
-        $input = array(
+        $input = [
             'foo' => 'bar',
             'bar' => 'baz'
-        );
-        $expected = array(
+        ];
+        $expected = [
             '###foo###' => 'bar',
             '###bar###' => 'baz'
-        );
+        ];
         $actual = $this->accessibleProxy->_call('prepareMarkers', $input);
         $this->assertEquals($expected, $actual);
     }
@@ -68,7 +68,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest exte
     public function testAddTranslationArguments()
     {
         $accessibleProxyMock = $this->getMockBuilder($this->accessibleProxyClass)
-                ->setMethods(array('translate'))
+                ->setMethods(['translate'])
                 ->getMock();
         $accessibleProxyMock->expects($this->once())
                 ->method('translate')
@@ -83,8 +83,8 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest exte
 	            title: '###LLL:foo###'
 	        });
 		";
-        $expected = array('###LLL:foo###' => 'bar');
-        $actual = array();
+        $expected = ['###LLL:foo###' => 'bar'];
+        $actual = [];
         $accessibleProxyMock->_callRef('addTranslationMarkers', $input, $actual);
         $this->assertEquals($expected, $actual);
     }
@@ -107,13 +107,13 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest exte
 	            title: 'bar'
 	        });
 		";
-        $markers = array(
+        $markers = [
             '###bar###' => 'baz',
             '###LLL:foo###' => 'bar',
-        );
+        ];
 
         $accessibleProxyMock = $this->getMockBuilder($this->accessibleProxyClass)
-                ->setMethods(array('prepareMarkers', 'addTranslationMarkers'))
+                ->setMethods(['prepareMarkers', 'addTranslationMarkers'])
                 ->getMock();
         $accessibleProxyMock->expects($this->once())
                 ->method('prepareMarkers')

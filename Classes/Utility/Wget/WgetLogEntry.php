@@ -176,11 +176,11 @@ class WgetLogEntry
      */
     public function toArray()
     {
-        return array(
+        return [
             'date' => $this->getFetchDate(),
             'url' => $this->getUrl(),
             'status' => $this->getStatus(),
             'length' => $this->getContentLength()
-        );
+        ];
     }
 }

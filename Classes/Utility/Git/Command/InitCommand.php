@@ -35,19 +35,19 @@ class InitCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'bare' => '--bare',
         'shared' => '--shared'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'bare' => false,
         'shared' => false
-    );
+    ];
 
 
     /**

@@ -44,7 +44,7 @@ class Tx_PtExtbase_Utility_UserDetector implements \TYPO3\CMS\Core\SingletonInte
      *
      * @var array
      */
-    protected $groupUids = array();
+    protected $groupUids = [];
 
 
 

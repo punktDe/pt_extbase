@@ -35,19 +35,19 @@ class RemoteCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'remote' => '%s',
         'refspec' => '%s'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'remote' => '',
         'refspec' => ''
-    );
+    ];
 
 
     /**

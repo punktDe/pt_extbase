@@ -40,7 +40,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
     /**
      * @var array
      */
-    protected $sourceTypes = array('array');
+    protected $sourceTypes = ['array'];
 
     /**
      * @var string
@@ -138,7 +138,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
      * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidDataTypeException
      * @throws \TYPO3\CMS\Extbase\Property\Exception\InvalidPropertyMappingConfigurationException
      */
-    public function convertFrom($source, $targetType, array $convertedChildProperties = array(), \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration = null)
+    public function convertFrom($source, $targetType, array $convertedChildProperties = [], \TYPO3\CMS\Extbase\Property\PropertyMappingConfigurationInterface $configuration = null)
     {
         $object = $this->buildObject($convertedChildProperties, $targetType);
         foreach ($convertedChildProperties as $propertyName => $propertyValue) {
@@ -212,7 +212,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
         $className = $objectType;
         if (method_exists($className, '__construct')) {
             $constructorSignature = $this->reflectionService->getMethodParameters($className, '__construct');
-            $constructorArguments = array();
+            $constructorArguments = [];
             foreach ($constructorSignature as $constructorArgumentName => $constructorArgumentInformation) {
                 if (array_key_exists($constructorArgumentName, $possibleConstructorArgumentValues)) {
                     $constructorArguments[] = $possibleConstructorArgumentValues[$constructorArgumentName];

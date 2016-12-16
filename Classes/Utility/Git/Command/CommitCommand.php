@@ -35,19 +35,19 @@ class CommitCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'allowEmpty' => '--allow-empty',
         'message' => '--message %s'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'allowEmpty' => false,
         'message' => ''
-    );
+    ];
 
 
 

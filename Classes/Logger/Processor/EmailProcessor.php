@@ -67,7 +67,7 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
     /**
      * @param array $options
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         parent::__construct($options);
         $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
@@ -89,7 +89,7 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
         try {
             $mail = $this->objectManager->get('TYPO3\CMS\Core\Mail\MailMessage');
             /** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
-            $mail->setFrom(array("noreply@punkt.de" => "noreply@punkt.de"));
+            $mail->setFrom(["noreply@punkt.de" => "noreply@punkt.de"]);
             $mail->setTo($this->receivers);
             $mail->setSubject(sprintf('%s: Error on system %s', $this->getNamespaceOfLogComponent(), $this->serverInformation->getServerHostName()));
             $mail->setBody($this->renderViewForMail());

@@ -57,7 +57,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_FileSizeViewHelperTest extends 
      */
     public function render($input, $useIecLabel, $formatedOutput)
     {
-        $viewHelper = $this->getMock('Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper', array('renderChildren'));
+        $viewHelper = $this->getMock('Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper', ['renderChildren']);
         $viewHelper->expects($this->once())->method('renderChildren')->will($this->returnValue($input));
         $actualResult = $viewHelper->render('', $useIecLabel);
         $this->assertEquals($formatedOutput, $actualResult);

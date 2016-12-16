@@ -79,8 +79,8 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
      */
     protected function prepareWorkingDirectories()
     {
-        $this->logFilePath =  Files::concatenatePaths(array(__DIR__, '/Logs/TestLog.log'));
-        $this->logExceptionsPath = Files::concatenatePaths(array(__DIR__, '/Logs/Exceptions/'));
+        $this->logFilePath =  Files::concatenatePaths([__DIR__, '/Logs/TestLog.log']);
+        $this->logExceptionsPath = Files::concatenatePaths([__DIR__, '/Logs/Exceptions/']);
         Files::createDirectoryRecursively($this->logExceptionsPath);
     }
 
@@ -103,7 +103,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
     {
         $this->getMockBuilder(LoggerConfiguration::class)
             ->setMockClassName('Tx_PtExtbase_Logger_LoggerConfigurationMock')
-            ->setMethods(array('getLogLevelThreshold', 'getEmailLogLevelThreshold', 'weHaveAnyEmailReceivers', 'getEmailReceivers'))
+            ->setMethods(['getLogLevelThreshold', 'getEmailLogLevelThreshold', 'weHaveAnyEmailReceivers', 'getEmailReceivers'])
             ->getMock();
         $loggerConfigurationMock = $this->objectManager->get('Tx_PtExtbase_Logger_LoggerConfigurationMock');
         $loggerConfigurationMock->expects($this->any())
@@ -130,7 +130,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
     protected function prepareUserAgentMock()
     {
         $this->getMockBuilder('Tx_PtExtbase_Utility_UserAgent')
-            ->setMethods(array('getUserAgentData'))
+            ->setMethods(['getUserAgentData'])
             ->setMockClassName('Tx_PtExtbase_Utility_UserAgentMock')
             ->getMock();
         $userAgentMock = $this->objectManager->get('Tx_PtExtbase_Utility_UserAgentMock');
@@ -149,7 +149,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
     protected function prepareServerInformationMock()
     {
         $this->getMockBuilder('Tx_PtExtbase_Utility_ServerInformation')
-            ->setMethods(array('getServerHostName'))
+            ->setMethods(['getServerHostName'])
             ->setMockClassName('ServerInformationMock')
             ->getMock();
         $serverInformationMock = $this->objectManager->get('ServerInformationMock');
@@ -168,7 +168,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
     protected function prepareRequestInformationMock()
     {
         $this->getMockBuilder('PunktDe\PtExtbase\Utility\RequestInformation')
-            ->setMethods(array('getCurrentRequestId'))
+            ->setMethods(['getCurrentRequestId'])
             ->setMockClassName('RequestInformationMock')
             ->getMock();
         $requestInformationMock = $this->objectManager->get('RequestInformationMock');
@@ -235,7 +235,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
      */
     public function logInfoWithClassNameAndAdditionlData()
     {
-        $this->logger->info('test', __CLASS__, array('BLA'));
+        $this->logger->info('test', __CLASS__, ['BLA']);
         $this->assertLogFileContains(' component="Tx.PtExtbase.Tests.Functional.Logger.LoggerTest": test - ["BLA"]');
         $this->assertLogFileContains('[INFO]');
     }
@@ -286,7 +286,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
         $mailerMock = $this->objectManager->get('Tx_PtTest_Utility_Mailer'); /** @var Tx_PtTest_Utility_Mailer $mailerMock */
         $mailerMock->prepare();
 
-        $this->logger->critical('The fantastic three', get_class($this), array('time' => 42.1337, 'name' => 'Summer', 'part' => 'Sun', 'multiPart' => array('a', 'b', 'c'), 'weather' => 'Sunshine'));
+        $this->logger->critical('The fantastic three', get_class($this), ['time' => 42.1337, 'name' => 'Summer', 'part' => 'Sun', 'multiPart' => ['a', 'b', 'c'], 'weather' => 'Sunshine']);
 
         $mail = $mailerMock->getFirstMail();
 

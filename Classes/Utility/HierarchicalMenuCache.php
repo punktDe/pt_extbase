@@ -175,7 +175,7 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends \TYPO3\CMS\Fro
      * @param	array		Array of TypoScript properties
      * @return	string		Output
      */
-    public function render($conf = array())
+    public function render($conf = [])
     {
         $this->initializeCache();
 
@@ -193,7 +193,7 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends \TYPO3\CMS\Fro
         // Render and cache menu if no cache entry exists
         if ($renderedMenu === false) {
             $renderedMenu = parent::render($conf);
-            $this->cache->set($cacheIdentifierHash, $renderedMenu, array(), $cacheLifetime);
+            $this->cache->set($cacheIdentifierHash, $renderedMenu, [], $cacheLifetime);
         }
 
         return $renderedMenu;
@@ -209,7 +209,7 @@ abstract class Tx_PtExtbase_Utility_HierarchicalMenuCache extends \TYPO3\CMS\Fro
      */
     protected function createMenuCacheHashEntry($conf)
     {
-        $cacheTagIngredients = array();
+        $cacheTagIngredients = [];
 
         // Get FE groups of currently logged in user for hash tag
         if (!empty($GLOBALS['TSFE']->fe_user->user['usergroup'])) {

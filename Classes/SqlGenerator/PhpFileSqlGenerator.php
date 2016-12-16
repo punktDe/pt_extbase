@@ -70,7 +70,7 @@ class Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator implements Tx_PtExtbase_SqlG
      */
     protected function getClassNames($filePath)
     {
-        $this->classNames = array();
+        $this->classNames = [];
         $tokens = token_get_all(file_get_contents($filePath));
         $classToken = false;
         foreach ($tokens as $token) {
@@ -90,7 +90,7 @@ class Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator implements Tx_PtExtbase_SqlG
      */
     protected function generateSqls()
     {
-        $sqls = array();
+        $sqls = [];
         foreach ($this->classNames as $className) {
             $sqlGenerator = $this->objectManager->get($className); /** @var Tx_PtExtbase_SqlGenerator_SqlGeneratorCommandInterface $sqlGenerator */
             $sqls = array_merge($sqls, $sqlGenerator->generate());

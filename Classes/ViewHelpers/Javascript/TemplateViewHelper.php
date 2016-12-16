@@ -84,7 +84,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\
      * ViewHelper marker arguments
      * @var array
      */
-    protected $arguments = array();
+    protected $arguments = [];
 
 
     /**
@@ -249,7 +249,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\
      */
     protected function addTranslationMarkers($jsCode, &$markers)
     {
-        $matches = array();
+        $matches = [];
         $pattern = '/\#\#\#LLL:.*\#\#\#/';
         preg_match_all($pattern, $jsCode, $matches);
         foreach ($matches[0] as $match) {
@@ -277,7 +277,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\
      */
     protected function prepareMarkers($arguments)
     {
-        $markers = array();
+        $markers = [];
         foreach ($arguments as $key => $value) {
             $markers['###' . $key . '###'] = $value;
         }

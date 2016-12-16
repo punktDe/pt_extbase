@@ -75,10 +75,10 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends \Punk
 		?>";
         file_put_contents("vfs://Foo/Bar.php", $fileContents);
 
-        $expected = array(
+        $expected = [
             'Tx_PtWhatEver_Domain_Sql_SqlGenerator',
             'Tx_PtWhatEver_Domain_Sql_SuperSqlGenerator'
-        );
+        ];
 
         $this->proxy->_call('getClassNames', 'vfs://Foo/Bar.php');
         $actual = $this->proxy->_get('classNames');
@@ -90,39 +90,39 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends \Punk
      */
     public function generateSqls()
     {
-        $sql1 = array(
+        $sql1 = [
             'SELECT * FROM foo;',
             'SELECT * FROM bar;',
-        );
-        $sql2 = array(
+        ];
+        $sql2 = [
             'SELECT * FROM bar;',
             'SELECT * FROM baz;',
-        );
+        ];
 
-        $expected = array(
+        $expected = [
             'SELECT * FROM foo;',
             'SELECT * FROM bar;',
             'SELECT * FROM bar;',
             'SELECT * FROM baz;'
-        );
+        ];
 
-        $sqlGenerator1 = $this->getMock('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator', array('generate'), array(), '', false);
+        $sqlGenerator1 = $this->getMock('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator', ['generate'], [], '', false);
         $sqlGenerator1->expects($this->once())
             ->method('generate')
             ->will($this->returnValue($sql1));
 
-        $sqlGenerator2 = $this->getMock('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator', array('generate'), array(), '', false);
+        $sqlGenerator2 = $this->getMock('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator', ['generate'], [], '', false);
         $sqlGenerator2->expects($this->once())
                 ->method('generate')
                 ->will($this->returnValue($sql2));
 
-        $classNames = array(
+        $classNames = [
             'Tx_PtExtbase_SqlGenerator_PhpFileGenerator' => $sqlGenerator1,
             'Tx_PtExtbase_SqlGenerator_SuperPhpFileGenerator' => $sqlGenerator2
-        );
+        ];
 
         $objectManagerMock = $this->getMockBuilder('\TYPO3\CMS\Extbase\Object\ObjectManager')
-                ->setMethods(array('get'))
+                ->setMethods(['get'])
                 ->getMock();
         $objectManagerMock->expects($this->exactly(2))
                 ->method('get')

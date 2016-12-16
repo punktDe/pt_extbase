@@ -98,7 +98,7 @@ class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends \TYPO3\CMS\Fluid\
      * @author Michael Knoll <mimi@kaktusteam.de>
      * @api
      */
-    public function render($renderMode = self::RENDER_MODE_UL, $messageCssClasses=array())
+    public function render($renderMode = self::RENDER_MODE_UL, $messageCssClasses= [])
     {
         $flashMessages = $this->controllerContext->getFlashMessageQueue()->getAllMessagesAndFlush();
         if ($flashMessages === null || count($flashMessages) === 0) {

@@ -75,7 +75,7 @@ class Tx_PtExtbase_ViewHelpers_Format_FileSizeFromNumberViewHelper extends \TYPO
         $bytes = (double)$bytes;
         if ($bytes > 0) {
             $unit = intval(log($bytes, 1024));
-            $units = array('B', 'KB', 'MB', 'GB');
+            $units = ['B', 'KB', 'MB', 'GB'];
 
             if (array_key_exists($unit, $units) === true) {
                 return sprintf('%d %s', $bytes / pow(1024, $unit), $units[$unit]);

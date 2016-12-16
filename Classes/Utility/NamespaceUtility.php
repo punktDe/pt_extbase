@@ -45,7 +45,7 @@ class NamespaceUtility
             return $returnArray;
         }
         if (!is_array($returnArray)) {
-            return array();
+            return [];
         }
         
         $namespaceArray = self::getNamespaceArrayByNamespaceString($namespace);
@@ -54,7 +54,7 @@ class NamespaceUtility
             if (is_array($returnArray) && array_key_exists($namespaceChunk, $returnArray)) {
                 $returnArray = $returnArray[$namespaceChunk];
             } else {
-                return array();
+                return [];
             }
         }
         

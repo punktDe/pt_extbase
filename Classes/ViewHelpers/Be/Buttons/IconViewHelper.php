@@ -75,7 +75,7 @@ class Tx_PtExtbase_ViewHelpers_Be_Buttons_IconViewHelper extends \TYPO3\CMS\Flui
             $onclick = ' onclick="'.$this->arguments['onclick'].'" ';
         }
 
-        $ret = '<a href="' . $uri . '"' . $onclick . '>' .  \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($icon, array('title' => $title)) . '</a>';
+        $ret = '<a href="' . $uri . '"' . $onclick . '>' .  \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($icon, ['title' => $title]) . '</a>';
         return $ret;
     }
 }

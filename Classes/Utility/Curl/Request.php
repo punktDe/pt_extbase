@@ -31,10 +31,10 @@ class Request
     /**
      * @var array
      */
-    protected $curlOptions = array(
+    protected $curlOptions = [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_HEADER => true
-    );
+    ];
 
 
     /**
@@ -59,10 +59,10 @@ class Request
     {
         $request = $this->buildRequest();
 
-        curl_setopt_array($request, array(
+        curl_setopt_array($request, [
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $data
-        ));
+        ]);
 
         return $this->executeRequest($request);
     }

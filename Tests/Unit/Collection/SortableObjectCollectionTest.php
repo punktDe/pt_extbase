@@ -56,10 +56,10 @@ class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends \PunktDe\PtEx
 
     public function testCompareItems()
     {
-        $items = array(
+        $items = [
             new Tx_PtExtbase_Collection_SortableObjectMock(5),
             new Tx_PtExtbase_Collection_SortableObjectMock(4)
-        );
+        ];
         $this->assertEquals(1, $this->sortableObjectCollectionProxyMock->compareItems($items[0], $items[1]));
         $this->assertEquals(-1, $this->sortableObjectCollectionProxyMock->compareItems($items[1], $items[0]));
         $this->assertEquals(0, $this->sortableObjectCollectionProxyMock->compareItems($items[1], $items[1]));
@@ -69,13 +69,13 @@ class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends \PunktDe\PtEx
 
     public function testSort()
     {
-        $items = array(
+        $items = [
             new Tx_PtExtbase_Collection_SortableObjectMock(4),
             new Tx_PtExtbase_Collection_SortableObjectMock(5),
             new Tx_PtExtbase_Collection_SortableObjectMock(2),
             new Tx_PtExtbase_Collection_SortableObjectMock(4),
             new Tx_PtExtbase_Collection_SortableObjectMock(3)
-        );
+        ];
         $this->sortableObjectCollectionProxyMock->_set('itemsArr', $items);
         $this->sortableObjectCollectionProxyMock->sort();
         $actual = $this->sortableObjectCollectionProxyMock->_get('itemsArr');

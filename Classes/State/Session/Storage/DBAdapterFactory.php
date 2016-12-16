@@ -74,14 +74,14 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapterFactory
          * TODO fix this if you want to use caching!!!
          */
         if (!is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase']['options'])) {
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase'] = array(
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['tx_ptextbase'] = [
                 'frontend' => 't3lib_cache_frontend_VariableFrontend',
                 'backend' => 't3lib_cache_backend_DbBackend',
-                'options' => array(
+                'options' => [
                     'cacheTable' => 'tx_ptextbase_cache_state',
                     'tagsTable'  => 'tx_ptextbase_cache_state_tags',
-                )
-            );
+                ]
+            ];
         }
 
         // Create the cache

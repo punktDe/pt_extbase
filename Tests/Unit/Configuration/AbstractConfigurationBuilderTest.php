@@ -43,15 +43,15 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilderTest ext
      *
      * @var array
      */
-    protected $settings = array(
-        'testKey' => array('key1' => 'value1'),
-        'cobjSetting' => array(
+    protected $settings = [
+        'testKey' => ['key1' => 'value1'],
+        'cobjSetting' => [
             '_typoScriptNodeValue' => 'TEXT',
             'value' => 'TEST',
             'wrap' => 'x|x'
-        ),
+        ],
         'key2' => 'val2'
-    );
+    ];
     
     
     
@@ -93,11 +93,11 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub ex
      *
      * @var array
      */
-    protected $configurationObjectSettings = array(
-        'dummy' => array(
+    protected $configurationObjectSettings = [
+        'dummy' => [
             'factory' => 'Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_DummyConfigurationObjectfactory',
-        )
-    );
+        ]
+    ];
 }
 
 
@@ -118,7 +118,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_DummyCo
 {
     public function getInstance(Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub $configurationBuilder)
     {
-        $configObject = new Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject($configurationBuilder, array('key1' => 'value1'));
+        $configObject = new Tx_PtExtbase_Tests_Unit_Configuration_DummyConfigurationObject($configurationBuilder, ['key1' => 'value1']);
         return $configObject;
     }
 }

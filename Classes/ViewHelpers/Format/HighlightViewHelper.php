@@ -40,7 +40,7 @@ class Tx_PtExtbase_ViewHelpers_Format_HighlightViewHelper extends \TYPO3\CMS\Flu
     public function render($text, $highlight)
     {
         if (!is_array($highlight)) {
-            $highlight = array($highlight);
+            $highlight = [$highlight];
         }
 
         $highlightTemplate = '<span class="tx-extbase-highlight">$1</span>';

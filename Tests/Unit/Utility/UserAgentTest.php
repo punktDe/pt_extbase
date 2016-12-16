@@ -46,7 +46,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_UserAgentTest extends \TYPO3\CMS\Core\Test
     {
         $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_UserAgent');
         $this->proxyMock = $this->getMockBuilder($this->proxyClass)
-                ->setMethods(array('getUserAgentData'))
+                ->setMethods(['getUserAgentData'])
                 ->getMock();
     }
 
@@ -64,16 +64,16 @@ class Tx_PtExtbase_Tests_Unit_Utility_UserAgentTest extends \TYPO3\CMS\Core\Test
      */
     public function getOperationSystemReturnsExpectedOperatingSystemDataProvider()
     {
-        return array(
-            'MacOS' => array(
+        return [
+            'MacOS' => [
                 'agentData' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36',
                 'expected' => 'Mac OS X'
-            ),
-            'UnknownSystem' => array(
+            ],
+            'UnknownSystem' => [
                 'agentData' => 'Mozilla/5.0 (HyperFastBetterThanAnyOtherSystem) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36',
                 'expected' => 'No known operating system found in HTTP_USER_AGENT: Mozilla/5.0 (HyperFastBetterThanAnyOtherSystem) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36'
-            )
-        );
+            ]
+        ];
     }
 
 
@@ -100,16 +100,16 @@ class Tx_PtExtbase_Tests_Unit_Utility_UserAgentTest extends \TYPO3\CMS\Core\Test
      */
     public function getBrowserReturnsExpectedBrowserDataProvider()
     {
-        return array(
-            'Chrome' => array(
+        return [
+            'Chrome' => [
                 'agentData' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36',
                 'expected' => 'Chrome'
-            ),
-            'UnknownSystem' => array(
+            ],
+            'UnknownSystem' => [
                 'agentData' => 'Mozilla/5.0 (HyperFastBetterThanAnyOtherSystem) AppleWebKit/537.36 (KHTML, like Gecko) SuperBrowser/35.0.1916.153 NoBrowser/537.36',
                 'expected' => 'No known browser found in HTTP_USER_AGENT: Mozilla/5.0 (HyperFastBetterThanAnyOtherSystem) AppleWebKit/537.36 (KHTML, like Gecko) SuperBrowser/35.0.1916.153 NoBrowser/537.36'
-            )
-        );
+            ]
+        ];
     }
 
 

@@ -39,11 +39,11 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_CssNameViewHelperTest extends \
      */
     public static function nameDataProvider()
     {
-        return array(
-            'camelCase ' => array('DasIstEinTest', 'das-ist-ein-test'),
-            'Spaces ' => array('Das ist ein Test', 'das-ist-ein-test'),
-            'Spaces before and after ' => array(' Das ist ein Test ', 'das-ist-ein-test'),
-        );
+        return [
+            'camelCase ' => ['DasIstEinTest', 'das-ist-ein-test'],
+            'Spaces ' => ['Das ist ein Test', 'das-ist-ein-test'],
+            'Spaces before and after ' => [' Das ist ein Test ', 'das-ist-ein-test'],
+        ];
     }
 
 
@@ -53,7 +53,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_CssNameViewHelperTest extends \
     */
     public function render($input, $formatedOutput)
     {
-        $viewHelper = $this->getMock('Tx_PtExtbase_ViewHelpers_Format_CssNameViewHelper', array('renderChildren'));
+        $viewHelper = $this->getMock('Tx_PtExtbase_ViewHelpers_Format_CssNameViewHelper', ['renderChildren']);
         $viewHelper->expects($this->once())->method('renderChildren')->will($this->returnValue($input));
         
         $actualResult = $viewHelper->render();

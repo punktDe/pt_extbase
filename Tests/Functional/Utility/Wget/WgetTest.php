@@ -53,7 +53,7 @@ class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
      */
     public function setUp()
     {
-        $this->workingDirectory = Files::concatenatePaths(array(__DIR__, 'WorkingDirectory'));
+        $this->workingDirectory = Files::concatenatePaths([__DIR__, 'WorkingDirectory']);
         Files::createDirectoryRecursively($this->workingDirectory);
 
         $this->wgetCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetCommand');
@@ -76,7 +76,7 @@ class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
      */
     public function downloadNotExistingPageAndDetectErrors()
     {
-        $this->wgetCommand->setOutputFile(Files::concatenatePaths(array($this->workingDirectory, 'wget.log')))
+        $this->wgetCommand->setOutputFile(Files::concatenatePaths([$this->workingDirectory, 'wget.log']))
             ->setDirectoryPrefix($this->workingDirectory)
             ->setNoVerbose(true)
             ->setServerResponse(true)
@@ -99,7 +99,7 @@ class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
      */
     public function downloadExistingPage()
     {
-        $this->wgetCommand->setOutputFile(Files::concatenatePaths(array($this->workingDirectory, 'wget.log')))
+        $this->wgetCommand->setOutputFile(Files::concatenatePaths([$this->workingDirectory, 'wget.log']))
             ->setDirectoryPrefix($this->workingDirectory)
             ->setNoVerbose(true)
             ->setServerResponse(true)
@@ -109,6 +109,6 @@ class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
         $log = $this->wgetLogParser->parseLog($this->wgetCommand);
 
         $this->assertFalse($log->hasErrors());
-        $this->assertFileExists(Files::concatenatePaths(array($this->workingDirectory, 'index.html')));
+        $this->assertFileExists(Files::concatenatePaths([$this->workingDirectory, 'index.html']));
     }
 }

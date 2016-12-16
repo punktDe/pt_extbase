@@ -43,7 +43,7 @@ abstract class AbstractModelTestcase extends AbstractBaseTestcase
     /**
      * @var array
      */
-    protected $settableAttributes = array();
+    protected $settableAttributes = [];
 
     /**
      * Instead of annoying getter setter test we test dem automatically by just providing the
@@ -53,7 +53,7 @@ abstract class AbstractModelTestcase extends AbstractBaseTestcase
      */
     public function getterSetterTestDataProvider()
     {
-        $testData = array();
+        $testData = [];
 
         foreach ($this->settableAttributes as $attribute => $type) {
             switch ($type) {
@@ -81,7 +81,7 @@ abstract class AbstractModelTestcase extends AbstractBaseTestcase
             $getterName = 'get' . ucfirst($attribute);
             $setterName = 'set' . ucfirst($attribute);
 
-            $testData[$testName] = array('setterName' => $setterName, 'getterName' => $getterName, 'testValue' => $testValue);
+            $testData[$testName] = ['setterName' => $setterName, 'getterName' => $getterName, 'testValue' => $testValue];
         }
 
         return $testData;

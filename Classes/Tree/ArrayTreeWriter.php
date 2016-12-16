@@ -48,7 +48,7 @@ class Tx_PtExtbase_Tree_ArrayTreeWriter extends Tx_PtExtbase_Tree_TreeWalker
      * @param array $visitors
      * @return Tx_PtExtbase_Tree_ArrayTreeWriter
      */
-    public static function getInstance(array $visitors = array())
+    public static function getInstance(array $visitors = [])
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 

@@ -42,9 +42,9 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_StringToLowerViewHelperTest ext
 
     public function testRenderIfInputValueIsString()
     {
-        $viewHelperArguments = array(
+        $viewHelperArguments = [
             'string' => 'BaR'
-        );
+        ];
         $expectedOutput = 'bar';
         $this->stringToLowerViewHelperProxy->_set('arguments', $viewHelperArguments);
         $output = $this->stringToLowerViewHelperProxy->render();
@@ -53,9 +53,9 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_StringToLowerViewHelperTest ext
 
     public function testRenderReturnsInputValueIfInputValueIsNotString()
     {
-        $viewHelperArguments = array(
+        $viewHelperArguments = [
             'string' => 123
-        );
+        ];
         $expectedOutput = 123;
         $this->stringToLowerViewHelperProxy->_set('arguments', $viewHelperArguments);
         $output = $this->stringToLowerViewHelperProxy->render();

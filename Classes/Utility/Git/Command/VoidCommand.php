@@ -35,17 +35,17 @@ class VoidCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'version' => '--version',
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'version' => false
-    );
+    ];
 
 
 

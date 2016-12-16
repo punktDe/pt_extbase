@@ -57,7 +57,7 @@ abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
     public function storeFile($identifier, $filePath, $destinationFileName = '')
     {
         $destinationFileName = trim($destinationFileName) ? trim($destinationFileName) : basename($filePath);
-        $targetPath = Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier, true), $destinationFileName));
+        $targetPath = Tx_PtExtbase_Utility_Files::concatenatePaths([$this->getHashPath($identifier, true), $destinationFileName]);
         copy($filePath, $targetPath);
     }
 
@@ -69,7 +69,7 @@ abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
      */
     public function getFilePath($identifier, $fileName)
     {
-        return Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier, true), $fileName));
+        return Tx_PtExtbase_Utility_Files::concatenatePaths([$this->getHashPath($identifier, true), $fileName]);
     }
 
 
@@ -81,7 +81,7 @@ abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
      */
     public function fileExists($identifier, $fileName)
     {
-        return file_exists(Tx_PtExtbase_Utility_Files::concatenatePaths(array($this->getHashPath($identifier), $fileName)));
+        return file_exists(Tx_PtExtbase_Utility_Files::concatenatePaths([$this->getHashPath($identifier), $fileName]));
     }
 
 

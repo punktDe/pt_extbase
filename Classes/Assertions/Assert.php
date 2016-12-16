@@ -55,7 +55,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   integer     (optional) error code, default is 0
      * @throws  Exception   if assertion fails
      */
-    public static function test($val, $expected, array $info = array(), $strict = true)
+    public static function test($val, $expected, array $info = [], $strict = true)
     {
 
         // check values
@@ -78,14 +78,14 @@ class Tx_PtExtbase_Assertions_Assert
 
 
         $info = array_merge(
-            array(
+            [
                 'file'         => $assertCall['file'],
                 'line'         => $assertCall['line'],
                 'function'     => $triggerCall['class'] . '::' . $triggerCall['function'],
                 'assertType'   => $assertCall['function'],
                 'val'          => $val,
                 'expected'     => $expected,
-            ),
+            ],
             $info
         );
 
@@ -112,7 +112,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   mixed   value
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isTrue($val, array $info = array())
+    public static function isTrue($val, array $info = [])
     {
         return self::test($val, true, $info);
     }
@@ -126,7 +126,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isFalse($val, array $info = array())
+    public static function isFalse($val, array $info = [])
     {
         return self::test($val, false, $info);
     }
@@ -141,7 +141,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isEqual($a, $b, array $info = array())
+    public static function isEqual($a, $b, array $info = [])
     {
         if ($info['message']) {
             $info['message'] = sprintf($info['message'], $a, $b);
@@ -159,7 +159,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNotEqual($a, $b, array $info = array())
+    public static function isNotEqual($a, $b, array $info = [])
     {
         return self::test($a == $b, false, $info, true);
     }
@@ -174,7 +174,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isIdentical($a, $b, array $info = array())
+    public static function isIdentical($a, $b, array $info = [])
     {
         return self::test($a, $b, $info, true);
     }
@@ -189,7 +189,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNotIdentical($a, $b, array $info = array())
+    public static function isNotIdentical($a, $b, array $info = [])
     {
         return self::test($a === $b, false, $info, true);
     }
@@ -204,7 +204,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function matchesPattern($pattern, $val, array $info = array())
+    public static function matchesPattern($pattern, $val, array $info = [])
     {
         self::isString($pattern);
         self::isString($val);
@@ -220,7 +220,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isAlphaNum($val, array $info = array())
+    public static function isAlphaNum($val, array $info = [])
     {
         return self::matchesPattern('/^[\w\d]+$/', $val, $info);
     }
@@ -233,7 +233,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isValidEmail($email, array $info = array())
+    public static function isValidEmail($email, array $info = [])
     {
         self::isString($email);
         return self::test(GeneralUtility::validEmail($email), true, $info);
@@ -246,7 +246,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isEmpty($val, array $info = array())
+    public static function isEmpty($val, array $info = [])
     {
         return self::test(empty($val), true, $info);
     }
@@ -260,7 +260,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNotEmpty($val, array $info = array())
+    public static function isNotEmpty($val, array $info = [])
     {
         return self::test(empty($val), false, $info);
     }
@@ -274,7 +274,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNumeric($val, array $info = array())
+    public static function isNumeric($val, array $info = [])
     {
         return self::test(is_numeric($val), true, $info);
     }
@@ -288,7 +288,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNotNumeric($val, array $info = array())
+    public static function isNotNumeric($val, array $info = [])
     {
         return self::test(is_numeric($val), false, $info);
     }
@@ -302,7 +302,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isInteger($val, array $info = array())
+    public static function isInteger($val, array $info = [])
     {
         return self::test(is_int($val), true, $info);
     }
@@ -315,7 +315,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isPositiveInteger($val, $allowZero = false, array $info = array())
+    public static function isPositiveInteger($val, $allowZero = false, array $info = [])
     {
         $info['tested_value'] = $val;
         $info['value_type'] = gettype($val);
@@ -331,7 +331,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNotInteger($val, array $info = array())
+    public static function isNotInteger($val, array $info = [])
     {
         return self::test(is_int($val), false, $info);
     }
@@ -345,7 +345,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isIntegerish($val, array $info = array())
+    public static function isIntegerish($val, array $info = [])
     {
         return self::test(is_int($val) || ctype_digit($val), true, $info);
     }
@@ -359,7 +359,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNotIntegerish($val, array $info = array())
+    public static function isNotIntegerish($val, array $info = [])
     {
         return self::test(is_int($val) || ctype_digit($val), false, $info);
     }
@@ -373,7 +373,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isObject($val, array $info = array())
+    public static function isObject($val, array $info = [])
     {
         return self::test(is_object($val), true, $info);
     }
@@ -387,7 +387,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNotObject($val, array $info = array())
+    public static function isNotObject($val, array $info = [])
     {
         return self::test(is_object($val), false, $info);
     }
@@ -401,7 +401,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isBoolean($val, array $info = array())
+    public static function isBoolean($val, array $info = [])
     {
         return self::test(is_bool($val), true, $info);
     }
@@ -415,7 +415,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNotBoolean($val, array $info = array())
+    public static function isNotBoolean($val, array $info = [])
     {
         return self::test(is_bool($val), false, $info);
     }
@@ -429,7 +429,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isString($val, array $info = array())
+    public static function isString($val, array $info = [])
     {
         return self::test(is_string($val), true, $info);
     }
@@ -443,7 +443,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNotString($val, array $info = array())
+    public static function isNotString($val, array $info = [])
     {
         return self::test(is_string($val), false, $info);
     }
@@ -457,7 +457,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isArray($val, array $info = array())
+    public static function isArray($val, array $info = [])
     {
         return self::test(is_array($val), true, $info);
     }
@@ -471,7 +471,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   array   $info   Array of information
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isAssociativeArray($val, array $info = array())
+    public static function isAssociativeArray($val, array $info = [])
     {
         return self::test(Tx_PtExtbase_Div::isAssociativeArray($val), true, $info);
     }
@@ -485,7 +485,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNotArray($val, array $info = array())
+    public static function isNotArray($val, array $info = [])
     {
         return self::test(is_array($val), false, $info);
     }
@@ -498,7 +498,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      */
-    public static function isNotEmptyArray($val, array $info = array())
+    public static function isNotEmptyArray($val, array $info = [])
     {
         return self::test((is_array($val) && count($val)) > 0, true, $info);
     }
@@ -513,7 +513,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isInArray($val, array $array, array $info = array())
+    public static function isInArray($val, array $array, array $info = [])
     {
         return self::test(in_array($val, $array), true, $info);
     }
@@ -528,7 +528,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isArrayKey($val, array $array, array $info = array())
+    public static function isArrayKey($val, array $array, array $info = [])
     {
         return self::test(array_key_exists($val, $array), true, $info);
     }
@@ -543,7 +543,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isInList($val, $list, array $info = array())
+    public static function isInList($val, $list, array $info = [])
     {
         return self::test(GeneralUtility::inList($list, $val), true, $info);
     }
@@ -559,7 +559,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isInRange($val, $low, $high, array $info = array())
+    public static function isInRange($val, $low, $high, array $info = [])
     {
         $info['tested_value'] = $val;
         $info['range_low'] = $low;
@@ -577,7 +577,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isValidUid($val, $allowZero = false, array $info = array())
+    public static function isValidUid($val, $allowZero = false, array $info = [])
     {
         
         // TODO: test if is_string or is_int
@@ -597,7 +597,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isValidUidArray($val, $allowZero = false, array $info = array())
+    public static function isValidUidArray($val, $allowZero = false, array $info = [])
     {
         self::isArray($val, $info);
         
@@ -616,7 +616,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param array (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @return boolean
      */
-    public static function isMySQLSuccess($res, \TYPO3\CMS\Core\Database\DatabaseConnection $dbObj = null, array $info = array())
+    public static function isMySQLSuccess($res, \TYPO3\CMS\Core\Database\DatabaseConnection $dbObj = null, array $info = [])
     {
         if ($res == true) {
             return true;
@@ -637,7 +637,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array        (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isMySQLRessource($res, \TYPO3\CMS\Core\Database\DatabaseConnection $dbObj = null, array $info = array())
+    public static function isMySQLRessource($res, \TYPO3\CMS\Core\Database\DatabaseConnection $dbObj = null, array $info = [])
     {
         if (is_null($dbObj)) {
             $dbObj = $GLOBALS['TYPO3_DB'];
@@ -672,7 +672,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isType($val, $type, array $info = array())
+    public static function isType($val, $type, array $info = [])
     {
         self::isNotEmptyString($type, $info);
         
@@ -688,7 +688,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isNotEmptyString($val, array $info = array())
+    public static function isNotEmptyString($val, array $info = [])
     {
         return self::test(is_string($val) && (strlen($val)>0), true, $info);
     }
@@ -702,7 +702,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isFilePath($val, array $info = array())
+    public static function isFilePath($val, array $info = [])
     {
         self::isNotEmptyString($val, $info);
         
@@ -723,7 +723,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
      */
-    public static function isDir($val, array $info = array())
+    public static function isDir($val, array $info = [])
     {
         self::isNotEmptyString($val, $info);
         
@@ -740,7 +740,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     mixed     second variable
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      */
-    public static function isReference(&$a, &$b, array $info = array())
+    public static function isReference(&$a, &$b, array $info = [])
     {
         if (is_object($a)) {
             $is_ref = ($a === $b);
@@ -762,7 +762,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param     mixed    class name
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      */
-    public static function isInstanceOf($object, $class, array $info = array())
+    public static function isInstanceOf($object, $class, array $info = [])
     {
         self::isObject($object, $info);
         self::isNotEmptyString($class, $info);
@@ -782,7 +782,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   mixed   object
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      */
-    public static function isNotEmptyObjectCollection($object, array $info = array())
+    public static function isNotEmptyObjectCollection($object, array $info = [])
     {
         self::isInstanceOf($object, \PunktDe\PtExtbase\Collection\ObjectCollection::class);
         
@@ -797,7 +797,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param    mixed    value 
      * @param    array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      */
-    public static function isNotNull($val, array $info = array())
+    public static function isNotNull($val, array $info = [])
     {
         return self::test(is_null($val), false, $info);
     }
@@ -810,7 +810,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param   mixed   value 
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      */
-    public static function isNull($val, array $info = array())
+    public static function isNull($val, array $info = [])
     {
         return self::test(is_null($val), true, $info);
     }
@@ -822,7 +822,7 @@ class Tx_PtExtbase_Assertions_Assert
      *
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      */
-    public static function loggedIn(array $info = array())
+    public static function loggedIn(array $info = [])
     {
         return self::test($GLOBALS['TSFE']->loginUser, true, $info, false);
     }
@@ -835,7 +835,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param string $val
      * @param array $info (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      */
-    public static function isTcaTable($val, array $info = array())
+    public static function isTcaTable($val, array $info = [])
     {
         self::isNotEmptyString($val, $info);
         return self::isArrayKey($val, $GLOBALS['TCA'], $info);
@@ -852,9 +852,9 @@ class Tx_PtExtbase_Assertions_Assert
      * @param string $className Class name which object should implement
      * @param array $info additional info, will be displayed as debug message, if object does not implement given class
      */
-    public static function isA($object, $className, $info=array())
+    public static function isA($object, $className, $info= [])
     {
-        self::classExists($className, array('message' => 'Assertion whether an object implements a class cannot be made, without the target class being loaded. Class ' . $className . ' does not exist! 1356205830'));
+        self::classExists($className, ['message' => 'Assertion whether an object implements a class cannot be made, without the target class being loaded. Class ' . $className . ' does not exist! 1356205830']);
         self::isInstanceOf($object, $className, $info);
     }
 
@@ -866,7 +866,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param string $className Name of class to test whether it exists
      * @param array $info additional info, will be displayed as debug message, if class does not exist
      */
-    public static function classExists($className, $info=array())
+    public static function classExists($className, $info= [])
     {
         self::isTrue(class_exists($className), $info);
     }
@@ -879,7 +879,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param string $tablename Table name for which to check whether it exists
      * @param array $info Additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      */
-    public static function tableExists($tablename, array $info = array())
+    public static function tableExists($tablename, array $info = [])
     {
         self::initializeDbObj();
         $tables = self::$dbObj->admin_get_tables();
@@ -895,7 +895,7 @@ class Tx_PtExtbase_Assertions_Assert
      * @param string $fieldname Field name for which to check whether it exists in the given table
      * @param array $info Additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      */
-    public static function tableAndFieldExist($tablename, $fieldname, $info =  array())
+    public static function tableAndFieldExist($tablename, $fieldname, $info =  [])
     {
         self::initializeDbObj();
         return self::isArrayKey($fieldname, self::$dbObj->admin_get_fields($tablename), $info);
@@ -912,12 +912,12 @@ class Tx_PtExtbase_Assertions_Assert
     public static function extensionIsLoaded($extensionKey, $version = '0.0.0')
     {
         // Check whether extension is loaded at all
-        self::isTrue(ExtensionManagementUtility::isLoaded($extensionKey), array('message' => 'Extension ' . $extensionKey . ' is not loaded!'));
+        self::isTrue(ExtensionManagementUtility::isLoaded($extensionKey), ['message' => 'Extension ' . $extensionKey . ' is not loaded!']);
 
         // Check whether extension is loaded with required version
         list($sanitizedVersion, ) = explode('-', $version);
         $loadedVersion = ExtensionManagementUtility::getExtensionVersion($extensionKey);
-        self::test(version_compare($sanitizedVersion, $loadedVersion) >= 0, true, array('message' => 'Extension ' . $extensionKey . ' was installed with version ' . $loadedVersion . ' but version ' . $version . ' is required!'));
+        self::test(version_compare($sanitizedVersion, $loadedVersion) >= 0, true, ['message' => 'Extension ' . $extensionKey . ' was installed with version ' . $loadedVersion . ' but version ' . $version . ' is required!']);
     }
 
 

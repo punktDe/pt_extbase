@@ -47,7 +47,7 @@ class Tx_PtExtbase_ViewHelpers_CObjectConfigViewHelper extends \TYPO3\CMS\Fluid\
      * @param array $data
      * @return string
      */
-    public function render($config, $data = array())
+    public function render($config, $data = [])
     {
         if (!is_array($config)) {
             return $config;

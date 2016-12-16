@@ -93,7 +93,7 @@ class GitRepositoryTest extends UnitTestCase
         $this->objectContainer->registerImplementation(\PunktDe\PtExtbase\Logger\Logger::class, 'LoggerMock');
 
         $this->getMockBuilder('PunktDe\PtExtbase\Utility\ShellCommandService')
-            ->setMethods(array('execute'))
+            ->setMethods(['execute'])
             ->setMockClassName('ShellCommandServiceMock')
             ->getMock();
         $this->shellCommandServiceMock = $objectManager->get('ShellCommandServiceMock'); /** @var  $shellCommandServiceMock \PHPUnit_Framework_MockObject_MockObject */
@@ -102,7 +102,7 @@ class GitRepositoryTest extends UnitTestCase
         $proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Git\GitRepository');
 
         $this->getMockBuilder($proxyClass)
-            ->setMethods(array('initializeObject'))
+            ->setMethods(['initializeObject'])
             ->setMockClassName('GitRepositoryMock')
             ->getMock();
         $this->proxy = $objectManager->get('GitRepositoryMock', '/usr/bin/git', '~');
@@ -215,23 +215,23 @@ class GitRepositoryTest extends UnitTestCase
         $this->shellCommandServiceMock->expects($this->any())
             ->method('execute')
             ->withConsecutive(
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git clone file:///path/to/a/repository/of/chocolate.git /path/to/checked/out/chocolate/')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git clone --branch YummyTag --depth 1 file:///path/to/a/repository/of/chocolate.git /path/to/checked/out/chocolate/')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git checkout --force --quiet c0ca3ae2f34ef4dc024093f92547b43a4d9bd58a')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --max-count=10')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --pretty="%H"')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config --global user.name "Bud Spencer"')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config --global user.email "bud@spencer.it"')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote remove origin')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote add origin file:///tmp/punktde.git')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git init --bare --shared')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git push --tags origin master')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag -s -a -m "Release" v1.2.3')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --allow-empty --message "This is a very empty commit!"')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --message "This is a very cool message!"')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add --all .')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short --untracked-files=all')),
-                array($this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --name-only'))
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git clone file:///path/to/a/repository/of/chocolate.git /path/to/checked/out/chocolate/')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git clone --branch YummyTag --depth 1 file:///path/to/a/repository/of/chocolate.git /path/to/checked/out/chocolate/')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git checkout --force --quiet c0ca3ae2f34ef4dc024093f92547b43a4d9bd58a')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --max-count=10')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --pretty="%H"')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config --global user.name "Bud Spencer"')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git config --global user.email "bud@spencer.it"')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote remove origin')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git remote add origin file:///tmp/punktde.git')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git init --bare --shared')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git push --tags origin master')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git tag -s -a -m "Release" v1.2.3')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --allow-empty --message "This is a very empty commit!"')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git commit --message "This is a very cool message!"')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git add --all .')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git status --short --untracked-files=all')],
+                [$this->equalTo('cd ~; /usr/bin/git --git-dir=~/.git log --name-only')]
             );
     }
 }

@@ -85,7 +85,7 @@ class LoggerConfiguration implements SingletonInterface
         if (array_key_exists('logFilePath', $this->extensionConfiguration)) {
             $this->logFilePath = $this->extensionConfiguration['logFilePath'];
         } else {
-            $this->logFilePath = \Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, '/typo3temp/application.log'));
+            $this->logFilePath = \Tx_PtExtbase_Utility_Files::concatenatePaths([PATH_site, '/typo3temp/application.log']);
         }
 
         if (!file_exists($this->logFilePath)) {
@@ -103,7 +103,7 @@ class LoggerConfiguration implements SingletonInterface
         if (!$this->exceptionDirectory) {
             $path_parts = pathinfo($this->logFilePath);
 
-            $this->exceptionDirectory = \Tx_PtExtbase_Utility_Files::concatenatePaths(array(realpath($path_parts['dirname']), 'Exceptions'));
+            $this->exceptionDirectory = \Tx_PtExtbase_Utility_Files::concatenatePaths([realpath($path_parts['dirname']), 'Exceptions']);
             \Tx_PtExtbase_Utility_Files::createDirectoryRecursively($this->exceptionDirectory);
         }
     }

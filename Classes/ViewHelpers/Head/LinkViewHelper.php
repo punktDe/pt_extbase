@@ -87,7 +87,7 @@ class Tx_PtExtbase_ViewHelpers_Head_LinkViewHelper extends \TYPO3\CMS\Fluid\Core
     /**
      * @param array $unEscapedTags
      */
-    public function render($unEscapedTags = array())
+    public function render($unEscapedTags = [])
     {
         $unEscapedTags[] = 'href';
 

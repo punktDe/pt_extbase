@@ -46,12 +46,12 @@ abstract class Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper implements \TYP
     /**
      * @var array
      */
-    protected $speakingNameToConstantMap = array();
+    protected $speakingNameToConstantMap = [];
 
     /**
      * @var array
      */
-    protected $constantToSpeakingNameMap = array();
+    protected $constantToSpeakingNameMap = [];
 
     /**
      * @return Tx_PtExtbase_Utility_ConstantToSpeakingNameMapper

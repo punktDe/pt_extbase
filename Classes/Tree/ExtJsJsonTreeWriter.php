@@ -37,7 +37,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonTreeWriter extends Tx_PtExtbase_Tree_JsonTreeWr
      * @param array $visitors
      * @return Tx_PtExtbase_Tree_JsonTreeWriter
      */
-    public static function getInstance(array $visitors = array())
+    public static function getInstance(array $visitors = [])
     {
         $arrayWriterVisitor = new Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor();
         $visitors[] = $arrayWriterVisitor;

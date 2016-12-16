@@ -52,7 +52,7 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
      *
      * @var array
      */
-    protected $nodeArray = array();
+    protected $nodeArray = [];
 
 
 
@@ -84,12 +84,12 @@ class Tx_PtExtbase_Tree_ArrayWriterVisitor implements Tx_PtExtbase_Tree_TreeWalk
      */
     public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
     {
-        $arrayForNode = array(
+        $arrayForNode = [
               'uid' => $node->getUid(),
             'label' => $node->getLabel(),
-            'children' => array(),
+            'children' => [],
             'disabled' => !$node->isAccessible(),
-        );
+        ];
 
         $this->nodeStack->push($arrayForNode);
     }

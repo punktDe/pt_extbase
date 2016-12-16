@@ -55,7 +55,7 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
     {
         $query = $this->createQuery();
 
-        $query->setOrderings(array('sorting' => QueryInterface::ORDER_ASCENDING));
+        $query->setOrderings(['sorting' => QueryInterface::ORDER_ASCENDING]);
 
         $pages = $query->matching(
             $query->equals('pid', $pid)
@@ -74,7 +74,7 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
     {
         $query = $this->createQuery();
 
-        $query->setOrderings(array('sorting' => QueryInterface::ORDER_ASCENDING));
+        $query->setOrderings(['sorting' => QueryInterface::ORDER_ASCENDING]);
 
         $pages = $query->matching(
             $query->logicalAnd(
@@ -94,7 +94,7 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
     {
         $rootPage = $this->findByUid($uid);
 
-        $uidTreeList = array($uid => array('pageObject' => $rootPage));
+        $uidTreeList = [$uid => ['pageObject' => $rootPage]];
 
         $uidTreeList[$uid]['subPages'] = $this->getSubpagesOfUid($uid, $respectEnableFields, $respectDeletedField);
 
@@ -108,13 +108,13 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
      *
      * @return array
      */
-    protected function getSubpagesOfUid($uid, $respectEnableFields, $respectDeletedField, $pageTree = array())
+    protected function getSubpagesOfUid($uid, $respectEnableFields, $respectDeletedField, $pageTree = [])
     {
         $this->defaultQuerySettings->setIgnoreEnableFields(!$respectEnableFields);
         $this->defaultQuerySettings->setIncludeDeleted(!$respectDeletedField);
 
         $pageTree = $this->findPagesInPid($uid);
-        $returnArray = array();
+        $returnArray = [];
 
         foreach ($pageTree as $page) {
             $returnArray[$page->getUid()]['pageObject'] = $page;

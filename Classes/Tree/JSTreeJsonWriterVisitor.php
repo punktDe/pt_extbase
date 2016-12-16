@@ -44,15 +44,15 @@ class Tx_PtExtbase_Tree_JSTreeJsonWriterVisitor extends Tx_PtExtbase_Tree_ArrayW
         $metadata = '';
 
 
-        $arrayForNode = array(
+        $arrayForNode = [
             'data' => $node->getLabel(),
-            'attr' => array(
+            'attr' => [
                 'id' => $node->getUid(),
                 'data-meta' => trim($metadata),
                 'disabled' => !$node->isAccessible(),
-            ),
-            'children' => array()
-        );
+            ],
+            'children' => []
+        ];
 
         $this->nodeStack->push($arrayForNode);
     }

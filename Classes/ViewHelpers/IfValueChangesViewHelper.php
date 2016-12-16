@@ -101,7 +101,7 @@ class Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper extends \TYPO3\CMS\Fluid
      *
      * @var array
      */
-    protected static $lastValuesArray = array();
+    protected static $lastValuesArray = [];
 
 
 

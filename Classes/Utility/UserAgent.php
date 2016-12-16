@@ -30,7 +30,7 @@ class Tx_PtExtbase_Utility_UserAgent implements \TYPO3\CMS\Core\SingletonInterfa
     /**
      * @var array
      */
-    protected $knownOperatingSystems = array(
+    protected $knownOperatingSystems = [
         '/windows nt 6.3/i'     =>  'Windows 8.1',
         '/windows nt 6.2/i'     =>  'Windows 8',
         '/windows nt 6.1/i'     =>  'Windows 7',
@@ -53,14 +53,14 @@ class Tx_PtExtbase_Utility_UserAgent implements \TYPO3\CMS\Core\SingletonInterfa
         '/android/i'            =>  'Android',
         '/blackberry/i'         =>  'BlackBerry',
         '/webos/i'              =>  'Mobile',
-    );
+    ];
 
 
 
     /**
      * @var array
      */
-    protected $knownBrowsers = array(
+    protected $knownBrowsers = [
         '/msie/i'       =>  'Internet Explorer',
         '/firefox/i'    =>  'Firefox',
         '/safari/i'     =>  'Safari',
@@ -70,7 +70,7 @@ class Tx_PtExtbase_Utility_UserAgent implements \TYPO3\CMS\Core\SingletonInterfa
         '/maxthon/i'    =>  'Maxthon',
         '/konqueror/i'  =>  'Konqueror',
         '/mobile/i'     =>  'Handheld Browser',
-    );
+    ];
 
 
 

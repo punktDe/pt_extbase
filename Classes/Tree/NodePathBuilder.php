@@ -34,7 +34,7 @@ class Tx_PtExtbase_Tree_NodePathBuilder
     /**
      * @var <array>Tx_PtExtbase_Tree_NodePathBuilder
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * @var Tx_PtExtbase_Tree_Tree
@@ -45,7 +45,7 @@ class Tx_PtExtbase_Tree_NodePathBuilder
     /**
      * @var array
      */
-    protected $nodePathCache = array();
+    protected $nodePathCache = [];
 
 
     /**
@@ -126,7 +126,7 @@ class Tx_PtExtbase_Tree_NodePathBuilder
         if (!array_key_exists($nodeUid, $this->nodePathCache)) {
             $node = $this->tree->getNodeByUid($nodeUid);
 
-            $pathFromNodeToRoot = array();
+            $pathFromNodeToRoot = [];
 
             if ($node instanceof Tx_PtExtbase_Tree_Node) {
                 $pathFromNodeToRoot[] = $node;

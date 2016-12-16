@@ -42,7 +42,7 @@ class ExtensionConfigurationReader implements SingletonInterface
      * @return string
      * @throws \Exception
      */
-    public function getValueFromExtensionSettings($content = '', $conf = array())
+    public function getValueFromExtensionSettings($content = '', $conf = [])
     {
         $this->extensionSettings = GeneralUtility::makeInstance(\PunktDe\PtExtbase\Utility\ExtensionSettings::class);
 

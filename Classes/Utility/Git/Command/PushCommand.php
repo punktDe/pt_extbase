@@ -35,21 +35,21 @@ class PushCommand extends GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'tags' => '--tags',
         'remote' => '%s',
         'refspec' => '%s'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'tags' => false,
         'remote' => '',
         'refspec' => ''
-    );
+    ];
 
 
 

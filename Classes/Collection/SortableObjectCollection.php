@@ -40,7 +40,7 @@ abstract class Tx_PtExtbase_Collection_SortableObjectCollection extends \PunktDe
      */
     public function sort()
     {
-        usort($this->itemsArr, array('self', 'compareItems'));
+        usort($this->itemsArr, ['self', 'compareItems']);
     }
 
     /**

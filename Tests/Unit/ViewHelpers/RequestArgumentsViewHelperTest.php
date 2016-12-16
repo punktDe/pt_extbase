@@ -50,13 +50,13 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_RequestArgumnetsViewHelperTest extends
      */
     public function renderReturnsValidArgumentIfArgumentExists()
     {
-        $viewHelperArguments = array(
+        $viewHelperArguments = [
             'key' => 'uid'
-        );
+        ];
         $expected = '35';
 
         $requestMock = $this->getMockBuilder('\TYPO3\CMS\Extbase\Mvc\Request')
-                ->setMethods(array('getArgument'))
+                ->setMethods(['getArgument'])
                 ->getMock();
         $requestMock->expects($this->once())
             ->method('getArgument')

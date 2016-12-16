@@ -54,9 +54,9 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends \PunktDe\PtExtbase\Tes
     /** @test */
     public function constructorThrowsExceptionIfWrongClassGetsInjected()
     {
-        $wrongVisitor = $this->getMock('Tx_PtExtbase_Tests_Unit_Tree_NodeMock', array(), array(), '', false);
+        $wrongVisitor = $this->getMock('Tx_PtExtbase_Tests_Unit_Tree_NodeMock', [], [], '', false);
         try {
-            $treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($wrongVisitor));
+            $treeWalker = new Tx_PtExtbase_Tree_TreeWalker([$wrongVisitor]);
         } catch (Exception $e) {
             return;
         }
@@ -71,7 +71,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends \PunktDe\PtExtbase\Tes
         $tree = $this->createDemoTree();
         
         $visitorMock = $this->createVisitorMock();
-        $treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+        $treeWalker = new Tx_PtExtbase_Tree_TreeWalker([$visitorMock]);
         
         $visitorMock->expects($this->at(0))->method('doFirstVisit');#->with($node1, 1);
         $visitorMock->expects($this->at(1))->method('doFirstVisit');#->with($node2, 2);
@@ -102,7 +102,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends \PunktDe\PtExtbase\Tes
         $visitorMock->expects($this->exactly(6))->method('doFirstVisit');
         $visitorMock->expects($this->exactly(6))->method('doLastVisit');
 
-        $treeWalker = new Tx_PtExtbase_Tree_TreeWalker(array($visitorMock));
+        $treeWalker = new Tx_PtExtbase_Tree_TreeWalker([$visitorMock]);
         $treeWalker->traverseTreeDfs($tree);
     }
 
@@ -118,7 +118,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends \PunktDe\PtExtbase\Tes
         $visitorMock->expects($this->exactly(3))->method('doFirstVisit');
         $visitorMock->expects($this->exactly(3))->method('doLastVisit');
 
-        $treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', array($visitorMock));
+        $treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', [$visitorMock]);
         $treeWalker->traverseTreeDfs($tree);
     }
 
@@ -135,7 +135,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends \PunktDe\PtExtbase\Tes
         $visitorMock->expects($this->exactly(6))->method('doFirstVisit');
         $visitorMock->expects($this->exactly(6))->method('doLastVisit');
 
-        $treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', array($visitorMock));
+        $treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', [$visitorMock]);
         $treeWalker->traverseTreeDfs($tree);
     }
 
@@ -154,7 +154,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends \PunktDe\PtExtbase\Tes
         $visitorMock->expects($this->exactly(6))->method('doLastVisit');
         // $visitorMock->expects($this->never())->method('doFirstVisit')->with($tree->getNodeByUid(3), 3);
 
-        $treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', array($visitorMock));
+        $treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', [$visitorMock]);
         $treeWalker->traverseTreeDfs($tree);
     }
 
@@ -176,7 +176,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends \PunktDe\PtExtbase\Tes
         $visitorMock->expects($this->never())->method('doFirstVisit');
         $visitorMock->expects($this->never())->method('doLastVisit');
 
-        $treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', array($visitorMock));
+        $treeWalker = $this->objectManager->get('Tx_PtExtbase_Tree_TreeWalker', [$visitorMock]);
         $treeWalker->traverseTreeDfs($tree);
     }
 
@@ -223,6 +223,6 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends \PunktDe\PtExtbase\Tes
      */
     protected function createVisitorMock()
     {
-        return $this->getMock('Tx_PtExtbase_Tree_TreeWalkerVisitorInterface', array('doFirstVisit', 'doLastVisit'), array(), '', false);
+        return $this->getMock('Tx_PtExtbase_Tree_TreeWalkerVisitorInterface', ['doFirstVisit', 'doLastVisit'], [], '', false);
     }
 }

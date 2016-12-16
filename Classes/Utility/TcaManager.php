@@ -76,7 +76,7 @@ class TcaManager implements SingletonInterface
      */
     public function deactivateEnableColumns($tableName, $enableColumns)
     {
-        $enableColumnsAndValues = array();
+        $enableColumnsAndValues = [];
 
         foreach ($enableColumns as $column) {
             $enableColumnsAndValues[$column] = $GLOBALS['TCA'][$tableName]['ctrl']['enablecolumns'][$column];

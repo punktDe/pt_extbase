@@ -44,7 +44,7 @@ class Tx_PtExtbase_ViewHelpers_Format_CssNameViewHelper extends \TYPO3\CMS\Fluid
         $name = trim($name);
         $name = \TYPO3\CMS\Core\Utility\GeneralUtility::camelCaseToLowerCaseUnderscored($name);
         $name = strtolower($name);
-        $name = str_replace(array(' ', '_'), '-', $name);
+        $name = str_replace([' ', '_'], '-', $name);
 
         return $name;
     }

@@ -84,7 +84,7 @@ class SchedulerTaskTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
 
     protected function prepareTestPaths()
     {
-        $this->testFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths(array(__DIR__, 'WorkingDirectory'));
+        $this->testFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths([__DIR__, 'WorkingDirectory']);
 
         $this->loggerConfiguration = $this->objectManager->get(\PunktDe\PtExtbase\Logger\LoggerConfiguration::class);
         $this->logFilePath = $this->loggerConfiguration->getLogFilePath();
@@ -118,7 +118,7 @@ class SchedulerTaskTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
 
     protected function objectInitializationSuccessful()
     {
-        $initializeObjectTestFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths(array($this->testFilePath, "testTaskObjectInitialization.txt"));
+        $initializeObjectTestFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths([$this->testFilePath, "testTaskObjectInitialization.txt"]);
         $initializeObjectTestFileContent = $this->getFileContent($initializeObjectTestFilePath);
 
         $this->assertEquals('1428924552', $initializeObjectTestFileContent, 'The content of the "initializeTestFile" file is not as expected');
@@ -128,7 +128,7 @@ class SchedulerTaskTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
 
     protected function taskExecuteSuccessful()
     {
-        $executeTestFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths(array($this->testFilePath, "testTaskExecution.txt"));
+        $executeTestFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths([$this->testFilePath, "testTaskExecution.txt"]);
         $executeTestFileContent = $this->getFileContent($executeTestFilePath);
 
         $this->assertEquals('1428924570', $executeTestFileContent, 'The content of the "executeTestFile" file is not as expected');
@@ -139,7 +139,7 @@ class SchedulerTaskTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
     protected function loggingSuccessful()
     {
         $logTestFileContent = $executeTestFileContent = $this->getFileContent($this->logFilePath);
-        $logTestFileContentArray = array();
+        $logTestFileContentArray = [];
         preg_match('|^(?<Timestamp>.*?[\+-]\d\d\d\d) \[(?<LogLevel>[^\]]+)\] request="(?<RequestId>[^"]+)" component="(?<Component>[^"]+)": (?<Message>[^{}]*)(?<Data>.*)?|', $logTestFileContent, $logTestFileContentArray);
         $this->assertEquals('PunktDe.PtExtbase.Tests.Functional.Scheduler.TestTask', $logTestFileContentArray['Component'], 'The content of the file is not as expected');
 

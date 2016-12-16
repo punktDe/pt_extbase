@@ -52,7 +52,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends \P
     {
         parent::setUp();
 
-        $this->testDirectoryRoot = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'HashFileSystemServiceTest'));
+        $this->testDirectoryRoot = Tx_PtExtbase_Utility_Files::concatenatePaths([PATH_site, 'typo3temp', 'HashFileSystemServiceTest']);
         if (file_exists($this->testDirectoryRoot)) {
             Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->testDirectoryRoot);
         }
@@ -83,10 +83,10 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends \P
 
     public function hashFileSystemDataProvider()
     {
-        return array(
-            '1Digit' => array('astId' => 1, 'expectedPath' => '/1/1/1'),
-            'multipleDigits' => array('astId' => 79784646, 'expectedPath' => '/6/46/79784646'),
-        );
+        return [
+            '1Digit' => ['astId' => 1, 'expectedPath' => '/1/1/1'],
+            'multipleDigits' => ['astId' => 79784646, 'expectedPath' => '/6/46/79784646'],
+        ];
     }
 
 
@@ -117,9 +117,9 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends \P
         $astId = 123456;
         $path = $this->hashFileSystemService->getHashPath($astId, true);
 
-        $expectedFileNames = array('file 1.txt', 'Gedoens.xls', 'file3.pdf');
+        $expectedFileNames = ['file 1.txt', 'Gedoens.xls', 'file3.pdf'];
         sort($expectedFileNames);
-        $expectedFullPathFileNames = array();
+        $expectedFullPathFileNames = [];
 
         foreach ($expectedFileNames as $key => $fileName) {
             $expectedFullPathFileNames[$key] = $path . '/' . $fileName;
@@ -165,7 +165,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends \P
      */
     public function storeFile()
     {
-        $testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'test.pdf'));
+        $testFile = Tx_PtExtbase_Utility_Files::concatenatePaths([PATH_site, 'typo3temp', 'test.pdf']);
         touch($testFile);
         $this->hashFileSystemService->storeFile(1234, $testFile);
 
@@ -184,7 +184,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends \P
         $expectedFileLocation = $this->hashFileSystemService->getHashPath(1234) . '/test.pdf';
         $this->assertFileNotExists($expectedFileLocation);
 
-        $testFile = Tx_PtExtbase_Utility_Files::concatenatePaths(array(PATH_site, 'typo3temp', 'test.pdf'));
+        $testFile = Tx_PtExtbase_Utility_Files::concatenatePaths([PATH_site, 'typo3temp', 'test.pdf']);
         touch($testFile);
 
         $this->hashFileSystemService->storeFile(1234, $testFile);

@@ -33,19 +33,19 @@ class StatusCommand extends GenericShellCommand
     /**
      * @var array
      */
-    protected $argumentMap = array(
+    protected $argumentMap = [
         'short' => '--short',
         'untrackedFilesMode' => '--untracked-files=%s'
-    );
+    ];
 
 
     /**
      * @var array
      */
-    protected $arguments = array(
+    protected $arguments = [
         'short' => false,
         'untrackedFilesMode' => 'all'
-    );
+    ];
 
 
 

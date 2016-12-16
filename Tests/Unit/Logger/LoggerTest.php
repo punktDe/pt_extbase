@@ -69,7 +69,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
         $expectedEmailReceivers = 'bud@spencer.it,terence@hill.de';
 
         $loggerConfigurationMock = $this->getMockBuilder(LoggerConfiguration::class)
-            ->setMethods(array('getLogLevelThreshold', 'getEmailLogLevelThreshold', 'weHaveAnyEmailReceivers', 'getEmailReceivers'))
+            ->setMethods(['getLogLevelThreshold', 'getEmailLogLevelThreshold', 'weHaveAnyEmailReceivers', 'getEmailReceivers'])
             ->getMock();
         $loggerConfigurationMock->expects($this->once())
             ->method('getLogLevelThreshold')
@@ -91,7 +91,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
         $this->assertArrayHasKey($expectedLogLevelThreshold, $GLOBALS['TYPO3_CONF_VARS']['LOG']['writerConfiguration']);
         $this->assertSame($expectedLogPath, $GLOBALS['TYPO3_CONF_VARS']['LOG']['writerConfiguration'][$expectedLogLevelThreshold]['Tx_PtExtbase_Logger_Writer_FileWriter']['logFile']);
         $this->assertArrayHasKey($expectedEmailLogLevelThreshold, $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration']);
-        $this->assertSame(array('receivers' => $expectedEmailReceivers), $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][$expectedEmailLogLevelThreshold]['Tx_PtExtbase_Logger_Processor_EmailProcessor']);
+        $this->assertSame(['receivers' => $expectedEmailReceivers], $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][$expectedEmailLogLevelThreshold]['Tx_PtExtbase_Logger_Processor_EmailProcessor']);
         $this->assertArrayHasKey(LogLevel::DEBUG, $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration']);
         $this->assertArrayHasKey(ReplaceComponentProcessor::class, $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][LogLevel::DEBUG]);
     }
@@ -102,7 +102,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
     public function enrichLogDataByComponentCallsLoggerSpecificMethod()
     {
         $loggerMock = $this->getMockBuilder(\PunktDe\PtExtbase\Logger\Logger::class)
-            ->setMethods(array('enrichLoggerSpecificDataByComponent'))
+            ->setMethods(['enrichLoggerSpecificDataByComponent'])
             ->getMock();
         $loggerMock->expects($this->once())
             ->method('enrichLoggerSpecificDataByComponent');
@@ -111,7 +111,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
         $loggerManager = $this->objectManager->get(LoggerManager::class);
         $loggerMock->injectLoggerManager($loggerManager);
 
-        $data = array();
+        $data = [];
         $loggerMock->enrichLogDataByComponent($data, 'Extbase');
     }
 
@@ -120,28 +120,28 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
      */
     public function enrichLogDataByComponentEnrichesDataArrayDataProvider()
     {
-        return array(
-            'noUserNoComponent' => array(
+        return [
+            'noUserNoComponent' => [
                 'userId' => null,
                 'component' => '',
-                'expected' => array('loggerComponent' => 'PunktDe.PtExtbase.Logger.Logger')
-            ),
-            'givenUserNoComponent' => array(
+                'expected' => ['loggerComponent' => 'PunktDe.PtExtbase.Logger.Logger']
+            ],
+            'givenUserNoComponent' => [
                 'userId' => 86,
                 'component' => '',
-                'expected' => array('UserID' => 86, 'loggerComponent' => 'PunktDe.PtExtbase.Logger.Logger')
-            ),
-            'noUserGivenComponent' => array(
+                'expected' => ['UserID' => 86, 'loggerComponent' => 'PunktDe.PtExtbase.Logger.Logger']
+            ],
+            'noUserGivenComponent' => [
                 'userId' => null,
                 'component' => 'Tx_PtMock_Domain_Model_Stuff',
-                'expected' => array('loggerComponent' => 'Tx.PtMock.Domain.Model.Stuff')
-            ),
-            'givenUserAndComponent' => array(
+                'expected' => ['loggerComponent' => 'Tx.PtMock.Domain.Model.Stuff']
+            ],
+            'givenUserAndComponent' => [
                 'userId' => 86,
                 'component' => 'Tx_PtMock_Domain_Model_Stuff',
-                'expected' => array('UserID' => 86, 'loggerComponent' => 'Tx.PtMock.Domain.Model.Stuff')
-            ),
-        );
+                'expected' => ['UserID' => 86, 'loggerComponent' => 'Tx.PtMock.Domain.Model.Stuff']
+            ],
+        ];
     }
 
     /**
@@ -154,7 +154,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
      */
     public function enrichLogDataByComponentEnrichesDataArray($userId, $component, $expected)
     {
-        $actual = array();
+        $actual = [];
 
         $GLOBALS['TSFE']->fe_user->user['uid'] = $userId;
         $this->proxy->enrichLogDataByComponent($actual, $component);

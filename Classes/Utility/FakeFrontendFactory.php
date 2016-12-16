@@ -72,7 +72,7 @@ class FakeFrontendFactory implements SingletonInterface
         $this->fakeFrontend->sys_page = GeneralUtility::makeInstance(PageRepository::class);
         $this->fakeFrontend->page = $pageUid;
         $this->fakeFrontend->initTemplate();
-        $this->fakeFrontend->config = array();
+        $this->fakeFrontend->config = [];
 
         $this->fakeFrontend->tmpl->getFileName_backPath = PATH_site;
 

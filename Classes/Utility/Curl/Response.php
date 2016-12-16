@@ -51,7 +51,7 @@ class Response
     /**
      * @var string
      */
-    protected $header = array();
+    protected $header = [];
 
 
     /**

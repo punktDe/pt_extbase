@@ -53,7 +53,7 @@ class Tx_PtExtbase_Lifecycle_Manager implements \TYPO3\CMS\Core\SingletonInterfa
      * 
      * @var array
      */
-    protected $observers = array();
+    protected $observers = [];
     
     
     

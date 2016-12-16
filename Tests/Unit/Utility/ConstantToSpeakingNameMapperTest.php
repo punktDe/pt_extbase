@@ -57,9 +57,9 @@ class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends \Punk
      */
     public function originalSpeakingNameToConstantMappingIsValid()
     {
-        $expected = array(
+        $expected = [
             'FOO_BAR' => 6
-        );
+        ];
         $actual = $this->proxy->_get('originalSpeakingNameToConstantMapping');
         $this->assertSame($expected, $actual);
     }
@@ -69,9 +69,9 @@ class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends \Punk
      */
     public function getSpeakingNameToConstantMapReturnsValidMap()
     {
-        $speakingNameToConstantMap = array(
+        $speakingNameToConstantMap = [
             'FOO_BAR' => 6
-        );
+        ];
         $expected = $speakingNameToConstantMap;
 
         $this->proxy->_set('speakingNameToConstantMap', $speakingNameToConstantMap);
@@ -85,9 +85,9 @@ class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends \Punk
      */
     public function getConstantToSpeakingNameMapReturnsValidMap()
     {
-        $constantToSpeakingNameMap = array(
+        $constantToSpeakingNameMap = [
             6 => 'FOO_BAR'
-        );
+        ];
         $expected = $constantToSpeakingNameMap;
 
         $this->proxy->_set('constantToSpeakingNameMap', $constantToSpeakingNameMap);
@@ -101,9 +101,9 @@ class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends \Punk
      */
     public function getConstantFromSpeakingNameReturnsValidConstant()
     {
-        $speakingNameToConstantMap = array(
+        $speakingNameToConstantMap = [
             'FOO_BAR' => 6
-        );
+        ];
 
         $this->proxy->_set('speakingNameToConstantMap', $speakingNameToConstantMap);
 
@@ -117,9 +117,9 @@ class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends \Punk
      */
     public function getSpeakingNameFromConstantReturnsValidSpeakingName()
     {
-        $constantToSpeakingNameMap = array(
+        $constantToSpeakingNameMap = [
             6 => 'FOO_BAR'
-        );
+        ];
 
         $this->proxy->_set('constantToSpeakingNameMap', $constantToSpeakingNameMap);
 

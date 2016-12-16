@@ -50,23 +50,23 @@ class GenericShellCommandTest extends UnitTestCase
      */
     public function checkIfBuildCommandRendersValidCommandString()
     {
-        $expected = array(
+        $expected = [
             '--do this',
             '--count toThree',
             '--stop'
-        );
+        ];
 
         $this->proxy->_set('command', 'you');
-        $this->proxy->_set('argumentMap', array(
+        $this->proxy->_set('argumentMap', [
             'do' => '--do %s',
             'count' => '--count %s',
             'stop' => '--stop'
-        ));
-        $this->proxy->_set('arguments', array(
+        ]);
+        $this->proxy->_set('arguments', [
             'do' => 'this',
             'count' => 'toThree',
             'stop' => true
-        ));
+        ]);
 
         $actual = $this->proxy->_call('buildArguments');
 

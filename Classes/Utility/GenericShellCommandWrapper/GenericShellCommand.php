@@ -33,13 +33,13 @@ class GenericShellCommand
      *
      * @var array
      */
-    protected $argumentMap = array();
+    protected $argumentMap = [];
 
 
     /**
      * @var array
      */
-    protected $arguments = array();
+    protected $arguments = [];
 
 
     /**
@@ -73,7 +73,7 @@ class GenericShellCommand
      */
     protected function buildArguments()
     {
-        $arguments = array();
+        $arguments = [];
 
         foreach ($this->argumentMap as $propertyName => $argumentTemplate) {
             if (array_key_exists($propertyName, $this->arguments) && !empty($this->arguments[$propertyName]) && $this->arguments[$propertyName] !== false) {

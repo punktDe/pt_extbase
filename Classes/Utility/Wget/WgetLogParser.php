@@ -166,7 +166,7 @@ class WgetLogParser
     {
         $logEntryArray =  preg_split('/(HTTP\/[1|2]\.[1|0]\s\d{3}\s\w*)/', trim($logFileContent), -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-        $structuredLogEntryArray = array();
+        $structuredLogEntryArray = [];
 
         foreach ($logEntryArray as $key => $entry) {
             if ($key % 2 === 0) {

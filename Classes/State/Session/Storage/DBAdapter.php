@@ -164,7 +164,7 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapter implements Tx_PtExtbase_State
         
         $stateHash = md5(serialize($value));
 
-        $this->stateCache->set($stateHash, serialize($stateData), array($this->cacheTag), 0);
+        $this->stateCache->set($stateHash, serialize($stateData), [$this->cacheTag], 0);
     }
     
     
@@ -181,6 +181,6 @@ class Tx_PtExtbase_State_Session_Storage_DBAdapter implements Tx_PtExtbase_State
         }
         
         unset($stateData[$key]);
-        $this->stateCache->set($stateHash, serialize($stateData), array($this->cacheTag), 0);
+        $this->stateCache->set($stateHash, serialize($stateData), [$this->cacheTag], 0);
     }
 }

@@ -54,20 +54,20 @@ class RealUrlTest extends UnitTestCase
      */
     public function filterPathFromUrlReturnsValidPathDataProvider()
     {
-        return array(
-            'urlWithSchemeAndDomain' => array(
+        return [
+            'urlWithSchemeAndDomain' => [
                 'url' => 'http://www.kubrick.co.uk/a/clockwork/orange.html',
                 'expected' => 'a/clockwork/orange'
-            ),
-            'urlWithoutSchemeAndWithDomain' => array(
+            ],
+            'urlWithoutSchemeAndWithDomain' => [
                 'url' => 'www.kubrick.co.uk/a/clockwork/orange.html',
                 'expected' => 'a/clockwork/orange'
-            ),
-            'urlWithoutSchemeWithDomainWithHtmSuffix' => array(
+            ],
+            'urlWithoutSchemeWithDomainWithHtmSuffix' => [
                 'url' => 'www.kubrick.co.uk/a/clockwork/orange.htm',
                 'expected' => 'a/clockwork/orange'
-            ),
-        );
+            ],
+        ];
     }
 
 

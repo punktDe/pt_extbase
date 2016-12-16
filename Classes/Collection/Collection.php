@@ -165,12 +165,12 @@ abstract class Collection implements \IteratorAggregate, \Countable, \ArrayAcces
     
         if ($doNotModifyKeys == true) {
             if (is_null($useKey)) {
-                $this->itemsArr = array($element) + $this->itemsArr;
+                $this->itemsArr = [$element] + $this->itemsArr;
             } else {
                 if (array_key_exists($useKey, $this->itemsArr)) {
                     unset($this->itemsArr[$useKey]);
                 }
-                $this->itemsArr = array($useKey => $element) + $this->itemsArr;
+                $this->itemsArr = [$useKey => $element] + $this->itemsArr;
             }
         } else {
             array_unshift($this->itemsArr, $element);
