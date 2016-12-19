@@ -73,7 +73,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Flu
     {
 
         /** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
-        $treeViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class))->get(\Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper::class);
+        $treeViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
 
         $moduleUrl = '';
         if (isset($this->arguments['moduleName'])) {

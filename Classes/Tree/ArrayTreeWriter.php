@@ -50,9 +50,9 @@ class Tx_PtExtbase_Tree_ArrayTreeWriter extends Tx_PtExtbase_Tree_TreeWalker
      */
     public static function getInstance(array $visitors = [])
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class));
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
-        $arrayWriterVisitor = $objectManager->get(\Tx_PtExtbase_Tree_ArrayWriterVisitor::class);
+        $arrayWriterVisitor = $objectManager->get('Tx_PtExtbase_Tree_ArrayWriterVisitor');
         $visitors[] = $arrayWriterVisitor;
 
         $arrayTreeWriter = $objectManager->get('Tx_PtExtbase_Tree_ArrayTreeWriter', $visitors, $arrayWriterVisitor);

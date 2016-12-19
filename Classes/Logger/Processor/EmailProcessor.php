@@ -70,10 +70,10 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
     public function __construct(array $options = [])
     {
         parent::__construct($options);
-        $this->objectManager = GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class));
-        $this->serverInformation = $this->objectManager->get(\Tx_PtExtbase_Utility_ServerInformation::class);
+        $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $this->serverInformation = $this->objectManager->get('Tx_PtExtbase_Utility_ServerInformation');
         $this->requestInformation = $this->objectManager->get('PunktDe\PtExtbase\Utility\RequestInformation');
-        $this->userAgent = $this->objectManager->get(\Tx_PtExtbase_Utility_UserAgent::class);
+        $this->userAgent = $this->objectManager->get('Tx_PtExtbase_Utility_UserAgent');
     }
 
 
@@ -87,7 +87,7 @@ class Tx_PtExtbase_Logger_Processor_EmailProcessor extends TYPO3\CMS\Core\Log\Pr
         $this->logRecord = $logRecord;
 
         try {
-            $mail = $this->objectManager->get((\TYPO3\CMS\Core\Mail\MailMessage::class));
+            $mail = $this->objectManager->get('TYPO3\CMS\Core\Mail\MailMessage');
             /** @var \TYPO3\CMS\Core\Mail\MailMessage $mail */
             $mail->setFrom(["noreply@punkt.de" => "noreply@punkt.de"]);
             $mail->setTo($this->receivers);

@@ -42,7 +42,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest exte
 
     public function setUp()
     {
-        $this->accessibleProxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper::class);
+        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
         $this->accessibleProxy = new $this->accessibleProxyClass();
     }
 

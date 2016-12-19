@@ -36,7 +36,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_StringToLowerViewHelperTest ext
 
     public function setUp()
     {
-        $this->stringToLowerViewHelperProxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_ViewHelpers_Format_StringToLowerViewHelper::class);
+        $this->stringToLowerViewHelperProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Format_StringToLowerViewHelper');
         $this->stringToLowerViewHelperProxy = new $this->stringToLowerViewHelperProxyClass();
     }
 

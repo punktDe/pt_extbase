@@ -43,7 +43,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Be_FormTokenViewHelperTest extends \Pu
 
     public function setUp()
     {
-        $this->accessibleProxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper::class);
+        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper');
         $this->accessibleProxy = new $this->accessibleProxyClass();
     }
 
@@ -57,7 +57,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Be_FormTokenViewHelperTest extends \Pu
      */
     public function classExists()
     {
-        $this->assertTrue(class_exists(\Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper::class));
+        $this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper'));
     }
 
 

@@ -95,8 +95,8 @@ class Tx_PtExtbase_Tree_TreeRepositoryBuilder
     public static function getInstance()
     {
         if (self::$instance === null) {
-            $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class));
-            self::$instance = $objectManager->get(\Tx_PtExtbase_Tree_TreeRepositoryBuilder::class);
+            $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+            self::$instance = $objectManager->get('Tx_PtExtbase_Tree_TreeRepositoryBuilder');
         }
         return self::$instance;
     }

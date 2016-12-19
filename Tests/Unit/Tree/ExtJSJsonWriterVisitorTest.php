@@ -41,7 +41,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
 
     public function setUp()
     {
-        $this->accessibleProxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor::class);
+        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor');
         $this->accessibleProxy = new $this->accessibleProxyClass();
     }
 
@@ -56,7 +56,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
     /** @test */
     public function classExists()
     {
-        $this->assertTrue(class_exists(\Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor::class));
+        $this->assertTrue(class_exists('Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor'));
     }
 
 
@@ -241,7 +241,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
     {
         $node = new Tx_PtExtbase_Tree_Node('test');
 
-        $callBackObject = $this->getMockBuilder(\Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest_CallBackObject::class)
+        $callBackObject = $this->getMockBuilder('Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest_CallBackObject')
                         ->setMethods(['callBackMethod'])
                         ->getMock();
         $callBackObject->expects($this->once())->method('callBackMethod');
@@ -260,7 +260,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
     {
         $node = new Tx_PtExtbase_Tree_Node('test');
 
-        $callBackObject = $this->getMockBuilder(\Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest_CallBackObject::class)
+        $callBackObject = $this->getMockBuilder('Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest_CallBackObject')
                         ->setMethods(['callBackMethod'])
                         ->getMock();
         $callBackObject->expects($this->once())->method('callBackMethod');

@@ -41,7 +41,7 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_SqlGeneratorTest extends \PunktDe\PtE
 
     public function setUp()
     {
-        $this->proxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_SqlGenerator_SqlGenerator::class);
+        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_SqlGenerator_SqlGenerator');
         $this->proxy = new $this->proxyClass();
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('Foo'));
@@ -59,7 +59,7 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_SqlGeneratorTest extends \PunktDe\PtE
     {
         $expected = 'SELECT * FROM foo;';
 
-        $sqlGeneratorMock = $this->getMockBuilder(\Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator::class)
+        $sqlGeneratorMock = $this->getMockBuilder('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator')
                 ->setMethods(['generate'])
                 ->getMock();
         $sqlGeneratorMock->expects($this->once())
@@ -82,7 +82,7 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_SqlGeneratorTest extends \PunktDe\PtE
      */
     public function generateThrowsExceptionIfFileExtensionIsNotValid()
     {
-        $sqlGeneratorMock = $this->getMockBuilder(\Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator::class)
+        $sqlGeneratorMock = $this->getMockBuilder('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator')
                 ->getMock();
 
         $this->proxy->_set('sqlGenerators', ['php' => $sqlGeneratorMock]);

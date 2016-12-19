@@ -82,9 +82,9 @@ class GitRepositoryTest extends UnitTestCase
      */
     protected function prepareProxy()
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class));
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
-        $this->objectContainer = $objectManager->get((\TYPO3\CMS\Extbase\Object\Container\Container::class)); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $objectContainer */
+        $this->objectContainer = $objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container'); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $objectContainer */
 
         $this->getMockBuilder(\PunktDe\PtExtbase\Logger\Logger::class)
             ->setMockClassName('LoggerMock')

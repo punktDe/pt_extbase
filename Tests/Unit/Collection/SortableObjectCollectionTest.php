@@ -41,7 +41,7 @@ class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends \PunktDe\PtEx
 
     public function setUp()
     {
-        $this->sortableObjectCollectionProxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_Collection_SortableObjectCollection::class);
+        $this->sortableObjectCollectionProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Collection_SortableObjectCollection');
         $this->sortableObjectCollectionProxyMock = $this->getMockForAbstractClass($this->sortableObjectCollectionProxyClass);
     }
 

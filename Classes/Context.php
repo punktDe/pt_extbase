@@ -74,8 +74,8 @@ class Tx_PtExtbase_Context implements Tx_PtExtbase_ContextInterface
         $frameWorkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
         
         $this->extensionName = $frameWorkConfiguration['extensionName'];
-        $this->extensionNameSpace = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance((\TYPO3\\CMS\\Extbase\\Object\\ObjectManager::class))
-            ->get((\TYPO3\\CMS\\Extbase\\Service\\ExtensionService::class))
+        $this->extensionNameSpace = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager')
+            ->get('TYPO3\\CMS\\Extbase\\Service\\ExtensionService')
             ->getPluginNamespace($frameWorkConfiguration['extensionName'], $frameWorkConfiguration['pluginName']);
         
         $this->inCachedMode = $frameWorkConfiguration['pluginName'] == 'Cached' ? true : false;

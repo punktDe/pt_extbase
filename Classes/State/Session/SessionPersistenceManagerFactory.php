@@ -91,7 +91,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory
      */
     private static function getStorageAdapter()
     {
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class))->get(\Tx_PtExtbase_Context::class)->isInCachedMode()) {
+        if (\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_Context')->isInCachedMode()) {
             return Tx_PtExtbase_State_Session_Storage_DBAdapterFactory::getInstance();
         } else {
             return Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance();

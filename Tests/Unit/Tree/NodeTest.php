@@ -208,7 +208,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_NodeTest extends \PunktDe\PtExtbase\Testing\U
         $child3 = new Tx_PtExtbase_Tree_Node('1.3');
         $parent = new Tx_PtExtbase_Tree_Node('1');
 
-        $nodeProxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_Tree_Node::class); /** @var Tx_PtExtbase_Tree_Node $nodeProxy */
+        $nodeProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tree_Node'); /** @var Tx_PtExtbase_Tree_Node $nodeProxy */
         $nodeProxy = new $nodeProxyClass();
         $nodeProxy->addChild($child1);
         $nodeProxy->addChildAfter($child2, $child1);

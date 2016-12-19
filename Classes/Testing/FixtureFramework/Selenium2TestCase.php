@@ -48,7 +48,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends P
      */
     public function runBare()
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class));
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
         $this->objectManager =  clone $objectManager;
         parent::runBare();
     }
@@ -126,7 +126,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_Selenium2TestCase extends P
      */
     protected function setUp()
     {
-        $fixtureImporter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter::class); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
+        $fixtureImporter = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
         $fixtureImporter->import($this->getFixtures());
     }
 

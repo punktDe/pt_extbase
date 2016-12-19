@@ -78,7 +78,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
                 || in_array($_SERVER['HTTP_HOST'], $this->allowedDomains))) {
             $this->markTestSkipped(sprintf('This test is only allowed in contexts "%s" or on domains "%s"', implode(', ', $this->allowedApplicationContexts),  implode(', ', $this->allowedDomains)));
         }
-        $fixtureImporter = GeneralUtility::makeInstance(\Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter::class); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
+        $fixtureImporter = GeneralUtility::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
         $fixtureImporter->import($this->getFixtures());
     }
 
@@ -90,7 +90,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
      */
     public function runBare()
     {
-        $objectManager = GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class));
+        $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
         $this->objectManager =  clone $objectManager;
         parent::runBare();
     }
@@ -176,7 +176,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PH
     protected function cleanObjectState($object)
     {
         if ($object !== null) {
-            $identityMap = $this->objectManager->get((\TYPO3\CMS\Extbase\Persistence\Generic\Session::class));
+            $identityMap = $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Session');
             $identityMap->unregisterObject($object);
         }
     }

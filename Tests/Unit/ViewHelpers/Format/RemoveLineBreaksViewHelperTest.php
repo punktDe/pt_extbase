@@ -43,7 +43,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_RemoveLineBreaksViewHelperTest 
 
     public function setUp()
     {
-        $this->accessibleProxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper::class);
+        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper');
         $this->accessibleProxy = new $this->accessibleProxyClass();
     }
 
@@ -57,7 +57,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_RemoveLineBreaksViewHelperTest 
      */
     public function classExists()
     {
-        $this->assertTrue(class_exists(\Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper::class));
+        $this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Format_RemoveLineBreaksViewHelper'));
     }
 
 

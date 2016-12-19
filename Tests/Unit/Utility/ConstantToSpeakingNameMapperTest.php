@@ -43,7 +43,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapper extends \Punk
 
     public function setUp()
     {
-        $this->proxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapperMock::class);
+        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tests_Unit_Utility_ConstantToSpeakingNameMapperMock');
         $this->proxy = new $this->proxyClass();
     }
 

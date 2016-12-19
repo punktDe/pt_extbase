@@ -106,7 +106,7 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
     public function setExtensionNamespace($extensionName, $pluginName)
     {
         $this->extensionName = $extensionName;
-        $this->extensionNameSpace = $this->objectManager->get((\TYPO3\CMS\Extbase\Service\ExtensionService::class))->getPluginNamespace($extensionName, $pluginName);
+        $this->extensionNameSpace = $this->objectManager->get('TYPO3\CMS\Extbase\Service\ExtensionService')->getPluginNamespace($extensionName, $pluginName);
     }
 
 

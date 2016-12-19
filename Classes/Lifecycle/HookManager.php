@@ -41,12 +41,12 @@ class tx_PtExtbase_Lifecycle_HookManager
     {
 
         //If the class can not be resolved, we are not in an lifecycle-managed context. therefore exit here.
-        if (!class_exists(\Tx_PtExtbase_Lifecycle_Manager::class)) {
+        if (!class_exists('Tx_PtExtbase_Lifecycle_Manager')) {
             return;
         }
 
         // This is a singleton, so we can use \TYPO3\CMS\Core\Utility\GeneralUtility to get a singl\TYPO3\CMS\Core\Utility\GeneralUtilityance
-        $lifecycle = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\Tx_PtExtbase_Lifecycle_Manager::class);
+        $lifecycle = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_PtExtbase_Lifecycle_Manager');
         $lifecycle->updateState(Tx_PtExtbase_Lifecycle_Manager::END);
     }
 }

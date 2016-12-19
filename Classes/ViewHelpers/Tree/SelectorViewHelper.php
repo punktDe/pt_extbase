@@ -188,7 +188,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\
             $tree->setRespectRestrictedDepth(true);
         }
 
-        $arrayWriterVisitor = $this->objectManager->get(\Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor::class);
+        $arrayWriterVisitor = $this->objectManager->get('Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor');
         $arrayWriterVisitor->setMultipleSelect($this->arguments['multiple']);
         $arrayWriterVisitor->setSelection($this->getSelection());
 
@@ -224,7 +224,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\
     {
 
         /** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
-        $treeViewHelper = GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class))->get(\Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper::class);
+        $treeViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
         //$treeViewHelper->setControllerContext($this->controllerContext);
 
         $treeViewHelper->initialize();

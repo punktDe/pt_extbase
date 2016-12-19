@@ -529,9 +529,9 @@ class Tx_PtExtbase_Tests_Unit_Rbac_TypoScriptRbacServiceTest extends \PunktDe\Pt
      */
     protected function getTypoScriptArrayForGivenTypoScriptString($typoScriptString)
     {
-        $typoScriptParser = GeneralUtility::makeInstance((\TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class)); /* @var $typoScriptParser \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser */
+        $typoScriptParser = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser'); /* @var $typoScriptParser \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser */
         $typoScriptParser->parse($typoScriptString);
-        return GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Service\TypoScriptService::class))->convertTypoScriptArrayToPlainArray($typoScriptParser->setup);
+        return GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService')->convertTypoScriptArrayToPlainArray($typoScriptParser->setup);
     }
 
 

@@ -74,7 +74,7 @@ abstract class AbstractSchedulerTask extends AbstractTask
      */
     protected function initializeExtbase()
     {
-        $this->objectManager = GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class));
+        $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
         $this->extbaseBootstrap = $this->objectManager->get('PunktDe\PtExtbase\Extbase\Bootstrap');
         $this->extbaseBootstrap->boot($this->getExtensionName());
     }

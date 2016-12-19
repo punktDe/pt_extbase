@@ -102,8 +102,8 @@ class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends \PunktDe\PtExtbase
     /** @test */
     public function requiredClassesExist()
     {
-        $this->assertTrue(class_exists(\Tx_PtExtbase_State_GpVars_GpVarsAdapter::class));
-        $this->assertTrue(class_exists(\Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject::class));
+        $this->assertTrue(class_exists('Tx_PtExtbase_State_GpVars_GpVarsAdapter'));
+        $this->assertTrue(class_exists('Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject'));
     }
     
     
