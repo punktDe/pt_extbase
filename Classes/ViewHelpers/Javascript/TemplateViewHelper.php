@@ -155,8 +155,8 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\
         }
 
         if ($addToHead) {
-            GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')
-                ->get('Tx_PtExtbase_Utility_HeaderInclusion')
+            GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class))
+                ->get(\Tx_PtExtbase_Utility_HeaderInclusion::class)
                 ->addJsInlineCode($templatePath, $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments), $compress);
         } else {
             $jsOutput = "<script type=\"text/javascript\">\n";

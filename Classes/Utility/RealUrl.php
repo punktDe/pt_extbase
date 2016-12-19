@@ -88,7 +88,7 @@ class RealUrl implements SingletonInterface
      */
     protected function initializeFrontendToMakeRealUrlWork()
     {
-        $GLOBALS['TSFE'] = $this->objectManager->get('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], 0, 0);
+        $GLOBALS['TSFE'] = $this->objectManager->get((\TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::class), $GLOBALS['TYPO3_CONF_VARS'], 0, 0);
     }
 
 

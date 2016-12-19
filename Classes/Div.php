@@ -328,7 +328,7 @@ class Tx_PtExtbase_Div
             throw new \PunktDe\PtExtbase\Exception\Exception('Parameter must be "pages", "all", "temp_CACHED" or numeric');
         }
 
-        $tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler'); /* @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
+        $tce = GeneralUtility::makeInstance((\TYPO3\CMS\Core\DataHandling\DataHandler::class)); /* @var $tce \TYPO3\CMS\Core\DataHandling\DataHandler */
         $tce->stripslashes_values = 0;
         $tce->start([], []);
         $tce->clear_cacheCmd($cacheCmd);
@@ -695,8 +695,8 @@ class Tx_PtExtbase_Div
         if ($GLOBALS['LANG'] instanceof \TYPO3\CMS\Lang\LanguageService) {
             $lang = $GLOBALS['LANG'];
         } else {
-            $lang = GeneralUtility::makeInstance('TYPO3\CMS\Lang\LanguageService');
-            $lang->csConvObj = GeneralUtility::makeInstance('TYPO3\CMS\Core\Charset\CharsetConverter');
+            $lang = GeneralUtility::makeInstance((\TYPO3\CMS\Lang\LanguageService::class));
+            $lang->csConvObj = GeneralUtility::makeInstance((\TYPO3\CMS\Core\Charset\CharsetConverter::class));
         }
         return $lang;
     }
@@ -849,9 +849,9 @@ class Tx_PtExtbase_Div
         }
 
         // create TS configuration: idea of Fabian Koenig (http://lists.netfielders.de/pipermail/typo3-german/2007-May/032473.html)
-        $sysPageObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
+        $sysPageObj = GeneralUtility::makeInstance((\TYPO3\CMS\Frontend\Page\PageRepository::class));
         $rootLine = $sysPageObj->getRootLine($pageUid);
-        $TSObj = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\ExtendedTemplateService');  /* @var $TSObj \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService */
+        $TSObj = GeneralUtility::makeInstance((\TYPO3\CMS\Core\TypoScript\ExtendedTemplateService::class));  /* @var $TSObj \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService */
         $TSObj->tt_track = 0;
         $TSObj->init();
         $TSObj->runThroughTemplates($rootLine);
@@ -1572,7 +1572,7 @@ class Tx_PtExtbase_Div
         }
 
         $rawTsConfig  = file_get_contents($tsSetupFilePath);
-        $tsParser  = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser'); /** @var $tsParser  \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser */
+        $tsParser  = GeneralUtility::makeInstance((\TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class)); /** @var $tsParser  \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser */
 
         $tsLines = explode(LF, $rawTsConfig);
 
@@ -1601,7 +1601,7 @@ class Tx_PtExtbase_Div
      */
     public static function getLazyLoadedObject($object)
     {
-        if (get_class($object) === 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\LazyLoadingProxy') {
+        if (get_class($object) === (\TYPO3\\CMS\\Extbase\\Persistence\\Generic\\LazyLoadingProxy::class)) {
             return $object->_loadRealInstance();
         } else {
             return $object;

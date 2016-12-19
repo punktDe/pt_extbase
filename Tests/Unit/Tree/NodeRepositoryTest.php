@@ -46,7 +46,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_NodeRepositoryTest extends \PunktDe\PtExtbase
 
     public function setUp()
     {
-        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tree_NodeRepository');
+        $this->accessibleProxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_Tree_NodeRepository::class);
         $this->accessibleProxy = new $this->accessibleProxyClass($this->objectManager);
     }
 
@@ -60,7 +60,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_NodeRepositoryTest extends \PunktDe\PtExtbase
      */
     public function classExists()
     {
-        $this->assertTrue(class_exists('Tx_PtExtbase_Tree_NodeRepository'));
+        $this->assertTrue(class_exists(\Tx_PtExtbase_Tree_NodeRepository::class));
     }
 
 
@@ -89,7 +89,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_NodeRepositoryTest extends \PunktDe\PtExtbase
      */
     protected function getNodeProxy($uid, $label)
     {
-        $accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tree_Node');
+        $accessibleProxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_Tree_Node::class);
         $accessibleNode = new $accessibleProxyClass($this->objectManager);
 
         $accessibleNode->_set('uid', $uid);

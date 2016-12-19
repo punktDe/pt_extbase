@@ -55,7 +55,7 @@ class Bootstrap
     {
         $configuration['extensionName'] = $extensionName;
         $configuration['pluginName'] = $pluginName;
-        $extbaseBootstrap = $this->objectManager->get('TYPO3\CMS\Extbase\Core\Bootstrap'); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
+        $extbaseBootstrap = $this->objectManager->get((\TYPO3\CMS\Extbase\Core\Bootstrap::class)); /** @var \TYPO3\CMS\Extbase\Core\Bootstrap $extbaseBootstrap  */
         $extbaseBootstrap->initialize($configuration);
     }
 }

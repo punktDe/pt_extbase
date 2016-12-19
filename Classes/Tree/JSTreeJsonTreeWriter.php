@@ -39,9 +39,9 @@ class Tx_PtExtbase_Tree_JSTreeJsonTreeWriter extends Tx_PtExtbase_Tree_JsonTreeW
      */
     public static function getInstance(array $visitors = [])
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class));
 
-        $arrayWriterVisitor = $objectManager->get('Tx_PtExtbase_Tree_JSTreeJsonWriterVisitor');
+        $arrayWriterVisitor = $objectManager->get(\Tx_PtExtbase_Tree_JSTreeJsonWriterVisitor::class);
         $visitors[] = $arrayWriterVisitor;
         $jsonTreeWriter = $objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', $visitors, $arrayWriterVisitor);
         return $jsonTreeWriter;

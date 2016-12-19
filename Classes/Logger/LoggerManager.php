@@ -74,7 +74,7 @@ class LoggerManager extends LogManager
         if (isset($this->loggers[$indexName])) {
             $logger = $this->loggers[$indexName];
         } else {
-            $logger = GeneralUtility::makeInstance('TYPO3\CMS\Core\Log\Logger', $indexName);
+            $logger = GeneralUtility::makeInstance((\TYPO3\CMS\Core\Log\Logger::class), $indexName);
             $this->loggers[$indexName] = $logger;
             $this->setWritersForLogger($logger);
             $this->setProcessorsForLogger($logger);

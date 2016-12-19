@@ -40,7 +40,7 @@ class Tx_PtExtbase_Utility_ServerInformationTest extends \PunktDe\PtExtbase\Test
 
     public function setUp()
     {
-        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_ServerInformation');
+        $this->proxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_Utility_ServerInformation::class);
         $this->proxy = new $this->proxyClass();
     }
 

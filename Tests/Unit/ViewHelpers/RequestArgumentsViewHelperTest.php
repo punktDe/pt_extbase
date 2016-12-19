@@ -36,7 +36,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_RequestArgumnetsViewHelperTest extends
 
     public function setUp()
     {
-        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_RequestArgumentsViewHelper');
+        $this->proxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_ViewHelpers_RequestArgumentsViewHelper::class);
         $this->proxy = new $this->proxyClass();
     }
 

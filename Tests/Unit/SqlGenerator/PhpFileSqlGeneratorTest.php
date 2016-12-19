@@ -44,7 +44,7 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends \Punk
 
     public function setUp()
     {
-        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator');
+        $this->proxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator::class);
         $this->proxy = new $this->proxyClass();
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('Foo'));

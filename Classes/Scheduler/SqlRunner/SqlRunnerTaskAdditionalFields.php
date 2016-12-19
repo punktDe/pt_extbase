@@ -70,7 +70,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
         $configuration = $this->configuration;
         $additionalFields = [];
 
-        $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $this->objectManager = GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class));
 
         if (empty($taskInfo[$configuration['id']])) {
             if ($schedulerModule->CMD == 'edit') {
@@ -100,7 +100,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
      */
     protected function getView()
     {
-        $view = GeneralUtility::makeInstance('TYPO3\CMS\Fluid\View\StandaloneView'); /** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
+        $view = GeneralUtility::makeInstance((\TYPO3\CMS\Fluid\View\StandaloneView::class)); /** @var \TYPO3\CMS\Fluid\View\StandaloneView $view */
         $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Templates/Scheduler/SqlRunner/TaskAdditionalFields.html'));
         $view->setPartialRootPath(GeneralUtility::getFileAbsFileName('EXT:pt_extbase/Resources/Private/Partials'));
         return $view;
@@ -130,7 +130,7 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
     {
         $loadedExtensions = [];
 
-        $listUtility = $this->objectManager->get('TYPO3\\CMS\\Extensionmanager\\Utility\\ListUtility'); /** @var $listUtility \TYPO3\CMS\Extensionmanager\Utility\ListUtility */
+        $listUtility = $this->objectManager->get((\TYPO3\\CMS\\Extensionmanager\\Utility\\ListUtility::class)); /** @var $listUtility \TYPO3\CMS\Extensionmanager\Utility\ListUtility */
         $availableExtensions = $listUtility->getAvailableExtensions();
         $availableAndInstalledExtensions = $listUtility->getAvailableAndInstalledExtensions($availableExtensions);
         $enabledExtensions = array_keys($availableAndInstalledExtensions);

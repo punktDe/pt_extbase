@@ -178,7 +178,7 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
             if ($configuration === null) {
                 throw new \InvalidArgumentException('A property mapping configuration must be given, not NULL.', 1326277369);
             }
-            if ($configuration->getConfigurationValue('TYPO3\Flow\Property\TypeConverter\ObjectConverter', self::CONFIGURATION_OVERRIDE_TARGET_TYPE_ALLOWED) !== true) {
+            if ($configuration->getConfigurationValue((\TYPO3\Flow\Property\TypeConverter\ObjectConverter::class), self::CONFIGURATION_OVERRIDE_TARGET_TYPE_ALLOWED) !== true) {
                 throw new \TYPO3\CMS\Extbase\Property\Exception\InvalidPropertyMappingConfigurationException('Override of target type not allowed. To enable this, you need to set the PropertyMappingConfiguration Value "CONFIGURATION_OVERRIDE_TARGET_TYPE_ALLOWED" to TRUE.', 1317050430);
             }
 

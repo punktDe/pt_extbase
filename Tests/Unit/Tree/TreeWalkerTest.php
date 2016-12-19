@@ -36,7 +36,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends \PunktDe\PtExtbase\Tes
     /** @test */
     public function classExists()
     {
-        $this->assertTrue(class_exists('Tx_PtExtbase_Tree_TreeWalker'));
+        $this->assertTrue(class_exists(\Tx_PtExtbase_Tree_TreeWalker::class));
     }
     
     
@@ -165,7 +165,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeWalkerTest extends \PunktDe\PtExtbase\Tes
      */
     public function treeWalkerRespectsNodeAccessibilityOnRoot()
     {
-        $treeContext = $this->objectManager->get('Tx_PtExtbase_Tree_TreeContext');
+        $treeContext = $this->objectManager->get(\Tx_PtExtbase_Tree_TreeContext::class);
         /** @var Tx_PtExtbase_Tree_TreeContext $treeContext */
         $treeContext->setWritable(false);
 

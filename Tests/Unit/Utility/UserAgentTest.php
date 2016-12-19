@@ -44,7 +44,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_UserAgentTest extends \TYPO3\CMS\Core\Test
 
     public function setUp()
     {
-        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_UserAgent');
+        $this->proxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_Utility_UserAgent::class);
         $this->proxyMock = $this->getMockBuilder($this->proxyClass)
                 ->setMethods(['getUserAgentData'])
                 ->getMock();

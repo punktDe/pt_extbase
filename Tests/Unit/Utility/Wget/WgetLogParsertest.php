@@ -47,7 +47,7 @@ class WgetLogParsertest extends \TYPO3\CMS\Core\Tests\UnitTestCase
     public function setUp()
     {
         $wgetLogParserProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\Utility\Wget\WgetLogParser');
-        $this->wgetLogParser = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get($wgetLogParserProxyClass);
+        $this->wgetLogParser = GeneralUtility::makeInstance((\TYPO3\CMS\Extbase\Object\ObjectManager::class))->get($wgetLogParserProxyClass);
 
         $this->logOutPutFile = __DIR__ . '/testLogFile.log';
     }

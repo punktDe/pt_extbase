@@ -63,8 +63,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTask extends AbstractSchedulerTa
      */
     public function initializeObject()
     {
-        $this->sqlGenerator = $this->objectManager->get('Tx_PtExtbase_SqlGenerator_SqlGenerator');
-        $this->sqlRunner = $this->objectManager->get('Tx_PtExtbase_SqlRunner_SqlRunnerInterface');
+        $this->sqlGenerator = $this->objectManager->get(\Tx_PtExtbase_SqlGenerator_SqlGenerator::class);
+        $this->sqlRunner = $this->objectManager->get(\Tx_PtExtbase_SqlRunner_SqlRunnerInterface::class);
     }
 
     /**

@@ -68,7 +68,7 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonI
         }
 
         if (!isset($GLOBALS['SOBE']->doc)) {
-            $GLOBALS['SOBE']->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
+            $GLOBALS['SOBE']->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance((\TYPO3\CMS\Backend\Template\DocumentTemplate::class));
             $GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
         }
 

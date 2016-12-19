@@ -145,7 +145,7 @@ class StatusResultTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
             ->method('isShort')
             ->will($this->returnValue(true));
 
-        $this->proxy->_set('result', $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\ObjectStorage'));
+        $this->proxy->_set('result', $this->objectManager->get((\TYPO3\CMS\Extbase\Persistence\ObjectStorage::class)));
         $this->proxy->_set('command', $statusCommandMock);
         $this->proxy->_set('objectManager', $this->objectManager);
         $this->proxy->_set('rawResult', $rawResult);

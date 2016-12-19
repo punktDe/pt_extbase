@@ -36,7 +36,7 @@ class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerFactoryTest
     /** @test */
     public function classExists()
     {
-        $this->assertTrue(class_exists('Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory'));
+        $this->assertTrue(class_exists(\Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::class));
     }
 
     

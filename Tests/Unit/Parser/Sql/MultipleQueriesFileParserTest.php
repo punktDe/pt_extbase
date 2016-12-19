@@ -38,7 +38,7 @@ class Tx_PtExtbase_Tests_Unit_Parser_SqlMultipleQueriesFileParserTest extends \P
 
     public function setUp()
     {
-        $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser');
+        $this->proxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_Parser_Sql_MultipleQueriesFileParser::class);
         $this->proxy = new $this->proxyClass();
     }
 

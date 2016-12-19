@@ -45,7 +45,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_SelectorViewhelperTest extends \P
 
     public function setUp()
     {
-        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper');
+        $this->accessibleProxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper::class);
         $this->accessibleProxy = new $this->accessibleProxyClass();
     }
 
@@ -59,6 +59,6 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_SelectorViewhelperTest extends \P
      */
     public function classExists()
     {
-        $this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper'));
+        $this->assertTrue(class_exists(\Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper::class));
     }
 }
