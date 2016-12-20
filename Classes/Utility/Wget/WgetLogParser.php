@@ -99,7 +99,7 @@ class WgetLogParser
 
         $structuredLogFileEntries = $this->splitLogFileEntries($logFileContent);
 
-        $wgetLog = $this->objectManager->get('\PunktDe\PtExtbase\Utility\Wget\WgetLog'); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLog  $wgetLog */
+        $wgetLog = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetLog'); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLog  $wgetLog */
 
         foreach ($structuredLogFileEntries as $structuredLogFileEntry) {
             $wgetLog->addLogEntry($this->buildLogFileEntry($structuredLogFileEntry));

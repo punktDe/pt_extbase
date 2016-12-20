@@ -21,12 +21,9 @@ namespace PunktDe\PtExtbase\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\RealUrl\UrlDecoder;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-require_once ExtensionManagementUtility::extPath('realurl') . 'class.tx_realurl.php';
-require_once ExtensionManagementUtility::extPath('realurl') . 'class.tx_realurl_advanced.php';
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Real URL
@@ -41,21 +38,10 @@ class RealUrl implements SingletonInterface
      */
     protected $objectManager;
 
-
     /**
-     * @inject
-     * @var \tx_realurl
+     * @var UrlDecoder
      */
-    protected $realUrl;
-
-
-    /**
-     * @inject
-     * @var \tx_realurl_advanced
-     */
-    protected $realUrlAdvanced;
-
-
+    protected $urlDecoder;
 
     /**
      * Map path to page ID
@@ -75,10 +61,12 @@ class RealUrl implements SingletonInterface
     public function mapPathToPageId($path)
     {
         $this->initializeFrontendToMakeRealUrlWork();
-        $parameters['mode'] = 'decode';
-        $parameters['pathParts'] = GeneralUtility::trimExplode('/', $path);
-        $result = $this->realUrlAdvanced->main($parameters, $this->realUrl);
-        return $result[0];
+
+        $this->urlDecoder = $this->objectManager->get(UrlDecoder::class);
+
+        $pageId = $this->urlDecoder->decodePathAndReturnPageId($path);
+
+        return $pageId;
     }
 
 
@@ -88,7 +76,7 @@ class RealUrl implements SingletonInterface
      */
     protected function initializeFrontendToMakeRealUrlWork()
     {
-        $GLOBALS['TSFE'] = $this->objectManager->get('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], 0, 0);
+        $GLOBALS['TSFE'] = $this->objectManager->get(TypoScriptFrontendController::class, $GLOBALS['TYPO3_CONF_VARS'], 0, 0);
     }
 
 
