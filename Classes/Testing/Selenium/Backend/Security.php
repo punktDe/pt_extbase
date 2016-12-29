@@ -88,7 +88,9 @@ class Tx_PtExtbase_Testing_Selenium_Backend_Security
     public function backendLogout()
     {
         $this->testClass->selectFrame("relative=top");
-        $this->testClass->click("//div[@id='logout-button']/form/input");
+        $this->testClass->click("//*[@id=\"typo3-cms-backend-backend-toolbaritems-usertoolbaritem\"]/a");
+        $this->testClass->waitForVisible('//*[@id="typo3-cms-backend-backend-toolbaritems-usertoolbaritem"]/div/ul/li[3]/a');
+        $this->testClass->click('//*[@id="typo3-cms-backend-backend-toolbaritems-usertoolbaritem"]/div/ul/li[3]/a');
         $this->testClass->waitForPageToLoad("30000");
         try {
             $this->testClass->assertTrue($this->testClass->isElementPresent("id=t3-username"));
