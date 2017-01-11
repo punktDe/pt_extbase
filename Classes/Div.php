@@ -27,6 +27,7 @@ use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * General library class with static helper methods
@@ -898,7 +899,7 @@ class Tx_PtExtbase_Div
         // TODO: improve pattern, so that ".blub" or "plugin..test" are not matched
 
         if (empty($tsArray)) {
-            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE'], 'tslib_fe', ['message' => 'No TSFE available!']);
+            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE'], TypoScriptFrontendController::class, ['message' => 'No TSFE available!']);
             $tsArray = $GLOBALS['TSFE']->tmpl->setup;
         }
 
