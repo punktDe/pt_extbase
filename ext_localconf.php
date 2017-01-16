@@ -36,5 +36,3 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['scheduler']['tasks']['PunktDe\PtExtba
     'title' => 'Pt_Extbase Test Abstract Scheduler Task',
     'description' => 'This Task is for Testing, do not run this task in Production Environment',
 ];
-
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pt_extbase']['ajaxDispatcher']['apiConfiguration']['PtExtbase']['Tree']['allowedControllerActions'][] = 'getTree';

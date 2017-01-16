@@ -58,6 +58,7 @@ class Tx_PtExtbase_ViewHelpers_Be_Buttons_IconViewHelper extends \TYPO3\CMS\Flui
     public function initializeArguments()
     {
         $this->registerArgument('onclick', 'string', 'The onclick action', false);
+        $this->registerArgument('class', 'string', 'The class attribute', false);
     }
 
 
@@ -73,6 +74,10 @@ class Tx_PtExtbase_ViewHelpers_Be_Buttons_IconViewHelper extends \TYPO3\CMS\Flui
     {
         if ($this->arguments['onclick']) {
             $onclick = ' onclick="'.$this->arguments['onclick'].'" ';
+        }
+
+        if ($this->arguments['class']) {
+            $onclick = ' class="'.$this->arguments['class'].'" ';
         }
 
         $ret = '<a href="' . $uri . '"' . $onclick . '>' .  \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($icon, ['title' => $title]) . '</a>';
