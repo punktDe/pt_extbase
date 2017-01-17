@@ -124,7 +124,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      * @param null $fObj
      * @return string
      */
-    public function renderTcaTreeSelectorWidget(array $parameters= [], $fObj=null)
+    public function renderTcaTreeSelectorWidget(array $parameters= [], TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fObj=null)
     {
         // Backend form should be rendered no matter what happens here, so we catch exception
         try {
@@ -145,8 +145,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      * @param array $parameters Parameters passed by TCA rendering call
      * @param t3lib_TCEforms $fobj t3lib_TCEforms object passed by TCA rendering call
      */
-    protected function init($parameters = [], \TYPO3\CMS\Backend\Form\FormEngine $fobj = null)
-    {
+    protected function init($parameters = [], TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fobj = null) {
         parent::init($parameters, $fobj);
         $this->initTreeRepositoryBuilder();
     }

@@ -92,7 +92,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget
 
     /**
      * Holds instance of t3lib_TCEforms object passed to this widget.
-     * @var t3lib_TCEforms
+     * @var TYPO3\CMS\Backend\Form\Element\AbstractFormElement
      */
     protected $tceForms;
 
@@ -141,9 +141,9 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget
      * Initialize widget settings and variables
      *
      * @param array $parameters Parameters passed by TCA rendering call
-     * @param t3lib_TCEforms $fobj t3lib_TCEforms object passed by TCA rendering call
+     * @param TYPO3\CMS\Backend\Form\Element\UserElement $fobj t3lib_TCEforms object passed by TCA rendering call
      */
-    protected function init(array $params = [], \TYPO3\CMS\Backend\Form\FormEngine $fobj = null)
+    protected function init(array $params = [], TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fobj = null)
     {
         $this->tcaParameters = $params;
         $this->tceForms = $fobj;
