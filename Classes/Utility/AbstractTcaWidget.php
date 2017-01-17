@@ -131,7 +131,7 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget
      *
      * Syntax is UID1|Description1,UID2|Description2, ...
      *
-     * @var string
+     * @var array
      */
     protected $formFieldValue;
 
@@ -255,9 +255,8 @@ class Tx_PtExtbase_Utility_AbstractTcaWidget
      */
     protected function getSelectedValues()
     {
-        $listOfValues = explode(',', $this->formFieldValue);
         $selectedValuesArray = [];
-        foreach ($listOfValues as $singleValue) {
+        foreach ($this->formFieldValue as $singleValue) {
             list($uid, $label) = explode('|', $singleValue);
             $selectedValuesArray[$uid] = urldecode($label);
         }
