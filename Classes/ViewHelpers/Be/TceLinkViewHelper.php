@@ -26,13 +26,10 @@ class TceLinkViewHelper extends AbstractBackendViewHelper
         $moduleName = 'record_edit';
 
         if ($action == 'new') {
-            $this->databaseConnection = $GLOBALS['TYPO3_DB'];
-            $dbResult = $this->databaseConnection->exec_SELECTgetSingleRow('uid', $recordType, '1=1', 'deleted = 0', 'uid desc');
-
             $urlParameters = [
                 'edit' => [
                     $recordType => [
-                        $dbResult['uid'] => $action
+                        (string)$pid => $action
                     ]
                 ],
                 'id' => (string)$pid,
