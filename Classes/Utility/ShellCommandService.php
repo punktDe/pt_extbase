@@ -146,6 +146,7 @@ class ShellCommandService implements SingletonInterface
         $returnedOutput = '';
         $fp = popen($this->prepareCommand($command), 'r');
 
+        $this->logger->info('executing command: ' . $command);
         while (($line = fgets($fp)) !== false) {
             $this->logger->debug($logPrefix . rtrim($line), __CLASS__);
             $returnedOutput .= $line;

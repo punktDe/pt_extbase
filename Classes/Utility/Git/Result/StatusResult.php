@@ -64,6 +64,8 @@ class StatusResult extends Result
         $line = strtok($this->rawResult, self::LOG_LINE_SEPARATOR);
 
         while ($line !== false) {
+
+            $this->logger->info('Memory used before parsing line: ' . memory_get_usage(true), __CLASS__);
             preg_match(self::SHORT_LOG_LINE_PATTERN, $line, $statusElements);
 
             $pathStatus = $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\Result\PathStatus'); /** @var \PunktDe\PtExtbase\Utility\Git\Result\PathStatus $pathStatus */
@@ -74,6 +76,7 @@ class StatusResult extends Result
             $this->result->attach($pathStatus);
 
             $line = strtok(self::LOG_LINE_SEPARATOR);
+            $this->logger->info('Memory used after parsing line: ' . memory_get_usage(true), __CLASS__);
         }
     }
 }
