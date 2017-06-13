@@ -36,7 +36,10 @@ class Tx_PtExtbase_Tree_TreeContext implements \TYPO3\CMS\Core\SingletonInterfac
      */
     protected $writable = false;
 
-
+    /**
+     * @var bool
+     */
+    protected $includeDeleted = false;
 
     /**
      * @return void
@@ -78,6 +81,23 @@ class Tx_PtExtbase_Tree_TreeContext implements \TYPO3\CMS\Core\SingletonInterfac
         return $this->writable;
     }
 
+
+    /**
+     * @return bool
+     */
+    public function isIncludeDeleted()
+    {
+        return $this->includeDeleted;
+    }
+
+
+    /**
+     * @param bool $includeDeleted
+     */
+    public function setIncludeDeleted($includeDeleted)
+    {
+        $this->includeDeleted = $includeDeleted;
+    }
 
 
     /**
