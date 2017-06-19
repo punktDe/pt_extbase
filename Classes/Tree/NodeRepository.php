@@ -160,6 +160,11 @@ class Tx_PtExtbase_Tree_NodeRepository
                   ->setRespectSysLanguage(false)
                   ->setIgnoreEnableFields(!$respectEnableFields);
 
+        // It is not possible to set IgnoreEnableFields to false and includeDeleted to true
+        if($this->treeContext->isIncludeDeleted() && !$respectEnableFields) {
+            $query->getQuerySettings()->setIncludeDeleted(true);
+        }
+
 
         $nameSpaceConstraint = $query->equals('namespace', $namespace);
 
