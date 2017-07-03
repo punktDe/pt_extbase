@@ -172,7 +172,7 @@ class Tx_PtExtbase_Tree_NodeRepository
         /*
          * RespectEnableFields = FALSE means, that all records are selected INCLUDING the deleted records
          */
-        if (!$respectEnableFields) {
+        if (!$respectEnableFields    && !$this->treeContext->isIncludeDeleted()) {
             $query->matching(
                 $query->logicalAnd(
                     $nameSpaceConstraint,
