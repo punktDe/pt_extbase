@@ -36,6 +36,11 @@
  * @subpackage State\Session
  * @see Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerBuilderTest
  */
+
+use PunktDe\PtExtbase\State\Session\Storage\StorageAdapter\SessionAdapter;
+
+
+
 class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TYPO3\CMS\Core\SingletonInterface
 {
     /**
@@ -120,7 +125,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TY
         if ($this->context->isInCachedMode()) {
             return Tx_PtExtbase_State_Session_Storage_DBAdapterFactory::getInstance();
         } else {
-            return Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance();
+            return SessionAdapter::getInstance();
         }
     }
 }

@@ -24,7 +24,7 @@
  ***************************************************************/
 use PunktDe\PtExtbase\Utility\NamespaceUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-
+use PunktDe\PtExtbase\State\Session\Storage\StorageAdapter\SessionAdapter;
 /**
  * Persistence manager to store objects to session and reload objects from session.
  */
@@ -41,7 +41,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     /**
      * Holds an instance for a session adapter to store data to session
      *
-     * @var Tx_PtExtbase_State_Session_Storage_SessionAdapter
+     * @var PunktDe\PtExtbase\State\Session\Storage\StorageAdapter\SessionAdapter;
      */
     private $sessionAdapter = null;
 

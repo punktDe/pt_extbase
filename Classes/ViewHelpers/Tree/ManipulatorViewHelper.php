@@ -27,6 +27,7 @@
  ***************************************************************/
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use PunktDe\PtExtbase\State\Session\Storage\StorageAdapter\SessionAdapter;
 
 /**
  * Class implements a widget viewhelper for rendering trees that can be manipulated using ajax requests
@@ -113,7 +114,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Flu
             'respectEnableFields' => $this->arguments['respectEnableFields'],
         ];
 
-        Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->store('Tx_PtExtbase_Tree_Configuration', $treeSettings);
+        SessionAdapter::store('Tx_PtExtbase_Tree_Configuration', $treeSettings);
     }
 
 

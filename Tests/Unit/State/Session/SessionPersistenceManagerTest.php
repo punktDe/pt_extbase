@@ -27,6 +27,8 @@
 
 #require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Tests/State/Stubs/SessionAdapterMock.php';
 
+use PunktDe\PtExtbase\State\Session\Storage\StorageAdapter\SessionAdapter;
+
 /**
  * Unit tests for session persistence manager
  *
@@ -76,7 +78,7 @@ class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerTest extend
     /** @test */
     public function sessionAdapterCanBeInjectedWithConstructor()
     {
-        $sessionAdapter = Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance();
+        $sessionAdapter = SessionAdapter::getInstance();
         new Tx_PtExtbase_State_Session_SessionPersistenceManager($sessionAdapter);
     }
     

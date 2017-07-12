@@ -28,17 +28,20 @@
  *
  * @package Tests
  * @subpackage State\Stubs
- * @author Michael Knoll 
+ * @author Michael Knoll
  */
-class Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock extends Tx_PtExtbase_State_Session_Storage_SessionAdapter
+
+use PunktDe\PtExtbase\State\Session\Storage\StorageAdapter\SessionAdapter;
+
+class Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock extends SessionAdapter
 {
     public function __construct()
     {
     }
-    
-    
-    
-    public function read($string)
+
+
+
+    public static function read($string)
     {
         return ['test1' => ['test2' => ['test3' => 'value']]];
     }

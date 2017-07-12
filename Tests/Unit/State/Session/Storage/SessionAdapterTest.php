@@ -1,4 +1,7 @@
 <?php
+namespace PunktDe\PtExtbase\Tests\Unit\State\Session\Storage;
+
+
 /***************************************************************
 *  Copyright notice
 *
@@ -30,7 +33,7 @@
  * @subpackage State\Session\Storage
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Tests_Unit_State_Session_Storage_SessionAdapterTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+class SessionAdapterTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /** @test */
     public function notYetImplemented()

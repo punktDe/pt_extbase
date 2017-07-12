@@ -26,6 +26,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+
+use PunktDe\PtExtbase\State\Session\Storage\StorageAdapter\SessionAdapter;
+
 /**
  * Class implements actions for tree manipulation with ajax calls
  *
@@ -121,7 +124,7 @@ class Tx_PtExtbase_Controller_TreeController extends  \TYPO3\CMS\Extbase\Mvc\Con
      */
     public function restoreTreeSettingsFromSession()
     {
-        $settings = Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->read('Tx_PtExtbase_Tree_Configuration');
+        $settings = SessionAdapter::read('Tx_PtExtbase_Tree_Configuration');
         $settings = [
             'repository' => 'Tx_PtCertification_Domain_Repository_CategoryRepository',
             'namespace' => 'tx_ptcertification_domain_model_category',
