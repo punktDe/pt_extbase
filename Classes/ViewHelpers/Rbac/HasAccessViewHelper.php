@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers\Rbac;
 /***************************************************************
  *  Copyright notice
  *
@@ -63,12 +64,12 @@
  * @author Michael Knoll <knoll@punkt.de>
  * @author Daniel Lienert <lienert@punkt.de>
  */
-class Tx_PtExtbase_ViewHelpers_Rbac_HasAccessViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+class HasAccessViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
 {
     /**
      * Holds instance of rbac service
      *
-     * @var Tx_PtExtbase_Rbac_RbacServiceInterface
+     * @var \Tx_PtExtbase_Rbac_RbacServiceInterface
      */
     protected $rbacService;
 
@@ -76,9 +77,9 @@ class Tx_PtExtbase_ViewHelpers_Rbac_HasAccessViewHelper extends \TYPO3\CMS\Fluid
     /**
      * Injects rbac service
      *
-     * @param Tx_PtExtbase_Rbac_RbacServiceInterface $rbacService
+     * @param \Tx_PtExtbase_Rbac_RbacServiceInterface $rbacService
      */
-    public function injectRbacService(Tx_PtExtbase_Rbac_RbacServiceInterface $rbacService)
+    public function injectRbacService(\Tx_PtExtbase_Rbac_RbacServiceInterface $rbacService)
     {
         $this->rbacService = $rbacService;
     }

@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers\Be\Buttons;
 /***************************************************************
  *  Copyright notice
  *
@@ -25,7 +26,10 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Type\Icon\IconState;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /*
  * = Examples =
  *
@@ -50,7 +54,7 @@
  *
  * @license http://www.gnu.org/copyleft/gpl.html
  */
-class Tx_PtExtbase_ViewHelpers_Be_Buttons_IconViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+class IconViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
     /**
      * Register arguments.
@@ -58,6 +62,7 @@ class Tx_PtExtbase_ViewHelpers_Be_Buttons_IconViewHelper extends \TYPO3\CMS\Flui
     public function initializeArguments()
     {
         $this->registerArgument('onclick', 'string', 'The onclick action', false);
+		$this->registerArgument('additionalAttributes', 'array', 'Additional tag attributes. They will be added directly to the resulting HTML tag.', FALSE);
         $this->registerArgument('class', 'string', 'The class attribute', false);
     }
 
@@ -79,8 +84,10 @@ class Tx_PtExtbase_ViewHelpers_Be_Buttons_IconViewHelper extends \TYPO3\CMS\Flui
         if ($this->arguments['class']) {
             $onclick = ' class="'.$this->arguments['class'].'" ';
         }
+        /** @var IconFactory $iconFactory */
+        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 
-        $ret = '<a href="' . $uri . '"' . $onclick . '>' .  \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($icon, ['title' => $title]) . '</a>';
+        $ret = '<a href="' . $uri . '"' . $onclick . '>' .  $iconFactory->getIcon($icon, Icon::SIZE_SMALL)->render() . '</a>';
         return $ret;
     }
 }
