@@ -72,14 +72,29 @@ class Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator implements Tx_PtExtbase_SqlG
     {
         $this->classNames = [];
         $tokens = token_get_all(file_get_contents($filePath));
+        $namespaceToken = false;
+        $namespace = '';
         $classToken = false;
         foreach ($tokens as $token) {
             if (is_array($token)) {
+                if ($token[0] == T_NAMESPACE){
+                    $namespaceToken = true;
+                } elseif ($namespaceToken && $token[0] == T_STRING){
+                    $namespace .= $token[1];
+                } elseif ($namespaceToken && $token[0] == T_NS_SEPARATOR){
+                    $namespace .= '\\';
+                } elseif ($namespaceToken && $namespace){
+                    $namespaceToken = false;
+                }
                 if ($token[0] == T_CLASS) {
                     $classToken = true;
                 } elseif ($classToken && $token[0] == T_STRING) {
                     $classToken = false;
-                    $this->classNames[] = $token[1];
+                    if($namespace){
+                        $this->classNames[] = $namespace.'\\'.$token[1];
+                    } else {
+                        $this->classNames[] = $token[1];
+                    }
                 }
             }
         }
