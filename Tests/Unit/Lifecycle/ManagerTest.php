@@ -49,18 +49,7 @@ class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest extends \PunktDe\PtExtbase\T
         $this->assertEquals($lifecycleManager->getState(), 300);
     }
     
-    
-    
-    /** @test */
-    public function observerCanBeRegistered()
-    {
-        $lifecycleManager = new Tx_PtExtbase_Lifecycle_Manager();
-        $observeableObject = new Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock();
-        $lifecycleManager->register($observeableObject);
-    }
-    
-    
-    
+
     /** @test */
     public function observerGetsUpadteWhenRegisteredWithUpdating()
     {
@@ -123,7 +112,6 @@ class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest extends \PunktDe\PtExtbase\T
 /**
  * Class implements a mock for testing lifecycle manager
  */
-require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Lifecycle/EventInterface.php';
 class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock implements Tx_PtExtbase_Lifecycle_EventInterface
 {
     public $state;

@@ -38,7 +38,6 @@ class Tx_PtExtbase_Tests_Unit_Utility_NameSpaceArrayTest extends \PunktDe\PtExtb
     protected $varArray;
 
 
-    /** @test */
     public function setUp()
     {
         $this->varArray = [

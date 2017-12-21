@@ -23,8 +23,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Configuration/AbstractConfiguration.php';
-
 /**
  * Testcase for abstract configuration class
  *
@@ -223,6 +221,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationTest extends \P
     {
         try {
             $this->concreteConfiguration->shouldNotThrowException();
+            $this->assertTrue(true);
         } catch (Exception $e) {
             $this->fail("No Exception should be thrown, if required property is string '0'!");
             return;

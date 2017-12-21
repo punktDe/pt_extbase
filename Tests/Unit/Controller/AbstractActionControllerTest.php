@@ -50,8 +50,6 @@ class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest extends \P
     }
 }
 
-require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase').'Classes/Controller/AbstractActionController.php';
-
 // Private class for testing abstract action controller
 class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest_ControllerMock extends Tx_PtExtbase_Controller_AbstractActionController
 {

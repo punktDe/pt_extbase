@@ -36,8 +36,8 @@ class WgetLogEntryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
 
     public function setUp()
     {
-        $wgetLogProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\Utility\Wget\WgetLogEntry');
-        $this->wgetLogEntry = $this->objectManager->get($wgetLogProxyClass);
+        $wgetLogEntryProxyClass = $this->buildAccessibleProxy(\PunktDe\PtExtbase\Utility\Wget\WgetLogEntry::class);
+        $this->wgetLogEntry = new $wgetLogEntryProxyClass();
     }
 
 

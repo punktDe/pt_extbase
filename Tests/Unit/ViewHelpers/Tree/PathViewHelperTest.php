@@ -72,6 +72,8 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends \Punkt
         $arguments = [
             'node' => 2,
             'skipRoot' => false,
+            'length' => 2,
+            'startIndex' => 1
         ];
         
         $tree = $this->getTreeMock();
@@ -98,6 +100,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends \Punkt
         $arguments = [
             'node' => 2,
             'skipRoot' => true,
+            'length' => 2,
         ];
 
         $tree = $this->getTreeMock();

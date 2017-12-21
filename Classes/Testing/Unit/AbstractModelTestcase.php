@@ -54,6 +54,7 @@ abstract class AbstractModelTestcase extends AbstractBaseTestcase
     public function getterSetterTestDataProvider()
     {
         $testData = [];
+        $testValue = null;
 
         foreach ($this->settableAttributes as $attribute => $type) {
             switch ($type) {
@@ -75,6 +76,7 @@ abstract class AbstractModelTestcase extends AbstractBaseTestcase
 
                 case 'DateTime':
                     $testValue = new \DateTime();
+                    break;
             }
 
             $testName = 'Test setter and getter for Attribute ' . $attribute;

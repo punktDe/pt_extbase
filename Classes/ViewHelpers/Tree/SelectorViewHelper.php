@@ -144,11 +144,11 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\
     /**
      * Renders the treeSelector.
      *
-     * @param boolean $required If the field is required or not
+     * @param bool $required
+     * @param string $type
      * @return string
-     * @api
      */
-    public function render($required = null)
+    public function render($required = false, $type = 'text')
     {
         $formField = parent::render($required, 'hidden', null);
 
