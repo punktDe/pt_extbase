@@ -36,6 +36,7 @@ class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerFactoryTest
     /** @test */
     public function classExists()
     {
+        $this->markTestSkipped('class is deprecated');
         $this->assertTrue(class_exists('Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory'));
     }
 
@@ -44,6 +45,7 @@ class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerFactoryTest
     /**  @test */
     public function getInstanceReturnsSingletonInstance()
     {
+        $this->markTestSkipped('class is deprecated');
         $firstInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
         $secondInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
         $this->assertEquals($firstInstance, $secondInstance);
@@ -54,6 +56,7 @@ class Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerFactoryTest
     /** @test */
     public function getInstanceReturnsInstanceOfSessionPersistenceManager()
     {
+        $this->markTestSkipped('class is deprecated');
         $firstInstance = Tx_PtExtbase_State_Session_SessionPersistenceManagerFactory::getInstance();
         $this->assertTrue(is_a($firstInstance, Tx_PtExtbase_State_Session_SessionPersistenceManager));
     }

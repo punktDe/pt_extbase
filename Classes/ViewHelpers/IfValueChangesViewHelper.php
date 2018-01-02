@@ -103,20 +103,27 @@ class Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper extends \TYPO3\CMS\Fluid
      */
     protected static $lastValuesArray = [];
 
-
+    /**
+     * Initializes the "value" and "key" arguments
+     */
+    public function __construct()
+    {
+        $this->registerArgument('value', 'string', 'Value to be checked for changes.', false);
+        $this->registerArgument('key', 'string', 'A key for which to check, whether the value has changed.', false);
+    }
 
     /**
      * @param string $value Value to be checked for changes
      * @param string $key (optional) A key for which to check, whether the value has changed
      * @return string
      */
-    public function render($value, $key = null)
+    public function render()
     {
-        if ($key === null) {
+        if ($this->arguments['key'] === null) {
 
             // We are in "SINGLE VALUE MODE"
-            if ($value != self::$lastValue) {
-                self::$lastValue = $value;
+            if ($this->arguments['value'] != self::$lastValue) {
+                self::$lastValue = $this->arguments['value'];
                 return $this->renderThenChild();
             } else {
                 return $this->renderElseChild();
@@ -124,8 +131,8 @@ class Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper extends \TYPO3\CMS\Fluid
         } else {
 
             // We are in "MULTI VALUE MODE"
-            if (empty(self::$lastValuesArray[$key]) || $value != self::$lastValuesArray[$key]) {
-                self::$lastValuesArray[$key] = $value;
+            if (empty(self::$lastValuesArray[$this->arguments['key']]) || $this->arguments['value'] != self::$lastValuesArray[$this->arguments['key']]) {
+                self::$lastValuesArray[$this->arguments['key']] = $this->arguments['value'];
                 return $this->renderThenChild();
             } else {
                 return $this->renderElseChild();

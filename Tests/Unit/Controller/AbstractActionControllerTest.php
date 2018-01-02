@@ -32,10 +32,28 @@
  */
 class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
+
+    /**
+     * Setting up the fixture for the tests.
+     * This will be called before each single test
+     */
+    protected function setUp()
+    {
+        if (!defined('TYPO3_MODE')) {
+            define('TYPO3_MODE', 'FE');
+        }
+
+        $GLOBALS['TSFE'] = $this->getMockBuilder(\TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+    }
+
     /** @test */
     public function constructorReturnsControllerInstance()
     {
-        $lifeCycleManagerMock = $this->getMock('Tx_PtExtbase_Lifecycle_Manager', [], [], '', false); /* @var $lifeCycleManagerMock Tx_PtExtbase_Lifecycle_Manager */
+        $lifeCycleManagerMock = $this->getMockBuilder('Tx_PtExtbase_Lifecycle_Manager')
+            ->getMock(); /* @var $lifeCycleManagerMock Tx_PtExtbase_Lifecycle_Manager */
         $ptExtbaseAbstractActionController = new Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest_ControllerMock($lifeCycleManagerMock);
         $this->assertTrue(is_a($ptExtbaseAbstractActionController, 'Tx_PtExtbase_Controller_AbstractActionController'));
     }
@@ -44,7 +62,8 @@ class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest extends \P
     /** @test */
     public function constructedControllerHoldsLifecycleManager()
     {
-        $lifeCycleManagerMock = $this->getMock('Tx_PtExtbase_Lifecycle_Manager', [], [], '', false); /* @var $lifeCycleManagerMock Tx_PtExtbase_Lifecycle_Manager */
+        $lifeCycleManagerMock = $this->getMockBuilder('Tx_PtExtbase_Lifecycle_Manager')
+            ->getMock(); /* @var $lifeCycleManagerMock Tx_PtExtbase_Lifecycle_Manager */
         $ptExtbaseAbstractActionController = new Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest_ControllerMock($lifeCycleManagerMock);
         $this->assertTrue(is_a($ptExtbaseAbstractActionController->getLM(), 'Tx_PtExtbase_Lifecycle_Manager'));
     }

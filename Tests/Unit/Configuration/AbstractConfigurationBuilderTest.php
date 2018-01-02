@@ -25,7 +25,6 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-
 /**
  * Testcase for abstract configuration builder class
  *

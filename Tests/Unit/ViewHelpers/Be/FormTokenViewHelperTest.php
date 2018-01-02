@@ -57,6 +57,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Be_FormTokenViewHelperTest extends \Pu
      */
     public function classExists()
     {
+        $this->markTestSkipped("won't be fixed getUrlToken will removed in TYPO3 8");
         $this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper'));
     }
 
@@ -66,6 +67,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Be_FormTokenViewHelperTest extends \Pu
      */
     public function formTokenViewHelperReturnsFormTokenString()
     {
+        $this->markTestSkipped("won't be fixed getUrlToken will removed in TYPO3 8");
         $formToken = $this->accessibleProxy->render();
         $secondFormToken = \TYPO3\CMS\Backend\Utility\BackendUtility::getUrlToken('tceAction');
 

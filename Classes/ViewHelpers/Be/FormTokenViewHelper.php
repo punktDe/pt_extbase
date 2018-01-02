@@ -36,6 +36,7 @@ class Tx_PtExtbase_ViewHelpers_Be_FormTokenViewHelper extends \TYPO3\CMS\Fluid\C
      * Render the form token
      *
      * @return string
+     * @deprecated getUrlToken will be removed in TYPO3 8
      */
     public function render()
     {

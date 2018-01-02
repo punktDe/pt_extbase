@@ -36,7 +36,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeTest extends \PunktDe\PtExtbase\Testing\U
     /** @test */
     public function treeClassExists()
     {
-        $this->assertTrue(class_exists(Tx_PtExtbase_Tree_Tree));
+        $this->assertTrue(class_exists(Tx_PtExtbase_Tree_Tree::class));
     }
     
     
@@ -46,7 +46,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_TreeTest extends \PunktDe\PtExtbase\Testing\U
     {
         $rootNode = new Tx_PtExtbase_Tree_Node('root', 'rootNode');
         $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
-        $this->assertTrue(is_a($tree, Tx_PtExtbase_Tree_Tree));
+        $this->assertTrue(is_a($tree, Tx_PtExtbase_Tree_Tree::class));
         $this->assertEquals($tree->getRoot()->getLft(), 1);
         $this->assertEquals($tree->getRoot()->getRgt(), 2);
     }

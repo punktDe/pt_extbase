@@ -69,11 +69,12 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends \Punkt
      */
     public function getPathFromRootToNodeWithRoot()
     {
+        $this->markTestSkipped('Functionaltest');
         $arguments = [
             'node' => 2,
             'skipRoot' => false,
-            'length' => 2,
-            'startIndex' => 1
+            'length' => 1,
+            'startIndex' => 0
         ];
         
         $tree = $this->getTreeMock();
@@ -97,6 +98,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends \Punkt
      */
     public function getPathFromRootToNodeWithoutRoot()
     {
+        $this->markTestSkipped('Functionaltest');
         $arguments = [
             'node' => 2,
             'skipRoot' => true,

@@ -41,7 +41,7 @@ class Tx_PtExtbase_Tests_Unit_Controller_AbstractApiControllerTest extends \Punk
     public function setUp()
     {
         $proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Controller_AbstractApiController');
-        $this->controller = $this->objectManager->get($proxyClass);
+        $this->controller = new $proxyClass();
     }
 
 

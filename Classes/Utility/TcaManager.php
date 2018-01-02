@@ -52,7 +52,7 @@ class TcaManager implements SingletonInterface
     {
         $deleteField = $GLOBALS['TCA'][$tableName]['ctrl']['delete'];
         $GLOBALS['TCA'][$tableName]['ctrl']['delete'] = '';
-        ExtensionManagementUtility::addTCAcolumns($tableName, $this->deletedColumnConfiguration, 1);
+        ExtensionManagementUtility::addTCAcolumns($tableName, $this->deletedColumnConfiguration);
 
         return $deleteField;
     }

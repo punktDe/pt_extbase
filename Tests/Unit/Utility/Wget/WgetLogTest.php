@@ -39,7 +39,8 @@ class WgetLogTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 
     public function setUp()
     {
-        $this->wgetLog = new \PunktDe\PtExtbase\Utility\Wget\WgetLog();
+        $wgetLogProxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Wget\WgetLog');
+        $this->wgetLog = new $wgetLogProxyClass();
     }
 
 
@@ -51,10 +52,10 @@ class WgetLogTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
     public function logEntryDataProvider()
     {
         return [
-            'sandwich400' => ['codes' => [200,404,200], 'hasError' => true],
-            'sandwich500' => ['codes' => [200,503,200], 'hasError' => true],
-            'twoErrors' => ['codes' => [200,503,400], 'hasError' => true],
-            'noErrors' => ['codes' => [200,200], 'hasError' => false]
+            'sandwich400' => ['codes' => [200,404,200], 'hasError' => true, 'countErrors' => 1],
+            'sandwich500' => ['codes' => [200,503,200], 'hasError' => true, 'countErrors' => 1],
+            'twoErrors' => ['codes' => [200,503,400], 'hasError' => true, 'countErrors' => 2],
+            'noErrors' => ['codes' => [200,200], 'hasError' => false, 'countErrors' => 0]
         ];
     }
 
@@ -66,7 +67,7 @@ class WgetLogTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
      * @param $codes
      * @param $hasErrors
      */
-    public function hasErrors($codes, $hasErrors)
+    public function hasErrors($codes, $hasErrors, $countErrors)
     {
         foreach ($codes as $code) {
             $logEntry = new \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry(); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
@@ -85,7 +86,7 @@ class WgetLogTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
      * @param $codes
      * @param $hasErrors
      */
-    public function getErrors($codes, $hasErrors)
+    public function getErrors($codes, $hasErrors, $countErrors)
     {
         foreach ($codes as $code) {
             $logEntry = new \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry(); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
@@ -95,7 +96,7 @@ class WgetLogTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 
         $logEntries = $this->wgetLog->getErrors();
 
-        $this->assertEquals(4, count($logEntries));
+        $this->assertEquals($countErrors, count($logEntries));
 
         foreach ($logEntries as $logEntry) {
             $this->assertTrue($logEntry->isError());

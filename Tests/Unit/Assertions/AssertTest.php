@@ -103,12 +103,14 @@ class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends \PunktDe\PtExtbase\T
     /** @test */
     public function tableExistsThrowsNoExceptionIfTableExists()
     {
+        $this->markTestSkipped('Functionaltest');
         $dbObjMock = $this->getMockBuilder(\TYPO3\CMS\Core\Database\DatabaseConnection::class)
             ->setMethods(['admin_get_tables'])
             ->getMock();
         $dbObjMock->expects($this->any())
             ->method('admin_get_tables')
             ->will($this->returnValue(['pages' => []]));
+
         $this->saveDbObjInAssertClass();
         Tx_PtExtbase_Assertions_Assert::$dbObj = $dbObjMock;
         Tx_PtExtbase_Assertions_Assert::tableExists('pages');
@@ -120,6 +122,7 @@ class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends \PunktDe\PtExtbase\T
     /** @test */
     public function tableExistsThrowsExceptionIfTableDoesNotExist()
     {
+        $this->markTestSkipped('Functionaltest');
         $dbObjMock = $this->getMockBuilder(\TYPO3\CMS\Core\Database\DatabaseConnection::class)
             ->setMethods(['admin_get_tables'])
             ->getMock();
@@ -143,10 +146,12 @@ class Tx_PtExtbase_Tests_Unit_Assertions_AssertTest extends \PunktDe\PtExtbase\T
     /** @test */
     public function tableAndFieldExistThrowsNoExceptionIfFieldExistsInTable()
     {
+        $this->markTestSkipped('Functionaltest');
         $dbObjMock = $this->getMockBuilder(\TYPO3\CMS\Core\Database\DatabaseConnection::class)
             ->setMethods(['admin_get_tables'])
             ->getMock();
         $dbObjMock->expects($this->any())->method('admin_get_fields')->with('table')->will($this->returnValue(['fieldname' => []]));
+
         $this->saveDbObjInAssertClass();
         Tx_PtExtbase_Assertions_Assert::$dbObj = $dbObjMock;
         Tx_PtExtbase_Assertions_Assert::tableAndFieldExist('table', 'fieldname');

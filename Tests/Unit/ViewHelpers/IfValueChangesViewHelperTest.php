@@ -60,6 +60,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest extends \
             $this->getMockBuilder(Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper::class)
                 ->setMethods(['renderThenChild', 'renderElseChild'])
                 ->getMock();
+
         $ifValueChangesViewHelper->expects($this->at(0))->method('renderThenChild');
         $ifValueChangesViewHelper->expects($this->at(1))->method('renderElseChild');
         $ifValueChangesViewHelper->expects($this->at(2))->method('renderThenChild');
