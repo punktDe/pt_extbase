@@ -90,7 +90,7 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends \Punk
      */
     public function generateSqls()
     {
-        $this->markTestSkipped('Tut nich mit php 7');
+        $this->markTestSkipped('Functionaltest');
         $sql1 = [
             'SELECT * FROM foo;',
             'SELECT * FROM bar;',

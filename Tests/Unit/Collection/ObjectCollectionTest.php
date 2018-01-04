@@ -76,9 +76,10 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
     /** @test */
     public function addingAnObjectOfTheWrongTypeThrowsException()
     {
-
-        $this->markTestSkipped('deprecated use Exception with Code');
-        $this->setExpectedException(PunktDe\PtExtbase\Exception\Exception::class);
+        if (!defined('TYPO3_DLOG')) {
+            define('TYPO3_DLOG', false);
+        }
+        $this->expectException(PunktDe\PtExtbase\Exception\Exception::class);
         $this->fixture->addItem(new StdClass('hello', 'world'));
     }
     
@@ -98,8 +99,7 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
     public function test_setNonExistingIdAsSelected()
     {
 
-        $this->markTestSkipped('deprecated use Exception with Code');
-        $this->setExpectedException(PunktDe\PtExtbase\Exception\Exception::class);
+        $this->expectException(PunktDe\PtExtbase\Exception\Exception::class);
         $this->fixture->setSelectedId(5);
     }
     

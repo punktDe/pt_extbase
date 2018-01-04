@@ -60,13 +60,6 @@ class DivTest extends AbstractBaseTestcase
             'data2' => 'value as well'
         ], $this->proxy->returnExtConfArray('validSerialized'));
 
-//        unserialize with invalid string make a Notice and is catched
-//        try {
-//            $this->proxy->returnExtConfArray('somethingInvalid');
-//        } catch (\Exception $e) {
-//            $this->assertEquals(1473087238, $e->getCode());
-//        }
-
         try {
             $this->proxy->returnExtConfArray('invalidExtensionKey');
         } catch (\Exception $e) {
