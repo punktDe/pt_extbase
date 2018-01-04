@@ -756,7 +756,6 @@ class Tx_PtExtbase_Div
             return $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey];
         } else {
             $baseConfArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey]);
-
             if (!is_array($baseConfArr)) {
                 throw new \PunktDe\PtExtbase\Exception\Exception('Extension configuration of extension "' . $extKey . '" could not be read!', 1473087238,
                     '$TYPO3_CONF_VARS["EXT"]["extConf"]["' . $extKey . '"] is not an array after unserializing');

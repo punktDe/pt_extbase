@@ -81,7 +81,6 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
             'singleSelected' => ['multiple' => false, 'selection' => 1, 'expected' => ['cls' => 'selectedNode']],
             'multipleButNotChecked' => ['multiple' => true, 'selection' => [], 'expected' => ['checked' => false]],
             'multipleAndChecked' => ['multiple' => true, 'selection' => [1], 'expected' => ['checked' => true]],
-            'multipleButNotChecked' => ['multiple' => true, 'selection' => [], 'expected' => ['checked' => false]],
         ];
     }
 
@@ -187,6 +186,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
             $this->accessibleProxy->registerFirstVisitCallback($target, $method);
         } catch (Exception $e) {
             if ($throwsException) {
+                $this->assertTrue($throwsException);
                 return;
             } else {
                 $this->fail('An Exception was thrown but should not ... ');
@@ -218,6 +218,7 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
             $this->accessibleProxy->registerLastVisitCallback($target, $method);
         } catch (Exception $e) {
             if ($throwsException) {
+                $this->assertTrue($throwsException);
                 return;
             } else {
                 $this->fail('An Exception was thrown but should not ... ');

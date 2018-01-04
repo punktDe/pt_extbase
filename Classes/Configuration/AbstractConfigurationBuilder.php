@@ -110,7 +110,8 @@ abstract class AbstractConfigurationBuilder implements ConfigurationBuilderInter
      */
     protected function buildConfigurationGeneric($configurationName, $parameters = [])
     {
-        if (!$this->configurationObjectInstances[$configurationName]) {
+
+        if (!isset($this->configurationObjectInstances[$configurationName])) {
             if (!array_key_exists($configurationName, $this->configurationObjectSettings)) {
                 throw new \Exception('No Configuration Object with name ' . $configurationName . ' defined in ConfigurationBuilder', 1289397150);
             }
@@ -120,8 +121,8 @@ abstract class AbstractConfigurationBuilder implements ConfigurationBuilderInter
             if (!class_exists($factoryClass)) {
                 throw new \Exception('Factory class for configuration ' . $configurationName . ': ' . $factoryClass .  'not found!', 1293416866);
             }
-            
-            $this->configurationObjectInstances[$configurationName] = call_user_func([$factoryClass, 'getInstance'], $this, $parameters); // Avoid :: notation in PHP < 5.3
+
+            $this->configurationObjectInstances[$configurationName] = call_user_func($factoryClass .'::getInstance', $this, $parameters);
         }
         return $this->configurationObjectInstances[$configurationName];
     }

@@ -99,8 +99,11 @@ class LoggerManager extends LogManager
         foreach ($explodedName as $partOfClassName) {
             if (!empty($configuration[$partOfClassName])) {
                 $indexNameParts[] = $partOfClassName;
+                $configuration = $configuration[$partOfClassName];
+            } else {
+                break;
             }
-            $configuration = $configuration[$partOfClassName];
+
         }
 
         return implode('.', $indexNameParts);

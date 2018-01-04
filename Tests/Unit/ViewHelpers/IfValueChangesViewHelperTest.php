@@ -1,26 +1,26 @@
 <?php
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2013 Michael Knoll <knoll@punkt.de>
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2013 Michael Knoll <knoll@punkt.de>
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 
 /**
@@ -36,7 +36,10 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest extends \
     /** @test */
     public function renderCallsExpectedSubpartsInSingleValueMode()
     {
-        $ifValueChangesViewHelper = $this->getMock('Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper', ['renderThenChild', 'renderElseChild'], [], '', false);
+        $ifValueChangesViewHelper =
+            $this->getMockBuilder(Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper::class)
+                ->setMethods(['renderThenChild', 'renderElseChild'])
+                ->getMock();
         $ifValueChangesViewHelper->expects($this->at(0))->method('renderThenChild');
         $ifValueChangesViewHelper->expects($this->at(1))->method('renderElseChild');
         $ifValueChangesViewHelper->expects($this->at(2))->method('renderThenChild');
@@ -50,16 +53,20 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest extends \
     }
 
 
-
     /** @test */
     public function renderCallsExpectedSubpartsInMultiValueMode()
     {
-        $ifValueChangesViewHelper = $this->getMock('Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper', ['renderThenChild', 'renderElseChild'], [], '', false);
+        $ifValueChangesViewHelper =
+            $this->getMockBuilder(Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper::class)
+                ->setMethods(['renderThenChild', 'renderElseChild'])
+                ->getMock();
+
         $ifValueChangesViewHelper->expects($this->at(0))->method('renderThenChild');
         $ifValueChangesViewHelper->expects($this->at(1))->method('renderElseChild');
         $ifValueChangesViewHelper->expects($this->at(2))->method('renderThenChild');
         $ifValueChangesViewHelper->expects($this->at(3))->method('renderElseChild');
-        $ifValueChangesViewHelper->expects($this->at(4))->method('renderThenChild'); /* @var $ifValueChangesViewHelper Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper */
+        $ifValueChangesViewHelper->expects($this->at(4))->method('renderThenChild');
+        /* @var $ifValueChangesViewHelper Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper */
 
         $ifValueChangesViewHelper->render('1-1', 'outer');
         $ifValueChangesViewHelper->render('1-1', 'outer');

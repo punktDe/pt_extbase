@@ -53,7 +53,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
     public function setUp()
     {
         $this->proxyClass = $this->buildAccessibleProxy(\PunktDe\PtExtbase\Logger\Logger::class);
-        $this->proxy = $this->objectManager->get($this->proxyClass);
+        $this->proxy = new $this->proxyClass();
     }
 
 
@@ -69,6 +69,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
         $expectedEmailReceivers = 'bud@spencer.it,terence@hill.de';
 
         $loggerConfigurationMock = $this->getMockBuilder(LoggerConfiguration::class)
+            ->disableOriginalConstructor()
             ->setMethods(['getLogLevelThreshold', 'getEmailLogLevelThreshold', 'weHaveAnyEmailReceivers', 'getEmailReceivers'])
             ->getMock();
         $loggerConfigurationMock->expects($this->once())
@@ -108,7 +109,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
             ->method('enrichLoggerSpecificDataByComponent');
         /** @var $loggerMock \PunktDe\PtExtbase\Logger\Logger */
         
-        $loggerManager = $this->objectManager->get(LoggerManager::class);
+        $loggerManager = new LoggerManager();
         $loggerMock->injectLoggerManager($loggerManager);
 
         $data = [];
@@ -156,7 +157,22 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
     {
         $actual = [];
 
+        $GLOBALS['TSFE'] = $this->getMockBuilder(\TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::class)
+            ->disableOriginalConstructor()
+        ->getMock();
+
+        $fe_user = $this->getMockBuilder(\TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $GLOBALS['TSFE']->fe_user = $fe_user;
+
+
         $GLOBALS['TSFE']->fe_user->user['uid'] = $userId;
+
+        $loggerManager = new LoggerManager();
+        $this->proxy->injectLoggerManager($loggerManager);
+
+
         $this->proxy->enrichLogDataByComponent($actual, $component);
 
         $this->assertEquals($expected, $actual);

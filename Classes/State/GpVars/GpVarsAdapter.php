@@ -216,7 +216,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter
      */
     protected function getMergedPgVars()
     {
-        if (!is_array($this->postGetVars)) {
+        if (!isset($this->getPostVars) || !is_array($this->postGetVars)) {
             $this->postGetVars = $this->postVars;
             if (is_array($this->getVars) && is_array($this->postVars)) {
                 $this->postGetVars = $this->getVars;
@@ -235,7 +235,7 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter
      */
     protected function getMergedGpVars()
     {
-        if (!is_array($this->getPostVars)) {
+        if (!isset($this->getPostVars) || !is_array($this->getPostVars)) {
             $this->getPostVars = $this->getVars;
             if (is_array($this->getVars) && is_array($this->postVars)) {
                 $this->getPostVars = $this->postVars;

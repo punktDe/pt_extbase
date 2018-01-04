@@ -60,9 +60,9 @@ class WgetLog extends \PunktDe\PtExtbase\Collection\ObjectCollection
     {
         $errorEntries = new WgetLog();
 
-        foreach ($this->itemsArr as $logEntry) {
-            if ($logEntry->isError()) {
-                $errorEntries->addLogEntry($logEntry);
+        foreach ($this->itemsArr as $wgetLogEntry) { /** @var  \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $wgetLogEntry  */
+            if ($wgetLogEntry->isError()) {
+                $errorEntries->addLogEntry($wgetLogEntry);
             }
         }
 
@@ -77,9 +77,9 @@ class WgetLog extends \PunktDe\PtExtbase\Collection\ObjectCollection
     {
         $sucessfulEntries = new WgetLog();
 
-        foreach ($this->itemsArr as $logEntry) {
-            if (!$logEntry->isError()) {
-                $sucessfulEntries->addLogEntry($logEntry);
+        foreach ($this->itemsArr as $wgetLogEntry) { /** @var  \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $wgetLogEntry  */
+            if (!$wgetLogEntry->isError()) {
+                $sucessfulEntries->addLogEntry($wgetLogEntry);
             }
         }
 

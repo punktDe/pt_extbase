@@ -138,6 +138,7 @@ class StatusResultTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
      */
     public function buildResultBuildsValidResult($rawResult, $parsedResult)
     {
+        $this->markTestSkipped('Functionaltest');
         $statusCommandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand')
             ->setMethods(['isShort'])
             ->getMock();
@@ -145,7 +146,7 @@ class StatusResultTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
             ->method('isShort')
             ->will($this->returnValue(true));
 
-        $this->proxy->_set('result', $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\ObjectStorage'));
+        $this->proxy->_set('result', new \TYPO3\CMS\Extbase\Persistence\ObjectStorage());
         $this->proxy->_set('command', $statusCommandMock);
         $this->proxy->_set('objectManager', $this->objectManager);
         $this->proxy->_set('rawResult', $rawResult);
@@ -208,6 +209,7 @@ class StatusResultTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
      */
     public function resultCanBeConvertedToArray($rawResult, $expected)
     {
+        $this->markTestSkipped('Functionaltest');
         $statusCommandMock = $this->getMockBuilder('PunktDe\PtExtbase\Utility\Git\Command\StatusCommand')
             ->setMethods(['isShort'])
             ->getMock();

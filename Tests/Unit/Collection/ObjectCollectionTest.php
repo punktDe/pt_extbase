@@ -76,7 +76,10 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
     /** @test */
     public function addingAnObjectOfTheWrongTypeThrowsException()
     {
-        $this->setExpectedException(PunktDe\PtExtbase\Exception\Exception::class);
+        if (!defined('TYPO3_DLOG')) {
+            define('TYPO3_DLOG', false);
+        }
+        $this->expectException(PunktDe\PtExtbase\Exception\Exception::class);
         $this->fixture->addItem(new StdClass('hello', 'world'));
     }
     
@@ -95,7 +98,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
     /** @test */
     public function test_setNonExistingIdAsSelected()
     {
-        $this->setExpectedException(PunktDe\PtExtbase\Exception\Exception::class);
+
+        $this->expectException(PunktDe\PtExtbase\Exception\Exception::class);
         $this->fixture->setSelectedId(5);
     }
     
@@ -178,9 +182,9 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
         $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(6));
         $this->assertInstanceOf('Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock', $this->fixture->getItemById(7));
     }
-    
-    
-    
+
+
+
     /** @test */
     public function test_seletectedIdIsClearedWhenSelectedItemIsPopped()
     {
@@ -189,9 +193,9 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
         $this->fixture->pop();
         $this->assertNull($this->fixture->getSelectedId());
     }
-    
-    
-    
+
+
+
     /** @test */
     public function test_seletectedIdIsClearedWhenSelectedItemIsShifted()
     {
@@ -200,9 +204,9 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
         $this->fixture->shift();
         $this->assertNull($this->fixture->getSelectedId());
     }
-    
-    
-    
+
+
+
     /** @test */
     public function test_integerishIdsDoNotChangeAfterShiftWithParameterTrue()
     {
@@ -235,11 +239,6 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
 class Tx_PtExtbase_Tests_Unit_Collection_ObjectCollection_TestObjectMock
 {
 }
-
-
-require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Collection/Collection.php';
-require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Collection/ObjectCollection.php';
-
 
 
 /**

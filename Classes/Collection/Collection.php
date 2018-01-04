@@ -325,13 +325,13 @@ abstract class Collection implements \IteratorAggregate, \Countable, \ArrayAcces
     }
 
     /**
-     * Returns the property value
-     *
-     * @param   void
-     * @return  flexible        property value
+     * @return int|null
      */
     public function getSelectedId()
     {
+        if (!isset($this->selectedId)) {
+            return null;
+        }
         return $this->selectedId;
     }
 

@@ -70,7 +70,7 @@ class Tx_PtExtbase_Tree_NestedSetTreeStorage implements Tx_PtExtbase_Tree_TreeSt
      */
     public function saveTree(Tx_PtExtbase_Tree_TreeInterface $tree)
     {
-        if (!is_a($tree, Tx_PtExtbase_Tree_NestedSetTreeInterface)) {
+        if (!is_a($tree, Tx_PtExtbase_Tree_NestedSetTreeInterface::class)) {
             throw new Exception('Tx_PtExtbase_Tree_NestedSetTreeStorage can only persist trees that implement Tx_PtExtbase_Tree_NestedSetTreeInterface! 1327695444');
         }
 

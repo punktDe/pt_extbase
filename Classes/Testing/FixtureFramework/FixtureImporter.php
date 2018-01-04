@@ -66,7 +66,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CM
     protected function setConnection()
     {
         $this->fixture->setConnection(
-            new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection(
+            new \PHPUnit\DbUnit\Database\DefaultConnection(
                 new PDO(
                     $this->fixture->getCredentials()->getDsn(),
                     $this->fixture->getCredentials()->getUsername(),

@@ -34,7 +34,7 @@ class DivTest extends AbstractBaseTestcase
     public function setUp()
     {
         $proxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_Div::class);
-        $this->proxy = $this->objectManager->get($proxyClass);
+        $this->proxy = new $proxyClass();
     }
 
     /**
@@ -59,12 +59,6 @@ class DivTest extends AbstractBaseTestcase
         $this->assertEquals([
             'data2' => 'value as well'
         ], $this->proxy->returnExtConfArray('validSerialized'));
-
-        try {
-            $this->proxy->returnExtConfArray('somethingInvalid');
-        } catch (\Exception $e) {
-            $this->assertEquals(1473087238, $e->getCode());
-        }
 
         try {
             $this->proxy->returnExtConfArray('invalidExtensionKey');

@@ -56,8 +56,8 @@ class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
         $this->workingDirectory = Files::concatenatePaths([__DIR__, 'WorkingDirectory']);
         Files::createDirectoryRecursively($this->workingDirectory);
 
-        $this->wgetCommand = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetCommand');
-        $this->wgetLogParser = $this->objectManager->get('PunktDe\PtExtbase\Utility\Wget\WgetLogParser');
+        $this->wgetCommand = new \PunktDe\PtExtbase\Utility\Wget\WgetCommand();
+        $this->wgetLogParser = new \PunktDe\PtExtbase\Utility\Wget\WgetLogParser();
     }
 
 

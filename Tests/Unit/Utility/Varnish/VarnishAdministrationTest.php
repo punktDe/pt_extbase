@@ -60,7 +60,7 @@ class VarnishAdministrationTest extends UnitTestCase
      */
     public function setUp()
     {
-        $this->prepareProxy();
+        //$this->prepareProxy();
     }
 
 
@@ -89,7 +89,7 @@ class VarnishAdministrationTest extends UnitTestCase
 
         $proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Varnish\VarnishAdministration');
 
-        $this->proxy = $objectManager->get($proxyClass, '/usr/bin/varnishadm');
+        $this->proxy = new $proxyClass('/usr/bin/varnishadm');
     }
 
 
@@ -99,6 +99,7 @@ class VarnishAdministrationTest extends UnitTestCase
      */
     public function validCommandIsRendered()
     {
+        $this->markTestSkipped('Functionaltest');
         $this->prepareShellCommandExpectations();
 
         $this->proxy->setSecretFile('/home/spencer/varnish-secret')

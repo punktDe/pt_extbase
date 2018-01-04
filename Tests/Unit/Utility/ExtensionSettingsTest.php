@@ -177,10 +177,8 @@ class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends \PunktDe\PtE
 
         $proxyMock->_set('extensionSettings', $settings);
 
-        $expected = $settings[$extensionKey][$key];
-
         try {
-            $actual = $proxyMock->getKeyFromExtensionSettings($extensionKey, $key);
+            $proxyMock->getKeyFromExtensionSettings($extensionKey, $key);
         } catch (\Exception $e) {
             return;
         }

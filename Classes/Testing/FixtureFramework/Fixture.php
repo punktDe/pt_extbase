@@ -39,17 +39,17 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     protected $credentials;
 
     /**
-     * @var PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     * @var \PHPUnit\DbUnit\Database\Connection
      */
     protected $connection;
 
     /**
-     * @var PHPUnit_Extensions_Database_DataSet_IDataSet
+     * @var \PHPUnit\DbUnit\DataSet\IDataSet
      */
     protected $dataSet;
 
     /**
-     * @var PHPUnit_Extensions_Database_Operation_IDatabaseOperation
+     * @var \PHPUnit\DbUnit\Operation\Operation
      */
     protected $setUpOperation;
 
@@ -58,18 +58,16 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
      */
     protected $schemaFilePath;
 
-    /**
-     * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
-     */
+
     public function __construct()
     {
-        $this->setUpOperation = PHPUnit_Extensions_Database_Operation_Factory::CLEAN_INSERT();
+        $this->setUpOperation = \PHPUnit\DbUnit\Operation\Factory::CLEAN_INSERT();
     }
 
     /**
      * Returns the test database connection.
      *
-     * @return PHPUnit_Extensions_Database_DB_IDatabaseConnection
+     * @return \PHPUnit\DbUnit\Database\Connection
      */
     public function getConnection()
     {
@@ -77,10 +75,10 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     }
 
     /**
-     * @param PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection
+     * @param \PHPUnit\DbUnit\Database\Connection $connection
      * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
      */
-    public function setConnection($connection)
+    public function setConnection(\PHPUnit\DbUnit\Database\Connection $connection)
     {
         $this->connection = $connection;
         return $this;
@@ -89,7 +87,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     /**
      * Returns the test dataset.
      *
-     * @return PHPUnit_Extensions_Database_DataSet_IDataSet
+     * @return \PHPUnit\DbUnit\DataSet\IDataSet
      */
     public function getDataSet()
     {
@@ -97,10 +95,10 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     }
 
     /**
-     * @param PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet
+     * @param \PHPUnit\DbUnit\DataSet\IDataSet $dataSet
      * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
      */
-    public function setDataSet($dataSet)
+    public function setDataSet(\PHPUnit\DbUnit\DataSet\IDataSet $dataSet)
     {
         $this->dataSet = $dataSet;
         return $this;
@@ -109,7 +107,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     /**
      * Returns the database operation executed in test setup.
      *
-     * @return PHPUnit_Extensions_Database_Operation_IDatabaseOperation
+     * @return \PHPUnit\DbUnit\Operation\Operation
      */
     public function getSetUpOperation()
     {
@@ -117,10 +115,10 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     }
 
     /**
-     * @param PHPUnit_Extensions_Database_Operation_IDatabaseOperation $setUpOperation
+     * @param \PHPUnit\DbUnit\Operation\Operation $setUpOperation
      * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
      */
-    public function setSetUpOperation($setUpOperation)
+    public function setSetUpOperation(\PHPUnit\DbUnit\Operation\Operation $setUpOperation)
     {
         $this->setUpOperation = $setUpOperation;
         return $this;

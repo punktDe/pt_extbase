@@ -89,9 +89,6 @@ class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends \PunktDe\PtEx
 }
 
 
-
-require_once \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Collection/SortableEntityInterface.php';
-
 /**
  * Sortable object mock implementing the SortableEntityInterface
  */

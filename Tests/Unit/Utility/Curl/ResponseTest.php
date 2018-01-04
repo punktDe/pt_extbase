@@ -42,10 +42,11 @@ class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
 
     public function setUp()
     {
-        $curlRequest = GeneralUtility::makeInstance(Request::class);
+        $curlRequest = new Request();
 
         $proxyClass = $this->buildAccessibleProxy(Response::class);
-        $this->curlResponse = GeneralUtility::makeInstance($proxyClass, curl_init(), $curlRequest, '');
+
+        $this->curlResponse = new $proxyClass(curl_init(), $curlRequest, "header\r\n\r\nbody");
     }
 
 

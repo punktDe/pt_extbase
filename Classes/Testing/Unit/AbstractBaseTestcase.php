@@ -65,7 +65,8 @@ abstract class AbstractBaseTestcase extends UnitTestCase
      */
     protected function getSimpleMock($className)
     {
-        return $this->getMock($className, [], [], '', false);
+        return $this->getMockBuilder($className)
+            ->getMock();
     }
 
 

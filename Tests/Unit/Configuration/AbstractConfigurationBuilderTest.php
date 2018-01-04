@@ -25,10 +25,6 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-require_once ExtensionManagementUtility::extPath('pt_extlist') . 'Classes/Domain/Configuration/ConfigurationBuilder.php';
-require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Configuration/AbstractConfigurationBuilder.php';
-require_once ExtensionManagementUtility::extPath('pt_extbase') . 'Classes/Configuration/AbstractConfiguration.php';
-
 /**
  * Testcase for abstract configuration builder class
  *
@@ -62,9 +58,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilderTest ext
      */
     protected $fixture;
     
-    
-    
-    /** @test */
+
     public function setUp()
     {
         $this->fixture = new Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub($this->settings);

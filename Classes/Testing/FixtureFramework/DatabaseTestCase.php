@@ -34,7 +34,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
-abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends PHPUnit_Extensions_Database_TestCase
+abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends \PHPUnit\DbUnit\TestCase
 {
     /**
      * This array contains strings of domains, which are allowed to run database tests on.

@@ -33,14 +33,19 @@ class LoggerManagerTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
      */
     protected $proxy;
 
+    /**
+     * @var string
+     */
+    protected $proxyClass;
+
 
     /**
      * @return void
      */
     public function setUp()
     {
-        $proxyClass = $this->buildAccessibleProxy(LoggerManager::class);
-        $this->proxy = new $proxyClass();
+        $this->proxyClass = $this->buildAccessibleProxy(LoggerManager::class);
+        $this->proxy = new $this->proxyClass();
     }
 
 
@@ -236,13 +241,17 @@ class LoggerManagerTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
      */
     public function getLoggerCreatesValidIndexOfLoggersAndReturnsLoggerWithCorrectComponentName($loggerNames, $loggerConfiguration, $expectedLoggerIndexKeys)
     {
-        $this->proxy->_set('loggerConfiguration', $loggerConfiguration);
+        $loggerManagerMock = $this->getMockBuilder($this->proxyClass)
+            ->setMethods(['setWritersForLogger','setProcessorsForLogger'])
+            ->getMock();
+
+        $loggerManagerMock->_set('loggerConfiguration', $loggerConfiguration);
 
         foreach ($loggerNames as $loggerName) {
-            $logger = $this->proxy->getLogger($loggerName);
+            $loggerManagerMock->getLogger($loggerName);
         }
 
-        $actualLoggerIndexKeys = $this->proxy->getLoggerNames();
+        $actualLoggerIndexKeys = $loggerManagerMock->getLoggerNames();
         $this->assertSame($expectedLoggerIndexKeys, $actualLoggerIndexKeys, 'Expected and actual logger index keys are not equal');
     }
 }

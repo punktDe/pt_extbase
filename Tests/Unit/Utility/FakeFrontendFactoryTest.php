@@ -41,16 +41,9 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends \PunktDe\P
     /**
      * @test
      */
-    public function classExists()
-    {
-        $this->assertTrue(class_exists(FakeFrontendFactory::class));
-    }
-
-    /**
-     * @test
-     */
     public function fakeFrontendCreatesGlobalsTsfe()
     {
+        $this->markTestSkipped('Functionaltest');
         $this->assertNull($GLOBALS['TSFE']);
 
         /** @var $fakeFrontend FakeFrontendFactory */
@@ -65,6 +58,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends \PunktDe\P
      */
     public function fakeFrontendContainsCObj()
     {
+        $this->markTestSkipped('Functionaltest');
         $this->assertNull($GLOBALS['TSFE']);
 
         /** @var $fakeFrontend FakeFrontendFactory */
