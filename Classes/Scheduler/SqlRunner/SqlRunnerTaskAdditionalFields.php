@@ -73,10 +73,11 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
         $this->objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
 
         if (empty($taskInfo[$configuration['id']])) {
+            $id = $configuration['id'];
             if ($schedulerModule->CMD == 'edit') {
-                $taskInfo[$configuration['id']] = $task->$configuration['id'];
+                $taskInfo[$id] = $task->$id;
             } else {
-                $taskInfo[$configuration['id']] = '';
+                $taskInfo[$id] = '';
             }
         }
 
@@ -213,6 +214,8 @@ class Tx_PtExtbase_Scheduler_SqlRunner_SqlRunnerTaskAdditionalFields implements 
     public function saveAdditionalFields(array $submittedData, \TYPO3\CMS\Scheduler\Task\AbstractTask $task)
     {
         $configuration = $this->configuration;
-        $task->$configuration['id'] = $submittedData[$configuration['id']];
+
+        $id = $configuration['id'];
+        $task->$id = $submittedData[$id];
     }
 }
