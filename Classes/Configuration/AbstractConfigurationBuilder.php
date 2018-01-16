@@ -140,7 +140,10 @@ abstract class AbstractConfigurationBuilder implements ConfigurationBuilderInter
 
         $tsKey = array_key_exists('tsKey', $this->configurationObjectSettings[$configurationName]) ? $this->configurationObjectSettings[$configurationName]['tsKey'] : $configurationName;
         if ($tsKey) {
-            $settings = array_key_exists($tsKey, $this->settings) ? $this->settings[$tsKey] : [];
+            $settings = [];
+            if (is_array($this->settings) && array_key_exists($tsKey, $this->settings)) {
+                $settings = $this->settings[$tsKey];
+            }
         } else {
             $settings = $this->settings;
         }
