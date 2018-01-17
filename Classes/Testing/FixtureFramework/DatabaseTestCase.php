@@ -73,7 +73,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends \P
      */
     protected function setUp()
     {
-        if (!(in_array(GeneralUtility::getApplicationContext(), $this->allowedApplicationContexts)
+        if (!(in_array(GeneralUtility::getApplicationContext()->__toString(), $this->allowedApplicationContexts)
                 || in_array($_SERVER['HOSTNAME'], $this->allowedDomains)
                 || in_array($_SERVER['HTTP_HOST'], $this->allowedDomains))) {
             $this->markTestSkipped(sprintf('This test is only allowed in contexts "%s" or on domains "%s"', implode(', ', $this->allowedApplicationContexts),  implode(', ', $this->allowedDomains)));
