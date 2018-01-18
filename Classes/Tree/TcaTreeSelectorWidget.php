@@ -118,10 +118,10 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
 
 
     /**
-     * User function to render TCA selector
+     *  User function to render TCA selector
      *
      * @param array $parameters
-     * @param null $fObj
+     * @param \TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fObj
      * @return string
      */
     public function renderTcaTreeSelectorWidget(array $parameters= [], TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fObj=null)
@@ -143,9 +143,9 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      * Initialize widget settings and variables
      *
      * @param array $parameters Parameters passed by TCA rendering call
-     * @param t3lib_TCEforms $fobj t3lib_TCEforms object passed by TCA rendering call
+     * @param \TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fobj
      */
-    protected function init($parameters = [], TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fobj = null) {
+    protected function init(array $parameters = [], TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fobj = null) {
         parent::init($parameters, $fobj);
         $this->initTreeRepositoryBuilder();
     }
