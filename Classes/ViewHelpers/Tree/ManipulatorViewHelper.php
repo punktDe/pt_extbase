@@ -50,16 +50,14 @@ class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Flu
         $this->registerArgument('moduleName', 'string', 'Specify the module name', false);
     }
 
-
+    
 
     /**
-     * Renders the treeSelector.
-     *
-     * @param boolean $required If the field is required or not
+     * @param bool $required If the field is required or not
+     * @param string $type
      * @return string
-     * @api
      */
-    public function render($required = null)
+    public function render($required = false, $type = 'text')
     {
         $treeDiv = $this->getTreeDiv();
         $treeJS = $this->getTreeJS();
