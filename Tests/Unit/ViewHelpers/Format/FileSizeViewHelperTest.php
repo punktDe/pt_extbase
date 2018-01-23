@@ -1,42 +1,23 @@
 <?php
-/***************************************************************
- * Copyright notice
- *
- *   2011 Daniel Lienert <daniel@lienert.cc>, Michael Knoll <mimi@kaktusteam.de>
- * All rights reserved
- *
- *
- * This script is part of the TYPO3 project. The TYPO3 project is
- * free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * The GNU General Public License can be found at
- * http://www.gnu.org/copyleft/gpl.html.
- *
- * This script is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+namespace PunktDe\PtExtbase\Tests\ViewHelpers\Format;
 
-
-/**
+/*
+ * This file is part of the PunktDe\PtExtbase package.
  *
- * @package Tests
- * @subpackage ViewHelpers/Format
- * @author Daniel Lienert
+ * This package is Open Source Software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_FileSizeViewHelperTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+
+use PunktDe\PtExtbase\ViewHelpers\Format\FileSizeViewHelper;
+
+class FileSizeViewHelperTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
      *
      * @returns array
      */
-    public static function fileSizeDataProvider()
+    public function fileSizeDataProvider()
     {
         return [
             'Bytes' => ['145', false, '145 '],
@@ -52,13 +33,17 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_FileSizeViewHelperTest extends 
 
 
     /**
+     * @param string $input
+     * @param bool $useIecLabel
+     * @param string $formatedOutput
+     *
      * @test
      * @dataProvider fileSizeDataProvider
      */
-    public function render($input, $useIecLabel, $formatedOutput)
+    public function render(string $input, bool $useIecLabel, string $formatedOutput)
     {
         $viewHelper =
-            $this->getMockBuilder(Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper::class)
+            $this->getMockBuilder(FileSizeViewHelper::class)
                 ->setMethods(['renderChildren'])
                 ->getMock();
 
