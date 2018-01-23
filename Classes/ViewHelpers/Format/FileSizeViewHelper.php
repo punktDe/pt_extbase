@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers\Format;
 /***************************************************************
 * Copyright notice
 *
@@ -28,7 +29,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * @package ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_Format_FileSizeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class FileSizeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * @param string $labels Labels in format  "B| KB| MB| GB"
