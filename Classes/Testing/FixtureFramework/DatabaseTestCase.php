@@ -76,7 +76,7 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends \P
         if (!(in_array(GeneralUtility::getApplicationContext(), $this->allowedApplicationContexts)
                 || in_array($_SERVER['HOSTNAME'], $this->allowedDomains)
                 || in_array($_SERVER['HTTP_HOST'], $this->allowedDomains))) {
-            $this->markTestSkipped(sprintf('This test is only allowed in contexts "%s" or on domains "%s"', implode(', ', $this->allowedApplicationContexts),  implode(', ', $this->allowedDomains)));
+            $this->fail(sprintf('This test is only allowed in contexts "%s" used %s or on domains "%s" used %s', implode(', ', $this->allowedApplicationContexts), GeneralUtility::getApplicationContext(), implode(', ', $this->allowedDomains), $_SERVER['HOSTNAME'] . ' ' . $_SERVER['HTTP_HOST']));
         }
         $fixtureImporter = GeneralUtility::makeInstance('Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter'); /** @var Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter $fixtureImporter */
         $fixtureImporter->import($this->getFixtures());
