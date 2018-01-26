@@ -1,27 +1,27 @@
 <?php
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2010 Daniel Lienert <daniel@lienert.cc>, Michael Knoll <mimi@kaktusteam.de>
-*  All rights reserved
-*
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2010 Daniel Lienert <daniel@lienert.cc>, Michael Knoll <mimi@kaktusteam.de>
+ *  All rights reserved
+ *
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 /**
  * Returns a path or path chunks of the path from a node to the root
@@ -56,21 +56,19 @@ class Tx_PtExtbase_Tree_NodePathBuilder
      */
     public static function getInstanceByRepositoryAndNamespace($repository, $nameSpace)
     {
-        if (!self::$instances[$repository.$nameSpace]) {
+        if (!self::$instances[$repository . $nameSpace]) {
             $instance = new Tx_PtExtbase_Tree_NodePathBuilder();
             $instance->setTree($instance->buildTree($repository, $nameSpace));
-            self::$instances[$repository.$nameSpace] = $instance;
+            self::$instances[$repository . $nameSpace] = $instance;
         }
 
-        return self::$instances[$repository.$nameSpace];
+        return self::$instances[$repository . $nameSpace];
     }
-
 
 
     public function __construct()
     {
     }
-
 
 
     /**
@@ -88,40 +86,46 @@ class Tx_PtExtbase_Tree_NodePathBuilder
     }
 
 
-
     /**
      * @param integer $nodeUid
      * @param integer $startIndex
      * @param integer $length
      * @return array nodes as plain array
      */
-    public function getPathFromRootToNode($nodeUid, $startIndex = 0, $length = 1000)
+    public function getPathFromRootToNode(int $nodeUid, int $startIndex = 0, int $length = 1000): array
     {
-        $reversedArray = array_reverse($this->buildPathFromNodeToRoot($nodeUid));
+
+        $pathFromRootNode = $this->buildPathFromNodeToRoot($nodeUid);
+        if (count($pathFromRootNode) === 0) {
+            return [];
+        }
+        $reversedArray = array_reverse($pathFromRootNode);
         return array_slice($reversedArray, $startIndex, $length);
     }
 
 
-
     /**
      * @param integer $nodeUid
      * @param integer $startIndex
      * @param integer $length
      * @return array nodes as plain array
      */
-    public function getPathFromNodeToRoot($nodeUid, $startIndex = 0, $length = 1000)
+    public function getPathFromNodeToRoot(int $nodeUid, int $startIndex = 0, int $length = 1000): array
     {
-        $slicedArray = array_slice($this->buildPathFromNodeToRoot($nodeUid), $startIndex, $length);
-        return $slicedArray;
-    }
 
+        $pathFromRootNode = $this->buildPathFromNodeToRoot($nodeUid);
+        if (count($pathFromRootNode) === 0) {
+            return [];
+        }
+        return array_slice($pathFromNodeToRoot, $startIndex, $length);
+    }
 
 
     /**
      * @param integer $nodeUid
-     * @return array|null
+     * @return array
      */
-    protected function buildPathFromNodeToRoot($nodeUid)
+    protected function buildPathFromNodeToRoot(int $nodeUid): array
     {
         if (!array_key_exists($nodeUid, $this->nodePathCache)) {
             $node = $this->tree->getNodeByUid($nodeUid);
@@ -138,13 +142,12 @@ class Tx_PtExtbase_Tree_NodePathBuilder
 
                 $this->nodePathCache[$nodeUid] = $pathFromNodeToRoot;
             } else {
-                $this->nodePathCache[$nodeUid] = null;
+                $this->nodePathCache[$nodeUid] = [];
             }
         }
 
         return $this->nodePathCache[$nodeUid];
     }
-
 
 
     /**

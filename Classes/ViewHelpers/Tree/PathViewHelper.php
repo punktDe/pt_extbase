@@ -62,8 +62,6 @@ class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends \TYPO3\CMS\Fluid\Core
 
 
     /**
-     * Checks, if the given frontend user has access
-     *
      * @return string The output
      */
     public function render()
@@ -75,7 +73,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends \TYPO3\CMS\Fluid\Core
         $nodes = $this->getPathFromRootToNode();
         $firstNode = true;
 
-        if (!$nodes) {
+        if (count($nodes) === 0) {
             $result = 'The node with the id ' . $this->arguments['node'] . ' could not be found in the given tree.';
         } else {
             $result = '';
@@ -103,13 +101,13 @@ class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends \TYPO3\CMS\Fluid\Core
      */
     protected function getPathFromRootToNode()
     {
-        $node = $this->arguments['node'];
-        $length = $this->arguments['length'];
+        $node = (int)$this->arguments['node'];
+        $length = (int)$this->arguments['length'];
 
         if ($this->arguments['skipRoot']) {
             $startIndex = 1;
         } else {
-            $startIndex = $this->arguments['startIndex'];
+            $startIndex = (int)$this->arguments['startIndex'];
         }
 
 
