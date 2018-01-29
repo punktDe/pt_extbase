@@ -47,7 +47,6 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
     }
 
 
-
     /**
      * Handles all exceptions thrown inside the application
      */
@@ -56,28 +55,13 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
         try {
             parent::callActionMethod();
         } catch (Exception $exception) {
-            if ($exception instanceof \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException) {
-                throw $exception;
+            if (!($exception instanceof \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException)) {
+                $this->cleanUpAtException($exception);
             }
 
-            header('HTTP/1.1 500 Internal Server Error', true, 500);
-
-            $this->response->setContent($exception->getCode());
-
-            if ($exception instanceof \PunktDe\PtExtbase\Exception\LoggerException) {
-                $this->logger->log($exception->getLogLevel(), sprintf('Code %s', $exception->getCode()), get_class($this), ['exception' => $exception->getMessage()]);
-            } else {
-                $this->logger->error(sprintf('Code %s', $exception->getCode()), get_class($this), ['exception' => $exception->getMessage()]);
-            }
-
-            $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager')->persistAll();
-
-            $this->cleanUpAtException($exception);
-
-            return $exception->getCode();
+            throw $exception;
         }
     }
-
 
 
     /**
@@ -90,7 +74,6 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
     }
 
 
-
     /**
      * Handles all errors thrown during the dispatcher / validation phase
      *
@@ -98,15 +81,17 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
      */
     protected function errorAction()
     {
-        header('HTTP/1.1 500 Internal Server Error', true, 500);
+        $error = $this->findFirstError($this->arguments->getValidationResults());
 
-        $this->handleError($this->findFirstError($this->arguments->getValidationResults()));
+        if ($error instanceof Error) {
+            $error = new Error('Unknown Error while dispatching the controller action.', 1400683671);
+        }
 
-        $this->objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager')->persistAll();
+        $this->logger->error(sprintf('%s (%s)', $error->getMessage(), $error->getCode()), get_class($this));
 
-        die();
+        throw new \TYPO3\CMS\Core\Error\Http\StatusException([\TYPO3\CMS\Core\Utility\HttpUtility::HTTP_STATUS_500],
+            $error->getMessage(), '', $error->getCode());
     }
-
 
 
     /**
@@ -120,28 +105,14 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
             return $error;
         }
 
-        foreach ($validationResult->getSubResults() as $argumentName => $subValidationResult) { /** @var $subValidationResult \TYPO3\CMS\Extbase\Error\Result */
+        foreach ($validationResult->getSubResults() as $argumentName => $subValidationResult) {
+            /** @var $subValidationResult \TYPO3\CMS\Extbase\Error\Result */
             $error = $this->findFirstError($subValidationResult);
             if ($error instanceof Error) {
                 return $error;
             }
         }
-    }
 
-
-
-    /**
-     * @param mixed $error
-     * @return void
-     */
-    protected function handleError($error)
-    {
-        if ($error instanceof Error) {
-            $this->logger->error(sprintf('%s (%s)', $error->getMessage(), $error->getCode()));
-            echo $error->getCode();
-        } else {
-            $this->logger->error('Unknown Error while dispatching the controller action. (1400683671)', get_class($this));
-            echo 1400683671;
-        }
+        return null;
     }
 }
