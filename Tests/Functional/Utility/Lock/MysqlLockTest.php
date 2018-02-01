@@ -70,7 +70,9 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
      */
     public function constructAcquiresLock()
     {
-        $returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
+        $outputArray = [];
+        $returnValue = 0;
+        exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree', $outputArray, $returnValue);
         $this->assertEquals(0, $returnValue);
     }
 
@@ -79,11 +81,13 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
      */
     public function afterReleaseLockIsFree()
     {
+        $outputArray = [];
+        $returnValue = 0;
         $released = $this->mysqlLock->release();
 
         $this->assertTrue($released);
 
-        $returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree');
+        exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree', $outputArray, $returnValue);
         $this->assertEquals(1, $returnValue);
     }
 
@@ -92,7 +96,9 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
      */
     public function acquiringLockASecondTimeIsNotPossible()
     {
-        $returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest acquireExclusiveLock');
+        $outputArray = [];
+        $returnValue = 0;
+        exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest acquireExclusiveLock', $outputArray, $returnValue);
         $this->assertEquals(0, $returnValue);
     }
 
@@ -102,7 +108,9 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
      */
     public function freeingLockIsNotPossibleBySecondClient()
     {
-        $returnValue = exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest freeLock');
+        $outputArray = [];
+        $returnValue = 0;
+        exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest freeLock', $outputArray, $returnValue);
         $this->assertEquals(0, $returnValue);
     }
 }

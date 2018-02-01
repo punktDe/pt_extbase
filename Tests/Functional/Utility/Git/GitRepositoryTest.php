@@ -22,6 +22,7 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Git;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Utility\Files;
+use PunktDe\PtExtbase\Utility\Git\GitRepository;
 
 /**
  * Git Repository Test Case
@@ -159,7 +160,7 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
     public function checkIfValidGitCommandIsAvailableThrowsNoExceptionIfGitExists()
     {
         $this->skipTestIfGitCommandForTestingDoesNotExist();
-        $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\GitRepository', $this->pathToGitCommand, $this->repositoryRootPath);
+        $this->assertInstanceOf(GitRepository::class, $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\GitRepository', $this->pathToGitCommand, $this->repositoryRootPath));
     }
 
 

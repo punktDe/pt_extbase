@@ -22,7 +22,7 @@
 use PunktDe\PtExtbase\Logger\LoggerConfiguration;
 use TYPO3\CMS\Core\Log\LogLevel;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\Flow\Utility\Files;
+use Neos\Utility\Files;
 
 
 class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase

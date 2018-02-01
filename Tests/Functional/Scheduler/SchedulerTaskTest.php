@@ -23,16 +23,16 @@ namespace PunktDe\PtExtbase\Tests\Functional\Scheduler;
  ***************************************************************/
 
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\Flow\Utility\Files;
+use Neos\Utility\Files;
+use PunktDe\PtExtbase\Logger\LoggerConfiguration;
+use PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase;
 
 /**
  * Test case for class PunktDe\PtExtbase\Scheduler\AbstractSchedulerTask
  *
  * @package pt_extbase
  */
-class SchedulerTaskTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+class SchedulerTaskTest extends AbstractBaseTestcase
 {
     /**
      * @var string
@@ -52,7 +52,7 @@ class SchedulerTaskTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
     protected $schedulerTaskId = '';
 
     /**
-     * @var \PunktDe\PtExtbase\Logger\LoggerConfiguration
+     * @var LoggerConfiguration
      */
     protected $loggerConfiguration;
 
@@ -84,9 +84,9 @@ class SchedulerTaskTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
 
     protected function prepareTestPaths()
     {
-        $this->testFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths([__DIR__, 'WorkingDirectory']);
+        $this->testFilePath = Files::concatenatePaths([__DIR__, 'WorkingDirectory']);
 
-        $this->loggerConfiguration = $this->objectManager->get(\PunktDe\PtExtbase\Logger\LoggerConfiguration::class);
+        $this->loggerConfiguration = $this->objectManager->get(LoggerConfiguration::class);
         $this->logFilePath = $this->loggerConfiguration->getLogFilePath();
     }
 
@@ -118,7 +118,7 @@ class SchedulerTaskTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
 
     protected function objectInitializationSuccessful()
     {
-        $initializeObjectTestFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths([$this->testFilePath, "testTaskObjectInitialization.txt"]);
+        $initializeObjectTestFilePath = Files::concatenatePaths([$this->testFilePath, "testTaskObjectInitialization.txt"]);
         $initializeObjectTestFileContent = $this->getFileContent($initializeObjectTestFilePath);
 
         $this->assertEquals('1428924552', $initializeObjectTestFileContent, 'The content of the "initializeTestFile" file is not as expected');
@@ -128,7 +128,7 @@ class SchedulerTaskTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
 
     protected function taskExecuteSuccessful()
     {
-        $executeTestFilePath = \PunktDe\PtExtbase\Utility\Files::concatenatePaths([$this->testFilePath, "testTaskExecution.txt"]);
+        $executeTestFilePath = Files::concatenatePaths([$this->testFilePath, "testTaskExecution.txt"]);
         $executeTestFileContent = $this->getFileContent($executeTestFilePath);
 
         $this->assertEquals('1428924570', $executeTestFileContent, 'The content of the "executeTestFile" file is not as expected');

@@ -20,7 +20,8 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Curl;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use PunktDe\PtExtbase\Utility\Files;
+use Neos\Utility\Files;
+use PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase;
 
 /**
  * Curl Test Case
@@ -28,7 +29,7 @@ use PunktDe\PtExtbase\Utility\Files;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Functional\Utility\Curl
  */
-class CurlTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+class CurlTest extends AbstractBaseTestcase
 {
     /**
      * @var \PunktDe\PtExtbase\Utility\Curl\Request
