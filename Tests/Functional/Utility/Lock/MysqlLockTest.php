@@ -27,6 +27,7 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Lock;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Utility\Lock\Lock;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Wget Test Case
@@ -46,7 +47,7 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
      */
     public function setUp()
     {
-        $this->mysqlLock = $this->objectManager->get('PunktDe\\PtExtbase\\Utility\\Lock\\Lock', 'lockTest');
+        $this->mysqlLock = $this->objectManager->get(\PunktDe\PtExtbase\Utility\Lock\Lock::class, 'lockTest');
     }
 
     public function tearDown()
@@ -62,7 +63,7 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
     public function acquiringSharedLockThrowsException()
     {
         $this->mysqlLock->release();
-        $this->objectManager->get('PunktDe\\PtExtbase\\Utility\\Lock\\Lock', 'lockTest', 'PunktDe\\PtExtbase\\Utility\\Lock\\MySqlLockStrategy', false);
+        $this->objectManager->get(\PunktDe\PtExtbase\Utility\Lock\Lock::class, 'lockTest', \PunktDe\PtExtbase\Utility\Lock\MySqlLockStrategy::class , false);
     }
 
     /**
@@ -72,7 +73,7 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
     {
         $outputArray = [];
         $returnValue = 0;
-        exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree', $outputArray, $returnValue);
+        exec(__DIR__ . '/MySqlLockTestSecondInstance.php ' . GeneralUtility::getApplicationContext() . ' lockTest testIfLockIsFree ', $outputArray, $returnValue);
         $this->assertEquals(0, $returnValue);
     }
 
@@ -87,7 +88,7 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 
         $this->assertTrue($released);
 
-        exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest testIfLockIsFree', $outputArray, $returnValue);
+        exec(__DIR__ . '/MySqlLockTestSecondInstance.php ' . GeneralUtility::getApplicationContext() . ' lockTest testIfLockIsFree', $outputArray, $returnValue);
         $this->assertEquals(1, $returnValue);
     }
 
@@ -98,7 +99,7 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
     {
         $outputArray = [];
         $returnValue = 0;
-        exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest acquireExclusiveLock', $outputArray, $returnValue);
+        exec(__DIR__ . '/MySqlLockTestSecondInstance.php ' . GeneralUtility::getApplicationContext() . ' lockTest acquireExclusiveLock', $outputArray, $returnValue);
         $this->assertEquals(0, $returnValue);
     }
 
@@ -110,7 +111,7 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
     {
         $outputArray = [];
         $returnValue = 0;
-        exec(__DIR__ . '/MySqlLockTestSecondInstance.php lockTest freeLock', $outputArray, $returnValue);
+        exec(__DIR__ . '/MySqlLockTestSecondInstance.php ' . GeneralUtility::getApplicationContext() . ' lockTest freeLock', $outputArray, $returnValue);
         $this->assertEquals(0, $returnValue);
     }
 }
