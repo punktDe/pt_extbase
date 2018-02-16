@@ -22,11 +22,11 @@ class ProductionExceptionHandler extends Typo3ProductionExceptionHandler
      */
     public function echoExceptionWeb($exception)
     {
+        $this->sendStatusHeaders($exception);
+
         if (isset($GLOBALS['TYPO3_AJAX']) && $GLOBALS['TYPO3_AJAX'] === true) {
             echo $exception->getCode();
         } else {
-            $this->sendStatusHeaders($exception);
-
             $this->writeLogEntries($exception, self::CONTEXT_WEB);
 
             $messageObj = GeneralUtility::makeInstance(
