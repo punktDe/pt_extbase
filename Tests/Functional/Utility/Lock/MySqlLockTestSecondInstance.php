@@ -38,16 +38,11 @@ class MySqlLockTestSecondInstance
     protected $mySQLConnection;
 
 
-    public function __construct()
-    {
-        $this->connect();
-    }
-
-    protected function connect()
+    protected function connect($context)
     {
 
         // Load system specific configuration for Apache mode
-        $dpppConfiguration = __DIR__ . '/../../../../../../configurations/' . GeneralUtility::getApplicationContext() . '/AdditionalConfiguration.php';
+        $dpppConfiguration = __DIR__ . '/../../../../../../configurations/' . $context . '/AdditionalConfiguration.php';
 
         if (file_exists($dpppConfiguration)) {
             @include($dpppConfiguration);
@@ -61,13 +56,16 @@ class MySqlLockTestSecondInstance
 
     public function test()
     {
-        if (!isset($_SERVER['argv']['1']) || !isset($_SERVER['argv']['2'])) {
-            throw new \Exception('You have to specify the lock identifier and the testType', 1428853716);
+        if (!isset($_SERVER['argv']['1']) || !isset($_SERVER['argv']['2']) || !isset($_SERVER['argv']['3'])) {
+            throw new \Exception('You have to specify the context, lock identifier and the testType', 1428853716);
         }
 
-        $lockIdentifier = $_SERVER['argv']['1'];
-        $testType = $_SERVER['argv']['2'];
-        $timeout = $_SERVER['argv']['3'] ? $_SERVER['argv']['3'] : 0;
+        $context = $_SERVER['argv']['1'];
+        $lockIdentifier = $_SERVER['argv']['2'];
+        $testType = $_SERVER['argv']['3'];
+        $timeout = isset($_SERVER['argv']['4']) ? $_SERVER['argv']['4'] : 0;
+
+        $this->connect($context);
 
         switch ($testType) {
             case 'acquireExclusiveLock':
