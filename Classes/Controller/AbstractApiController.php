@@ -83,7 +83,7 @@ class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\M
     {
         $error = $this->findFirstError($this->arguments->getValidationResults());
 
-        if ($error instanceof Error) {
+        if (!($error instanceof Error)) {
             $error = new Error('Unknown Error while dispatching the controller action.', 1400683671);
         }
 
