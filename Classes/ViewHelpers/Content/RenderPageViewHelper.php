@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers\Content;
 /***************************************************************
  *  Copyright notice
  *
@@ -26,14 +27,25 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
 /**
  * View helper to render content of a page
  *
  * @package pt_dppp_base
  * @subpackage ViewHelpers\PageContent
  */
-class Tx_PtExtbase_ViewHelpers_Content_RenderPageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class RenderPageViewHelper extends AbstractViewHelper
 {
+
+    /**
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
     /**
      * @return void
      */
@@ -49,8 +61,8 @@ class Tx_PtExtbase_ViewHelpers_Content_RenderPageViewHelper extends \TYPO3\CMS\F
      */
     public function render()
     {
-        if (!($GLOBALS['TSFE']->cObj instanceof \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer)) {
-            $GLOBALS['TSFE']->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+        if (!($GLOBALS['TSFE']->cObj instanceof ContentObjectRenderer)) {
+            $GLOBALS['TSFE']->cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
         }
 
         $pageUid = $this->arguments['pageUid'];
@@ -64,7 +76,7 @@ class Tx_PtExtbase_ViewHelpers_Content_RenderPageViewHelper extends \TYPO3\CMS\F
                 'where' => 'colPos=0 AND (sys_language_uid=' . $sysLanguageUid . ' OR sys_language_uid=-1)'
             ],
         ];
-        $result = $GLOBALS['TSFE']->cObj->CONTENT($conf);
+        $result = $GLOBALS['TSFE']->cObj->cObjGetSingle('CONTENT', $conf);
         return $result;
     }
 }
