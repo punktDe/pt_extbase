@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers\Javascript;
 /***************************************************************
  *  Copyright notice
  *
@@ -41,7 +42,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * extKey: Extension Key
  * pluginNamespace: Plugin Namespace for GET/POST parameters
  */
-class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class TemplateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * @inject
@@ -141,7 +142,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\
      * @param array|string $arguments Arguments
      * @param boolean $addToHead Add to head section or return it a the place the viewhelper is
      * @param boolean $compress
-     * @throws Exception
+     * @throws \Exception
      * @return string
      */
     public function render($templatePath, $arguments = '', $addToHead = true, $compress = true)
@@ -151,7 +152,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\
 
         $absoluteFileName = GeneralUtility::getFileAbsFileName($templatePath);
         if (!file_exists($absoluteFileName)) {
-            throw new Exception('No JSTemplate found with path ' . $absoluteFileName . '. 1296554335');
+            throw new \Exception('No JSTemplate found with path ' . $absoluteFileName . '. 1296554335');
         }
 
         if ($addToHead) {
@@ -211,7 +212,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\
      * Load JavaScript code from file
      *
      * @param string $absoluteFileName The absolute file name
-     * @throws Exception
+     * @throws \Exception
      * @return string JsCodeTemplate
      */
     protected function loadJsCodeFromFile($absoluteFileName)
@@ -219,7 +220,7 @@ class Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper extends \TYPO3\CMS\
         $data = file_get_contents($absoluteFileName);
 
         if ($data === false) {
-            throw new Exception('Could not read the file content of file ' . $absoluteFileName . '! 1300865874');
+            throw new \Exception('Could not read the file content of file ' . $absoluteFileName . '! 1300865874');
         }
 
         return $data;

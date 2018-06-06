@@ -1,4 +1,5 @@
 <?php
+namespace PuntDe\PtExtbase\ViewHelpers\Tree;
 /***************************************************************
  *  Copyright notice
  *
@@ -54,7 +55,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @author Daniel Lienert
  */
-class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper
+class SelectorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper
 {
     /**
      * @var string
@@ -71,7 +72,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\
 
 
     /**
-     * @var Tx_PtExtbase_Tree_TreeContext
+     * @var \Tx_PtExtbase_Tree_TreeContext
      */
     protected $treeContext;
 
@@ -83,10 +84,10 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\
 
 
     /**
-     * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+     * @param \Tx_PtExtbase_Tree_TreeContext $treeContext
      * @return void
      */
-    public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext)
+    public function injectTreeContext(\Tx_PtExtbase_Tree_TreeContext $treeContext)
     {
         $this->treeContext = $treeContext;
     }
@@ -134,7 +135,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\
 
         if (!$this->nodes) {
             if (!$this->arguments['repository']) {
-                throw new Exception('Either treeNodes or a treeNodeRepository has to be given to use the viewHelper.', 1328536673);
+                throw new \Exception('Either treeNodes or a treeNodeRepository has to be given to use the viewHelper.', 1328536673);
             }
         }
     }
@@ -171,7 +172,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_SelectorViewHelper extends \TYPO3\CMS\Fluid\
      */
     protected function getTreeNodes()
     {
-        $treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
+        $treeRepositoryBuilder = \Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
         $treeRepositoryBuilder->setNodeRepositoryClassName($this->arguments['repository']);
 
         $treeRepository = $treeRepositoryBuilder->buildTreeRepository();

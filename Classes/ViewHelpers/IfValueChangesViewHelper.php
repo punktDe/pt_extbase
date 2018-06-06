@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *
@@ -37,7 +38,7 @@
  * = Examples =
  *
  * <code title="Single Value Usage">
- * {namespace ptx=Tx_PtExtbase_ViewHelpers}
+ * {namespace ptx=PunktDe\PtExtbase\ViewHelpers}
  * <ptx:ifValueChanges value="{value}">
  *     <f:then>
  *         <h2>{value}</h2>
@@ -54,7 +55,7 @@
  *
  *
  * <code title="Multi Value Usage">
- * {namespace ptx=Tx_PtExtbase_ViewHelpers}
+ * {namespace ptx=PunktDe\PtExtbase\ViewHelpers}
  * <ptx:ifValueChanges value="{outer-value}" key="outer-value">
  *     <h2>{outer-value}</h2>
  *     <ptx:ifValueChanges value="{inner-value}" key="inner-value">
@@ -68,7 +69,7 @@
  *
  *
  * <code title="Reset inner value">
- * {namespace ptx=Tx_PtExtbase_ViewHelpers}
+ * {namespace ptx=PunktDe\PtExtbase\ViewHelpers}
  * <ptx:ifValueChanges value="{outer-value}" key="outer-value">
  *     <h2>{outer-value}</h2>
  *     <ptx:ifValueChanges value="{inner-value}" key="inner-value">
@@ -87,7 +88,7 @@
  * @package ViewHelpers
  * @see Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest
  */
-class Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+class IfValueChangesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
 {
     /**
      * @var null

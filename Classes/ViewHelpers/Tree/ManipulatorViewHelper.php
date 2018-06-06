@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers\Tree;
 /***************************************************************
  *  Copyright notice
  *
@@ -33,7 +34,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  *
  * @author Daniel Lienert
  */
-class Tx_PtExtbase_ViewHelpers_Tree_ManipulatorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper
+class ManipulatorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper
 {
     /**
      * Initialize arguments.

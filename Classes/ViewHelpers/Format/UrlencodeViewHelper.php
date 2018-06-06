@@ -1,5 +1,5 @@
 <?php
-
+namespace Punktde\PtExtbase\ViewHelpers\Format;
 /**
  * This script is taken from fluid > 4.6 to be used in a TYPO3 4.5 environment
  */
@@ -37,7 +37,7 @@
  *
  * @api
  */
-class Tx_PtExtbase_ViewHelpers_Format_UrlencodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class UrlencodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper

@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers\Be;
 /***************************************************************
  *  Copyright notice
  *
@@ -50,7 +51,7 @@
  *
  * @license http://www.gnu.org/copyleft/gpl.html
  */
-class Tx_PtExtbase_ViewHelpers_Be_IconViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+class IconViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
     /**
      * Renders an icon link as known from the TYPO3 backend

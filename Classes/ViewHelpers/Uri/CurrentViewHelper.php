@@ -1,5 +1,5 @@
 <?php
-
+namespace PunktDE\PtExtbase\ViewHelpers\Uri;
 /***************************************************************
  *  Copyright notice
  *
@@ -33,7 +33,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package Viewhelpers
  * @subpackage Uri
  */
-class Tx_PtExtbase_ViewHelpers_Uri_CurrentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class CurrentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper

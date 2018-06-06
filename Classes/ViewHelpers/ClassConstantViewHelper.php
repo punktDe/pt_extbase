@@ -1,6 +1,7 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers;
 
-class Tx_PtExtbase_ViewHelpers_ClassConstantViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ClassConstantViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * @param string $className

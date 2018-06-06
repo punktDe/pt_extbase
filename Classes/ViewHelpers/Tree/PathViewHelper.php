@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers\Tree;
 /***************************************************************
 *  Copyright notice
 *
@@ -30,18 +31,18 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Category
  */
-class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class PathViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
-     * @var Tx_PtExtbase_Tree_NodePathBuilder
+     * @var \Tx_PtExtbase_Tree_NodePathBuilder
      */
     protected $nodePathBuilder;
 
 
     /**
-     * @param Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder
+     * @param \Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder
      */
-    public function injectNodePathBuilder(Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder)
+    public function injectNodePathBuilder(\Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder)
     {
         $this->nodePathBuilder = $nodePathBuilder;
     }
@@ -66,7 +67,7 @@ class Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper extends \TYPO3\CMS\Fluid\Core
      */
     public function render()
     {
-        $this->nodePathBuilder = Tx_PtExtbase_Tree_NodePathBuilder::getInstanceByRepositoryAndNamespace(
+        $this->nodePathBuilder = \Tx_PtExtbase_Tree_NodePathBuilder::getInstanceByRepositoryAndNamespace(
             $this->arguments['repository'], $this->arguments['namespace']
         );
 

@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers\Format;
 /*
  * Copyright notice
  * 
@@ -21,7 +22,7 @@
  * 
  * This copyright notice MUST APPEAR in all copies of the script!
  */
-class Tx_PtExtbase_ViewHelpers_Format_RemoveSpacesBetweenTagsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class RemoveSpacesBetweenTagsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * Initialize arguments

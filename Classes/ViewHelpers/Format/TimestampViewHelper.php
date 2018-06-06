@@ -1,4 +1,5 @@
 <?php
+namespace ÜunktDe\PtExtbase\ViewHelpers\Format;
 /***************************************************************
 *  Copyright notice
 *
@@ -28,7 +29,7 @@
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class Tx_PtExtbase_ViewHelpers_Format_TimestampViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class TimestampViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * Initialize arguments

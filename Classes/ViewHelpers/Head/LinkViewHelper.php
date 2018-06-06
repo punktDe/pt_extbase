@@ -1,5 +1,5 @@
 <?php
-
+namespace PunktDe\PtExtbase\ViewHelpers\Head;
 /***************************************************************
  *  Copyright notice
  *
@@ -32,7 +32,7 @@
  * @package Viewhelpers
  * @subpackage Content/Head
  */
-class Tx_PtExtbase_ViewHelpers_Head_LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
+class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
 {
     /**
      * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper

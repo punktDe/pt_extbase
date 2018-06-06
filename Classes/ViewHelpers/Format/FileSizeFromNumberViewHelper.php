@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers\Format;
 /***************************************************************
  *  Copyright notice
  *
@@ -32,7 +33,7 @@
  * @package ViewHelpers
  * @subpackage Format
  */
-class Tx_PtExtbase_ViewHelpers_Format_FileSizeFromNumberViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class FileSizeFromNumberViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
     /**
      * Renders the file size from a given size.
