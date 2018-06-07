@@ -23,13 +23,15 @@ namespace PunktDe\PtExtbase\ViewHelpers;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * Merge Arguments ViewHelper
  *
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class MergeArgumentsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class MergeArgumentsViewHelper extends AbstractViewHelper
 {
     /**
      * Render

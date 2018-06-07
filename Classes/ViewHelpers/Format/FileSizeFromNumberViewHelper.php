@@ -24,6 +24,9 @@ namespace PunktDe\PtExtbase\ViewHelpers\Format;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * Viewhelper for rendering a file size e.g. 1 kb from a given bytesize 1024
  *
@@ -33,7 +36,7 @@ namespace PunktDe\PtExtbase\ViewHelpers\Format;
  * @package ViewHelpers
  * @subpackage Format
  */
-class FileSizeFromNumberViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class FileSizeFromNumberViewHelper extends AbstractViewHelper
 {
     /**
      * Renders the file size from a given size.

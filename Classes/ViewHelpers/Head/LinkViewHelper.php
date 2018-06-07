@@ -25,6 +25,9 @@ namespace PunktDe\PtExtbase\ViewHelpers\Head;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+
 /**
  * ViewHelper used to render a HEAD meta tag
  *
@@ -32,7 +35,7 @@ namespace PunktDe\PtExtbase\ViewHelpers\Head;
  * @package Viewhelpers
  * @subpackage Content/Head
  */
-class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
+class LinkViewHelper extends AbstractTagBasedViewHelper
 {
     /**
      * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper
@@ -50,7 +53,7 @@ class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedVi
 
 
     /**
-     * @var t3lib_PageRenderer
+     * @var PageRenderer
      */
     protected $pageRenderer;
 
@@ -95,7 +98,7 @@ class LinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedVi
 
         if ($this->pageRenderer != null) {
             $metaTag = $this->tag->render();
-            $this->pageRenderer->addMetaTag($this->tag->render($metaTag));
+            $this->pageRenderer->addMetaTag($metaTag);
         }
     }
 

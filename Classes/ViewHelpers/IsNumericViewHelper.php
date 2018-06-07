@@ -23,7 +23,8 @@ namespace PunktDe\PtExtbase\ViewHelpers;
 
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
-class IsNumericViewHelper extends AbstractViewHelper {
+class IsNumericViewHelper extends AbstractViewHelper
+{
 
     public function initializeArguments()
     {

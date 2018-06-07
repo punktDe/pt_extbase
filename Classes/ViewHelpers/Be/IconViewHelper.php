@@ -1,5 +1,6 @@
 <?php
 namespace PunktDe\PtExtbase\ViewHelpers\Be;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -27,6 +28,7 @@ namespace PunktDe\PtExtbase\ViewHelpers\Be;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
 /*
  * = Examples =
  *
@@ -51,7 +53,7 @@ namespace PunktDe\PtExtbase\ViewHelpers\Be;
  *
  * @license http://www.gnu.org/copyleft/gpl.html
  */
-class IconViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
+class IconViewHelper extends AbstractBackendViewHelper
 {
     /**
      * Renders an icon link as known from the TYPO3 backend
@@ -62,6 +64,7 @@ class IconViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendView
      */
     public function render($icon = 'actions-document-close', $title = '')
     {
+
         return \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($icon, ['title' => $title]);
     }
 }

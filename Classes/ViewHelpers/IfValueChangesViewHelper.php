@@ -27,6 +27,8 @@ namespace PunktDe\PtExtbase\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
+
 /**
  * IfValueChangesViewHelper
  *
@@ -88,7 +90,7 @@ namespace PunktDe\PtExtbase\ViewHelpers;
  * @package ViewHelpers
  * @see Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest
  */
-class IfValueChangesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+class IfValueChangesViewHelper extends AbstractConditionViewHelper
 {
     /**
      * @var null

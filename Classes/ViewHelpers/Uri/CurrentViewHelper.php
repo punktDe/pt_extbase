@@ -25,6 +25,7 @@ namespace PunktDE\PtExtbase\ViewHelpers\Uri;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * ViewHelper used to render a HEAD meta tag
@@ -33,7 +34,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package Viewhelpers
  * @subpackage Uri
  */
-class CurrentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class CurrentViewHelper extends AbstractViewHelper
 {
     /**
      * Disable the escaping interceptor because otherwise the child nodes would be escaped before this view helper

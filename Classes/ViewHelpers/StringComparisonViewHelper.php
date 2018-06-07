@@ -1,6 +1,9 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers;
 
-class Tx_PtExtbase_ViewHelpers_StringComparisonViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
+class StringComparisonViewHelper extends AbstractViewHelper
 {
     /**
      * @param string $input

@@ -22,7 +22,9 @@ namespace PunktDe\PtExtbase\ViewHelpers\Format;
  * 
  * This copyright notice MUST APPEAR in all copies of the script!
  */
-class RemoveSpacesBetweenTagsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
+class RemoveSpacesBetweenTagsViewHelper extends AbstractViewHelper
 {
     /**
      * Initialize arguments
@@ -52,4 +54,3 @@ class RemoveSpacesBetweenTagsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper
         return $result;
     }
 }
-?> 

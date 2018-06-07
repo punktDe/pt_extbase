@@ -39,7 +39,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 class Tx_PtExtbase_Div
 {
     /**
-     * @var tslib_cObj
+     * @var TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
      */
     protected static $cObj;
 
@@ -707,7 +707,7 @@ class Tx_PtExtbase_Div
     /**
      * return the cObj object
      *
-     * @return tslib_cObj;
+     * @return TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
      */
     public static function getCobj()
     {

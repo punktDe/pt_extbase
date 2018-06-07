@@ -28,6 +28,7 @@ namespace PunktDe\PtExtbase\ViewHelpers\Javascript;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class implements a viewhelper for inline javascript
@@ -42,7 +43,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * extKey: Extension Key
  * pluginNamespace: Plugin Namespace for GET/POST parameters
  */
-class TemplateViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class TemplateViewHelper extends AbstractViewHelper
 {
     /**
      * @inject

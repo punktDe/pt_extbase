@@ -1,6 +1,5 @@
 <?php
 namespace PunktDe\PtExtbase\ViewHelpers;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
  *  Copyright (C) 2017 punkt.de GmbH
@@ -22,7 +21,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class RedirectToPageIdViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+
+class RedirectToPageIdViewHelper extends AbstractTagBasedViewHelper
 {
     /**
      * @param integer $pageId

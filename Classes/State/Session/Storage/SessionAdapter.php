@@ -119,7 +119,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
      * Saves a value (objects and arrays will be serialized before) into a session key of FE _browser_ session or a BE user session *immediately* (does not wait for complete script execution)
      *
      * @param   string $key name of session key to save value into
-     * @param   string $val value to be saved with session key
+     * @param   mixed $val value to be saved with session key
      * @param   bool $allowSerializing (optional) allow automatic serializing of objects within this method
      * @param   string $foreignSessionId ID of foreign session (other than session currently used for request)
      * @throws  Exception   if no valid frontend user and no valid backend user found

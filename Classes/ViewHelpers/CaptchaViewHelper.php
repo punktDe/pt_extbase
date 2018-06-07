@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers;
 /***************************************************************
 *  Copyright notice
 *
@@ -22,13 +23,15 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+
 /**
  * Captcha
  *
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_CaptchaViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
+class CaptchaViewHelper extends AbstractTagBasedViewHelper
 {
     protected $tagName = 'img';
 

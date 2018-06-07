@@ -1,4 +1,5 @@
 <?php
+namespace Punktde\PtExtbase\ViewHelpers;
 /***************************************************************
 *  Copyright notice
 *
@@ -22,13 +23,15 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * Request Arguments ViewHelper
  *
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_RequestArgumentsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class RequestArgumentsViewHelper extends AbstractViewHelper
 {
     /**
      * @var \TYPO3\CMS\Extbase\Mvc\Request

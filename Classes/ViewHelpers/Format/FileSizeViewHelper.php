@@ -25,11 +25,12 @@ namespace PunktDe\PtExtbase\ViewHelpers\Format;
 ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * @package ViewHelpers
  */
-class FileSizeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class FileSizeViewHelper extends AbstractViewHelper
 {
     /**
      * @param string $labels Labels in format  "B| KB| MB| GB"

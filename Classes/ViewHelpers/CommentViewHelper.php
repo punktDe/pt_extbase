@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *
@@ -26,6 +27,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * CommentViewHelper
  * Displays nothing by default or the comment, if the variable "show" is set to true
@@ -34,7 +37,7 @@
  * @author Daniel Lienert 
  * @package ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_CommentViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class CommentViewHelper extends AbstractViewHelper
 {
     /**
      * Return nothing or the comment if the variable is set to "show"

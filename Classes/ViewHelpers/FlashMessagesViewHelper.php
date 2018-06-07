@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers;
 /***************************************************************
 *  Copyright notice
 *
@@ -22,6 +23,8 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 /**
  * View helper which renders the flash messages (if there are any) as an unsorted list.
@@ -71,7 +74,7 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @api
  */
-class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper
+class FlashMessagesViewHelper extends AbstractTagBasedViewHelper
 {
     const RENDER_MODE_UL = 'ul';
     const RENDER_MODE_DIV = 'div';
@@ -128,7 +131,7 @@ class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends \TYPO3\CMS\Fluid\
             $this->tag->addAttribute('class', $this->arguments['class']);
         }
         $tagContent = '';
-        foreach ($flashMessages as $singleFlashMessage) { /* @var $singleFlashMessage t3lib_FlashMessage */
+        foreach ($flashMessages as $singleFlashMessage) { /* @var $singleFlashMessage \TYPO3\CMS\Core\Messaging\FlashMessage */
             $tagContent = '<li';
 
             // Set individual class for each error message
@@ -152,7 +155,7 @@ class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends \TYPO3\CMS\Fluid\
     /*
      * Renders the flash messages as nested divs
      *
-     * @param array $flashMessages array<t3lib_FlashMessage>
+     * @param array $flashMessages array<\TYPO3\CMS\Core\Messaging\FlashMessage>
      * @param array $messageCssClasses
      * @return string
      */
@@ -166,7 +169,7 @@ class Tx_PtExtbase_ViewHelpers_FlashMessagesViewHelper extends \TYPO3\CMS\Fluid\
         }
         $tagContent = '';
         foreach ($flashMessages as $singleFlashMessage) {
-            /* @var $singleFlashMessage t3lib_FlashMessage */
+            /* @var $singleFlashMessage \TYPO3\CMS\Core\Messaging\FlashMessage */
             $tagContent .= '<div';
 
             // Set individual css class

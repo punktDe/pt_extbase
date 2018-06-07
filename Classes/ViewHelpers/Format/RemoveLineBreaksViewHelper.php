@@ -23,13 +23,15 @@ namespace PunktDe\PtExtbase\ViewHelpers\Format;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * Remove Line Breaks ViewHelper
  *
  * @package pt_extbase
  * @subpackage ViewHelpers\Format
  */
-class RemoveLineBreaksViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class RemoveLineBreaksViewHelper extends AbstractViewHelper
 {
     /**
      * Initialize arguments

@@ -27,14 +27,17 @@ namespace PunktDe\PtExtbase\ViewHelpers\Tree;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\ViewHelpers\Javascript\TemplateViewHelper;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper;
 
 /**
  * Class implements a widget viewhelper for rendering trees that can be manipulated using ajax requests
  *
  * @author Daniel Lienert
  */
-class ManipulatorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper
+class ManipulatorViewHelper extends TextfieldViewHelper
 {
     /**
      * Initialize arguments.
@@ -50,12 +53,12 @@ class ManipulatorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldV
         $this->registerArgument('moduleName', 'string', 'Specify the module name', false);
     }
 
-    
 
     /**
      * @param bool $required If the field is required or not
      * @param string $type
      * @return string
+     * @throws \Exception
      */
     public function render($required = false, $type = 'text')
     {
@@ -66,16 +69,19 @@ class ManipulatorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldV
     }
 
 
-
+    /**
+     * @return string
+     * @throws \Exception
+     */
     protected function getTreeJS()
     {
 
-        /** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
-        $treeViewHelper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
+        /** @var TemplateViewHelper $treeViewHelper  */
+        $treeViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
 
         $moduleUrl = '';
         if (isset($this->arguments['moduleName'])) {
-            $moduleUrl = TYPO3\CMS\Backend\Utility\BackendUtility::getModuleUrl($this->arguments['moduleName']);
+            $moduleUrl = BackendUtility::getModuleUrl($this->arguments['moduleName']);
         }
 
         return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/ManipulationTree.js',
@@ -99,9 +105,9 @@ class ManipulatorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldV
     }
 
 
-
     /**
      * Save settings to user session
+     * @throws \Exception
      */
     protected function saveTreeSettingsToSession()
     {
@@ -111,7 +117,7 @@ class ManipulatorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldV
             'respectEnableFields' => $this->arguments['respectEnableFields'],
         ];
 
-        Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->store('Tx_PtExtbase_Tree_Configuration', $treeSettings);
+        \Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->store('Tx_PtExtbase_Tree_Configuration', $treeSettings);
     }
 
 
@@ -123,7 +129,7 @@ class ManipulatorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldV
     protected function getBaseURL()
     {
         if (TYPO3_MODE == 'BE') {
-            $baseUrl = \TYPO3\CMS\Backend\Utility\BackendUtility::getAjaxUrl('ptxAjax');
+            $baseUrl = BackendUtility::getAjaxUrl('ptxAjax');
         } elseif (TYPO3_MODE == 'FE') {
             $baseUrl = 'index.php?eID=ptxAjax';
         }

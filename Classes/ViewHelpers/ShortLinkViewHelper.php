@@ -23,13 +23,15 @@ namespace PunktDe\PtExtbase\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use ApacheSolrForTypo3\Solr\ViewHelpers\Backend\AbstractSolrTagBasedViewHelper;
+
 /**
  * Request Arguments ViewHelper
  *
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class ShortLinkViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ShortLinkViewHelper extends AbstractSolrTagBasedViewHelper
 {
     /**
      * @param integer $length

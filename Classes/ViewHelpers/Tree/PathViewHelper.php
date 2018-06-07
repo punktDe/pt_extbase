@@ -24,6 +24,8 @@ namespace PunktDe\PtExtbase\ViewHelpers\Tree;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * View helper renders the path of a category
  *
@@ -31,7 +33,7 @@ namespace PunktDe\PtExtbase\ViewHelpers\Tree;
  * @package pt_extbase
  * @subpackage ViewHelpers\Category
  */
-class PathViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class PathViewHelper extends AbstractViewHelper
 {
     /**
      * @var \Tx_PtExtbase_Tree_NodePathBuilder

@@ -1,4 +1,5 @@
 <?php
+namespace PuntDe\PtExtbase\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *
@@ -22,13 +23,15 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * Request Arguments ViewHelper
  *
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_TwoClickShareViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class TwoClickShareViewHelper extends AbstractViewHelper
 {
     /**
      * @var \TYPO3\CMS\Extbase\Mvc\Request
@@ -55,15 +58,15 @@ class Tx_PtExtbase_ViewHelpers_TwoClickShareViewHelper extends \TYPO3\CMS\Fluid\
         $shareDiv = '<div id="two-click-share"></div>';
 
         $javascriptCode = '
-jQuery(document).ready(function($){
-	if($("#two-click-share").length > 0) {
-		if(jQuery.fn.socialSharePrivacy !== undefined) {
-			$("#two-click-share").socialSharePrivacy(' . $this->arguments['options'] . ');
-		} else {
-			$("#two-click-share").html("<div class=\"error\">Please activate socialSharePrivacy() by including the proper js file!</div>");
-		}
-	}
-});';
+                        jQuery(document).ready(function($){
+                            if($("#two-click-share").length > 0) {
+                                if(jQuery.fn.socialSharePrivacy !== undefined) {
+                                    $("#two-click-share").socialSharePrivacy(' . $this->arguments['options'] . ');
+                                } else {
+                                    $("#two-click-share").html("<div class=\"error\">Please activate socialSharePrivacy() by including the proper js file!</div>");
+                                }
+                            }
+                        });';
 
         $html = $shareDiv . "\n" . '<script type="text/javascript">' . $javascriptCode . '</script>';
 

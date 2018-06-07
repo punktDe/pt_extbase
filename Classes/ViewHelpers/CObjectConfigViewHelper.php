@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers;
 /***************************************************************
 *  Copyright notice
 *
@@ -22,13 +23,16 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * cObject Array viewHelper
  *
  * @package pt_extbase
  * @subpackage ViewHelpers
  */
-class Tx_PtExtbase_ViewHelpers_CObjectConfigViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class CObjectConfigViewHelper extends AbstractViewHelper
 {
     /**
      * Initialize arguments
@@ -54,9 +58,8 @@ class Tx_PtExtbase_ViewHelpers_CObjectConfigViewHelper extends \TYPO3\CMS\Fluid\
         }
 
         if ($data) {
-            Tx_PtExtbase_Div::getCobj()->start($data);
+            \Tx_PtExtbase_Div::getCobj()->start($data);
         }
-
-        return Tx_PtExtbase_Div::getCobj()->cObjGetSingle($config['_typoScriptNodeValue'], Tx_Extbase_Service_TypoScriptService::convertPlainArrayToTypoScriptArray($config));
+        return \Tx_PtExtbase_Div::getCobj()->cObjGetSingle($config['_typoScriptNodeValue'], TypoScriptService::convertPlainArrayToTypoScriptArray($config));
     }
 }

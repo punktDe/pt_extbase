@@ -24,6 +24,8 @@ namespace PunktDe\PtExtbase\ViewHelpers\Rbac;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
+
 
 /**
  * Class implements an access viewhelper for RBAC
@@ -64,7 +66,7 @@ namespace PunktDe\PtExtbase\ViewHelpers\Rbac;
  * @author Michael Knoll <knoll@punkt.de>
  * @author Daniel Lienert <lienert@punkt.de>
  */
-class HasAccessViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper
+class HasAccessViewHelper extends AbstractConditionViewHelper
 {
     /**
      * Holds instance of rbac service

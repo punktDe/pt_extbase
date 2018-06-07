@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *
@@ -27,6 +28,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * Viewhelper to get the language key (de, en) for a language id. Depends on correct
  * configuration in TypoScript.
@@ -34,7 +36,7 @@
  * You can use the upperCase-parameter to return the key in complete upper case (DE, EN...)
  *
  */
-class Tx_PtExtbase_ViewHelpers_LanguageKeyViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class LanguageKeyViewHelper extends AbstractViewHelper
 {
     /**
      * Get the language key for the current language

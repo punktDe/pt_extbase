@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *
@@ -23,6 +24,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
  * Usage Example
  *
@@ -30,7 +33,7 @@
  */
 
 
-class Tx_PtExtbase_ViewHelpers_ImplodeViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class ImplodeViewHelper extends AbstractViewHelper
 {
     /**
      * @param string $glue

@@ -50,34 +50,34 @@ class SliderViewHelper extends TextfieldViewHelper
 
 
         $value = $sliderMin;
-        if ($this->getValue() > $value) {
-            $value = $this->getValue();
+        if ($this->getValueAttribute() > $value) {
+            $value = $this->getValueAttribute();
         }
 
         $sliderElementTemplate = '<div class="slider-element-wrap">%s<div class="slider-bar-wrap"><div class="slider-element" id="slider-' . $id . '"></div></div><div class="slider-input-wrap">%s</div></div>';
 
         $javascriptCode = '<script type="text/javascript">
-$(function() {
-	if (jQuery.ui) {
-		jQuery("#slider-' . $id . '").slider({
-			range: "min",
-			min: ' . $sliderMin . ',
-			max: ' . $sliderMax . ',
-			step: ' . $sliderStep . ',
-			value: ' . $value . ',
-			slide: function(event, ui) {
-				jQuery(ui.handle).closest(".slider-element-wrap").find("input").val(ui.value);
-			}
-		});
-
-		jQuery("#' . $id . '").val(' . $value . ').live("keyup", function() {
-			if (' . $sliderMin . ' <= this.value && this.value <= ' . $sliderMax . ') {
-				jQuery(this).closest(".slider-element-wrap").find(".slider-element").slider("value", this.value);
-			}
-		});
-	}
-});
-</script>';
+                            $(function() {
+                                if (jQuery.ui) {
+                                    jQuery("#slider-' . $id . '").slider({
+                                        range: "min",
+                                        min: ' . $sliderMin . ',
+                                        max: ' . $sliderMax . ',
+                                        step: ' . $sliderStep . ',
+                                        value: ' . $value . ',
+                                        slide: function(event, ui) {
+                                            jQuery(ui.handle).closest(".slider-element-wrap").find("input").val(ui.value);
+                                        }
+                                    });
+                            
+                                    jQuery("#' . $id . '").val(' . $value . ').live("keyup", function() {
+                                        if (' . $sliderMin . ' <= this.value && this.value <= ' . $sliderMax . ') {
+                                            jQuery(this).closest(".slider-element-wrap").find(".slider-element").slider("value", this.value);
+                                        }
+                                    });
+                                }
+                            });
+                            </script>';
 
         return sprintf($sliderElementTemplate, $javascriptCode, $inputString);
     }

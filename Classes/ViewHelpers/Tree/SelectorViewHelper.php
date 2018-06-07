@@ -26,7 +26,9 @@ namespace PuntDe\PtExtbase\ViewHelpers\Tree;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use PunktDe\PtExtbase\ViewHelpers\Javascript\TemplateViewHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper;
 
 /**
  * Class implements a viewhelper that renders a tree selector widget.
@@ -55,7 +57,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @author Daniel Lienert
  */
-class SelectorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper
+class SelectorViewHelper extends TextfieldViewHelper
 {
     /**
      * @var string
@@ -122,9 +124,9 @@ class SelectorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldView
     }
 
 
-
     /**
      * Initialize the viewHelper
+     * @throws \Exception
      */
     public function initialize()
     {
@@ -213,18 +215,18 @@ class SelectorViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldView
     }
 
 
-
     /**
      * Build and return the javascript via the javascript viewHelper
      * @todo refactor JSViewHelper and move the marker code to a separate utility, call the utility here
      *
      * @param string $treeNodes treeNode JSON
      * @return string
+     * @throws \Exception
      */
     protected function getTreeJS($treeNodes)
     {
 
-        /** @var Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper $treeViewHelper  */
+        /** @var TemplateViewHelper $treeViewHelper  */
         $treeViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
         //$treeViewHelper->setControllerContext($this->controllerContext);
 
