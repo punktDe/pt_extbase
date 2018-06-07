@@ -32,7 +32,7 @@ use PunktDe\PtExtbase\Utility\Curl\Response;
  * @package pt_extbase
  * @subpackage Tests\Unit\Domain\Utlity
  */
-class ResponseTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class ResponseTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
 {
     /**
      * @var \PunktDe\PtExtbase\Utility\Curl\Response

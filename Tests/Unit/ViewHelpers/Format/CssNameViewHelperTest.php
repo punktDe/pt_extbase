@@ -53,7 +53,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_CssNameViewHelperTest extends \
     */
     public function render($input, $formatedOutput)
     {
-        $viewHelper = $this->getMockBuilder(Tx_PtExtbase_ViewHelpers_Format_CssNameViewHelper::class)
+        $viewHelper = $this->getMockBuilder(\PunktDe\PtExtbase\ViewHelpers\Format\CssNameViewHelper::class)
             ->setMethods(['renderChildren'])
             ->getMock();
         $viewHelper->expects($this->once())->method('renderChildren')->will($this->returnValue($input));

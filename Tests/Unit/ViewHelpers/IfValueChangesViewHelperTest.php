@@ -37,7 +37,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest extends \
     public function renderCallsExpectedSubpartsInSingleValueMode()
     {
         $ifValueChangesViewHelper =
-            $this->getMockBuilder(Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper::class)
+            $this->getMockBuilder(\PunktDe\PtExtbase\ViewHelpers\IfValueChangesViewHelper::class)
                 ->setMethods(['renderThenChild', 'renderElseChild'])
                 ->getMock();
         $ifValueChangesViewHelper->expects($this->at(0))->method('renderThenChild');
@@ -57,7 +57,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest extends \
     public function renderCallsExpectedSubpartsInMultiValueMode()
     {
         $ifValueChangesViewHelper =
-            $this->getMockBuilder(Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper::class)
+            $this->getMockBuilder(\PunktDe\PtExtbase\ViewHelpers\IfValueChangesViewHelper::class)
                 ->setMethods(['renderThenChild', 'renderElseChild'])
                 ->getMock();
 
@@ -66,7 +66,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest extends \
         $ifValueChangesViewHelper->expects($this->at(2))->method('renderThenChild');
         $ifValueChangesViewHelper->expects($this->at(3))->method('renderElseChild');
         $ifValueChangesViewHelper->expects($this->at(4))->method('renderThenChild');
-        /* @var $ifValueChangesViewHelper Tx_PtExtbase_ViewHelpers_IfValueChangesViewHelper */
+        /* @var $ifValueChangesViewHelper \PunktDe\PtExtbase\ViewHelpers\IfValueChangesViewHelper */
 
         $ifValueChangesViewHelper->render('1-1', 'outer');
         $ifValueChangesViewHelper->render('1-1', 'outer');

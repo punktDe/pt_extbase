@@ -30,7 +30,7 @@ use PunktDe\PtExtbase\Utility\Files;
 use PunktDe\PtExtbase\Utility\Wget\WgetLog;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class WgetLogParsertest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class WgetLogParsertest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
 {
     /**
      * @var \PunktDe\PtExtbase\Utility\Wget\WgetLogParser

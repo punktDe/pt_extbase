@@ -29,7 +29,7 @@ namespace PunktDe\PtExtbase\Tests\Utility\Wget;
  * @package pt_extbase
  * @subpackage Tests\Unit\Domain\Utlity
  */
-class WgetCommandTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class WgetCommandTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
 {
     /**
      * @var \PunktDe\PtExtbase\Utility\Wget\WgetCommand

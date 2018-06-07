@@ -29,7 +29,7 @@ use PunktDe\PtExtbase\Utility\TcaManager;
  * @package pt_dppp_zca
  * @subpackage Tests\Unit\Domain\Utlity
  */
-class Tx_PtExtBase_Utility_TcaManagerTest extends \TYPO3\CMS\Core\Tests\UnitTestCase
+class Tx_PtExtBase_Utility_TcaManagerTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
 {
     protected $proxyClass;
 

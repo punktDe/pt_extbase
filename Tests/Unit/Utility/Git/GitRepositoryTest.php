@@ -21,7 +21,7 @@ namespace PunktDe\PtExtbase\Tests\Unit\Utility\Git;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \TYPO3\CMS\Core\Tests\UnitTestCase;
+use \TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * Git Repository Test Case

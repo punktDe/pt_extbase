@@ -38,14 +38,14 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends \Punkt
     protected $accessibleProxyClass;
 
     /**
-     * @var Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper
+     * @var \PunktDe\PtExtbase\ViewHelpers\Tree\PathViewHelper
      */
     protected $accessibleProxy;
 
 
     public function setUp()
     {
-        $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper');
+        $this->accessibleProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\ViewHelpers\Tree\PathViewHelper');
         $this->accessibleProxy = new $this->accessibleProxyClass();
     }
 
@@ -59,7 +59,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends \Punkt
      */
     public function classExists()
     {
-        $this->assertTrue(class_exists('Tx_PtExtbase_ViewHelpers_Tree_PathViewHelper'));
+        $this->assertTrue(class_exists('\PunktDe\PtExtbase\ViewHelpers\Tree\PathViewHelper'));
     }
 
 
