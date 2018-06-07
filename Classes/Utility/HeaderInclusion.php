@@ -37,7 +37,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonInterface
 {
     /**
-    * @var t3lib_PageRenderer
+    * @var \TYPO3\CMS\Core\Page\PageRenderer
     */
     protected $pageRenderer;
     
@@ -72,7 +72,7 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonI
             $GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
         }
 
-        $this->pageRenderer = $GLOBALS['SOBE']->doc->getPageRenderer();
+        $this->pageRenderer = $GLOBALS['SOBE']->doc->initPageRenderer();
     }
 
 
@@ -83,7 +83,7 @@ class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonI
     protected function initializeFrontend()
     {
         $GLOBALS['TSFE']->backPath = TYPO3_mainDir;
-        $this->pageRenderer = $GLOBALS['TSFE']->getPageRenderer();
+        $this->pageRenderer = $GLOBALS['TSFE']->initPageRenderer();
     }
 
 

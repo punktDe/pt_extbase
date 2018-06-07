@@ -191,13 +191,11 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 
         // TYPO3 Frontend mode
         if (TYPO3_MODE == 'FE' && ($GLOBALS['TSFE']->fe_user instanceof \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication)) {
-            if (!empty($GLOBALS['TSFE']->fe_user->sesData[$key])) {
-                unset($GLOBALS['TSFE']->fe_user->sesData[$key]);
-                $GLOBALS['TSFE']->fe_user->sesData_change = 1;
-                $GLOBALS['TSFE']->fe_user->storeSessionData();
-                if (TYPO3_DLOG) {
-                    GeneralUtility::devLog(sprintf('Deleting "%s" from FE browser session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
-                }
+            $GLOBALS['TSFE']->fe_user->setKey('ses', $key, null);
+            $GLOBALS['TSFE']->fe_user->sesData_change = 1;
+            $GLOBALS['TSFE']->fe_user->storeSessionData();
+            if (TYPO3_DLOG) {
+                GeneralUtility::devLog(sprintf('Deleting "%s" from FE browser session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
             }
 
             // TYPO3 Backend mode

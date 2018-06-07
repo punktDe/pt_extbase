@@ -49,7 +49,7 @@ class Tx_PtExtbase_View_BaseView extends \TYPO3\CMS\Fluid\View\TemplateView
      */
     protected $templateRootPathPattern = '@packageResourcesPath/Private/Templates';
     
-    
+
     
     /**
      * (non-PHPdoc)
@@ -125,7 +125,7 @@ class Tx_PtExtbase_View_BaseView extends \TYPO3\CMS\Fluid\View\TemplateView
         if (substr(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getExtensionVersion('fluid'), 0, 3) == '1.4') {
             return parent::getTemplateSource($actionName);
         }
-        
+
         if ($this->templatePathAndFilename !== null) {
             $templatePathAndFilename = $this->templatePathAndFilename;
         } else {
@@ -164,12 +164,12 @@ class Tx_PtExtbase_View_BaseView extends \TYPO3\CMS\Fluid\View\TemplateView
 
 
 
-    /**	  
-     * 
+    /**
+     *
      * Figures out which partial to use.
-     * 
+     *
      * We overwrite this method to make sure that we can use something like this in our partial:
-     * 
+     *
      * partialPath = EXT:pt_extbase/Resources/Private/Partials/Filter/StringFilter.html
      *
      * @param string $partialName The name of the partial
@@ -190,8 +190,8 @@ class Tx_PtExtbase_View_BaseView extends \TYPO3\CMS\Fluid\View\TemplateView
             }
         }
     }
-    
-    
+
+
     /**
      * Resolve the template path and filename for the given action. If $actionName
      * is NULL, looks into the current request.

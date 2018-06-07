@@ -1482,8 +1482,8 @@ class Tx_PtExtbase_Div
             $result .= BackendUtility::deleteClause($table);
         }
         if ($alias != '') {
-            $search = $table.'.';
-            $replace = $alias.'.';
+            $search = '`'.$table.'`.';
+            $replace = '`'.$alias.'`.';
             $result = str_replace($search, $replace, $result);
         }
         return $result;

@@ -204,25 +204,54 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
      */
     protected function setCustomPathsInView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
     {
-        
+        $this->setCustomTeplatePathInView($view);
+        $this->setCustomPartialPathsInView($view);
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view
+     * @throws Exception
+     */
+    protected function setCustomTeplatePathInView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
+    {
         // We use template method here to enable adding further informations in extending controllers
         $templatePathAndFilename = $this->getTsTemplatePathAndFilename();
-        
-        // We have no template path set by TS --> fallback
-        if (!$templatePathAndFilename) {
-            $templatePathAndFilename = $this->templatePathAndFileName;
-        }
-        
+
         if (isset($templatePathAndFilename) && strlen($templatePathAndFilename) > 0) {
             // We enable FILE: and EXT: prefix for template path
             if (file_exists(GeneralUtility::getFileAbsFileName($templatePathAndFilename))) {
                 $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templatePathAndFilename));
             } else {
-                throw new Exception('Given template path and filename could not be found or resolved: ' . GeneralUtility::getFileAbsFileName($templatePathAndFilename), 1284655109);
+                throw new Exception('Given template path and filename could not be found or resolved: ' . GeneralUtility::getFileAbsFileName($templatePathAndFilename),
+                    1284655109);
             }
         }
     }
-    
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view
+     * @throws Exception
+     */
+    protected function setCustomPartialPathsInView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
+    {
+        // We use template method here to enable adding further informations in extending controllers
+        $partialRootPaths = $this->getTsPartialRootPaths();
+
+        if (isset($partialRootPaths) && count($partialRootPaths) > 0) {
+            $resolvedPartialRootPaths = [];
+            foreach ($partialRootPaths as $partialRootPath) {
+                $resolvedPartialRootPath = GeneralUtility::getFileAbsFileName($partialRootPath);
+                // We enable FILE: and EXT: prefix for template path
+                if (is_dir($resolvedPartialRootPath)) {
+                    $resolvedPartialRootPaths[] = $resolvedPartialRootPath;
+                } else {
+                    throw new Exception('Given partial root path could not be found or resolved: ' . $resolvedPartialRootPath,
+                        1528360346);
+                }
+            }
+            $view->setPartialRootPaths($resolvedPartialRootPaths);
+        }
+    }
     
     
     /**
@@ -235,7 +264,26 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
      */
     protected function getTsTemplatePathAndFilename()
     {
-        return $this->settings['controller'][$this->request->getControllerName()][$this->request->getControllerActionName()]['template'];
+        return $this->getTsCustomViewOptionsArray()['template'];
+    }
+
+    /**
+     * Template method for getting partial paths from TypoScript settings.
+     *
+     * Overwrite this method in extending controllers to add further namespace conventions etc.
+     *
+     * @return array partial paths
+     */
+    protected function getTsPartialRootPaths()
+    {
+        return $this->getTsCustomViewOptionsArray()['partialRootPaths'];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getTsCustomViewOptionsArray() {
+        return $this->settings['controller'][$this->request->getControllerName()][$this->request->getControllerActionName()];
     }
 
     
@@ -328,4 +376,6 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
         }
         return $result;
     }
+
+
 }

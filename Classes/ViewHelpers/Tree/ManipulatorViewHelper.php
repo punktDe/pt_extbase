@@ -31,6 +31,7 @@ use PunktDe\PtExtbase\ViewHelpers\Javascript\TemplateViewHelper;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Class implements a widget viewhelper for rendering trees that can be manipulated using ajax requests
@@ -60,7 +61,7 @@ class ManipulatorViewHelper extends TextfieldViewHelper
      * @return string
      * @throws \Exception
      */
-    public function render($required = false, $type = 'text')
+    public function render()
     {
         $treeDiv = $this->getTreeDiv();
         $treeJS = $this->getTreeJS();
@@ -77,7 +78,7 @@ class ManipulatorViewHelper extends TextfieldViewHelper
     {
 
         /** @var TemplateViewHelper $treeViewHelper  */
-        $treeViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
+        $treeViewHelper = GeneralUtility::makeInstance(ObjectManager::class)->get(TemplateViewHelper::class);
 
         $moduleUrl = '';
         if (isset($this->arguments['moduleName'])) {

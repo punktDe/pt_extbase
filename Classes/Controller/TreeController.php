@@ -325,7 +325,9 @@ class Tx_PtExtbase_Controller_TreeController extends  \TYPO3\CMS\Extbase\Mvc\Con
     protected function returnDataAndShutDown($content = '')
     {
         $this->persistenceManager->persistAll();
-        \TYPO3\CMS\Core\Utility\GeneralUtility::cleanOutputBuffers();
+        while (ob_end_clean()) {
+        }
+        header('Content-Encoding: None', true);
         echo $content;
         exit();
     }
