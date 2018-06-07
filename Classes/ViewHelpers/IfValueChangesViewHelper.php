@@ -109,7 +109,7 @@ class IfValueChangesViewHelper extends AbstractConditionViewHelper
     /**
      * Initializes the "value" and "key" arguments
      */
-    public function __construct()
+    public function initializeArguments()
     {
         $this->registerArgument('value', 'string', 'Value to be checked for changes.', false);
         $this->registerArgument('key', 'string', 'A key for which to check, whether the value has changed.', false);

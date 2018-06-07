@@ -48,7 +48,9 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest extends \
         $values = ['first', 'first', 'second', 'second'];
 
         foreach ($values as $value) {
-            $ifValueChangesViewHelper->render($value);
+            /** @var \PunktDe\PtExtbase\ViewHelpers\IfValueChangesViewHelper $ifValueChangesViewHelper */
+            $ifValueChangesViewHelper->setArguments(['value' => $value, 'key' => null]);
+            $ifValueChangesViewHelper->render();
         }
     }
 
@@ -66,12 +68,16 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_IfValueChangesViewHelperTest extends \
         $ifValueChangesViewHelper->expects($this->at(2))->method('renderThenChild');
         $ifValueChangesViewHelper->expects($this->at(3))->method('renderElseChild');
         $ifValueChangesViewHelper->expects($this->at(4))->method('renderThenChild');
-        /* @var $ifValueChangesViewHelper \PunktDe\PtExtbase\ViewHelpers\IfValueChangesViewHelper */
-
+        /* @var \PunktDe\PtExtbase\ViewHelpers\IfValueChangesViewHelper $ifValueChangesViewHelper  */
+        $ifValueChangesViewHelper->setArguments(['value' => '1-1', 'key' => 'outer']);
         $ifValueChangesViewHelper->render('1-1', 'outer');
+        $ifValueChangesViewHelper->setArguments(['value' => '1-1', 'key' => 'outer']);
         $ifValueChangesViewHelper->render('1-1', 'outer');
+        $ifValueChangesViewHelper->setArguments(['value' => '1-1', 'key' => 'inner']);
         $ifValueChangesViewHelper->render('1-1', 'inner');
+        $ifValueChangesViewHelper->setArguments(['value' => '1-2', 'key' => 'inner']);
         $ifValueChangesViewHelper->render('1-2', 'inner');
+        $ifValueChangesViewHelper->setArguments(['value' => '1-2', 'key' => 'outer']);
         $ifValueChangesViewHelper->render('1-2', 'outer');
     }
 }
