@@ -45,6 +45,12 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class TemplateViewHelper extends AbstractViewHelper
 {
+
+    /**
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
     /**
      * @inject
      * @var \TYPO3\CMS\Extbase\Service\ExtensionService

@@ -20,7 +20,7 @@ class ProductionExceptionHandler extends Typo3ProductionExceptionHandler
     /**
      * @param \Exception|\Throwable $exception
      */
-    public function echoExceptionWeb($exception)
+    public function echoExceptionWeb(\Throwable $exception)
     {
         $this->sendStatusHeaders($exception);
 
