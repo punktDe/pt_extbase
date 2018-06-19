@@ -37,57 +37,13 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonInterface
 {
     /**
-    * @var \TYPO3\CMS\Core\Page\PageRenderer
-    */
+     * @var \TYPO3\CMS\Core\Page\PageRenderer
+     * @inject
+     */
     protected $pageRenderer;
     
 
     
-    /**
-     * Initialize the object (called by objectManager)
-     * 
-     */
-    public function initializeObject()
-    {
-        if (TYPO3_MODE === 'BE') {
-            $this->initializeBackend();
-        } else {
-            $this->initializeFrontend();
-        }
-    }
-
-
-
-    /**
-     * Initialize Backend specific variables
-     */
-    protected function initializeBackend()
-    {
-        if (!isset($GLOBALS['SOBE'])) {
-            $GLOBALS['SOBE'] = new \stdClass();
-        }
-
-        if (!isset($GLOBALS['SOBE']->doc)) {
-            $GLOBALS['SOBE']->doc = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Backend\Template\DocumentTemplate');
-            $GLOBALS['SOBE']->doc->backPath = $GLOBALS['BACK_PATH'];
-        }
-
-        $this->pageRenderer = $GLOBALS['SOBE']->doc->initPageRenderer();
-    }
-
-
-
-    /**
-     * Initialize Frontend specific variables
-     */
-    protected function initializeFrontend()
-    {
-        $GLOBALS['TSFE']->backPath = TYPO3_mainDir;
-        $this->pageRenderer = $GLOBALS['TSFE']->initPageRenderer();
-    }
-
-
-
     /**
      * Add JS inline code
      *
