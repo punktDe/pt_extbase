@@ -97,6 +97,8 @@ class IfValueChangesViewHelper extends AbstractConditionViewHelper
      */
     protected static $lastValue = null;
 
+    protected $escapeOutput = false;
+
 
 
     /**
@@ -116,29 +118,28 @@ class IfValueChangesViewHelper extends AbstractConditionViewHelper
     }
 
     /**
-     * @param string $value Value to be checked for changes
-     * @param string $key (optional) A key for which to check, whether the value has changed
-     * @return string
+     * @param array $arguments
+     * @return boolean
      */
-    public function render()
+    protected static function evaluateCondition($arguments = null)
     {
-        if ($this->arguments['key'] === null) {
+        if ($arguments['key'] === null) {
 
             // We are in "SINGLE VALUE MODE"
-            if ($this->arguments['value'] != self::$lastValue) {
-                self::$lastValue = $this->arguments['value'];
-                return $this->renderThenChild();
+            if ($arguments['value'] != self::$lastValue) {
+                self::$lastValue = $arguments['value'];
+                return true;
             } else {
-                return $this->renderElseChild();
+                return false;
             }
         } else {
 
             // We are in "MULTI VALUE MODE"
-            if (empty(self::$lastValuesArray[$this->arguments['key']]) || $this->arguments['value'] != self::$lastValuesArray[$this->arguments['key']]) {
-                self::$lastValuesArray[$this->arguments['key']] = $this->arguments['value'];
-                return $this->renderThenChild();
+            if (empty(self::$lastValuesArray[$arguments['key']]) || $arguments['value'] != self::$lastValuesArray[$arguments['key']]) {
+                self::$lastValuesArray[$arguments['key']] = $arguments['value'];
+                return true;
             } else {
-                return $this->renderElseChild();
+                return false;
             }
         }
     }

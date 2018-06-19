@@ -85,7 +85,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CM
     protected function importSchema()
     {
         if ($this->fixture->getSchemaFilePath() != '') {
-            $schemaFilePath = PATH_site . '/' . $this->fixture->getSchemaFilePath();
+            $schemaFilePath = PATH_site . $this->fixture->getSchemaFilePath();
             if (file_exists($schemaFilePath)) {
                 $command[] = 'mysql';
                 $command[] = '-h ' . $this->fixture->getCredentials()->getHostname();

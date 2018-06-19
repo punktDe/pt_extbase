@@ -27,37 +27,36 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\Exception\InvalidTemplateResourceException;
 
 /**
- * Class implements base view with some enhanced features for extension development with Extbase 
- * 
- * @author Michael Knoll 
- * @author Daniel Lienert 
- * @package View
+ * Class implements base view with some enhanced features for extension development with Extbase
  */
 class Tx_PtExtbase_View_BaseView extends \TYPO3\CMS\Fluid\View\TemplateView
 {
     /**
-     * Directory pattern for global partials. Not part of the public API, should not be changed for now.
-     * @var string
+     * @param string $partialName
+     * @param string $sectionName
+     * @param array $variables
+     * @param bool $ignoreUnknown
+     * @return string
      */
-    private $partialPathAndFilenamePattern = '@partialRoot/@partial.@format';
-    
-    
-    
-    /**
-     * Pattern to be resolved for @templateRoot in the other patterns.
-     * @var string
-     */
-    protected $templateRootPathPattern = '@packageResourcesPath/Private/Templates';
-    
-
-    
-    /**
-     * (non-PHPdoc)
-     * @see initializeView() in parent
-     */
-    public function initializeView()
+    public function renderPartial($partialName, $sectionName, array $variables, $ignoreUnknown = false)
     {
+        $expandedPartialPath = GeneralUtility::getFileAbsFileName($partialName);
+
+        if (is_file($expandedPartialPath)) {
+            $partialPath = dirname($expandedPartialPath);
+            $partialName = basename($expandedPartialPath, '.html');
+
+            $templatePaths = $this->baseRenderingContext->getTemplatePaths();
+            $existingPartialRootPaths = $templatePaths->getPartialRootPaths();
+
+            $existingPartialRootPaths[] = $partialPath;
+            $templatePaths->setPartialRootPaths($existingPartialRootPaths);
+        }
+
+        return parent::renderPartial($partialName, $sectionName, $variables, $ignoreUnknown);
     }
+
+
 
 
     /**
