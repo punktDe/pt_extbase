@@ -1,5 +1,5 @@
 <?php
-namespace ÜunktDe\PtExtbase\ViewHelpers\Format;
+namespace PunktDe\PtExtbase\ViewHelpers\Format;
 /***************************************************************
 *  Copyright notice
 *
@@ -63,3 +63,6 @@ class TimestampViewHelper extends AbstractViewHelper
         return $result;
     }
 }
+
+
+// {extlist:namespaces.FormElementName(object:'{filter}' property:'filterValues.{optionValue}')}"

@@ -1,5 +1,5 @@
 <?php
-namespace PuntDe\PtExtbase\ViewHelpers;
+namespace PunktDe\PtExtbase\ViewHelpers;
 /***************************************************************
  *  Copyright notice
  *

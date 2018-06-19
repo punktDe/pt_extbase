@@ -33,7 +33,7 @@
 class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_SelectorViewhelperTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
-     * @var \PuntDe\PtExtbase\ViewHelpers\Tree\SelectorViewHelper
+     * @var \PunktDe\PtExtbase\ViewHelpers\Tree\SelectorViewHelper
      */
     protected $accessibleProxyClass;
 
@@ -45,7 +45,7 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_SelectorViewhelperTest extends \P
 
     public function setUp()
     {
-        $this->accessibleProxyClass = $this->buildAccessibleProxy('\PuntDe\PtExtbase\ViewHelpers\Tree\SelectorViewHelper');
+        $this->accessibleProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\ViewHelpers\Tree\SelectorViewHelper');
         $this->accessibleProxy = new $this->accessibleProxyClass();
     }
 
@@ -59,6 +59,6 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_SelectorViewhelperTest extends \P
      */
     public function classExists()
     {
-        $this->assertTrue(class_exists('\PuntDe\PtExtbase\ViewHelpers\Tree\SelectorViewHelper'));
+        $this->assertTrue(class_exists('\PunktDe\PtExtbase\ViewHelpers\Tree\SelectorViewHelper'));
     }
 }

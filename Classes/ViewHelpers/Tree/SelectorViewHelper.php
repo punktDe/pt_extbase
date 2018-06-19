@@ -1,5 +1,5 @@
 <?php
-namespace PuntDe\PtExtbase\ViewHelpers\Tree;
+namespace PunktDe\PtExtbase\ViewHelpers\Tree;
 /***************************************************************
  *  Copyright notice
  *
@@ -147,11 +147,9 @@ class SelectorViewHelper extends TextfieldViewHelper
     /**
      * Renders the treeSelector.
      *
-     * @param bool $required
-     * @param string $type
      * @return string
      */
-    public function render($required = false, $type = 'text')
+    public function render()
     {
         $formField = parent::render($required, 'hidden', null);
 
