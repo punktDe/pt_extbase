@@ -57,7 +57,10 @@ class WgetCommand
         'noVerbose' => '--no-verbose',
         'recursive' => '--recursive',
         'noParent' => '--no-parent',
-        'noProxy' => '--no-proxy'
+        'noProxy' => '--no-proxy',
+        'useProxy' => '-e use_proxy="%s"',
+        'httpProxy' => '-e http_proxy="%s"',
+        'httpsProxy' => '-e https_proxy="%s"',
     ];
 
 
@@ -231,6 +234,24 @@ class WgetCommand
      * @var boolean
      */
     protected $noProxy;
+
+
+    /**
+     * @var boolean
+     */
+    protected $useProxy;
+
+
+    /**
+     * @var string
+     */
+    protected $httpProxy;
+
+
+    /**
+     * @var string
+     */
+    protected $httpsProxy;
 
 
     /**
@@ -515,6 +536,36 @@ class WgetCommand
     public function setNoProxy($noProxy)
     {
         $this->noProxy = $noProxy;
+        return $this;
+    }
+
+    /**
+     * @param boolean $useProxy
+     * @return $this
+     */
+    public function setUseProxy($useProxy)
+    {
+        $this->useProxy = $useProxy;
+        return $this;
+    }
+
+    /**
+     * @param string $httpProxy
+     * @return $this
+     */
+    public function setHttpProxy(string $httpProxy)
+    {
+        $this->httpProxy = $httpProxy;
+        return $this;
+    }
+
+    /**
+     * @param string $httpsProxy
+     * @return $this
+     */
+    public function setHttpsProxy(string $httpsProxy)
+    {
+        $this->httpsProxy = $httpsProxy;
         return $this;
     }
 
