@@ -36,6 +36,11 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 class PathViewHelper extends AbstractViewHelper
 {
     /**
+     * @var bool
+     */
+    protected $escapeOutput = false;
+
+    /**
      * @var \Tx_PtExtbase_Tree_NodePathBuilder
      */
     protected $nodePathBuilder;
