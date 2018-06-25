@@ -225,7 +225,7 @@ class SelectorViewHelper extends TextfieldViewHelper
     {
 
         /** @var TemplateViewHelper $treeViewHelper  */
-        $treeViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get('Tx_PtExtbase_ViewHelpers_Javascript_TemplateViewHelper');
+        $treeViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get(TemplateViewHelper::class);
         //$treeViewHelper->setControllerContext($this->controllerContext);
 
         $treeViewHelper->initialize();
