@@ -4,7 +4,7 @@
 *
 *  (c) 2010 Michael Knoll <mimi@kaktusteam.de>
 *           Daniel Lienert <daniel@lienert.cc>
-*           
+*
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -106,6 +106,11 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      */
     protected $treeContext;
 
+    /**
+     * @var \TYPO3\CMS\Core\Page\PageRenderer
+     */
+    protected $pageRenderer;
+
 
     /**
      * @param Tx_PtExtbase_Tree_TreeContext $treeContext
@@ -114,8 +119,6 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
     {
         $this->treeContext = $treeContext;
     }
-
-
 
     /**
      *  User function to render TCA selector
@@ -148,6 +151,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
     protected function init(array $parameters = [], TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fobj = null) {
         parent::init($parameters, $fobj);
         $this->initTreeRepositoryBuilder();
+        $this->pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
     }
 
 
@@ -221,11 +225,11 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      */
     protected function addJsAndCssIncludes()
     {
-        $doc = $this->getDocInstance();
-        $pageRenderer = $doc->getPageRenderer();
         $compress = true;
 
+        $this->pageRenderer->loadExtJS();
+
         // Load CSS
-        $pageRenderer->addCssFile('fileadmin/ext-3.4.0/resources/css/ext-all.css', 'all', '', $compress);
+        $this->pageRenderer->addCssFile(realpath(PATH_site . 'fileadmin/ext-3.4.0/resources/css/ext-all.css'), 'all', '', $compress);
     }
 }

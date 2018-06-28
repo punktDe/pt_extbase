@@ -56,6 +56,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class IconViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper
 {
+    protected $escapeOutput = false;
+
     /**
      * Register arguments.
      */
