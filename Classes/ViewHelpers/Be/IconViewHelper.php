@@ -28,6 +28,7 @@ namespace PunktDe\PtExtbase\ViewHelpers\Be;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
 /*
  * = Examples =
@@ -55,6 +56,19 @@ use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
  */
 class IconViewHelper extends AbstractBackendViewHelper
 {
+
+    /**
+     * @var \TYPO3\CMS\Core\Imaging\IconRegistry
+     * @inject
+     */
+    protected $iconRegistry;
+
+    /**
+     * @var \TYPO3\CMS\Core\Imaging\IconFactory
+     * @inject
+     */
+    protected $iconFactory;
+
     /**
      * Renders an icon link as known from the TYPO3 backend
      *
@@ -64,7 +78,9 @@ class IconViewHelper extends AbstractBackendViewHelper
      */
     public function render($icon = 'actions-document-close', $title = '')
     {
-
-        return \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($icon, ['title' => $title]);
+        if (!$this->iconRegistry->isRegistered($icon)) {
+            throw new \Exception(sprintf('The icon with the identifier "%s" is not registered, please register it by using \TYPO3\CMS\Core\Imaging\IconRegistry->registerIcon()', $icon), 1530186088);
+        }
+        return $this->iconFactory->getIcon($icon, Icon::SIZE_SMALL);
     }
 }

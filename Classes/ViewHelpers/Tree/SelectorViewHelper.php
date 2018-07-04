@@ -28,7 +28,7 @@ namespace PunktDe\PtExtbase\ViewHelpers\Tree;
  ***************************************************************/
 use PunktDe\PtExtbase\ViewHelpers\Javascript\TemplateViewHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper;
+use TYPO3\CMS\Fluid\ViewHelpers\Form\HiddenViewHelper;
 
 /**
  * Class implements a viewhelper that renders a tree selector widget.
@@ -57,7 +57,7 @@ use TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper;
  *
  * @author Daniel Lienert
  */
-class SelectorViewHelper extends TextfieldViewHelper
+class SelectorViewHelper extends HiddenViewHelper
 {
     /**
      * @var string
