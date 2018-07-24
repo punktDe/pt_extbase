@@ -26,10 +26,15 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 class RedirectToPageIdViewHelper extends AbstractTagBasedViewHelper
 {
-    /**
-     * @param integer $pageId
-     */
-    public function render($pageId){
+
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('pageId', 'int', 'target page id', true);
+    }
+
+    public function render(){
+        $pageId = $this->arguments['pageId'];
         $url = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
         $url .= "/?id=" . $pageId;
         header('Location: ' . $url);
