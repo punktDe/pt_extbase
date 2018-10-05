@@ -42,6 +42,7 @@ class MySqlLockTestSecondInstance
     {
 
         // Load system specific configuration for Apache mode
+        $GLOBALS['TYPO3_CONF_VARS'] = require(__DIR__ . '/../../../../../../LocalConfiguration.php');
         $dpppConfiguration = __DIR__ . '/../../../../../../configurations/' . $context . '/AdditionalConfiguration.php';
 
         if (file_exists($dpppConfiguration)) {
@@ -50,7 +51,7 @@ class MySqlLockTestSecondInstance
 
         $credentials = $GLOBALS['TYPO3_CONF_VARS']['DB'];
 
-        $this->mySQLConnection = new \PDO('mysql:host=' . $credentials['host'] . ';dbname=' . $credentials['database'], $credentials['username'], $credentials['password']);
+        $this->mySQLConnection = new \PDO('mysql:host=' . $credentials['Connections']['Default']['host'] . ';dbname=' . $credentials['Connections']['Default']['dbname'], $credentials['Connections']['Default']['user'], $credentials['Connections']['Default']['password']);
     }
 
 

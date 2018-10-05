@@ -29,12 +29,6 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Lock;
 use PunktDe\PtExtbase\Utility\Lock\Lock;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Wget Test Case
- *
- * @package pt_extbase
- * @subpackage PunktDe\PtExtbase\Tests\Functional\Utility\Wget
- */
 class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
@@ -57,7 +51,7 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 
     /**
      * @test
-     * @expectedException Exception
+     * @expectedException \Exception
      * @expectedExceptionCode 1429016835
      */
     public function acquiringSharedLockThrowsException()
@@ -75,6 +69,7 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
         $returnValue = 0;
         exec(__DIR__ . '/MySqlLockTestSecondInstance.php ' . GeneralUtility::getApplicationContext() . ' lockTest testIfLockIsFree ', $outputArray, $returnValue);
         $this->assertEquals(0, $returnValue);
+        $this->assertEquals([0], $outputArray);
     }
 
     /**
@@ -89,7 +84,8 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
         $this->assertTrue($released);
 
         exec(__DIR__ . '/MySqlLockTestSecondInstance.php ' . GeneralUtility::getApplicationContext() . ' lockTest testIfLockIsFree', $outputArray, $returnValue);
-        $this->assertEquals(1, $returnValue);
+        $this->assertEquals(0, $returnValue);
+        $this->assertEquals([1], $outputArray);
     }
 
     /**
@@ -101,6 +97,7 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
         $returnValue = 0;
         exec(__DIR__ . '/MySqlLockTestSecondInstance.php ' . GeneralUtility::getApplicationContext() . ' lockTest acquireExclusiveLock', $outputArray, $returnValue);
         $this->assertEquals(0, $returnValue);
+        $this->assertEquals([0], $outputArray);
     }
 
 
@@ -113,5 +110,6 @@ class MysqlLockTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
         $returnValue = 0;
         exec(__DIR__ . '/MySqlLockTestSecondInstance.php ' . GeneralUtility::getApplicationContext() . ' lockTest freeLock', $outputArray, $returnValue);
         $this->assertEquals(0, $returnValue);
+        $this->assertEquals([0], $outputArray);
     }
 }
