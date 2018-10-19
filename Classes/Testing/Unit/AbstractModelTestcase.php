@@ -63,9 +63,11 @@ abstract class AbstractModelTestcase extends AbstractBaseTestcase
                     break;
 
                 case 'int':
+                case 'integer':
                     $testValue = rand(-10000, +10000);
                     break;
 
+                case 'bool':
                 case 'boolean':
                     $testValue = true;
                     break;
@@ -77,6 +79,13 @@ abstract class AbstractModelTestcase extends AbstractBaseTestcase
                 case 'DateTime':
                     $testValue = new \DateTime();
                     break;
+
+                default:
+                    if (class_exists($type)) {
+                        $testValue = new $type();
+                        break;
+                    }
+                    throw new \Exception(sprintf('Type "%s" not recognized', $type), 1539948988);
             }
 
             $testName = 'Test setter and getter for Attribute ' . $attribute;
