@@ -1,30 +1,12 @@
 <?php
 namespace PunktDe\PtExtbase\Utility\Curl;
 
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2015 Daniel Lienert <lienert@punkt.de>
- *
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+/*
+ *  (c) 2018 punkt.de GmbH - Karlsruhe, Germany - https://punkt.de
+ *  All rights reserved.
+ */
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Request
 {
@@ -55,7 +37,7 @@ class Request
      * @param  string $data
      * @return Response
      */
-    public function post($data = '')
+    public function post($data = ''): Response
     {
         $request = $this->buildRequest();
 
@@ -68,13 +50,29 @@ class Request
     }
 
     /**
-     *  get data of a defined URL
+     * get data of a defined URL
      *
      * @return Response
      */
-    public function get()
+    public function get(): Response
     {
         $request = $this->buildRequest();
+
+        return $this->executeRequest($request);
+    }
+
+    /**
+     * delete data from a defined URL
+     *
+     * @return Response
+     */
+    public function delete(): Response
+    {
+        $request = $this->buildRequest();
+
+        curl_setopt_array($request, [
+            CURLOPT_CUSTOMREQUEST => 'DELETE'
+        ]);
 
         return $this->executeRequest($request);
     }
@@ -101,22 +99,21 @@ class Request
      * @param $request
      * @return Response
      */
-    protected function executeRequest($request)
+    protected function executeRequest($request): Response
     {
         $resultData = curl_exec($request);
 
-        $response =  \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('PunktDe\\PtExtbase\\Utility\\Curl\\Response', $request, $this, $resultData);
+        $response = GeneralUtility::makeInstance(Response::class, $request, $this, $resultData);
 
         return $response;
     }
 
 
-
     /**
      * @param string $url
-     * @return $this
+     * @return Request
      */
-    public function setUrl($url)
+    public function setUrl(string $url): Request
     {
         $this->url = $url;
         return $this;
@@ -125,16 +122,16 @@ class Request
     /**
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
     /**
      * @param string $proxyUrl
-     * @return $this
+     * @return Request
      */
-    public function setProxy($proxyUrl)
+    public function setProxy(string $proxyUrl): Request
     {
         $this->setCurlOption(CURLOPT_PROXY, $proxyUrl);
         return $this;
@@ -143,9 +140,9 @@ class Request
 
     /**
      * @param $verifySSL
-     * @return $this
+     * @return Request
      */
-    public function setVerifySSL($verifySSL)
+    public function setVerifySSL($verifySSL): Request
     {
         $this->setCurlOption(CURLOPT_SSL_VERIFYPEER, $verifySSL);
         return $this;
@@ -154,9 +151,9 @@ class Request
 
     /**
      * @param integer $timeOut
-     * @return $this
+     * @return Request
      */
-    public function setTimeOut($timeOut)
+    public function setTimeOut(int $timeOut): Request
     {
         $this->setCurlOption(CURLOPT_TIMEOUT, $timeOut);
         return $this;
@@ -164,10 +161,10 @@ class Request
 
 
     /**
-     * @param $cookieFilePath
-     * @return $this
+     * @param string $cookieFilePath
+     * @return Request
      */
-    public function useCookiesFromFile($cookieFilePath)
+    public function useCookiesFromFile(string $cookieFilePath): Request
     {
         $this->setCurlOption(CURLOPT_COOKIEJAR, $cookieFilePath);
         $this->setCurlOption(CURLOPT_COOKIEFILE, $cookieFilePath);
@@ -176,11 +173,11 @@ class Request
 
 
     /**
-     * @param $curlOptionKey
-     * @param $curlOptionValue
-     * @return $this
+     * @param string $curlOptionKey
+     * @param mixed $curlOptionValue
+     * @return Request
      */
-    public function setCurlOption($curlOptionKey, $curlOptionValue)
+    public function setCurlOption(string $curlOptionKey, $curlOptionValue): Request
     {
         $this->curlOptions[$curlOptionKey] = $curlOptionValue;
         return $this;
@@ -191,7 +188,7 @@ class Request
      * @param string $curlOptionKey
      * @return mixed
      */
-    public function getCurlOptions($curlOptionKey)
+    public function getCurlOptions(string $curlOptionKey)
     {
         if (isset($this->curlOptions[$curlOptionKey])) {
             return $this->curlOptions[$curlOptionKey];
@@ -202,11 +199,11 @@ class Request
 
 
     /**
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      */
-    public function addHeader($key, $value)
+    public function addHeader(string $key, string $value)
     {
-        $this->header[] = $key .':'. $value;
+        $this->header[] = $key . ':' . $value;
     }
 }
