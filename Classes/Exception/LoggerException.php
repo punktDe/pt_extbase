@@ -1,4 +1,5 @@
 <?php
+
 namespace PunktDe\PtExtbase\Exception;
 
 /***************************************************************
@@ -32,6 +33,10 @@ class LoggerException extends \Exception
      */
     protected $logLevel;
 
+    /**
+     * @var string[]
+     */
+    protected $data = [];
 
     /**
      * @param string $message
@@ -39,7 +44,7 @@ class LoggerException extends \Exception
      * @param \Exception|int $logLevel
      * @param \Exception|null $previous
      */
-    public function __construct($message = "", $code = 0, $logLevel = LogLevel::ERROR, \Exception $previous = null)
+    public function __construct($message = "", $code = 0, $logLevel = LogLevel::ERROR, \Exception $previous = null, array $data = [])
     {
         parent::__construct($message, $code, $previous);
         if (LogLevel::isValidLevel($logLevel)) {
@@ -47,8 +52,17 @@ class LoggerException extends \Exception
         } else {
             $this->logLevel = LogLevel::ERROR;
         }
+        $this->data = $data;
     }
-    
+
+    /**
+     * @return string[]
+     */
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
     /**
      * @return integer
      */
