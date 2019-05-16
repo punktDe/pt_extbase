@@ -150,11 +150,11 @@ abstract class AbstractSchedulerTask extends AbstractTask
      * Removes given execution from list
      *
      * @param integer $executionID Id of the execution to remove.
-     * @param \Exception $failure An exception to signal a failed execution
+     * @param \Throwable $failure An exception to signal a failed execution
      *
      * @return    void
      */
-    public function unmarkExecution($executionID, \Exception $failure = null)
+    public function unmarkExecution($executionID, \Throwable $failure = null)
     {
         $this->logToApplicationLog();
         parent::unmarkExecution($executionID, $failure);
