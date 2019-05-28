@@ -28,6 +28,11 @@ class TestTask extends AbstractSchedulerTask
      */
     protected $testPath = '';
 
+    /**
+     * @var FlashMessageQueue
+     */
+    protected $flashMessageQueue;
+
 
     /**
      * @return boolean
@@ -43,7 +48,7 @@ class TestTask extends AbstractSchedulerTask
                     FlashMessage::WARNING,
                     true
                 ); /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
-            FlashMessageQueue::addMessage($flashMessage);
+            $this->flashMessageQueue->addMessage($flashMessage);
             $executeTestFilePath = Files::concatenatePaths([$this->testPath, 'testTaskExecution.txt']);
             file_put_contents($executeTestFilePath, '1428924570');
 
@@ -61,6 +66,8 @@ class TestTask extends AbstractSchedulerTask
      */
     public function initializeObject()
     {
+        $this->flashMessageQueue = $this->objectManager->get(FlashMessageQueue::class, 'TestTask');
+
         $this->testPath = Files::concatenatePaths([__DIR__, '/WorkingDirectory']);
 
         $testInitializeObjectFilePath = Files::concatenatePaths([$this->testPath, 'testTaskObjectInitialization.txt']);

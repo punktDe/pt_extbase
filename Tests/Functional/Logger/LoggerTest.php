@@ -208,6 +208,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
 
     /**
      * @test
+     * @group loggerTest
      */
     public function logInfoWithoutFurtherParameter()
     {
@@ -220,6 +221,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
 
     /**
      * @test
+     * @group loggerTest
      */
     public function logInfoWithClassName()
     {
@@ -232,6 +234,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
 
     /**
      * @test
+     * @group loggerTest
      */
     public function logInfoWithClassNameAndAdditionlData()
     {
@@ -244,6 +247,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
 
     /**
      * @test
+     * @group loggerTest
      */
     public function logException()
     {
@@ -280,6 +284,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
 
     /**
      * @test
+     * @group loggerTest
      */
     public function loggerSendsEmailOnError()
     {
