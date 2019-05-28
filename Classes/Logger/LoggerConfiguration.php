@@ -89,7 +89,7 @@ class LoggerConfiguration implements SingletonInterface
         }
 
         if (!file_exists($this->logFilePath)) {
-            echo 'The configured Log File Path "' . $this->logFilePath .'" doesn\'t exist';
+            touch($this->logFilePath);
         }
     }
 
