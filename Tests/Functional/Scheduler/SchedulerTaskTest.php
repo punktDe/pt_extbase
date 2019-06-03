@@ -69,6 +69,7 @@ class SchedulerTaskTest extends AbstractBaseTestcase
 
     /**
      * @test
+     * @group Tx_PtExtbase_Scheduler
      */
     public function schedulerTask()
     {

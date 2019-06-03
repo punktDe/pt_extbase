@@ -21,6 +21,8 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Wget;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 use PunktDe\PtExtbase\Utility\Files;
+use PunktDe\PtExtbase\Utility\Wget\WgetCommand;
+use PunktDe\PtExtbase\Utility\Wget\WgetLogParser;
 
 /**
  * Wget Test Case
@@ -37,13 +39,13 @@ class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 
 
     /**
-     * @var \PunktDe\PtExtbase\Utility\Wget\WgetCommand
+     * @var WgetCommand
      */
     protected $wgetCommand;
 
 
     /**
-     * @var \PunktDe\PtExtbase\Utility\Wget\WgetLogParser
+     * @var WgetLogParser
      */
     protected $wgetLogParser;
 
@@ -56,8 +58,8 @@ class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
         $this->workingDirectory = Files::concatenatePaths([__DIR__, 'WorkingDirectory']);
         Files::createDirectoryRecursively($this->workingDirectory);
 
-        $this->wgetCommand = new \PunktDe\PtExtbase\Utility\Wget\WgetCommand();
-        $this->wgetLogParser = new \PunktDe\PtExtbase\Utility\Wget\WgetLogParser();
+        $this->wgetCommand = $this->objectManager->get(WgetCommand::class);
+        $this->wgetLogParser = $this->objectManager->get(WgetLogParser::class);
     }
 
 
