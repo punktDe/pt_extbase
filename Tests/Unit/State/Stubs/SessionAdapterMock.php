@@ -38,7 +38,7 @@ class Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock extends Tx_PtExtbas
     
     
     
-    public function read($string)
+    public function read($string, $allowUnserializing = true)
     {
         return ['test1' => ['test2' => ['test3' => 'value']]];
     }
