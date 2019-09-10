@@ -136,6 +136,9 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
             if (is_null($foreignSessionId)) {
                 $GLOBALS['TSFE']->fe_user->setKey('ses', $key, $val);
                 $GLOBALS['TSFE']->fe_user->sesData_change = 1;
+                if ($GLOBALS['TSFE']->fe_user->user === false) {
+                    $GLOBALS['TSFE']->fe_user->user = null;
+                }
                 $GLOBALS['TSFE']->fe_user->storeSessionData();
                 if (TYPO3_DLOG) {
                     GeneralUtility::devLog(sprintf('Storing "%s" into FE browser session using "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
