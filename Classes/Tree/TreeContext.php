@@ -56,7 +56,7 @@ class Tx_PtExtbase_Tree_TreeContext implements \TYPO3\CMS\Core\SingletonInterfac
      */
     public function resetToDefault()
     {
-        if (TYPO3_MODE === 'BE' || TYPO3_AJAX) {
+        if (TYPO3_MODE === 'BE' || $GLOBALS['TYPO3_AJAX']) {
             $this->writable = true;
         }
     }

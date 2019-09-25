@@ -154,7 +154,13 @@ class TemplateViewHelper extends AbstractViewHelper
      */
     public function render($templatePath, $arguments = '', $addToHead = true, $compress = true)
     {
-        $this->arguments = $arguments;
+        if(is_string($arguments) && $arguments !== '') {
+            $this->arguments['renderDebugInfo'] = $arguments;
+        }
+        else {
+            $this->arguments = array_merge($this->arguments, $arguments);
+        }
+
         $this->addGenericArguments();
 
         $absoluteFileName = GeneralUtility::getFileAbsFileName($templatePath);
@@ -189,7 +195,7 @@ class TemplateViewHelper extends AbstractViewHelper
         $this->arguments['extKey'] = $this->extKey;
 
         if (is_object($this->controllerContext)) {
-            $this->arguments['pluginNamespace'] =  $this->extensionService->getPluginNamespace(
+            $this->arguments['pluginNamespace'] = $this->extensionService->getPluginNamespace(
                 $this->controllerContext->getRequest()->getControllerExtensionName(),
                 $this->controllerContext->getRequest()->getPluginName()
             );
