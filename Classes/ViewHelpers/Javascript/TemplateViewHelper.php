@@ -154,11 +154,11 @@ class TemplateViewHelper extends AbstractViewHelper
      */
     public function render($templatePath, $arguments = '', $addToHead = true, $compress = true)
     {
-        if(is_string($arguments) && $arguments !== '') {
-            $this->arguments['renderDebugInfo'] = $arguments;
-        }
-        else {
+        if(is_array($arguments)) {
             $this->arguments = array_merge($this->arguments, $arguments);
+        }
+        elseif(is_string($arguments) && $arguments !== '') {
+            $this->arguments['renderDebugInfo'] = $arguments;
         }
 
         $this->addGenericArguments();
