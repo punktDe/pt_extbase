@@ -1601,7 +1601,7 @@ class Tx_PtExtbase_Div
      */
     public static function getLazyLoadedObject($object)
     {
-        if (get_class($object) === 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\LazyLoadingProxy') {
+        if (is_object($object) && get_class($object) === 'TYPO3\\CMS\\Extbase\\Persistence\\Generic\\LazyLoadingProxy') {
             return $object->_loadRealInstance();
         } else {
             return $object;

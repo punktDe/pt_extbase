@@ -99,7 +99,7 @@ class Tx_PtExtbase_Controller_TreeController extends  \TYPO3\CMS\Extbase\Mvc\Con
      */
     protected function initializeAction()
     {
-        if (!TYPO3_AJAX) {
+        if (TYPO3_MODE !== "BE") {
             die();
         }
 
