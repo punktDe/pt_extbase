@@ -1,4 +1,5 @@
 <?php
+
 namespace PunktDe\PtExtbase\Exception;
 
 /*
@@ -17,7 +18,7 @@ class LoggerException extends \Exception
     protected $logLevel;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $data = [];
 
@@ -38,6 +39,15 @@ class LoggerException extends \Exception
         } else {
             $this->logLevel = LogLevel::ERROR;
         }
+        $this->data = $data;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getData(): array
+    {
+        return $this->data;
     }
 
     /**
