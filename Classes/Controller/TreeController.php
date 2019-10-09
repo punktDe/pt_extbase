@@ -122,11 +122,13 @@ class Tx_PtExtbase_Controller_TreeController extends  \TYPO3\CMS\Extbase\Mvc\Con
     public function restoreTreeSettingsFromSession()
     {
         $settings = Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->read('Tx_PtExtbase_Tree_Configuration');
-        $settings = [
-            'repository' => 'Tx_PtCertification_Domain_Repository_CategoryRepository',
-            'namespace' => 'tx_ptcertification_domain_model_category',
-            'respectEnableFields' => $this->treeContext->respectEnableFields(),
-        ];
+        if (!is_array($settings)) {
+            $settings = [
+                'repository' => 'Tx_PtCertification_Domain_Repository_CategoryRepository',
+                'namespace' => 'tx_ptcertification_domain_model_category',
+                'respectEnableFields' => $this->treeContext->respectEnableFields(),
+            ];
+        }
 
         if (array_key_exists('repository', $settings)) {
             $nodeRepositoryClassName = $settings['repository'];
@@ -190,7 +192,7 @@ class Tx_PtExtbase_Controller_TreeController extends  \TYPO3\CMS\Extbase\Mvc\Con
     {
         //$newNode = new Tx_PtExtbase_Tree_Node($label);
         // TODO: get correct class name from tree namespace
-        $newNode = new Tx_PtCertification_Domain_Model_Category($label);
+        $newNode = new PunktDe\PtCertification\Domain\Model\Category($label);
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $parent = $tree->getNodeByUid($parent);

@@ -208,11 +208,12 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
 
     /**
      * @test
+     * @group loggerTest
      */
     public function logInfoWithoutFurtherParameter()
     {
         $this->logger->info('test');
-        $this->assertLogFileContains('component="Tx.PtExtbase.Logger.Logger": test');
+        $this->assertLogFileContains('component="PunktDe.PtExtbase.Logger.Logger": test');
         $this->assertLogFileContains('[INFO]');
     }
 
@@ -220,6 +221,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
 
     /**
      * @test
+     * @group loggerTest
      */
     public function logInfoWithClassName()
     {
@@ -232,6 +234,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
 
     /**
      * @test
+     * @group loggerTest
      */
     public function logInfoWithClassNameAndAdditionlData()
     {
@@ -244,6 +247,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
 
     /**
      * @test
+     * @group loggerTest
      */
     public function logException()
     {
@@ -254,7 +258,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
         }
 
         $this->assertLogFileContains('[CRITICAL]');
-        $this->assertLogFileContains('component="Tx.PtExtbase.Logger.Logger": Uncaught exception: This is a Test Exception - See also:');
+        $this->assertLogFileContains('component="PunktDe.PtExtbase.Logger.Logger": Uncaught exception: This is a Test Exception - See also:');
 
         $this->assertCount(1, Tx_PtExtbase_Utility_Files::readDirectoryRecursively($this->logExceptionsPath));
     }
@@ -280,6 +284,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
 
     /**
      * @test
+     * @group loggerTest
      */
     public function loggerSendsEmailOnError()
     {

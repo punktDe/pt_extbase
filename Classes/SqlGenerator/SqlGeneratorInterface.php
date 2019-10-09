@@ -36,6 +36,17 @@
 interface Tx_PtExtbase_SqlGenerator_SqlGeneratorInterface
 {
     /**
+     * @const TEMP_PREFIX
+     */
+    const TEMP_PREFIX = 'zzzz_temp_';
+
+    /**
+     * @const BACKUP_PREFIX
+     */
+    const BACKUP_PREFIX = 'zzzz_bck_';
+
+
+    /**
      * @abstract
      * @return array of single SQL commands
      */

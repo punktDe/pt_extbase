@@ -553,7 +553,7 @@ class WgetCommand
      * @param string $httpProxy
      * @return $this
      */
-    public function setHttpProxy(string $httpProxy)
+    public function setHttpProxy($httpProxy)
     {
         $this->httpProxy = $httpProxy;
         return $this;
@@ -563,7 +563,7 @@ class WgetCommand
      * @param string $httpsProxy
      * @return $this
      */
-    public function setHttpsProxy(string $httpsProxy)
+    public function setHttpsProxy($httpsProxy)
     {
         $this->httpsProxy = $httpsProxy;
         return $this;

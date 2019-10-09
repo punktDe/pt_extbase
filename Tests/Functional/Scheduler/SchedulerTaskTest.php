@@ -69,9 +69,11 @@ class SchedulerTaskTest extends AbstractBaseTestcase
 
     /**
      * @test
+     * @group Tx_PtExtbase_Scheduler
      */
     public function schedulerTask()
     {
+
         shell_exec(PATH_typo3.'cli_dispatch.phpsh scheduler -f -i '. $this->schedulerTaskId);
 
         $this->objectInitializationSuccessful();
@@ -153,7 +155,7 @@ class SchedulerTaskTest extends AbstractBaseTestcase
 
     protected function tearDown()
     {
-        Files::removeDirectoryRecursively($this->testFilePath);
-        unlink($this->logFilePath);
+       Files::removeDirectoryRecursively($this->testFilePath);
+       unlink($this->logFilePath);
     }
 }

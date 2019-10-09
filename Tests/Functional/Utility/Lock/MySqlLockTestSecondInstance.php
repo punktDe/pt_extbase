@@ -41,12 +41,14 @@ class MySqlLockTestSecondInstance
     protected function connect($context)
     {
 
+        require_once __DIR__ .'/../../../../Classes/SqlGenerator/SqlGeneratorInterface.php';
+
         // Load system specific configuration for Apache mode
         $GLOBALS['TYPO3_CONF_VARS'] = require(__DIR__ . '/../../../../../../LocalConfiguration.php');
-        $dpppConfiguration = __DIR__ . '/../../../../../../configurations/' . $context . '/AdditionalConfiguration.php';
+        $localConfiguration = __DIR__ . '/../../../../../../configurations/' . $context . '/AdditionalConfiguration.php';
 
-        if (file_exists($dpppConfiguration)) {
-            @include($dpppConfiguration);
+        if (file_exists($localConfiguration)) {
+            @include($localConfiguration);
         }
 
         $credentials = $GLOBALS['TYPO3_CONF_VARS']['DB'];

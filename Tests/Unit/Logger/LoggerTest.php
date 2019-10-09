@@ -63,7 +63,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
      */
     public function configureLoggerPropertiesSetsValidConfiguration()
     {
-        $expectedLogPath = '/var/apache/partnerportal/log/EsalesLog';
+        $expectedLogPath = '/var/apache/partnerportal/log/application.log';
         $expectedLogLevelThreshold = LogLevel::INFO;
         $expectedEmailLogLevelThreshold = LogLevel::CRITICAL;
         $expectedEmailReceivers = 'bud@spencer.it,terence@hill.de';
@@ -108,7 +108,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
         $loggerMock->expects($this->once())
             ->method('enrichLoggerSpecificDataByComponent');
         /** @var $loggerMock \PunktDe\PtExtbase\Logger\Logger */
-        
+
         $loggerManager = new LoggerManager();
         $loggerMock->injectLoggerManager($loggerManager);
 

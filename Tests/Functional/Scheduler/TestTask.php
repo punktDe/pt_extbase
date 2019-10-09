@@ -1,30 +1,15 @@
 <?php
-
 namespace PunktDe\PtExtbase\Tests\Functional\Scheduler;
 
-/***************************************************************
- *  Copyright (C) 2015 punkt.de GmbH
- *  Authors: el_equipo <opiuqe_le@punkt.de>
+/*
+ * This file is part of the PunktDe\PtExtbase package.
  *
- *  This script is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as published
- *  by the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
+ * This package is open source software. For the full copyright and license
+ * information, please view the LICENSE file which was distributed with this
+ * source code.
+ */
 
 use PunktDe\PtExtbase\Scheduler\AbstractSchedulerTask;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Core\Messaging\FlashMessage;
 use \TYPO3\CMS\Core\Messaging\FlashMessageQueue;
@@ -43,6 +28,11 @@ class TestTask extends AbstractSchedulerTask
      */
     protected $testPath = '';
 
+    /**
+     * @var FlashMessageQueue
+     */
+    protected $flashMessageQueue;
+
 
     /**
      * @return boolean
@@ -52,13 +42,13 @@ class TestTask extends AbstractSchedulerTask
     {
         try {
             $flashMessage = GeneralUtility::makeInstance(
-                    't3lib_FlashMessage',
+                    FlashMessage::class,
                     'This Task is created for testing purposes, it creates some test files and log entries in the application log',
                     '',
                     FlashMessage::WARNING,
                     true
-                );
-            FlashMessageQueue::addMessage($flashMessage);
+                ); /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
+            $this->flashMessageQueue->addMessage($flashMessage);
             $executeTestFilePath = Files::concatenatePaths([$this->testPath, 'testTaskExecution.txt']);
             file_put_contents($executeTestFilePath, '1428924570');
 
@@ -76,6 +66,8 @@ class TestTask extends AbstractSchedulerTask
      */
     public function initializeObject()
     {
+        $this->flashMessageQueue = $this->objectManager->get(FlashMessageQueue::class, 'TestTask');
+
         $this->testPath = Files::concatenatePaths([__DIR__, '/WorkingDirectory']);
 
         $testInitializeObjectFilePath = Files::concatenatePaths([$this->testPath, 'testTaskObjectInitialization.txt']);
