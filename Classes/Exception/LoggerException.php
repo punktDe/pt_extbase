@@ -57,12 +57,4 @@ class LoggerException extends \Exception
     {
         return $this->logLevel;
     }
-
-    /**
-     * @return array
-     */
-    public function getData(): array
-    {
-        return $this->data;
-    }
 }
