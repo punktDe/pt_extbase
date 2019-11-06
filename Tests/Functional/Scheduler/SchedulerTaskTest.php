@@ -73,7 +73,8 @@ class SchedulerTaskTest extends AbstractBaseTestcase
      */
     public function schedulerTask()
     {
-
+        unlink($this->logFilePath);
+        
         shell_exec(PATH_typo3.'cli_dispatch.phpsh scheduler -f -i '. $this->schedulerTaskId);
 
         $this->objectInitializationSuccessful();
