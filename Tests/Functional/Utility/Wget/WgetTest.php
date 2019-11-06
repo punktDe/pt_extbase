@@ -105,7 +105,7 @@ class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
             ->setDirectoryPrefix($this->workingDirectory)
             ->setNoVerbose(true)
             ->setServerResponse(true)
-            ->setUrl('http://localhost/')
+            ->setUrl('http://example.com/')
             ->execute();
 
         $log = $this->wgetLogParser->parseLog($this->wgetCommand);

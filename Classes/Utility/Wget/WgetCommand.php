@@ -74,7 +74,7 @@ class WgetCommand
     /**
      * @var string
      */
-    protected $wgetBinaryPath = '/usr/local/bin/wget';
+    protected $wgetBinaryPath = 'wget';
 
 
     /**
