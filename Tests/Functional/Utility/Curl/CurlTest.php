@@ -60,7 +60,7 @@ class CurlTest extends AbstractBaseTestcase
      */
     public function successfulPostRequestGeneratesResponse()
     {
-        $response = $this->curlRequest->setUrl('http://localhost')->post();
+        $response = $this->curlRequest->setUrl('http://example.com/')->post();
 
         $this->assertInstanceOf('\PunktDe\PtExtbase\Utility\Curl\Response', $response);
 
@@ -72,7 +72,7 @@ class CurlTest extends AbstractBaseTestcase
 
         $this->assertTrue(is_array($response->getHeader()));
         $this->assertEquals('HTTP/1.1 200 OK', $response->getHeader('http_code'));
-        $this->assertEquals('text/html', $response->getHeader('Content-Type'));
+        $this->assertContains('text/html', $response->getHeader('Content-Type'));
     }
 
 
