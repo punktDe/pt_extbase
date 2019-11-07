@@ -21,8 +21,13 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Git;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Logger\Logger;
 use PunktDe\PtExtbase\Utility\Files;
 use PunktDe\PtExtbase\Utility\Git\GitRepository;
+use PunktDe\PtExtbase\Utility\Git\Result\Result;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Container\Container;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Git Repository Test Case
@@ -33,13 +38,13 @@ use PunktDe\PtExtbase\Utility\Git\GitRepository;
 class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     /**
-     * @var \PunktDe\PtExtbase\Utility\Git\GitRepository
+     * @var GitRepository
      */
     protected $proxy;
 
 
     /**
-     * @var \PunktDe\PtExtbase\Utility\Git\GitRepository
+     * @var GitRepository
      */
     protected $remoteProxy;
 
@@ -69,7 +74,7 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
 
 
     /**
-     * @var \TYPO3\CMS\Extbase\Object\Container\Container
+     * @var Container
      */
     protected $objectContainer;
 
@@ -81,7 +86,7 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
 
 
     /**
-     * @return void
+     * @throws \Exception
      */
     public function setUp()
     {
@@ -90,9 +95,8 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
     }
 
 
-
     /**
-     * @return void
+     * @throws \Exception
      */
     public function tearDown()
     {
@@ -107,9 +111,8 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
     }
 
 
-
     /**
-     * @return void
+     * @throws \Exception
      */
     protected function prepareGitEnvironment()
     {
@@ -133,23 +136,32 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
 
 
 
-    /**
-     * @return void
-     */
     protected function prepareProxy()
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
-        $this->objectContainer = $objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container'); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $objectContainer */
+        $this->objectContainer = $objectManager->get(Container::class); /** @var Container $objectContainer */
 
-        $this->getMockBuilder(\PunktDe\PtExtbase\Logger\Logger::class)
+        $this->getMockBuilder(Logger::class)
             ->setMockClassName('LoggerMock')
             ->getMock();
         $objectManager->get('LoggerMock'); /** @var  $loggerMock \PHPUnit_Framework_MockObject_MockObject */
-        $this->objectContainer->registerImplementation(\PunktDe\PtExtbase\Logger\Logger::class, 'LoggerMock');
+        $this->objectContainer->registerImplementation(Logger::class, 'LoggerMock');
 
-        $this->proxy = $objectManager->get('PunktDe\PtExtbase\Utility\Git\GitRepository', $this->pathToGitCommand, $this->repositoryRootPath);
-        $this->remoteProxy = $objectManager->get('PunktDe\PtExtbase\Utility\Git\GitRepository', $this->pathToGitCommand, $this->remoteRepositoryRootPath);
+        $this->proxy = $objectManager->get(GitRepository::class, $this->pathToGitCommand, $this->repositoryRootPath);
+        $this->remoteProxy = $objectManager->get(GitRepository::class, $this->pathToGitCommand, $this->remoteRepositoryRootPath);
+
+        $this->proxy
+            ->config()
+            ->setGlobal(true)
+            ->setUserName('Gordon Shumway')
+            ->execute();
+
+        $this->proxy
+            ->config()
+            ->setGlobal(true)
+            ->setEmail('tarzipan@bananenbieger.de')
+            ->execute();
     }
 
 
@@ -160,7 +172,7 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
     public function checkIfValidGitCommandIsAvailableThrowsNoExceptionIfGitExists()
     {
         $this->skipTestIfGitCommandForTestingDoesNotExist();
-        $this->assertInstanceOf(GitRepository::class, $this->objectManager->get('PunktDe\PtExtbase\Utility\Git\GitRepository', $this->pathToGitCommand, $this->repositoryRootPath));
+        $this->assertInstanceOf(GitRepository::class, $this->objectManager->get(GitRepository::class, $this->pathToGitCommand, $this->repositoryRootPath));
     }
 
 
@@ -189,6 +201,7 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
         $actual = $this->proxy
             ->log()
             ->execute();
+        /** @var $actual Result */
 
         $expected = "[TASK] Initial commit";
         $this->assertContains($expected, $actual->getRawResult());
@@ -236,9 +249,9 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
     }
 
 
-
     /**
      * @test
+     * @throws \Exception
      */
     public function existsReturnsValidBooleanValueDependingOnTheRepositoryStatus()
     {
@@ -529,9 +542,9 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
     }
 
 
-
     /**
      * @test
+     * @throws \Exception
      */
     public function cloneDedicatedCommitCreatesGitRepositoryContainingExactlyThatCommit()
     {
@@ -683,9 +696,6 @@ class GitRepositoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
 
 
 
-    /**
-     * @return void
-     */
     protected function skipTestIfGitCommandForTestingDoesNotExist()
     {
         if (!$this->gitCommandForTestingExists) {
