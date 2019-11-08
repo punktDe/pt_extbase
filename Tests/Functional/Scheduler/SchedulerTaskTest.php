@@ -61,7 +61,12 @@ class SchedulerTaskTest extends AbstractBaseTestcase
     {
         $this->prepareTestPaths();
         Files::createDirectoryRecursively($this->testFilePath);
-        unlink($this->logFilePath);
+
+        if(file_exists($this->logFilePath))
+        {
+            unlink($this->logFilePath);
+        }
+
         touch($this->logFilePath);
 
         $this->schedulerTaskId = $this->getTestTaskId();
