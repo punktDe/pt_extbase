@@ -35,7 +35,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Unit\Utility\Git
  */
-class GitRepositoryTest extends UnitTestCase
+class GitRepositoryCommandTest extends UnitTestCase
 {
     /**
      * @var GitRepository
