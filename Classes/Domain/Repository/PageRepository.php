@@ -21,7 +21,6 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
-use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
  * Repository for Pages
@@ -32,20 +31,18 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
  */
 class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
+
     /**
-     * Constructor of the repository.
-     * Sets the respect storage page to false.
-     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     * Initializes the repository.
      */
-    public function __construct()
+    public function initializeObject()
     {
-        parent::__construct(\TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager'));
-
-        $this->defaultQuerySettings = new \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings();
-        $this->defaultQuerySettings->setRespectStoragePage(false);
-        $this->defaultQuerySettings->setRespectSysLanguage(false);
+        /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface */
+        $querySettings = $this->objectManager->get(TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface::class);
+        $querySettings->setRespectStoragePage(false);
+        $querySettings->setRespectSysLanguage(false);
+        $this->setDefaultQuerySettings($querySettings);
     }
-
 
     /**
      * @param $pid
@@ -55,7 +52,7 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
     {
         $query = $this->createQuery();
 
-        $query->setOrderings(['sorting' => QueryInterface::ORDER_ASCENDING]);
+        $query->setOrderings(['sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING]);
 
         $pages = $query->matching(
             $query->equals('pid', $pid)
@@ -74,7 +71,7 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
     {
         $query = $this->createQuery();
 
-        $query->setOrderings(['sorting' => QueryInterface::ORDER_ASCENDING]);
+        $query->setOrderings(['sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING]);
 
         $pages = $query->matching(
             $query->logicalAnd(
