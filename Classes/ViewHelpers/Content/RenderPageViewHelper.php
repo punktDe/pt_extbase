@@ -77,6 +77,25 @@ class RenderPageViewHelper extends AbstractViewHelper
             ],
         ];
         $result = $GLOBALS['TSFE']->cObj->cObjGetSingle('CONTENT', $conf);
+
+        $result = $this->addPageCssForCssStyledContent($result);
+
+        return $result;
+    }
+
+    /**
+     * @param string $result
+     * @return string
+     */
+    protected function addPageCssForCssStyledContent(string $result): string
+    {
+        $cssPageStyle = implode(LF, $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE']);
+        if (isset($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE.'])) {
+            $cssPageStyle = $GLOBALS['TSFE']->cObj->stdWrap($cssPageStyle, $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE.']);
+        }
+        if (strlen($cssPageStyle) > 0) {
+            $result = '<style type="text/css">' . $cssPageStyle . '</style>' . $result;
+        }
         return $result;
     }
 }
