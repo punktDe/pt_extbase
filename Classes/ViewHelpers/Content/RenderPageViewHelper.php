@@ -89,7 +89,11 @@ class RenderPageViewHelper extends AbstractViewHelper
      */
     protected function addPageCssForCssStyledContent(string $result): string
     {
-        $cssPageStyle = implode(LF, $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE']);
+        $cssPageStyle = '';
+        if (isset($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE']) && is_array($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE'])) {
+            $cssPageStyle = implode(LF, $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE']);
+        }
+
         if (isset($GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE.'])) {
             $cssPageStyle = $GLOBALS['TSFE']->cObj->stdWrap($cssPageStyle, $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_cssstyledcontent.']['_CSS_PAGE_STYLE.']);
         }
