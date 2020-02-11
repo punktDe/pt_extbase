@@ -29,6 +29,8 @@ namespace PunktDe\PtExtbase\ViewHelpers\Be;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
 /*
  * = Examples =
@@ -58,16 +60,32 @@ class IconViewHelper extends AbstractBackendViewHelper
 {
 
     /**
-     * @var \TYPO3\CMS\Core\Imaging\IconRegistry
-     * @inject
+     * @var IconRegistry
      */
     protected $iconRegistry;
 
     /**
-     * @var \TYPO3\CMS\Core\Imaging\IconFactory
-     * @inject
+     * @var IconFactory
      */
     protected $iconFactory;
+
+
+    /**
+     * @param IconRegistry $iconRegistry
+     */
+    public function injectIconRegistry(IconRegistry $iconRegistry): void
+    {
+        $this->iconRegistry = $iconRegistry;
+    }
+
+    /**
+     * @param IconFactory $iconFactory
+     */
+    public function injectIconFactory(IconFactory $iconFactory): void
+    {
+        $this->iconFactory = $iconFactory;
+    }
+
 
     /**
      * Renders an icon link as known from the TYPO3 backend

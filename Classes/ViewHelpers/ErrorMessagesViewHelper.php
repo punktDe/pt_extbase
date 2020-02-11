@@ -22,15 +22,26 @@ namespace PunktDe\PtExtbase\ViewHelpers;
  *
  * This copyright notice MUST APPEAR in all copies of the script!
  */
+
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 class ErrorMessagesViewHelper extends AbstractTagBasedViewHelper
 {
+
     /**
-     * @var \TYPO3\CMS\Extbase\Utility\LocalizationUtility
-     * @inject
+     * @var LocalizationUtility
      */
     protected $localization;
+
+    /**
+     * @param LocalizationUtility $localization
+     */
+    public function injectLocalization(LocalizationUtility $localization): void
+    {
+        $this->localization = $localization;
+    }
+
 
     /**
      * @param string $extension

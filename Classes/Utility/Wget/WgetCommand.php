@@ -1,6 +1,7 @@
 <?php
 namespace PunktDe\PtExtbase\Utility\Wget;
 
+use PunktDe\PtExtbase\Logger\Logger;
 use PunktDe\PtExtbase\Utility\TimeTracker;
 
 /***************************************************************
@@ -62,14 +63,6 @@ class WgetCommand
         'httpProxy' => '-e http_proxy="%s"',
         'httpsProxy' => '-e https_proxy="%s"',
     ];
-
-
-    /**
-     * @var \PunktDe\PtExtbase\Logger\Logger
-     * @inject
-     */
-    protected $logger;
-
 
     /**
      * @var string
@@ -253,6 +246,19 @@ class WgetCommand
      */
     protected $httpsProxy;
 
+
+    /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
+     * @param Logger $logger
+     */
+    public function injectLogger(Logger $logger): void
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * @param string $wgetBinaryPath

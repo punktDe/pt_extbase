@@ -21,6 +21,8 @@ namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Logger\Logger;
+use PunktDe\PtExtbase\Utility\ShellCommandService;
 use TYPO3\CMS\Core\SingletonInterface;
 
 /**
@@ -30,18 +32,33 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class ExecutionManager implements SingletonInterface
 {
+
     /**
-     * @inject
-     * @var \PunktDe\PtExtbase\Utility\ShellCommandService
+     * @var ShellCommandService
      */
     protected $shellCommandService;
 
-
     /**
-     * @inject
-     * @var \PunktDe\PtExtbase\Logger\Logger
+     * @var Logger
      */
     protected $logger;
+
+
+    /**
+     * @param ShellCommandService $shellCommandService
+     */
+    public function injectShellCommandService(ShellCommandService $shellCommandService): void
+    {
+        $this->shellCommandService = $shellCommandService;
+    }
+
+    /**
+     * @param Logger $logger
+     */
+    public function injectLogger(Logger $logger): void
+    {
+        $this->logger = $logger;
+    }
 
 
     /**

@@ -53,16 +53,31 @@ class Tx_PtExtbase_Extbase_Property_TypeConverter_ObjectConverter extends \TYPO3
     protected $priority = 0;
 
     /**
-     * @inject
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
-     * @inject
      * @var \TYPO3\CMS\Extbase\Reflection\ReflectionService
      */
     protected $reflectionService;
+
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     */
+    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager): void
+    {
+        $this->objectManager = $objectManager;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Reflection\ReflectionService $reflectionService
+     */
+    public function injectReflectionService(\TYPO3\CMS\Extbase\Reflection\ReflectionService $reflectionService): void
+    {
+        $this->reflectionService = $reflectionService;
+    }
 
     /**
      * Only convert non-persistent types

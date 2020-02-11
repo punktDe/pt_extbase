@@ -21,6 +21,8 @@ namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Logger\Logger;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
@@ -30,35 +32,15 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
  */
 abstract class AbstractResult
 {
-    /**
-     * @inject
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     */
-    protected $objectManager;
-
 
     /**
-     * @inject
-     * @var \PunktDe\PtExtbase\Logger\Logger
-     */
-    protected $logger;
-
-
-    /**
-     * @inject
-     * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ExecutionManager
-     */
-    protected $executionManager;
-
-
-    /**
-     * @var \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand
+     * @var GenericShellCommand
      */
     protected $command;
 
 
     /**
-     * @var integer
+     * @var int
      */
     protected $exitCode;
 
@@ -76,7 +58,48 @@ abstract class AbstractResult
 
 
     /**
-     * @param \PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand $command
+     * @var ObjectManagerInterface
+     */
+    protected $objectManager;
+
+    /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
+     * @var ExecutionManager
+     */
+    protected $executionManager;
+
+
+    /**
+     * @param ObjectManagerInterface $objectManager
+     */
+    public function injectObjectManager(ObjectManagerInterface $objectManager): void
+    {
+        $this->objectManager = $objectManager;
+    }
+
+    /**
+     * @param Logger $logger
+     */
+    public function injectLogger(Logger $logger): void
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * @param ExecutionManager $executionManager
+     */
+    public function injectExecutionManager(ExecutionManager $executionManager): void
+    {
+        $this->executionManager = $executionManager;
+    }
+
+
+    /**
+     * @param GenericShellCommand $command
      */
     public function __construct($command)
     {

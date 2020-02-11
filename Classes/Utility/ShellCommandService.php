@@ -21,6 +21,7 @@ namespace PunktDe\PtExtbase\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Logger\Logger;
 use TYPO3\CMS\Core\SingletonInterface;
 
 /**
@@ -30,12 +31,6 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class ShellCommandService implements SingletonInterface
 {
-    /**
-     * @inject
-     * @var \PunktDe\PtExtbase\Logger\Logger
-     */
-    protected $logger;
-
 
     /**
      * @var string
@@ -56,28 +51,38 @@ class ShellCommandService implements SingletonInterface
 
 
     /**
-     * @var integer
+     * @var int
      */
     protected $exitCode = 0;
-
 
     /**
      * @var string
      */
     protected $returnedOutput = '';
 
-
     /**
-     * @var boolean
+     * @var bool
      */
     protected $redirectStandardErrorToStandardOut = false;
 
-
     /**
-     * @var boolean
+     * @var bool
      */
     protected $simulateMode = false;
 
+
+    /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
+     * @param Logger $logger
+     */
+    public function injectLogger(Logger $logger): void
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * @param mixed $command The shell command to execute, either string or array of commands

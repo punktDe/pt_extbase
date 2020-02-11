@@ -35,36 +35,38 @@ class Logger implements SingletonInterface
      */
     protected $loggerManager;
 
-
     /**
      * @var \TYPO3\CMS\Core\Log\Logger
      */
     protected $logger;
-
 
     /**
      * @var string
      */
     protected $logFilePath;
 
-
     /**
      * @var string
      */
     protected $exceptionDirectory;
 
-
-    /**
-     * @inject
-     * @var \PunktDe\PtExtbase\Logger\LoggerConfiguration
-     */
-    protected $loggerConfiguration;
-
-
     /**
      * @var string
      */
     protected $defaultLogComponent;
+
+    /**
+     * @var LoggerConfiguration
+     */
+    protected $loggerConfiguration;
+
+    /**
+     * @param LoggerConfiguration $loggerConfiguration
+     */
+    public function injectLoggerConfiguration(LoggerConfiguration $loggerConfiguration): void
+    {
+        $this->loggerConfiguration = $loggerConfiguration;
+    }
 
     
     public function __construct()

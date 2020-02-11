@@ -26,6 +26,8 @@
 
 namespace PunktDe\PtExtbase\Utility\Wget;
 
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
 class WgetLogParser
 {
     /**
@@ -33,13 +35,18 @@ class WgetLogParser
      */
     protected $wgetCommand;
 
-
     /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-     * @inject
+     * @var ObjectManager
      */
     protected $objectManager;
 
+    /**
+     * @param ObjectManager $objectManager
+     */
+    public function injectObjectManager(ObjectManager $objectManager): void
+    {
+        $this->objectManager = $objectManager;
+    }
 
 
     public function parseLog(WgetCommand $wgetCommand)

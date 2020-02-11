@@ -20,6 +20,8 @@ namespace PunktDe\PtExtbase\ViewHelpers;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use PunktDe\PtExtbase\Utility\Files;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 /**
@@ -35,10 +37,18 @@ class FileTypeIconViewHelper extends AbstractTagBasedViewHelper
     protected $tagName = 'img';
 
     /**
-     * @var \PunktDe\PtExtbase\Utility\Files
-     * @inject
+     * @var Files
      */
     protected $fileUtility;
+
+    /**
+     * @param Files $fileUtility
+     */
+    public function injectFileUtility(Files $fileUtility): void
+    {
+        $this->fileUtility = $fileUtility;
+    }
+
 
     /**
      * @param string $fileExtension

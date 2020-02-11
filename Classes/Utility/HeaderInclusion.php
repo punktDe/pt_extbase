@@ -36,14 +36,21 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonInterface
 {
+
     /**
      * @var \TYPO3\CMS\Core\Page\PageRenderer
-     * @inject
      */
     protected $pageRenderer;
-    
 
-    
+    /**
+     * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
+     */
+    public function injectPageRenderer(\TYPO3\CMS\Core\Page\PageRenderer $pageRenderer): void
+    {
+        $this->pageRenderer = $pageRenderer;
+    }
+
+
     /**
      * Add JS inline code
      *
