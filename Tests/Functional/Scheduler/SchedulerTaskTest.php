@@ -61,6 +61,12 @@ class SchedulerTaskTest extends AbstractBaseTestcase
     {
         $this->prepareTestPaths();
         Files::createDirectoryRecursively($this->testFilePath);
+
+        if(file_exists($this->logFilePath))
+        {
+            unlink($this->logFilePath);
+        }
+
         touch($this->logFilePath);
 
         $this->schedulerTaskId = $this->getTestTaskId();
@@ -73,7 +79,6 @@ class SchedulerTaskTest extends AbstractBaseTestcase
      */
     public function schedulerTask()
     {
-
         shell_exec(PATH_typo3.'cli_dispatch.phpsh scheduler -f -i '. $this->schedulerTaskId);
 
         $this->objectInitializationSuccessful();
