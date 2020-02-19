@@ -1,4 +1,5 @@
 <?php
+
 namespace PunktDe\PtExtbase\Tests\Unit\Utility\Git;
 
 /***************************************************************
@@ -21,7 +22,12 @@ namespace PunktDe\PtExtbase\Tests\Unit\Utility\Git;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use PunktDe\PtExtbase\Utility\Git\GitRepository;
+use PunktDe\PtExtbase\Utility\ShellCommandService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Container\Container;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Git Repository Test Case
@@ -29,188 +35,164 @@ use \TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  * @package pt_extbase
  * @subpackage PunktDe\PtExtbase\Tests\Unit\Utility\Git
  */
-class GitRepositoryTest extends UnitTestCase
+class GitRepositoryCommandTest extends UnitTestCase
 {
     /**
-     * @var \PunktDe\PtExtbase\Utility\Git\GitRepository
+     * @var GitRepository
      */
-    protected $proxy;
-
+    protected $gitRepositoryMock;
 
     /**
-     * @var string
-     */
-    protected $pathToGitCommand = '';
-
-
-    /**
-     * @var boolean
-     */
-    protected $gitCommandForTestingExists = false;
-
-
-    /**
-     * @var string
-     */
-    protected $repositoryRootPath = '';
-
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Object\Container\Container
+     * @var Container
      */
     protected $objectContainer;
-
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $shellCommandServiceMock;
 
-    
     /**
-     * @return void
+     * @throws \Exception
      */
     public function setUp()
     {
-        //$this->prepareProxy();
+        $this->prepareProxy();
     }
 
-
-
-    /**
-     * @return void
-     */
     protected function prepareProxy()
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
-        $this->objectContainer = $objectManager->get('TYPO3\CMS\Extbase\Object\Container\Container'); /** @var \TYPO3\CMS\Extbase\Object\Container\Container $objectContainer */
+        $this->objectContainer = $objectManager->get(Container::class);
 
-        $this->getMockBuilder(\PunktDe\PtExtbase\Logger\Logger::class)
-            ->setMockClassName('LoggerMock')
-            ->getMock();
-        $objectManager->get('LoggerMock'); /** @var  $loggerMock \PHPUnit_Framework_MockObject_MockObject */
-        $this->objectContainer->registerImplementation(\PunktDe\PtExtbase\Logger\Logger::class, 'LoggerMock');
-
-        $this->getMockBuilder('PunktDe\PtExtbase\Utility\ShellCommandService')
+        $this->getMockBuilder(ShellCommandService::class)
             ->setMethods(['execute'])
             ->setMockClassName('ShellCommandServiceMock')
             ->getMock();
-        $this->shellCommandServiceMock = $objectManager->get('ShellCommandServiceMock'); /** @var  $shellCommandServiceMock \PHPUnit_Framework_MockObject_MockObject */
-        $this->objectContainer->registerImplementation('PunktDe\PtExtbase\Utility\ShellCommandService', 'ShellCommandServiceMock');
+        $this->shellCommandServiceMock = $objectManager->get('ShellCommandServiceMock');
 
-        $proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Git\GitRepository');
-
+        $proxyClass = $this->buildAccessibleProxy(GitRepository::class);
         $this->getMockBuilder($proxyClass)
             ->setMethods(['initializeObject'])
             ->setMockClassName('GitRepositoryMock')
+            ->setConstructorArgs(['/usr/bin/git', '~'])
             ->getMock();
-        $this->proxy = $objectManager->get('GitRepositoryMock', '/usr/bin/git', '~');
+        $this->gitRepositoryMock = $objectManager->get('GitRepositoryMock', '/usr/bin/git', '~');
     }
-
-
 
     /**
      * @test
      */
     public function commandRendersValidCommand()
     {
-        $this->markTestSkipped('Functionaltest');
         $this->prepareShellCommandExpectations();
 
-        $this->proxy->cloneRepository()
+        $this->gitRepositoryMock->cloneRepository()
             ->setRepository('file:///path/to/a/repository/of/chocolate.git')
             ->setDirectory('/path/to/checked/out/chocolate/')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->cloneRepository()
+        $this->gitRepositoryMock->cloneRepository()
             ->setRepository('file:///path/to/a/repository/of/chocolate.git')
             ->setDirectory('/path/to/checked/out/chocolate/')
             ->setDepth(1)
             ->setBranch('YummyTag')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->checkout()
+        $this->gitRepositoryMock->checkout()
             ->setForce(true)
             ->setQuiet(true)
             ->setCommit('c0ca3ae2f34ef4dc024093f92547b43a4d9bd58a')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->log()
+        $this->gitRepositoryMock->log()
             ->setMaxCount(10)
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->log()
+        $this->gitRepositoryMock->log()
             ->setFormat('%H')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->config()
+        $this->gitRepositoryMock->config()
             ->setGlobal(true)
             ->setUserName('Bud Spencer')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->config()
+        $this->gitRepositoryMock->config()
             ->setGlobal(true)
             ->setEmail('bud@spencer.it')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->remote()
+        $this->gitRepositoryMock->remote()
             ->remove()
             ->setName('origin')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->remote()
+        $this->gitRepositoryMock->remote()
             ->add()
             ->setName('origin')
             ->setUrl('file:///tmp/punktde.git')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->init()
+        $this->gitRepositoryMock->init()
             ->setBare(true)
             ->setShared(true)
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->push()
+        $this->gitRepositoryMock->push()
             ->setTags()
             ->setRemote('origin')
             ->setRefspec('master')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->tag()
+        $this->gitRepositoryMock->tag()
             ->setName('v1.2.3')
             ->setSign(true)
             ->setAnnotate(true)
             ->setMessage('Release')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->commit()
+        $this->gitRepositoryMock->commit()
             ->setAllowEmpty(true)
             ->setMessage('This is a very empty commit!')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->commit()
+        $this->gitRepositoryMock->commit()
             ->setMessage('This is a very cool message!')
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->add()
+        $this->gitRepositoryMock->add()
             ->setPath('.')
             ->setAll(true)
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->status()
+        $this->gitRepositoryMock->status()
             ->setShort(true)
             ->execute();
+        $this->addToAssertionCount(1);
 
-        $this->proxy->log()
+        $this->gitRepositoryMock->log()
             ->setNameOnly(true)
             ->execute();
+        $this->addToAssertionCount(1);
     }
 
-
-
-    /**
-     * @return void
-     */
     protected function prepareShellCommandExpectations()
     {
         $this->shellCommandServiceMock->expects($this->any())
