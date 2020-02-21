@@ -1,9 +1,6 @@
 <?php
 namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
 
-use PunktDe\PtExtbase\Logger\Logger;
-use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
-
 /***************************************************************
  *  Copyright (C) 2015 punkt.de GmbH
  *  Authors: el_equipo <opiuqe_le@punkt.de>
@@ -23,6 +20,9 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use PunktDe\PtExtbase\Logger\Logger;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /**
  * Generic Shell Command
