@@ -23,6 +23,7 @@ namespace PunktDe\PtExtbase\Utility;
 
 use PunktDe\PtExtbase\Utility\RealUrl\UrlDecoder;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -32,16 +33,25 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  */
 class RealUrl implements SingletonInterface
 {
-    /**
-     * @inject
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     */
-    protected $objectManager;
 
     /**
      * @var UrlDecoder
      */
     protected $urlDecoder;
+
+    /**
+     * @var ObjectManagerInterface
+     */
+    protected $objectManager;
+
+    /**
+     * @param ObjectManagerInterface $objectManager
+     */
+    public function injectObjectManager(ObjectManagerInterface $objectManager): void
+    {
+        $this->objectManager = $objectManager;
+    }
+
 
     /**
      * Map path to page ID

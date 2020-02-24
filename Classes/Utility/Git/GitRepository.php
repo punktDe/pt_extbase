@@ -21,8 +21,10 @@ namespace PunktDe\PtExtbase\Utility\Git;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Logger\Logger;
 use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
 use PunktDe\PtExtbase\Utility\Files;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /**
  * Git Repository
@@ -31,25 +33,46 @@ use PunktDe\PtExtbase\Utility\Files;
  */
 class GitRepository
 {
+
     /**
-     * @inject
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
-
     /**
-     * @inject
-     * @var \PunktDe\PtExtbase\Logger\Logger
+     * @var Logger
      */
     protected $logger;
 
-
     /**
-     * @inject
-     * @var \PunktDe\PtExtbase\Utility\Git\GitExecutionManager
+     * @var GitExecutionManager
      */
     protected $gitExecutionManager;
+
+
+    /**
+     * @param ObjectManagerInterface $objectManager
+     */
+    public function injectObjectManager(ObjectManagerInterface $objectManager): void
+    {
+        $this->objectManager = $objectManager;
+    }
+
+    /**
+     * @param Logger $logger
+     */
+    public function injectLogger(Logger $logger): void
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * @param GitExecutionManager $gitExecutionManager
+     */
+    public function injectGitExecutionManager(GitExecutionManager $gitExecutionManager): void
+    {
+        $this->gitExecutionManager = $gitExecutionManager;
+    }
 
 
     /**

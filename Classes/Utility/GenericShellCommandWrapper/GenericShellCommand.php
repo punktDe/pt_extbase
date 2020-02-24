@@ -21,6 +21,9 @@ namespace PunktDe\PtExtbase\Utility\GenericShellCommandWrapper;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Logger\Logger;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+
 /**
  * Generic Shell Command
  *
@@ -53,19 +56,31 @@ class GenericShellCommand
      */
     protected $subCommand;
 
-
     /**
-     * @inject
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
-
     /**
-     * @inject
-     * @var \PunktDe\PtExtbase\Logger\Logger
+     * @var Logger
      */
     protected $logger;
+
+    /**
+     * @param ObjectManagerInterface $objectManager
+     */
+    public function injectObjectManager(ObjectManagerInterface $objectManager): void
+    {
+        $this->objectManager = $objectManager;
+    }
+
+    /**
+     * @param Logger $logger
+     */
+    public function injectLogger(Logger $logger): void
+    {
+        $this->logger = $logger;
+    }
 
 
     /**

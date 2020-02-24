@@ -22,6 +22,7 @@ namespace PunktDe\PtExtbase\Utility\Git\Result;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\AbstractResult;
+use PunktDe\PtExtbase\Utility\Git\GitExecutionManager;
 
 /**
  * Result
@@ -30,11 +31,19 @@ use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\AbstractResult;
  */
 class Result extends AbstractResult
 {
+
     /**
-     * @inject
-     * @var \PunktDe\PtExtbase\Utility\Git\GitExecutionManager
+     * @var GitExecutionManager
      */
     protected $executionManager;
+
+    /**
+     * @param GitExecutionManager $executionManager
+     */
+    public function injectExecutionManager(GitExecutionManager $executionManager): void
+    {
+        $this->executionManager = $executionManager;
+    }
 
 
     /**

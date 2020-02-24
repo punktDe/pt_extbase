@@ -52,13 +52,6 @@ class TemplateViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
-     * @inject
-     * @var \TYPO3\CMS\Extbase\Service\ExtensionService
-     */
-    protected $extensionService;
-
-
-    /**
      * Relative extpath to the extension (eg typo3conf/ext/pt_extbase/)
      *
      * @var string
@@ -93,6 +86,20 @@ class TemplateViewHelper extends AbstractViewHelper
      * @var array
      */
     protected $arguments = [];
+
+
+    /**
+     * @var ExtensionService
+     */
+    protected $extensionService;
+
+    /**
+     * @param ExtensionService $extensionService
+     */
+    public function injectExtensionService(ExtensionService $extensionService): void
+    {
+        $this->extensionService = $extensionService;
+    }
 
 
     /**
