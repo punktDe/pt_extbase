@@ -66,13 +66,12 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
      *
      * @param Tx_PtExtbase_Lifecycle_Manager $lifeCycleManager
      */
-    public function __construct(Tx_PtExtbase_Lifecycle_Manager $lifeCycleManager)
+    public function __construct(Tx_PtExtbase_Lifecycle_Manager $lifeCycleManager = null)
     {
         $this->lifecycleManager = $lifeCycleManager;
-        if (TYPO3_MODE == 'FE' && !$GLOBALS['TSFE']->beUserLogin) {
+        if (TYPO3_MODE === 'FE' && !$GLOBALS['TSFE']->beUserLogin) {
             $this->errorMethodName = 'productionErrorAction';
         }
-        parent::__construct();
     }
 
 

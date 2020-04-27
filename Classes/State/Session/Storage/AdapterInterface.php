@@ -31,7 +31,7 @@
  * @package     State
  * @subpackage  Session
  */
-interface Tx_PtExtbase_State_Session_Storage_AdapterInterface
+interface Tx_PtExtbase_State_Session_Storage_AdapterInterface extends \TYPO3\CMS\Core\SingletonInterface
 {
     /**
      * Returns the value of a storage key

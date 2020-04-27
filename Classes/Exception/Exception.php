@@ -110,7 +110,7 @@ class Exception extends \Exception
         }
         
         // write to devlog
-        if (TYPO3_DLOG) {
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
             GeneralUtility::devLog(
                 $this->getMessage(),
                 'pt_extbase',
@@ -163,7 +163,7 @@ class Exception extends \Exception
         ;
 
         // write to TYPO3 devlog
-        if (TYPO3_DLOG) {
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
             GeneralUtility::devLog(
                 $this->getMessage(),
                 'pt_extbase',

@@ -1,34 +1,7 @@
 <?php
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2012 punkt.de GmbH
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+namespace PunktDe\PtExtbase\Logger\Writer;
 
-/**
- * File Writer
- *
- * @package pt_dppp_base
- * @subpackage Domain\Logger
- */
-class Tx_PtExtbase_Logger_Writer_FileWriter extends \TYPO3\CMS\Core\Log\Writer\FileWriter
+class FileWriter extends \TYPO3\CMS\Core\Log\Writer\FileWriter
 {
     /**
      * Sets the path to the log file.
@@ -37,7 +10,6 @@ class Tx_PtExtbase_Logger_Writer_FileWriter extends \TYPO3\CMS\Core\Log\Writer\F
      *
      * @param string $logFile path to the log file
      * @return $this
-     * @throws InvalidArgumentException
      */
     public function setLogFile($logFile)
     {

@@ -77,14 +77,14 @@ class Tx_PtExtbase_Div
     {
 
         // hook: allow things to be done before redirecting
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pt_extbase']['tx_ptextbase_div']['localRedirect'])) {
+        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['pt_extbase']['tx_ptextbase_div']['localRedirect'])) {
             $fakeThis = new stdClass();
             $params = [
                 'localPath' => $localPath,
                 'keepVal' => $keepVal,
                 'keepValSessionKeyName' => $keepValSessionKeyName,
             ];
-            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['pt_extbase']['tx_ptextbase_div']['localRedirect'] as $funcName) {
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['pt_extbase']['tx_ptextbase_div']['localRedirect'] as $funcName) {
                 GeneralUtility::callUserFunction($funcName, $params, $fakeThis);
             }
         }
@@ -98,7 +98,7 @@ class Tx_PtExtbase_Div
         $targetUrl  = GeneralUtility::locationHeaderUrl($localPath);
 
         // log to devlog
-        if (TYPO3_DLOG) {
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
             GeneralUtility::devLog('Redirecting from "'. GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL').'" to "'.$targetUrl.'"', 'pt_extbase', 1);
         }
 
@@ -128,7 +128,7 @@ class Tx_PtExtbase_Div
             $hookObj = GeneralUtility::getUserObj($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extKey][$hookArrayKey][$functionName], '');
 
             if (method_exists($hookObj, $functionName)) {
-                if (TYPO3_DLOG) {
+                if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
                     GeneralUtility::devLog(sprintf('Hook method found [%s][%s][%s], returning hook object (class: "%s")', $extKey, $hookArrayKey, $functionName, get_class($hookObj)), 'pt_extbase', 1);
                 }
 
@@ -743,27 +743,15 @@ class Tx_PtExtbase_Div
      */
     public static function returnExtConfArray($extKey, $noExceptionIfNoConfigFound=false)
     {
-        if (!array_key_exists($extKey, $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'])) {
+        if (!array_key_exists($extKey, $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'])) {
             if ($noExceptionIfNoConfigFound == true) {
                 return [];
             } else {
-                throw new \PunktDe\PtExtbase\Exception\Exception('Extension configuration in localconf.php for extension "' . $extKey . '" not found!', 1473087212,
-                    '$TYPO3_CONF_VARS["EXT"]["extConf"]["' . $extKey . '"] not found in localconf.php.');
+                throw new \PunktDe\PtExtbase\Exception\Exception('Extension configuration in LocalConfiguration.php for extension "' . $extKey . '" not found!', 1473087212,
+                    '$GLOBALS["TYPO3_CONF_VARS"]["EXTENSIONS"]["' . $extKey . '"] not found in LocalConfiguration.php.');
             }
         }
-
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey])) {
-            return $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey];
-        } else {
-            $baseConfArr = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey]);
-            if (!is_array($baseConfArr)) {
-                throw new \PunktDe\PtExtbase\Exception\Exception('Extension configuration of extension "' . $extKey . '" could not be read!', 1473087238,
-                    '$TYPO3_CONF_VARS["EXT"]["extConf"]["' . $extKey . '"] is not an array after unserializing');
-            }
-
-            return $baseConfArr;
-        }
-
+        return $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][$extKey];
     }
     
     
@@ -991,7 +979,7 @@ class Tx_PtExtbase_Div
             $filteredValue = null;
         // all other values (including objects and arrays): set filtered value to empty string
         } else {
-            if (TYPO3_DLOG) {
+            if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
                 GeneralUtility::devLog(__METHOD__.'(): unfilterable value has been converted to empty string', 'pt_tools', 2, ['original value' => $value]);
             }
         }
@@ -1037,13 +1025,13 @@ class Tx_PtExtbase_Div
                 // all other values (including non-ArrayAccess objects): set filtered value to empty string
                 } else {
                     $filteredArray[$newKey] = '';
-                    if (TYPO3_DLOG) {
+                    if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
                         GeneralUtility::devLog(__METHOD__.'(): unfilterable array value of key "'.$key.'" has been converted to empty string', 'pt_tools', 2, ['original value' => $value]);
                     }
                 }
              }
          } else {
-             if (TYPO3_DLOG) {
+             if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
                  GeneralUtility::devLog(__METHOD__.'(): given parameter was no array', 'pt_tools', 2, ['original parameter' => $array]);
              }
          }
@@ -1124,7 +1112,7 @@ class Tx_PtExtbase_Div
                 // unset the property first, because overwriting it can have side-effects on ArrayAccess objects (e.g. when checking if an item already exists in the collection)
                 unset($filteredObject[$key]);
                 $filteredObject[$key] = '';
-                if (TYPO3_DLOG) {
+                if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
                     GeneralUtility::devLog(__METHOD__.'(): unfilterable ArrayAccess object property "'.$key.'" has been converted to empty string', 'pt_tools', 2, ['original value' => $value]);
                 }
             }
@@ -1628,6 +1616,8 @@ class Tx_PtExtbase_Div
      */
     public static function getCurrentRequestId()
     {
-        return \TYPO3\CMS\Core\Core\Bootstrap::getInstance()->getRequestId();
+        ###TODO
+        return '';
+        //return \TYPO3\CMS\Core\Core\Bootstrap::   getInstance()->getRequestId();
     }
 }

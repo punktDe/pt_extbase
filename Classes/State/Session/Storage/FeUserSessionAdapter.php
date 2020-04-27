@@ -97,7 +97,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
         Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, FrontendUserAuthentication::class, ['message' => 'No valid frontend user found!']);
         
         $val = $GLOBALS['TSFE']->fe_user->getKey('user', $key);
-        if (TYPO3_DLOG) {
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
             \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(sprintf('Reading "%s" from FE user session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
         }
         
@@ -129,7 +129,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
         $GLOBALS['TSFE']->fe_user->setKey('user', $key, $val);
         $GLOBALS['TSFE']->fe_user->userData_change = 1;
         $GLOBALS['TSFE']->fe_user->storeSessionData();
-        if (TYPO3_DLOG) {
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
             \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(sprintf('Storing "%s" into FE user session using "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
         }
     }
@@ -150,7 +150,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
         unset($GLOBALS['TSFE']->fe_user->uc[$key]);
         $GLOBALS['TSFE']->fe_user->userData_change = 1;
         $GLOBALS['TSFE']->fe_user->storeSessionData();
-        if (TYPO3_DLOG) {
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
             \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(sprintf('Deleting "%s" from FE user session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
         }
     }

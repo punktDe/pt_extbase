@@ -111,20 +111,23 @@ class Logger implements SingletonInterface
      */
     protected function configureLoggerProperties()
     {
+        $internalName = LogLevel::getInternalName($this->loggerConfiguration->getLogLevelThreshold());
         $GLOBALS['TYPO3_CONF_VARS']['LOG']['writerConfiguration'] = [
-            $this->loggerConfiguration->getLogLevelThreshold() => [
-                'Tx_PtExtbase_Logger_Writer_FileWriter' => [
+            $internalName => [
+                \PunktDe\PtExtbase\Logger\Writer\FileWriter::class => [
                     'logFile' => $this->logFilePath
                 ]
-            ],
+            ]
         ];
 
-        $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][LogLevel::DEBUG] = [
-            ReplaceComponentProcessor::class => []
-        ];
+//        $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][LogLevel::DEBUG] = [
+//            ReplaceComponentProcessor::class => []
+//        ];
+
+        $internalName = LogLevel::getInternalName($this->loggerConfiguration->getEmailLogLevelThreshold());
 
         if ($this->loggerConfiguration->weHaveAnyEmailReceivers()) {
-            $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][$this->loggerConfiguration->getEmailLogLevelThreshold()]['Tx_PtExtbase_Logger_Processor_EmailProcessor'] = [
+            $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][$internalName]['Tx_PtExtbase_Logger_Processor_EmailProcessor'] = [
                 'receivers' => $this->loggerConfiguration->getEmailReceivers()
             ];
         }
