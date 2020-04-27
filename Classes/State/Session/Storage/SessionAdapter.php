@@ -22,8 +22,7 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+
 
 /**
  * Session Storage Adapter class for TYPO3 Frontend _browser_ sessions and Backend user sessions
@@ -35,49 +34,22 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
  */
 class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_State_Session_Storage_AdapterInterface
 {
-    /**
-     * Holds singleton instance of this class
-     *
-     * @var Tx_PtExtbase_State_Session_Storage_SessionAdapter
-     */
-    private static $uniqueInstance = null;
-
 
     /**
-     * Class constructor: must not be called directly in order to use getInstance() to get the unique instance of the object
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      */
-    protected function __construct()
+    protected $objectManager;
+
+    /**
+     * @var \PunktDe\PtExtbase\Logger\Logger
+     */
+    protected $logger;
+
+    public function __construct()
     {
+        $this->objectManager = TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(TYPO3\CMS\Extbase\Object\ObjectManager::class);
+        $this->logger = $this->objectManager->get(PunktDe\PtExtbase\Logger\Logger::class);
     }
-
-
-    /**
-     * Returns a unique instance (Singleton) of the object. Use this method instead of the private/protected class constructor.
-     *
-     * @param   void
-     * @return  Tx_PtExtbase_State_Session_Storage_SessionAdapter      unique instance of the object (Singleton)
-     */
-    public static function getInstance()
-    {
-        if (self::$uniqueInstance === null) {
-            $className = __CLASS__;
-            self::$uniqueInstance = new $className();
-        }
-
-        return self::$uniqueInstance;
-    }
-
-
-    /**
-     * Final method to prevent object cloning (using 'clone'), in order to use only the unique instance of the Singleton object.
-     * @param   void
-     * @return  void
-     */
-    final public function __clone()
-    {
-        throw new Exception('Clone is not allowed for ' . get_class($this) . ' (Singleton)');
-    }
-
 
     /**
      * Returns the value of a key from TYPO3 FE _browser_ session or a BE user session (if the session value is serialized it will be returned unserialized)
@@ -89,13 +61,10 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
      */
     public function read($key, $allowUnserializing = true)
     {
-
         // TYPO3 Frontend mode
-        if (TYPO3_MODE == 'FE' && ($GLOBALS['TSFE']->fe_user instanceof \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication)) {
+        if (TYPO3_MODE === 'FE' && ($GLOBALS['TSFE']->fe_user instanceof \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication)) {
             $val = $GLOBALS['TSFE']->fe_user->getKey('ses', $key);
-            if (TYPO3_DLOG) {
-                GeneralUtility::devLog(sprintf('Reading "%s" from FE browser session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
-            }
+                $this->logger->debug(sprintf('Reading "%s" from FE browser session in "$GLOBALS[\'TSFE\']->fe_user"', $key), __CLASS__);
             if (($allowUnserializing == true) && (is_string($val) && unserialize($val) !== false)) {
                 $val = unserialize($val);
             }
@@ -103,12 +72,10 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
 
             // TYPO3 Backend mode
         } else {
-            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, ['message' => 'No valid backend user found!']);
+            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], TYPO3\CMS\Core\Authentication\BackendUserAuthentication::class, ['message' => 'No valid backend user found!']);
 
             $val = $GLOBALS['BE_USER']->getSessionData($key);
-            if (TYPO3_DLOG) {
-                GeneralUtility::devLog(sprintf('Reading "%s" from BE user session in "$GLOBALS[\'BE_USER\']"', $key), 'pt_extbase');
-            }
+            $this->logger->debug(sprintf('Reading "%s" from BE user session in "$GLOBALS[\'BE_USER\']"', $key), __CLASS__);
         }
 
         return $val;
@@ -126,9 +93,8 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
      */
     public function store($key, $val, $allowSerializing = true, $foreignSessionId = null)
     {
-
         // TYPO3 Frontend mode
-        if (TYPO3_MODE == 'FE' && ($GLOBALS['TSFE']->fe_user instanceof \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication)) {
+        if (TYPO3_MODE === 'FE' && ($GLOBALS['TSFE']->fe_user instanceof \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication)) {
             if (($allowSerializing == true) && (is_object($val) || is_array($val))) {
                 $val = serialize($val);
             }
@@ -140,9 +106,7 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
                     $GLOBALS['TSFE']->fe_user->user = null;
                 }
                 $GLOBALS['TSFE']->fe_user->storeSessionData();
-                if (TYPO3_DLOG) {
-                    GeneralUtility::devLog(sprintf('Storing "%s" into FE browser session using "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
-                }
+                $this->logger->debug(sprintf('Storing "%s" into FE browser session using "$GLOBALS[\'TSFE\']->fe_user"', $key), __CLASS__);
             } else {
                 Tx_PtExtbase_Assertions_Assert::isString($foreignSessionId);
 
@@ -165,19 +129,15 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
                 ];
                 $GLOBALS['TYPO3_DB']->exec_DELETEquery('fe_session_data', 'hash=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($foreignSessionId, 'fe_session_data'));
                 $GLOBALS['TYPO3_DB']->exec_INSERTquery('fe_session_data', $insertFields);
-                if (TYPO3_DLOG) {
-                    GeneralUtility::devLog(sprintf('Storing "%s" into foreign FE browser session "%s"', $key, $foreignSessionId), 'pt_extbase');
-                }
+                $this->logger->debug(sprintf('Storing "%s" into foreign FE browser session "%s"', $key, $foreignSessionId), __CLASS__);
             }
 
             // TYPO3 Backend mode
         } else {
-            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, ['message' => 'No valid backend user found!']);
+            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], TYPO3\CMS\Core\Authentication\BackendUserAuthentication::class, ['message' => 'No valid backend user found!']);
 
             $GLOBALS['BE_USER']->setAndSaveSessionData($key, $val);
-            if (TYPO3_DLOG) {
-                GeneralUtility::devLog(sprintf('Storing "%s" into BE user session using "$GLOBALS[\'BE_USER\']"', $key), 'pt_extbase');
-            }
+            $this->logger->debug(sprintf('Storing "%s" into BE user session using "$GLOBALS[\'BE_USER\']"', $key), __CLASS__);
         }
     }
 
@@ -197,13 +157,11 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
             $GLOBALS['TSFE']->fe_user->setKey('ses', $key, null);
             $GLOBALS['TSFE']->fe_user->sesData_change = 1;
             $GLOBALS['TSFE']->fe_user->storeSessionData();
-            if (TYPO3_DLOG) {
-                GeneralUtility::devLog(sprintf('Deleting "%s" from FE browser session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
-            }
+            $this->logger->debug(sprintf('Deleting "%s" from FE browser session in "$GLOBALS[\'TSFE\']->fe_user"', $key), __CLASS__);
 
             // TYPO3 Backend mode
         } else {
-            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, ['message' => 'No valid backend user found!']);
+            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['BE_USER'], TYPO3\CMS\Core\Authentication\BackendUserAuthentication::class, ['message' => 'No valid backend user found!']);
 
             $sesDat = unserialize($GLOBALS['BE_USER']->user['ses_data']);
 
@@ -211,13 +169,12 @@ class Tx_PtExtbase_State_Session_Storage_SessionAdapter implements Tx_PtExtbase_
                 unset($sesDat[$key]);
                 $GLOBALS['BE_USER']->user['ses_data'] = (!empty($sesDat) ? serialize($sesDat) : '');
                 // this is adapted from t3lib_userAuth::setAndSaveSessionData()
-                $GLOBALS['TYPO3_DB']->exec_UPDATEquery($GLOBALS['BE_USER']->session_table,
-                    'ses_id=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($GLOBALS['BE_USER']->user['ses_id'], $GLOBALS['BE_USER']->session_table),
-                    ['ses_data' => $GLOBALS['BE_USER']->user['ses_data']]
-                );
-                if (TYPO3_DLOG) {
-                    GeneralUtility::devLog(sprintf('Deleting "%s" from BE user in "$GLOBALS[\'BE_USER\']"', $key), 'pt_extbase');
-                }
+//      TODO
+//                $GLOBALS['TYPO3_DB']->exec_UPDATEquery($GLOBALS['BE_USER']->session_table,
+//                    'ses_id=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($GLOBALS['BE_USER']->user['ses_id'], $GLOBALS['BE_USER']->session_table),
+//                    ['ses_data' => $GLOBALS['BE_USER']->user['ses_data']]
+//                );
+                $this->logger->debug(sprintf('Deleting "%s" from BE user in "$GLOBALS[\'BE_USER\']"', $key), __CLASS__);
             }
         }
     }

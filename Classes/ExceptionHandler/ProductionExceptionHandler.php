@@ -28,15 +28,16 @@ class ProductionExceptionHandler extends Typo3ProductionExceptionHandler
             echo $exception->getCode();
         } else {
             $this->writeLogEntries($exception, self::CONTEXT_WEB);
-
-            $messageObj = GeneralUtility::makeInstance(
-                ErrorpageMessage::class,
-                $this->getMessage($exception),
-                $this->getTitle($exception)
-            );
-            $messageObj = $this->overrideDisplayMessageForWeb($messageObj);
-
-            $messageObj->output();
+            echo $this->getTitle($exception);
+            echo $this->getMessage($exception);
+//            $messageObj = GeneralUtility::makeInstance(
+//                ErrorpageMessage::class,
+//                $this->getMessage($exception),
+//                $this->getTitle($exception)
+//            );
+//            $messageObj = $this->overrideDisplayMessageForWeb($messageObj);
+//
+//            $messageObj->output();
         }
     }
 

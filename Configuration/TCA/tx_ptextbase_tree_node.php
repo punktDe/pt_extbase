@@ -13,7 +13,7 @@ return [
         'enablecolumns'     => [
             'disabled' => 'hidden'
         ],
-        'iconfile'          => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('pt_extbase') . 'Resources/Public/Icons/icon_tx_ptextbase_tree_node.png',
+        'iconfile'          => 'EXT:pt_extbase/Resources/Public/Icons/icon_tx_ptextbase_tree_node.png',
         'hideTable' => 1
     ],
     'interface' => [

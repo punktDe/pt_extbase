@@ -50,13 +50,13 @@ class LoggerConfiguration implements SingletonInterface
     /**
      * @var integer
      */
-    protected $logLevelThreshold = LogLevel::INFO;
+    protected $logLevelThreshold = 6;
 
 
     /**
      * @var integer
      */
-    protected $emailLogLevelThreshold = LogLevel::CRITICAL;
+    protected $emailLogLevelThreshold = 2;
 
 
     /**

@@ -76,8 +76,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
     /** @test */
     public function addingAnObjectOfTheWrongTypeThrowsException()
     {
-        if (!defined('TYPO3_DLOG')) {
-            define('TYPO3_DLOG', false);
+        if (!defined('isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])')) {
+            define('isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])', false);
         }
         $this->expectException(PunktDe\PtExtbase\Exception\Exception::class);
         $this->fixture->addItem(new StdClass('hello', 'world'));
