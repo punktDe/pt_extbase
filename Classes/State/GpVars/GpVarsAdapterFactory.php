@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\State\GpVars;
 /***************************************************************
  *  Copyright notice
  *
@@ -23,19 +24,21 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\SingletonInterface;
+
 /**
  * Class implements a factory for GET/POST Var Adapter.
  *
  * @package State
  * @subpackage GpVars
  */
-class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory implements \TYPO3\CMS\Core\SingletonInterface
+class GpVarsAdapterFactory implements SingletonInterface
 {
     /**
      * Singleton instances of GET/POST Var Adapters.
      * There is one gpVarsAdapter for each extensionNamespace
      *
-     * @var array<Tx_PtExtbase_State_GpVars_GpVarsAdapter>
+     * @var array<GpVarsAdapter>
      */
     private $instances = [];
     
@@ -45,12 +48,12 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapterFactory implements \TYPO3\CMS\Core\
      * Factory method for GET/POST Var Adapter.
      * 
      * @param string $extensionNameSpace 
-     * @return Tx_PtExtbase_State_GpVars_GpVarsAdapter Singleton instance of GET/POST Var Adapter.
+     * @return GpVarsAdapter Singleton instance of GET/POST Var Adapter.
      */
     public function getInstance($extensionNameSpace)
     {
         if (!array_key_exists($extensionNameSpace, $this->instances) || $this->instances[$extensionNameSpace] == null) {
-            $this->instances[$extensionNameSpace] = new Tx_PtExtbase_State_GpVars_GpVarsAdapter($extensionNameSpace);
+            $this->instances[$extensionNameSpace] = new GpVarsAdapter($extensionNameSpace);
             $this->instances[$extensionNameSpace]->_injectGetVars($this->extractExtensionVariables($_GET, $extensionNameSpace));
             $this->instances[$extensionNameSpace]->_injectPostVars($this->extractExtensionVariables($_POST, $extensionNameSpace));
             $this->instances[$extensionNameSpace]->_injectFilesVars($this->extractExtensionVariables($_FILES, $extensionNameSpace));

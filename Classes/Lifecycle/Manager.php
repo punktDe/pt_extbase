@@ -23,6 +23,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace PunktDe\PtExtbase\Lifecycle;
+
 /**
  * Lifecycle Manager allowes to register class wich will be notified 
  * on different lifecycle envents.
@@ -31,7 +33,7 @@
  * @author Michael Knoll
  * @package Lifecycle 
  */
-class Tx_PtExtbase_Lifecycle_Manager implements \TYPO3\CMS\Core\SingletonInterface
+class Manager implements \TYPO3\CMS\Core\SingletonInterface
 {
     const UNDEFINED = 0;
     const START = 1;

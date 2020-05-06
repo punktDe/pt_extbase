@@ -4,7 +4,22 @@ services:
     autoconfigure: true
     public: false
 
+  PunktDe\PtExtbase\:
+    resource: '../Classes/*.php'
+
+  PunktDe\PtExtbase\Utility\:
+    resource: '../Classes/Utility/{HeaderInclusion}.php'
 
   PunktDe\PtExtbase\Logger\:
     resource: '../Classes/Logger'
+
+  PunktDe\PtExtbase\Controller\:
+    resource: '../Classes/Controller'
+
+  PunktDe\PtExtbase\Lifecycle\:
+    resource: '../Classes/Lifecycle'
+
+  PunktDe\PtExtbase\State\:
+    resource: '../Classes/State'
+
 

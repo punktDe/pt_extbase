@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\State\Session;
 /***************************************************************
  *  Copyright notice
  *
@@ -22,13 +23,15 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use PunktDe\PtExtbase\Lifecycle\EventInterface;
 use PunktDe\PtExtbase\Utility\NamespaceUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
 /**
  * Persistence manager to store objects to session and reload objects from session.
  */
-class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtbase_Lifecycle_EventInterface
+class SessionPersistenceManager implements EventInterface
 {
     /**
      * Definition of SessionStorageAdapter
@@ -198,12 +201,12 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     public function lifecycleUpdate($state)
     {
         switch ($state) {
-            case Tx_PtExtbase_Lifecycle_Manager::START:
+            case \PunktDe\PtExtbase\Lifecycle\Manager::START:
                 if (!$this->isInitialized) {
                     $this->init();
                 }
                 break;
-            case Tx_PtExtbase_Lifecycle_Manager::END:
+            case \PunktDe\PtExtbase\Lifecycle\Manager::END:
                 $this->persist();
                 break;
         }
@@ -242,7 +245,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
     public function getSessionDataHash()
     {
         if ($this->sessionHash == null) {
-            $this->lifecycleUpdate(Tx_PtExtbase_Lifecycle_Manager::END);
+            $this->lifecycleUpdate(\PunktDe\PtExtbase\Lifecycle\Manager::END);
             $this->sessionHash = md5(serialize($this->sessionData));
         }
         return $this->sessionHash;
@@ -306,7 +309,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManager implements Tx_PtExtba
         if ($this->sessionAdapaterClass === self::STORAGE_ADAPTER_DB) {
             $argumentArray['state'] = $this->getSessionDataHash();
         } elseif ($this->sessionAdapaterClass === self::STORAGE_ADAPTER_NULL) {
-            $this->lifecycleUpdate(Tx_PtExtbase_Lifecycle_Manager::END);
+            $this->lifecycleUpdate(\PunktDe\PtExtbase\Lifecycle\Manager::END);
             $sessionArguments = $this->array_filter_recursive($this->sessionData);
             ArrayUtility::mergeRecursiveWithOverrule($sessionArguments, $argumentArray);
             $argumentArray = $sessionArguments;

@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase;
+
 /***************************************************************
 * Copyright notice
 *
@@ -29,7 +31,7 @@
 * @author Daniel Lienert
 */
 
-interface Tx_PtExtbase_ContextInterface extends \TYPO3\CMS\Core\SingletonInterface
+interface ContextInterface extends \TYPO3\CMS\Core\SingletonInterface
 {
     /**
      * Defines if the extension act as it is in cached mode

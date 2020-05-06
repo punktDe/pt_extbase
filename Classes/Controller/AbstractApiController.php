@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Controller;
+
 /***************************************************************
  *  Copyright (C) 2014 punkt.de GmbH
  *  Authors: el_equipo <opiuqe_le@punkt.de>
@@ -29,7 +31,7 @@ use TYPO3\CMS\Extbase\Error\Error;
  * @package pt_extbase
  * @subpackage Controller
  */
-class Tx_PtExtbase_Controller_AbstractApiController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class AbstractApiController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
     /**
      * @var \PunktDe\PtExtbase\Logger\Logger

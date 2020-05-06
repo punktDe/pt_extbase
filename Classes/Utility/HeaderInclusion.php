@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Utility;
+
 /***************************************************************
 * Copyright notice
 *
@@ -34,7 +36,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * @author Joachim Mathes <mathes@punkt.de>
  */
 
-class Tx_PtExtbase_Utility_HeaderInclusion implements \TYPO3\CMS\Core\SingletonInterface
+class HeaderInclusion implements \TYPO3\CMS\Core\SingletonInterface
 {
 
     /**

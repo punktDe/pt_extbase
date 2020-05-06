@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\Collection;
 /***************************************************************
 *  Copyright notice
 *
@@ -31,7 +32,7 @@
  * @package pt_extbase
  * @subpackaga Collection
  */
-abstract class Tx_PtExtbase_Collection_SortableObjectCollection extends \PunktDe\PtExtbase\Collection\ObjectCollection
+abstract class SortableObjectCollection extends \PunktDe\PtExtbase\Collection\ObjectCollection
 {
     /**
      * Sort items in decreasing order with respect to sorting value

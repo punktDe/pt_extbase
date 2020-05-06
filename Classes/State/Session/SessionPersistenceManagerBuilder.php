@@ -1,4 +1,11 @@
 <?php
+namespace PunktDe\PtExtbase\State\Session;
+
+use PunktDe\PtExtbase\Context;
+use PunktDe\PtExtbase\State\Session\Storage\AdapterInterface;
+use PunktDe\PtExtbase\State\Session\Storage\SessionAdapter;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /***************************************************************
  *  Copyright notice
@@ -36,12 +43,12 @@
  * @subpackage State\Session
  * @see Tx_PtExtbase_Tests_Unit_State_Session_SessionPersistenceManagerBuilderTest
  */
-class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TYPO3\CMS\Core\SingletonInterface
+class SessionPersistenceManagerBuilder implements SingletonInterface
 {
     /**
      * Holds context in which builder is called
      *
-     * @var Tx_PtExtbase_Context
+     * @var Context
      */
     protected $context;
 
@@ -50,14 +57,14 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TY
     /**
      * Holds singleton instance of session persistence manager once it's been instantiated
      *
-     * @var Tx_PtExtbase_State_Session_SessionPersistenceManager
+     * @var SessionPersistenceManager
      */
     protected $sessionPersistenceManagerInstance;
 
 
 
     /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -66,10 +73,10 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TY
     /**
      * Constructor takes context as required dependency to be injected via DI
      *
-     * @param Tx_PtExtbase_Context $context
-     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     * @param Context $context
+     * @param ObjectManagerInterface $objectManager
      */
-    public function __construct(Tx_PtExtbase_Context $context, \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager)
+    public function __construct(Context $context, ObjectManagerInterface $objectManager)
     {
         $this->context = $context;
         $this->objectManager = $objectManager;
@@ -82,10 +89,10 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TY
      * If no storage adapter is given, injected context is used to determine which adapter
      * to use in current context.
      *
-     * @param Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionStorageAdapter
-     * @return Tx_PtExtbase_State_Session_SessionPersistenceManager
+     * @param AdapterInterface $sessionStorageAdapter
+     * @return SessionPersistenceManager
      */
-    public function getInstance(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionStorageAdapter = null)
+    public function getInstance(AdapterInterface $sessionStorageAdapter = null)
     {
         if ($this->sessionPersistenceManagerInstance === null) {
             $this->createInstance($sessionStorageAdapter);
@@ -104,7 +111,7 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TY
     protected function createInstance($sessionStorageAdapter)
     {
         if ($sessionStorageAdapter === null) {
-            $exception = new Exception();
+            $exception = new \Exception();
             $sessionStorageAdapter = $this->determineSessionStorageAdapterForGivenContext();
         }
         $this->sessionPersistenceManagerInstance = $this->objectManager->get('Tx_PtExtbase_State_Session_SessionPersistenceManager', $sessionStorageAdapter);
@@ -117,10 +124,9 @@ class Tx_PtExtbase_State_Session_SessionPersistenceManagerBuilder implements \TY
      */
     protected function determineSessionStorageAdapterForGivenContext()
     {
-        if ($this->context->isInCachedMode()) {
-            return Tx_PtExtbase_State_Session_Storage_DBAdapterFactory::getInstance();
-        } else {
-            return Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance();
+        if (!$this->context->isInCachedMode()) {
+            return SessionAdapter::getInstance();
         }
+        throw new \Exception('not implemented anymore', 1588601198);
     }
 }

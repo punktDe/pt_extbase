@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\State\Session\Storage;
 /***************************************************************
 *  Copyright notice
 *  
@@ -22,6 +23,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use PunktDe\PtExtbase\Assertions\Assert;
 use \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
 /**
@@ -32,12 +34,12 @@ use \TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
  * @package     State
  * @subpackage  Session\Storage
  */
-class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtExtbase_State_Session_Storage_AdapterInterface
+class FeUserSessionAdapter implements AdapterInterface
 {
     /**
      * Holds singleton instance of this class
      *
-     * @var Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter
+     * @var FeUserSessionAdapter
      */
     private static $uniqueInstance = null;
 
@@ -57,7 +59,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      * Returns a unique instance (Singleton) of the object. Use this method instead of the private/protected class constructor.
      *
      * @param   void
-     * @return  Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter      unique instance of the object (Singleton)
+     * @return  FeUserSessionAdapter      unique instance of the object (Singleton)
      */
     public static function getInstance()
     {
@@ -78,7 +80,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      */
     final public function __clone()
     {
-        throw new Exception('Clone is not allowed for '.get_class($this).' (Singleton)');
+        throw new \Exception('Clone is not allowed for '.get_class($this).' (Singleton)');
     }
     
     
@@ -94,7 +96,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      */
     public function read($key)
     {
-        Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, FrontendUserAuthentication::class, ['message' => 'No valid frontend user found!']);
+        Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, FrontendUserAuthentication::class, ['message' => 'No valid frontend user found!']);
         
         $val = $GLOBALS['TSFE']->fe_user->getKey('user', $key);
         if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
@@ -120,7 +122,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      */
     public function store($key, $val)
     {
-        Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, FrontendUserAuthentication::class, ['message' => 'No valid frontend user found!']);
+        Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, FrontendUserAuthentication::class, ['message' => 'No valid frontend user found!']);
         
         if (is_object($val) || is_array($val)) {
             $val = serialize($val);
@@ -145,7 +147,7 @@ class Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter implements Tx_PtEx
      */
     public function delete($key)
     {
-        Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, FrontendUserAuthentication::class, ['message' => 'No valid frontend user found!']);
+        Assert::isInstanceOf($GLOBALS['TSFE']->fe_user, FrontendUserAuthentication::class, ['message' => 'No valid frontend user found!']);
         
         unset($GLOBALS['TSFE']->fe_user->uc[$key]);
         $GLOBALS['TSFE']->fe_user->userData_change = 1;

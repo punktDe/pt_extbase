@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Lifecycle;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -29,7 +31,7 @@
  * @author Michael Knoll
  * @package Lifecycle
  */
-interface Tx_PtExtbase_Lifecycle_EventInterface
+interface EventInterface
 {
     /**
      * Will be called by the lifecycle manager. 

@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase;
 /***************************************************************
 *  Copyright notice
 *
@@ -36,7 +37,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @author      Rainer Kuhn
  * @package     Div
  */
-class Tx_PtExtbase_Div
+class Div
 {
     /**
      * @var TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer

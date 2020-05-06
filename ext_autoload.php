@@ -25,7 +25,7 @@ return [
     'tx_ptextbase_extbase_abstractextbasecontext' => $extensionClassesPath . 'Extbase/AbstractExtbaseContext.php',
     'tx_ptextbase_lifecycle_eventinterface' => $extensionClassesPath . 'Lifecycle/EventInterface.php',
     'tx_ptextbase_lifecycle_hookmanager' => $extensionClassesPath . 'Lifecycle/HookManager.php',
-    'tx_ptextbase_lifecycle_manager' => $extensionClassesPath . 'Lifecycle/Manager.php',
+    '\PunktDe\PtExtbase\Lifecycle\Manager' => $extensionClassesPath . 'Lifecycle/Manager.php',
     'tx_ptextbase_registry_registry' => $extensionClassesPath . 'Registry/Registry.php',
     'tx_ptextbase_state_identifiableinterface' => $extensionClassesPath . 'State/IdentifiableInterface.php',
     'tx_ptextbase_state_gpvars_gpvarsadapter' => $extensionClassesPath . 'State/GpVars/GpVarsAdapter.php',

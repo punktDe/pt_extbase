@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\State\Session\Storage;
 /***************************************************************
  *  Copyright notice
  *
@@ -34,16 +35,16 @@
  * @package State
  * @subpackage Session\Storage
  */
-class Tx_PtExtbase_State_Session_Storage_NullStorageAdapter implements Tx_PtExtbase_State_Session_Storage_AdapterInterface
+class NullStorageAdapter implements AdapterInterface
 {
     /**
      * Factory method to get an instance of this class
      *
-     * @return Tx_PtExtbase_State_Session_Storage_NullStorageAdapter
+     * @return NullStorageAdapter
      */
     public static function getInstance()
     {
-        return new Tx_PtExtbase_State_Session_Storage_NullStorageAdapter();
+        return new NullStorageAdapter();
     }
     
     
