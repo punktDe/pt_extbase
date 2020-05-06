@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Assertions;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -34,7 +36,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author  Michael Knoll
  * @see Tx_PtExtbase_Tests_Unit_Assertions_AssertTest
  */
-class Tx_PtExtbase_Assertions_Assert
+class Assert
 {
     /**
      * Holds instance of t3lib_DB that can be mocked and injected for testing

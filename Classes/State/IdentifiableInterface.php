@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\State;
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +31,7 @@
  * @subpackage StateAdapter
  * @author Michael Knoll 
  */
-interface Tx_PtExtbase_State_IdentifiableInterface
+interface IdentifiableInterface
 {
     /**
      * Generates an unique namespace for an object to be used

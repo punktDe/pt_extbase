@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -42,10 +44,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author Daniel Lienert 
  * @package Controller
  */
-abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
     /**
-     * @var Tx_PtExtbase_Lifecycle_Manager
+     * @var \PunktDe\PtExtbase\Lifecycle\Manager
      */
     protected $lifecycleManager;
 
@@ -64,9 +66,9 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
     /**
      * Constructor for all plugin controllers
      *
-     * @param Tx_PtExtbase_Lifecycle_Manager $lifeCycleManager
+     * @param \PunktDe\PtExtbase\Lifecycle\Manager $lifeCycleManager
      */
-    public function __construct(Tx_PtExtbase_Lifecycle_Manager $lifeCycleManager = null)
+    public function __construct(\PunktDe\PtExtbase\Lifecycle\Manager $lifeCycleManager = null)
     {
         $this->lifecycleManager = $lifeCycleManager;
         if (TYPO3_MODE === 'FE' && !$GLOBALS['TSFE']->beUserLogin) {
@@ -298,7 +300,7 @@ abstract class Tx_PtExtbase_Controller_AbstractActionController extends \TYPO3\C
         
         if (TYPO3_MODE === 'BE') {
             // if we are in BE mode, this ist the last line called
-            $this->lifecycleManager->updateState(Tx_PtExtbase_Lifecycle_Manager::END);
+            $this->lifecycleManager->updateState(\PunktDe\PtExtbase\Lifecycle\Manager::END);
         }
     }
 

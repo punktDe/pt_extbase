@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\State\GpVars;
 /***************************************************************
  *  Copyright notice
  *
@@ -24,13 +25,12 @@
  ***************************************************************/
 use PunktDe\PtExtbase\Utility\NamespaceUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class implements adapter for GET and POST vars to be used by
  * objects implementing the GpVarsInjectable interface
  */
-class Tx_PtExtbase_State_GpVars_GpVarsAdapter
+class GpVarsAdapter
 {
     /**
      * Holds array with post vars from current HTTP request
@@ -129,9 +129,9 @@ class Tx_PtExtbase_State_GpVars_GpVarsAdapter
      *
      * TODO this won't work with DI! Rename in later refacotring.
      *
-     * @param Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface $object
+     * @param GpVarsInjectableInterface $object
      */
-    public function injectParametersInObject(Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface $object)
+    public function injectParametersInObject(GpVarsInjectableInterface $object)
     {
         $object->_injectGPVars($this->extractPgVarsByNamespace($object->getObjectNamespace()));
     }

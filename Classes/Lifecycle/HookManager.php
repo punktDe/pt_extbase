@@ -21,12 +21,12 @@ class HookManager
     {
 
         //If the class can not be resolved, we are not in an lifecycle-managed context. therefore exit here.
-        if (!class_exists(\Tx_PtExtbase_Lifecycle_Manager::class)) {
+        if (!class_exists(Manager::class)) {
             return;
         }
 
         // This is a singleton, so we can use \TYPO3\CMS\Core\Utility\GeneralUtility to get a singl\TYPO3\CMS\Core\Utility\GeneralUtilityance
-        $lifecycle = GeneralUtility::makeInstance(\Tx_PtExtbase_Lifecycle_Manager::class);
-        $lifecycle->updateState(\Tx_PtExtbase_Lifecycle_Manager::END);
+        $lifecycle = GeneralUtility::makeInstance(Manager::class);
+        $lifecycle->updateState(Manager::END);
     }
 }

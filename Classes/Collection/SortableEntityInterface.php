@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Collection;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -30,7 +32,7 @@
  * @package pt_extbase
  * @subpackaga Collection
  */
-interface Tx_PtExtbase_Collection_SortableEntityInterface
+interface SortableEntityInterface
 {
     /**
      * @return integer Sorting value

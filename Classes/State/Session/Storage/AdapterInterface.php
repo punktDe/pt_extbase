@@ -1,4 +1,5 @@
 <?php
+namespace PunktDe\PtExtbase\State\Session\Storage;
 /***************************************************************
 *  Copyright notice
 *
@@ -23,6 +24,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Core\SingletonInterface;
+
 /**
  * Storage adapter interface for reading and writing data to session
  *
@@ -31,7 +34,7 @@
  * @package     State
  * @subpackage  Session
  */
-interface Tx_PtExtbase_State_Session_Storage_AdapterInterface extends \TYPO3\CMS\Core\SingletonInterface
+interface AdapterInterface extends SingletonInterface
 {
     /**
      * Returns the value of a storage key

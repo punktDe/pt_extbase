@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\State\GpVars;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -23,6 +25,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\State\IdentifiableInterface;
+
 /**
  * Interface for objects that can be injected by GP vars
  *
@@ -30,8 +34,7 @@
  * @subpackage GpVars
  * @author Michael Knoll 
  */
-interface Tx_PtExtbase_State_GpVars_GpVarsInjectableInterface
-            extends Tx_PtExtbase_State_IdentifiableInterface
+interface GpVarsInjectableInterface extends IdentifiableInterface
 {
     /**
      * Injects GetPost Vars into object

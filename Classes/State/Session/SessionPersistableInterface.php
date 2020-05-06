@@ -1,4 +1,8 @@
 <?php
+namespace PunktDe\PtExtbase\State\Session;
+
+use PunktDe\PtExtbase\State\IdentifiableInterface;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -30,7 +34,7 @@
  * @subpackage Session
  * @author Michael Knoll 
  */
-interface Tx_PtExtbase_State_Session_SessionPersistableInterface extends Tx_PtExtbase_State_IdentifiableInterface
+interface SessionPersistableInterface extends IdentifiableInterface
 {
     /**
      * Called by any mechanism to persist an object's state to session
