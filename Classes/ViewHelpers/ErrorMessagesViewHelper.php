@@ -23,8 +23,9 @@ namespace PunktDe\PtExtbase\ViewHelpers;
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
+use PunktDe\PtDpppBase\Domain\Model\Account;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 class ErrorMessagesViewHelper extends AbstractTagBasedViewHelper
 {
@@ -42,6 +43,14 @@ class ErrorMessagesViewHelper extends AbstractTagBasedViewHelper
         $this->localization = $localization;
     }
 
+    /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('extension', 'string', 'The extension');
+        $this->registerArgument('file', 'string', 'The file');
+    }
 
     /**
      * @param string $extension
@@ -49,9 +58,12 @@ class ErrorMessagesViewHelper extends AbstractTagBasedViewHelper
      *
      * @return mixed
      */
-    public function render($extension, $file = 'errors.xlf')
+    public function render()
     {
-        $validationResults = $this->controllerContext->getRequest()->getOriginalRequestMappingResults()->getFlattenedErrors();
+        $extension = $this->arguments['extension'];
+        $file = $this->arguments['file'] ?? 'errors.xlf';
+
+        $validationResults = $this->renderingContext->getControllerContext()->getRequest()->getOriginalRequestMappingResults()->getFlattenedErrors();
 
         $output = '';
 
