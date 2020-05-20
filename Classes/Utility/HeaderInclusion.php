@@ -24,7 +24,11 @@ namespace PunktDe\PtExtbase\Utility;
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 /**
  * Utility to include defined frontend libraries as jQuery and related CSS
@@ -36,18 +40,18 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * @author Joachim Mathes <mathes@punkt.de>
  */
 
-class HeaderInclusion implements \TYPO3\CMS\Core\SingletonInterface
+class HeaderInclusion implements SingletonInterface
 {
 
     /**
-     * @var \TYPO3\CMS\Core\Page\PageRenderer
+     * @var PageRenderer
      */
     protected $pageRenderer;
 
     /**
-     * @param \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer
+     * @param PageRenderer $pageRenderer
      */
-    public function injectPageRenderer(\TYPO3\CMS\Core\Page\PageRenderer $pageRenderer): void
+    public function injectPageRenderer(PageRenderer $pageRenderer): void
     {
         $this->pageRenderer = $pageRenderer;
     }
@@ -99,9 +103,9 @@ class HeaderInclusion implements \TYPO3\CMS\Core\SingletonInterface
             $filename = '';
             if (strcmp($extKey, '') && ExtensionManagementUtility::isLoaded($extKey) && strcmp($local, '')) {
                 if (TYPO3_MODE === 'FE') {
-                    $filename = ExtensionManagementUtility::siteRelPath($extKey) . $local;
+                    $filename = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($extKey)) . $local;
                 } else {
-                    $filename = ExtensionManagementUtility::extRelPath($extKey) . $local;
+                    $filename = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($extKey)) . $local;
                 }
             }
         }

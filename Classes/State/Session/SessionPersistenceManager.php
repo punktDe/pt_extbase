@@ -24,7 +24,11 @@ namespace PunktDe\PtExtbase\State\Session;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Assertions\Assert;
 use PunktDe\PtExtbase\Lifecycle\EventInterface;
+use PunktDe\PtExtbase\State\GpVars\GpVarsAdapter;
+use PunktDe\PtExtbase\State\Session\Storage\AdapterInterface;
+use PunktDe\PtExtbase\State\Session\Storage\SessionAdapter;
 use PunktDe\PtExtbase\Utility\NamespaceUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 
@@ -36,15 +40,15 @@ class SessionPersistenceManager implements EventInterface
     /**
      * Definition of SessionStorageAdapter
      */
-    const STORAGE_ADAPTER_NULL = 'Tx_PtExtbase_State_Session_Storage_NullStorageAdapter';
-    const STORAGE_ADAPTER_DB = 'Tx_PtExtbase_State_Session_Storage_DBAdapter';
-    const STORAGE_ADAPTER_FEUSER_SESSION = 'Tx_PtExtbase_State_Session_Storage_FeUserSessionAdapter';
-    const STORAGE_ADAPTER_BROWSER_SESSION = 'Tx_PtExtbase_State_Session_Storage_SessionAdapter';
+    const STORAGE_ADAPTER_NULL = 'Storage_NullStorageAdapter';
+    const STORAGE_ADAPTER_DB = 'Storage_DBAdapter';
+    const STORAGE_ADAPTER_FEUSER_SESSION = 'Storage_FeUserSessionAdapter';
+    const STORAGE_ADAPTER_BROWSER_SESSION = 'Storage_SessionAdapter';
 
     /**
      * Holds an instance for a session adapter to store data to session
      *
-     * @var Tx_PtExtbase_State_Session_Storage_SessionAdapter
+     * @var SessionAdapter
      */
     private $sessionAdapter = null;
 
@@ -67,7 +71,7 @@ class SessionPersistenceManager implements EventInterface
     /**
      * Holds an array of objects that should be persisted when lifecycle ends
      *
-     * @var array<Tx_PtExtbase_State_Session_SessionPersistableInterface>
+     * @var array<\PunktDe\PtExtbase\State\Session\SessionPersistableInterface>
      */
     protected $objectsToPersist = [];
 
@@ -90,9 +94,9 @@ class SessionPersistenceManager implements EventInterface
     /**
      * Constructor takes required adapter interface to be used for session storage
      *
-     * @param Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter
+     * @param AdapterInterface $sessionAdapter
      */
-    public function __construct(Tx_PtExtbase_State_Session_Storage_AdapterInterface $sessionAdapter)
+    public function __construct(AdapterInterface $sessionAdapter)
     {
         $this->sessionAdapter = $sessionAdapter;
         $this->sessionAdapaterClass = get_class($sessionAdapter);
@@ -115,20 +119,20 @@ class SessionPersistenceManager implements EventInterface
     /**
      * Persists a given object to session
      *
-     * @param Tx_PtExtbase_State_Session_SessionPersistableInterface $object
-     * @throws Exception if session hash has been already calculated and session data has changed
+     * @param SessionPersistableInterface $object
+     * @throws \Exception if session hash has been already calculated and session data has changed
      */
-    public function persistToSession(Tx_PtExtbase_State_Session_SessionPersistableInterface $object)
+    public function persistToSession(SessionPersistableInterface $object)
     {
         $sessionNamespace = $object->getObjectNamespace();
 
         if ($this->sessionAdapaterClass == self::STORAGE_ADAPTER_DB
             && $this->sessionHash != null && $this->sessionHash != md5(serialize($this->sessionData))
         ) {
-            throw new Exception('Session Hash already calculated and current sessiondata changed!! 1293004344' . $sessionNamespace . ': Calc:' . $this->sessionHash . ' NEW: ' . md5(serialize($this->sessionData)));
+            throw new \Exception('Session Hash already calculated and current sessiondata changed!! 1293004344' . $sessionNamespace . ': Calc:' . $this->sessionHash . ' NEW: ' . md5(serialize($this->sessionData)));
         }
 
-        Tx_PtExtbase_Assertions_Assert::isNotEmptyString($sessionNamespace, ['message' => 'Object namespace must not be empty! 1278436822']);
+        Assert::isNotEmptyString($sessionNamespace, ['message' => 'Object namespace must not be empty! 1278436822']);
         $objectData = $object->_persistToSession();
 
         if ($this->sessionData == null) {
@@ -149,9 +153,9 @@ class SessionPersistenceManager implements EventInterface
     /**
      * Loads session data into given object
      *
-     * @param Tx_PtExtbase_State_Session_SessionPersistableInterface $object Object to inject session data into
+     * @param SessionPersistableInterface $object Object to inject session data into
      */
-    public function loadFromSession(Tx_PtExtbase_State_Session_SessionPersistableInterface $object)
+    public function loadFromSession(SessionPersistableInterface $object)
     {
         $objectData = $this->getSessionDataForObjectNamespace($object->getObjectNamespace());
         if (is_array($objectData)) {
@@ -168,7 +172,7 @@ class SessionPersistenceManager implements EventInterface
      */
     public function getSessionDataForObjectNamespace($objectNamespace)
     {
-        Tx_PtExtbase_Assertions_Assert::isNotEmptyString($objectNamespace, ['message' => 'object namespace must not be empty! 1278436823']);
+        Assert::isNotEmptyString($objectNamespace, ['message' => 'object namespace must not be empty! 1278436823']);
         return NamespaceUtility::getArrayContentByArrayAndNamespace($this->sessionData, $objectNamespace);
     }
 
@@ -255,9 +259,9 @@ class SessionPersistenceManager implements EventInterface
     /**
      * Loads and registers an object on session manager
      *
-     * @param Tx_PtExtbase_State_Session_SessionPersistableInterface $object
+     * @param SessionPersistableInterface $object
      */
-    public function registerObjectAndLoadFromSession(Tx_PtExtbase_State_Session_SessionPersistableInterface $object)
+    public function registerObjectAndLoadFromSession(SessionPersistableInterface $object)
     {
         $this->loadFromSession($object);
         $this->registerObjectForSessionPersistence($object);
@@ -267,9 +271,9 @@ class SessionPersistenceManager implements EventInterface
     /**
      * Registers an object to be persisted to session when lifecycle ends
      *
-     * @param Tx_PtExtbase_State_Session_SessionPersistableInterface $object
+     * @param SessionPersistableInterface $object
      */
-    public function registerObjectForSessionPersistence(Tx_PtExtbase_State_Session_SessionPersistableInterface $object)
+    public function registerObjectForSessionPersistence(SessionPersistableInterface $object)
     {
         if (!in_array(spl_object_hash($object), $this->objectsToPersist)) {
             $this->objectsToPersist[spl_object_hash($object)] = $object;
@@ -284,7 +288,7 @@ class SessionPersistenceManager implements EventInterface
     protected function persistObjectsToSession()
     {
         foreach ($this->objectsToPersist as $objectToPersist) {
-            /* @var $objectToPersist Tx_PtExtbase_State_Session_SessionPersistableInterface */
+            /* @var $objectToPersist SessionPersistableInterface */
             if (!is_null($objectToPersist)) { // object reference could be null in the meantime
                 $this->persistToSession($objectToPersist);
             }
@@ -340,10 +344,10 @@ class SessionPersistenceManager implements EventInterface
     /**
      * Resets session data
      *
-     * @param Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager
+     * @param GpVarsAdapter $gpVarManager
      * @return void
      */
-    public function resetSessionDataOnEmptyGpVars(Tx_PtExtbase_State_GpVars_GpVarsAdapter $gpVarManager)
+    public function resetSessionDataOnEmptyGpVars(GpVarsAdapter $gpVarManager)
     {
         if ($gpVarManager->isEmptySubmit()) {
             $this->sessionData = [];

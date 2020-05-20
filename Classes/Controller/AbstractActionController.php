@@ -24,6 +24,8 @@ namespace PunktDe\PtExtbase\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -110,7 +112,7 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
      * 2. Determined by Controller/Action/Format
      * 3. Extbase BaseView 
      * 
-     * @throws Exception
+     * @throws \Exception
      * @return string
      */
     protected function resolveViewObjectName()
@@ -146,7 +148,7 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
      * View class can be configured in TS via
      * plugin.<plugin_key>.settings.controller.<Controller_Name_without_Controller>.<action_Name_without_Action>.view = ViewClassName
      *
-     * @throws Exception if view class does not exist
+     * @throws \Exception if view class does not exist
      * @return string
      */
     protected function resolveTsDefinedViewClassName()
@@ -159,7 +161,7 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
                 // Use the viewClassName as redirect path to a typoscript value holding the viewClassName
                 $redirectedViewClassName = $viewClassName . '.viewClassName';
                 $tsRedirectPath = explode('.', $redirectedViewClassName);
-                $redirectedViewClassName = \TYPO3\CMS\Extbase\Utility\ArrayUtility::getValueByPath($this->settings, $tsRedirectPath);
+                $redirectedViewClassName = ArrayUtility::getValueByPath($this->settings, $tsRedirectPath);
 
                 if ($redirectedViewClassName) {
                     $viewClassName = $redirectedViewClassName;
@@ -168,7 +170,7 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
         }
 
         if ($viewClassName && !class_exists($viewClassName)) {
-            throw new Exception('View class does not exist: ' . $viewClassName . ' 1281369758');
+            throw new \Exception('View class does not exist: ' . $viewClassName . ' 1281369758');
         }
 
         // TODO make sure that given class implements a view
@@ -211,7 +213,7 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
 
     /**
      * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view
-     * @throws Exception
+     * @throws \Exception
      */
     protected function setCustomTeplatePathInView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
     {
@@ -223,7 +225,7 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
             if (file_exists(GeneralUtility::getFileAbsFileName($templatePathAndFilename))) {
                 $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($templatePathAndFilename));
             } else {
-                throw new Exception('Given template path and filename could not be found or resolved: ' . GeneralUtility::getFileAbsFileName($templatePathAndFilename),
+                throw new \Exception('Given template path and filename could not be found or resolved: ' . GeneralUtility::getFileAbsFileName($templatePathAndFilename),
                     1284655109);
             }
         }
@@ -231,7 +233,7 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
 
     /**
      * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view
-     * @throws Exception
+     * @throws \Exception
      */
     protected function setCustomPartialPathsInView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
     {
@@ -246,7 +248,7 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
                 if (is_dir($resolvedPartialRootPath)) {
                     $resolvedPartialRootPaths[] = $resolvedPartialRootPath;
                 } else {
-                    throw new Exception('Given partial root path could not be found or resolved: ' . $resolvedPartialRootPath,
+                    throw new \Exception('Given partial root path could not be found or resolved: ' . $resolvedPartialRootPath,
                         1528360346);
                 }
             }

@@ -114,10 +114,10 @@ class Manager implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Register a lifecycle observer.
      * 
-     * @param Tx_PtExtbase_Lifecycle_EventInterface $observer
+     * @param EventInterface $observer
      * @param bool $static Override existing observer of same class.
      */
-    public function register(Tx_PtExtbase_Lifecycle_EventInterface $observer, $static = true)
+    public function register(EventInterface $observer, $static = true)
     {
         if ($static) {
             $this->observers[get_class($observer)] = $observer;
@@ -131,10 +131,10 @@ class Manager implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Registers a lifecycle observer and updates state on registered object
      *
-     * @param Tx_PtExtbase_Lifecycle_EventInterface $observer
+     * @param EventInterface $observer
      * @param bool $static Override existing observer of same class.
      */
-    public function registerAndUpdateStateOnRegisteredObject(Tx_PtExtbase_Lifecycle_EventInterface $observer, $static = true)
+    public function registerAndUpdateStateOnRegisteredObject(EventInterface $observer, $static = true)
     {
         $this->register($observer, $static);
         $observer->lifecycleUpdate($this->getState());
@@ -148,7 +148,7 @@ class Manager implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected function fireUpdate()
     {
-        foreach ($this->observers as $observer) { /* @var $observer Tx_PtExtbase_Lifecycle_EventInterface */
+        foreach ($this->observers as $observer) { /* @var $observer EventInterface */
             $observer->lifecycleUpdate($this->state);
         }
     }

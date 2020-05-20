@@ -5,6 +5,7 @@ use PunktDe\PtExtbase\Context;
 use PunktDe\PtExtbase\State\Session\Storage\AdapterInterface;
 use PunktDe\PtExtbase\State\Session\Storage\SessionAdapter;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /***************************************************************
@@ -91,6 +92,7 @@ class SessionPersistenceManagerBuilder implements SingletonInterface
      *
      * @param AdapterInterface $sessionStorageAdapter
      * @return SessionPersistenceManager
+     * @throws \Exception
      */
     public function getInstance(AdapterInterface $sessionStorageAdapter = null)
     {
@@ -107,6 +109,7 @@ class SessionPersistenceManagerBuilder implements SingletonInterface
      * Creates local instance of session persistence manager
      *
      * @param $sessionStorageAdapter
+     * @throws \Exception
      */
     protected function createInstance($sessionStorageAdapter)
     {
@@ -114,18 +117,21 @@ class SessionPersistenceManagerBuilder implements SingletonInterface
             $exception = new \Exception();
             $sessionStorageAdapter = $this->determineSessionStorageAdapterForGivenContext();
         }
-        $this->sessionPersistenceManagerInstance = $this->objectManager->get('Tx_PtExtbase_State_Session_SessionPersistenceManager', $sessionStorageAdapter);
+        $this->sessionPersistenceManagerInstance = $this->objectManager->get(SessionPersistenceManager::class, $sessionStorageAdapter);
     }
 
 
 
     /**
      * Method determines which session storage adapter to use depending on injected context.
+     *
+     * @return object
+     * @throws \Exception
      */
     protected function determineSessionStorageAdapterForGivenContext()
     {
         if (!$this->context->isInCachedMode()) {
-            return SessionAdapter::getInstance();
+            return GeneralUtility::makeInstance(SessionAdapter::class);
         }
         throw new \Exception('not implemented anymore', 1588601198);
     }

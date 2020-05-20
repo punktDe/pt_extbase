@@ -21,5 +21,12 @@ services:
 
   PunktDe\PtExtbase\State\:
     resource: '../Classes/State'
+    public: true
 
+  PunktDe\PtExtbase\State\Session\Storage\AdapterInterface:
+    alias: PunktDe\PtExtbase\State\Session\Storage\NullStorageAdapter
+
+  PunktDe\PtExtbase\Configuration\AbstractConfiguration:
+    arguments:
+      $settings: []
 

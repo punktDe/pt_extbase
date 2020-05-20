@@ -52,7 +52,7 @@ final class Tx_PtExtbase_Registry_Registry extends PunktDe\PtExtbase\Collection\
     public function register($label, $object, $overwrite = false)
     {
         // swapping $label (id) and $object parameters
-        Tx_PtExtbase_Assertions_Assert::isNotEmpty($label, ['message' => 'Registry keys cannot be empty!']);
+        PunktDe\PtExtbase\Assertions\Assert::isNotEmpty($label, ['message' => 'Registry keys cannot be empty!']);
 
         if (!$this->hasItem($label) || $overwrite == true) {
 
