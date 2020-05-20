@@ -293,10 +293,10 @@ abstract class Collection implements \IteratorAggregate, \Countable, \ArrayAcces
 
     /**
      * Get item from collection by Index
+     * index starts with 0 for first element
      *
      * @param   integer     $idx index (position in array) of Collection Item
      * @return  mixed       item that has been requested
-     * @remarks index starts with 0 for first element
      * @throws  InternalException if idx is invalid
      */
     public function &getItemByIndex($idx)

@@ -21,8 +21,9 @@ namespace PunktDe\PtExtbase\Logger;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \TYPO3\CMS\Core\Log\LogLevel;
-use \TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Log\LogLevel;
+use TYPO3\CMS\Core\SingletonInterface;
+use PunktDe\PtExtbase\Div;
 
 /**
  * Logger Configuration
@@ -67,7 +68,7 @@ class LoggerConfiguration implements SingletonInterface
 
     public function __construct()
     {
-        $this->extensionConfiguration = \Tx_PtExtbase_Div::returnExtConfArray('pt_extbase');
+        $this->extensionConfiguration = Div::returnExtConfArray('pt_extbase');
         $this->evaluateLogFilePath();
         $this->evaluateExceptionDirectory();
         $this->setLogLevelThresholdByExtensionConfigurationProperty('logLevelThreshold');

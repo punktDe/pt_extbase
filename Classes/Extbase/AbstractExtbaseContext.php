@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Extbase;
+
 /***************************************************************
  * Copyright notice
  *
@@ -23,6 +25,12 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Service\ExtensionService;
+
 /**
  * Holds the extbaseContext of the current plugin instance
  *
@@ -30,10 +38,10 @@
  * @author Daniel Lienert
  * @author Michael Knoll
  */
-abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS\Core\SingletonInterface
+abstract class AbstractExtbaseContext implements SingletonInterface
 {
     /**
-     * @var \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext
+     * @var ControllerContext
      */
     protected $controllerContext;
 
@@ -59,7 +67,7 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
 
 
     /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
+     * @var ObjectManager
      */
     protected $objectManager;
 
@@ -73,7 +81,7 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
 
 
     /**
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @var ConfigurationManagerInterface
      */
     protected $configurationManager;
 
@@ -84,7 +92,7 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
      */
     public function initializeObject()
     {
-        $frameWorkConfiguration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+        $frameWorkConfiguration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
         $this->extensionName = $frameWorkConfiguration['extensionName'];
         $this->setExtensionNamespace($frameWorkConfiguration['extensionName'], $frameWorkConfiguration['pluginName']);
@@ -106,14 +114,14 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
     public function setExtensionNamespace($extensionName, $pluginName)
     {
         $this->extensionName = $extensionName;
-        $this->extensionNameSpace = $this->objectManager->get('TYPO3\CMS\Extbase\Service\ExtensionService')->getPluginNamespace($extensionName, $pluginName);
+        $this->extensionNameSpace = $this->objectManager->get(ExtensionService::class)->getPluginNamespace($extensionName, $pluginName);
     }
 
 
     /**
-     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+     * @param ConfigurationManagerInterface $configurationManager
      */
-    public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager)
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
     {
         $this->configurationManager = $configurationManager;
     }
@@ -122,10 +130,10 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
     /**
      * inject the objectManager
      *
-     * @param \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager
+     * @param ObjectManager $objectManager
      * @return void
      */
-    public function injectObjectManager(\TYPO3\CMS\Extbase\Object\ObjectManager $objectManager)
+    public function injectObjectManager(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
     }
@@ -133,16 +141,16 @@ abstract class Tx_PtExtbase_Extbase_AbstractExtbaseContext implements \TYPO3\CMS
     /**
      * Set the Controller Context
      *
-     * @param \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
+     * @param ControllerContext $controllerContext
      */
-    public function setControllerContext(\TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext)
+    public function setControllerContext(ControllerContext $controllerContext)
     {
         $this->controllerContext = $controllerContext;
     }
 
 
     /**
-     * @return \TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext $controllerContext
+     * @return ControllerContext $controllerContext
      */
     public function getControllerContext()
     {

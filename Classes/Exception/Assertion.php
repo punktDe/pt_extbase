@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Exception;
+
 /***************************************************************
 *  Copyright notice
 *  
@@ -29,7 +31,7 @@
  * @author      Michael Knoll
  * @package     Exception
  */
-class Tx_PtExtbase_Exception_Assertion extends \PunktDe\PtExtbase\Exception\Exception
+class Assertion extends \PunktDe\PtExtbase\Exception\Exception
 {
     /**
      * Class constructor

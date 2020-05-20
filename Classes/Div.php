@@ -23,10 +23,15 @@ namespace PunktDe\PtExtbase;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use PunktDe\PtExtbase\Assertions\Assert;
+use PunktDe\PtExtbase\Exception\Assertion;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -484,7 +489,7 @@ class Div
             $cObj = $GLOBALS['TSFE']->cObj;
         }
 
-        Tx_PtExtbase_Assertions_Assert::isInstanceOf($cObj, 'tslib_cObj', ['message' => 'No cObj found.']);
+        Assert::isInstanceOf($cObj, 'tslib_cObj', ['message' => 'No cObj found.']);
 
         $newData = [];
         foreach (array_keys($data) as $key) {
@@ -518,7 +523,7 @@ class Div
      */
     public static function convertDate($dateOrig, $reverse=0)
     {
-        Tx_PtExtbase_Assertions_Assert::isNotEmptyString($dateOrig);
+        Assert::isNotEmptyString($dateOrig);
 
         $dateConv = strtr($dateOrig, '.', '-');
         $dateElements = explode('-', $dateConv);
@@ -783,11 +788,11 @@ class Div
      */
     public static function typoscriptRegistry($tsConfigKey, $pageUid = null, $extKey = '', $extConfKey = '')
     {
-        Tx_PtExtbase_Assertions_Assert::isNotEmptyString($tsConfigKey, ['message' => 'No "tsConfigKey" defined!']);
+        Assert::isNotEmptyString($tsConfigKey, ['message' => 'No "tsConfigKey" defined!']);
 
         require_once ExtensionManagementUtility::extPath('pt_extbase').'Classes/Registry/Registry.php';
 
-        $registry = Tx_PtExtbase_Registry_Registry::getInstance();
+        $registry = \Tx_PtExtbase_Registry_Registry::getInstance();
         $registryKey = 'ts_' . $tsConfigKey;
 
         if (!$registry->has($registryKey)) {
@@ -799,12 +804,12 @@ class Div
             // Not in frontend context
             } else {
                 if (!is_null($pageUid)) {
-                    Tx_PtExtbase_Assertions_Assert::isValidUid($pageUid, false, ['message' => 'No valid pageUid given']);
+                    Assert::isValidUid($pageUid, false, ['message' => 'No valid pageUid given']);
                     $confArray = self::returnTyposcriptSetup($pageUid, $tsConfigKey);
                 } elseif (!empty($extKey) && !empty($extConfKey)) {
                     $tmpExtConfArray = self::returnExtConfArray($extKey);
                     $pageUid = $tmpExtConfArray[$extConfKey];
-                    Tx_PtExtbase_Assertions_Assert::isValidUid($pageUid, false, ['message' => 'No valid pageUid found under "'.$extConfKey.'" in extension configuration for extKey "'.$extKey.'"']);
+                    Assert::isValidUid($pageUid, false, ['message' => 'No valid pageUid found under "'.$extConfKey.'" in extension configuration for extKey "'.$extKey.'"']);
                     $confArray = self::returnTyposcriptSetup($pageUid, $tsConfigKey);
                 } else {
                     throw new \PunktDe\PtExtbase\Exception\Exception('You have to define either a "pageUid" or a "extKey" and a "extConfKey" when not in frontend context.');
@@ -838,11 +843,10 @@ class Div
         }
 
         // create TS configuration: idea of Fabian Koenig (http://lists.netfielders.de/pipermail/typo3-german/2007-May/032473.html)
-        $sysPageObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
-        $rootLine = $sysPageObj->getRootLine($pageUid);
-        $TSObj = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\ExtendedTemplateService');  /* @var $TSObj \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService */
+        $rootLineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid); /** @var RootlineUtility $rootLineUtility */
+        $rootLine = $rootLineUtility->get();
+        $TSObj = GeneralUtility::makeInstance(ExtendedTemplateService::class);  /* @var $TSObj \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService */
         $TSObj->tt_track = 0;
-        $TSObj->init();
         $TSObj->runThroughTemplates($rootLine);
         $TSObj->generateConfig();
 
@@ -876,22 +880,22 @@ class Div
      * @param   string      typoscript path
      * @param   array       (optional) typoscript array, if empty using $GLOBALS['TSFE']->tmpl->setup
      * @return  mixed       typoscript array or single value
-     * @throws    Tx_PtExtbase_Exception_Assertion     if no tsArray is given and not being in a frontend context
-     * @throws    Tx_PtExtbase_Exception_Assertion     if tsPath is not valid
+     * @throws    Assertion     if no tsArray is given and not being in a frontend context
+     * @throws    Assertion     if tsPath is not valid
      * @throws    \PunktDe\PtExtbase\Exception\Exception            if subKey was not found
      * @author  Rainer Kuhn , Fabrizio Branca <mail@fabrizio-branca.de>
      */
     public static function getTS($tsPath, array $tsArray = [])
     {
-        Tx_PtExtbase_Assertions_Assert::isNotEmptyString($tsPath, ['message' => '"tsPath" is empty!']);
+        Assert::isNotEmptyString($tsPath, ['message' => '"tsPath" is empty!']);
         // TODO: improve pattern, so that ".blub" or "plugin..test" are not matched
 
         if (empty($tsArray)) {
-            Tx_PtExtbase_Assertions_Assert::isInstanceOf($GLOBALS['TSFE'], TypoScriptFrontendController::class, ['message' => 'No TSFE available!']);
+            Assert::isInstanceOf($GLOBALS['TSFE'], TypoScriptFrontendController::class, ['message' => 'No TSFE available!']);
             $tsArray = $GLOBALS['TSFE']->tmpl->setup;
         }
 
-        Tx_PtExtbase_Assertions_Assert::isNotEmpty($tsArray);
+        Assert::isNotEmpty($tsArray);
 
         $lastKeyIsArray = false;
         if (substr($tsPath, -1) == '.') {
@@ -920,9 +924,9 @@ class Div
      */
     public static function mergeConfAndFlexform($pObj, $noExceptionIfNoFlexform = false)
     {
-        Tx_PtExtbase_Assertions_Assert::isObject($pObj, ['message' => '"$pObj" is no object.']);
-        Tx_PtExtbase_Assertions_Assert::isInstanceOf($pObj->cObj, 'tslib_cObj', ['message' => '"$pObj->cObj" is no instance of "tslib_cObj".']);
-        Tx_PtExtbase_Assertions_Assert::isArray($pObj->conf, ['message' => '"$pObj->conf" is no array.']);
+        Assert::isObject($pObj, ['message' => '"$pObj" is no object.']);
+        Assert::isInstanceOf($pObj->cObj, 'tslib_cObj', ['message' => '"$pObj->cObj" is no instance of "tslib_cObj".']);
+        Assert::isArray($pObj->conf, ['message' => '"$pObj->conf" is no array.']);
         if (!is_callable([$pObj, 'pi_initPIflexForm'])) {
             throw new \PunktDe\PtExtbase\Exception\Exception('"$pObj needs a callable method "pi_initPIflexForm()"');
         }

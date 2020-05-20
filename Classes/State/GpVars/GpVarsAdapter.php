@@ -83,7 +83,7 @@ class GpVarsAdapter
      *
      * @param string $extensionNameSpace Extension namespace to set up adapter for
      */
-    public function __construct($extensionNameSpace)
+    public function __construct(string $extensionNameSpace = '')
     {
         $this->extensionNameSpace = $extensionNameSpace;
     }

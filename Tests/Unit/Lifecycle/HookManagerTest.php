@@ -22,6 +22,8 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use PunktDe\PtExtbase\Lifecycle\HookManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -36,8 +38,8 @@ class Tx_PtExtbase_Tests_Unit_Lifecycle_HookManagerTest extends \PunktDe\PtExtba
     /** @test */
     public function updateEndFiresUpdateOnSingletonLifecycleManager()
     {
-        $hookManager = GeneralUtility::makeInstance('tx_PtExtbase_Lifecycle_HookManager');
-        $lifecycleManager = GeneralUtility::makeInstance('\PunktDe\PtExtbase\Lifecycle\Manager');
+        $hookManager = GeneralUtility::makeInstance(HookManager::class);
+        $lifecycleManager = GeneralUtility::makeInstance(Manager::class);
         $lifecycleManager->updateState(-1000); // we set a state that makes no sense
         $fakeArray = []; // we need a variable for passing parameter by reference
         $hookManager->updateEnd($fakeArray, $fakeArray);

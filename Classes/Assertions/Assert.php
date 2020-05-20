@@ -24,6 +24,7 @@ namespace PunktDe\PtExtbase\Assertions;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use PunktDe\PtExtbase\Exception\Assertion;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -55,7 +56,7 @@ class Assert
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
      * @param   bool    (optional) if true (default), parameters are tested by identy and not only equality
      * @param   integer     (optional) error code, default is 0
-     * @throws  Exception   if assertion fails
+     * @throws  \Exception   if assertion fails
      */
     public static function test($val, $expected, array $info = [], $strict = true)
     {
@@ -97,7 +98,7 @@ class Assert
         }
         $debugMessage = trim($debugMessage, ' ,');
 
-        $exception = new Tx_PtExtbase_Exception_Assertion('Assertion "'.$assertCall['function'].'" failed! '.$info['message'], $debugMessage);
+        $exception = new Assertion('Assertion "'.$assertCall['function'].'" failed! '.$info['message'], $debugMessage);
         $exception->setFile($assertCall['file']);
         $exception->setLine($assertCall['line']);
         if ($info['permanent']) {
@@ -112,7 +113,7 @@ class Assert
      * Test if value is true
      *
      * @param   mixed   value
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isTrue($val, array $info = [])
     {
@@ -126,7 +127,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isFalse($val, array $info = [])
     {
@@ -141,7 +142,7 @@ class Assert
      * @param   mixed   $a
      * @param   mixed   $b
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isEqual($a, $b, array $info = [])
     {
@@ -159,7 +160,7 @@ class Assert
      * @param   mixed   $a
      * @param   mixed   $b
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNotEqual($a, $b, array $info = [])
     {
@@ -174,7 +175,7 @@ class Assert
      * @param   mixed   $a
      * @param   mixed   $b
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isIdentical($a, $b, array $info = [])
     {
@@ -189,7 +190,7 @@ class Assert
      * @param   mixed   $a
      * @param   mixed   $b
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNotIdentical($a, $b, array $info = [])
     {
@@ -204,7 +205,7 @@ class Assert
      * @param   string  pattern
      * @param   string  value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function matchesPattern($pattern, $val, array $info = [])
     {
@@ -220,7 +221,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isAlphaNum($val, array $info = [])
     {
@@ -233,7 +234,7 @@ class Assert
      *
      * @param   string  email
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isValidEmail($email, array $info = [])
     {
@@ -246,7 +247,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isEmpty($val, array $info = [])
     {
@@ -260,7 +261,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNotEmpty($val, array $info = [])
     {
@@ -274,7 +275,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNumeric($val, array $info = [])
     {
@@ -288,7 +289,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNotNumeric($val, array $info = [])
     {
@@ -302,7 +303,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isInteger($val, array $info = [])
     {
@@ -315,7 +316,7 @@ class Assert
      * @param   mixed   value
      * @param   bool    (optional) allow "0", default is false
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isPositiveInteger($val, $allowZero = false, array $info = [])
     {
@@ -331,7 +332,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNotInteger($val, array $info = [])
     {
@@ -345,7 +346,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isIntegerish($val, array $info = [])
     {
@@ -359,7 +360,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNotIntegerish($val, array $info = [])
     {
@@ -373,7 +374,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isObject($val, array $info = [])
     {
@@ -387,7 +388,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNotObject($val, array $info = [])
     {
@@ -401,7 +402,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isBoolean($val, array $info = [])
     {
@@ -415,7 +416,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNotBoolean($val, array $info = [])
     {
@@ -429,7 +430,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isString($val, array $info = [])
     {
@@ -443,7 +444,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNotString($val, array $info = [])
     {
@@ -457,7 +458,7 @@ class Assert
      *
      * @param   mixed   value
      * @param   array   (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isArray($val, array $info = [])
     {
@@ -471,7 +472,7 @@ class Assert
      * 
      * @param   mixed   $val    Value to be tested
      * @param   array   $info   Array of information
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isAssociativeArray($val, array $info = [])
     {
@@ -485,7 +486,7 @@ class Assert
      *
      * @param    mixed    value
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNotArray($val, array $info = [])
     {
@@ -513,7 +514,7 @@ class Assert
      * @param     mixed    value
      * @param     array     array
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isInArray($val, array $array, array $info = [])
     {
@@ -528,7 +529,7 @@ class Assert
      * @param     mixed    value
      * @param     array     array
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isArrayKey($val, array $array, array $info = [])
     {
@@ -543,7 +544,7 @@ class Assert
      * @param     string    value
      * @param     string     list
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isInList($val, $list, array $info = [])
     {
@@ -559,7 +560,7 @@ class Assert
      * @param     mixed     lower boundary
      * @param     mixed     higher boundary
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isInRange($val, $low, $high, array $info = [])
     {
@@ -577,7 +578,7 @@ class Assert
      * @param     mixed    value
      * @param     bool    (optional) allow "0", default is false
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isValidUid($val, $allowZero = false, array $info = [])
     {
@@ -597,7 +598,7 @@ class Assert
      * @param     mixed    value
      * @param     bool    (optional) allow "0", default is false
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isValidUidArray($val, $allowZero = false, array $info = [])
     {
@@ -637,7 +638,7 @@ class Assert
      * @param     mixed        value
      * @param     \TYPO3\CMS\Core\Database\DatabaseConnection    (optional) t3lib_DB used, default is NULL, then $GLOBALS['TYPO3_DB'] will be used
      * @param     array        (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isMySQLRessource($res, \TYPO3\CMS\Core\Database\DatabaseConnection $dbObj = null, array $info = [])
     {
@@ -672,7 +673,7 @@ class Assert
      * @param     mixed    value
      * @param     string    type
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isType($val, $type, array $info = [])
     {
@@ -688,7 +689,7 @@ class Assert
      *
      * @param     mixed    value
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isNotEmptyString($val, array $info = [])
     {
@@ -702,7 +703,7 @@ class Assert
      *
      * @param     string    value
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isFilePath($val, array $info = [])
     {
@@ -723,7 +724,7 @@ class Assert
      *
      * @param     string    value
      * @param     array    (optional) additional info, will be displayed as debug message, if a key "message" exists this will be appended to the error message
-     * @throws  Tx_PtExtbase_Exception_Assertion   if assertion fails
+     * @throws  Assertion   if assertion fails
      */
     public static function isDir($val, array $info = [])
     {
