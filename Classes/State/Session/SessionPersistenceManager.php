@@ -28,6 +28,8 @@ use PunktDe\PtExtbase\Assertions\Assert;
 use PunktDe\PtExtbase\Lifecycle\EventInterface;
 use PunktDe\PtExtbase\State\GpVars\GpVarsAdapter;
 use PunktDe\PtExtbase\State\Session\Storage\AdapterInterface;
+use PunktDe\PtExtbase\State\Session\Storage\FeUserSessionAdapter;
+use PunktDe\PtExtbase\State\Session\Storage\NullStorageAdapter;
 use PunktDe\PtExtbase\State\Session\Storage\SessionAdapter;
 use PunktDe\PtExtbase\Utility\NamespaceUtility;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
@@ -40,10 +42,10 @@ class SessionPersistenceManager implements EventInterface
     /**
      * Definition of SessionStorageAdapter
      */
-    const STORAGE_ADAPTER_NULL = 'Storage_NullStorageAdapter';
-    const STORAGE_ADAPTER_DB = 'Storage_DBAdapter';
-    const STORAGE_ADAPTER_FEUSER_SESSION = 'Storage_FeUserSessionAdapter';
-    const STORAGE_ADAPTER_BROWSER_SESSION = 'Storage_SessionAdapter';
+    const STORAGE_ADAPTER_NULL = NullStorageAdapter::class;
+    //const STORAGE_ADAPTER_DB = DBAdapter::class;
+    const STORAGE_ADAPTER_FEUSER_SESSION = FeUserSessionAdapter::class;
+    const STORAGE_ADAPTER_BROWSER_SESSION = SessionAdapter::class;
 
     /**
      * Holds an instance for a session adapter to store data to session
@@ -126,7 +128,7 @@ class SessionPersistenceManager implements EventInterface
     {
         $sessionNamespace = $object->getObjectNamespace();
 
-        if ($this->sessionAdapaterClass == self::STORAGE_ADAPTER_DB
+        if ($this->sessionAdapaterClass == self::STORAGE_ADAPTER_FEUSER_SESSION
             && $this->sessionHash != null && $this->sessionHash != md5(serialize($this->sessionData))
         ) {
             throw new \Exception('Session Hash already calculated and current sessiondata changed!! 1293004344' . $sessionNamespace . ': Calc:' . $this->sessionHash . ' NEW: ' . md5(serialize($this->sessionData)));
@@ -284,12 +286,13 @@ class SessionPersistenceManager implements EventInterface
     /**
      * Persists all objects registered for session persistence
      *
+     * @throws \Exception
      */
     protected function persistObjectsToSession()
     {
         foreach ($this->objectsToPersist as $objectToPersist) {
             /* @var $objectToPersist SessionPersistableInterface */
-            if (!is_null($objectToPersist)) { // object reference could be null in the meantime
+            if ($objectToPersist !== null) { // object reference could be null in the meantime
                 $this->persistToSession($objectToPersist);
             }
         }
@@ -310,7 +313,7 @@ class SessionPersistenceManager implements EventInterface
             $argumentArray = [];
         }
 
-        if ($this->sessionAdapaterClass === self::STORAGE_ADAPTER_DB) {
+        if ($this->sessionAdapaterClass === self::STORAGE_ADAPTER_FEUSER_SESSION) {
             $argumentArray['state'] = $this->getSessionDataHash();
         } elseif ($this->sessionAdapaterClass === self::STORAGE_ADAPTER_NULL) {
             $this->lifecycleUpdate(\PunktDe\PtExtbase\Lifecycle\Manager::END);
