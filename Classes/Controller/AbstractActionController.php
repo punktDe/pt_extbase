@@ -203,7 +203,7 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
      * plugin.<plugin_key>.settings.controller.<Controller_Name_Without_Controller>.<action_name_without_action>.template = full_path_to_template_with.html
      * 
      * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view
-     * @throws Exception
+     * @throws \Exception
      */
     protected function setCustomPathsInView(\TYPO3\CMS\Extbase\Mvc\View\ViewInterface $view)
     {
