@@ -25,10 +25,10 @@ namespace PunktDe\PtExtbase\Testing\Unit;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Tests\UnitTestCase;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Fluid\View\TemplateView;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 
 /**
@@ -48,7 +48,7 @@ abstract class AbstractBaseTestcase extends UnitTestCase
      *
      * @return void
      */
-    public function runBare()
+    public function runBare(): void
     {
         $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->objectManager =  clone $objectManager;
@@ -61,7 +61,7 @@ abstract class AbstractBaseTestcase extends UnitTestCase
      * Shortcut for creating a mock with no mocked methods, no constructor call and no changed class name
      *
      * @param string $className Class name of mock to be created
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return \PHPUnit\Framework\MockObject\MockObject
      */
     protected function getSimpleMock($className)
     {
@@ -100,18 +100,6 @@ abstract class AbstractBaseTestcase extends UnitTestCase
             $message = 'Failed asserting that ' . get_class($object) . ' is a ' . $className;
         }
         $this->assertTrue(is_a($object, $className), $message);
-    }
-
-
-
-    /**
-     * Returns a mocked \TYPO3\CMS\Fluid\View\TemplateView object with a mocked assign method.
-     *
-     * @return TemplateView The mocked view class
-     */
-    public function getViewMockWithMockedAssignMethod()
-    {
-        return $this->getMock(TemplateView::class, ['assign'], [], '', false);
     }
 
     /**
