@@ -1,4 +1,8 @@
 <?php
+namespace PunktDe\PtExtbase\Domain\Repository;
+
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -29,7 +33,7 @@
  * @subpackage Repository
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
     /**
@@ -38,7 +42,7 @@ class Tx_PtExtbase_Domain_Repository_PageRepository extends \TYPO3\CMS\Extbase\P
     public function initializeObject()
     {
         /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface */
-        $querySettings = $this->objectManager->get(TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface::class);
+        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $querySettings->setRespectSysLanguage(false);
         $this->setDefaultQuerySettings($querySettings);

@@ -289,11 +289,11 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
         return $this->settings['controller'][$this->request->getControllerName()][$this->request->getControllerActionName()];
     }
 
-    
-    
+
     /**
      * Fires end-of-lifecycle signal if processing backend request.
-     * 
+     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      * @see processRequest() in parent
      */
     public function processRequest(\TYPO3\CMS\Extbase\Mvc\RequestInterface $request, \TYPO3\CMS\Extbase\Mvc\ResponseInterface $response)

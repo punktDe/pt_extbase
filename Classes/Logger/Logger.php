@@ -120,9 +120,9 @@ class Logger implements SingletonInterface
             ]
         ];
 
-//        $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][LogLevel::DEBUG] = [
-//            ReplaceComponentProcessor::class => []
-//        ];
+        $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][LogLevel::DEBUG] = [
+            ReplaceComponentProcessor::class => []
+        ];
 
         $internalName = LogLevel::getInternalName($this->loggerConfiguration->getEmailLogLevelThreshold());
 

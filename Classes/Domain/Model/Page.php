@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Domain\Model;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -23,6 +25,9 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /**
  * Class implements read only access to tt_pages table
  *
@@ -30,7 +35,7 @@
  * @subpackage Model
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Domain_Model_Page extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Page extends AbstractEntity
 {
     /**
      * @var string the module key
