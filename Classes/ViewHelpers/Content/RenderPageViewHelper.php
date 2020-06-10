@@ -67,7 +67,7 @@ class RenderPageViewHelper extends AbstractViewHelper
 
         $pageUid = $this->arguments['pageUid'];
 
-        $sysLanguageUid = intval($GLOBALS['TSFE']->sys_language_uid);
+        $sysLanguageUid = (int)$GLOBALS['TSFE']->sys_language_uid;
 
         $conf = [ // config
             'table' => 'tt_content',
@@ -77,6 +77,10 @@ class RenderPageViewHelper extends AbstractViewHelper
             ],
         ];
         $result = $GLOBALS['TSFE']->cObj->cObjGetSingle('CONTENT', $conf);
+
+        if (strlen(trim($result)) === 0) {
+            return '';
+        }
 
         $result = $this->addPageCssForCssStyledContent($result);
 
