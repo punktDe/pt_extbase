@@ -27,6 +27,7 @@ namespace PunktDe\PtExtbase\Testing\Unit;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Fluid\View\TemplateView;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -37,25 +38,17 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 abstract class AbstractBaseTestcase extends UnitTestCase
 {
     /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface The object manager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
-
     /**
-     * Injects an untainted clone of the object manager and all its referencing
-     * objects for every test.
-     *
-     * @return void
+     * @param ObjectManagerInterface $objectManager
      */
-    public function runBare(): void
+    public function injectObjectManager(ObjectManagerInterface $objectManager): void
     {
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->objectManager =  clone $objectManager;
-        parent::runBare();
+        $this->objectManager = $objectManager;
     }
-
-
 
     /**
      * Shortcut for creating a mock with no mocked methods, no constructor call and no changed class name
