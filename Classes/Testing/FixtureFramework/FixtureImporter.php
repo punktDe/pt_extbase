@@ -25,6 +25,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Core\Environment;
+
 /**
  * FixtureImporter
  *
@@ -66,7 +68,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CM
     protected function setConnection()
     {
         $this->fixture->setConnection(
-            new \PHPUnit\DbUnit\Database\DefaultConnection(
+            new \PunktDe\Testing\Forked\DbUnit\Database\DefaultConnection(
                 new PDO(
                     $this->fixture->getCredentials()->getDsn(),
                     $this->fixture->getCredentials()->getUsername(),
@@ -85,7 +87,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_FixtureImporter implements \TYPO3\CM
     protected function importSchema()
     {
         if ($this->fixture->getSchemaFilePath() != '') {
-            $schemaFilePath = PATH_site . $this->fixture->getSchemaFilePath();
+            $schemaFilePath = Environment::getPublicPath() . '/' . $this->fixture->getSchemaFilePath();
             if (file_exists($schemaFilePath)) {
                 $command[] = 'mysql';
                 $command[] = '-h ' . $this->fixture->getCredentials()->getHostname();

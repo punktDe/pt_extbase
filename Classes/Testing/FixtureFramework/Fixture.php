@@ -39,17 +39,17 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     protected $credentials;
 
     /**
-     * @var \PHPUnit\DbUnit\Database\Connection
+     * @var \PunktDe\Testing\Forked\DbUnit\Database\Connection
      */
     protected $connection;
 
     /**
-     * @var \PHPUnit\DbUnit\DataSet\IDataSet
+     * @var \PunktDe\Testing\Forked\DbUnit\DataSet\IDataSet
      */
     protected $dataSet;
 
     /**
-     * @var \PHPUnit\DbUnit\Operation\Operation
+     * @var \PunktDe\Testing\Forked\DbUnit\Operation\Operation
      */
     protected $setUpOperation;
 
@@ -61,13 +61,13 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
 
     public function __construct()
     {
-        $this->setUpOperation = \PHPUnit\DbUnit\Operation\Factory::CLEAN_INSERT();
+        $this->setUpOperation = \PunktDe\Testing\Forked\DbUnit\Operation\Factory::CLEAN_INSERT();
     }
 
     /**
      * Returns the test database connection.
      *
-     * @return \PHPUnit\DbUnit\Database\Connection
+     * @return \PunktDe\Testing\Forked\DbUnit\Database\Connection
      */
     public function getConnection()
     {
@@ -75,10 +75,10 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     }
 
     /**
-     * @param \PHPUnit\DbUnit\Database\Connection $connection
+     * @param \PunktDe\Testing\Forked\DbUnit\Database\Connection $connection
      * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
      */
-    public function setConnection(\PHPUnit\DbUnit\Database\Connection $connection)
+    public function setConnection(\PunktDe\Testing\Forked\DbUnit\Database\Connection $connection)
     {
         $this->connection = $connection;
         return $this;
@@ -87,7 +87,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     /**
      * Returns the test dataset.
      *
-     * @return \PHPUnit\DbUnit\DataSet\IDataSet
+     * @return \PunktDe\Testing\Forked\DbUnit\DataSet\IDataSet
      */
     public function getDataSet()
     {
@@ -95,10 +95,10 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     }
 
     /**
-     * @param \PHPUnit\DbUnit\DataSet\IDataSet $dataSet
+     * @param \PunktDe\Testing\Forked\DbUnit\DataSet\IDataSet $dataSet
      * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
      */
-    public function setDataSet(\PHPUnit\DbUnit\DataSet\IDataSet $dataSet)
+    public function setDataSet(\PunktDe\Testing\Forked\DbUnit\DataSet\IDataSet $dataSet)
     {
         $this->dataSet = $dataSet;
         return $this;
@@ -107,7 +107,7 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     /**
      * Returns the database operation executed in test setup.
      *
-     * @return \PHPUnit\DbUnit\Operation\Operation
+     * @return \PunktDe\Testing\Forked\DbUnit\Operation\Operation
      */
     public function getSetUpOperation()
     {
@@ -115,10 +115,10 @@ class Tx_PtExtbase_Testing_FixtureFramework_Fixture
     }
 
     /**
-     * @param \PHPUnit\DbUnit\Operation\Operation $setUpOperation
+     * @param \PunktDe\Testing\Forked\DbUnit\Operation\Operation $setUpOperation
      * @return Tx_PtExtbase_Testing_FixtureFramework_Fixture
      */
-    public function setSetUpOperation(\PHPUnit\DbUnit\Operation\Operation $setUpOperation)
+    public function setSetUpOperation(\PunktDe\Testing\Forked\DbUnit\Operation\Operation $setUpOperation)
     {
         $this->setUpOperation = $setUpOperation;
         return $this;

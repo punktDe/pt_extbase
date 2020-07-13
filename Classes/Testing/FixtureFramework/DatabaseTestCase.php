@@ -24,7 +24,12 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Container\Container as ExtbaseContainer;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\TestingFramework\Core\Testbase;
 
 /**
  * Database Test Case
@@ -34,7 +39,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
-abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends \PHPUnit\DbUnit\TestCase
+abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends \PunktDe\Testing\Forked\DbUnit\TestCase
 {
     /**
      * This array contains strings of domains, which are allowed to run database tests on.
@@ -71,9 +76,9 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends \P
      *
      * @return void
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        if (!(in_array(GeneralUtility::getApplicationContext(), $this->allowedApplicationContexts)
+        if (!(in_array(Environment::getContext(), $this->allowedApplicationContexts)
                 || in_array($_SERVER['HOSTNAME'], $this->allowedDomains)
                 || in_array($_SERVER['HTTP_HOST'], $this->allowedDomains))) {
             $this->fail(sprintf('This test is only allowed in contexts "%s" used %s or on domains "%s" used %s', implode(', ', $this->allowedApplicationContexts), GeneralUtility::getApplicationContext(), implode(', ', $this->allowedDomains), $_SERVER['HOSTNAME'] . ' ' . $_SERVER['HTTP_HOST']));
@@ -85,13 +90,17 @@ abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends \P
     /**
      * Injects an untainted clone of the object manager and all its referencing
      * objects for every test.
-     *
-     * @return void
+     * @throws Throwable
      */
-    public function runBare()
+    public function runBare(): void
     {
-        $objectManager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
-        $this->objectManager =  clone $objectManager;
+        $instancePath = Environment::getCurrentScript();
+        $testbase = new Testbase();
+        $container = $testbase->setUpBasicTypo3Bootstrap($instancePath);
+        $extbaseContainer = GeneralUtility::getContainer()->get(ExtbaseContainer::class);
+
+        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class, $container, $extbaseContainer);
+
         parent::runBare();
     }
 
