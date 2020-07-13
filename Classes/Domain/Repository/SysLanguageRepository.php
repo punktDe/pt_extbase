@@ -1,4 +1,7 @@
 <?php
+namespace PunktDe\PtExtbase\Domain\Repository;
+
+
 /***************************************************************
 *  Copyright notice
 *
@@ -29,7 +32,7 @@
  * @subpackage Repository
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Domain_Repository_SysLanguageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class SysLanguageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
     /**
      * Constructor of the repository.

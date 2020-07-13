@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Domain\Model;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -30,7 +32,7 @@
  * @subpackage Model
  * @author Michael Knoll <knoll@punkt.de>
  */
-class Tx_PtExtbase_Domain_Model_SysLanguage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class SysLanguage extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
     /**
      * @var string
