@@ -1,4 +1,6 @@
 <?php
+namespace PunktDe\PtExtbase\Domain\Repository;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -29,6 +31,6 @@
  * @subpackage Repository
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Domain_Repository_TTContentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class TTContentRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 }

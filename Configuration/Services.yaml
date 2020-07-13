@@ -23,6 +23,14 @@ services:
     resource: '../Classes/State'
     public: true
 
+  PunktDe\PtExtbase\Domain\Model\:
+    resource: '../Classes/Domain/Model'
+    public: true
+
+  PunktDe\PtExtbase\Domain\Repository\:
+    resource: '../Classes/Domain/Repository'
+    public: true
+
   PunktDe\PtExtbase\State\Session\Storage\AdapterInterface:
     alias: PunktDe\PtExtbase\State\Session\Storage\NullStorageAdapter
 
