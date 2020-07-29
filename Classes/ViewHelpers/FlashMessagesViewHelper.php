@@ -24,7 +24,7 @@ namespace PunktDe\PtExtbase\ViewHelpers;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 /**
  * View helper which renders the flash messages (if there are any) as an unsorted list.
