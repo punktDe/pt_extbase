@@ -25,8 +25,11 @@ namespace PunktDe\PtExtbase\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\View\BaseView;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\View\NotFoundView;
+use TYPO3\CMS\Extbase\Mvc\View\ViewInterface;
 
 /**
  * Abstract controller extending Extbase ActionController. 
@@ -115,17 +118,22 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
      * @throws \Exception
      * @return string
      */
-    protected function resolveViewObjectName()
+    protected function resolveView()
     {
         $viewClassName = $this->resolveTsDefinedViewClassName();
-        if (!$viewClassName) {
-            $viewClassName = parent::resolveViewObjectName();
-        }
-        if (!$viewClassName) {
-            $viewClassName = $this->getFallbackViewClassName();
+
+        if (!empty($viewClassName)) {
+            $view = GeneralUtility::makeInstance($viewClassName);
         }
 
-        return $viewClassName;
+        if (!$view instanceof ViewInterface) {
+            $view = parent::resolveView();
+        }
+        if ($view instanceof NotFoundView) {
+            $view = GeneralUtility::makeInstance($this->getFallbackViewClassName());
+        }
+
+        return $view;
     }
     
     
@@ -135,9 +143,9 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
      *
      * @return string Class name of view, that should be taken by default
      */
-    protected function getFallbackViewClassName()
+    protected function getFallbackViewClassName(): string
     {
-        return 'Tx_PtExtbase_View_BaseView';
+        return BaseView::class;
     }
 
 
