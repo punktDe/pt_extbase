@@ -26,7 +26,7 @@ namespace PunktDe\PtExtbase\ViewHelpers\Head;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 /**
  * ViewHelper used to render a HEAD meta tag

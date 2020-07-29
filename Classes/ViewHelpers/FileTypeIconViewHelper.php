@@ -22,7 +22,7 @@ namespace PunktDe\PtExtbase\ViewHelpers;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Utility\Files;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
 
 /**
  * Class fileTypeIcon
