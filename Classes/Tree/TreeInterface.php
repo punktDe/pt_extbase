@@ -1,43 +1,18 @@
 <?php
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2010 Michael Knoll <mimi@kaktusteam.de>
-*  			Daniel Lienert <daniel@lienert.cc>
-*  			
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+namespace PunktDe\PtExtbase\Tree;
 
-/**
- * Interface for classes that implement a generic tree
- *
- * @package Tree
- * @author Michael Knoll <mimi@kaktusteam.de>
- * @author Daniel Lienert <daniel@lienert.cc>
+/*
+ *  (c) 2020 punkt.de GmbH - Karlsruhe, Germany - https://punkt.de
+ *  All rights reserved.
  */
-interface Tx_PtExtbase_Tree_TreeInterface extends Tx_PtExtbase_Tree_TraversableInterface
+
+interface TreeInterface extends TraversableInterface
 {
     /**
      * Returns node for a given uid
      *
      * @param integer $uid Uid of node
-     * @return Tx_PtExtbase_Tree_Node
+     * @return Node
      */
     public function getNodeByUid($uid);
     
@@ -46,54 +21,54 @@ interface Tx_PtExtbase_Tree_TreeInterface extends Tx_PtExtbase_Tree_TraversableI
     /**
      * Removes a node from the tree
      *
-     * @param Tx_PtExtbase_Tree_Node $node
-     * @return Tx_PtExtbase_Tree_TreeInterface
+     * @param Node $node
+     * @return TreeInterface
      */
-    public function deleteNode(Tx_PtExtbase_Tree_Node $node);
+    public function deleteNode(Node $node);
 
 
 
     /**
      * Moves a node given as first parameter into a node given as second parameter
      *
-     * @param Tx_PtExtbase_Tree_Node $nodeToBeMoved Node to be moved
-     * @param Tx_PtExtbase_Tree_Node $targetNode Node to move moved node into
-     * @return Tx_PtExtbase_Tree_TreeInterface
+     * @param Node $nodeToBeMoved Node to be moved
+     * @param Node $targetNode Node to move moved node into
+     * @return TreeInterface
      */
-    public function moveNode(Tx_PtExtbase_Tree_Node $nodeToBeMoved, Tx_PtExtbase_Tree_Node $targetNode);
+    public function moveNode(Node $nodeToBeMoved, Node $targetNode);
     
     
     
     /**
      * Moves a node given as a first parameter in front of a node given as a second parameter 
      *
-     * @param Tx_PtExtbase_Tree_Node $nodeToBeMoved
-     * @param Tx_PtExtbase_Tree_Node $nodeToMoveBefore
-     * @return Tx_PtExtbase_Tree_TreeInterface
+     * @param Node $nodeToBeMoved
+     * @param Node $nodeToMoveBefore
+     * @return TreeInterface
      */
-    public function moveNodeBeforeNode(Tx_PtExtbase_Tree_Node $nodeToBeMoved, Tx_PtExtbase_Tree_Node $nodeToMoveBefore);
+    public function moveNodeBeforeNode(Node $nodeToBeMoved, Node $nodeToMoveBefore);
     
     
     
     /**
      * Moves a node given as first parameter after a node given as second parameter
      *
-     * @param Tx_PtExtbase_Tree_Node $nodeToBeMoved
-     * @param Tx_PtExtbase_Tree_Node $nodeToMoveAfter
-     * @return Tx_PtExtbase_Tree_TreeInterface
+     * @param Node $nodeToBeMoved
+     * @param Node $nodeToMoveAfter
+     * @return TreeInterface
      */
-    public function moveNodeAfterNode(Tx_PtExtbase_Tree_Node $nodeToBeMoved, Tx_PtExtbase_Tree_Node $nodeToMoveAfter);
+    public function moveNodeAfterNode(Node $nodeToBeMoved, Node $nodeToMoveAfter);
     
     
     
     /**
      * Adds a given node into a given parent node
      *
-     * @param Tx_PtExtbase_Tree_Node $newNode Node to be added to tree
-     * @param Tx_PtExtbase_Tree_Node $parentNode Node to add new node into
-     * @return Tx_PtExtbase_Tree_TreeInterface
+     * @param Node $newNode Node to be added to tree
+     * @param Node $parentNode Node to add new node into
+     * @return TreeInterface
      */
-    public function insertNode(Tx_PtExtbase_Tree_Node $newNode, Tx_PtExtbase_Tree_Node $parentNode);
+    public function insertNode(Node $newNode, Node $parentNode);
 
 
 

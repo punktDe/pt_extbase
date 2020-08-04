@@ -1,55 +1,16 @@
 <?php
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2010 Michael Knoll <mimi@kaktusteam.de>
- *			  Daniel Lienert <daniel@lienert.cc>
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+namespace PunktDe\PtExtbase\Tree;
+
+/*
+ *  (c) 2020 punkt.de GmbH - Karlsruhe, Germany - https://punkt.de
+ *  All rights reserved.
+ */
+
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
-/**
- * Class implements node domain object
- *
- * Nodes are implemented as nested sets. Each node has a left and a right number, given
- * by a depth-first treewalk through the tree. Left is the number of first visit when traversing the tree,
- * right is the number of last visit when traversing the tree.
- *
- * You can now do some simple selects, when processing queries on tree:
- *
- * 1. Select all child-nodes from node with left = LEFT and right = RIGHT:
- *	 ... WHERE child-nodes.left > nodes.left AND child-nodes.right < node.RIGHT
- *
- * 2. Number of child-nodes
- *	 ... COUNT(*) ... WHERE --> see above
- *
- * For a detailed explanation of what's possible with nested sets see http://www.klempert.de/nested_sets/
- *
- * @package Domain
- * @subpackage Model
- * @author Michael Knoll <mimi@kaktusteam.de>
- * @author Daniel Lienert <daniel@lienert.cc>
- */
-class Tx_PtExtbase_Tree_Node
+class Node
     extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
-    implements Tx_PtExtbase_Tree_NestedSetNodeInterface
+    implements NestedSetNodeInterface
 {
     /**
      * Holds a unique temporaray UID which is decreased every time, a temp uid is requested.
@@ -112,7 +73,7 @@ class Tx_PtExtbase_Tree_Node
     /**
      * Holds refernce to parent node (null, if root)
      *
-     * @var Tx_PtExtbase_Tree_Node
+     * @var Node
      */
     protected $parent;
 
@@ -121,7 +82,7 @@ class Tx_PtExtbase_Tree_Node
     /**
      * Holds references to child-nodes
      *
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_PtExtbase_Tree_Node>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Node>
      */
     protected $children;
 
@@ -267,9 +228,9 @@ class Tx_PtExtbase_Tree_Node
     /**
      * Setter for parent node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param NodeInterface $node
      */
-    public function setParent(Tx_PtExtbase_Tree_NodeInterface $node)
+    public function setParent(NodeInterface $node)
     {
         $this->parent = $node;
         if ($node->children == null) {
@@ -283,7 +244,7 @@ class Tx_PtExtbase_Tree_Node
     /**
      * Getter for parent node
      *
-     * @return Tx_PtExtbase_Tree_Node
+     * @return Node
      */
     public function getParent()
     {
@@ -385,9 +346,9 @@ class Tx_PtExtbase_Tree_Node
     /**
      * Adds a child node to children at end of children
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param NodeInterface $node
      */
-    public function addChild(Tx_PtExtbase_Tree_NodeInterface $node)
+    public function addChild(NodeInterface $node)
     {
         // TODO this should not be necessary. Seems like this method is not invoked, if object is loaded from database
         if (is_null($this->children)) {
@@ -403,10 +364,10 @@ class Tx_PtExtbase_Tree_Node
     /**
      * Adds a new child node after a given child node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
-     * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter
+     * @param NodeInterface $newChildNode
+     * @param NodeInterface $nodeToAddAfter
      */
-    public function addChildAfter(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter)
+    public function addChildAfter(NodeInterface $newChildNode, NodeInterface $nodeToAddAfter)
     {
         $newChildren = new ObjectStorage();
         foreach ($this->children as $child) {
@@ -423,10 +384,10 @@ class Tx_PtExtbase_Tree_Node
     /**
      * Adds a new child node before a given child node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
-     * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore
+     * @param NodeInterface $newChildNode
+     * @param NodeInterface $nodeToAddBefore
      */
-    public function addChildBefore(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore)
+    public function addChildBefore(NodeInterface $newChildNode, NodeInterface $nodeToAddBefore)
     {
         $newChildren = new ObjectStorage();
         foreach ($this->children as $child) {
@@ -443,9 +404,9 @@ class Tx_PtExtbase_Tree_Node
     /**
      * Removes given child node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param NodeInterface $node
      */
-    public function removeChild(Tx_PtExtbase_Tree_NodeInterface $node)
+    public function removeChild(NodeInterface $node)
     {
         $this->children->detach($node);
     }
@@ -495,7 +456,7 @@ class Tx_PtExtbase_Tree_Node
      */
     public function toString()
     {
-        $nodeString = '<li id=tx_ptextbase_tree_node_' . $this->uid . '>' . $this->label . ' [uid: ' . $this->uid . ' left: ' . $this->lft . '  right:' . $this->rgt . ']';
+        $nodeString = '<li id=node_' . $this->uid . '>' . $this->label . ' [uid: ' . $this->uid . ' left: ' . $this->lft . '  right:' . $this->rgt . ']';
 
         if ($this->hasChildren()) {
             $nodeString .= '<ul>';

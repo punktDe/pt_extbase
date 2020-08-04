@@ -1,28 +1,15 @@
 <?php
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2010 Michael Knoll <mimi@kaktusteam.de>
-*           Daniel Lienert <daniel@lienert.cc>
-*
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+namespace PunktDe\PtExtbase\Tree;
+
+/*
+ *  (c) 2020 punkt.de GmbH - Karlsruhe, Germany - https://punkt.de
+ *  All rights reserved.
+ */
+
+use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 /**
  * Class implements TCA tree selector widget that can be rendered within a TCE form
@@ -36,8 +23,8 @@
  *         'config' => Array (
  *             'type' => 'select',
  *             'form_type' => 'user',
- *             'userFunc' => 'EXT:pt_extbase/Classes/Tree/TcaTreeSelectorWidget.php:Tx_PtExtbase_Tree_TcaTreeSelectorWidget->renderTcaTreeSelectorWidget',
- *             'foreign_table' => 'tx_ptextbase_tree_node',
+ *             'userFunc' => 'EXT:pt_extbase/Classes/Tree/TcaTreeSelectorWidget.php:TcaTreeSelectorWidget->renderTcaTreeSelectorWidget',
+ *             'foreign_table' => 'node',
  *             'minitems' => 0,
  *             'maxitems' => 500,
  *             'MM' => 'tx_ptextbasetests_categorytest_mm',
@@ -46,7 +33,7 @@
  *                 'pluginName' => 'web_PtExtbaseTxPtExtbaseM1',                                        // ATM this is not really required. It would be required, if we use TCA template in a more advanced way and want to render links with FLUID
  *                 'treeNamespace' => 'tx_ptcertification_domain_model_category',                       // Set tree namespace to the name you want to store your nodes with. ATM this can only be an existing namespace. We have to find a way to create trees initially in the backend.
  *                 //'templatePath' => 'EXT:pt_extbase/Resources/Private/Templates/Tca/Tree.html',        // This is the path to the template we use for rendering the tree. Should be made default setting and be overwritable here. ATM it does not work if you don't set it
- *                 //'nodeRepositoryClassName' => 'Tx_PtExtbase_Tree_NodeRepository',                     // Class name of repository that should be used for node storage (if left empty, Tx_PtExtbase_Tree_NodeRepository is taken)
+ *                 //'nodeRepositoryClassName' => 'NodeRepository',                     // Class name of repository that should be used for node storage (if left empty, NodeRepository is taken)
  *                //'restrictedDepth' => 3                                                               // Determines how many levels of the tree should be rendered. 1 = only root node is rendered, 2 = root node and its children are rendered, ...
  *                //'expand' => 'root"                                                               // Expand the tree, posible are "all", "root" or none
  *             )
@@ -64,7 +51,7 @@
  * @author Michael Knoll <mimi@kaktusteam.de>
  * @author Daniel Lienert <daniel@lienert.cc>
  */
-class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_AbstractTcaWidget
+class TcaTreeSelectorWidget extends \Tx_PtExtbase_Utility_AbstractTcaWidget
 {
     /**
      * Holds template path for fluid tca widget template
@@ -79,7 +66,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      *
      * @var string
      */
-    protected $nodeRepositoryClassName = 'Tx_PtExtbase_Tree_NodeRepository';
+    protected $nodeRepositoryClassName = 'NodeRepository';
 
 
 
@@ -102,7 +89,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
 
 
     /**
-     * @var Tx_PtExtbase_Tree_TreeContext
+     * @var TreeContext
      */
     protected $treeContext;
 
@@ -113,9 +100,9 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
 
 
     /**
-     * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+     * @param TreeContext $treeContext
      */
-    public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext)
+    public function injectTreeContext(TreeContext $treeContext)
     {
         $this->treeContext = $treeContext;
     }
@@ -127,7 +114,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      * @param \TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fObj
      * @return string
      */
-    public function renderTcaTreeSelectorWidget(array $parameters= [], TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fObj=null)
+    public function renderTcaTreeSelectorWidget(array $parameters= [],AbstractFormElement $fObj=null)
     {
         // Backend form should be rendered no matter what happens here, so we catch exception
         try {
@@ -135,7 +122,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
             $this->addJsAndCssIncludes();
 
             return $this->fluidRenderer->render();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
@@ -148,10 +135,10 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
      * @param array $parameters Parameters passed by TCA rendering call
      * @param \TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fobj
      */
-    protected function init(array $parameters = [], TYPO3\CMS\Backend\Form\Element\AbstractFormElement $fobj = null) {
+    protected function init(array $parameters = [], AbstractFormElement $fobj = null) {
         parent::init($parameters, $fobj);
         $this->initTreeRepositoryBuilder();
-        $this->pageRenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
+        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
     }
 
 
@@ -212,7 +199,7 @@ class Tx_PtExtbase_Tree_TcaTreeSelectorWidget extends Tx_PtExtbase_Utility_Abstr
     protected function initTreeRepositoryBuilder()
     {
         if ($this->nodeRepositoryClassName !== null && $this->nodeRepositoryClassName != '') {
-            $treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
+            $treeRepositoryBuilder = TreeRepositoryBuilder::getInstance();
             $treeRepositoryBuilder->setNodeRepositoryClassName($this->nodeRepositoryClassName);
             $treeRepositoryBuilder->setRestrictedDepth($this->restrictedDepth);
         }

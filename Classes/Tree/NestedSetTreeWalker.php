@@ -1,38 +1,15 @@
 <?php
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2010 Daniel Lienert <daniel@lienert.cc>, Michael Knoll <mimi@kaktusteam.de>
- *  All rights reserved
- *
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+namespace PunktDe\PtExtbase\Tree;
 
-/**
- * Class implements a tree walker for nested sets
- *
- * Nested sets tree walker traverses a tree DFS and returns
- * nodes with left and right numbering for Nested Sets storage.
- *
- * @package Tree
- * @author Michael Knoll <mimi@kaktusteam.de>
+/*
+ *  (c) 2020 punkt.de GmbH - Karlsruhe, Germany - https://punkt.de
+ *  All rights reserved.
  */
-class Tx_PtExtbase_Tree_NestedSetTreeWalker extends Tx_PtExtbase_Tree_TreeWalker
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+
+class NestedSetTreeWalker extends TreeWalker
 {
     /**
      * Holds instance of nested sets visitor.
@@ -41,7 +18,7 @@ class Tx_PtExtbase_Tree_NestedSetTreeWalker extends Tx_PtExtbase_Tree_TreeWalker
      * we have a special reference here to get further information after
      * tree traversal!
      *
-     * @var Tx_PtExtbase_Tree_NestedSetVisitor
+     * @var NestedSetVisitor
      */
     protected $nestedSetVisitor;
 
@@ -50,14 +27,14 @@ class Tx_PtExtbase_Tree_NestedSetTreeWalker extends Tx_PtExtbase_Tree_TreeWalker
      * Returns instance of Nested Sets Tree Walker
      *
      * @static
-     * @return Tx_PtExtbase_Tree_NestedSetTreeWalker
+     * @return NestedSetTreeWalker
      */
     public static function getInstance()
     {
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
-        $nestedSetTreeWalkerVisitor = $objectManager->get('Tx_PtExtbase_Tree_NestedSetVisitor');
-        $nestedSetTreeWalker = $objectManager->get('Tx_PtExtbase_Tree_NestedSetTreeWalker', [$nestedSetTreeWalkerVisitor], $nestedSetTreeWalkerVisitor);
+        $nestedSetTreeWalkerVisitor = $objectManager->get(NestedSetVisitor::class);
+        $nestedSetTreeWalker = $objectManager->get(NestedSetTreeWalker::class, [$nestedSetTreeWalkerVisitor], $nestedSetTreeWalkerVisitor);
         return $nestedSetTreeWalker;
     }
 
@@ -68,9 +45,10 @@ class Tx_PtExtbase_Tree_NestedSetTreeWalker extends Tx_PtExtbase_Tree_TreeWalker
      * We add nestedSetVisitor explicitly as reference. You have to add it to array of visitors, too!
      *
      * @param array $visitors
-     * @param Tx_PtExtbase_Tree_NestedSetVisitor $nestedSetVisitor
+     * @param NestedSetVisitor $nestedSetVisitor
+     * @throws \Exception
      */
-    public function __construct(array $visitors, Tx_PtExtbase_Tree_NestedSetVisitor $nestedSetVisitor)
+    public function __construct(array $visitors, NestedSetVisitor $nestedSetVisitor)
     {
         parent::__construct($visitors);
         $this->nestedSetVisitor = $nestedSetVisitor;
@@ -80,10 +58,10 @@ class Tx_PtExtbase_Tree_NestedSetTreeWalker extends Tx_PtExtbase_Tree_TreeWalker
     /**
      * Returns nodes found during depth-first-search traversal of tree with nested sets numbering.
      *
-     * @param Tx_PtExtbase_Tree_NestedSetTreeInterface $tree
-     * @return array<Tx_PtExtbase_Tree_NestedSetNodeInterface>
+     * @param NestedSetTreeInterface $tree
+     * @return array<NestedSetNodeInterface>
      */
-    public function traverseTreeAndGetNodes(Tx_PtExtbase_Tree_NestedSetTreeInterface $tree)
+    public function traverseTreeAndGetNodes(NestedSetTreeInterface $tree)
     {
         // TODO we should be able to pass tree here - not root of tree...
         $this->traverseTreeDfs($tree);

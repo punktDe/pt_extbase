@@ -1,37 +1,14 @@
 <?php
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2010 Michael Knoll <mimi@kaktusteam.de>
- *			  Daniel Lienert <daniel@lienert.cc>
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+namespace PunktDe\PtExtbase\Tree;
 
-/**
- * Interface for nodes in a nested set tree
- *
- * @package Tree
- * @author Michael Knoll <mimi@kaktusteam.de>
- * @author Daniel Lienert <daniel@lienert.cc>
+/*
+ *  (c) 2020 punkt.de GmbH - Karlsruhe, Germany - https://punkt.de
+ *  All rights reserved.
  */
-interface Tx_PtExtbase_Tree_NodeInterface extends \TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface
+
+use TYPO3\CMS\Extbase\DomainObject\DomainObjectInterface;
+
+interface NodeInterface extends DomainObjectInterface
 {
     /*********************************************************************************************************
      * Getters and setters for advanced domain logic. NOT USED FOR PERSISTENCE!
@@ -40,15 +17,15 @@ interface Tx_PtExtbase_Tree_NodeInterface extends \TYPO3\CMS\Extbase\DomainObjec
     /**
      * Setter for parent node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param NodeInterface $node
      */
-    public function setParent(Tx_PtExtbase_Tree_NodeInterface $node);
+    public function setParent(NodeInterface $node);
 
 
     /**
      * Getter for parent node
      *
-     * @return Tx_PtExtbase_Tree_NodeInterface
+     * @return NodeInterface
      */
     public function getParent();
 
@@ -127,37 +104,37 @@ interface Tx_PtExtbase_Tree_NodeInterface extends \TYPO3\CMS\Extbase\DomainObjec
     /**
      * Adds a child node to children at end of children
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param NodeInterface $node
      */
-    public function addChild(Tx_PtExtbase_Tree_NodeInterface $node);
+    public function addChild(NodeInterface $node);
 
 
     /**
      * Adds a new child node after a given child node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
-     * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter
+     * @param NodeInterface $newChildNode
+     * @param NodeInterface $nodeToAddAfter
      */
-    public function addChildAfter(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddAfter);
+    public function addChildAfter(NodeInterface $newChildNode, NodeInterface $nodeToAddAfter);
 
 
     /**
      * Adds a new child node before a given child node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $newChildNode
-     * @param Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore
+     * @param NodeInterface $newChildNode
+     * @param NodeInterface $nodeToAddBefore
      * @param bool $updateLeftRight
      */
-    public function addChildBefore(Tx_PtExtbase_Tree_NodeInterface $newChildNode, Tx_PtExtbase_Tree_NodeInterface $nodeToAddBefore);
+    public function addChildBefore(NodeInterface $newChildNode, NodeInterface $nodeToAddBefore);
 
 
     /**
      * Removes given child node
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param NodeInterface $node
      * @param bool $updateLeftRight
      */
-    public function removeChild(Tx_PtExtbase_Tree_NodeInterface $node);
+    public function removeChild(NodeInterface $node);
 
 
     /**
