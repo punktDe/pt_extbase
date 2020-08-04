@@ -1,37 +1,14 @@
 <?php
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2010 Michael Knoll <mimi@kaktusteam.de>
-*           Daniel Lienert <daniel@lienert.cc>
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+namespace PunktDe\PtExtbase\Tree;
 
-/**
- * Repository for Tx_PtExtbase_Tree_Node
- *
- * @package Tree
- * @author Michael Knoll <mimi@kaktusteam.de>
+/*
+ *  (c) 2020 punkt.de GmbH - Karlsruhe, Germany - https://punkt.de
+ *  All rights reserved.
  */
-class Tx_PtExtbase_Tree_NodeRepository
-    extends \TYPO3\CMS\Extbase\Persistence\Repository
-    implements Tx_PtExtbase_Tree_NodeRepositoryInterface
+
+use TYPO3\CMS\Extbase\Persistence\Repository;
+
+class NodeRepository extends Repository implements NodeRepositoryInterface
 {
     /**
      * @var bool
@@ -40,15 +17,15 @@ class Tx_PtExtbase_Tree_NodeRepository
 
 
     /**
-     * @var Tx_PtExtbase_Tree_TreeContext
+     * @var TreeContext
      */
     protected $treeContext;
 
 
     /**
-     * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+     * @param TreeContext $treeContext
      */
-    public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext)
+    public function injectTreeContext(TreeContext $treeContext)
     {
         $this->treeContext = $treeContext;
     }
@@ -59,10 +36,10 @@ class Tx_PtExtbase_Tree_NodeRepository
      *
      * TODO rename: we do not find by nodeUid but by node object
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_PtExtbase_Tree_Node>
+     * @param NodeInterface $node
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Node>
      */
-    public function findByRootOfGivenNodeUid(Tx_PtExtbase_Tree_NodeInterface $node)
+    public function findByRootOfGivenNodeUid(NodeInterface $node)
     {
         $rootUid = $node->getRoot();
         return $this->findByRootUid($rootUid);
@@ -73,9 +50,9 @@ class Tx_PtExtbase_Tree_NodeRepository
     /**
      * Updates a given node if it has already been added to repository or adds it.
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param NodeInterface $node
      */
-    public function updateOrAdd(Tx_PtExtbase_Tree_NodeInterface $node)
+    public function updateOrAdd(NodeInterface $node)
     {
         if ($node->getUid() === null || $node->getUid() < 0) {
             // UID of node < 0 means, node has not yet been persisted!
@@ -93,7 +70,7 @@ class Tx_PtExtbase_Tree_NodeRepository
      * Returns a set of nodes determined by uid of root node
      *
      * @param integer $rootUid
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_PtExtbase_Tree_Node>
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Node>
      */
     public function findByRootUid($rootUid)
     {
@@ -111,7 +88,7 @@ class Tx_PtExtbase_Tree_NodeRepository
      * The flag is than later respected when the rendering is done.
      *
      * @param $namespace
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Tx_PtExtbase_Tree_Node>
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<Node>
      */
     public function findByNamespace($namespace)
     {
@@ -136,7 +113,7 @@ class Tx_PtExtbase_Tree_NodeRepository
             $accessibleNodeUidArray[$accessibleNode->getUid()] = $accessibleNode->getUid();
         }
 
-        foreach ($nodes as $node) { /** @var $node Tx_PtExtbase_Tree_Node */
+        foreach ($nodes as $node) { /** @var $node Node */
             if (in_array($node->getUid(), $accessibleNodeUidArray)) {
                 $node->setAccessible(true);
             } else {
@@ -195,7 +172,7 @@ class Tx_PtExtbase_Tree_NodeRepository
      *
      * TODO as long as we only operate on trees, we don't need this. This is only required if we remove a single node out of tree-scope
      *
-     * @param Tx_PtExtbase_Tree_Node $node Node to be removed
+     * @param Node $node Node to be removed
      */
     public function remove($node)
     {
@@ -226,7 +203,7 @@ class Tx_PtExtbase_Tree_NodeRepository
             $difference = intval($right - $left + 1);
 
             // We update case 1. from above
-            $query1 = "UPDATE tx_ptextbase_tree_node " .
+            $query1 = "UPDATE node " .
                       "SET lft = lft - " . $difference . ", rgt = rgt - " . $difference . " " .
                       "WHERE namespace = \"" . $node->getNamespace() . "\" " .
                       "AND lft > " . $node->getLft();
@@ -235,7 +212,7 @@ class Tx_PtExtbase_Tree_NodeRepository
             $extQuery1->statement($query1)->execute(true);
 
             // We update case 2. from above
-            $query2 = "UPDATE tx_ptextbase_tree_node " .
+            $query2 = "UPDATE node " .
                       "SET rgt = rgt - " . $difference . " " .
                       "WHERE namespace = \"" . $node->getNamespace() . "\" " .
                       "AND lft < " . $node->getLft() . " " .
@@ -253,14 +230,14 @@ class Tx_PtExtbase_Tree_NodeRepository
      *
      * Warning: No deleted=1 is set in node record, nodes are really deleted!
      *
-     * @param Tx_PtExtbase_Tree_Node $node
+     * @param Node $node
      */
-    protected function deleteNode(Tx_PtExtbase_Tree_Node $node)
+    protected function deleteNode(Node $node)
     {
         $left = $node->getLft();
         $right = $node->getRgt();
         
-        $query = "DELETE FROM tx_ptextbase_tree_node WHERE lft >= " . $left . " AND rgt <= " . $right;
+        $query = "DELETE FROM node WHERE lft >= " . $left . " AND rgt <= " . $right;
         $extQuery = $this->createQuery();
         $extQuery->statement($query)->execute(true);
     }

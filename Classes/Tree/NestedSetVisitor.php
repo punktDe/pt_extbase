@@ -1,53 +1,30 @@
 <?php
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2010 Daniel Lienert <daniel@lienert.cc>, Michael Knoll <mimi@kaktusteam.de>
-*  All rights reserved
-*
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+namespace PunktDe\PtExtbase\Tree;
 
-/**
- * Class implements a visitor for doing nested set enumeration on a tree.
- *
- * @package Tree
- * @author Michael Knoll <mimi@kaktusteam.de>
+/*
+ *  (c) 2020 punkt.de GmbH - Karlsruhe, Germany - https://punkt.de
+ *  All rights reserved.
  */
-class Tx_PtExtbase_Tree_NestedSetVisitor implements Tx_PtExtbase_Tree_TreeWalkerVisitorInterface
+
+class NestedSetVisitor implements TreeWalkerVisitorInterface
 {
     /**
      * Holds an array of nodes that has already been visited
      *
-     * @var array<Tx_PtExtbase_Tree_NestedSetNodeInterface>
+     * @var array<NestedSetNodeInterface>
      */
     protected $visitedNodes = [];
 
 
 
     /**
-     * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
+     * @see TreeWalkerVisitorInterface::doFirstVisit()
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param NodeInterface $node
      * @param integer &$index Holds the visitation index of treewalker
      * @param integer &$level Holds level of visitation in tree, starting at 1
      */
-    public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
+    public function doFirstVisit(NodeInterface $node, &$index, &$level)
     {
         $node->setLft($index);
     }
@@ -55,13 +32,13 @@ class Tx_PtExtbase_Tree_NestedSetVisitor implements Tx_PtExtbase_Tree_TreeWalker
 
     
     /**
-     * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doLastVisit()
+     * @see TreeWalkerVisitorInterface::doLastVisit()
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param NodeInterface $node
      * @param integer &$index Holds the visitation index of treewalker
      * @param integer &$level Holds level of visitation in tree, starting at 1
      */
-    public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
+    public function doLastVisit(NodeInterface $node, &$index, &$level)
     {
         $node->setRgt($index);
         $this->visitedNodes[] = $node;
@@ -72,7 +49,7 @@ class Tx_PtExtbase_Tree_NestedSetVisitor implements Tx_PtExtbase_Tree_TreeWalker
     /**
      * Returns array of visited nodes
      *
-     * @return array<Tx_PtExtbase_Tree_NestedSetNodeInterface>
+     * @return array<NestedSetNodeInterface>
      */
     public function getVisitedNodes()
     {

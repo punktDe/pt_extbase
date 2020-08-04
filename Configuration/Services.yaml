@@ -19,6 +19,9 @@ services:
   PunktDe\PtExtbase\Lifecycle\:
     resource: '../Classes/Lifecycle'
 
+  PunktDe\PtExtbase\Tree\:
+    resource: '../Classes/Tree'
+
   PunktDe\PtExtbase\State\:
     resource: '../Classes/State'
     public: true

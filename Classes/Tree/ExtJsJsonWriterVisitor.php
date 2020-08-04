@@ -1,35 +1,12 @@
 <?php
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2010 Daniel Lienert <daniel@lienert.cc>, Michael Knoll <mimi@kaktusteam.de>
-*  All rights reserved
-*
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+namespace PunktDe\PtExtbase\Tree;
 
-/**
- * Class implements a visitor for getting an extJs tree compatible array
- *
- * @package Tree
- * @author Daniel Lienert <daniel@lienert.cc>
+/*
+ *  (c) 2020 punkt.de GmbH - Karlsruhe, Germany - https://punkt.de
+ *  All rights reserved.
  */
-class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_TreeWalkerVisitorInterface
+
+class ExtJsJsonWriterVisitor implements TreeWalkerVisitorInterface
 {
     /**
      * @var array
@@ -40,7 +17,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
     /**
      * Holds stack of unfinished nodes
      *
-     * @var Tx_PtExtbase_Tree_Stack
+     * @var Stack
      */
     protected $nodeStack;
 
@@ -85,19 +62,19 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
      */
     public function __construct()
     {
-        $this->nodeStack = new Tx_PtExtbase_Tree_Stack();
+        $this->nodeStack = new Stack();
     }
 
 
     /**
-     * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doFirstVisit()
+     * @see TreeWalkerVisitorInterface::doFirstVisit()
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param NodeInterface $node
      * @param integer &$index Holds the visitation index of treeWalker
      * @param integer &$level Holds level of visitation in tree, starting at 1
-     * @throws Exception
+     * @throws \Exception
      */
-    public function doFirstVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
+    public function doFirstVisit(NodeInterface $node, &$index, &$level)
     {
         $arrayForNode = [
             'id' => $node->getUid(),
@@ -112,7 +89,7 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
         if ($this->firstVisitCallback) {
             $return = call_user_func([$this->firstVisitCallback['target'], $this->firstVisitCallback['method']], $node, $arrayForNode);
             if ($return === false) {
-                throw new Exception('It was not possible to call '.  get_class($this->firstVisitCallback['target']) . '::' . $this->firstVisitCallback['method'], 1328468070);
+                throw new \Exception('It was not possible to call '.  get_class($this->firstVisitCallback['target']) . '::' . $this->firstVisitCallback['method'], 1328468070);
             } else {
                 $arrayForNode = $return;
             }
@@ -145,13 +122,13 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
 
 
     /**
-     * @see Tx_PtExtbase_Tree_TreeWalkerVisitorInterface::doLastVisit()
+     * @see TreeWalkerVisitorInterface::doLastVisit()
      *
-     * @param Tx_PtExtbase_Tree_NodeInterface $node
+     * @param NodeInterface $node
      * @param integer &$index Holds the visitation index of treewalker
      * @param integer &$level Holds level of visitation in tree, starting at 1
      */
-    public function doLastVisit(Tx_PtExtbase_Tree_NodeInterface $node, &$index, &$level)
+    public function doLastVisit(NodeInterface $node, &$index, &$level)
     {
         $currentNode = $this->nodeStack->top();
         $this->nodeStack->pop();
@@ -246,20 +223,20 @@ class Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor implements Tx_PtExtbase_Tree_Tree
      * @param $type
      * @param $target
      * @param $method
-     * @throws Exception
+     * @throws \Exception
      */
     protected function checkCallBack($type, $target, $method)
     {
         if (is_object($target)) {
             if (!method_exists($target, $method) || !is_callable([$target, $method])) {
-                throw new Exception('The method ' . $method . ' is not accessible on object of type ' . get_class($target) . ' for use as ' . $type, 1328462239);
+                throw new \Exception('The method ' . $method . ' is not accessible on object of type ' . get_class($target) . ' for use as ' . $type, 1328462239);
             }
         } else {
             if (!class_exists($target)) {
-                throw new Exception('The class ' . $target . ' could not be found for use as ' . $type, 1328462359);
+                throw new \Exception('The class ' . $target . ' could not be found for use as ' . $type, 1328462359);
             }
             if (!method_exists($target, $method)) {
-                throw new Exception('The method ' . $method . ' is not accessible in class ' . $target . ' for use as ' . $type, 1328462244);
+                throw new \Exception('The method ' . $method . ' is not accessible in class ' . $target . ' for use as ' . $type, 1328462244);
             }
         }
     }

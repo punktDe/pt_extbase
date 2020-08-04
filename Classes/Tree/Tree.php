@@ -1,42 +1,17 @@
 <?php
-/***************************************************************
-*  Copyright notice
-*
-*  (c) 2010 Michael Knoll <mimi@kaktusteam.de>
-*  			Daniel Lienert <daniel@lienert.cc>
-*  			
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+namespace PunktDe\PtExtbase\Tree;
 
-/**
- * Class implements a nested sets tree
- *
- * @package Tree
- * @author Michael Knoll <mimi@kaktusteam.de>
- * @author Daniel Lienert <daniel@lienert.cc>
+/*
+ *  (c) 2020 punkt.de GmbH - Karlsruhe, Germany - https://punkt.de
+ *  All rights reserved.
  */
-class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
+
+class Tree implements NestedSetTreeInterface
 {
     /**
      * Holds reference of root node for this tree
      *
-     * @var Tx_PtExtbase_Tree_Node
+     * @var Node
      */
     protected $rootNode = null;
     
@@ -97,13 +72,13 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
      *
      * @param string $namespace Namespace for tree
      * @param string $rootLabel Label for root node
-     * @return Tx_PtExtbase_Tree_Tree
+     * @return Tree
      */
     public static function getEmptyTree($namespace, $rootLabel = 'root')
     {
-        $rootNode = new Tx_PtExtbase_Tree_Node($rootLabel);
+        $rootNode = new Node($rootLabel);
         $rootNode->setNamespace($namespace);
-        $tree = Tx_PtExtbase_Tree_Tree::getInstanceByRootNode($rootNode);
+        $tree = Tree::getInstanceByRootNode($rootNode);
         return $tree;
     }
     
@@ -112,12 +87,12 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Factory method for instantiating a tree for a given root node
      *
-     * @param Tx_PtExtbase_Tree_Node $rootNode
-     * @return Tx_PtExtbase_Tree_Tree
+     * @param Node $rootNode
+     * @return Tree
      */
-    public static function getInstanceByRootNode(Tx_PtExtbase_Tree_Node $rootNode = null)
+    public static function getInstanceByRootNode(Node $rootNode = null)
     {
-        $tree = new Tx_PtExtbase_Tree_Tree($rootNode);
+        $tree = new Tree($rootNode);
         if ($rootNode !== null) {
             $tree->setNamespace($rootNode->getNamespace());
         }
@@ -129,9 +104,9 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Constructor for tree
      *
-     * @param Tx_PtExtbase_Tree_Node $rootNode Root node for tree
+     * @param Node $rootNode Root node for tree
      */
-    public function __construct(Tx_PtExtbase_Tree_Node $rootNode = null)
+    public function __construct(Node $rootNode = null)
     {
         $this->rootNode = $rootNode;
         $this->initTreeMap();
@@ -142,7 +117,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Returns root node of this tree
      *
-     * @return Tx_PtExtbase_Tree_Node
+     * @return Node
      */
     public function getRoot()
     {
@@ -155,7 +130,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
      * Returns node for a given uid
      *
      * @param integer $uid Uid of node
-     * @return Tx_PtExtbase_Tree_Node
+     * @return Node
      */
     public function getNodeByUid($uid)
     {
@@ -183,9 +158,9 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Removes a node from the tree
      *
-     * @param Tx_PtExtbase_Tree_Node $node
+     * @param Node $node
      */
-    public function deleteNode(Tx_PtExtbase_Tree_Node $node)
+    public function deleteNode(Node $node)
     {
         $subNodes = $node->getSubNodes();
         foreach ($subNodes as $subnode) {
@@ -201,10 +176,10 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Moves a node given as first parameter into a node given as second parameter
      *
-     * @param Tx_PtExtbase_Tree_Node $nodeToBeMoved Node to be moved
-     * @param Tx_PtExtbase_Tree_Node $targetNode Node to move moved node into
+     * @param Node $nodeToBeMoved Node to be moved
+     * @param Node $targetNode Node to move moved node into
      */
-    public function moveNode(Tx_PtExtbase_Tree_Node $nodeToBeMoved, Tx_PtExtbase_Tree_Node $targetNode)
+    public function moveNode(Node $nodeToBeMoved, Node $targetNode)
     {
         $this->checkForNodeBeingInTree($targetNode);
         $this->checkForNodeBeingInTree($nodeToBeMoved);
@@ -226,10 +201,10 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Moves a node given as a first parameter in front of a node given as a second parameter 
      *
-     * @param Tx_PtExtbase_Tree_Node $nodeToBeMoved
-     * @param Tx_PtExtbase_Tree_Node $nodeToMoveBefore
+     * @param Node $nodeToBeMoved
+     * @param Node $nodeToMoveBefore
      */
-    public function moveNodeBeforeNode(Tx_PtExtbase_Tree_Node $nodeToBeMoved, Tx_PtExtbase_Tree_Node $nodeToMoveBefore)
+    public function moveNodeBeforeNode(Node $nodeToBeMoved, Node $nodeToMoveBefore)
     {
         $this->checkForNodeBeingInTree($nodeToBeMoved);
         $this->checkForNodeBeingInTree($nodeToMoveBefore);
@@ -245,7 +220,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
             $parentOfTargetNode->addChildBefore($nodeToBeMoved, $nodeToMoveBefore);
             $nodeToBeMoved->setParent($parentOfTargetNode);
         } else {
-            throw new Exception("Trying to move a node in front of a node that doesn't have a parent node! 1307646534");
+            throw new \Exception("Trying to move a node in front of a node that doesn't have a parent node! 1307646534");
         }
     }
     
@@ -254,10 +229,10 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Moves a node given as first parameter after a node given as second parameter
      *
-     * @param Tx_PtExtbase_Tree_Node $nodeToBeMoved
-     * @param Tx_PtExtbase_Tree_Node $nodeToMoveAfter
+     * @param Node $nodeToBeMoved
+     * @param Node $nodeToMoveAfter
      */
-    public function moveNodeAfterNode(Tx_PtExtbase_Tree_Node $nodeToBeMoved, Tx_PtExtbase_Tree_Node $nodeToMoveAfter)
+    public function moveNodeAfterNode(Node $nodeToBeMoved, Node $nodeToMoveAfter)
     {
         $this->checkForNodeBeingInTree($nodeToBeMoved);
         $this->checkForNodeBeingInTree($nodeToMoveAfter);
@@ -273,7 +248,7 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
             $parentOfTargetNode->addChildAfter($nodeToBeMoved, $nodeToMoveAfter);
             $nodeToBeMoved->setParent($parentOfTargetNode);
         } else {
-            throw new Exception("Trying to move a node after a node that doesn't have a parent node! 1307646535");
+            throw new \Exception("Trying to move a node after a node that doesn't have a parent node! 1307646535");
         }
     }
 
@@ -281,12 +256,12 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Adds a given node into a given parent node
      *
-     * @param Tx_PtExtbase_Tree_Node $newNode Node to be added to tree
-     * @param Tx_PtExtbase_Tree_Node $parentNode Node to add new node into
-     * @return \Tx_PtExtbase_Tree_TreeInterface|void
+     * @param Node $newNode Node to be added to tree
+     * @param Node $parentNode Node to add new node into
+     * @return \TreeInterface|void
      * @throws Exception
      */
-    public function insertNode(Tx_PtExtbase_Tree_Node $newNode, Tx_PtExtbase_Tree_Node $parentNode)
+    public function insertNode(Node $newNode, Node $parentNode)
     {
         $internalParentNode = $this->getNodeByUid($parentNode->getUid());
 
@@ -322,9 +297,9 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Adds a node to tree map for this tree
      *
-     * @param Tx_PtExtbase_Tree_Node $node Node to be added to tree map
+     * @param Node $node Node to be added to tree map
      */
-    protected function addNodeToTreeMap(Tx_PtExtbase_Tree_Node $node)
+    protected function addNodeToTreeMap(Node $node)
     {
         $this->treeMap[$node->getUid()] = $node;
     }
@@ -334,9 +309,9 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Removes a node from the tree map
      *
-     * @param Tx_PtExtbase_Tree_Node $node Node to be removed from tree map
+     * @param Node $node Node to be removed from tree map
      */
-    protected function removeNodeFromTreeMap(Tx_PtExtbase_Tree_Node $node)
+    protected function removeNodeFromTreeMap(Node $node)
     {
         if (array_key_exists($node->getUid(), $this->treeMap)) {
             unset($this->treeMap[$node->getUid()]);
@@ -349,9 +324,9 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Adds a node to list of deleted nodes
      *
-     * @param Tx_PtExtbase_Tree_Node $node Node to be deleted
+     * @param Node $node Node to be deleted
      */
-    protected function addNodeToDeletedNodes(Tx_PtExtbase_Tree_Node $node)
+    protected function addNodeToDeletedNodes(Node $node)
     {
         $this->deletedNodes[] = $node;
     }
@@ -360,10 +335,10 @@ class Tx_PtExtbase_Tree_Tree implements Tx_PtExtbase_Tree_NestedSetTreeInterface
     /**
      * Checks whether given node is in tree
      *
-     * @param Tx_PtExtbase_Tree_Node $node Node to check for whether it's in the tree
+     * @param Node $node Node to check for whether it's in the tree
      * @param string $errMessage An error message to be displayed, if node is not in tree
      */
-    protected function checkForNodeBeingInTree(Tx_PtExtbase_Tree_Node $node, $errMessage = 'Node is not found in current tree! 1307646533 ')
+    protected function checkForNodeBeingInTree(Node $node, $errMessage = 'Node is not found in current tree! 1307646533 ')
     {
         if (!array_key_exists($node->getUid(), $this->treeMap)) {
             throw new Exception($errMessage . ' node UID: ' . $node->getUid() . implode(':', array_keys($this->treeMap)));
