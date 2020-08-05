@@ -29,8 +29,8 @@ namespace PunktDe\PtExtbase\ViewHelpers\Content;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper to render content of a page

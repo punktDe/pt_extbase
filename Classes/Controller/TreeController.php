@@ -1,6 +1,18 @@
 <?php
 namespace PunktDe\PtExtbase\Controller;
 
+use PunktDe\PtExtbase\State\Session\Storage\SessionAdapter;
+use PunktDe\PtExtbase\Tree\ArrayTreeWriter;
+use PunktDe\PtExtbase\Tree\JSArrayTreeWriter;
+use PunktDe\PtExtbase\Tree\JSTreeJsonTreeWriter;
+use PunktDe\PtExtbase\Tree\NodeRepository;
+use PunktDe\PtExtbase\Tree\TreeContext;
+use PunktDe\PtExtbase\Tree\TreeRepository;
+use PunktDe\PtExtbase\Tree\TreeRepositoryBuilder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Extbase\Annotation as Extbase;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -38,14 +50,14 @@ namespace PunktDe\PtExtbase\Controller;
 class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+     * @var PersistenceManager
      */
     protected $persistenceManager;
 
 
 
     /**
-     * @var Tx_PtExtbase_Tree_NodeRepository
+     * @var NodeRepository
      */
     protected $nodeRepository;
 
@@ -53,32 +65,32 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * @var string tree namespace
      */
-    protected $treeNameSpace = 'tx_ptextbase_tree_default';
+    protected $treeNameSpace = 'default';
 
 
     /**
      * @var string
      */
-    protected $nodeRepositoryClassName = 'Tx_PtExtbase_Tree_NodeRepository';
+    protected $nodeRepositoryClassName = NodeRepository::class;
 
 
     /**
-     * @var Tx_PtExtbase_Tree_TreeRepository
+     * @var TreeRepository
      */
     protected $treeRepository;
 
 
 
     /**
-     * @var Tx_PtExtbase_Tree_TreeContext
+     * @var TreeContext
      */
     protected $treeContext;
 
 
     /**
-     * @param Tx_PtExtbase_Tree_TreeContext $treeContext
+     * @param TreeContext $treeContext
      */
-    public function injectTreeContext(Tx_PtExtbase_Tree_TreeContext $treeContext)
+    public function injectTreeContext(TreeContext $treeContext)
     {
         $this->treeContext = $treeContext;
     }
@@ -86,9 +98,9 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
 
     /**
-     * @param \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager $persistenceManager
+     * @param PersistenceManager $persistenceManager
      */
-    public function injectPersistenceManager(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager $persistenceManager)
+    public function injectPersistenceManager(PersistenceManager $persistenceManager)
     {
         $this->persistenceManager = $persistenceManager;
     }
@@ -107,7 +119,7 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $this->restoreTreeSettingsFromSession();
 
-        $treeRepositoryBuilder = Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
+        $treeRepositoryBuilder = TreeRepositoryBuilder::getInstance();
         $treeRepositoryBuilder->setNodeRepositoryClassName($this->nodeRepositoryClassName);
         $this->treeRepository = $treeRepositoryBuilder->buildTreeRepository();
 
@@ -123,7 +135,7 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function restoreTreeSettingsFromSession()
     {
-        $settings = Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->read('Tx_PtExtbase_Tree_Configuration');
+        $settings = GeneralUtility::makeInstance(SessionAdapter::class)->read('Tx_PtExtbase_Tree_Configuration');
         if (!is_array($settings)) {
             $settings = [
                 'repository' => 'Tx_PtCertification_Domain_Repository_CategoryRepository',
@@ -161,12 +173,15 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
     /**
      * Get tree or subtree when node is given
      *
-     * @ignorevalidation
+     * @Extbase\IgnoreValidation("node")
+     * @Extbase\IgnoreValidation("restrictedDepth")
      * @param integer $node
      * @param integer $restrictedDepth
+     * @return array
      */
-    public function getTreeAction($node=null, $restrictedDepth=0)
+    public function getTreeAction ($node=null, $restrictedDepth=0)
     {
+        $this->initializeAction();
         if ($node) {
             $tree = $this->treeRepository->getEmptyTree($this->treeNameSpace);
         } else {
@@ -177,7 +192,7 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
             }
         }
 
-        $this->returnDataAndShutDown(Tx_PtExtbase_Tree_JSTreeJsonTreeWriter::getInstance()->writeTree($tree));
+        return [JSArrayTreeWriter::getInstance()->writeTree($tree)];
     }
 
 
@@ -188,13 +203,13 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * @param integer $parent
      * @param string $label
      *
-     * @return integer id of new node or 0 if error
+     * @return array
      */
     public function addNodeAction($parent, $label)
     {
-        //$newNode = new Tx_PtExtbase_Tree_Node($label);
-        // TODO: get correct class name from tree namespace
-        $newNode = new PunktDe\PtCertification\Domain\Model\Category($label);
+        $this->initializeAction();
+
+        $newNode = new \PunktDe\PtCertification\Domain\Model\Category($label);
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $parent = $tree->getNodeByUid($parent);
@@ -207,10 +222,10 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $newNodeUid = $newNode->getUid() > 0 ? $newNode->getUid() : 0;
 
-        // Create json response
-        $response = '{ "status": ' . ($newNodeUid > 0 ? 'true' : 'false') . ', "id": ' . $newNodeUid . ' }';
-
-        $this->returnDataAndShutDown($response);
+        return [
+            "status" => ($newNodeUid > 0 ? 'true' : 'false'),
+            "id" =>  $newNodeUid
+            ];
     }
 
 
@@ -222,6 +237,7 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function removeNodeAction($node)
     {
+        $this->initializeAction();
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $node = $tree->getNodeByUid($node);
@@ -229,7 +245,11 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $tree->deleteNode($node);
         $this->treeRepository->update($tree);
 
-        $this->returnDataAndShutDown('{ "status": true }');
+        $this->persistenceManager->persistAll();
+
+        return [
+            "status" => 'true',
+        ];
     }
 
 
@@ -244,6 +264,7 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function moveNodeIntoAction($node, $targetNode)
     {
+        $this->initializeAction();
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $node = $tree->getNodeByUid($node);
@@ -252,7 +273,11 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $tree->moveNode($node, $targetNode);
         $this->treeRepository->update($tree);
 
-        $this->returnDataAndShutDown('{ "status": true }');
+        $this->persistenceManager->persistAll();
+
+        return [
+            "status" => 'true',
+        ];
     }
 
 
@@ -265,6 +290,7 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function moveNodeAfterAction($node, $targetNode)
     {
+        $this->initializeAction();
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $node = $tree->getNodeByUid($node);
@@ -273,7 +299,11 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $tree->moveNodeAfterNode($node, $targetNode);
         $this->treeRepository->update($tree);
 
-        $this->returnDataAndShutDown('{ "status": true }');
+        $this->persistenceManager->persistAll();
+
+        return [
+            "status" => 'true',
+        ];
     }
 
 
@@ -286,6 +316,7 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function moveNodeBeforeAction($node, $targetNode)
     {
+        $this->initializeAction();
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $node = $tree->getNodeByUid($node);
@@ -293,8 +324,11 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
         $tree->moveNodeBeforeNode($node, $targetNode);
         $this->treeRepository->update($tree);
+        $this->persistenceManager->persistAll();
 
-        $this->returnDataAndShutDown('{ "status": true }');
+        return [
+            "status" => 'true',
+        ];
     }
 
 
@@ -309,6 +343,7 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      */
     public function saveNodeAction($node, $label = '')
     {
+        $this->initializeAction();
         $tree = $this->treeRepository->loadTreeByNamespace($this->treeNameSpace);
 
         $node = $tree->getNodeByUid($node);
@@ -316,23 +351,10 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $node->setLabel($label);
         $this->nodeRepository->update($node);
 
-        $this->returnDataAndShutDown('{ "status": true }');
-    }
-
-
-
-    /**
-     * Return data to the client and shudown
-     *
-     * @param string $content
-     */
-    protected function returnDataAndShutDown($content = '')
-    {
         $this->persistenceManager->persistAll();
-        while (ob_end_clean()) {
-        }
-        header('Content-Encoding: None', true);
-        echo $content;
-        exit();
+
+        return [
+            "status" => 'true',
+        ];
     }
 }

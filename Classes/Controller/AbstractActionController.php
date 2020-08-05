@@ -73,7 +73,7 @@ abstract class AbstractActionController extends \TYPO3\CMS\Extbase\Mvc\Controlle
      *
      * @param \PunktDe\PtExtbase\Lifecycle\Manager $lifeCycleManager
      */
-    public function __construct(\PunktDe\PtExtbase\Lifecycle\Manager $lifeCycleManager = null)
+    public function __construct(\PunktDe\PtExtbase\Lifecycle\Manager $lifeCycleManager)
     {
         $this->lifecycleManager = $lifeCycleManager;
         if (TYPO3_MODE === 'FE' && !$GLOBALS['TSFE']->beUserLogin) {

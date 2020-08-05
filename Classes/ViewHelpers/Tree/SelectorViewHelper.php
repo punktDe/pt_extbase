@@ -26,8 +26,14 @@ namespace PunktDe\PtExtbase\ViewHelpers\Tree;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use PunktDe\PtExtbase\Tree\ExtJsJsonWriterVisitor;
+use PunktDe\PtExtbase\Tree\JsonTreeWriter;
+use PunktDe\PtExtbase\Tree\TreeContext;
+use PunktDe\PtExtbase\Tree\TreeRepositoryBuilder;
 use PunktDe\PtExtbase\ViewHelpers\Javascript\TemplateViewHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Fluid\ViewHelpers\Form\HiddenViewHelper;
 
 /**
@@ -74,7 +80,7 @@ class SelectorViewHelper extends HiddenViewHelper
 
 
     /**
-     * @var \Tx_PtExtbase_Tree_TreeContext
+     * @var TreeContext
      */
     protected $treeContext;
 
@@ -86,10 +92,10 @@ class SelectorViewHelper extends HiddenViewHelper
 
 
     /**
-     * @param \Tx_PtExtbase_Tree_TreeContext $treeContext
+     * @param TreeContext $treeContext
      * @return void
      */
-    public function injectTreeContext(\Tx_PtExtbase_Tree_TreeContext $treeContext)
+    public function injectTreeContext(TreeContext $treeContext)
     {
         $this->treeContext = $treeContext;
     }
@@ -172,7 +178,7 @@ class SelectorViewHelper extends HiddenViewHelper
      */
     protected function getTreeNodes()
     {
-        $treeRepositoryBuilder = \Tx_PtExtbase_Tree_TreeRepositoryBuilder::getInstance();
+        $treeRepositoryBuilder = TreeRepositoryBuilder::getInstance();
         $treeRepositoryBuilder->setNodeRepositoryClassName($this->arguments['repository']);
 
         $treeRepository = $treeRepositoryBuilder->buildTreeRepository();
@@ -189,11 +195,11 @@ class SelectorViewHelper extends HiddenViewHelper
             $tree->setRespectRestrictedDepth(true);
         }
 
-        $arrayWriterVisitor = $this->objectManager->get('Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor');
+        $arrayWriterVisitor = $this->objectManager->get(ExtJsJsonWriterVisitor::class);
         $arrayWriterVisitor->setMultipleSelect($this->arguments['multiple']);
         $arrayWriterVisitor->setSelection($this->getSelection());
 
-        $jsonTreeWriter = $this->objectManager->get('Tx_PtExtbase_Tree_JsonTreeWriter', [$arrayWriterVisitor], $arrayWriterVisitor);
+        $jsonTreeWriter = $this->objectManager->get(JsonTreeWriter::class, [$arrayWriterVisitor], $arrayWriterVisitor);
 
         return $jsonTreeWriter->writeTree($tree);
     }
@@ -225,7 +231,7 @@ class SelectorViewHelper extends HiddenViewHelper
     {
 
         /** @var TemplateViewHelper $treeViewHelper  */
-        $treeViewHelper = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')->get(TemplateViewHelper::class);
+        $treeViewHelper = GeneralUtility::makeInstance(ObjectManager::class)->get(TemplateViewHelper::class);
         //$treeViewHelper->setControllerContext($this->controllerContext);
 
         $treeViewHelper->initialize();

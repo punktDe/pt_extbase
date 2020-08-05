@@ -27,7 +27,9 @@ namespace PunktDe\PtExtbase\ViewHelpers\Tree;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtDpppBase\Utility\SessionAdapter;
 use PunktDe\PtExtbase\ViewHelpers\Javascript\TemplateViewHelper;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\ViewHelpers\Form\TextfieldViewHelper;
@@ -81,16 +83,18 @@ class ManipulatorViewHelper extends TextfieldViewHelper
         $treeViewHelper = GeneralUtility::makeInstance(ObjectManager::class)->get(TemplateViewHelper::class);
 
         $moduleUrl = '';
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         if (isset($this->arguments['moduleName'])) {
-            $moduleUrl = BackendUtility::getModuleUrl($this->arguments['moduleName']);
+            $moduleUrl = $uriBuilder->buildUriFromRoute($this->arguments['moduleName']);
         }
+        $editRecordUrlUrl = $uriBuilder->buildUriFromRoute('record_edit');
 
         return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/ManipulationTree.js',
             [
                 'baseUrl' => $this->getBaseURL(),
                 'dbNodeTable' => 'tx_ptcertification_domain_model_category',
                 'moduleUrl' => $moduleUrl,
-                'editRecord' => BackendUtility::getModuleUrl('record_edit')
+                'editRecord' => $editRecordUrlUrl
             ], false, false
         );
     }
@@ -118,7 +122,7 @@ class ManipulatorViewHelper extends TextfieldViewHelper
             'respectEnableFields' => $this->arguments['respectEnableFields'],
         ];
 
-        \Tx_PtExtbase_State_Session_Storage_SessionAdapter::getInstance()->store('Tx_PtExtbase_Tree_Configuration', $treeSettings);
+        GeneralUtility::makeInstance(SessionAdapter::class)->store('Tx_PtExtbase_Tree_Configuration', $treeSettings);
     }
 
 
@@ -129,9 +133,11 @@ class ManipulatorViewHelper extends TextfieldViewHelper
      */
     protected function getBaseURL()
     {
-        if (TYPO3_MODE == 'BE') {
-            $baseUrl = BackendUtility::getAjaxUrl('ptxAjax');
-        } elseif (TYPO3_MODE == 'FE') {
+        if (TYPO3_MODE === 'BE') {
+            $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+            $baseUrl = $uriBuilder->buildUriFromRoute('ptxTree');
+        } elseif (TYPO3_MODE === 'FE') {
+            // TODO: define frontend correctly
             $baseUrl = 'index.php?eID=ptxAjax';
         }
 

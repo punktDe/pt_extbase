@@ -1,6 +1,7 @@
 <?php
 namespace PunktDe\PtExtbase\ViewHelpers;
 
+
 /***************************************************************
  *  Copyright notice
  *
@@ -24,19 +25,28 @@ namespace PunktDe\PtExtbase\ViewHelpers;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 
 class ExplodeViewHelper extends AbstractViewHelper
 {
+    /**
+     * Register arguments.
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('delimiter', 'string', 'Delimiter', true);
+        $this->registerArgument('string', 'string', 'String', true);
+    }
     /**
      * @param string $delimiter
      * @param string $string
      *
      * @return array
      */
-    public function render($delimiter, $string)
+    public function render()
     {
-        $array = explode($delimiter, $string);
-        return $array;
+        return explode($this->arguments['delimiter'], $this->arguments['string']);
     }
 }

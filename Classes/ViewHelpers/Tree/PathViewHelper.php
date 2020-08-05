@@ -24,7 +24,8 @@ namespace PunktDe\PtExtbase\ViewHelpers\Tree;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use PunktDe\PtExtbase\Tree\NodePathBuilder;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * View helper renders the path of a category
@@ -41,15 +42,15 @@ class PathViewHelper extends AbstractViewHelper
     protected $escapeOutput = false;
 
     /**
-     * @var \Tx_PtExtbase_Tree_NodePathBuilder
+     * @var NodePathBuilder
      */
     protected $nodePathBuilder;
 
 
     /**
-     * @param \Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder
+     * @param NodePathBuilder $nodePathBuilder
      */
-    public function injectNodePathBuilder(\Tx_PtExtbase_Tree_NodePathBuilder $nodePathBuilder)
+    public function injectNodePathBuilder(NodePathBuilder $nodePathBuilder)
     {
         $this->nodePathBuilder = $nodePathBuilder;
     }
@@ -74,7 +75,7 @@ class PathViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $this->nodePathBuilder = \Tx_PtExtbase_Tree_NodePathBuilder::getInstanceByRepositoryAndNamespace(
+        $this->nodePathBuilder = NodePathBuilder::getInstanceByRepositoryAndNamespace(
             $this->arguments['repository'], $this->arguments['namespace']
         );
 

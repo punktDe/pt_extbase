@@ -25,10 +25,14 @@ namespace PunktDe\PtExtbase\ViewHelpers\Javascript;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Utility\HeaderInclusion;
+use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Service\ExtensionService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class implements a viewhelper for inline javascript
@@ -116,7 +120,7 @@ class TemplateViewHelper extends AbstractViewHelper
         }
 
         $this->extPath = ExtensionManagementUtility::extPath($this->extKey);
-        $this->relExtPath = ExtensionManagementUtility::siteRelPath($this->extKey);
+        $this->relExtPath = '/' . PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($this->extKey));
 
         if (TYPO3_MODE === 'BE') {
             $this->initializeBackend();
@@ -176,8 +180,8 @@ class TemplateViewHelper extends AbstractViewHelper
         }
 
         if ($addToHead) {
-            GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager')
-                ->get('Tx_PtExtbase_Utility_HeaderInclusion')
+            GeneralUtility::makeInstance(ObjectManager::class)
+                ->get(HeaderInclusion::class)
                 ->addJsInlineCode($templatePath, $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments), $compress);
         } else {
             $jsOutput = "<script type=\"text/javascript\">\n";
@@ -286,7 +290,7 @@ class TemplateViewHelper extends AbstractViewHelper
      */
     protected function translate($translateKey)
     {
-        return \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($translateKey, $this->extKey);
+        return LocalizationUtility::translate($translateKey, $this->extKey);
     }
 
 

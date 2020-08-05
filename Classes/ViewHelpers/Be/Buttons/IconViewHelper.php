@@ -66,18 +66,18 @@ class IconViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendView
         $this->registerArgument('onclick', 'string', 'The onclick action', false);
 		$this->registerArgument('additionalAttributes', 'array', 'Additional tag attributes. They will be added directly to the resulting HTML tag.', FALSE);
         $this->registerArgument('class', 'string', 'The class attribute', false);
+        $this->registerArgument('uri', 'string', 'Uri', true);
+        $this->registerArgument('icon', 'string', 'Icon', false, 'actions-document-close');
+        $this->registerArgument('title', 'string', 'Title no used ', false, '');
     }
 
 
     /**
      * Renders an icon link as known from the TYPO3 backend
      *
-     * @param string $uri the target URI for the link. If you want to execute JavaScript here, prefix the URI with "javascript:"
-     * @param string $icon Icon to be used.
-     * @param string $title Title attribte of the resulting link
      * @return string the rendered icon link
      */
-    public function render($uri, $icon = 'actions-document-close', $title = '')
+    public function render()
     {
         if ($this->arguments['onclick']) {
             $onclick = ' onclick="'.$this->arguments['onclick'].'" ';
@@ -89,7 +89,7 @@ class IconViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendView
         /** @var IconFactory $iconFactory */
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
 
-        $ret = '<a href="' . $uri . '"' . $onclick . '>' .  $iconFactory->getIcon($icon, Icon::SIZE_SMALL)->render() . '</a>';
+        $ret = '<a href="' . $this->arguments['uri'] . '"' . $onclick . '>' .  $iconFactory->getIcon($this->arguments['icon'], Icon::SIZE_SMALL)->render() . '</a>';
         return $ret;
     }
 }

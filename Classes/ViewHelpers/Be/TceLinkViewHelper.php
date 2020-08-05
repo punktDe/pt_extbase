@@ -1,8 +1,8 @@
 <?php
 namespace PunktDe\PtExtbase\ViewHelpers\Be;
 
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\ViewHelpers\Be\AbstractBackendViewHelper;
 
@@ -10,22 +10,28 @@ class TceLinkViewHelper extends AbstractBackendViewHelper
 {
 
     /**
-     * @var DatabaseConnection
+     * Register arguments.
      */
-    protected $databaseConnection;
+    public function initializeArguments()
+    {
+        $this->registerArgument('action', 'string', 'Action', true);
+        $this->registerArgument('recordType', 'string', 'RecordType', true);
+        $this->registerArgument('uid', 'int', 'uid', false, 0);
+        $this->registerArgument('pid', 'int', 'pid', false, 0);
+    }
 
     /**
-     * @param string $action
-     * @param string $recordType
-     * @param integer $uid
-     * @param integer $pid
      * @return string
      * @throws \Exception
      */
-    public function render($action, $recordType, $uid = 0, $pid = 0) {
-        $moduleName = 'record_edit';
+    public function render() {
 
-        if ($action == 'new') {
+        $action = $this->arguments['action'];
+        $recordType = $this->arguments['recordType'];
+        $uid = $this->arguments['uid'];
+        $pid = $this->arguments['pid'];
+
+        if ($action === 'new') {
             $urlParameters = [
                 'edit' => [
                     $recordType => [
@@ -36,7 +42,7 @@ class TceLinkViewHelper extends AbstractBackendViewHelper
                 'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
             ];
 
-        } elseif ($action == 'edit') {
+        } elseif ($action === 'edit') {
             $urlParameters = [
                 $action => [
                     $recordType => [
@@ -50,7 +56,8 @@ class TceLinkViewHelper extends AbstractBackendViewHelper
             throw new \Exception(sprintf('action %s is not yet implemented', $action), 1484586867);
         }
 
-        return BackendUtility::getModuleUrl($moduleName, $urlParameters);
+        $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+        return $uriBuilder->buildUriFromRoute('record_edit', $urlParameters);
     }
 
 }
