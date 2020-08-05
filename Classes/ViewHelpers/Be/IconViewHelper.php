@@ -86,19 +86,24 @@ class IconViewHelper extends AbstractBackendViewHelper
         $this->iconFactory = $iconFactory;
     }
 
+    /**
+     * Register arguments.
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('icon', 'string', 'Icon', false, 'actions-document-close');
+    }
 
     /**
      * Renders an icon link as known from the TYPO3 backend
      *
-     * @param string $icon Icon to be used.
-     * @param string $title Title attribte of the resulting link
      * @return string the rendered icon link
      */
-    public function render($icon = 'actions-document-close', $title = '')
+    public function render()
     {
-        if (!$this->iconRegistry->isRegistered($icon)) {
+        if (!$this->iconRegistry->isRegistered($this->arguments['icon'])) {
             throw new \Exception(sprintf('The icon with the identifier "%s" is not registered, please register it by using \TYPO3\CMS\Core\Imaging\IconRegistry->registerIcon()', $icon), 1530186088);
         }
-        return $this->iconFactory->getIcon($icon, Icon::SIZE_SMALL);
+        return $this->iconFactory->getIcon($this->arguments['icon'], Icon::SIZE_SMALL);
     }
 }

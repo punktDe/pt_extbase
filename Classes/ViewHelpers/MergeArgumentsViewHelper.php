@@ -1,5 +1,7 @@
 <?php
 namespace PunktDe\PtExtbase\ViewHelpers;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -23,7 +25,7 @@ namespace PunktDe\PtExtbase\ViewHelpers;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 
 /**
  * Merge Arguments ViewHelper
@@ -33,16 +35,21 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class MergeArgumentsViewHelper extends AbstractViewHelper
 {
+
     /**
-     * Render
-     *
-     * @param array $argument1
-     * @param array $argument2
-     * @return string
+     * Initializes the "value" and "key" arguments
      */
-    public function render($argument1, $argument2)
+    public function initializeArguments()
     {
-        $result = array_merge_recursive($argument1, $argument2);
-        return $result;
+        $this->registerArgument('argument1', 'array', 'Argument1', true);
+        $this->registerArgument('argument2', 'array', 'Argument2', true);
+    }
+
+    /**
+     * @return array
+     */
+    public function render()
+    {
+        return array_merge_recursive($this->arguments['argument1'], $this->arguments['argument2']);
     }
 }

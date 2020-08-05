@@ -145,7 +145,6 @@ class NodeRepository extends Repository implements NodeRepositoryInterface
 
         $nameSpaceConstraint = $query->equals('namespace', $namespace);
 
-
         /*
          * RespectEnableFields = FALSE means, that all records are selected INCLUDING the deleted records
          */
