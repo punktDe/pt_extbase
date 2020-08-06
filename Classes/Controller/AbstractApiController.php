@@ -56,7 +56,7 @@ class AbstractApiController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     {
         try {
             parent::callActionMethod();
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             if (!($exception instanceof \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException)) {
                 $this->cleanUpAtException($exception);
             }
@@ -69,9 +69,9 @@ class AbstractApiController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCont
     /**
      * Use this template method in own ApiController to implement further steps if an exception is thrown
      *
-     * @param Exception $exception
+     * @param \Exception $exception
      */
-    protected function cleanUpAtException(Exception $exception)
+    protected function cleanUpAtException(\Exception $exception)
     {
     }
 
