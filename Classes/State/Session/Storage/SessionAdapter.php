@@ -131,12 +131,15 @@ class SessionAdapter implements AdapterInterface
      * @param FrontendUserAuthentication|null $frontendUserAuthentication
      * @return FrontendUserAuthentication|null
      */
-    protected function getFrontendUserAuthenication(): ?FrontendUserAuthentication {
+    protected function getFrontendUserAuthenication(): ?FrontendUserAuthentication
+    {
+        $frontendUserAuthentication = null;
 
         $typoscriptFrontendController = $GLOBALS['TSFE'];
         if ($typoscriptFrontendController instanceof TypoScriptFrontendController &&
             $typoscriptFrontendController->fe_user instanceof FrontendUserAuthentication) {
             $frontendUserAuthentication = $typoscriptFrontendController->fe_user;
         }
+        return $frontendUserAuthentication;
     }
 }

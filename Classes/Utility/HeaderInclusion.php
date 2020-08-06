@@ -102,11 +102,7 @@ class HeaderInclusion implements SingletonInterface
             list($extKey, $local) = explode('/', substr($filename, 4), 2);
             $filename = '';
             if (strcmp($extKey, '') && ExtensionManagementUtility::isLoaded($extKey) && strcmp($local, '')) {
-                if (TYPO3_MODE === 'FE') {
-                    $filename = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($extKey)) . $local;
-                } else {
-                    $filename = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($extKey)) . $local;
-                }
+                $filename = PathUtility::stripPathSitePrefix(ExtensionManagementUtility::extPath($extKey)) . $local;
             }
         }
 

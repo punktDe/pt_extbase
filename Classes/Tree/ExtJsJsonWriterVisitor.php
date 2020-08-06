@@ -36,16 +36,18 @@ class ExtJsJsonWriterVisitor implements TreeWalkerVisitorInterface
 
     /**
      * A callback function to call via call_user_func in doFirstVisit
+     * (target => className|object, method => method)
      *
-     * @var array(target => className|object, method => method)
+     * @var array
      */
     protected $firstVisitCallback = null;
 
 
     /**
      * A callback function to call via call_user_func in doFirstVisit
+     * (target => className|object, method => method)
      *
-     * @var array(target => className|object, method => method)
+     * @var array
      */
     protected $lastVisitCallback = null;
 
@@ -67,7 +69,6 @@ class ExtJsJsonWriterVisitor implements TreeWalkerVisitorInterface
 
 
     /**
-     * @see TreeWalkerVisitorInterface::doFirstVisit()
      *
      * @param NodeInterface $node
      * @param integer &$index Holds the visitation index of treeWalker
