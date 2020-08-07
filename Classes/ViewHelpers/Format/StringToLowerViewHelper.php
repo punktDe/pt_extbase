@@ -23,7 +23,7 @@ namespace PunktDe\PtExtbase\ViewHelpers\Format;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * StringToLower ViewHelper
@@ -38,7 +38,7 @@ class StringToLowerViewHelper extends AbstractViewHelper
      *
      * @return void
      */
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('string', 'string', 'The array key of a config items array', false);
     }
