@@ -89,7 +89,7 @@ class TemplateViewHelper extends AbstractViewHelper
      * ViewHelper marker arguments
      * @var array
      */
-    protected $arguments = [];
+    protected $markerArguments = [];
 
 
     /**
@@ -152,40 +152,44 @@ class TemplateViewHelper extends AbstractViewHelper
         $this->typo3Path = '/' . $GLOBALS['TSFE']->absRefPrefix . 'typo3/';
     }
 
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('templatePath', 'string', 'The template path', true);
+        $this->registerArgument('addToHead', 'boolean', 'Add to head section or return it a the place the viewhelper is', false, true);
+        $this->registerArgument('compress', 'boolean', 'Whether to compress the JavaScript', false, true);
+        $this->registerArgument('arguments', 'array|string', 'Arguments', false, '');
+    }
+
 
     /**
      * View helper for showing debug information for a given object
      *
-     * @param string $templatePath Template path
-     * @param array|string $arguments Arguments
-     * @param boolean $addToHead Add to head section or return it a the place the viewhelper is
-     * @param boolean $compress
      * @throws \Exception
      * @return string
      */
-    public function render($templatePath, $arguments = '', $addToHead = true, $compress = true)
+    public function render()
     {
-        if(is_array($arguments)) {
-            $this->arguments = array_merge($this->arguments, $arguments);
+        if(is_array($this->arguments['arguments'])) {
+            $this->markerArguments = array_merge($this->markerArguments, $this->arguments['arguments']);
         }
-        elseif(is_string($arguments) && $arguments !== '') {
-            $this->arguments['renderDebugInfo'] = $arguments;
+        elseif(is_string($this->arguments['arguments']) && $this->arguments['arguments'] !== '') {
+            $this->markerArguments['renderDebugInfo'] = $this->arguments['arguments'];
         }
 
         $this->addGenericArguments();
 
-        $absoluteFileName = GeneralUtility::getFileAbsFileName($templatePath);
+        $absoluteFileName = GeneralUtility::getFileAbsFileName($this->arguments['templatePath']);
         if (!file_exists($absoluteFileName)) {
             throw new \Exception('No JSTemplate found with path ' . $absoluteFileName . '. 1296554335');
         }
 
-        if ($addToHead) {
+        if ($this->arguments['addToHead']) {
             GeneralUtility::makeInstance(ObjectManager::class)
                 ->get(HeaderInclusion::class)
-                ->addJsInlineCode($templatePath, $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments), $compress);
+                ->addJsInlineCode($this->arguments['templatePath'], $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->markerArguments), $this->arguments['compress']);
         } else {
             $jsOutput = "<script type=\"text/javascript\">\n";
-            $jsOutput .= $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments);
+            $jsOutput .= $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->markerArguments);
             $jsOutput .= "\n</script>\n";
 
             return $jsOutput;
@@ -200,13 +204,13 @@ class TemplateViewHelper extends AbstractViewHelper
      */
     protected function addGenericArguments()
     {
-        $this->arguments['veriCode'] = $this->generateVeriCode();
-        $this->arguments['extPath'] = $this->relExtPath;
-        $this->arguments['typo3Path'] = $this->typo3Path;
-        $this->arguments['extKey'] = $this->extKey;
+        $this->markerArguments['veriCode'] = $this->generateVeriCode();
+        $this->markerArguments['extPath'] = $this->relExtPath;
+        $this->markerArguments['typo3Path'] = $this->typo3Path;
+        $this->markerArguments['extKey'] = $this->extKey;
 
         if (is_object($this->controllerContext)) {
-            $this->arguments['pluginNamespace'] = $this->extensionService->getPluginNamespace(
+            $this->markerArguments['pluginNamespace'] = $this->extensionService->getPluginNamespace(
                 $this->controllerContext->getRequest()->getControllerExtensionName(),
                 $this->controllerContext->getRequest()->getPluginName()
             );
