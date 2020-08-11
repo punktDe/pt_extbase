@@ -236,14 +236,20 @@ class SelectorViewHelper extends HiddenViewHelper
 
         $treeViewHelper->initialize();
 
-        return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
-            [
+        $arguments = [
+            'templatePath' => 'EXT:pt_extbase/Resources/Private/JSTemplates/Tree/SelectTree.js',
+            'arguments' => [
                 'nodeJSON' => $treeNodes,
                 'multiple' => $this->multiple ? 'true': 'false',
                 'fieldId' => $this->arguments['id'],
                 'expand' => $this->arguments['expand'],
-            ], false, false
-        );
+            ],
+
+            'addToHead' => false,
+            'compress' => false
+        ];
+        $treeViewHelper->setArguments($arguments);
+        return $treeViewHelper->render();
     }
 
 
