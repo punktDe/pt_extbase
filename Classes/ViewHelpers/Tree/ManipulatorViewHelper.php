@@ -89,14 +89,20 @@ class ManipulatorViewHelper extends TextfieldViewHelper
         }
         $editRecordUrlUrl = $uriBuilder->buildUriFromRoute('record_edit');
 
-        return $treeViewHelper->render('EXT:pt_extbase/Resources/Private/JSTemplates/Tree/ManipulationTree.js',
-            [
+        $arguments = [
+            'templatePath' => 'EXT:pt_extbase/Resources/Private/JSTemplates/Tree/ManipulationTree.js',
+            'arguments' => [
                 'baseUrl' => $this->getBaseURL(),
                 'dbNodeTable' => 'tx_ptcertification_domain_model_category',
                 'moduleUrl' => $moduleUrl,
                 'editRecord' => $editRecordUrlUrl
-            ], false, false
-        );
+            ],
+
+            'addToHead' => false,
+            'compress' => false
+        ];
+        $treeViewHelper->setArguments($arguments);
+        return $treeViewHelper->render();
     }
 
 
