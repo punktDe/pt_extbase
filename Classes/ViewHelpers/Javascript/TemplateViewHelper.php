@@ -170,10 +170,10 @@ class TemplateViewHelper extends AbstractViewHelper
     public function render()
     {
         if(is_array($this->arguments['arguments'])) {
-            $this->markerArguments = array_merge($this->markerArguments, $this->arguments['arguments']);
+            $this->arguments = array_merge($this->arguments, $this->arguments['arguments']);
         }
         elseif(is_string($this->arguments['arguments']) && $this->arguments['arguments'] !== '') {
-            $this->markerArguments['renderDebugInfo'] = $this->arguments['arguments'];
+            $this->arguments['renderDebugInfo'] = $this->arguments['arguments'];
         }
 
         $this->addGenericArguments();
@@ -186,10 +186,10 @@ class TemplateViewHelper extends AbstractViewHelper
         if ($this->arguments['addToHead']) {
             GeneralUtility::makeInstance(ObjectManager::class)
                 ->get(HeaderInclusion::class)
-                ->addJsInlineCode($this->arguments['templatePath'], $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->markerArguments), $this->arguments['compress']);
+                ->addJsInlineCode($this->arguments['templatePath'], $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments), $this->arguments['compress']);
         } else {
             $jsOutput = "<script type=\"text/javascript\">\n";
-            $jsOutput .= $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->markerArguments);
+            $jsOutput .= $this->substituteMarkers($this->loadJsCodeFromFile($absoluteFileName), $this->arguments);
             $jsOutput .= "\n</script>\n";
 
             return $jsOutput;
