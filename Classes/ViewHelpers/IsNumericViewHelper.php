@@ -21,7 +21,7 @@ namespace PunktDe\PtExtbase\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class IsNumericViewHelper extends AbstractViewHelper
 {
