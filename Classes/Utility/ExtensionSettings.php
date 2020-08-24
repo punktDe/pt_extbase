@@ -24,6 +24,8 @@ namespace PunktDe\PtExtbase\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use PunktDe\PtExtbase\Div;
+use PunktDe\PtExtbase\Exception\Exception as ExtbaseException;
 use TYPO3\CMS\Core\SingletonInterface;
 
 /**
@@ -39,6 +41,7 @@ class ExtensionSettings implements SingletonInterface
     /**
      * @param string $extensionKey
      * @return array
+     * @throws ExtbaseException
      */
     public function getExtensionSettings($extensionKey)
     {
@@ -65,6 +68,7 @@ class ExtensionSettings implements SingletonInterface
      * @param string $extensionKey
      * @param string $key
      * @return string
+     * @throws \Exception
      * @deprecated
      */
     public function getKeyFromExtensionSettings($extensionKey, $key)
@@ -75,6 +79,7 @@ class ExtensionSettings implements SingletonInterface
     /**
      * @param string $extensionKey
      * @return array
+     * @throws ExtbaseException
      */
     protected function cacheExtensionSettings($extensionKey)
     {
@@ -87,10 +92,11 @@ class ExtensionSettings implements SingletonInterface
     /**
      * @param string $extensionKey
      * @return array
+     * @throws ExtbaseException
      */
     protected function loadExtensionSettings($extensionKey)
     {
-        $settings = \Tx_PtExtbase_Div::returnExtConfArray($extensionKey);
+        $settings = Div::returnExtConfArray($extensionKey);
         return $settings;
     }
 
