@@ -26,6 +26,10 @@
 
 namespace PunktDe\PtExtbase\Utility\Lock;
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 class MySqlLockStrategy implements LockStrategyInterface
 {
     /**
@@ -50,7 +54,6 @@ class MySqlLockStrategy implements LockStrategyInterface
 
     public function __construct()
     {
-        $this->connection = $GLOBALS['TYPO3_DB'];
         $this->lockTime = (int) ini_get('max_execution_time');
     }
 
@@ -70,12 +73,15 @@ class MySqlLockStrategy implements LockStrategyInterface
 
         $this->identifier = $subject;
 
-        $isFreeLockRes = $this->connection->sql_query(sprintf('SELECT IS_FREE_LOCK("%s") AS res', $this->identifier))->fetch_assoc();
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class); /** @var ConnectionPool $connectionPool */
+        $queryBuilder = $connectionPool->getQueryBuilderForTable('dummy'); /** @var QueryBuilder $queryBuilder */
+
+        $isFreeLockRes = $queryBuilder->selectLiteral(sprintf('IS_FREE_LOCK("%s") AS res', $this->identifier))->execute()->fetchAll();
         if ((int) $isFreeLockRes['res'] !== 1) {
             throw new LockNotAcquiredException(sprintf('Lock %s is already acquired', $this->identifier), 1429016827);
         }
 
-        $getLockRes = $this->connection->sql_query(sprintf('SELECT GET_LOCK("%s", %d) AS res', $this->identifier, $this->lockTime))->fetch_assoc();
+        $getLockRes = $queryBuilder->selectLiteral(sprintf('GET_LOCK("%s", %d) AS res', $this->identifier, $this->lockTime))->execute()->fetchAll();
         if (!$getLockRes['res']) {
             throw new LockNotAcquiredException(sprintf('Lock %s could not be acquired after waiting %d ms', $this->identifier, $this->lockTime), 1429016830);
         }
@@ -89,9 +95,11 @@ class MySqlLockStrategy implements LockStrategyInterface
      */
     public function release()
     {
-        $res = $this->connection->sql_query(sprintf('SELECT RELEASE_LOCK("%s") AS res', $this->identifier));
-        if ($res) {
-            $releaseLockRes = $res->fetch_assoc();
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class); /** @var ConnectionPool $connectionPool */
+        $queryBuilder = $connectionPool->getQueryBuilderForTable('dummy'); /** @var QueryBuilder $queryBuilder */
+
+        $releaseLockRes = $queryBuilder->selectLiteral(sprintf('RELEASE_LOCK("%s") AS res', $this->identifier))->execute()->fetchAll();
+        if (count($releaseLockRes) > 0) {
             return ((int) $releaseLockRes['res']) === 1;
         }
 
