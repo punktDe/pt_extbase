@@ -112,7 +112,7 @@ class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest extends \PunktDe\PtExtbase\T
 /**
  * Class implements a mock for testing lifecycle manager
  */
-class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock implements Tx_PtExtbase_Lifecycle_EventInterface
+class Tx_PtExtbase_Tests_Unit_Lifecycle_ManagerTest_ObservableMock implements \PunktDe\PtExtbase\Lifecycle\EventInterface
 {
     public $state;
     

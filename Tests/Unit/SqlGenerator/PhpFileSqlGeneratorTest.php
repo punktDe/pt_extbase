@@ -42,7 +42,7 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends \Punk
      */
     protected $proxy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_SqlGenerator_PhpFileSqlGenerator');
         $this->proxy = new $this->proxyClass();
@@ -50,7 +50,7 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_PhpFileSqlGeneratorTest extends \Punk
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('Foo'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->proxy);
     }

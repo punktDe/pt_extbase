@@ -36,14 +36,14 @@ class Tx_PtExtBase_Utility_TcaManagerTest extends \TYPO3\TestingFramework\Core\U
     protected $proxy;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->proxyClass = $this->buildAccessibleProxy(TcaManager::class);
         $this->proxy = new $this->proxyClass();
         $GLOBALS['TCA'] = ['pages' => ['ctrl' => ['delete' => 'deleted', 'enablecolumns' => ['starttime' => 'starttime']],'columns' => []]];
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->proxy);
     }

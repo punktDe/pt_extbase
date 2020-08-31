@@ -50,7 +50,7 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->proxyClass = $this->buildAccessibleProxy(\PunktDe\PtExtbase\Logger\Logger::class);
         $this->proxy = new $this->proxyClass();

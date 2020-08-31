@@ -43,13 +43,13 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Tree_PathViewhelperTest extends \Punkt
     protected $accessibleProxy;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->accessibleProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\ViewHelpers\Tree\PathViewHelper');
         $this->accessibleProxy = new $this->accessibleProxyClass();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->accessibleProxy);
     }

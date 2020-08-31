@@ -35,7 +35,7 @@ class AjaxDispatcherTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTes
     protected $ajaxDispatcher;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->ajaxDispatcher = new \Tx_PtExtbase_Utility_AjaxDispatcher();
     }

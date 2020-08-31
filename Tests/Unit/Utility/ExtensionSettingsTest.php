@@ -34,13 +34,13 @@ class Tx_PtExtbase_Tests_Unit_Utility_ExtensionSettingsTest extends \PunktDe\PtE
 
     protected $proxy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->proxyClass = $this->buildAccessibleProxy(\PunktDe\PtExtbase\Utility\ExtensionSettings::class);
         $this->proxy = new $this->proxyClass();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->proxy);
     }

@@ -38,13 +38,13 @@ class Tx_PtExtbase_Utility_ServerInformationTest extends \PunktDe\PtExtbase\Test
      */
     protected $proxy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_ServerInformation');
         $this->proxy = new $this->proxyClass();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->proxy);
     }

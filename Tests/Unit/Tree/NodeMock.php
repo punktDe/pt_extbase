@@ -32,7 +32,7 @@
  * @subpackage Tree
  * @author Michael Knoll <mimi@kaktusteam.de>
  */
-class Tx_PtExtbase_Tests_Unit_Tree_NodeMock extends Tx_PtExtbase_Tree_Node
+class Tx_PtExtbase_Tests_Unit_Tree_NodeMock extends \PunktDe\PtExtbase\Tree\Node
 {
     /**
      * Helper method to create a node mock object

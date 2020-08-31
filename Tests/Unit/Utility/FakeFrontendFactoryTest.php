@@ -33,7 +33,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  */
 class Tx_PtExtbase_Tests_Unit_Utility_FakeFrontendFactoryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
-    public function setUp()
+    public function setUp(): void
     {
         unset($GLOBALS['TSFE']);
     }

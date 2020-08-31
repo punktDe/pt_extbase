@@ -39,7 +39,7 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_SqlGeneratorTest extends \PunktDe\PtE
 
     protected $proxy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_SqlGenerator_SqlGenerator');
         $this->proxy = new $this->proxyClass();
@@ -47,7 +47,7 @@ class Tx_PtExtbase_Tests_Unit_SqlGenerator_SqlGeneratorTest extends \PunktDe\PtE
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('Foo'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->proxy);
     }

@@ -28,19 +28,19 @@
  * @package pt_extbase
  * @subpackage Tests\ViewHelpers
  */
-class Tx_PtExtbase_Tests_Unit_ViewHelpers_RequestArgumnetsViewHelperTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+class Tx_PtExtbase_Tests_Unit_ViewHelpers_RequestArgumentsViewHelperTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 {
     protected $proxyClass;
 
     protected $proxy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\ViewHelpers\RequestArgumentsViewHelper');
         $this->proxy = new $this->proxyClass();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->proxy);
     }
