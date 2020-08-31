@@ -42,7 +42,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_UserAgentTest extends \TYPO3\TestingFramew
     protected $proxyMock;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->proxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Utility_UserAgent');
         $this->proxyMock = $this->getMockBuilder($this->proxyClass)
@@ -52,7 +52,7 @@ class Tx_PtExtbase_Tests_Unit_Utility_UserAgentTest extends \TYPO3\TestingFramew
 
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->proxyMock);
     }

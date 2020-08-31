@@ -70,7 +70,7 @@ class Tx_PtExtbase_Tests_Unit_State_GpVarsAdapterTest extends \PunktDe\PtExtbase
     /**
      * Sets up the testcase and its test data
      */
-    public function setup()
+    public function setup(): void
     {
         $this->getVars = ['key1' => [
             'key2' => [

@@ -40,13 +40,13 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Javascript_TemplateViewhelperTest exte
      */
     protected $accessibleProxy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->accessibleProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\ViewHelpers\Javascript\TemplateViewHelper');
         $this->accessibleProxy = new $this->accessibleProxyClass();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->accessibleProxy);
     }

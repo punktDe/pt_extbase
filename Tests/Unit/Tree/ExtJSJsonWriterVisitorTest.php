@@ -39,14 +39,14 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest extends \PunktDe\P
     protected $accessibleProxy;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tree_ExtJsJsonWriterVisitor');
         $this->accessibleProxy = new $this->accessibleProxyClass();
     }
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->accessibleProxy);
     }
@@ -310,5 +310,4 @@ class Tx_PtExtbase_Tests_Unit_Tree_ExtJSJsonWriterVisitorTest_CallBackObject
     }
 }
 
-?>
 

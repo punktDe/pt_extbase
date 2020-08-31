@@ -41,13 +41,13 @@ class Tx_PtExtbase_Tests_Unit_ViewHelpers_Format_RemoveLineBreaksViewHelperTest 
     protected $accessibleProxy;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->accessibleProxyClass = $this->buildAccessibleProxy('\PunktDe\PtExtbase\ViewHelpers\Format\RemoveLineBreaksViewHelper');
         $this->accessibleProxy = new $this->accessibleProxyClass();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->accessibleProxy);
     }

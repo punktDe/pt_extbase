@@ -38,7 +38,7 @@ class StatusResultTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $proxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Git\Result\StatusResult');
         $this->proxy = $this->getMockBuilder($proxyClass)

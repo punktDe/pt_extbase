@@ -39,7 +39,7 @@ class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends \PunktDe\PtEx
 
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->sortableObjectCollectionProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Collection_SortableObjectCollection');
         $this->sortableObjectCollectionProxyMock = $this->getMockForAbstractClass($this->sortableObjectCollectionProxyClass);
@@ -47,7 +47,7 @@ class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends \PunktDe\PtEx
 
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->sortableObjectCollectionProxyMock);
     }
@@ -92,7 +92,7 @@ class Tx_PtExtbase_Collection_SortableObjectCollectionTest extends \PunktDe\PtEx
 /**
  * Sortable object mock implementing the SortableEntityInterface
  */
-class Tx_PtExtbase_Collection_SortableObjectMock implements Tx_PtExtbase_Collection_SortableEntityInterface
+class Tx_PtExtbase_Collection_SortableObjectMock implements \PunktDe\PtExtbase\Collection\SortableEntityInterface
 {
     protected $sortingValue;
 

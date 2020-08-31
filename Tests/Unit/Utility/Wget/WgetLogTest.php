@@ -37,14 +37,14 @@ class WgetLogTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
     protected $wgetLog;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $wgetLogProxyClass = $this->buildAccessibleProxy('PunktDe\PtExtbase\Utility\Wget\WgetLog');
         $this->wgetLog = new $wgetLogProxyClass();
     }
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 

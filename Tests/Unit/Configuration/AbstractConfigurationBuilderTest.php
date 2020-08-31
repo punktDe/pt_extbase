@@ -59,7 +59,7 @@ class Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilderTest ext
     protected $fixture;
     
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fixture = new Tx_PtExtbase_Tests_Unit_Configuration_AbstractConfigurationBuilder_Stub($this->settings);
     }

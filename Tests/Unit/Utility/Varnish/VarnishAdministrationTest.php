@@ -58,7 +58,7 @@ class VarnishAdministrationTest extends UnitTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         //$this->prepareProxy();
     }

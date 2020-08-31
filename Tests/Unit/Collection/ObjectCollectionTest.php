@@ -46,7 +46,7 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
      * Setting up the fixture for the tests.
      * This will be called before each single test
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->fixture = new Tx_PtExtbase_Tests_Unit_Collection_ObjectCollectionMock();
     }
@@ -56,7 +56,7 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
     /**
      * Cleaning up after each single test
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->fixture);
     }
@@ -76,8 +76,8 @@ class Tx_PtExtbase_Collection_ObjectCollectionTest extends \PunktDe\PtExtbase\Te
     /** @test */
     public function addingAnObjectOfTheWrongTypeThrowsException()
     {
-        if (!defined('isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])')) {
-            define('isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])', false);
+        if (!isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
+            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'] = false;
         }
         $this->expectException(PunktDe\PtExtbase\Exception\Exception::class);
         $this->fixture->addItem(new StdClass('hello', 'world'));

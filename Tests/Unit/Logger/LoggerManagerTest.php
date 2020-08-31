@@ -42,7 +42,7 @@ class LoggerManagerTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTest
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->proxyClass = $this->buildAccessibleProxy(LoggerManager::class);
         $this->proxy = new $this->proxyClass();

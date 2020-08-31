@@ -31,7 +31,7 @@ class DivTest extends AbstractBaseTestcase
      */
     protected $proxy;
 
-    public function setUp()
+    public function setUp(): void
     {
         $proxyClass = $this->buildAccessibleProxy(\Tx_PtExtbase_Div::class);
         $this->proxy = new $proxyClass();

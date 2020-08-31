@@ -40,7 +40,7 @@ class ResponseTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
     protected $curlResponse;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $curlRequest = new Request();
 

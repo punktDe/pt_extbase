@@ -38,12 +38,12 @@ class WgetCommandTest extends \TYPO3\TestingFramework\Core\Unit\UnitTestCase
 
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->wgetCommand = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('PunktDe\PtExtbase\Utility\Wget\WgetCommand');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 

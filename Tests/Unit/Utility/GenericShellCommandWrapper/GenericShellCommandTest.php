@@ -39,7 +39,7 @@ class GenericShellCommandTest extends UnitTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->proxy = $this->getAccessibleMockForAbstractClass('PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand');
     }

@@ -30,7 +30,7 @@
  * @subpackage State\Stubs
  * @author Michael Knoll 
  */
-class Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock extends Tx_PtExtbase_State_Session_Storage_SessionAdapter
+class Tx_PtExtbase_Tests_Unit_State_Stubs_SessionAdapterMock extends \PunktDe\PtExtbase\State\Session\Storage\SessionAdapter
 {
     public function __construct()
     {

@@ -44,13 +44,13 @@ class Tx_PtExtbase_Tests_Unit_Tree_NodeRepositoryTest extends \PunktDe\PtExtbase
     protected $accessibleProxy;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->accessibleProxyClass = $this->buildAccessibleProxy('Tx_PtExtbase_Tree_NodeRepository');
         $this->accessibleProxy = new $this->accessibleProxyClass($this->objectManager);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->accessibleProxy);
     }

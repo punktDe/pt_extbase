@@ -37,7 +37,7 @@ class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest extends \P
      * Setting up the fixture for the tests.
      * This will be called before each single test
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!defined('TYPO3_MODE')) {
             define('TYPO3_MODE', 'FE');
@@ -70,7 +70,7 @@ class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest extends \P
 }
 
 // Private class for testing abstract action controller
-class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest_ControllerMock extends Tx_PtExtbase_Controller_AbstractActionController
+class Tx_PtExtbase_Tests_Unit_Controller_AbstractActionControllerTest_ControllerMock extends \PunktDe\PtExtbase\Controller\AbstractActionController
 {
     public function getLM()
     {

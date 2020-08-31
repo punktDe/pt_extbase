@@ -34,14 +34,14 @@ class WgetLogEntryTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestc
     protected $wgetLogEntry;
 
 
-    public function setUp()
+    public function setUp(): void
     {
         $wgetLogEntryProxyClass = $this->buildAccessibleProxy(\PunktDe\PtExtbase\Utility\Wget\WgetLogEntry::class);
         $this->wgetLogEntry = new $wgetLogEntryProxyClass();
     }
 
 
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 

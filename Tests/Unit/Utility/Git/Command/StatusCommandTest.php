@@ -22,14 +22,14 @@ namespace PunktDe\PtExtbase\Tests\Utility\Git\Command;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Utility\Git\Command\StatusCommand;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
+use TYPO3\TestingFramework\Core\BaseTestCase;
 
 /**
  * Status Command Test Case
  *
  * @package PunktDe\PtExtbase\Tests\Utility\Git\Command
  */
-class StatusCommandTest extends UnitTestCase
+class StatusCommandTest extends BaseTestCase
 {
     /**
      * @var \PunktDe\PtExtbase\Utility\Git\Command\StatusCommand
@@ -40,7 +40,7 @@ class StatusCommandTest extends UnitTestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->statusCommand = new StatusCommand();
     }

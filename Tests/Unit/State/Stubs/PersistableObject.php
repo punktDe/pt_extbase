@@ -29,7 +29,7 @@
  * @package Tests
  * @subpackage State/Stubs
  */
-class Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject implements Tx_PtExtbase_State_Session_SessionPersistableInterface
+class Tx_PtExtbase_Tests_Unit_State_Stubs_PersistableObject implements \PunktDe\PtExtbase\State\Session\SessionPersistableInterface
 {
     /**
      * Some dummy data to be stored in session
