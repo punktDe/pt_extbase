@@ -39,7 +39,7 @@ use TYPO3\TestingFramework\Core\Testbase;
  * @package pt_extbase
  * @subpackage Testing\FixtureFramework
  */
-abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends \PunktDe\Testing\Forked\DbUnit\TestCase
+abstract class Tx_PtExtbase_Testing_FixtureFramework_DatabaseTestCase extends \PHPUnit\DbUnit\TestCase
 {
     /**
      * This array contains strings of domains, which are allowed to run database tests on.
