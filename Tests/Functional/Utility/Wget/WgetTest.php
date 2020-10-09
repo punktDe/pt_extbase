@@ -20,17 +20,22 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Wget;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use PunktDe\PtExtbase\Exception\InternalException;
+use PunktDe\PtExtbase\Logger\Logger;
+use PunktDe\PtExtbase\Logger\LoggerManager;
+use PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase;
 use PunktDe\PtExtbase\Utility\Files;
 use PunktDe\PtExtbase\Utility\Wget\WgetCommand;
+use PunktDe\PtExtbase\Utility\Wget\WgetLogEntry;
 use PunktDe\PtExtbase\Utility\Wget\WgetLogParser;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\Container\Container as ExtbaseContainer;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\TestingFramework\Core\Testbase;
 
-/**
- * Wget Test Case
- *
- * @package pt_extbase
- * @subpackage PunktDe\PtExtbase\Tests\Functional\Utility\Wget
- */
-class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
+class WgetTest extends AbstractBaseTestcase
 {
     /**
      * @var string
@@ -51,23 +56,35 @@ class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 
 
     /**
-     * @return void
+     * @throws \Exception
      */
-    public function setUp()
+    public function setUp(): void
     {
+        $instancePath = Environment::getCurrentScript();
+
+        $testbase = new Testbase();
+        $container = $testbase->setUpBasicTypo3Bootstrap($instancePath);
+        $extbaseContainer = GeneralUtility::getContainer()->get(ExtbaseContainer::class);
+
+        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class, $container, $extbaseContainer);
+
         $this->workingDirectory = Files::concatenatePaths([__DIR__, 'WorkingDirectory']);
         Files::createDirectoryRecursively($this->workingDirectory);
 
-        $this->wgetCommand = $this->objectManager->get(WgetCommand::class);
+        $this->wgetCommand = GeneralUtility::makeInstance(WgetCommand::class);
+
+        $logger = GeneralUtility::makeInstance(Logger::class);
+        $logger->injectLoggerManager(GeneralUtility::makeInstance(LoggerManager::class));
+        $this->wgetCommand->injectLogger($logger);
+
         $this->wgetLogParser = $this->objectManager->get(WgetLogParser::class);
     }
 
 
-
     /**
-     * @return void
+     * @throws \Exception
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         Files::removeDirectoryRecursively($this->workingDirectory);
     }
@@ -75,6 +92,7 @@ class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
 
     /**
      * @test
+     * @throws InternalException
      */
     public function downloadNotExistingPageAndDetectErrors()
     {
@@ -90,7 +108,7 @@ class WgetTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase
         $this->assertTrue($log->hasErrors());
         $this->assertCount(1, $log);
 
-        $logEntry = $log->getItemByIndex(0); /** @var \PunktDe\PtExtbase\Utility\Wget\WgetLogEntry $logEntry */
+        $logEntry = $log->getItemByIndex(0); /** @var WgetLogEntry $logEntry */
 
         $this->assertEquals(404, $logEntry->getStatus());
         $this->assertEquals('http://localhost/not-existing-file.html', $logEntry->getUrl());

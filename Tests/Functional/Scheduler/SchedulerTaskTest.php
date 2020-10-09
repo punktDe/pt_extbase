@@ -57,7 +57,7 @@ class SchedulerTaskTest extends AbstractBaseTestcase
     protected $loggerConfiguration;
 
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->prepareTestPaths();
         Files::createDirectoryRecursively($this->testFilePath);
@@ -79,6 +79,8 @@ class SchedulerTaskTest extends AbstractBaseTestcase
      */
     public function schedulerTask()
     {
+        $this->markTestSkipped('Skipped - the tested class is not available for TYPO3 10; we adapted it project specific');
+
         shell_exec(PATH_typo3.'cli_dispatch.phpsh scheduler -f -i '. $this->schedulerTaskId);
 
         $this->objectInitializationSuccessful();
@@ -158,7 +160,7 @@ class SchedulerTaskTest extends AbstractBaseTestcase
     }
 
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
        Files::removeDirectoryRecursively($this->testFilePath);
        unlink($this->logFilePath);

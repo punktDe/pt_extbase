@@ -22,6 +22,9 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Curl;
  ***************************************************************/
 use Neos\Utility\Files;
 use PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase;
+use PunktDe\PtExtbase\Utility\Curl\Request;
+use PunktDe\PtExtbase\Utility\Curl\Response;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Curl Test Case
@@ -36,22 +39,32 @@ class CurlTest extends AbstractBaseTestcase
      */
     protected $curlRequest;
 
-
-    /**
-     * @return void
-     */
-    public function setUp()
+    public function setUp(): void
     {
-        $this->curlRequest = $this->objectManager->get('PunktDe\PtExtbase\Utility\Curl\Request');
+        $this->curlRequest = GeneralUtility::makeInstance(Request::class);
+
+        $headers = $this->generateHeaders();
+
+        foreach ($headers as $header => $value) {
+            $this->curlRequest->addHeader($header, $value);
+        }
+
     }
 
-
+    public function tearDown(): void
+    {
+    }
 
     /**
-     * @return void
+     * @return string[]
      */
-    public function tearDown()
+    protected function generateHeaders(): array
     {
+        return [
+            'cache-control' => 'no-cache',
+            'authorization' => 'testtest',
+            'content-type' => 'application/json'
+        ];
     }
 
 
@@ -62,7 +75,7 @@ class CurlTest extends AbstractBaseTestcase
     {
         $response = $this->curlRequest->setUrl('http://example.com/')->post();
 
-        $this->assertInstanceOf('\PunktDe\PtExtbase\Utility\Curl\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
 
         $this->assertTrue($response->isRequestSucceeded());
         $this->assertEquals('200', $response->getHttpCode());
@@ -83,7 +96,7 @@ class CurlTest extends AbstractBaseTestcase
     {
         $response = $this->curlRequest->setUrl('http://nonExistent.url')->post();
 
-        $this->assertInstanceOf('\PunktDe\PtExtbase\Utility\Curl\Response', $response);
+        $this->assertInstanceOf(Response::class, $response);
 
         $this->assertFalse($response->isRequestSucceeded());
         $this->assertEquals(0, $response->getHttpCode());
