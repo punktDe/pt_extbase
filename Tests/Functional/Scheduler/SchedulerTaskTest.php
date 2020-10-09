@@ -79,7 +79,7 @@ class SchedulerTaskTest extends AbstractBaseTestcase
      */
     public function schedulerTask()
     {
-        $this->markTestSkipped('Skipped - this duplicate is not avaliable for typo3 10 - use SchedulerTaskTest from Base.');
+        $this->markTestSkipped('Skipped - the tested class is not available for TYPO3 10; we adapted it project specific');
 
         shell_exec(PATH_typo3.'cli_dispatch.phpsh scheduler -f -i '. $this->schedulerTaskId);
 
