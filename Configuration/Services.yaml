@@ -8,7 +8,8 @@ services:
     resource: '../Classes/*.php'
 
   PunktDe\PtExtbase\Utility\:
-    resource: '../Classes/Utility/{HeaderInclusion}.php'
+    resource: '../Classes/Utility/{HeaderInclusion,ExtensionSettings}.php'
+    public: true
 
   PunktDe\PtExtbase\Logger\:
     resource: '../Classes/Logger'
