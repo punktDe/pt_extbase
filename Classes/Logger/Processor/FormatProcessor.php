@@ -1,4 +1,10 @@
 <?php
+
+namespace PunktDe\PtExtbase\Logger\Processor;
+
+use TYPO3\CMS\Core\Log\LogRecord;
+use TYPO3\CMS\Core\Log\Processor\AbstractProcessor;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -23,7 +29,7 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class Tx_PtExtbase_Logger_FormatProcessor extends TYPO3\CMS\Core\Log\Processor\AbstractProcessor
+class FormatProcessor extends AbstractProcessor
 {
     protected $formatTokens = [
         '.h1' => 'formatH1',
@@ -36,10 +42,10 @@ class Tx_PtExtbase_Logger_FormatProcessor extends TYPO3\CMS\Core\Log\Processor\A
     /**
      * Formats the log
      *
-     * @param \TYPO3\CMS\Core\Log\LogRecord $logRecord
-     * @return \TYPO3\CMS\Core\Log\LogRecord
+     * @param LogRecord $logRecord
+     * @return LogRecord
      */
-    public function processLogRecord(\TYPO3\CMS\Core\Log\LogRecord $logRecord)
+    public function processLogRecord(LogRecord $logRecord)
     {
         $message = $logRecord->getMessage();
 

@@ -23,13 +23,13 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Wget;
 
 use PunktDe\PtExtbase\Exception\InternalException;
 use PunktDe\PtExtbase\Logger\Logger;
-use PunktDe\PtExtbase\Logger\LoggerManager;
 use PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase;
 use PunktDe\PtExtbase\Utility\Files;
 use PunktDe\PtExtbase\Utility\Wget\WgetCommand;
 use PunktDe\PtExtbase\Utility\Wget\WgetLogEntry;
 use PunktDe\PtExtbase\Utility\Wget\WgetLogParser;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\Container\Container as ExtbaseContainer;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -74,7 +74,7 @@ class WgetTest extends AbstractBaseTestcase
         $this->wgetCommand = GeneralUtility::makeInstance(WgetCommand::class);
 
         $logger = GeneralUtility::makeInstance(Logger::class);
-        $logger->injectLoggerManager(GeneralUtility::makeInstance(LoggerManager::class));
+        $logger->injectLoggerManager(GeneralUtility::makeInstance(LogManager::class));
         $this->wgetCommand->injectLogger($logger);
 
         $this->wgetLogParser = $this->objectManager->get(WgetLogParser::class);

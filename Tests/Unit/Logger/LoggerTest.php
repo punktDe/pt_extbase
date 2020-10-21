@@ -24,9 +24,9 @@
  ***************************************************************/
 
 use PunktDe\PtExtbase\Logger\LoggerConfiguration;
-use PunktDe\PtExtbase\Logger\LoggerManager;
 use PunktDe\PtExtbase\Logger\Processor\ReplaceComponentProcessor;
 use TYPO3\CMS\Core\Log\LogLevel;
+use TYPO3\CMS\Core\Log\LogManager;
 
 /**
  * Logger Testcase
@@ -109,8 +109,8 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
             ->method('enrichLoggerSpecificDataByComponent');
         /** @var $loggerMock \PunktDe\PtExtbase\Logger\Logger */
 
-        $loggerManager = new LoggerManager();
-        $loggerMock->injectLoggerManager($loggerManager);
+        $loggerManager = new LogManager();
+        $loggerMock->injectLogManager($loggerManager);
 
         $data = [];
         $loggerMock->enrichLogDataByComponent($data, 'Extbase');
@@ -169,8 +169,8 @@ class Tx_PtExtbase_Tests_Unit_Logger_LoggerTest extends \PunktDe\PtExtbase\Testi
 
         $GLOBALS['TSFE']->fe_user->user['uid'] = $userId;
 
-        $loggerManager = new LoggerManager();
-        $this->proxy->injectLoggerManager($loggerManager);
+        $loggerManager = new LogManager();
+        $this->proxy->injectLogManager($loggerManager);
 
 
         $this->proxy->enrichLogDataByComponent($actual, $component);
