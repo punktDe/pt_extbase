@@ -53,27 +53,12 @@ class LoggerConfiguration implements SingletonInterface
      */
     protected $logLevelThreshold = 6;
 
-
-    /**
-     * @var integer
-     */
-    protected $emailLogLevelThreshold = 2;
-
-
-    /**
-     * @var string
-     */
-    protected $emailReceivers = '';
-
-
     public function __construct()
     {
         $this->extensionConfiguration = Div::returnExtConfArray('pt_extbase');
         $this->evaluateLogFilePath();
         $this->evaluateExceptionDirectory();
         $this->setLogLevelThresholdByExtensionConfigurationProperty('logLevelThreshold');
-        $this->setLogLevelThresholdByExtensionConfigurationProperty('emailLogLevelThreshold');
-        $this->evaluateEmailReceivers();
     }
 
 
@@ -123,32 +108,6 @@ class LoggerConfiguration implements SingletonInterface
         }
     }
 
-
-
-    /**
-     * @return void
-     *
-     * TODO: Add some logic to check if e-mail addresses are syntactically valid
-     */
-    protected function evaluateEmailReceivers()
-    {
-        if (array_key_exists('emailReceivers', $this->extensionConfiguration)) {
-            $this->emailReceivers =  $this->extensionConfiguration['emailReceivers'];
-        }
-    }
-
-
-
-    /**
-     * @return int
-     */
-    public function getEmailLogLevelThreshold()
-    {
-        return $this->emailLogLevelThreshold;
-    }
-
-
-
     /**
      * @return string
      */
@@ -156,8 +115,6 @@ class LoggerConfiguration implements SingletonInterface
     {
         return $this->exceptionDirectory;
     }
-
-
 
     /**
      * @return string
@@ -167,36 +124,11 @@ class LoggerConfiguration implements SingletonInterface
         return $this->logFilePath;
     }
 
-
-
     /**
      * @return int
      */
     public function getLogLevelThreshold()
     {
         return $this->logLevelThreshold;
-    }
-
-
-
-    /**
-     * @return string
-     */
-    public function getEmailReceivers()
-    {
-        return $this->emailReceivers;
-    }
-
-
-
-    /**
-     * @return boolean
-     */
-    public function weHaveAnyEmailReceivers()
-    {
-        if ($this->emailReceivers === '') {
-            return false;
-        }
-        return true;
     }
 }

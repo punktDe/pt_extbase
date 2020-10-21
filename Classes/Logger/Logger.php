@@ -22,6 +22,7 @@ namespace PunktDe\PtExtbase\Logger;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Logger\Processor\ReplaceComponentProcessor;
+use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Log\LogLevel;
 
@@ -31,9 +32,9 @@ use TYPO3\CMS\Core\Log\LogLevel;
 class Logger implements SingletonInterface
 {
     /**
-     * @var LoggerManager
+     * @var LogManager
      */
-    protected $loggerManager;
+    protected $logManager;
 
     /**
      * @var \TYPO3\CMS\Core\Log\Logger
@@ -75,11 +76,11 @@ class Logger implements SingletonInterface
     }
 
     /**
-     * @param LoggerManager $loggerManager
+     * @param LogManager $logManager
      */
-    public function injectLoggerManager(LoggerManager $loggerManager)
+    public function injectLogManager(LogManager $logManager)
     {
-        $this->loggerManager = $loggerManager;
+        $this->logManager = $logManager;
     }
 
     /**
@@ -123,14 +124,6 @@ class Logger implements SingletonInterface
         $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][LogLevel::DEBUG] = [
             ReplaceComponentProcessor::class => []
         ];
-
-        $internalName = LogLevel::getInternalName($this->loggerConfiguration->getEmailLogLevelThreshold());
-
-        if ($this->loggerConfiguration->weHaveAnyEmailReceivers()) {
-            $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][$internalName]['Tx_PtExtbase_Logger_Processor_EmailProcessor'] = [
-                'receivers' => $this->loggerConfiguration->getEmailReceivers()
-            ];
-        }
     }
 
 
@@ -144,7 +137,7 @@ class Logger implements SingletonInterface
         if ($logComponent === null) {
             $logComponent = $this->defaultLogComponent;
         }
-        return $this->logger = $this->loggerManager->getLogger($logComponent);
+        return $this->logger = $this->logManager->getLogger($logComponent);
     }
 
 
@@ -400,9 +393,9 @@ class Logger implements SingletonInterface
         $this->enrichLoggerSpecificDataByComponent($data, $component);
 
         if (empty($component)) {
-            $data['loggerComponent'] = $this->loggerManager->unifyComponentName($this->defaultLogComponent);
+            $data['loggerComponent'] = $this->unifyComponentName($this->defaultLogComponent);
         } else {
-            $data['loggerComponent'] = $this->loggerManager->unifyComponentName($component);
+            $data['loggerComponent'] = $this->unifyComponentName($component);
         }
 
         return $this;
@@ -414,5 +407,16 @@ class Logger implements SingletonInterface
      */
     public function enrichLoggerSpecificDataByComponent(&$data, $component)
     {
+    }
+    /**
+     * 	Transform namespaces and underscore class names to the dot-name style
+     *
+     * @param $componentName
+     * @return string
+     */
+    public function unifyComponentName($componentName)
+    {
+        $separators = ['_', '\\'];
+        return str_replace($separators, '.', $componentName);
     }
 }
