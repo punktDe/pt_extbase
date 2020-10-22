@@ -22,6 +22,7 @@ namespace PunktDe\PtExtbase\Logger;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Logger\Processor\ReplaceComponentProcessor;
+use PunktDe\PtExtbase\Logger\Processor\SwitchRequestIdProcessor;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Log\LogLevel;
@@ -122,7 +123,8 @@ class Logger implements SingletonInterface
         ];
 
         $GLOBALS['TYPO3_CONF_VARS']['LOG']['processorConfiguration'][LogLevel::DEBUG] = [
-            ReplaceComponentProcessor::class => []
+            ReplaceComponentProcessor::class => [],
+            SwitchRequestIdProcessor::class => []
         ];
     }
 

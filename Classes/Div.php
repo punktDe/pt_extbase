@@ -1614,15 +1614,4 @@ class Div
         $minVersionAsInt = VersionNumberUtility::convertVersionNumberToInteger($minVersion);
         return $currentVersionAsInt >= $minVersionAsInt;
     }
-
-
-    /**
-     * @return string
-     */
-    public static function getCurrentRequestId()
-    {
-        ###TODO
-        return '';
-        //return \TYPO3\CMS\Core\Core\Bootstrap::   getInstance()->getRequestId();
-    }
 }
