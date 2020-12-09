@@ -594,7 +594,8 @@ class WgetCommand
             }
         }
 
-        return sprintf('%s %s "%s"', $this->wgetBinaryPath, implode(' ', $arguments), $this->url);
+        return sprintf('%s %s "%s"', $this->wgetBinaryPath, implode(' ', array_map('escapeshellarg', $arguments)), escapeshellarg($this->url));
+
     }
 
 
