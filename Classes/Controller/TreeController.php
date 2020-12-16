@@ -1,6 +1,7 @@
 <?php
 namespace PunktDe\PtExtbase\Controller;
 
+use PunktDe\PtCertification\Domain\Repository\CategoryRepository;
 use PunktDe\PtExtbase\State\Session\Storage\SessionAdapter;
 use PunktDe\PtExtbase\Tree\ArrayTreeWriter;
 use PunktDe\PtExtbase\Tree\JSArrayTreeWriter;
@@ -138,7 +139,7 @@ class TreeController extends  \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
         $settings = GeneralUtility::makeInstance(SessionAdapter::class)->read('Tx_PtExtbase_Tree_Configuration');
         if (!is_array($settings)) {
             $settings = [
-                'repository' => 'Tx_PtCertification_Domain_Repository_CategoryRepository',
+                'repository' => CategoryRepository::class,
                 'namespace' => 'tx_ptcertification_domain_model_category',
                 'respectEnableFields' => $this->treeContext->respectEnableFields(),
             ];
