@@ -40,28 +40,28 @@ class WgetCommand
     protected $argumentMap = [
         'noCheckCertificate' => '--no-check-certificate',
         'convertLinks' => '--convert-links',
-        'saveCookies' => '--save-cookies=%s',
-        'loadCookies' => '--load-cookies=%s',
+        'saveCookies' => '--save-cookies=\'%s\'',
+        'loadCookies' => '--load-cookies=\'%s\'',
         'keepSessionCookies' => '--keep-session-cookies',
-        'execute' => '--execute %s',
-        'tries' => '--tries=%s',
+        'execute' => '--execute \'%s\'',
+        'tries' => '--tries=\'%s\'',
         'retryConnRefused' => '--retry-connrefused',
         'serverResponse' => '--server-response',
-        'directoryPrefix' => '--directory-prefix=%s',
-        'domains' => '--domains=%s',
+        'directoryPrefix' => '--directory-prefix=\'%s\'',
+        'domains' => '--domains=\'%s\'',
         'pageRequisites' => '--page-requisites',
-        'outputFile' => '--output-file="%s"',
+        'outputFile' => '--output-file=\'%s\'',
         'quiet' => '--quiet',
-        'outputDocument' => '--output-document=%s',
-        'postData' => '--post-data="%s"',
-        'postFile' => '--post-file="%s"',
+        'outputDocument' => '--output-document=\'%s\'',
+        'postData' => '--post-data=\'%s\'',
+        'postFile' => '--post-file=\'%s\'',
         'noVerbose' => '--no-verbose',
         'recursive' => '--recursive',
         'noParent' => '--no-parent',
         'noProxy' => '--no-proxy',
-        'useProxy' => '-e use_proxy="%s"',
-        'httpProxy' => '-e http_proxy="%s"',
-        'httpsProxy' => '-e https_proxy="%s"',
+        'useProxy' => '-e use_proxy=\'%s\'',
+        'httpProxy' => '-e http_proxy=\'%s\'',
+        'httpsProxy' => '-e https_proxy=\'%s\'',
     ];
 
     /**
@@ -594,10 +594,9 @@ class WgetCommand
             }
         }
 
-        return sprintf('%s %s "%s"', $this->wgetBinaryPath, implode(' ', array_map('escapeshellarg', $arguments)), escapeshellarg($this->url));
+        return sprintf('%s %s %s', $this->wgetBinaryPath, implode(' ', $arguments), escapeshellarg($this->url));
 
     }
-
 
     /**
      * @return string
