@@ -21,6 +21,7 @@ namespace PunktDe\PtExtbase\Logger;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Neos\Utility\Files;
 use TYPO3\CMS\Core\Log\LogLevel;
 use TYPO3\CMS\Core\SingletonInterface;
 use PunktDe\PtExtbase\Div;
@@ -71,7 +72,7 @@ class LoggerConfiguration implements SingletonInterface
         if (array_key_exists('logFilePath', $this->extensionConfiguration)) {
             $this->logFilePath = $this->extensionConfiguration['logFilePath'];
         } else {
-            $this->logFilePath = \Tx_PtExtbase_Utility_Files::concatenatePaths([PATH_site, '/typo3temp/application.log']);
+            $this->logFilePath = Files::concatenatePaths([PATH_site, '/typo3temp/application.log']);
         }
 
         if (!file_exists($this->logFilePath)) {
@@ -89,8 +90,8 @@ class LoggerConfiguration implements SingletonInterface
         if (!$this->exceptionDirectory) {
             $path_parts = pathinfo($this->logFilePath);
 
-            $this->exceptionDirectory = \Tx_PtExtbase_Utility_Files::concatenatePaths([realpath($path_parts['dirname']), 'Exceptions']);
-            \Tx_PtExtbase_Utility_Files::createDirectoryRecursively($this->exceptionDirectory);
+            $this->exceptionDirectory = Files::concatenatePaths([realpath($path_parts['dirname']), 'Exceptions']);
+            Files::createDirectoryRecursively($this->exceptionDirectory);
         }
     }
 

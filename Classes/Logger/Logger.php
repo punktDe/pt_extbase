@@ -21,6 +21,7 @@ namespace PunktDe\PtExtbase\Logger;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Neos\Utility\Files;
 use PunktDe\PtExtbase\Logger\Processor\ReplaceComponentProcessor;
 use PunktDe\PtExtbase\Logger\Processor\SwitchRequestIdProcessor;
 use TYPO3\CMS\Core\Log\LogManager;
@@ -311,7 +312,7 @@ class Logger implements SingletonInterface
 
         if (file_exists($this->exceptionDirectory) && is_dir($this->exceptionDirectory) && is_writable($this->exceptionDirectory)) {
             $referenceCode = ($exception->getCode() > 0 ? $exception->getCode() . '.' : '') . date('YmdHis', $_SERVER['REQUEST_TIME']) . substr(md5(rand()), 0, 6);
-            $exceptionDumpPathAndFilename = \Tx_PtExtbase_Utility_Files::concatenatePaths([$this->exceptionDirectory,  $referenceCode . '.txt']);
+            $exceptionDumpPathAndFilename = Files::concatenatePaths([$this->exceptionDirectory,  $referenceCode . '.txt']);
             file_put_contents($exceptionDumpPathAndFilename, $message . PHP_EOL . PHP_EOL . $this->getBacktraceCode($backTrace, 1));
             $message .= ' - See also: ' . basename($exceptionDumpPathAndFilename);
         } else {

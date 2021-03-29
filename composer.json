@@ -12,7 +12,8 @@
   ],
   "require": {
     "typo3/cms-core": ">=10.3.0,<11.0",
-    "php": ">=7.0.0,<8.0.0"
+    "php": ">=7.0.0,<8.0.0",
+    "neos/utility-files": "*"
   },
   "require-dev": {
     "mikey179/vfsStream": "1.4.*@dev",

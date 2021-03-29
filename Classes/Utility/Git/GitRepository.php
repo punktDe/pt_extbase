@@ -23,7 +23,7 @@ namespace PunktDe\PtExtbase\Utility\Git;
 
 use PunktDe\PtExtbase\Logger\Logger;
 use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\GenericShellCommand;
-use PunktDe\PtExtbase\Utility\Files;
+use Neos\Utility\Files;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 
 /**

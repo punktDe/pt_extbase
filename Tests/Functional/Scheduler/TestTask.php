@@ -13,7 +13,7 @@ use PunktDe\PtExtbase\Scheduler\AbstractSchedulerTask;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Core\Messaging\FlashMessage;
 use \TYPO3\CMS\Core\Messaging\FlashMessageQueue;
-use PunktDe\PtExtbase\Utility\Files;
+use Neos\Utility\Files;
 
 class TestTask extends AbstractSchedulerTask
 {

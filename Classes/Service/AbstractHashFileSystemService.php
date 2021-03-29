@@ -44,7 +44,7 @@ abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
      */
     public function __construct($rootDirectory)
     {
-        Tx_PtExtbase_Utility_Files::createDirectoryRecursively($rootDirectory);
+        \Neos\Utility\Files::createDirectoryRecursively($rootDirectory);
         $this->rootDirectory = $rootDirectory;
     }
 
@@ -57,7 +57,7 @@ abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
     public function storeFile($identifier, $filePath, $destinationFileName = '')
     {
         $destinationFileName = trim($destinationFileName) ? trim($destinationFileName) : basename($filePath);
-        $targetPath = Tx_PtExtbase_Utility_Files::concatenatePaths([$this->getHashPath($identifier, true), $destinationFileName]);
+        $targetPath = \Neos\Utility\Files::concatenatePaths([$this->getHashPath($identifier, true), $destinationFileName]);
         copy($filePath, $targetPath);
     }
 
@@ -69,7 +69,7 @@ abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
      */
     public function getFilePath($identifier, $fileName)
     {
-        return Tx_PtExtbase_Utility_Files::concatenatePaths([$this->getHashPath($identifier, true), $fileName]);
+        return \Neos\Utility\Files::concatenatePaths([$this->getHashPath($identifier, true), $fileName]);
     }
 
 
@@ -81,7 +81,7 @@ abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
      */
     public function fileExists($identifier, $fileName)
     {
-        return file_exists(Tx_PtExtbase_Utility_Files::concatenatePaths([$this->getHashPath($identifier), $fileName]));
+        return file_exists(\Neos\Utility\Files::concatenatePaths([$this->getHashPath($identifier), $fileName]));
     }
 
 
@@ -93,7 +93,7 @@ abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
     public function removeFile($identifier, $fileName)
     {
         if (file_exists($this->getFilePath($identifier, $fileName))) {
-            Tx_PtExtbase_Utility_Files::unlink($this->getFilePath($identifier, $fileName));
+            \Neos\Utility\Files::unlink($this->getFilePath($identifier, $fileName));
         }
     }
 
@@ -104,7 +104,7 @@ abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
      */
     public function removeStoreDirectory($identifier)
     {
-        Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->getHashPath($identifier, true));
+        \Neos\Utility\Files::removeDirectoryRecursively($this->getHashPath($identifier, true));
     }
 
 
@@ -114,7 +114,7 @@ abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
      */
     public function getDirectoryListing($identifier)
     {
-        return Tx_PtExtbase_Utility_Files::readDirectoryRecursively($this->getHashPath($identifier, true));
+        return \Neos\Utility\Files::readDirectoryRecursively($this->getHashPath($identifier, true));
     }
 
 
@@ -131,6 +131,6 @@ abstract class Tx_PtExtbase_Service_AbstractHashFileSystemService
      */
     public function removeHasFileSystemCompletely()
     {
-        Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->rootDirectory);
+        \Neos\Utility\Files::removeDirectoryRecursively($this->rootDirectory);
     }
 }
