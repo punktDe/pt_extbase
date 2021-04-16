@@ -201,7 +201,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
     {
         unset($this->logger);
         file_put_contents($this->logFilePath, ''); // Clear File
-        Tx_PtExtbase_Utility_Files::emptyDirectoryRecursively($this->logExceptionsPath);
+        \Neos\Utility\Files::emptyDirectoryRecursively($this->logExceptionsPath);
     }
 
 
@@ -260,7 +260,7 @@ class Tx_PtExtbase_Tests_Functional_Logger_LoggerTest extends \PunktDe\PtExtbase
         $this->assertLogFileContains('[CRITICAL]');
         $this->assertLogFileContains('component="PunktDe.PtExtbase.Logger.Logger": Uncaught exception: This is a Test Exception - See also:');
 
-        $this->assertCount(1, Tx_PtExtbase_Utility_Files::readDirectoryRecursively($this->logExceptionsPath));
+        $this->assertCount(1, \Neos\Utility\Files::readDirectoryRecursively($this->logExceptionsPath));
     }
 
 

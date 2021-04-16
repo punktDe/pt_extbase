@@ -21,7 +21,7 @@ namespace PunktDe\PtExtbase\Utility\Git;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use PunktDe\PtExtbase\Utility\Files;
+use Neos\Utility\Files;
 use PunktDe\PtExtbase\Utility\GenericShellCommandWrapper\ExecutionManager;
 use PunktDe\PtExtbase\Utility\Git\Command;
 

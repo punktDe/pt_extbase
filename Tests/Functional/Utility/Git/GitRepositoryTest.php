@@ -22,7 +22,7 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Git;
  ***************************************************************/
 
 use PunktDe\PtExtbase\Logger\Logger;
-use PunktDe\PtExtbase\Utility\Files;
+use Neos\Utility\Files;
 use PunktDe\PtExtbase\Utility\Git\GitRepository;
 use PunktDe\PtExtbase\Utility\Git\Result\Result;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

@@ -26,7 +26,7 @@
 
 namespace PunktDe\PtExtbase\Tests\Utility\Wget;
 
-use PunktDe\PtExtbase\Utility\Files;
+use Neos\Utility\Files;
 use PunktDe\PtExtbase\Utility\Wget\WgetLog;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

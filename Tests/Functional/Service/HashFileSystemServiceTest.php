@@ -52,9 +52,9 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends \P
     {
         parent::setUp();
 
-        $this->testDirectoryRoot = Tx_PtExtbase_Utility_Files::concatenatePaths([PATH_site, 'typo3temp', 'HashFileSystemServiceTest']);
+        $this->testDirectoryRoot = \Neos\Utility\Files::concatenatePaths([PATH_site, 'typo3temp', 'HashFileSystemServiceTest']);
         if (file_exists($this->testDirectoryRoot)) {
-            Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->testDirectoryRoot);
+            \Neos\Utility\Files::removeDirectoryRecursively($this->testDirectoryRoot);
         }
         $this->hashFileSystemService = new Tx_PtExtbase_Service_HashFileSystemService($this->testDirectoryRoot);
     }
@@ -64,7 +64,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends \P
     public function tearDown()
     {
         if (file_exists($this->testDirectoryRoot)) {
-            Tx_PtExtbase_Utility_Files::removeDirectoryRecursively($this->testDirectoryRoot);
+            \Neos\Utility\Files::removeDirectoryRecursively($this->testDirectoryRoot);
         }
     }
 
@@ -165,7 +165,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends \P
      */
     public function storeFile()
     {
-        $testFile = Tx_PtExtbase_Utility_Files::concatenatePaths([PATH_site, 'typo3temp', 'test.pdf']);
+        $testFile = \Neos\Utility\Files::concatenatePaths([PATH_site, 'typo3temp', 'test.pdf']);
         touch($testFile);
         $this->hashFileSystemService->storeFile(1234, $testFile);
 
@@ -184,7 +184,7 @@ class Tx_PtExtbase_Tests_Functional_Service_HashFileSystemServiceTest extends \P
         $expectedFileLocation = $this->hashFileSystemService->getHashPath(1234) . '/test.pdf';
         $this->assertFileNotExists($expectedFileLocation);
 
-        $testFile = Tx_PtExtbase_Utility_Files::concatenatePaths([PATH_site, 'typo3temp', 'test.pdf']);
+        $testFile = \Neos\Utility\Files::concatenatePaths([PATH_site, 'typo3temp', 'test.pdf']);
         touch($testFile);
 
         $this->hashFileSystemService->storeFile(1234, $testFile);

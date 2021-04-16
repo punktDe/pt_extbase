@@ -26,7 +26,7 @@
 
 namespace PunktDe\PtExtbase\Tests\Utility\Wget;
 
-use PunktDe\PtExtbase\Utility\Files;
+use Neos\Utility\Files;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class WgetLogTest extends \PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase

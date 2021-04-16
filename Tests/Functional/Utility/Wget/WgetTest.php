@@ -24,7 +24,7 @@ namespace PunktDe\PtExtbase\Tests\Functional\Utility\Wget;
 use PunktDe\PtExtbase\Exception\InternalException;
 use PunktDe\PtExtbase\Logger\Logger;
 use PunktDe\PtExtbase\Testing\Unit\AbstractBaseTestcase;
-use PunktDe\PtExtbase\Utility\Files;
+use Neos\Utility\Files;
 use PunktDe\PtExtbase\Utility\Wget\WgetCommand;
 use PunktDe\PtExtbase\Utility\Wget\WgetLogEntry;
 use PunktDe\PtExtbase\Utility\Wget\WgetLogParser;
