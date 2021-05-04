@@ -41,8 +41,8 @@ class SessionAdapter implements AdapterInterface
             $frontendUserAuthentication = $this->getFrontendUserAuthenication();
             if ($frontendUserAuthentication instanceof FrontendUserAuthentication) {
                 $value = $frontendUserAuthentication->getKey('ses', $key);
-                if (is_string($value) && unserialize($value) !== false) {
-                    $value = unserialize($value);
+                if (is_string($value) && $this->unserializeValueWithNoAllowedClasses($value) !== false) {
+                    $value = $this->unserializeValueWithNoAllowedClasses($value);
                 }
             }
         }else {
@@ -105,7 +105,7 @@ class SessionAdapter implements AdapterInterface
         } else {
             Assert::isInstanceOf($GLOBALS['BE_USER'], BackendUserAuthentication::class, ['message' => 'No valid backend user found!']);
 
-            $sesDat = unserialize($GLOBALS['BE_USER']->user['ses_data']);
+            $sesDat = $this->unserializeValueWithNoAllowedClasses($GLOBALS['BE_USER']->user['ses_data']);
 
             if (!empty($sesDat[$key])) {
                 unset($sesDat[$key]);
@@ -141,5 +141,19 @@ class SessionAdapter implements AdapterInterface
             $frontendUserAuthentication = $typoscriptFrontendController->fe_user;
         }
         return $frontendUserAuthentication;
+    }
+
+    /**
+     * @param string $value
+     * @return mixed
+     */
+    protected function unserializeValueWithNoAllowedClasses(string $value)
+    {
+        return unserialize(
+            $value,
+            [
+                'allowed_classes' => false
+            ]
+        );
     }
 }
