@@ -102,9 +102,19 @@ class FeUserSessionAdapter implements AdapterInterface
         if (isset($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'])) {
             \TYPO3\CMS\Core\Utility\GeneralUtility::devLog(sprintf('Reading "%s" from FE user session in "$GLOBALS[\'TSFE\']->fe_user"', $key), 'pt_extbase');
         }
-        
-        if (is_string($val) && unserialize($val) != false) {
-            $val = unserialize($val);
+
+        if (is_string($val) && unserialize(
+                $val,
+                [
+                    'allowed_classes' => false
+                ]
+            ) !== false) {
+            $val = unserialize(
+                $val,
+                [
+                    'allowed_classes' => false
+                ]
+            );
         }
         
         return $val;
