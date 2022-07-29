@@ -58,6 +58,11 @@ class Page extends AbstractEntity
     protected $doktype;
 
     /**
+     * @var string
+     */
+    protected $slug;
+
+    /**
      * @param string $module
      */
     public function setModule($module)
@@ -118,5 +123,22 @@ class Page extends AbstractEntity
     public function getDoktype()
     {
         return $this->doktype;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     * @return Page
+     */
+    public function setSlug(string $slug)
+    {
+        $this->slug = $slug;
     }
 }

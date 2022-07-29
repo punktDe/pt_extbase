@@ -1,30 +1,32 @@
 <?php
+
 namespace PunktDe\PtExtbase\Domain\Repository;
 
+use PunktDe\PtExtbase\Domain\Model\Page;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2010-2012 Daniel Lienert <daniel@lienert.cc>
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2010-2012 Daniel Lienert <daniel@lienert.cc>
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 
 /**
  * Repository for Pages
@@ -61,7 +63,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $pages = $query->matching(
             $query->equals('pid', $pid)
         )
-        ->execute();
+            ->execute();
         return $pages;
     }
 
@@ -123,5 +125,19 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         }
 
         return $returnArray;
+    }
+
+    /**
+     * @param string $slug
+     * @return array|null
+     */
+    public function findOneBySlug(string $slug): ?Page
+    {
+        $query = $this->createQuery();
+        return $query->matching(
+            $query->equals('slug', $slug)
+        )
+            ->execute()
+            ->getFirst();
     }
 }
